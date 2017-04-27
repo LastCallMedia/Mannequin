@@ -6,6 +6,7 @@ namespace LastCall\Patterns\Core\Ui;
 
 use LastCall\Patterns\Core\Pattern\PatternCollection;
 use LastCall\Patterns\Core\RenderedInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Templating\EngineInterface;
 
 class BaseUi implements UiInterface {
@@ -14,14 +15,11 @@ class BaseUi implements UiInterface {
     $this->templating = $engine;
   }
 
-  public function decorateIndex(PatternCollection $collection): string {
-    $list = [];
-    foreach($collection->getPatterns() as $pattern) {
-      $list[] = $pattern->getName();
-    }
+  public function decorateIndex(PatternCollection $collection, UrlGeneratorInterface $generator): string {
     return $this->templating->render('index.tpl.php', [
       'title' => $collection->getName(),
-      'links' => $list,
+      'patterns' => $collection->getPatterns(),
+      'generator' => $generator,
     ]);
   }
 
