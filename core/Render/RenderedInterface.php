@@ -1,6 +1,6 @@
 <?php
 
-namespace LastCall\Patterns\Core;
+namespace LastCall\Patterns\Core\Render;
 
 interface RenderedInterface {
 

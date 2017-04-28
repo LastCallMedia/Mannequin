@@ -2,7 +2,7 @@
 
 namespace LastCall\Patterns\Cli\Writer;
 
-use LastCall\Patterns\Core\RenderedInterface;
+use LastCall\Patterns\Core\Render\RenderedInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 class FileWriter {

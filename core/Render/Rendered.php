@@ -1,7 +1,7 @@
 <?php
 
 
-namespace LastCall\Patterns\Core;
+namespace LastCall\Patterns\Core\Render;
 
 
 use LastCall\Patterns\Core\Pattern\HasNameAndId;

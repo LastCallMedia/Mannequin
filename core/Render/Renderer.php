@@ -4,11 +4,9 @@
 namespace LastCall\Patterns\Core\Render;
 
 
+use LastCall\Patterns\Core\Pattern\PatternInterface;
 use Pimple\Container;
 use Symfony\Component\Templating\EngineInterface;
-use LastCall\Patterns\Core\Pattern\PatternInterface;
-use LastCall\Patterns\Core\Rendered;
-use LastCall\Patterns\Core\RenderedInterface;
 
 final class Renderer {
 

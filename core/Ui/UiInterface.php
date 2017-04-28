@@ -3,7 +3,7 @@
 namespace LastCall\Patterns\Core\Ui;
 
 use LastCall\Patterns\Core\Pattern\PatternCollection;
-use LastCall\Patterns\Core\RenderedInterface;
+use LastCall\Patterns\Core\Render\RenderedInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 interface UiInterface {
