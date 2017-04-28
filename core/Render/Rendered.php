@@ -1,20 +1,21 @@
 <?php
 
-
 namespace LastCall\Patterns\Core\Render;
 
-
-use LastCall\Patterns\Core\Pattern\HasNameAndId;
+use LastCall\Patterns\Core\Pattern\PatternInterface;
 
 class Rendered implements RenderedInterface {
 
-  use HasNameAndId;
+  private $pattern;
 
   private $markup;
 
-  public function __construct($id, $name) {
-    $this->setId($id);
-    $this->setName($name);
+  public function __construct(PatternInterface $pattern) {
+    $this->pattern = $pattern;
+  }
+
+  public function getPattern(): PatternInterface {
+    return $this->pattern;
   }
 
   public function setMarkup(string $markup) {

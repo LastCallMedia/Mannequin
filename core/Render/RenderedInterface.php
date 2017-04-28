@@ -2,9 +2,10 @@
 
 namespace LastCall\Patterns\Core\Render;
 
+use LastCall\Patterns\Core\Pattern\PatternInterface;
+
 interface RenderedInterface {
 
-  public function getId(): string;
-  public function getName(): string;
+  public function getPattern(): PatternInterface;
   public function getMarkup(): string;
 }

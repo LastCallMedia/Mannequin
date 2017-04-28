@@ -42,10 +42,6 @@ class Config extends Container {
     $this['renderer'] = function() {
       return new Renderer($this['templating']);
     };
-    $this['ui'] = function() {
-      $engine = new PhpEngine(new TemplateNameParser(), new FilesystemLoader(__DIR__.'/Resources/views/%name%'));
-      return new BaseUi($engine);
-    };
   }
 
   /**
@@ -62,10 +58,4 @@ class Config extends Container {
     return $this['renderer'];
   }
 
-  /**
-   * @return \LastCall\Patterns\Core\Ui\UiInterface
-   */
-  public function getUi() {
-    return $this['ui'];
-  }
 }

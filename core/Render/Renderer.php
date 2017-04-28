@@ -20,7 +20,7 @@ final class Renderer {
   }
 
   public function render(PatternInterface $pattern): RenderedInterface {
-    $rendered = new Rendered($pattern->getId(), $pattern->getName());
+    $rendered = new Rendered($pattern);
     $vars = $this->extractVars($pattern);
     $markup = $this->engine->render($pattern->getTemplateReference(), $vars);
     $rendered->setMarkup($markup);
