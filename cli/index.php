@@ -2,8 +2,9 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use Silex\Application;
 use LastCall\Patterns\Cli\Controller\PatternController;
+use LastCall\Patterns\Cli\Templating\Helper\UrlHelper;
+use Silex\Application;
 
 $app = new Application(['debug' => TRUE]);
 $app->register(new \Silex\Provider\ServiceControllerServiceProvider());
@@ -21,6 +22,11 @@ $app['patterns.controller'] = function() use ($app) {
   return new PatternController($config->getCollection(), $config->getRenderer(), $app['templating'], $app['url_generator']);
 };
 
+$app->extend('templating.helpers', function(array $helpers) use ($app) {
+  $helpers[] = new UrlHelper($app['url_generator']);
+  return $helpers;
+});
+
 $app
   ->get('/', 'patterns.controller:rootAction')
   ->bind('pattern_index');
@@ -35,5 +41,9 @@ $app
   ->bind('pattern_view')
   ->convert('pattern', 'patterns.controller:convertPattern');
 
+$app
+  ->get('/render/{pattern}', 'patterns.controller:renderAction')
+  ->bind('pattern_render')
+  ->convert('pattern', 'patterns.controller:convertPattern');
 
 $app->run();

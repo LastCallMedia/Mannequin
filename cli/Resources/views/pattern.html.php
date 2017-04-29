@@ -1,12 +1,10 @@
 <html>
 <head>
-  <title><?php print $view->escape($rendered->getPattern()->getName()); ?></title>
+  <title><?php print $view->escape($pattern->getName()); ?></title>
 </head>
 <body>
-<?php print $view->render('partials/pattern-header', [
-  'pattern' => $rendered->getPattern(),
-  'generator' => $generator,
+<?php print $view->render('partials/pattern-single', [
+  'pattern' => $pattern,
 ]); ?>
-<?php print $rendered->getMarkup(); ?>
 </body>
 </html>

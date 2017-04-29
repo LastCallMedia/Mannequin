@@ -5,7 +5,7 @@
       <span class="type"><?php print $view->escape($type); ?>:</span>
       <span class="values">
         <?php foreach($values as $value) : ?>
-          <?php $href = $generator->generate('collection_index', ['collection' => sprintf('%s:%s', $type, $value)]); ?>
+          <?php $href = $view['url']->generate('collection_index', ['collection' => sprintf('%s:%s', $type, $value)]); ?>
           <a href="<?php print $href; ?>"><?php print $view->escape($value); ?></a>
         <?php endforeach; ?>
       </span>

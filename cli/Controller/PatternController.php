@@ -61,9 +61,8 @@ class PatternController {
    * Single pattern view action.
    */
   public function patternAction(PatternInterface $pattern) {
-    $rendered = $this->renderer->render($pattern);
     $output = $this->templating->render('pattern', [
-      'rendered' => $rendered,
+      'pattern' => $pattern,
       'generator' => $this->generator
     ]);
     return new Response($output);
@@ -73,6 +72,14 @@ class PatternController {
     $output = $this->templating->render('collection', [
       'collection' => $collection,
       'generator' => $this->generator,
+    ]);
+    return new Response($output);
+  }
+
+  public function renderAction(PatternInterface $pattern) {
+    $rendered = $this->renderer->render($pattern);
+    $output = $this->templating->render('pattern-render', [
+      'rendered' => $rendered,
     ]);
     return new Response($output);
   }
