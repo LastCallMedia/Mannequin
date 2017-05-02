@@ -1,8 +1,6 @@
 <?php
 
-
 namespace LastCall\Patterns\Cli\ServiceProvider;
-
 
 use LastCall\Patterns\Cli\Templating\PresetEngineTemplateNameParser;
 use Pimple\Container;

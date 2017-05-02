@@ -1,13 +1,5 @@
-<html>
-<head>
-
-</head>
-<body>
-<?php print $view->render('partials/collection-title', [
-  'collection' => $collection,
-]); ?>
+<?php $view->extend('html'); ?>
+<?php $view['slots']->set('title', $collection->getName()); ?>
 <?php print $view->render('partials/collection-list', [
   'collection' => $collection,
 ]); ?>
-</body>
-</html>

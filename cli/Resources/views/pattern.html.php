@@ -1,10 +1,5 @@
-<html>
-<head>
-  <title><?php print $view->escape($pattern->getName()); ?></title>
-</head>
-<body>
+<?php $view->extend('html'); ?>
+<?php $view['slots']->set('title', $view->escape($pattern->getName())); ?>
 <?php print $view->render('partials/pattern-single', [
   'pattern' => $pattern,
 ]); ?>
-</body>
-</html>

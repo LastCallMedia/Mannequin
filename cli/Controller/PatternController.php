@@ -5,6 +5,7 @@ namespace LastCall\Patterns\Cli\Controller;
 
 use LastCall\Patterns\Core\Pattern\PatternCollection;
 use LastCall\Patterns\Core\Pattern\PatternInterface;
+use LastCall\Patterns\Core\Render\RenderedInterface;
 use LastCall\Patterns\Core\Render\RendererInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,7 +52,6 @@ class PatternController {
   public function rootAction() {
     $output = $this->templating->render('collection', [
       'collection' => $this->collection,
-      'generator' => $this->generator,
     ]);
     return new Response($output);
   }
@@ -62,7 +62,6 @@ class PatternController {
   public function patternAction(PatternInterface $pattern) {
     $output = $this->templating->render('pattern', [
       'pattern' => $pattern,
-      'generator' => $this->generator
     ]);
     return new Response($output);
   }
@@ -70,7 +69,6 @@ class PatternController {
   public function collectionAction(PatternCollection $collection) {
     $output = $this->templating->render('collection', [
       'collection' => $collection,
-      'generator' => $this->generator,
     ]);
     return new Response($output);
   }

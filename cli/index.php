@@ -4,6 +4,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 use LastCall\Patterns\Cli\Controller\PatternController;
 use LastCall\Patterns\Cli\Templating\Helper\UrlHelper;
+use Symfony\Component\Templating\Helper\SlotsHelper;
 use Silex\Application;
 
 $app = new Application(['debug' => TRUE]);
@@ -24,6 +25,7 @@ $app['patterns.controller'] = function() use ($app) {
 
 $app->extend('templating.helpers', function(array $helpers) use ($app) {
   $helpers[] = new UrlHelper($app['url_generator']);
+  $helpers[] = new SlotsHelper();
   return $helpers;
 });
 
