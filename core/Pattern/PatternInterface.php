@@ -5,20 +5,36 @@ namespace LastCall\Patterns\Core\Pattern;
 interface PatternInterface {
 
   /**
+   * Get the name of the pattern.
+   *
    * @return string
    */
   public function getName(): string;
 
   /**
+   * Get the unique identifier for the pattern.
+   *
    * @return string
    */
   public function getId(): string;
 
-  public function addTag($type, $value): PatternInterface;
+  /**
+   * Add a new tag to the pattern.
+   *
+   * @param $name
+   * @param $value
+   *
+   * @return mixed
+   */
+  public function addTag(string $name, $value);
 
-  public function hasTag($type, $value): bool;
-
-  public function getTemplateReference(): string;
-
-  public function getTemplateVariables();
+  /**
+   * Check whether the pattern has a given tag.
+   *
+   * @param $name
+   * @param $value
+   *
+   * @return bool
+   */
+  public function hasTag(string $name, $value): bool;
 }

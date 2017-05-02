@@ -4,8 +4,8 @@ namespace LastCall\Patterns\Core;
 
 use LastCall\Patterns\Core\Discovery\ExplicitDiscovery;
 use LastCall\Patterns\Core\Pattern\PatternCollection;
-use LastCall\Patterns\Core\Render\Renderer;
-use LastCall\Patterns\Core\Ui\BaseUi;
+use LastCall\Patterns\Core\Render\DelegatingRenderer;
+use LastCall\Patterns\Core\Render\TemplatingRenderer;
 use Pimple\Container;
 use Symfony\Component\Templating\DelegatingEngine;
 use Symfony\Component\Templating\Loader\FilesystemLoader;
@@ -40,7 +40,9 @@ class Config extends Container {
     };
     $this['patterns'] = [];
     $this['renderer'] = function() {
-      return new Renderer($this['templating']);
+      return new DelegatingRenderer([
+        new TemplatingRenderer($this['templating'])
+      ]);
     };
   }
 
@@ -52,7 +54,7 @@ class Config extends Container {
   }
 
   /**
-   * @return Renderer
+   * @return \LastCall\Patterns\Core\Render\RendererInterface
    */
   public function getRenderer() {
     return $this['renderer'];

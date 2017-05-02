@@ -3,10 +3,9 @@
 
 namespace LastCall\Patterns\Cli\Controller;
 
-use LastCall\Patterns\Core\Pattern\Pattern;
 use LastCall\Patterns\Core\Pattern\PatternCollection;
 use LastCall\Patterns\Core\Pattern\PatternInterface;
-use LastCall\Patterns\Core\Render\Renderer;
+use LastCall\Patterns\Core\Render\RendererInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -18,7 +17,7 @@ class PatternController {
   private $collection;
   private $renderer;
 
-  public function __construct(PatternCollection $collection, Renderer $renderer, EngineInterface $templating, UrlGeneratorInterface $generator) {
+  public function __construct(PatternCollection $collection, RendererInterface $renderer, EngineInterface $templating, UrlGeneratorInterface $generator) {
     $this->collection = $collection;
     $this->renderer = $renderer;
     $this->generator = $generator;

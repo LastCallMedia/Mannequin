@@ -2,11 +2,25 @@
 
 namespace LastCall\Patterns\Core\Tests\Pattern;
 
-use LastCall\Patterns\Core\Pattern\Pattern;
 use LastCall\Patterns\Core\Pattern\PatternCollection;
+use LastCall\Patterns\Core\Pattern\PatternInterface;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
 
 class PatternCollectionTest extends TestCase {
+
+  private function getPattern($id, $name, array $tags = []) {
+    $pattern = $this->prophesize(PatternInterface::class);
+    $pattern->getId()->willReturn($id);
+    $pattern->getName()->willReturn($name);
+
+    $pattern->hasTag(Argument::type('string'), Argument::type('string'))
+      ->will(function($args) use ($tags) {
+        list($type, $value) = $args;
+        return isset($tags[$type]) && $tags[$type] === $value;
+      });
+    return $pattern->reveal();
+  }
 
   public function testIsIterator() {
     $collection = new PatternCollection();
@@ -31,8 +45,8 @@ class PatternCollectionTest extends TestCase {
   }
 
   public function testIteration() {
-    $pattern1 = new Pattern('foo', 'bar', 'baz');
-    $pattern2 = new Pattern('bar', 'baz', 'boo');
+    $pattern1 = $this->getPattern('foo', 'bar');
+    $pattern2 = $this->getPattern('bar', 'baz');
 
     $collection = new PatternCollection([$pattern1, $pattern2]);
     $patterns = [];
@@ -50,7 +64,7 @@ class PatternCollectionTest extends TestCase {
   }
 
   public function testGet() {
-    $pattern = new Pattern('foo', 'bar', 'baz');
+    $pattern = $this->getPattern('foo', 'bar');
     $collection = new PatternCollection([$pattern]);
     $this->assertEquals($pattern, $collection->get('foo'));
   }
@@ -60,7 +74,7 @@ class PatternCollectionTest extends TestCase {
    * @expectedExceptionMessage Unknown pattern bar
    */
   public function testGetInvalid() {
-    $pattern = new Pattern('foo', 'bar', 'baz');
+    $pattern = $this->getPattern('foo', 'bar');
     $collection = new PatternCollection([$pattern]);
     $this->assertEquals($pattern, $collection->get('bar'));
   }
@@ -85,14 +99,13 @@ class PatternCollectionTest extends TestCase {
    * @expectedExceptionMessage Duplicate pattern detected: foo
    */
   public function testCreateWithDuplicatePatterns() {
-    $pattern1 = new Pattern('foo', 'bar', 'baz');
-    $pattern2 = new Pattern('foo', 'baz', 'bar');
+    $pattern1 = $this->getPattern('foo', 'bar');
+    $pattern2 = $this->getPattern('foo', 'baz');
     new PatternCollection([$pattern1, $pattern2]);
   }
 
   public function testWithTag() {
-    $pattern = new Pattern('foo', 'bar', 'baz');
-    $pattern->addTag('type', 'element');
+    $pattern = $this->getPattern('foo', 'bar', ['type' => 'element']);
     $collection = new PatternCollection([$pattern]);
     $tagCollection = $collection->withTag('type', 'element');
     $this->assertEquals(1, $tagCollection->count());
@@ -106,8 +119,8 @@ class PatternCollectionTest extends TestCase {
   }
 
   public function testMergeMergesPatterns() {
-    $pattern1 = new Pattern('foo', 'bar', 'baz');
-    $pattern2 = new Pattern('bar', 'baz', 'boo');
+    $pattern1 = $this->getPattern('foo', 'bar');
+    $pattern2 = $this->getPattern('bar', 'baz');
     $collection1 = new PatternCollection([$pattern1]);
     $collection2 = new PatternCollection([$pattern2]);
     $merged = $collection1->merge($collection2);
@@ -127,8 +140,8 @@ class PatternCollectionTest extends TestCase {
    * @expectedExceptionMessage Merging these collections would result in the following duplicate patterns: foo
    */
   public function testMergeMergesSamePatterns() {
-    $pattern1 = new Pattern('foo', 'bar', 'baz');
-    $pattern2 = new Pattern('foo', 'baz', 'boo');
+    $pattern1 = $this->getPattern('foo', 'bar');
+    $pattern2 = $this->getPattern('foo', 'baz');
     $collection1 = new PatternCollection([$pattern1]);
     $collection2 = new PatternCollection([$pattern2]);
     $merged = $collection1->merge($collection2);
