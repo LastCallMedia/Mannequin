@@ -52,6 +52,7 @@ class PatternController {
   public function rootAction() {
     $output = $this->templating->render('collection', [
       'collection' => $this->collection,
+      'root' => $this->collection,
     ]);
     return new Response($output);
   }
@@ -62,6 +63,7 @@ class PatternController {
   public function patternAction(PatternInterface $pattern) {
     $output = $this->templating->render('pattern', [
       'pattern' => $pattern,
+      'root' => $this->collection,
     ]);
     return new Response($output);
   }
@@ -69,6 +71,7 @@ class PatternController {
   public function collectionAction(PatternCollection $collection) {
     $output = $this->templating->render('collection', [
       'collection' => $collection,
+      'root' => $this->collection,
     ]);
     return new Response($output);
   }
