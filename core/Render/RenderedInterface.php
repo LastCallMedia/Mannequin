@@ -8,4 +8,6 @@ interface RenderedInterface {
 
   public function getPattern(): PatternInterface;
   public function getMarkup(): string;
+  public function getStyles() : array;
+  public function getScripts(): array;
 }

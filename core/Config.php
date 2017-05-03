@@ -41,7 +41,7 @@ class Config extends Container {
     $this['patterns'] = [];
     $this['renderer'] = function() {
       return new DelegatingRenderer([
-        new TemplatingRenderer($this['templating'])
+        new TemplatingRenderer($this['templating'], $this['styles'], $this['scripts'])
       ]);
     };
   }
