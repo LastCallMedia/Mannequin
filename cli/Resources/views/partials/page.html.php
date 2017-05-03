@@ -24,6 +24,13 @@
     </div>
   </div>
 </div>
+<?php if($view['slots']->has('page_title')) : ?>
+  <div class="row">
+    <div class="columns">
+      <h1><?php $view['slots']->output('page_title'); ?></h1>
+    </div>
+  </div>
+<?php endif; ?>
 <div class="row">
   <div class="columns small-12 medium-10">
     <?php $view['slots']->output('_content'); ?>
