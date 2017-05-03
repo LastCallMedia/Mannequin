@@ -25,7 +25,14 @@
   </div>
 </div>
 <div class="row">
-  <div class="columns small-12">
+  <div class="columns small-12 medium-10">
     <?php $view['slots']->output('_content'); ?>
   </div>
+  <?php if($view['slots']->has('page_nav')) : ?>
+    <div class="columns medium-2" data-sticky-container>
+      <div class="sticky" data-sticky data-margin-top="0">
+        <?php $view['slots']->output('page_nav'); ?>
+      </div>
+    </div>
+  <?php endif; ?>
 </div>

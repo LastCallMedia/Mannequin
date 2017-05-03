@@ -1,8 +1,8 @@
 <?php
 $groups = [
-  'atoms' => $collection->withTag('type', 'atom'),
-  'molecules' => $collection->withTag('type', 'molecule'),
-  'elements' => $collection->withTag('type', 'element'),
+  'atoms' => $collection->withTag('type', 'atom', 'Atoms'),
+  'molecules' => $collection->withTag('type', 'molecule', 'Molecules'),
+  'elements' => $collection->withTag('type', 'element', 'Elements'),
 ];
 ?>
 <ul class="vertical menu medium-horizontal" data-responsive-menu="drilldown medium-dropdown">

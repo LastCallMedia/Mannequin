@@ -80,12 +80,13 @@ class PatternCollection implements \Iterator, \Countable {
     return array_values($this->patterns);
   }
 
-  public function withTag($type, $value) {
+  public function withTag($type, $value, $name = NULL) {
     $patterns = array_filter($this->patterns, function(PatternInterface $pattern) use ($type, $value) {
       return $pattern->hasTag($type, $value);
     });
 
-    $subCollection = new static($patterns, sprintf('%s:%s', $type, $value), $value);
+    $name = $name ?: $value;
+    $subCollection = new static($patterns, sprintf('%s:%s', $type, $value), $name);
     $subCollection->setParent($this);
     return $subCollection;
   }
