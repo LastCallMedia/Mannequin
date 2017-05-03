@@ -6,6 +6,8 @@
     'collection' => $collection,
   ]); ?>
 <?php $view['slots']->stop(); ?>
-<?php print $view->render('partials/collection-list', [
-  'collection' => $collection,
-]); ?>
+<?php foreach($collection->getPatterns() as $pattern): ?>
+  <?php print $view->render('partials/pattern', [
+    'pattern' => $pattern,
+  ]); ?>
+<?php endforeach; ?>
