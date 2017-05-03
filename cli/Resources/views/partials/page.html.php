@@ -12,11 +12,16 @@
 </script>
 <?php $view['slots']->stop(); ?>
 <div class="top-bar">
-  <div class="top-bar-left">
-    <ul class="menu"><li class="menu-text">Patterns</li></ul>
+  <div class="top-bar-title">
+    <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
+      <button class="menu-icon dark" type="button" data-toggle></button>
+    </span>
+    <strong>Patterns</strong>
   </div>
-  <div class="top-bar-right">
-    <?php print $view->render('partials/navigation', ['collection' => $root]); ?>
+  <div id="responsive-menu">
+    <div class="top-bar-left">
+      <?php print $view->render('partials/navigation', ['collection' => $root]); ?>
+    </div>
   </div>
 </div>
 <div class="row">

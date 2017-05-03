@@ -5,7 +5,7 @@ $groups = [
   'elements' => $collection->withTag('type', 'element'),
 ];
 ?>
-<ul class="dropdown menu" data-dropdown-menu>
+<ul class="vertical menu medium-horizontal" data-responsive-menu="drilldown medium-dropdown">
   <?php foreach($groups as $group) : ?>
     <li>
       <a href="<?php print $view['url']->generate('collection_index', ['collection' => $group->getId()]); ?>">
