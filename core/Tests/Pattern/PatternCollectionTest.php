@@ -14,6 +14,7 @@ class PatternCollectionTest extends TestCase {
     $pattern->getId()->willReturn($id);
     $pattern->getName()->willReturn($name);
 
+    $pattern->getTags()->willReturn($tags);
     $pattern->hasTag(Argument::type('string'), Argument::type('string'))
       ->will(function($args) use ($tags) {
         list($type, $value) = $args;
@@ -102,6 +103,17 @@ class PatternCollectionTest extends TestCase {
     $pattern1 = $this->getPattern('foo', 'bar');
     $pattern2 = $this->getPattern('foo', 'baz');
     new PatternCollection([$pattern1, $pattern2]);
+  }
+
+  public function testGetTags() {
+    $pattern1 = $this->getPattern('foo', 'Foo', ['type' => 'element', 'size' => 'large', 'smell' => 'bad']);
+    $pattern2 = $this->getPattern('bar', 'Bar', ['type' => 'atom', 'smell' => 'bad']);
+    $collection = new PatternCollection([$pattern1, $pattern2]);
+    $this->assertEquals([
+      'type' => ['element', 'atom'],
+      'size' => ['large'],
+      'smell' => ['bad'],
+    ], $collection->getTags());
   }
 
   public function testWithTag() {

@@ -84,8 +84,32 @@ class PatternCollection implements \Iterator, \Countable {
     $patterns = array_filter($this->patterns, function(PatternInterface $pattern) use ($type, $value) {
       return $pattern->hasTag($type, $value);
     });
-    if($patterns) {
-      $subCollection = new static($patterns, sprintf('tag:%s:%s', $type, $value), 'Tag');
+
+    $subCollection = new static($patterns, sprintf('%s:%s', $type, $value), $value);
+    $subCollection->setParent($this);
+    return $subCollection;
+  }
+
+  /**
+   * @todo: Is this method useful?
+   */
+  public function getTags() {
+    return array_reduce($this->patterns, function($carry, PatternInterface $pattern) {
+      foreach($pattern->getTags() as $name => $value) {
+        if(!array_key_exists($name, $carry)) {
+          $carry[$name] = [];
+        }
+        if(FALSE === array_search($value, $carry[$name])) {
+          $carry[$name][] = $value;
+        }
+      }
+      return $carry;
+    }, []);
+  }
+
+  public function withPattern($id) {
+    if(isset($this->patterns[$id])) {
+      $subCollection = new static([$this->patterns[$id]], sprintf('pattern:%s', $id), 'Pattern');
       $subCollection->setParent($this);
       return $subCollection;
     }

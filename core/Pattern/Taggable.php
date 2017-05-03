@@ -16,7 +16,7 @@ trait Taggable {
     return isset($this->tags[$name]) && $this->tags[$name] === $value;
   }
 
-  public function getTags() {
+  public function getTags(): array {
     return $this->tags;
   }
 

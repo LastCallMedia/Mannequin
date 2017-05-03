@@ -37,4 +37,7 @@ interface PatternInterface {
    * @return bool
    */
   public function hasTag(string $name, $value): bool;
+
+  public function getTags(): array;
+
 }
