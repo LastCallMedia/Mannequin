@@ -36,8 +36,7 @@ class PatternCollectionTest extends TestCase {
 
   public function testDefaultIdName() {
     $collection = new PatternCollection();
-    $this->assertEquals('default', $collection->getId());
-    $this->assertEquals('Default', $collection->getName());
+    $this->assertEquals('__root__', $collection->getId());
   }
 
   public function testGetParent() {
@@ -121,13 +120,15 @@ class PatternCollectionTest extends TestCase {
     $collection = new PatternCollection([$pattern]);
     $tagCollection = $collection->withTag('type', 'element');
     $this->assertEquals(1, $tagCollection->count());
-    $this->assertEquals('tag:type:element', $tagCollection->getId());
+    $this->assertEquals('type:element', $tagCollection->getId());
     $this->assertEquals($collection, $tagCollection->getParent());
   }
 
   public function testWithTagEmpty() {
     $collection = new PatternCollection();
-    $this->assertNull($collection->withTag('type', 'element'));
+    $subCollection = $collection->withTag('type', 'element');
+    $this->assertInstanceOf(PatternCollection::class, $subCollection);
+    $this->assertCount(0, $subCollection);
   }
 
   public function testMergeMergesPatterns() {
@@ -144,7 +145,6 @@ class PatternCollectionTest extends TestCase {
     $collection2 = new PatternCollection([], 'collection2', 'Collection 2');
     $merged = $collection1->merge($collection2);
     $this->assertEquals('collection1', $merged->getId());
-    $this->assertEquals('Collection 1', $merged->getName());
   }
 
   /**

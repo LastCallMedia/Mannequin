@@ -6,7 +6,9 @@ namespace LastCall\Patterns\Core\Pattern;
 
 class PatternCollection implements \Iterator, \Countable {
 
-  use HasNameAndId;
+  const ROOT_COLLECTION = '__root__';
+
+  private $id = self::ROOT_COLLECTION;
 
   /**
    * @var \LastCall\Patterns\Core\Pattern\PatternInterface[]
@@ -22,19 +24,23 @@ class PatternCollection implements \Iterator, \Countable {
    * @param string $id
    * @param string $name
    */
-  public function __construct(array $patterns = [], $id = 'default', $name = 'Default') {
-    $this->setId($id);
-    $this->setName($name);
+  public function __construct(array $patterns = [], string $id = self::ROOT_COLLECTION) {
+    $this->id = $id;
+
     foreach($patterns as $pattern) {
       if(!$pattern instanceof PatternInterface) {
         throw new \RuntimeException('Pattern must be an instance of PatternInterface.');
       }
-      $id = $pattern->getId();
-      if(isset($this->patterns[$id])) {
-        throw new \RuntimeException(sprintf('Duplicate pattern detected: %s', $id));
+      $patternId = $pattern->getId();
+      if(isset($this->patterns[$patternId])) {
+        throw new \RuntimeException(sprintf('Duplicate pattern detected: %s', $patternId));
       }
-      $this->patterns[$id] = $pattern;
+      $this->patterns[$patternId] = $pattern;
     }
+  }
+
+  public function getId(): string {
+    return $this->id;
   }
 
   public function rewind() {
@@ -122,7 +128,7 @@ class PatternCollection implements \Iterator, \Countable {
       throw new \RuntimeException(sprintf('Merging these collections would result in the following duplicate patterns: %s', implode(', ', $overlapping)));
     }
     $mergedPatterns = array_merge($this->patterns, $merging->patterns);
-    $merged = new static($mergedPatterns, $this->id, $this->name);
+    $merged = new static($mergedPatterns, $this->id);
     if($this->parent) {
       $merged->setParent($this->parent);
     }

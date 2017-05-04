@@ -20,7 +20,7 @@
   </div>
   <div id="responsive-menu">
     <div class="top-bar-left">
-      <?php print $view->render('partials/navigation', ['collection' => $root]); ?>
+      <?php $view['slots']->output('navigation'); ?>
     </div>
   </div>
 </div>

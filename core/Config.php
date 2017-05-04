@@ -38,6 +38,9 @@ class Config extends Container {
       return new ExplicitDiscovery(new PatternCollection($this['patterns'],
         'default', 'Default'));
     };
+    $this['labeller'] = function() {
+      return new Labeller();
+    };
     $this['patterns'] = [];
     $this['renderer'] = function() {
       return new DelegatingRenderer([
@@ -58,6 +61,13 @@ class Config extends Container {
    */
   public function getRenderer() {
     return $this['renderer'];
+  }
+
+  /**
+   * @return \LastCall\Patterns\Core\Labeller
+   */
+  public function getLabeller() {
+    return $this['labeller'];
   }
 
 }

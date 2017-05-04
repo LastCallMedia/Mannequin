@@ -3,9 +3,9 @@
 
 namespace LastCall\Patterns\Cli\Controller;
 
+use LastCall\Patterns\Core\Labeller;
 use LastCall\Patterns\Core\Pattern\PatternCollection;
 use LastCall\Patterns\Core\Pattern\PatternInterface;
-use LastCall\Patterns\Core\Render\RenderedInterface;
 use LastCall\Patterns\Core\Render\RendererInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,11 +18,12 @@ class PatternController {
   private $collection;
   private $renderer;
 
-  public function __construct(PatternCollection $collection, RendererInterface $renderer, EngineInterface $templating, UrlGeneratorInterface $generator) {
+  public function __construct(PatternCollection $collection, RendererInterface $renderer, Labeller $labeller, EngineInterface $templating, UrlGeneratorInterface $generator) {
     $this->collection = $collection;
     $this->renderer = $renderer;
-    $this->generator = $generator;
+    $this->labeler = $labeller;
     $this->templating = $templating;
+    $this->generator = $generator;
   }
 
   public function convertCollection($spec) {
@@ -51,9 +52,10 @@ class PatternController {
 
   public function rootAction() {
     $output = $this->templating->render('collection', [
-      'collection' => $this->collection,
-      'page_title' => 'Patterns',
-      'root' => $this->collection,
+      'page_title' => $this->labeler->getCollectionLabel($this->collection),
+      'navigation' => $this->buildNavigation($this->collection),
+      'patterns' => $this->buildCollectionPatterns($this->collection->getPatterns()),
+      'patterns_nav' => $this->buildCollectionNav($this->collection->getPatterns()),
     ]);
     return new Response($output);
   }
@@ -63,18 +65,19 @@ class PatternController {
    */
   public function patternAction(PatternInterface $pattern) {
     $output = $this->templating->render('pattern', [
-      'pattern' => $pattern,
       'page_title' => 'Pattern: ' . $pattern->getName(),
-      'root' => $this->collection,
+      'navigation' => $this->buildNavigation($this->collection),
+      'rendered_url' => $this->generator->generate('pattern_render', ['pattern' => $pattern->getId()]),
     ]);
     return new Response($output);
   }
 
   public function collectionAction(PatternCollection $collection) {
     $output = $this->templating->render('collection', [
-      'collection' => $collection,
-      'page_title' => 'Collection: ' . $collection->getName(),
-      'root' => $this->collection,
+      'page_title' => $this->labeler->getCollectionLabel($collection),
+      'navigation' => $this->buildNavigation($this->collection),
+      'patterns' => $this->buildCollectionPatterns($collection->getPatterns()),
+      'patterns_nav' => $this->buildCollectionNav($collection->getPatterns()),
     ]);
     return new Response($output);
   }
@@ -86,4 +89,60 @@ class PatternController {
     ]);
     return new Response($output);
   }
+
+  private function buildNavigation(PatternCollection $rootCollection) {
+    $groups = [
+      $rootCollection->withTag('type', 'atom'),
+      $rootCollection->withTag('type', 'molecule'),
+      $rootCollection->withTag('type', 'element')
+    ];
+    $nav = [];
+    foreach($groups as $group) {
+      $grouping = [
+        'url' => $this->generator->generate('collection_index', ['collection' => $group->getId()]),
+        'title' => $this->labeler->getCollectionLabel($group),
+        'below' => $this->buildPatternLinks($group->getPatterns())
+      ];
+      $nav[] = $grouping;
+    }
+    return $this->templating->render('new-navigation', [
+      'tree' => $nav,
+    ]);
+  }
+
+  private function buildPatternLinks(array $patterns) {
+    $links = [];
+    foreach($patterns as $pattern) {
+      $links[] = [
+        'url' => $this->generator->generate('pattern_view', ['pattern' => $pattern->getId()]),
+        'title' => $this->labeler->getPatternLabel($pattern),
+      ];
+    }
+    return $links;
+  }
+
+  private function buildCollectionPatterns(array $patterns) {
+    $render = [];
+    foreach($patterns as $pattern) {
+      $render[] = $this->templating->render('pattern-teaser', [
+        'id' => 'pattern-' . $pattern->getId(),
+        'title' => $this->labeler->getPatternLabel($pattern),
+        'rendered_url' => $this->generator->generate('pattern_render', ['pattern' => $pattern->getId()])
+      ]);
+    }
+    return $render;
+  }
+
+  private function buildCollectionNav(array $patterns) {
+    $render = [];
+    foreach($patterns as $pattern) {
+      $render[] = [
+        'url' => '#' . 'pattern-' . $pattern->getId(),
+        'title' => $this->labeler->getPatternLabel($pattern),
+      ];
+    }
+    return $render;
+  }
+
+
 }

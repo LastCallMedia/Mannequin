@@ -19,8 +19,9 @@ $app['collection'] = function() use ($app) {
   return $app['config']->getCollection();
 };
 $app['patterns.controller'] = function() use ($app) {
+  /** @var \LastCall\Patterns\Core\Config $config */
   $config = $app['config'];
-  return new PatternController($config->getCollection(), $config->getRenderer(), $app['templating'], $app['url_generator']);
+  return new PatternController($config->getCollection(), $config->getRenderer(), $config->getLabeller(), $app['templating'], $app['url_generator']);
 };
 
 $app->extend('templating.helpers', function(array $helpers) use ($app) {
