@@ -24,11 +24,11 @@ class Labeller {
     return $pattern->getName();
   }
 
-  public function getTagLabel($type, $value) {
+  private function getTagLabel($type, $value) {
     return ucfirst($value);
   }
 
-  public function pluralize($word) {
+  private function pluralize($word) {
     return $word.'s';
   }
 }

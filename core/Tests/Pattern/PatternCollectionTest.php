@@ -120,7 +120,7 @@ class PatternCollectionTest extends TestCase {
     $collection = new PatternCollection([$pattern]);
     $tagCollection = $collection->withTag('type', 'element');
     $this->assertEquals(1, $tagCollection->count());
-    $this->assertEquals('type:element', $tagCollection->getId());
+    $this->assertEquals('tag:type:element', $tagCollection->getId());
     $this->assertEquals($collection, $tagCollection->getParent());
   }
 
