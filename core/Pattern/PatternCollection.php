@@ -78,6 +78,9 @@ class PatternCollection implements \Iterator, \Countable {
     $this->parent = $parent;
   }
 
+  /**
+   * @return \LastCall\Patterns\Core\Pattern\PatternCollection|null
+   */
   public function getParent() {
     return $this->parent;
   }
@@ -92,7 +95,7 @@ class PatternCollection implements \Iterator, \Countable {
     });
 
     $name = $name ?: $value;
-    $subCollection = new static($patterns, sprintf('%s:%s', $type, $value), $name);
+    $subCollection = new static($patterns, sprintf('tag:%s:%s', $type, $value), $name);
     $subCollection->setParent($this);
     return $subCollection;
   }

@@ -31,6 +31,13 @@
     </div>
   </div>
 <?php endif; ?>
+<?php if($view['slots']->has('breadcrumb')) : ?>
+  <div class="row">
+    <div class="columns">
+      <?php $view['slots']->output('breadcrumb'); ?>
+    </div>
+  </div>
+<?php endif; ?>
 <div class="row">
   <div class="columns small-12 medium-10">
     <?php $view['slots']->output('_content'); ?>

@@ -40,6 +40,12 @@ $app
   ->bind('collection_index');
 
 $app
+  ->get('/collection/{collection}/{pattern}', 'patterns.controller:collectionPatternAction')
+  ->convert('collection', 'patterns.controller:convertCollection')
+  ->convert('pattern', 'patterns.controller:convertPattern')
+  ->bind('collection_pattern_view');
+
+$app
   ->get('/patterns/{pattern}', 'patterns.controller:patternAction')
   ->bind('pattern_view')
   ->convert('pattern', 'patterns.controller:convertPattern');

@@ -35,8 +35,7 @@ class Config extends Container {
       return new PhpEngine(new TemplateNameParser(), new FilesystemLoader($this['engine.php.paths']));
     };
     $this['discovery'] = function() {
-      return new ExplicitDiscovery(new PatternCollection($this['patterns'],
-        'default', 'Default'));
+      return new ExplicitDiscovery(new PatternCollection($this['patterns']));
     };
     $this['labeller'] = function() {
       return new Labeller();
