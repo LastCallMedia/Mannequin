@@ -1,0 +1,21 @@
+<?php
+
+
+namespace LastCall\Patterns\Core\Parser;
+
+
+use LastCall\Patterns\Core\Pattern\HtmlPattern;
+use LastCall\Patterns\Core\Pattern\PatternInterface;
+
+class HtmlTemplateParser implements TemplateFileParserInterface {
+
+  public function supports(\SplFileInfo $fileInfo): bool {
+    return $fileInfo->getExtension() === 'html';
+  }
+
+  public function parse(\SplFileInfo $fileInfo): PatternInterface {
+    $filename = $fileInfo->getBasename('.'.$fileInfo->getExtension());
+
+    return new HtmlPattern($filename, ucfirst($filename), $fileInfo->getPathname());
+  }
+}

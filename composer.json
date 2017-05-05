@@ -14,12 +14,15 @@
         "symfony/filesystem": "^3.2",
         "symfony/templating": "^3.2",
         "silex/silex": "^2.0",
-        "symfony/web-server-bundle": "dev-master"
+        "symfony/web-server-bundle": "dev-master",
+        "symfony/finder": "^3.2",
+        "twig/twig": "^2.3"
     },
     "autoload": {
       "psr-4": {
         "LastCall\\Patterns\\Core\\": "core/",
-        "LastCall\\Patterns\\Cli\\": "cli/"
+        "LastCall\\Patterns\\Cli\\": "cli/",
+        "LastCall\\Patterns\\Twig\\": "twig/"
       },
       "exclude-from-classmap": [
         "**/Tests/"

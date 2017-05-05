@@ -8,7 +8,7 @@ class Rendered implements RenderedInterface {
 
   private $pattern;
 
-  private $markup;
+  private $markup = '';
 
   private $styles = [];
 
