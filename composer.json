@@ -16,7 +16,8 @@
         "silex/silex": "^2.0",
         "symfony/web-server-bundle": "dev-master",
         "symfony/finder": "^3.2",
-        "twig/twig": "^2.3"
+        "twig/twig": "^2.3",
+        "symfony/yaml": "^3.2"
     },
     "autoload": {
       "psr-4": {

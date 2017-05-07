@@ -25,6 +25,7 @@ class Config extends Container {
 
   public function __construct(array $values = []) {
     parent::__construct($values);
+    $this['cache_dir'] = __DIR__.'/../cache';
     $this['discovery'] = function() {
       return new ChainDiscovery($this['discoverers']);
     };

@@ -1,4 +1,20 @@
 {#
+# Pattern:
+name: foobar
+tags:
+  foo: bar
+  baz: boo
+variables:
+  heading_level:
+    type: string
+    example: h1
+#}
+{% if false %}{% block patterninfo %}
+name: foobar
+tags:
+  type: element
+{% endblock %}{% endif %}
+{#
  This is a simple twig pattern.
 #}
 <h1>This is a twig pattern.</h1>
