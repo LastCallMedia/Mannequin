@@ -15,7 +15,7 @@ class TwigParserTest extends TestCase {
 
   public function getSupportsTests() {
     return [
-      ['pattern.twig', TRUE],
+      ['twig-no-metadata.twig', TRUE],
       ['pattern.html', FALSE],
     ];
   }
@@ -37,10 +37,10 @@ class TwigParserTest extends TestCase {
   }
 
   public function getParseTests() {
-    $p1 = new TwigPattern('with-metadata.twig', 'Template with metadata', 'with-metadata.twig');
+    $p1 = new TwigPattern('twig-with-metadata.twig', 'Twig with metadata', 'twig-with-metadata.twig');
     $p1->addTag('type', 'molecule');
 
-    $p2 = new TwigPattern('no-metadata.twig', 'No metadata', 'no-metadata.twig');
+    $p2 = new TwigPattern('twig-no-metadata.twig', 'Twig no metadata', 'twig-no-metadata.twig');
     return [
       [$p1],
       [$p2]
