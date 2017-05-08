@@ -2,22 +2,12 @@
 
 namespace LastCall\Patterns\Core;
 
-use LastCall\Patterns\Core\Discovery\ChainDiscovery;
-use LastCall\Patterns\Core\Discovery\ExplicitDiscovery;
-use LastCall\Patterns\Core\Discovery\TemplateDiscovery;
 use LastCall\Patterns\Core\Pattern\PatternCollection;
-use LastCall\Patterns\Core\Render\DelegatingRenderer;
-use LastCall\Patterns\Core\Render\HtmlRenderer;
-use LastCall\Patterns\Core\Render\TemplatingRenderer;
+use LastCall\Patterns\Core\ServiceProvider\DiscoveryServiceProvider;
+use LastCall\Patterns\Core\ServiceProvider\RendererServiceProvider;
 use LastCall\Patterns\Core\ServiceProvider\TemplateServiceProvider;
 use LastCall\Patterns\Core\ServiceProvider\VariableServiceProvider;
-use LastCall\Patterns\Core\Variable\VariableFactory;
 use Pimple\Container;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Templating\DelegatingEngine;
-use Symfony\Component\Templating\Loader\FilesystemLoader;
-use Symfony\Component\Templating\PhpEngine;
-use Symfony\Component\Templating\TemplateNameParser;
 
 class Config extends Container {
 
@@ -28,21 +18,11 @@ class Config extends Container {
   public function __construct(array $values = []) {
     parent::__construct($values);
     $this['cache_dir'] = __DIR__.'/../cache';
-    $this['discovery'] = function() {
-      return new ChainDiscovery($this['discoverers']);
-    };
-    $this['discoverers'] = function() {
-      return [];
-    };
     $this['labeller'] = function() {
       return new Labeller();
     };
-    $this['renderers'] = function() {
-      return [];
-    };
-    $this['renderer'] = function() {
-      return new DelegatingRenderer($this['renderers']);
-    };
+    $this->register(new DiscoveryServiceProvider());
+    $this->register(new RendererServiceProvider());
     $this->register(new VariableServiceProvider());
     $this->register(new TemplateServiceProvider());
   }
