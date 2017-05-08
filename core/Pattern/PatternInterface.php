@@ -2,6 +2,8 @@
 
 namespace LastCall\Patterns\Core\Pattern;
 
+use LastCall\Patterns\Core\Variable\VariableSet;
+
 interface PatternInterface {
 
   /**
@@ -39,5 +41,7 @@ interface PatternInterface {
   public function hasTag(string $name, $value): bool;
 
   public function getTags(): array;
+
+  public function getVariables(): VariableSet;
 
 }

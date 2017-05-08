@@ -29,7 +29,7 @@ class TwigPattern implements PatternInterface {
     return $this->filename;
   }
 
-  public function getVariables() {
+  public function getVariables(): VariableSet {
     return $this->variables;
   }
 }

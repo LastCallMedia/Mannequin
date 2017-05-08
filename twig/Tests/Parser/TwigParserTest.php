@@ -4,6 +4,7 @@
 namespace LastCall\Patterns\Twig\Tests\Parser;
 
 
+use LastCall\Patterns\Core\Variable\ScalarFactory;
 use LastCall\Patterns\Core\Variable\ScalarType;
 use LastCall\Patterns\Core\Variable\VariableFactory;
 use LastCall\Patterns\Core\Variable\VariableSet;
@@ -63,7 +64,7 @@ class TwigParserTest extends TestCase {
   public function testParseBasic(TwigPattern $expected) {
     $loader = new \Twig_Loader_Filesystem([self::TEMPLATE_DIR]);
     $twig = new \Twig_Environment($loader);
-    $factory = new VariableFactory([ScalarType::class]);
+    $factory = new VariableFactory([], [new ScalarFactory()]);
     $parser = new TwigParser($twig, $factory);
     $file = new SplFileInfo(self::TEMPLATE_DIR . DIRECTORY_SEPARATOR . $expected->getFilename(), $expected->getFilename(), $expected->getFilename());
     $pattern = $parser->parse($file);

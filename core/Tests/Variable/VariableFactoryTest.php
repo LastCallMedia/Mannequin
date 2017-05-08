@@ -4,6 +4,7 @@
 namespace LastCall\Patterns\Core\Tests\Variable;
 
 
+use LastCall\Patterns\Core\Variable\ScalarFactory;
 use LastCall\Patterns\Core\Variable\ScalarType;
 use LastCall\Patterns\Core\Variable\VariableFactory;
 use PHPUnit\Framework\TestCase;
@@ -11,21 +12,22 @@ use PHPUnit\Framework\TestCase;
 class VariableFactoryTest extends TestCase {
 
   /**
-   * @expectedException \RuntimeException
-   * @expectedExceptionMessage stdClass does not implement LastCall\Patterns\Core\Variable\VariableInterface
+   * @expectedException TypeError
+   * @expectedExceptionMessage must be callable
    */
   public function testRegisterInvalidType() {
-    new VariableFactory(['stdClass']);
+    (new VariableFactory())->addType('foo', 'bar');
   }
 
   public function testRegisterValidType() {
-    $factory = new VariableFactory([ScalarType::class]);
+    $factory = new VariableFactory();
+    $factory->addFactory(new ScalarFactory());
     $this->assertTrue($factory->hasType('string'));
     $this->assertTrue($factory->hasType('boolean'));
   }
 
   public function testCreate() {
-    $factory = new VariableFactory([ScalarType::class]);
+    $factory = new VariableFactory([], [new ScalarFactory()]);
     $created = $factory->create('string', 'foo');
     $this->assertInstanceOf(ScalarType::class, $created);
     $this->assertEquals('foo', $created->getValue());

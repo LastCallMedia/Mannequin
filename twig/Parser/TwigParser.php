@@ -4,10 +4,12 @@
 namespace LastCall\Patterns\Twig\Parser;
 
 
+use LastCall\Patterns\Core\Exception\InvalidVariableException;
 use LastCall\Patterns\Core\Exception\TemplateParsingException;
 use LastCall\Patterns\Core\Parser\TemplateFileParserInterface;
 use LastCall\Patterns\Core\Pattern\PatternInterface;
 use LastCall\Patterns\Core\Variable\VariableFactory;
+use LastCall\Patterns\Core\Variable\VariableSet;
 use LastCall\Patterns\Twig\Pattern\TwigPattern;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Yaml\Yaml;
@@ -43,7 +45,7 @@ class TwigParser implements TemplateFileParserInterface {
     $id = $pathname;
     $name = $this->buildNameFromPathname($pathname);
     $tags = [];
-    $variables = $this->variableFactory->createSet([]);
+    $variables = new VariableSet([]);
     if($template->hasBlock('patterninfo')) {
       $data = $this->parsePatternInfoBlock($template);
       if(isset($data['name'])) {
@@ -53,7 +55,7 @@ class TwigParser implements TemplateFileParserInterface {
         $tags = $data['tags'];
       }
       if(isset($data['variables'])) {
-        $variables = $this->variableFactory->createSet($data['variables']);
+        $variables = $this->createVariableSet($data['variables']);
       }
     }
     $pattern = new TwigPattern($id, $name, $pathname, $variables);
@@ -68,10 +70,7 @@ class TwigParser implements TemplateFileParserInterface {
     if(!$data || !is_array($data)) {
       throw new \RuntimeException(sprintf('Unable to parse info block in %s', $template->getSourceContext()->getName()));
     }
-    if($data && is_array($data)) {
-      return $data;
-    }
-
+    return $data;
   }
 
   private function buildNameFromPathname($pathname) {
@@ -80,5 +79,17 @@ class TwigParser implements TemplateFileParserInterface {
       '-' => ' ',
       '_' => ' ',
     ]));
+  }
+
+  private function createVariableSet(array $variables) {
+    $setVars = [];
+    foreach($variables as $key => $info) {
+      if(!is_array($info) || empty($info['type'])) {
+        throw new InvalidVariableException(sprintf('%s must be an array specifying the type', $key));
+      }
+      $info+= ['value' => NULL];
+      $setVars[$key] = $this->variableFactory->create($info['type'], $info['value']);
+    }
+    return new VariableSet($setVars);
   }
 }

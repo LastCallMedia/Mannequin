@@ -6,49 +6,44 @@ namespace LastCall\Patterns\Core\Variable;
 
 use LastCall\Patterns\Core\Exception\InvalidVariableException;
 
-class VariableFactory {
+class VariableFactory implements VariableFactoryInterface {
 
   private $types;
 
-  public function __construct(array $typeClasses = []) {
-    foreach($typeClasses as $typeClass) {
-      $this->addTypeClass($typeClass);
+  public function __construct(array $types = [], array $factories = []) {
+    foreach($types as $name => $type) {
+      $this->addType($name, $type);
+    }
+    foreach($factories as $factory) {
+      $this->addFactory($factory);
     }
   }
 
-  public function addTypeClass($className) {
-    if(!class_exists($className)) {
-      throw new \RuntimeException(sprintf('%s does not exist', $className));
-    }
-    if(!is_a($className, VariableInterface::class, TRUE)) {
-      throw new \RuntimeException(sprintf('%s does not implement %s', $className, VariableInterface::class));
-    }
-    foreach($className::getSupportedTypes() as $type) {
-      $this->types[$type] = $className;
-    }
+  public function addType($type, callable $factory) {
+    $this->types[$type] = $factory;
   }
 
-  public function hasType($type) {
+  public function hasType($type): bool {
     return isset($this->types[$type]);
   }
 
-  public function create($type, $value): VariableInterface {
-    if(isset($this->types[$type])) {
-      $class = $this->types[$type];
-      return new $class($type, $value);
-    }
-    throw new InvalidVariableException(sprintf('%s is not a valid variable type', $type));
+  public function getTypes(): array {
+    return array_keys($this->types);
   }
 
-  public function createSet(array $variables = []): VariableSet {
-    $setVars = [];
-    foreach($variables as $key => $info) {
-      if(!is_array($info) || empty($info['type'])) {
-        throw new InvalidVariableException(sprintf('%s must be an array specifying the type', $key));
-      }
-      $info+= ['value' => NULL];
-      $setVars[$key] = $this->create($info['type'], $info['value']);
+  public function addFactory(VariableFactoryInterface $factory) {
+    foreach($factory->getTypes() as $type) {
+      $this->addType($type, function($value) use($factory, $type) {
+        return $factory->create($type, $value);
+      });
     }
-    return new VariableSet($setVars);
+  }
+
+  public function create($type, $value = NULL): VariableInterface {
+    if(isset($this->types[$type])) {
+      $callable = $this->types[$type];
+      return $callable($value);
+    }
+    throw new InvalidVariableException(sprintf('%s is not a valid variable type', $type));
   }
 }
