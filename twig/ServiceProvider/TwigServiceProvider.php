@@ -12,18 +12,22 @@ use Pimple\ServiceProviderInterface;
 class TwigServiceProvider implements ServiceProviderInterface {
 
   public function register(Container $pimple) {
-    $pimple['twig.loader.filesystem_absolute'] = function() {
-      return new \Twig_Loader_Filesystem(['/'], '/');
+    $pimple['twig.paths'] = function() {
+      return [];
+    };
+    $pimple['twig.loader.filesystem'] = function() use ($pimple) {
+      return new \Twig_Loader_Filesystem($pimple['twig.paths']);
     };
     $pimple['twig.loaders'] = function() use ($pimple) {
-      return [$pimple['twig.loader.filesystem_absolute']];
+      return [$pimple['twig.loader.filesystem']];
     };
     $pimple['twig.loader'] = function() use ($pimple) {
       return new \Twig_Loader_Chain($pimple['twig.loaders']);
     };
     $pimple['twig'] = function() use ($pimple) {
       return new \Twig_Environment($pimple['twig.loader'], [
-        'cache' => $pimple['cache_dir'].'/twig'
+        'cache' => $pimple['cache_dir'].'/twig',
+        'auto_reload' => TRUE,
       ]);
     };
 

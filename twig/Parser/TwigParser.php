@@ -18,42 +18,51 @@ class TwigParser implements TemplateFileParserInterface {
     $this->twig = $twig;
   }
 
-  public function supports(\SplFileInfo $fileInfo): bool {
-    return $fileInfo->getExtension() === 'twig';
+  public function supports(SplFileInfo $fileInfo): bool {
+    return $fileInfo->getExtension() === 'twig' && $this->twig->getLoader()->exists($fileInfo->getRelativePathname());
   }
 
-  public function parse(\SplFileInfo $fileInfo): PatternInterface {
-    $template = $this->twig->load($fileInfo->getPathname());
-    return $this->createPatternFromTemplateData($template, $fileInfo);
+  public function parse(SplFileInfo $fileInfo): PatternInterface {
+    $template = $this->twig->load($fileInfo->getRelativePathname());
+    return $this->createPatternFromTemplate($template);
   }
 
-  private function createPatternFromTemplateData(\Twig_TemplateWrapper $template, SplFileInfo $fileInfo) {
-    $basename = $fileInfo->getBasename('.'.$fileInfo->getExtension());
-
+  private function createPatternFromTemplate(\Twig_TemplateWrapper $template) {
+    $pathname = $template->getSourceContext()->getName();
+    $id = $pathname;
+    $name = $this->buildNameFromPathname($pathname);
+    $tags = [];
     if($template->hasBlock('patterninfo')) {
-      $info = $template->renderBlock('patterninfo');
-      $info = Yaml::parse($info);
-      $info += [
-        'id' => $basename,
-        'name' => ucfirst($basename),
-        'tags' => [],
-      ];
-      return $this->createPattern($info, $fileInfo->getPathname());
-    }
-  }
-
-  private function createPattern(array $data, $filename) {
-    assert(isset($data['id']), 'Id is set');
-    assert(isset($data['name']), 'Name is set');
-    assert(isset($data['tags']), 'Tags is an array');
-
-    $pattern = new TwigPattern($data['id'], $data['name'], $filename);
-    if(is_array($data['tags'])) {
-      foreach($data['tags'] as $name => $value) {
-        $pattern->addTag($name, $value);
+      $data = $this->parsePatternInfoBlock($template);
+      if(isset($data['name'])) {
+        $name = $data['name'];
+      }
+      if(isset($data['tags'])) {
+        $tags = $data['tags'];
       }
     }
-
+    $pattern = new TwigPattern($id, $name, $pathname);
+    foreach($tags as $name => $value) {
+      $pattern->addTag($name, $value);
+    }
     return $pattern;
+  }
+
+  private function parsePatternInfoBlock(\Twig_TemplateWrapper $template) {
+    $data = Yaml::parse($template->renderBlock('patterninfo'));
+    if(!$data || !is_array($data)) {
+      throw new \RuntimeException(sprintf('Unable to parse info block in %s', $template->getSourceContext()->getName()));
+    }
+    if($data && is_array($data)) {
+      return $data;
+    }
+  }
+
+  private function buildNameFromPathname($pathname) {
+    $basename = basename($pathname, '.'.pathinfo($pathname, PATHINFO_EXTENSION));
+    return ucfirst(strtr($basename, [
+      '-' => ' ',
+      '_' => ' ',
+    ]));
   }
 }
