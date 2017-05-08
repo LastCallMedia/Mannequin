@@ -4,6 +4,7 @@
 namespace LastCall\Patterns\Twig\Parser;
 
 
+use LastCall\Patterns\Core\Exception\TemplateParsingException;
 use LastCall\Patterns\Core\Parser\TemplateFileParserInterface;
 use LastCall\Patterns\Core\Pattern\PatternInterface;
 use LastCall\Patterns\Twig\Pattern\TwigPattern;
@@ -23,8 +24,14 @@ class TwigParser implements TemplateFileParserInterface {
   }
 
   public function parse(SplFileInfo $fileInfo): PatternInterface {
-    $template = $this->twig->load($fileInfo->getRelativePathname());
-    return $this->createPatternFromTemplate($template);
+    try {
+      $template = $this->twig->load($fileInfo->getRelativePathname());
+      return $this->createPatternFromTemplate($template);
+    }
+    catch(\Throwable $err) {
+      throw new TemplateParsingException(sprintf('Unable to parse template: %s', $err->getMessage()), $err->getCode(), $err->getMessage());
+    }
+
   }
 
   private function createPatternFromTemplate(\Twig_TemplateWrapper $template) {
