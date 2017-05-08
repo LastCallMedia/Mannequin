@@ -23,31 +23,30 @@ class VariableSetTest extends TestCase {
     $this->assertTrue($set->has('empty'));
   }
 
-  public function testMergesChanged() {
-    $set1 = $this->getTestSet();
-    $set2 = new VariableSet([
+  public function testAppliesGlobals() {
+    $set = $this->getTestSet();
+    $globals = new VariableSet([
       'foo' => new ScalarType('string', 'bar'),
-      'empty' => new ScalarType('string', 'empty'),
-      'new' => new ScalarType('string', 'new'),
+      'empty' => new ScalarType('string', 'baz'),
+      'baz' => new ScalarType('string', 'baz'),
     ]);
-    $merged = $set1->merge($set2);
+    $merged = $set->applyGlobals($globals);
     $this->assertEquals(new VariableSet([
-      'foo' => new ScalarType('string', 'bar'),
-      'empty' => new ScalarType('string', 'empty'),
-      'new' => new ScalarType('string', 'new'),
+      'foo' => new ScalarType('string', 'foo'),
+      'empty' => new ScalarType('string', 'baz')
     ]), $merged);
   }
 
   /**
    * @expectedException \LastCall\Patterns\Core\Exception\InvalidVariableException
-   * @expectedExceptionMessage Cannot merge sets - foo is of a different type
+   * @expectedExceptionMessage Cannot merge sets - Expected empty to be an string, got an integer
    */
-  public function testDoesNotAllowTypeChange() {
-    $set1 = $this->getTestSet();
-    $set2 = new VariableSet([
-      'foo' => new ScalarType('integer', 1),
+  public function testDoesNotAllowTypeChangeOnGlobals() {
+    $set = $this->getTestSet();
+    $globals = new VariableSet([
+      'empty' => new ScalarType('integer', 2),
     ]);
-    $set1->merge($set2);
+    $set->applyGlobals($globals);
   }
 
   public function testManifest() {

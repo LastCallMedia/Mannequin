@@ -35,7 +35,7 @@ class TwigServiceProvider implements ServiceProviderInterface {
       return new TwigParser($pimple['twig'], $pimple['variable.factory']);
     };
     $pimple['renderer.twig'] = function() use ($pimple) {
-      return new TwigRenderer($pimple['twig'], $pimple['styles'], $pimple['scripts']);
+      return new TwigRenderer($pimple['twig'], $pimple['variables.global'], $pimple['styles'], $pimple['scripts']);
     };
     if(isset($pimple['template.parsers'])) {
       $pimple->extend('template.parsers', function(array $parsers) use ($pimple) {

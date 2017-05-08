@@ -12,10 +12,7 @@ class VariableSet {
 
   public function __construct(array $variables = []) {
     foreach($variables as $key => $value) {
-      if(!$value instanceof VariableInterface) {
-        throw new InvalidVariableException(sprintf('Variable %s passed to set must implement %s', $key, VariableInterface::class));
-      }
-      $this->data[$key] = $value;
+      $this->set($key, $value);
     }
   }
 
@@ -23,19 +20,24 @@ class VariableSet {
     return isset($this->data[$key]);
   }
 
-  public function merge(VariableSet $toMerge) {
+  public function set($key, VariableInterface $variable) {
+    $this->data[$key] = $variable;
+  }
+
+  public function applyGlobals(VariableSet $globals) {
+    $applied = [];
     foreach($this->data as $key => $value) {
-      if(isset($toMerge->data[$key])) {
-        // Check that what we're going to merge in is of the same type.
-        if(get_class($value) !== get_class($toMerge->data[$key])) {
-          throw new InvalidVariableException(sprintf('Cannot merge sets - %s is of a different class', $key));
+      if(!$value->hasValue() && isset($globals->data[$key]) && $globals->data[$key]->hasValue()) {
+        if($value->getTypeName() !== $globals->data[$key]->getTypeName()) {
+          throw new InvalidVariableException(sprintf('Cannot merge sets - Expected %s to be an %s, got an %s', $key, $value->getTypeName(), $globals->data[$key]->getTypeName()));
         }
-        if($value->getTypeName() !== $toMerge->data[$key]->getTypeName()) {
-          throw new InvalidVariableException(sprintf('Cannot merge sets - %s is of a different type', $key));
-        }
+        $applied[$key] = $globals->data[$key];
+      }
+      else {
+        $applied[$key] = $value;
       }
     }
-    return new VariableSet($toMerge->data +$this->data);
+    return new VariableSet($applied);
   }
 
   public function manifest() {
