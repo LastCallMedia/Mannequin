@@ -8,6 +8,7 @@ use LastCall\Patterns\Core\Pattern\PatternInterface;
 use LastCall\Patterns\Core\Render\Rendered;
 use LastCall\Patterns\Core\Render\RenderedInterface;
 use LastCall\Patterns\Core\Render\RendererInterface;
+use LastCall\Patterns\Core\Variable\VariableInterface;
 use LastCall\Patterns\Twig\Pattern\TwigPattern;
 
 class TwigRenderer implements RendererInterface {
@@ -27,7 +28,21 @@ class TwigRenderer implements RendererInterface {
 
   public function render(PatternInterface $pattern): RenderedInterface {
     $rendered = new Rendered($pattern, $this->styles, $this->scripts);
-    $rendered->setMarkup($this->twig->render($pattern->getFilename(), $pattern->getVariables()));
+    $rendered->setMarkup($this->twig->render($pattern->getFilename(), $this->getVariables($pattern)));
     return $rendered;
+  }
+
+  private function getVariables($pattern) {
+    $variables = [];
+
+    foreach($pattern->getVariables() as $key => $value) {
+      if($value instanceof VariableInterface) {
+        $variables[$key] = $value->getValue();
+      }
+      else {
+        $variables[$key] = $value;
+      }
+    }
+    return $variables;
   }
 }

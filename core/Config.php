@@ -10,6 +10,8 @@ use LastCall\Patterns\Core\Render\DelegatingRenderer;
 use LastCall\Patterns\Core\Render\HtmlRenderer;
 use LastCall\Patterns\Core\Render\TemplatingRenderer;
 use LastCall\Patterns\Core\ServiceProvider\TemplateServiceProvider;
+use LastCall\Patterns\Core\ServiceProvider\VariableServiceProvider;
+use LastCall\Patterns\Core\Variable\VariableFactory;
 use Pimple\Container;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Templating\DelegatingEngine;
@@ -41,6 +43,7 @@ class Config extends Container {
     $this['renderer'] = function() {
       return new DelegatingRenderer($this['renderers']);
     };
+    $this->register(new VariableServiceProvider());
     $this->register(new TemplateServiceProvider());
   }
 

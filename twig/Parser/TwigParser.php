@@ -7,6 +7,7 @@ namespace LastCall\Patterns\Twig\Parser;
 use LastCall\Patterns\Core\Exception\TemplateParsingException;
 use LastCall\Patterns\Core\Parser\TemplateFileParserInterface;
 use LastCall\Patterns\Core\Pattern\PatternInterface;
+use LastCall\Patterns\Core\Variable\VariableFactory;
 use LastCall\Patterns\Twig\Pattern\TwigPattern;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Yaml\Yaml;
@@ -15,8 +16,11 @@ class TwigParser implements TemplateFileParserInterface {
 
   private $twig;
 
-  public function __construct(\Twig_Environment $twig) {
+  private $variableFactory;
+
+  public function __construct(\Twig_Environment $twig, VariableFactory $factory) {
     $this->twig = $twig;
+    $this->variableFactory = $factory;
   }
 
   public function supports(SplFileInfo $fileInfo): bool {
@@ -29,7 +33,7 @@ class TwigParser implements TemplateFileParserInterface {
       return $this->createPatternFromTemplate($template);
     }
     catch(\Throwable $err) {
-      throw new TemplateParsingException(sprintf('Unable to parse template: %s', $err->getMessage()), $err->getCode(), $err->getMessage());
+      throw new TemplateParsingException(sprintf('Unable to parse template: %s', $err->getMessage()), $err->getCode(), $err);
     }
 
   }
@@ -39,6 +43,7 @@ class TwigParser implements TemplateFileParserInterface {
     $id = $pathname;
     $name = $this->buildNameFromPathname($pathname);
     $tags = [];
+    $variables = [];
     if($template->hasBlock('patterninfo')) {
       $data = $this->parsePatternInfoBlock($template);
       if(isset($data['name'])) {
@@ -47,8 +52,13 @@ class TwigParser implements TemplateFileParserInterface {
       if(isset($data['tags'])) {
         $tags = $data['tags'];
       }
+      if(isset($data['variables'])) {
+        foreach($data['variables'] as $key => $varInfo) {
+          $variables[$key] = $this->variableFactory->create($varInfo['type'], $varInfo['value']);
+        }
+      }
     }
-    $pattern = new TwigPattern($id, $name, $pathname);
+    $pattern = new TwigPattern($id, $name, $pathname, $variables);
     foreach($tags as $name => $value) {
       $pattern->addTag($name, $value);
     }
@@ -63,6 +73,7 @@ class TwigParser implements TemplateFileParserInterface {
     if($data && is_array($data)) {
       return $data;
     }
+
   }
 
   private function buildNameFromPathname($pathname) {

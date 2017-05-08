@@ -1,0 +1,11 @@
+{% if _pattern %}{% block patterninfo %}
+name: Twig with variables
+variables:
+  template_type:
+    type: string
+    value: twig
+  has_variables:
+    type: boolean
+    value: true
+{% endblock %}{% endif %}
+<h1>This is a {{ template_type }} template {{ has_variables ? 'using variables' : 'not using variables' }}.</h1>
