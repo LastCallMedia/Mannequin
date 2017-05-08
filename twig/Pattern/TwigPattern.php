@@ -7,6 +7,7 @@ namespace LastCall\Patterns\Twig\Pattern;
 use LastCall\Patterns\Core\Pattern\HasNameAndId;
 use LastCall\Patterns\Core\Pattern\PatternInterface;
 use LastCall\Patterns\Core\Pattern\Taggable;
+use LastCall\Patterns\Core\Variable\VariableSet;
 
 class TwigPattern implements PatternInterface {
 
@@ -17,11 +18,11 @@ class TwigPattern implements PatternInterface {
   private $filename;
   private $variables = [];
 
-  public function __construct($id, $name, $filename, array $variables = []) {
+  public function __construct($id, $name, $filename, VariableSet $variables = NULL) {
     $this->setId($id);
     $this->setName($name);
     $this->filename = $filename;
-    $this->variables = $variables;
+    $this->variables = $variables ?: new VariableSet();
   }
 
   public function getFilename() {

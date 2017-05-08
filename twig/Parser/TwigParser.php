@@ -43,7 +43,7 @@ class TwigParser implements TemplateFileParserInterface {
     $id = $pathname;
     $name = $this->buildNameFromPathname($pathname);
     $tags = [];
-    $variables = [];
+    $variables = $this->variableFactory->createSet([]);
     if($template->hasBlock('patterninfo')) {
       $data = $this->parsePatternInfoBlock($template);
       if(isset($data['name'])) {
@@ -53,9 +53,7 @@ class TwigParser implements TemplateFileParserInterface {
         $tags = $data['tags'];
       }
       if(isset($data['variables'])) {
-        foreach($data['variables'] as $key => $varInfo) {
-          $variables[$key] = $this->variableFactory->create($varInfo['type'], $varInfo['value']);
-        }
+        $variables = $this->variableFactory->createSet($data['variables']);
       }
     }
     $pattern = new TwigPattern($id, $name, $pathname, $variables);

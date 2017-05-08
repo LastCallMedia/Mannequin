@@ -10,6 +10,8 @@ interface VariableInterface {
 
   public function __construct(string $typeName, $value);
 
+  public function hasValue(): bool;
+
   public function getValue();
 
   public function getTypeName(): string;

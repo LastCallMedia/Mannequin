@@ -6,6 +6,7 @@ namespace LastCall\Patterns\Twig\Tests\Parser;
 
 use LastCall\Patterns\Core\Variable\ScalarType;
 use LastCall\Patterns\Core\Variable\VariableFactory;
+use LastCall\Patterns\Core\Variable\VariableSet;
 use LastCall\Patterns\Twig\Parser\TwigParser;
 use LastCall\Patterns\Twig\Pattern\TwigPattern;
 use PHPUnit\Framework\TestCase;
@@ -44,10 +45,11 @@ class TwigParserTest extends TestCase {
     $p2 = new TwigPattern('twig-with-metadata.twig', 'Twig with metadata', 'twig-with-metadata.twig');
     $p2->addTag('type', 'molecule');
 
-    $p3 = new TwigPattern('twig-with-variables.twig', 'Twig with variables', 'twig-with-variables.twig', [
+    $p3 = new TwigPattern('twig-with-variables.twig', 'Twig with variables', 'twig-with-variables.twig', new VariableSet([
       'template_type' => new ScalarType('string', 'twig'),
-      'has_variables' => new ScalarType('boolean', TRUE),
-    ]);
+      'local' => new ScalarType('boolean', TRUE),
+      'global' => new ScalarType('boolean')
+    ]));
     return [
       [$p1],
       [$p2],

@@ -39,4 +39,16 @@ class VariableFactory {
     }
     throw new InvalidVariableException(sprintf('%s is not a valid variable type', $type));
   }
+
+  public function createSet(array $variables = []): VariableSet {
+    $setVars = [];
+    foreach($variables as $key => $info) {
+      if(!is_array($info) || empty($info['type'])) {
+        throw new InvalidVariableException(sprintf('%s must be an array specifying the type', $key));
+      }
+      $info+= ['value' => NULL];
+      $setVars[$key] = $this->create($info['type'], $info['value']);
+    }
+    return new VariableSet($setVars);
+  }
 }

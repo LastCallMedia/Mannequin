@@ -13,7 +13,7 @@ class ScalarType implements VariableInterface {
     return ['string', 'integer', 'boolean'];
   }
 
-  public function __construct(string $typeName, $value) {
+  public function __construct(string $typeName, $value = NULL) {
     if(!in_array($typeName, $this->getSupportedTypes())) {
       throw new \RuntimeException(sprintf('%s created with invalid $typeName %s', static::class, $typeName));
     }
@@ -23,6 +23,10 @@ class ScalarType implements VariableInterface {
 
   public function getTypeName(): string {
     return $this->typeName;
+  }
+
+  public function hasValue(): bool {
+    return $this->value !== NULL;
   }
 
   public function getValue() {
