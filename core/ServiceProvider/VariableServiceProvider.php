@@ -18,7 +18,7 @@ class VariableServiceProvider implements ServiceProviderInterface {
       return [];
     };
     $pimple['variable.factories'] = function() {
-      return ['scalar' => new ScalarFactory()]
+      return ['scalar' => new ScalarFactory()];
     };
     $pimple['variables.global'] = function() {
       return new VariableSet([
