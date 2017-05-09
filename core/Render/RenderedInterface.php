@@ -10,4 +10,6 @@ interface RenderedInterface {
   public function getMarkup(): string;
   public function getStyles() : array;
   public function getScripts(): array;
+  public function addScripts(array $scripts);
+  public function addStyles(array $styles);
 }

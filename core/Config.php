@@ -25,13 +25,17 @@ class Config extends Container {
     $this->register(new RendererServiceProvider());
     $this->register(new VariableServiceProvider());
     $this->register(new TemplateServiceProvider());
+
+    $this['collection'] = function() {
+      return $this['discovery']->discover();
+    };
   }
 
   /**
    * @return PatternCollection
    */
   public function getCollection() {
-    return $this['discovery']->discover();
+    return $this['collection'];
   }
 
   /**

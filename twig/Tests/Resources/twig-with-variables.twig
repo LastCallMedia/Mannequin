@@ -1,5 +1,7 @@
 {% if _pattern %}{% block patterninfo %}
 name: Twig with variables
+tags:
+  type: molecule
 variables:
   template_type:
     type: string
@@ -9,5 +11,9 @@ variables:
     value: true
   global:
     type: boolean
+  {#templ:#}
+    {#type: pattern#}
+    {#value: twig-no-metadata.twig#}
 {% endblock %}{% endif %}
+{{ templ }}
 <h1>This is a {{ template_type }} template {{ local ? 'using local variables' : 'not using local variables' }}, {{ global ? 'using global variables' : 'not using global variables' }}.</h1>

@@ -51,6 +51,7 @@ class TwigParserTest extends TestCase {
       'local' => new ScalarType('boolean', TRUE),
       'global' => new ScalarType('boolean')
     ]));
+    $p3->addTag('type', 'molecule');
     return [
       [$p1],
       [$p2],

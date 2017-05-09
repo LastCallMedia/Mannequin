@@ -19,7 +19,7 @@ class TwigRenderer implements RendererInterface {
   private $styles = [];
   private $scripts = [];
 
-  public function __construct(\Twig_Environment $twig, VariableSet $globals, array $styles = [], array $scripts = []) {
+  public function __construct(\Twig_Environment $twig, VariableSet $globals = NULL, array $styles = [], array $scripts = []) {
     $this->twig = $twig;
     $this->globals = $globals;
     $this->styles = $styles;
@@ -31,23 +31,28 @@ class TwigRenderer implements RendererInterface {
   }
 
   public function render(PatternInterface $pattern): RenderedInterface {
-    $variables = $pattern->getVariables()->applyGlobals($this->globals);
     $rendered = new Rendered($pattern, $this->styles, $this->scripts);
-    $rendered->setMarkup($this->twig->render($pattern->getFilename(), $variables->manifest()));
+    $variables = $this->prepareVariables($pattern, $rendered);
+    $rendered->setMarkup($this->twig->render($pattern->getFilename(), $variables));
     return $rendered;
   }
 
-  private function getVariables($pattern) {
-    $variables = [];
+  private function prepareVariables(PatternInterface $pattern, RenderedInterface $rendered) {
+    $variables = $pattern->getVariables();
+    if($this->globals) {
+      $variables = $variables->applyGlobals($this->globals);
+    }
+    $manifested = $variables->manifest();
 
-    foreach($pattern->getVariables() as $key => $value) {
-      if($value instanceof VariableInterface) {
-        $variables[$key] = $value->getValue();
-      }
-      else {
-        $variables[$key] = $value;
+    foreach($manifested as &$var) {
+      if($var instanceof RenderedInterface) {
+        // @todo: Ideally, scripts and styles wouldn't be added until this is
+        // used in the template.
+        $rendered->addScripts($var->getScripts());
+        $rendered->addStyles($var->getStyles());
+        $var = new \Twig_Markup($var->getMarkup(), $this->twig->getCharset());
       }
     }
-    return $variables;
+    return $manifested;
   }
 }

@@ -55,4 +55,8 @@ class Rendered implements RenderedInterface {
   public function getScripts(): array {
     return $this->scripts;
   }
+
+  public function __toString() {
+    return $this->markup;
+  }
 }
