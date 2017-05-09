@@ -118,7 +118,7 @@ class PatternController {
     $groups = [
       $rootCollection->withTag('type', 'atom'),
       $rootCollection->withTag('type', 'molecule'),
-      $rootCollection->withTag('type', 'element')
+      $rootCollection->withTag('type', 'organism')
     ];
     $nav = [];
     foreach($groups as $group) {
