@@ -42,9 +42,11 @@ class TwigParserTest extends TestCase {
 
   public function getParseTests() {
     $p1 = new TwigPattern('twig-no-metadata.twig', 'Twig no metadata', 'twig-no-metadata.twig');
+    $p1->addTag('renderer', 'twig');
 
     $p2 = new TwigPattern('twig-with-metadata.twig', 'Twig with metadata', 'twig-with-metadata.twig');
-    $p2->addTag('type', 'molecule');
+    $p2->addTag('type', 'atom');
+    $p2->addTag('renderer', 'twig');
 
     $p3 = new TwigPattern('twig-with-variables.twig', 'Twig with variables', 'twig-with-variables.twig', new VariableSet([
       'template_type' => new ScalarType('string', 'twig'),
@@ -52,6 +54,7 @@ class TwigParserTest extends TestCase {
       'global' => new ScalarType('boolean')
     ]));
     $p3->addTag('type', 'molecule');
+    $p3->addTag('renderer', 'twig');
     return [
       [$p1],
       [$p2],
