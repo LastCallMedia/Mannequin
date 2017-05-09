@@ -10,7 +10,9 @@ variables:
       variables:
         template_type:
           value: nested
+          type: string
         local:
+          type: boolean
           value: false
 {% endblock %}{% endif %}
 I'm on the outside. {{ subpattern }}

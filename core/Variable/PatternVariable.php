@@ -8,8 +8,10 @@ class PatternVariable implements VariableInterface {
 
   private $render;
 
-  public function __construct(callable $renderFn) {
+  public function __construct(callable $renderFn, $id, VariableSet $overrides) {
     $this->render = $renderFn;
+    $this->id = $id;
+    $this->overrides = $overrides;
   }
 
   public function getTypeName(): string {
@@ -18,7 +20,7 @@ class PatternVariable implements VariableInterface {
 
   public function getValue() {
     $renderer = $this->render;
-    return $renderer();
+    return $renderer($this->id, $this->overrides);
   }
 
   public function hasValue(): bool {

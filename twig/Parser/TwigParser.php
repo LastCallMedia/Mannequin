@@ -89,6 +89,9 @@ class TwigParser implements TemplateFileParserInterface {
         throw new InvalidVariableException(sprintf('%s must be an array specifying the type', $key));
       }
       $info+= ['value' => NULL];
+      if($info['type'] === 'pattern' && is_array($info['value'])) {
+        $info['value']['variables'] = $this->createVariableSet($info['value']['variables']);
+      }
       $setVars[$key] = $this->variableFactory->create($info['type'], $info['value']);
     }
     return new VariableSet($setVars);

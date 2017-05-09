@@ -19,9 +19,14 @@ class PatternFactory implements VariableFactoryInterface {
   }
 
   public function create($type, $value = NULL): VariableInterface {
-    $render = $this->renderFn;
-    return new PatternVariable(function() use ($render, $value) {
-      return $render($value);
-    });
+    if(is_string($value)) {
+      $id = $value;
+      $overrides = new VariableSet();
+    }
+    elseif(is_array($value)) {
+      $id = $value['id'];
+      $overrides = $value['variables'];
+    }
+    return new PatternVariable($this->renderFn, $id, $overrides);
   }
 }
