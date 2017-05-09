@@ -89,6 +89,7 @@ class PatternController {
     $output = $this->templating->render('pattern', [
       'page_title' => 'Pattern: ' . $pattern->getName(),
       'navigation' => $this->buildNavigation($this->collection),
+      'tags' => $this->buildTags($pattern),
       'rendered_url' => $this->generator->generate('pattern_render', ['pattern' => $pattern->getId()]),
     ]);
     return new Response($output);
@@ -99,6 +100,7 @@ class PatternController {
       'page_title' => 'Pattern: ' . $pattern->getName(),
       'breadcrumb' => $this->buildBreadcrumb($collection, $pattern),
       'navigation' => $this->buildNavigation($this->collection),
+      'tags' => $this->buildTags($pattern),
       'rendered_url' => $this->generator->generate('pattern_render', ['pattern' => $pattern->getId()]),
     ]);
     return new Response($output);
@@ -151,11 +153,25 @@ class PatternController {
     foreach($patterns as $pattern) {
       $render[] = $this->templating->render('pattern-teaser', [
         'id' => 'pattern-' . $pattern->getId(),
+        'tags' => $this->buildTags($pattern),
         'title' => $this->labeler->getPatternLabel($pattern),
         'rendered_url' => $this->generator->generate('pattern_render', ['pattern' => $pattern->getId()])
       ]);
     }
     return $render;
+  }
+
+  private function buildTags(PatternInterface $pattern) {
+    $tags = [];
+    foreach($pattern->getTags() as $type => $value) {
+      $tags[] = [
+        'type' => $type,
+        'value' => $value,
+        'url' => $this->generator->generate('collection_index', ['collection' => sprintf('tag:%s:%s', $type, $value)]),
+        'title' => $this->labeler->getTagLabel($type, $value),
+      ];
+    }
+    return $tags;
   }
 
   private function buildCollectionNav(array $patterns) {

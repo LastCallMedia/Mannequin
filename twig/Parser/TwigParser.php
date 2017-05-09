@@ -62,6 +62,7 @@ class TwigParser implements TemplateFileParserInterface {
     foreach($tags as $name => $value) {
       $pattern->addTag($name, $value);
     }
+    $pattern->addTag('renderer', 'twig');
     return $pattern;
   }
 

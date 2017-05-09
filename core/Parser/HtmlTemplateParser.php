@@ -17,6 +17,8 @@ class HtmlTemplateParser implements TemplateFileParserInterface {
   public function parse(SplFileInfo $fileInfo): PatternInterface {
     $filename = $fileInfo->getBasename('.'.$fileInfo->getExtension());
 
-    return new HtmlPattern($filename, ucfirst($filename), $fileInfo->getPathname());
+    $pattern = new HtmlPattern($filename, ucfirst($filename), $fileInfo->getPathname());
+    $pattern->addTag('renderer', 'HTML');
+    return $pattern;
   }
 }

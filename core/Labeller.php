@@ -9,10 +9,15 @@ use LastCall\Patterns\Core\Pattern\PatternInterface;
 
 class Labeller {
 
+  private $collectionLabels = [
+    PatternCollection::ROOT_COLLECTION => 'All Patterns',
+  ];
+  private $tagLabels = [];
+
   public function getCollectionLabel(PatternCollection $collection) {
     $id = $collection->getId();
-    if($id === PatternCollection::ROOT_COLLECTION) {
-      return 'All Patterns';
+    if(isset($this->collectionLabels[$id])) {
+      return $this->collectionLabels[$id];
     }
     elseif(preg_match('/tag:(.*):(.*)/', $id, $matches)) {
       return $this->pluralize($this->getTagLabel($matches[1], $matches[2]));
@@ -24,7 +29,10 @@ class Labeller {
     return $pattern->getName();
   }
 
-  private function getTagLabel($type, $value) {
+  public function getTagLabel($type, $value) {
+    if(isset($this->tagLabels[$type]) && isset($this->tagLabels[$type][$value])) {
+      return $this->tagLabels[$type][$value];
+    }
     return ucfirst($value);
   }
 
