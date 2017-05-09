@@ -30,17 +30,20 @@ class TwigRenderer implements RendererInterface {
     return $pattern instanceof TwigPattern;
   }
 
-  public function render(PatternInterface $pattern): RenderedInterface {
+  public function render(PatternInterface $pattern, VariableSet $overrides = NULL): RenderedInterface {
     $rendered = new Rendered($pattern, $this->styles, $this->scripts);
-    $variables = $this->prepareVariables($pattern, $rendered);
+    $variables = $this->prepareVariables($pattern, $overrides, $rendered);
     $rendered->setMarkup($this->twig->render($pattern->getFilename(), $variables));
     return $rendered;
   }
 
-  private function prepareVariables(PatternInterface $pattern, RenderedInterface $rendered) {
+  private function prepareVariables(PatternInterface $pattern, VariableSet $overrides = NULL, RenderedInterface $rendered) {
     $variables = $pattern->getVariables();
     if($this->globals) {
       $variables = $variables->applyGlobals($this->globals);
+    }
+    if($overrides) {
+      $variables = $variables->applyOverrides($overrides);
     }
     $manifested = $variables->manifest();
 

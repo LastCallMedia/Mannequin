@@ -1,0 +1,16 @@
+{% if _pattern %}{% block patterninfo %}
+name: Twig with nested variables
+tags:
+  type: organism
+variables:
+  subpattern:
+    type: pattern
+    value:
+      id: twig-with-variables.twig
+      variables:
+        template_type:
+          value: nested
+        local:
+          value: false
+{% endblock %}{% endif %}
+I'm on the outside. {{ subpattern }}

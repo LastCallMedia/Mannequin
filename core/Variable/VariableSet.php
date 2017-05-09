@@ -40,6 +40,22 @@ class VariableSet {
     return new VariableSet($applied);
   }
 
+  public function applyOverrides(VariableSet $overrides) {
+    $applied = [];
+    foreach($this->data as $key => $value) {
+      if(isset($overrides->data[$key]) && $overrides->data[$key]->hasValue()) {
+        if($value->getTypeName() !== $overrides->data[$key]->getTypeName()) {
+          throw new InvalidVariableException(sprintf('Cannot merge sets - Expected %s to be an %s, got an %s', $key, $value->getTypeName(), $overrides->data[$key]->getTypeName()));
+        }
+        $applied[$key] = $overrides->data[$key];
+      }
+      else {
+        $applied[$key] = $value;
+      }
+    }
+    return new VariableSet($applied);
+  }
+
   public function manifest() {
     $return = [];
     foreach($this->data as $key => $value) {

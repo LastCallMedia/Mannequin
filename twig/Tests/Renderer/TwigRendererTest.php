@@ -61,6 +61,23 @@ class TwigRendererTest extends TestCase {
     $renderer->render($pattern);
   }
 
+  public function testMergesOverridesAndManifests() {
+    $locals = $this->prophesize(VariableSet::class);
+    $overrides = $this->prophesize(VariableSet::class);
+    $merged = $this->prophesize(VariableSet::class);
+    $merged->manifest()
+      ->shouldBeCalled()
+      ->willReturn(['foo' => 'bar']);
+    $locals->applyOverrides($overrides)
+      ->shouldBeCalled()
+      ->willReturn($merged);
+    $twig = $this->getTwig();
+    $twig->render('foo', ['foo' => 'bar'])->willReturn('rendered');
+    $pattern = new TwigPattern('foo', 'Foo', 'foo', $locals->reveal());
+    $renderer = new TwigRenderer($twig->reveal());
+    $renderer->render($pattern, $overrides->reveal());
+  }
+
   public function testRendersSubPattern() {
     $rendered = $this->prophesize(RenderedInterface::class);
     $rendered->getScripts()
