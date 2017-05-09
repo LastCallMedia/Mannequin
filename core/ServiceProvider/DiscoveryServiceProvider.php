@@ -15,7 +15,11 @@ class DiscoveryServiceProvider implements ServiceProviderInterface {
       return [];
     };
     $pimple['discovery'] = function() use ($pimple) {
-      return new ChainDiscovery($pimple['discoverers']);
+      $discoverers = [];
+      foreach($pimple['extensions'] as $extension) {
+        $discoverers = array_merge($discoverers, $extension->getDiscoverers());
+      }
+      return new ChainDiscovery($discoverers);
     };
     // TODO: Implement register() method.
   }
