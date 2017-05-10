@@ -1,7 +1,24 @@
 #!/usr/bin/env php
 <?php
 
-require_once __DIR__.'/../../vendor/autoload.php';
+$autoload_file = FALSE;
+foreach (array(__DIR__ . '/../../../../autoload.php', __DIR__ . '/../../../vendor/autoload.php', __DIR__ . '/../../vendor/autoload.php') as $file) {
+  if (file_exists($file)) {
+    $autoload_file = $file;
+  }
+}
+if($autoload_file) {
+  require_once $autoload_file;
+}
+else {
+  fwrite(STDERR,
+    'You need to set up the project dependencies using Composer:' . PHP_EOL . PHP_EOL .
+    '    composer install' . PHP_EOL . PHP_EOL .
+    'You can learn all about Composer on https://getcomposer.org/.' . PHP_EOL
+  );
+
+  die(1);
+}
 
 $app = new \Symfony\Component\Console\Application();
 $app->getHelperSet()->set(new \LastCall\Patterns\Cli\Helper\ConfigHelper());
