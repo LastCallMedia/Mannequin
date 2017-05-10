@@ -8,11 +8,28 @@ use LastCall\Patterns\Cli\Templating\Helper\UrlHelper;
 use Symfony\Component\Templating\Helper\SlotsHelper;
 use Silex\Application;
 
-$app = new Application(['debug' => TRUE]);
-$app->register(new \Silex\Provider\ServiceControllerServiceProvider());
-$app->register(new \LastCall\Patterns\Cli\ServiceProvider\TemplatingServiceProvider());
+$autoload_file = FALSE;
+foreach (array(__DIR__ . '/../../../autoload.php', __DIR__ . '/../../vendor/autoload.php', __DIR__ . '/../vendor/autoload.php') as $file) {
+  if (file_exists($file)) {
+    $autoload_file = $file;
+  }
+}
+if($autoload_file) {
+  $autoloader = require $autoload_file;
+}
+else {
+  throw new \Exception('Application is not installed.');
+}
 
-$app['templating.directories'] = [__DIR__.'/Resources/views/%name%'];
+$app = new Application([
+  'debug' => TRUE,
+  'autoloader' => $autoloader,
+]);
+$app->register(new \Silex\Provider\ServiceControllerServiceProvider());
+$app->register(new \LastCall\Patterns\Cli\ServiceProvider\TemplatingServiceProvider([]), [
+  'templating.directories' => [__DIR__.'/Resources/views/%name%']
+]);
+
 $app['config.filename'] = function() {
   return ($filename = getenv('PATTERN_CONFIG')) ? $filename : '.patterns.php';
 };
