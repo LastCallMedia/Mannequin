@@ -23,7 +23,8 @@
       "psr-4": {
         "LastCall\\Patterns\\Core\\": "core/",
         "LastCall\\Patterns\\Cli\\": "cli/",
-        "LastCall\\Patterns\\Twig\\": "twig/"
+        "LastCall\\Patterns\\Twig\\": "twig/",
+        "LastCall\\Patterns\\Drupal\\": "drupal/"
       },
       "exclude-from-classmap": [
         "**/Tests/"
