@@ -51,11 +51,17 @@ class TwigExtension extends AbstractExtension {
     }
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function getParsers(): array {
     $config = $this->getConfig();
     return [new TwigParser($this['twig'], $config->getVariableFactory())];
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function getRenderers(): array {
     $config = $this->getConfig();
     return [new TwigRenderer($this['twig'], $config->getVariables(), $config->getStyles(), $config->getScripts())];
