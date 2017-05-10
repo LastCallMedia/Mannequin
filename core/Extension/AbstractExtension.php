@@ -4,8 +4,9 @@
 namespace LastCall\Patterns\Core\Extension;
 
 use LastCall\Patterns\Core\ConfigInterface;
+use Pimple\Container;
 
-class AbstractExtension implements ExtensionInterface {
+class AbstractExtension extends Container implements ExtensionInterface {
 
   protected $config;
 

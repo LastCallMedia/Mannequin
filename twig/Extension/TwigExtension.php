@@ -8,37 +8,56 @@ use LastCall\Patterns\Core\Extension\AbstractExtension;
 use LastCall\Patterns\Twig\Parser\TwigParser;
 use LastCall\Patterns\Twig\Render\TwigRenderer;
 
+/**
+ * @method addExtension(\Twig_ExtensionInterface $extension)
+ * @method addFilter(\Twig_Filter $filter)
+ * @method addFunction(\Twig_Function $function)
+ * @method addTest(\Twig_Test $test)
+ */
 class TwigExtension extends AbstractExtension {
 
-  private $paths = [];
+  protected static $proxiedMethods = [
+    'addExtension',
+    'addFilter',
+    'addFunction',
+    'addTest',
+  ];
 
-  private $twig;
 
   public function __construct(array $config = []) {
-    if(isset($config['loader_paths'])) {
-      $this->paths = $config['loader_paths'];
-    }
-  }
-
-  private function getTwig() {
-    if(!$this->twig) {
-      $config = $this->getConfig();
-      $loader = new \Twig_Loader_Filesystem($this->paths);
-      $this->twig = new \Twig_Environment($loader, [
-        'cache' => $config->getCacheDir().DIRECTORY_SEPARATOR.'twig',
+    $config += [
+      'paths' => [],
+    ];
+    parent::__construct($config);
+    $this['loader'] = function() {
+      return new \Twig_Loader_Filesystem($this['paths']);
+    };
+    $this['twig'] = function() {
+      $cache_dir = $this->getConfig()->getCacheDir().DIRECTORY_SEPARATOR.'twig';
+      return new \Twig_Environment($this['loader'], [
+        'cache' => $cache_dir,
         'auto_reload' => TRUE,
       ]);
+    };
+  }
+
+  public function __call($name, $arguments) {
+    if(in_array($name, static::$proxiedMethods)) {
+      $this->extend('twig', function(\Twig_Environment $twig) use ($name, $arguments) {
+        $twig->{$name}(...$arguments);
+        return $twig;
+      });
+      return TRUE;
     }
-    return $this->twig;
   }
 
   public function getParsers(): array {
     $config = $this->getConfig();
-    return [new TwigParser($this->getTwig(), $config->getVariableFactory())];
+    return [new TwigParser($this['twig'], $config->getVariableFactory())];
   }
 
   public function getRenderers(): array {
     $config = $this->getConfig();
-    return [new TwigRenderer($this->getTwig(), $config->getVariables(), $config->getStyles(), $config->getScripts())];
+    return [new TwigRenderer($this['twig'], $config->getVariables(), $config->getStyles(), $config->getScripts())];
   }
 }
