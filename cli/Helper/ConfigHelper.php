@@ -4,7 +4,7 @@
 namespace LastCall\Patterns\Cli\Helper;
 
 
-use LastCall\Patterns\Core\Config;
+use LastCall\Patterns\Core\ConfigInterface;
 use Symfony\Component\Console\Helper\HelperInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 
@@ -27,7 +27,7 @@ class ConfigHelper implements HelperInterface {
   public function getConfig($file) {
     if(is_file($file)) {
       $config = include $file;
-      if($config && $config instanceof Config) {
+      if($config && $config instanceof ConfigInterface) {
         return $config;
       }
       throw new \RuntimeException('Config was not returned or not an instance of Config.');

@@ -20,6 +20,7 @@ class ServerCommand extends Command {
   public function execute(InputInterface $input, OutputInterface $output) {
     $io = new SymfonyStyle($input, $output);
 
+    putenv('PATTERN_CONFIG='. getcwd().'/.patterns.php');
     $address = $input->getArgument('address');
     $serverConfig = new WebServerConfig($this->getDocroot(), 'prod', $address);
     $server = new WebServer();
