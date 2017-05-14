@@ -29,7 +29,7 @@ class TwigFileDiscovery implements DiscoveryInterface {
 
   public function discover(): PatternCollection {
     $patterns = [];
-    foreach($this->finder as $fileInfo) {
+    foreach($this->finder->files() as $fileInfo) {
       if($pattern = $this->parseFile($fileInfo)) {
         $patterns[] = $pattern;
       }

@@ -17,7 +17,7 @@ class HtmlDiscovery implements DiscoveryInterface {
 
   public function discover(): PatternCollection {
     $patterns = [];
-    foreach($this->finder as $fileInfo) {
+    foreach($this->finder->files() as $fileInfo) {
       $patterns[] = $this->parsePattern($fileInfo);
     }
     return new PatternCollection($patterns);

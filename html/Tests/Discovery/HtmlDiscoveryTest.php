@@ -13,13 +13,15 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class HtmlDiscoveryTest extends TestCase {
 
+  const FIXTURES_DIR = __DIR__.'/../Resources';
+
   private function getFixturesDir($subdir = NULL) {
     return $subdir ? __DIR__.'/../Resources/' . $subdir : __DIR__.'/../Resources';
   }
 
   public function testReturnsCollectionOnEmpty() {
     $finder = new Finder();
-    $finder->in([$this->getFixturesDir('null')]);
+    $finder->in([self::FIXTURES_DIR.'/null']);
     $discovery = new HtmlDiscovery($finder);
     $collection = $discovery->discover();
     $this->assertInstanceOf(PatternCollection::class, $collection);
@@ -28,11 +30,11 @@ class HtmlDiscoveryTest extends TestCase {
 
   public function testDiscoversPatternsInDir() {
     $finder = new Finder();
-    $finder->in($this->getFixturesDir());
+    $finder->in(self::FIXTURES_DIR);
     $discovery = new HtmlDiscovery($finder);
     $collection = $discovery->discover();
     $this->assertInstanceOf(PatternCollection::class, $collection);
-    $this->assertGreaterThan(0, $collection->count());
+    $this->assertCount(1, $collection);
   }
 
   public function testSetsPropertiesOnDiscoveredPatterns() {
