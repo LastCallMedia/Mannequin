@@ -23,6 +23,7 @@
       "psr-4": {
         "LastCall\\Patterns\\Core\\": "core/",
         "LastCall\\Patterns\\Cli\\": "cli/",
+        "LastCall\\Patterns\\Html\\": "html/",
         "LastCall\\Patterns\\Twig\\": "twig/",
         "LastCall\\Patterns\\Drupal\\": "drupal/"
       },

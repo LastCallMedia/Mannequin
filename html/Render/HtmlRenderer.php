@@ -1,11 +1,14 @@
 <?php
 
 
-namespace LastCall\Patterns\Core\Render;
+namespace LastCall\Patterns\Html\Render;
 
 
-use LastCall\Patterns\Core\Pattern\HtmlPattern;
+use LastCall\Patterns\Html\Pattern\HtmlPattern;
 use LastCall\Patterns\Core\Pattern\PatternInterface;
+use LastCall\Patterns\Core\Render\RenderedInterface;
+use LastCall\Patterns\Core\Render\RendererInterface;
+use LastCall\Patterns\Core\Render\Rendered;
 use LastCall\Patterns\Core\Variable\VariableSet;
 
 class HtmlRenderer implements RendererInterface {
@@ -21,7 +24,7 @@ class HtmlRenderer implements RendererInterface {
 
   public function render(PatternInterface $pattern, VariableSet $overrides = NULL): RenderedInterface {
     $rendered = new Rendered($pattern, $this->styles, $this->scripts);
-    $rendered->setMarkup(file_get_contents($pattern->getFilename()));
+    $rendered->setMarkup(file_get_contents($pattern->getFileInfo()->getPathname()));
     return $rendered;
   }
 

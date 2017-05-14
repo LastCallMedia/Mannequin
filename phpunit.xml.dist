@@ -5,6 +5,7 @@
         <testsuite name="Patterns Test Suite">
             <directory>./cli/Tests</directory>
             <directory>./core/Tests</directory>
+            <directory>./html/Tests</directory>
             <directory>./twig/Tests</directory>
         </testsuite>
     </testsuites>
@@ -13,10 +14,12 @@
         <whitelist>
             <directory>./cli/</directory>
             <directory>./core/</directory>
+            <directory>./html/</directory>
             <directory>./twig/</directory>
             <exclude>
                 <directory>./cli/Tests</directory>
                 <directory>./core/Tests</directory>
+                <directory>./html/Tests</directory>
                 <directory>./twig/Tests</directory>
             </exclude>
         </whitelist>
