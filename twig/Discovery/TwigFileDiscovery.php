@@ -1,43 +1,52 @@
 <?php
 
 
-namespace LastCall\Patterns\Twig\Parser;
+namespace LastCall\Patterns\Twig\Discovery;
 
 
-use LastCall\Patterns\Core\Exception\InvalidVariableException;
+use LastCall\Patterns\Core\Discovery\DiscoveryInterface;
 use LastCall\Patterns\Core\Exception\TemplateParsingException;
-use LastCall\Patterns\Core\Parser\TemplateFileParserInterface;
-use LastCall\Patterns\Core\Pattern\PatternInterface;
-use LastCall\Patterns\Core\Variable\VariableFactory;
+use LastCall\Patterns\Core\Pattern\PatternCollection;
+use LastCall\Patterns\Core\Variable\VariableFactoryInterface;
 use LastCall\Patterns\Core\Variable\VariableSet;
-use LastCall\Patterns\Twig\Pattern\TwigPattern;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Yaml\Yaml;
+use LastCall\Patterns\Core\Exception\InvalidVariableException;
+use LastCall\Patterns\Twig\Pattern\TwigPattern;
 
-class TwigParser implements TemplateFileParserInterface {
+class TwigFileDiscovery implements DiscoveryInterface {
 
   private $twig;
-
+  private $finder;
   private $variableFactory;
 
-  public function __construct(\Twig_Environment $twig, VariableFactory $factory) {
+  public function __construct(\Twig_Environment $twig, Finder $finder, VariableFactoryInterface $variableFactory) {
     $this->twig = $twig;
-    $this->variableFactory = $factory;
+    $this->finder = $finder;
+    $this->variableFactory = $variableFactory;
   }
 
-  public function supports(SplFileInfo $fileInfo): bool {
-    return $fileInfo->getExtension() === 'twig' && $this->twig->getLoader()->exists($fileInfo->getRelativePathname());
+  public function discover(): PatternCollection {
+    $patterns = [];
+    foreach($this->finder as $fileInfo) {
+      if($pattern = $this->parseFile($fileInfo)) {
+        $patterns[] = $pattern;
+      }
+    }
+    return new PatternCollection($patterns);
   }
 
-  public function parse(SplFileInfo $fileInfo): PatternInterface {
-    try {
-      $template = $this->twig->load($fileInfo->getRelativePathname());
-      return $this->createPatternFromTemplate($template);
+  public function parseFile(SplFileInfo $fileInfo) {
+    if($this->twig->getLoader()->exists($fileInfo->getRelativePathname())) {
+      try {
+        $template = $this->twig->load($fileInfo->getRelativePathname());
+        return $this->createPatternFromTemplate($template);
+      }
+      catch(\Throwable $err) {
+        throw new TemplateParsingException(sprintf('Unable to parse template: %s', $err->getMessage()), $err->getCode(), $err);
+      }
     }
-    catch(\Throwable $err) {
-      throw new TemplateParsingException(sprintf('Unable to parse template: %s', $err->getMessage()), $err->getCode(), $err);
-    }
-
   }
 
   private function createPatternFromTemplate(\Twig_TemplateWrapper $template) {

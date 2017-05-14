@@ -5,8 +5,10 @@ namespace LastCall\Patterns\Twig\Extension;
 
 
 use LastCall\Patterns\Core\Extension\AbstractExtension;
+use LastCall\Patterns\Twig\Discovery\TwigFileDiscovery;
 use LastCall\Patterns\Twig\Parser\TwigParser;
 use LastCall\Patterns\Twig\Render\TwigRenderer;
+use Symfony\Component\Finder\Finder;
 
 /**
  * @method addExtension(\Twig_ExtensionInterface $extension)
@@ -29,6 +31,9 @@ class TwigExtension extends AbstractExtension {
       'paths' => [],
     ];
     parent::__construct($config);
+    $this['finder'] = function() {
+      return new Finder();
+    };
     $this['loader'] = function() {
       return new \Twig_Loader_Filesystem($this['paths']);
     };
@@ -39,6 +44,18 @@ class TwigExtension extends AbstractExtension {
         'auto_reload' => TRUE,
       ]);
     };
+    $this['discovery'] = function() {
+      $config = $this->getConfig();
+      return new TwigFileDiscovery($this['twig'], $this['finder'], $config->getVariableFactory());
+    };
+  }
+
+  public function in($dirs) {
+    return $this->extend('finder', function(Finder $finder) use ($dirs) {
+      $finder->in($dirs);
+      return $finder;
+    });
+    return $this;
   }
 
   public function __call($name, $arguments) {
@@ -51,12 +68,8 @@ class TwigExtension extends AbstractExtension {
     }
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getParsers(): array {
-    $config = $this->getConfig();
-    return [new TwigParser($this['twig'], $config->getVariableFactory())];
+  public function getDiscoverers(): array {
+    return [ $this['discovery'] ];
   }
 
   /**
