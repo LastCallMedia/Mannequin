@@ -20,13 +20,6 @@ interface ExtensionInterface {
   public function setConfig(ConfigInterface $container);
 
   /**
-   * Get the template parsers provided by this extension.
-   *
-   * @return \LastCall\Patterns\Core\Parser\TemplateFileParserInterface[]
-   */
-  public function getParsers(): array;
-
-  /**
    * Get the pattern discoverers provided by this extension.
    *
    * @return \LastCall\Patterns\Core\Discovery\DiscoveryInterface[]

@@ -32,13 +32,6 @@ class AbstractExtension extends Container implements ExtensionInterface {
   /**
    * {@inheritdoc}
    */
-  public function getParsers(): array {
-    return [];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getRenderers(): array {
     return [];
   }
