@@ -87,7 +87,7 @@ class PatternController {
    */
   public function patternAction(PatternInterface $pattern) {
     $output = $this->templating->render('pattern', [
-      'page_title' => 'Pattern: ' . $pattern->getName(),
+      'page_title' => 'Pattern: foo' . $pattern->getName(),
       'navigation' => $this->buildNavigation($this->collection),
       'tags' => $this->buildTags($pattern),
       'rendered_url' => $this->generator->generate('pattern_render', ['pattern' => $pattern->getId()]),
@@ -97,7 +97,7 @@ class PatternController {
 
   public function collectionPatternAction(PatternCollection $collection, PatternInterface $pattern) {
     $output = $this->templating->render('pattern', [
-      'page_title' => 'Pattern: ' . $pattern->getName(),
+      'page_title' => 'Pattern: ' . $this->labeler->getPatternLabel($pattern),
       'breadcrumb' => $this->buildBreadcrumb($collection, $pattern),
       'navigation' => $this->buildNavigation($this->collection),
       'tags' => $this->buildTags($pattern),
@@ -110,6 +110,7 @@ class PatternController {
     $rendered = $this->renderer->render($pattern);
     $output = $this->templating->render('pattern-render', [
       'rendered' => $rendered,
+      'title' => $this->labeler->getPatternLabel($rendered->getPattern())
     ]);
     return new Response($output);
   }

@@ -74,6 +74,7 @@ $app
 $app
   ->get('/render/{pattern}', 'patterns.controller:renderAction')
   ->bind('pattern_render')
+  ->assert('pattern', '.+')
   ->convert('pattern', 'patterns.controller:convertPattern');
 
 $app->run();
