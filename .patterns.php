@@ -1,8 +1,8 @@
 <?php
 
-use LastCall\Patterns\Core\Config;
-use LastCall\Patterns\Html\Extension\HtmlExtension;
-use LastCall\Patterns\Twig\Extension\TwigExtension;
+use LastCall\Mannequin\Core\Config;
+use LastCall\Mannequin\Html\Extension\HtmlExtension;
+use LastCall\Mannequin\Twig\Extension\TwigExtension;
 
 $twig = new TwigExtension([
   'paths' => [__DIR__.'/twig/Tests/Resources']

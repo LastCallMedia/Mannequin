@@ -1,16 +1,16 @@
 <?php
 
 
-namespace LastCall\Patterns\Twig\Render;
+namespace LastCall\Mannequin\Twig\Render;
 
 
-use LastCall\Patterns\Core\Pattern\PatternInterface;
-use LastCall\Patterns\Core\Render\Rendered;
-use LastCall\Patterns\Core\Render\RenderedInterface;
-use LastCall\Patterns\Core\Render\RendererInterface;
-use LastCall\Patterns\Core\Variable\VariableInterface;
-use LastCall\Patterns\Core\Variable\VariableSet;
-use LastCall\Patterns\Twig\Pattern\TwigPattern;
+use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Render\Rendered;
+use LastCall\Mannequin\Core\Render\RenderedInterface;
+use LastCall\Mannequin\Core\Render\RendererInterface;
+use LastCall\Mannequin\Core\Variable\VariableInterface;
+use LastCall\Mannequin\Core\Variable\VariableSet;
+use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 
 class TwigRenderer implements RendererInterface {
 

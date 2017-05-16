@@ -1,7 +1,7 @@
 <?php
 
 
-namespace LastCall\Patterns\Core\Exception;
+namespace LastCall\Mannequin\Core\Exception;
 
 
 class TemplateParsingException extends \RuntimeException {

@@ -1,10 +1,10 @@
 <?php
 
 
-namespace LastCall\Patterns\Cli\Helper;
+namespace LastCall\Mannequin\Cli\Helper;
 
 
-use LastCall\Patterns\Core\ConfigInterface;
+use LastCall\Mannequin\Core\ConfigInterface;
 use Symfony\Component\Console\Helper\HelperInterface;
 use Symfony\Component\Console\Helper\HelperSet;
 

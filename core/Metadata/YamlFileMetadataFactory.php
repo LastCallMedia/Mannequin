@@ -1,14 +1,14 @@
 <?php
 
 
-namespace LastCall\Patterns\Core\Metadata;
+namespace LastCall\Mannequin\Core\Metadata;
 
 
-use LastCall\Patterns\Core\Exception\TemplateParsingException;
-use LastCall\Patterns\Core\Pattern\PatternInterface;
-use LastCall\Patterns\Core\Pattern\TemplateFilePatternInterface;
-use LastCall\Patterns\Core\Variable\VariableFactoryInterface;
-use LastCall\Patterns\Core\Variable\VariableSet;
+use LastCall\Mannequin\Core\Exception\TemplateParsingException;
+use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Pattern\TemplateFilePatternInterface;
+use LastCall\Mannequin\Core\Variable\VariableFactoryInterface;
+use LastCall\Mannequin\Core\Variable\VariableSet;
 use Symfony\Component\Yaml\Yaml;
 
 class YamlFileMetadataFactory implements MetadataFactoryInterface {

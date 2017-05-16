@@ -1,12 +1,12 @@
 <?php
 
 
-namespace LastCall\Patterns\Core\Render;
+namespace LastCall\Mannequin\Core\Render;
 
 
-use LastCall\Patterns\Core\Exception\UnsupportedPatternException;
-use LastCall\Patterns\Core\Pattern\PatternInterface;
-use LastCall\Patterns\Core\Variable\VariableSet;
+use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
+use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Variable\VariableSet;
 
 class DelegatingRenderer implements RendererInterface {
 

@@ -1,13 +1,13 @@
 <?php
 
 
-namespace LastCall\Patterns\Html\Extension;
+namespace LastCall\Mannequin\Html\Extension;
 
 
-use LastCall\Patterns\Core\Extension\AbstractExtension;
-use LastCall\Patterns\Core\Metadata\YamlFileMetadataFactory;
-use LastCall\Patterns\Html\Discovery\HtmlDiscovery;
-use LastCall\Patterns\Html\Render\HtmlRenderer;
+use LastCall\Mannequin\Core\Extension\AbstractExtension;
+use LastCall\Mannequin\Core\Metadata\YamlFileMetadataFactory;
+use LastCall\Mannequin\Html\Discovery\HtmlDiscovery;
+use LastCall\Mannequin\Html\Render\HtmlRenderer;
 use Symfony\Component\Finder\Finder;
 
 class HtmlExtension extends AbstractExtension {

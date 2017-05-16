@@ -1,11 +1,11 @@
 <?php
 
 
-namespace LastCall\Patterns\Drupal\Extension;
+namespace LastCall\Mannequin\Drupal\Extension;
 
 
-use LastCall\Patterns\Drupal\Twig\DrupalTwigExtension;
-use LastCall\Patterns\Twig\Extension\TwigExtension;
+use LastCall\Mannequin\Drupal\Twig\DrupalTwigExtension;
+use LastCall\Mannequin\Twig\Extension\TwigExtension;
 
 class DrupalExtension extends TwigExtension {
 

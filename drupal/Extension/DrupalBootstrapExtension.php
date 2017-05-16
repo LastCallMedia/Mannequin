@@ -1,10 +1,10 @@
 <?php
 
 
-namespace LastCall\Patterns\Drupal\Extension;
+namespace LastCall\Mannequin\Drupal\Extension;
 
 
-use LastCall\Patterns\Twig\Extension\TwigExtension;
+use LastCall\Mannequin\Twig\Extension\TwigExtension;
 use Drupal\Core\DrupalKernel;
 use Drupal\Core\Site\Settings;
 use Symfony\Component\HttpFoundation\Request;

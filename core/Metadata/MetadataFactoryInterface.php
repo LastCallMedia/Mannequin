@@ -1,9 +1,9 @@
 <?php
 
 
-namespace LastCall\Patterns\Core\Metadata;
+namespace LastCall\Mannequin\Core\Metadata;
 
-use LastCall\Patterns\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Pattern\PatternInterface;
 
 interface MetadataFactoryInterface {
 

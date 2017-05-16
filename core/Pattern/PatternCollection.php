@@ -1,7 +1,7 @@
 <?php
 
 
-namespace LastCall\Patterns\Core\Pattern;
+namespace LastCall\Mannequin\Core\Pattern;
 
 
 class PatternCollection implements \Iterator, \Countable {
@@ -11,7 +11,7 @@ class PatternCollection implements \Iterator, \Countable {
   private $id = self::ROOT_COLLECTION;
 
   /**
-   * @var \LastCall\Patterns\Core\Pattern\PatternInterface[]
+   * @var \LastCall\Mannequin\Core\Pattern\PatternInterface[]
    */
   private $patterns = [];
 
@@ -79,7 +79,7 @@ class PatternCollection implements \Iterator, \Countable {
   }
 
   /**
-   * @return \LastCall\Patterns\Core\Pattern\PatternCollection|null
+   * @return \LastCall\Mannequin\Core\Pattern\PatternCollection|null
    */
   public function getParent() {
     return $this->parent;

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace LastCall\Patterns\Cli\Templating\Helper;
+namespace LastCall\Mannequin\Cli\Templating\Helper;
 
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;

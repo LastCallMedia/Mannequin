@@ -1,10 +1,10 @@
 <?php
 
 
-namespace LastCall\Patterns\Core\Pattern;
+namespace LastCall\Mannequin\Core\Pattern;
 
 
-use LastCall\Patterns\Core\Variable\VariableSet;
+use LastCall\Mannequin\Core\Variable\VariableSet;
 
 abstract class AbstractPattern implements PatternInterface {
 

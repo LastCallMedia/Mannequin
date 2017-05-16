@@ -1,13 +1,13 @@
 <?php
 
 
-namespace LastCall\Patterns\Html\Discovery;
+namespace LastCall\Mannequin\Html\Discovery;
 
 
-use LastCall\Patterns\Core\Discovery\DiscoveryInterface;
-use LastCall\Patterns\Core\Metadata\MetadataFactoryInterface;
-use LastCall\Patterns\Core\Pattern\PatternCollection;
-use LastCall\Patterns\Html\Pattern\HtmlPattern;
+use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
+use LastCall\Mannequin\Core\Metadata\MetadataFactoryInterface;
+use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Html\Pattern\HtmlPattern;
 use Symfony\Component\Finder\Finder;
 
 class HtmlDiscovery implements DiscoveryInterface {

@@ -1,11 +1,11 @@
 <?php
 
 
-namespace LastCall\Patterns\Html\Tests\Render;
+namespace LastCall\Mannequin\Html\Tests\Render;
 
 
-use LastCall\Patterns\Html\Pattern\HtmlPattern;
-use LastCall\Patterns\Html\Render\HtmlRenderer;
+use LastCall\Mannequin\Html\Pattern\HtmlPattern;
+use LastCall\Mannequin\Html\Render\HtmlRenderer;
 use PHPUnit\Framework\TestCase;
 
 class HtmlRendererTest extends TestCase {

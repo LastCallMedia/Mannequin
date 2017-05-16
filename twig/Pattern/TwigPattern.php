@@ -1,12 +1,12 @@
 <?php
 
 
-namespace LastCall\Patterns\Twig\Pattern;
+namespace LastCall\Mannequin\Twig\Pattern;
 
 
-use LastCall\Patterns\Core\Pattern\AbstractPattern;
-use LastCall\Patterns\Core\Pattern\TemplateFilePatternInterface;
-use LastCall\Patterns\Core\Variable\VariableSet;
+use LastCall\Mannequin\Core\Pattern\AbstractPattern;
+use LastCall\Mannequin\Core\Pattern\TemplateFilePatternInterface;
+use LastCall\Mannequin\Core\Variable\VariableSet;
 
 class TwigPattern extends AbstractPattern implements TemplateFilePatternInterface {
 

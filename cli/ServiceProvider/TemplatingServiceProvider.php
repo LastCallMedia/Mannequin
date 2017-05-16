@@ -1,8 +1,8 @@
 <?php
 
-namespace LastCall\Patterns\Cli\ServiceProvider;
+namespace LastCall\Mannequin\Cli\ServiceProvider;
 
-use LastCall\Patterns\Cli\Templating\PresetEngineTemplateNameParser;
+use LastCall\Mannequin\Cli\Templating\PresetEngineTemplateNameParser;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\Templating\DelegatingEngine;

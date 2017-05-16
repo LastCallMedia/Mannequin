@@ -1,6 +1,6 @@
 <?php
 
-namespace LastCall\Patterns\Core\Exception;
+namespace LastCall\Mannequin\Core\Exception;
 
 class UnsupportedPatternException extends \InvalidArgumentException {
 

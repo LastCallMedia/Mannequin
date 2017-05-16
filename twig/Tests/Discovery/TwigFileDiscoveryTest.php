@@ -1,16 +1,16 @@
 <?php
 
 
-namespace LastCall\Patterns\Twig\Tests\Discovery;
+namespace LastCall\Mannequin\Twig\Tests\Discovery;
 
-use LastCall\Patterns\Core\Variable\VariableFactory;
-use LastCall\Patterns\Twig\Discovery\TwigFileDiscovery;
-use LastCall\Patterns\Twig\Pattern\TwigPattern;
+use LastCall\Mannequin\Core\Variable\VariableFactory;
+use LastCall\Mannequin\Twig\Discovery\TwigFileDiscovery;
+use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\Finder;
-use LastCall\Patterns\Core\Variable\VariableSet;
-use LastCall\Patterns\Core\Variable\ScalarType;
-use LastCall\Patterns\Core\Variable\ScalarFactory;
+use LastCall\Mannequin\Core\Variable\VariableSet;
+use LastCall\Mannequin\Core\Variable\ScalarType;
+use LastCall\Mannequin\Core\Variable\ScalarFactory;
 
 class TwigFileDiscoveryTest extends TestCase {
 

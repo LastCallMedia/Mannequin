@@ -1,11 +1,11 @@
 <?php
 
 
-namespace LastCall\Patterns\Twig\ServiceProvider;
+namespace LastCall\Mannequin\Twig\ServiceProvider;
 
 
-use LastCall\Patterns\Twig\Parser\TwigParser;
-use LastCall\Patterns\Twig\Render\TwigRenderer;
+use LastCall\Mannequin\Twig\Parser\TwigParser;
+use LastCall\Mannequin\Twig\Render\TwigRenderer;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 

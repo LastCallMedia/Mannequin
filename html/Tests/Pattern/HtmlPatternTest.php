@@ -1,10 +1,10 @@
 <?php
 
 
-namespace LastCall\Patterns\Html\Tests\Pattern;
+namespace LastCall\Mannequin\Html\Tests\Pattern;
 
 
-use LastCall\Patterns\Html\Pattern\HtmlPattern;
+use LastCall\Mannequin\Html\Pattern\HtmlPattern;
 use PHPUnit\Framework\TestCase;
 
 class HtmlPatternTest extends TestCase {

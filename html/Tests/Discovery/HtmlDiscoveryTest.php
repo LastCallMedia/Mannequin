@@ -1,12 +1,12 @@
 <?php
 
 
-namespace LastCall\Patterns\Html\Tests\Discovery;
+namespace LastCall\Mannequin\Html\Tests\Discovery;
 
 
-use LastCall\Patterns\Core\Pattern\PatternCollection;
-use LastCall\Patterns\Html\Discovery\HtmlDiscovery;
-use LastCall\Patterns\Html\Pattern\HtmlPattern;
+use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Html\Discovery\HtmlDiscovery;
+use LastCall\Mannequin\Html\Pattern\HtmlPattern;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;

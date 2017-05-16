@@ -1,11 +1,11 @@
 <?php
 
 
-namespace LastCall\Patterns\Core\Tests\Variable;
+namespace LastCall\Mannequin\Core\Tests\Variable;
 
 
-use LastCall\Patterns\Core\Variable\ScalarType;
-use LastCall\Patterns\Core\Variable\VariableSet;
+use LastCall\Mannequin\Core\Variable\ScalarType;
+use LastCall\Mannequin\Core\Variable\VariableSet;
 use PHPUnit\Framework\TestCase;
 
 class VariableSetTest extends TestCase {
@@ -51,7 +51,7 @@ class VariableSetTest extends TestCase {
   }
 
   /**
-   * @expectedException \LastCall\Patterns\Core\Exception\InvalidVariableException
+   * @expectedException \LastCall\Mannequin\Core\Exception\InvalidVariableException
    * @expectedExceptionMessage Cannot merge sets - Expected empty to be an string, got an integer
    */
   public function testDoesNotAllowTypeChangeOnGlobals() {

@@ -1,13 +1,13 @@
 <?php
 
 
-namespace LastCall\Patterns\Core\Extension;
+namespace LastCall\Mannequin\Core\Extension;
 
 
-use LastCall\Patterns\Core\Discovery\TemplateDiscovery;
-use LastCall\Patterns\Core\Variable\PatternFactory;
-use LastCall\Patterns\Core\Variable\ScalarFactory;
-use LastCall\Patterns\Core\Variable\VariableSet;
+use LastCall\Mannequin\Core\Discovery\TemplateDiscovery;
+use LastCall\Mannequin\Core\Variable\PatternFactory;
+use LastCall\Mannequin\Core\Variable\ScalarFactory;
+use LastCall\Mannequin\Core\Variable\VariableSet;
 
 class CoreExtension extends AbstractExtension {
 

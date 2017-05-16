@@ -1,7 +1,7 @@
 <?php
 
 
-namespace LastCall\Patterns\Cli\Templating;
+namespace LastCall\Mannequin\Cli\Templating;
 
 
 use Symfony\Component\Templating\TemplateNameParserInterface;

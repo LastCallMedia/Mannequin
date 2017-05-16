@@ -1,5 +1,5 @@
 {
-    "name": "lastcallmedia/patterns",
+    "name": "lastcallmedia/mannequin",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -21,11 +21,11 @@
     },
     "autoload": {
       "psr-4": {
-        "LastCall\\Patterns\\Core\\": "core/",
-        "LastCall\\Patterns\\Cli\\": "cli/",
-        "LastCall\\Patterns\\Html\\": "html/",
-        "LastCall\\Patterns\\Twig\\": "twig/",
-        "LastCall\\Patterns\\Drupal\\": "drupal/"
+        "LastCall\\Mannequin\\Core\\": "core/",
+        "LastCall\\Mannequin\\Cli\\": "cli/",
+        "LastCall\\Mannequin\\Html\\": "html/",
+        "LastCall\\Mannequin\\Twig\\": "twig/",
+        "LastCall\\Mannequin\\Drupal\\": "drupal/"
       },
       "exclude-from-classmap": [
         "**/Tests/"

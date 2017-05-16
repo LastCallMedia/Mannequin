@@ -1,16 +1,16 @@
 <?php
 
-namespace LastCall\Patterns\Core;
+namespace LastCall\Mannequin\Core;
 
-use LastCall\Patterns\Core\Discovery\ChainDiscovery;
-use LastCall\Patterns\Core\Extension\CoreExtension;
-use LastCall\Patterns\Core\Extension\ExtensionInterface;
-use LastCall\Patterns\Core\Pattern\PatternCollection;
-use LastCall\Patterns\Core\Render\DelegatingRenderer;
-use LastCall\Patterns\Core\Render\RendererInterface;
-use LastCall\Patterns\Core\Variable\VariableFactory;
-use LastCall\Patterns\Core\Variable\VariableFactoryInterface;
-use LastCall\Patterns\Core\Variable\VariableSet;
+use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
+use LastCall\Mannequin\Core\Extension\CoreExtension;
+use LastCall\Mannequin\Core\Extension\ExtensionInterface;
+use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Core\Render\DelegatingRenderer;
+use LastCall\Mannequin\Core\Render\RendererInterface;
+use LastCall\Mannequin\Core\Variable\VariableFactory;
+use LastCall\Mannequin\Core\Variable\VariableFactoryInterface;
+use LastCall\Mannequin\Core\Variable\VariableSet;
 use Pimple\Container;
 use Symfony\Component\Finder\Finder;
 
@@ -134,7 +134,7 @@ class Config extends Container implements ConfigInterface {
   }
 
   /**
-   * @return \LastCall\Patterns\Core\Render\RendererInterface
+   * @return \LastCall\Mannequin\Core\Render\RendererInterface
    */
   public function getRenderer(): RendererInterface {
     return $this['renderer'];

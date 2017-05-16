@@ -1,7 +1,7 @@
 <?php
 
 
-namespace LastCall\Patterns\Cli\Command;
+namespace LastCall\Mannequin\Cli\Command;
 
 use Symfony\Bundle\WebServerBundle\WebServer;
 use Symfony\Bundle\WebServerBundle\WebServerConfig;

@@ -1,13 +1,13 @@
 <?php
 
 
-namespace LastCall\Patterns\Twig\Metadata;
+namespace LastCall\Mannequin\Twig\Metadata;
 
 
-use LastCall\Patterns\Core\Metadata\YamlFileMetadataFactory;
-use LastCall\Patterns\Core\Pattern\PatternInterface;
-use LastCall\Patterns\Core\Variable\VariableFactoryInterface;
-use LastCall\Patterns\Twig\Pattern\TwigPattern;
+use LastCall\Mannequin\Core\Metadata\YamlFileMetadataFactory;
+use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Variable\VariableFactoryInterface;
+use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 use Symfony\Component\Yaml\Yaml;
 
 class TwigInlineMetadataFactory extends YamlFileMetadataFactory {

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace LastCall\Patterns\Drupal\Twig;
+namespace LastCall\Mannequin\Drupal\Twig;
 
 
 class DrupalTwigExtension extends \Twig_Extension {

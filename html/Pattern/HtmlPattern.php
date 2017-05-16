@@ -1,11 +1,11 @@
 <?php
 
 
-namespace LastCall\Patterns\Html\Pattern;
+namespace LastCall\Mannequin\Html\Pattern;
 
 
-use LastCall\Patterns\Core\Pattern\AbstractPattern;
-use LastCall\Patterns\Core\Pattern\TemplateFilePatternInterface;
+use LastCall\Mannequin\Core\Pattern\AbstractPattern;
+use LastCall\Mannequin\Core\Pattern\TemplateFilePatternInterface;
 
 class HtmlPattern extends AbstractPattern implements TemplateFilePatternInterface {
 

@@ -1,13 +1,13 @@
 <?php
 
 
-namespace LastCall\Patterns\Core\Tests\Metadata;
+namespace LastCall\Mannequin\Core\Tests\Metadata;
 
 
-use LastCall\Patterns\Core\Metadata\ChainMetadataFactory;
-use LastCall\Patterns\Core\Metadata\MetadataFactoryInterface;
-use LastCall\Patterns\Core\Pattern\PatternInterface;
-use LastCall\Patterns\Core\Variable\VariableSet;
+use LastCall\Mannequin\Core\Metadata\ChainMetadataFactory;
+use LastCall\Mannequin\Core\Metadata\MetadataFactoryInterface;
+use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Variable\VariableSet;
 use PHPUnit\Framework\TestCase;
 
 class ChainMetadataFactoryTest extends TestCase {

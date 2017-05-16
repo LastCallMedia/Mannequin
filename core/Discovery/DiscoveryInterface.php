@@ -1,10 +1,10 @@
 <?php
 
 
-namespace LastCall\Patterns\Core\Discovery;
+namespace LastCall\Mannequin\Core\Discovery;
 
 
-use LastCall\Patterns\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Core\Pattern\PatternCollection;
 
 interface DiscoveryInterface {
   public function discover(): PatternCollection;

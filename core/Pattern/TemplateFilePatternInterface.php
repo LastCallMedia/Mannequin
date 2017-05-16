@@ -1,7 +1,7 @@
 <?php
 
 
-namespace LastCall\Patterns\Core\Pattern;
+namespace LastCall\Mannequin\Core\Pattern;
 
 
 interface TemplateFilePatternInterface extends PatternInterface {

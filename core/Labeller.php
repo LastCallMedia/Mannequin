@@ -1,11 +1,11 @@
 <?php
 
 
-namespace LastCall\Patterns\Core;
+namespace LastCall\Mannequin\Core;
 
 
-use LastCall\Patterns\Core\Pattern\PatternCollection;
-use LastCall\Patterns\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Core\Pattern\PatternInterface;
 
 class Labeller {
 

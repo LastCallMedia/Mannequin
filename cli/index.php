@@ -2,9 +2,9 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use LastCall\Patterns\Cli\Helper\ConfigHelper;
-use LastCall\Patterns\Cli\Controller\PatternController;
-use LastCall\Patterns\Cli\Templating\Helper\UrlHelper;
+use LastCall\Mannequin\Cli\Helper\ConfigHelper;
+use LastCall\Mannequin\Cli\Controller\PatternController;
+use LastCall\Mannequin\Cli\Templating\Helper\UrlHelper;
 use Symfony\Component\Templating\Helper\SlotsHelper;
 use Silex\Application;
 
@@ -26,7 +26,7 @@ $app = new Application([
   'autoloader' => $autoloader,
 ]);
 $app->register(new \Silex\Provider\ServiceControllerServiceProvider());
-$app->register(new \LastCall\Patterns\Cli\ServiceProvider\TemplatingServiceProvider([]), [
+$app->register(new \LastCall\Mannequin\Cli\ServiceProvider\TemplatingServiceProvider([]), [
   'templating.directories' => [__DIR__.'/Resources/views/%name%']
 ]);
 
@@ -40,7 +40,7 @@ $app['collection'] = function() use ($app) {
   return $app['config']->getCollection();
 };
 $app['patterns.controller'] = function() use ($app) {
-  /** @var \LastCall\Patterns\Core\Config $config */
+  /** @var \LastCall\Mannequin\Core\Config $config */
   $config = $app['config'];
   return new PatternController($config->getCollection(), $config->getRenderer(), $config->getLabeller(), $app['templating'], $app['url_generator']);
 };

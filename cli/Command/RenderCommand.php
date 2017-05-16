@@ -1,8 +1,8 @@
 <?php
 
-namespace LastCall\Patterns\Cli\Command;
+namespace LastCall\Mannequin\Cli\Command;
 
-use LastCall\Patterns\Cli\Writer\FileWriter;
+use LastCall\Mannequin\Cli\Writer\FileWriter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -12,7 +12,7 @@ class RenderCommand extends Command {
 
   public function execute(InputInterface $input, OutputInterface $output) {
     $io = new SymfonyStyle($input, $output);
-    /** @var \LastCall\Patterns\Core\Config $config */
+    /** @var \LastCall\Mannequin\Core\Config $config */
     $config = $this->getHelper('patterns_config')->getConfig(getcwd().'/.patterns.php');
     $collection = $config->getCollection();
     $renderer = $config->getRenderer();

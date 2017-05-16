@@ -21,10 +21,10 @@ else {
 }
 
 $app = new \Symfony\Component\Console\Application();
-$app->getHelperSet()->set(new \LastCall\Patterns\Cli\Helper\ConfigHelper());
+$app->getHelperSet()->set(new \LastCall\Mannequin\Cli\Helper\ConfigHelper());
 $app->addCommands([
-  new \LastCall\Patterns\Cli\Command\RenderCommand('render'),
-  new \LastCall\Patterns\Cli\Command\ServerCommand('server'),
+  new \LastCall\Mannequin\Cli\Command\RenderCommand('render'),
+  new \LastCall\Mannequin\Cli\Command\ServerCommand('server'),
 ]);
 
 $app->run();

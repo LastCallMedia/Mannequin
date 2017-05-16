@@ -1,15 +1,15 @@
 <?php
 
 
-namespace LastCall\Patterns\Twig\Tests\Renderer;
+namespace LastCall\Mannequin\Twig\Tests\Renderer;
 
 
-use LastCall\Patterns\Core\Pattern\PatternInterface;
-use LastCall\Patterns\Core\Render\RenderedInterface;
-use LastCall\Patterns\Core\Variable\VariableInterface;
-use LastCall\Patterns\Core\Variable\VariableSet;
-use LastCall\Patterns\Twig\Pattern\TwigPattern;
-use LastCall\Patterns\Twig\Render\TwigRenderer;
+use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Render\RenderedInterface;
+use LastCall\Mannequin\Core\Variable\VariableInterface;
+use LastCall\Mannequin\Core\Variable\VariableSet;
+use LastCall\Mannequin\Twig\Pattern\TwigPattern;
+use LastCall\Mannequin\Twig\Render\TwigRenderer;
 use PHPUnit\Framework\TestCase;
 
 class TwigRendererTest extends TestCase {

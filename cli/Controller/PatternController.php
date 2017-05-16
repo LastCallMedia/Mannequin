@@ -1,12 +1,12 @@
 <?php
 
 
-namespace LastCall\Patterns\Cli\Controller;
+namespace LastCall\Mannequin\Cli\Controller;
 
-use LastCall\Patterns\Core\Labeller;
-use LastCall\Patterns\Core\Pattern\PatternCollection;
-use LastCall\Patterns\Core\Pattern\PatternInterface;
-use LastCall\Patterns\Core\Render\RendererInterface;
+use LastCall\Mannequin\Core\Labeller;
+use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Render\RendererInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

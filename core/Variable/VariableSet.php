@@ -1,10 +1,10 @@
 <?php
 
 
-namespace LastCall\Patterns\Core\Variable;
+namespace LastCall\Mannequin\Core\Variable;
 
 
-use LastCall\Patterns\Core\Exception\InvalidVariableException;
+use LastCall\Mannequin\Core\Exception\InvalidVariableException;
 
 class VariableSet {
 

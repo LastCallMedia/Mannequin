@@ -1,7 +1,7 @@
 <?php
 
 
-namespace LastCall\Patterns\Core\Variable;
+namespace LastCall\Mannequin\Core\Variable;
 
 
 class PatternVariable implements VariableInterface {

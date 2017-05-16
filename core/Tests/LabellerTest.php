@@ -1,10 +1,10 @@
 <?php
 
-namespace LastCall\Patterns\Core\Tests;
+namespace LastCall\Mannequin\Core\Tests;
 
-use LastCall\Patterns\Core\Labeller;
-use LastCall\Patterns\Core\Pattern\PatternCollection;
-use LastCall\Patterns\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Labeller;
+use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use PHPUnit\Framework\TestCase;
 
 class LabellerTest extends TestCase {

@@ -1,14 +1,14 @@
 <?php
 
 
-namespace LastCall\Patterns\Core;
+namespace LastCall\Mannequin\Core;
 
 
-use LastCall\Patterns\Core\Extension\ExtensionInterface;
-use LastCall\Patterns\Core\Pattern\PatternCollection;
-use LastCall\Patterns\Core\Render\RendererInterface;
-use LastCall\Patterns\Core\Variable\VariableFactoryInterface;
-use LastCall\Patterns\Core\Variable\VariableSet;
+use LastCall\Mannequin\Core\Extension\ExtensionInterface;
+use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Core\Render\RendererInterface;
+use LastCall\Mannequin\Core\Variable\VariableFactoryInterface;
+use LastCall\Mannequin\Core\Variable\VariableSet;
 use Symfony\Component\Finder\Finder;
 
 interface ConfigInterface {

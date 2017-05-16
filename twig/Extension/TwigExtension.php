@@ -1,15 +1,15 @@
 <?php
 
 
-namespace LastCall\Patterns\Twig\Extension;
+namespace LastCall\Mannequin\Twig\Extension;
 
 
-use LastCall\Patterns\Core\Extension\AbstractExtension;
-use LastCall\Patterns\Core\Metadata\YamlFileMetadataFactory;
-use LastCall\Patterns\Twig\Discovery\TwigFileDiscovery;
-use LastCall\Patterns\Twig\Metadata\TwigInlineMetadataFactory;
-use LastCall\Patterns\Twig\Parser\TwigParser;
-use LastCall\Patterns\Twig\Render\TwigRenderer;
+use LastCall\Mannequin\Core\Extension\AbstractExtension;
+use LastCall\Mannequin\Core\Metadata\YamlFileMetadataFactory;
+use LastCall\Mannequin\Twig\Discovery\TwigFileDiscovery;
+use LastCall\Mannequin\Twig\Metadata\TwigInlineMetadataFactory;
+use LastCall\Mannequin\Twig\Parser\TwigParser;
+use LastCall\Mannequin\Twig\Render\TwigRenderer;
 use Symfony\Component\Finder\Finder;
 
 /**

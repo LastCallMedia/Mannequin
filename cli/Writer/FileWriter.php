@@ -1,8 +1,8 @@
 <?php
 
-namespace LastCall\Patterns\Cli\Writer;
+namespace LastCall\Mannequin\Cli\Writer;
 
-use LastCall\Patterns\Core\Render\RenderedInterface;
+use LastCall\Mannequin\Core\Render\RenderedInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 class FileWriter {

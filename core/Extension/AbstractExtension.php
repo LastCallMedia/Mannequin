@@ -1,9 +1,9 @@
 <?php
 
 
-namespace LastCall\Patterns\Core\Extension;
+namespace LastCall\Mannequin\Core\Extension;
 
-use LastCall\Patterns\Core\ConfigInterface;
+use LastCall\Mannequin\Core\ConfigInterface;
 use Pimple\Container;
 
 class AbstractExtension extends Container implements ExtensionInterface {

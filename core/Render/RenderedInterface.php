@@ -1,8 +1,8 @@
 <?php
 
-namespace LastCall\Patterns\Core\Render;
+namespace LastCall\Mannequin\Core\Render;
 
-use LastCall\Patterns\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Pattern\PatternInterface;
 
 interface RenderedInterface {
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace LastCall\Patterns\Core\Extension;
+namespace LastCall\Mannequin\Core\Extension;
 
-use LastCall\Patterns\Core\ConfigInterface;
+use LastCall\Mannequin\Core\ConfigInterface;
 
 interface ExtensionInterface {
 
@@ -13,7 +13,7 @@ interface ExtensionInterface {
    * The container will be available before calling any of the get* mehtods,
    * but not in the constructor.
    *
-   * @param \LastCall\Patterns\Core\ConfigInterface $container
+   * @param \LastCall\Mannequin\Core\ConfigInterface $container
    *
    * @return void
    */
@@ -22,21 +22,21 @@ interface ExtensionInterface {
   /**
    * Get the pattern discoverers provided by this extension.
    *
-   * @return \LastCall\Patterns\Core\Discovery\DiscoveryInterface[]
+   * @return \LastCall\Mannequin\Core\Discovery\DiscoveryInterface[]
    */
   public function getDiscoverers(): array;
 
   /**
    * Get the pattern renderers provided by this extension.
    *
-   * @return \LastCall\Patterns\Core\Render\RendererInterface[]
+   * @return \LastCall\Mannequin\Core\Render\RendererInterface[]
    */
   public function getRenderers(): array;
 
   /**
    * Get the variable factories provided by this extension.
    *
-   * @return \LastCall\Patterns\Core\Variable\VariableFactoryInterface[]
+   * @return \LastCall\Mannequin\Core\Variable\VariableFactoryInterface[]
    */
   public function getVariableFactories(): array;
 

@@ -1,15 +1,15 @@
 <?php
 
 
-namespace LastCall\Patterns\Html\Render;
+namespace LastCall\Mannequin\Html\Render;
 
 
-use LastCall\Patterns\Html\Pattern\HtmlPattern;
-use LastCall\Patterns\Core\Pattern\PatternInterface;
-use LastCall\Patterns\Core\Render\RenderedInterface;
-use LastCall\Patterns\Core\Render\RendererInterface;
-use LastCall\Patterns\Core\Render\Rendered;
-use LastCall\Patterns\Core\Variable\VariableSet;
+use LastCall\Mannequin\Html\Pattern\HtmlPattern;
+use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Render\RenderedInterface;
+use LastCall\Mannequin\Core\Render\RendererInterface;
+use LastCall\Mannequin\Core\Render\Rendered;
+use LastCall\Mannequin\Core\Variable\VariableSet;
 
 class HtmlRenderer implements RendererInterface {
 

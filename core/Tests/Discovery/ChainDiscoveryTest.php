@@ -1,21 +1,21 @@
 <?php
 
 
-namespace LastCall\Patterns\Core\Tests\Discovery;
+namespace LastCall\Mannequin\Core\Tests\Discovery;
 
 
-use LastCall\Patterns\Core\Discovery\ChainDiscovery;
-use LastCall\Patterns\Core\Discovery\DiscoveryInterface;
-use LastCall\Patterns\Core\Discovery\ExplicitDiscovery;
-use LastCall\Patterns\Core\Pattern\PatternCollection;
-use LastCall\Patterns\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
+use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
+use LastCall\Mannequin\Core\Discovery\ExplicitDiscovery;
+use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use PHPUnit\Framework\TestCase;
 
 class ChainDiscoveryTest extends TestCase {
 
   /**
    * @expectedException \InvalidArgumentException
-   * @expectedExceptionMessage Discoverer must implement LastCall\Patterns\Core\Discovery\DiscoveryInterface
+   * @expectedExceptionMessage Discoverer must implement LastCall\Mannequin\Core\Discovery\DiscoveryInterface
    */
   public function testInvalidDiscoverer() {
     $discoverer = new \stdClass();

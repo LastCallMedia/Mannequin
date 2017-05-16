@@ -1,15 +1,15 @@
 <?php
 
 
-namespace LastCall\Patterns\Twig\Discovery;
+namespace LastCall\Mannequin\Twig\Discovery;
 
 
-use LastCall\Patterns\Core\Discovery\DiscoveryInterface;
-use LastCall\Patterns\Core\Metadata\MetadataFactoryInterface;
-use LastCall\Patterns\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
+use LastCall\Mannequin\Core\Metadata\MetadataFactoryInterface;
+use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
-use LastCall\Patterns\Twig\Pattern\TwigPattern;
+use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 
 class TwigFileDiscovery implements DiscoveryInterface {
 

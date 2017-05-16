@@ -1,20 +1,20 @@
 <?php
 
 
-namespace LastCall\Patterns\Core\Tests;
+namespace LastCall\Mannequin\Core\Tests;
 
 
-use LastCall\Patterns\Core\Config;
-use LastCall\Patterns\Core\ConfigInterface;
-use LastCall\Patterns\Core\Discovery\ChainDiscovery;
-use LastCall\Patterns\Core\Discovery\DiscoveryInterface;
-use LastCall\Patterns\Core\Extension\CoreExtension;
-use LastCall\Patterns\Core\Extension\ExtensionInterface;
-use LastCall\Patterns\Core\Pattern\PatternCollection;
-use LastCall\Patterns\Core\Render\DelegatingRenderer;
-use LastCall\Patterns\Core\Variable\ScalarFactory;
-use LastCall\Patterns\Core\Variable\VariableFactory;
-use LastCall\Patterns\Core\Variable\VariableFactoryInterface;
+use LastCall\Mannequin\Core\Config;
+use LastCall\Mannequin\Core\ConfigInterface;
+use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
+use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
+use LastCall\Mannequin\Core\Extension\CoreExtension;
+use LastCall\Mannequin\Core\Extension\ExtensionInterface;
+use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Core\Render\DelegatingRenderer;
+use LastCall\Mannequin\Core\Variable\ScalarFactory;
+use LastCall\Mannequin\Core\Variable\VariableFactory;
+use LastCall\Mannequin\Core\Variable\VariableFactoryInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
