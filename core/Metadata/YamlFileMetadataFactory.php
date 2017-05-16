@@ -11,7 +11,7 @@ use LastCall\Patterns\Core\Variable\VariableFactoryInterface;
 use LastCall\Patterns\Core\Variable\VariableSet;
 use Symfony\Component\Yaml\Yaml;
 
-class YamlFileMetadataParser implements MetadataParserInterface {
+class YamlFileMetadataFactory implements MetadataFactoryInterface {
 
   protected $variableFactory;
 

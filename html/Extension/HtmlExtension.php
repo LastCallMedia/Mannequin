@@ -5,7 +5,7 @@ namespace LastCall\Patterns\Html\Extension;
 
 
 use LastCall\Patterns\Core\Extension\AbstractExtension;
-use LastCall\Patterns\Core\Metadata\YamlFileMetadataParser;
+use LastCall\Patterns\Core\Metadata\YamlFileMetadataFactory;
 use LastCall\Patterns\Html\Discovery\HtmlDiscovery;
 use LastCall\Patterns\Html\Render\HtmlRenderer;
 use Symfony\Component\Finder\Finder;
@@ -22,7 +22,7 @@ class HtmlExtension extends AbstractExtension {
     };
     $this['metadata_parser'] = function() {
       $config = $this->getConfig();
-      return new YamlFileMetadataParser($config->getVariableFactory());
+      return new YamlFileMetadataFactory($config->getVariableFactory());
     };
     $this['discovery'] = function() {
       return new HtmlDiscovery($this['finder'], $this['metadata_parser']);

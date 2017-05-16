@@ -5,7 +5,7 @@ namespace LastCall\Patterns\Html\Discovery;
 
 
 use LastCall\Patterns\Core\Discovery\DiscoveryInterface;
-use LastCall\Patterns\Core\Metadata\MetadataParserInterface;
+use LastCall\Patterns\Core\Metadata\MetadataFactoryInterface;
 use LastCall\Patterns\Core\Pattern\PatternCollection;
 use LastCall\Patterns\Html\Pattern\HtmlPattern;
 use Symfony\Component\Finder\Finder;
@@ -14,11 +14,12 @@ class HtmlDiscovery implements DiscoveryInterface {
 
   private $finder;
   private $metadataParser;
-  private $prefix = 'html://';
+  private $prefix;
 
-  public function __construct(Finder $finder, MetadataParserInterface $metadataParser) {
+  public function __construct(Finder $finder, MetadataFactoryInterface $metadataParser, $prefix = 'html://') {
     $this->finder = $finder;
     $this->metadataParser = $metadataParser;
+    $this->prefix = $prefix;
   }
 
   public function discover(): PatternCollection {

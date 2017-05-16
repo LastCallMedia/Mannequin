@@ -4,13 +4,13 @@
 namespace LastCall\Patterns\Twig\Metadata;
 
 
-use LastCall\Patterns\Core\Metadata\YamlFileMetadataParser;
+use LastCall\Patterns\Core\Metadata\YamlFileMetadataFactory;
 use LastCall\Patterns\Core\Pattern\PatternInterface;
 use LastCall\Patterns\Core\Variable\VariableFactoryInterface;
 use LastCall\Patterns\Twig\Pattern\TwigPattern;
 use Symfony\Component\Yaml\Yaml;
 
-class TwigInlineMetadataParser extends YamlFileMetadataParser {
+class TwigInlineMetadataFactory extends YamlFileMetadataFactory {
 
   private $twig;
 
