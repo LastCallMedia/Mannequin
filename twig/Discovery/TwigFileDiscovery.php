@@ -5,7 +5,7 @@ namespace LastCall\Patterns\Twig\Discovery;
 
 
 use LastCall\Patterns\Core\Discovery\DiscoveryInterface;
-use LastCall\Patterns\Core\Exception\TemplateParsingException;
+use LastCall\Patterns\Core\Metadata\MetadataParserInterface;
 use LastCall\Patterns\Core\Pattern\PatternCollection;
 use LastCall\Patterns\Core\Variable\VariableFactoryInterface;
 use LastCall\Patterns\Core\Variable\VariableSet;
@@ -17,14 +17,26 @@ use LastCall\Patterns\Twig\Pattern\TwigPattern;
 
 class TwigFileDiscovery implements DiscoveryInterface {
 
-  private $twig;
+  /**
+   * @var \Twig_LoaderInterface|\Twig_SourceContextLoaderInterface|\Twig_ExistsLoaderInterface
+   */
+  private $loader;
   private $finder;
   private $variableFactory;
+  private $prefix = 'twig://';
+  private $metadataParser;
 
-  public function __construct(\Twig_Environment $twig, Finder $finder, VariableFactoryInterface $variableFactory) {
-    $this->twig = $twig;
+  public function __construct(\Twig_LoaderInterface $loader, Finder $finder, VariableFactoryInterface $variableFactory, MetadataParserInterface $metadataParser) {
+    if(!$loader instanceof \Twig_SourceContextLoaderInterface) {
+      throw new \InvalidArgumentException('Twig loader must implement Twig_SourceContextLoaderInterface');
+    }
+    if(!$loader instanceof \Twig_ExistsLoaderInterface) {
+      throw new \InvalidArgumentException('Twig loader must implement Twig_ExistsLoaderInterface');
+    }
+    $this->loader = $loader;
     $this->finder = $finder;
     $this->variableFactory = $variableFactory;
+    $this->metadataParser = $metadataParser;
   }
 
   public function discover(): PatternCollection {
@@ -38,14 +50,19 @@ class TwigFileDiscovery implements DiscoveryInterface {
   }
 
   public function parseFile(SplFileInfo $fileInfo) {
-    if($this->twig->getLoader()->exists($fileInfo->getRelativePathname())) {
-      try {
-        $template = $this->twig->load($fileInfo->getRelativePathname());
-        return $this->createPatternFromTemplate($template);
+    if($this->loader->exists($fileInfo->getRelativePathname())) {
+      $id = $this->prefix . $fileInfo->getRelativePathname();
+      $source = $this->loader->getSourceContext($fileInfo->getRelativePathname());
+
+      $pattern = new TwigPattern($id, $source);
+
+      if($this->metadataParser->hasMetadata($pattern)) {
+        $metadata = $this->metadataParser->getMetadata($pattern);
+        $pattern->setName($metadata['name']);
+        $pattern->setTags($metadata['tags']);
+        $pattern->setVariables($metadata['variables']);
       }
-      catch(\Throwable $err) {
-        throw new TemplateParsingException(sprintf('Unable to parse template: %s', $err->getMessage()), $err->getCode(), $err);
-      }
+      return $pattern;
     }
   }
 

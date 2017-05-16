@@ -24,7 +24,7 @@ class HtmlRenderer implements RendererInterface {
 
   public function render(PatternInterface $pattern, VariableSet $overrides = NULL): RenderedInterface {
     $rendered = new Rendered($pattern, $this->styles, $this->scripts);
-    $rendered->setMarkup(file_get_contents($pattern->getFileInfo()->getPathname()));
+    $rendered->setMarkup(file_get_contents($pattern->getFile()->getPathname()));
     return $rendered;
   }
 

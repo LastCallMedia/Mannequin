@@ -4,32 +4,26 @@
 namespace LastCall\Patterns\Twig\Pattern;
 
 
-use LastCall\Patterns\Core\Pattern\HasNameAndId;
-use LastCall\Patterns\Core\Pattern\PatternInterface;
-use LastCall\Patterns\Core\Pattern\Taggable;
+use LastCall\Patterns\Core\Pattern\AbstractPattern;
+use LastCall\Patterns\Core\Pattern\TemplateFilePatternInterface;
 use LastCall\Patterns\Core\Variable\VariableSet;
 
-class TwigPattern implements PatternInterface {
+class TwigPattern extends AbstractPattern implements TemplateFilePatternInterface {
 
-  use HasNameAndId;
+  private $source;
+  private $templateFile;
 
-  use Taggable;
-
-  private $filename;
-  private $variables = [];
-
-  public function __construct($id, $name, $filename, VariableSet $variables = NULL) {
-    $this->setId($id);
-    $this->setName($name);
-    $this->filename = $filename;
-    $this->variables = $variables ?: new VariableSet();
+  public function __construct($id, \Twig_Source $source) {
+    $this->id = $id;
+    $this->source = $source;
+    $this->templateFile = new \SplFileInfo($source->getPath());
   }
 
-  public function getFilename() {
-    return $this->filename;
+  public function getSource() {
+    return $this->source;
   }
 
-  public function getVariables(): VariableSet {
-    return $this->variables;
+  public function getFile(): \SplFileInfo {
+    return $this->templateFile;
   }
 }

@@ -6,6 +6,12 @@ use LastCall\Patterns\Core\Variable\VariableSet;
 
 interface PatternInterface {
 
+  public function setName(string $name): PatternInterface;
+
+  public function setTags(array $tags): PatternInterface;
+
+  public function setVariables(VariableSet $variableSet): PatternInterface;
+
   /**
    * Get the name of the pattern.
    *
@@ -28,7 +34,7 @@ interface PatternInterface {
    *
    * @return mixed
    */
-  public function addTag(string $name, $value);
+  public function addTag(string $name, $value): PatternInterface;
 
   /**
    * Check whether the pattern has a given tag.

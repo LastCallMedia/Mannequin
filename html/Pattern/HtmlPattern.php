@@ -4,31 +4,19 @@
 namespace LastCall\Patterns\Html\Pattern;
 
 
-use LastCall\Patterns\Core\Variable\VariableSet;
-use LastCall\Patterns\Core\Pattern\HasNameAndId;
-use LastCall\Patterns\Core\Pattern\Taggable;
-use LastCall\Patterns\Core\Pattern\PatternInterface;
+use LastCall\Patterns\Core\Pattern\AbstractPattern;
+use LastCall\Patterns\Core\Pattern\TemplateFilePatternInterface;
 
-class HtmlPattern implements PatternInterface {
-
-  use HasNameAndId;
-  use Taggable;
+class HtmlPattern extends AbstractPattern implements TemplateFilePatternInterface {
 
   private $fileInfo;
-  private $variables;
 
-  public function __construct($id, $name, \SplFileInfo $fileInfo) {
-    $this->setId($id);
-    $this->setName($name);
+  public function __construct($id, \SplFileInfo $fileInfo) {
+    $this->id = $id;
     $this->fileInfo = $fileInfo;
-    $this->variables = new VariableSet();
   }
 
-  public function getFileInfo() {
+  public function getFile(): \SplFileInfo {
     return $this->fileInfo;
-  }
-
-  public function getVariables(): VariableSet {
-    return $this->variables;
   }
 }

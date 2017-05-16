@@ -64,6 +64,7 @@ $app
   ->get('/collection/{collection}/{pattern}', 'patterns.controller:collectionPatternAction')
   ->convert('collection', 'patterns.controller:convertCollection')
   ->convert('pattern', 'patterns.controller:convertPattern')
+  ->assert('pattern', '.+')
   ->bind('collection_pattern_view');
 
 $app

@@ -5,7 +5,9 @@ namespace LastCall\Patterns\Twig\Extension;
 
 
 use LastCall\Patterns\Core\Extension\AbstractExtension;
+use LastCall\Patterns\Core\Metadata\YamlFileMetadataParser;
 use LastCall\Patterns\Twig\Discovery\TwigFileDiscovery;
+use LastCall\Patterns\Twig\Metadata\TwigInlineMetadataParser;
 use LastCall\Patterns\Twig\Parser\TwigParser;
 use LastCall\Patterns\Twig\Render\TwigRenderer;
 use Symfony\Component\Finder\Finder;
@@ -44,9 +46,13 @@ class TwigExtension extends AbstractExtension {
         'auto_reload' => TRUE,
       ]);
     };
+    $this['metadata_parser'] = function() {
+      $config = $this->getConfig();
+      return new TwigInlineMetadataParser($this['twig'], $config->getVariableFactory());
+    };
     $this['discovery'] = function() {
       $config = $this->getConfig();
-      return new TwigFileDiscovery($this['twig'], $this['finder'], $config->getVariableFactory());
+      return new TwigFileDiscovery($this['loader'], $this['finder'], $config->getVariableFactory(), $this['metadata_parser']);
     };
   }
 
