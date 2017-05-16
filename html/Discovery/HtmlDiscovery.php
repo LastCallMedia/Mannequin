@@ -13,12 +13,12 @@ use Symfony\Component\Finder\Finder;
 class HtmlDiscovery implements DiscoveryInterface {
 
   private $finder;
-  private $metadataParser;
+  private $metadataFactory;
   private $prefix;
 
-  public function __construct(Finder $finder, MetadataFactoryInterface $metadataParser, $prefix = 'html://') {
+  public function __construct(Finder $finder, MetadataFactoryInterface $metadataFactory, $prefix = 'html://') {
     $this->finder = $finder;
-    $this->metadataParser = $metadataParser;
+    $this->metadataFactory = $metadataFactory;
     $this->prefix = $prefix;
   }
 
@@ -33,8 +33,8 @@ class HtmlDiscovery implements DiscoveryInterface {
   protected function parsePattern(\SplFileInfo $fileInfo) {
     $pattern = new HtmlPattern($this->prefix.$fileInfo->getRelativePathname(), $fileInfo);
 
-    if($this->metadataParser->hasMetadata($pattern)) {
-      $metadata = $this->metadataParser->getMetadata($pattern);
+    if($this->metadataFactory->hasMetadata($pattern)) {
+      $metadata = $this->metadataFactory->getMetadata($pattern);
       $pattern->setName($metadata['name']);
       $pattern->setVariables($metadata['variables']);
       $pattern->setTags($metadata['tags']);
