@@ -38,7 +38,7 @@ class TwigRendererTest extends TestCase {
     $styles = ['bar', 'baz'];
     $twig = $this->getTwig();
     $twig->render('foo', [])->willReturn('rendered');
-    $pattern = new TwigPattern('foo', 'Foo', 'foo', new VariableSet());
+    $pattern = new TwigPattern('foo', new \Twig_Source('', 'foo', 'foo'));
     $renderer = new TwigRenderer($twig->reveal(), NULL, $styles, $scripts);
     $rendered = $renderer->render($pattern);
     $this->assertEquals($scripts, $rendered->getScripts());
@@ -56,7 +56,8 @@ class TwigRendererTest extends TestCase {
       ->willReturn($merged);
     $twig = $this->getTwig();
     $twig->render('foo', ['foo' => 'bar'])->willReturn('rendered');
-    $pattern = new TwigPattern('foo', 'Foo', 'foo', $locals->reveal());
+    $pattern = new TwigPattern('foo', new \Twig_Source('', 'foo', 'foo'));
+    $pattern->setVariables($locals->reveal());
     $renderer = new TwigRenderer($twig->reveal(), $globals->reveal());
     $renderer->render($pattern);
   }
@@ -73,7 +74,8 @@ class TwigRendererTest extends TestCase {
       ->willReturn($merged);
     $twig = $this->getTwig();
     $twig->render('foo', ['foo' => 'bar'])->willReturn('rendered');
-    $pattern = new TwigPattern('foo', 'Foo', 'foo', $locals->reveal());
+    $pattern = new TwigPattern('foo', new \Twig_Source('', 'foo', 'foo'));
+    $pattern->setVariables($locals->reveal());
     $renderer = new TwigRenderer($twig->reveal());
     $renderer->render($pattern, $overrides->reveal());
   }
@@ -98,7 +100,8 @@ class TwigRendererTest extends TestCase {
     $locals = new VariableSet([
       'subpattern' => $patternVar->reveal(),
     ]);
-    $pattern = new TwigPattern('foo', 'Foo', 'foo', $locals);
+    $pattern = new TwigPattern('foo', new \Twig_Source('', 'foo', 'foo'));
+    $pattern->setVariables($locals);
     $twig = $this->getTwig();
     $twig->getCharset()->willReturn('UTF-8');
     $twig->render('foo', ['subpattern' => $markup])->willReturn('rendered');

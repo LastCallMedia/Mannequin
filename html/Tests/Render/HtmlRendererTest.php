@@ -13,7 +13,7 @@ class HtmlRendererTest extends TestCase {
   public function testRendersPattern() {
     $filename = __DIR__.'/../Resources/foo.html';
     $renderer = new HtmlRenderer(['foostyle'], ['fooscript']);
-    $pattern = new HtmlPattern('foo', 'bar', new \SplFileInfo($filename));
+    $pattern = new HtmlPattern('foo', new \SplFileInfo($filename));
     $rendered = $renderer->render($pattern);
     $this->assertEquals(['fooscript'], $rendered->getScripts());
     $this->assertEquals(['foostyle'], $rendered->getStyles());

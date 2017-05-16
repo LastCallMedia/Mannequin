@@ -3,13 +3,13 @@
 
 namespace LastCall\Mannequin\Twig\Tests\Discovery;
 
+use LastCall\Mannequin\Core\Metadata\MetadataFactoryInterface;
 use LastCall\Mannequin\Core\Variable\VariableFactory;
 use LastCall\Mannequin\Twig\Discovery\TwigFileDiscovery;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
 use Symfony\Component\Finder\Finder;
-use LastCall\Mannequin\Core\Variable\VariableSet;
-use LastCall\Mannequin\Core\Variable\ScalarType;
 use LastCall\Mannequin\Core\Variable\ScalarFactory;
 
 class TwigFileDiscoveryTest extends TestCase {
@@ -17,24 +17,9 @@ class TwigFileDiscoveryTest extends TestCase {
   const FIXTURES_DIR = __DIR__.'/../Resources';
 
   public function getTestCases() {
-    $p1 = new TwigPattern('twig-no-metadata.twig', 'Twig no metadata', 'twig-no-metadata.twig');
-    $p1->addTag('renderer', 'twig');
-
-    $p2 = new TwigPattern('twig-with-metadata.twig', 'Twig with metadata', 'twig-with-metadata.twig');
-    $p2->addTag('type', 'atom');
-    $p2->addTag('renderer', 'twig');
-
-    $p3 = new TwigPattern('twig-with-variables.twig', 'Twig with variables', 'twig-with-variables.twig', new VariableSet([
-      'template_type' => new ScalarType('string', 'twig'),
-      'local' => new ScalarType('boolean', TRUE),
-      'global' => new ScalarType('boolean')
-    ]));
-    $p3->addTag('type', 'molecule');
-    $p3->addTag('renderer', 'twig');
+    $p1 = new TwigPattern('twig://twig-no-metadata.twig', new \Twig_Source('', 'twig-no-metadata.twig', 'twig-no-metadata.twig'));
     return [
       [$p1],
-      [$p2],
-      [$p3]
     ];
   }
 
@@ -43,14 +28,15 @@ class TwigFileDiscoveryTest extends TestCase {
    */
   public function testDiscover(TwigPattern $expected) {
     $loader = new \Twig_Loader_Filesystem(self::FIXTURES_DIR);
-    $twig = new \Twig_Environment($loader);
     $factory = new VariableFactory([], [new ScalarFactory()]);
+    $metadata = $this->prophesize(MetadataFactoryInterface::class);
+    $metadata->hasMetadata(Argument::type(TwigPattern::class))->willReturn(FALSE);
 
     $finder = new Finder();
     $finder->in([self::FIXTURES_DIR]);
-    $finder->name($expected->getFilename());
+    $finder->name($expected->getSource()->getPath());
 
-    $discoverer = new TwigFileDiscovery($twig, $finder, $factory);
+    $discoverer = new TwigFileDiscovery($loader, $finder, $metadata->reveal());
     $patterns = $discoverer->discover();
     $pattern = $patterns->get($expected->getId());
     $this->assertEquals($expected->getId(), $pattern->getId());
