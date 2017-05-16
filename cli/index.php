@@ -70,7 +70,8 @@ $app
 $app
   ->get('/patterns/{pattern}', 'patterns.controller:patternAction')
   ->bind('pattern_view')
-  ->convert('pattern', 'patterns.controller:convertPattern');
+  ->convert('pattern', 'patterns.controller:convertPattern')
+  ->assert('pattern', '.+');
 
 $app
   ->get('/render/{pattern}', 'patterns.controller:renderAction')
