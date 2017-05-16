@@ -34,7 +34,7 @@ class ChainMetadataFactoryTest extends TestCase {
     $f1->hasMetadata($pattern)->willReturn(TRUE);
     $f1->getMetadata($pattern)->willReturn([
       'name' => 'foo',
-      'tags' => ['foo' => 'bar'],
+      'tags' => ['foo' => 'bar', 'type' => 'atom'],
       'variables' => new VariableSet(),
     ]);
 
@@ -42,7 +42,7 @@ class ChainMetadataFactoryTest extends TestCase {
     $f2->hasMetadata($pattern)->willReturn(TRUE);
     $f2->getMetadata($pattern)->willReturn([
       'name' => 'bar',
-      'tags' => ['bar' => 'baz'],
+      'tags' => ['bar' => 'baz', 'type' => 'molecule'],
       'variables' => new VariableSet(),
     ]);
 
@@ -50,7 +50,7 @@ class ChainMetadataFactoryTest extends TestCase {
     $metadata = $factory->getMetadata($pattern->reveal());
     $this->assertEquals([
       'name' => 'bar',
-      'tags' => ['foo' => 'bar', 'bar' => 'baz'],
+      'tags' => ['foo' => 'bar', 'bar' => 'baz', 'type' => 'molecule'],
       'variables' => new VariableSet(),
     ], $metadata);
   }

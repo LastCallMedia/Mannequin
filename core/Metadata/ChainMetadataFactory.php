@@ -54,7 +54,7 @@ class ChainMetadataFactory implements MetadataFactoryInterface {
       if(!empty($set['name'])) {
         $metadata['name'] = $set['name'];
       }
-      $metadata['tags']+= $set['tags'];
+      $metadata['tags'] = $set['tags'] + $metadata['tags'];
       $metadata['variables'] = $metadata['variables']->merge($set['variables']);
     }
     return $metadata;

@@ -7,7 +7,7 @@
 ])); ?>
 <div class="pattern--tags">
   <?php foreach($tags as $tag): ?>
-    <span class="label"><?php print $view->escape($tag); ?></span>
+    <a class="label" href="<?php print $tag['url']; ?>"><?php print $view->escape($tag['title']); ?></a>
   <?php endforeach; ?>
 </div>
 <iframe frameborder="0" src="<?php print $rendered_url; ?>"></iframe>
