@@ -24,6 +24,11 @@ class VariableSet {
     $this->data[$key] = $variable;
   }
 
+  public function merge(VariableSet $merging) {
+    $merged = $merging->data + $this->data;
+    return new VariableSet($merged);
+  }
+
   public function applyGlobals(VariableSet $globals) {
     $applied = [];
     foreach($this->data as $key => $value) {

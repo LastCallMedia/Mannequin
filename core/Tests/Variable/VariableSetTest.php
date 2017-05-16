@@ -23,6 +23,19 @@ class VariableSetTest extends TestCase {
     $this->assertTrue($set->has('empty'));
   }
 
+  public function testMerge() {
+    $set = $this->getTestSet();
+    $merging = new VariableSet([
+      'foo' => new ScalarType('integer', 1),
+      'new' => new ScalarType('string'),
+    ]);
+    $this->assertEquals(new VariableSet([
+      'foo' => new ScalarType('integer', 1),
+      'empty' => new ScalarType('string'),
+      'new' => new ScalarType('string'),
+    ]), $set->merge($merging));
+  }
+
   public function testAppliesGlobals() {
     $set = $this->getTestSet();
     $globals = new VariableSet([
