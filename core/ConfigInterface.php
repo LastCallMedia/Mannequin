@@ -46,8 +46,6 @@ interface ConfigInterface {
 
   public function getLabeller(): Labeller;
 
-  public function getFinder(): Finder;
-
   public function getVariableFactory(): VariableFactoryInterface;
 
   public function getCacheDir(): string;

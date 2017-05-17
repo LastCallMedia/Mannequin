@@ -12,7 +12,6 @@ use LastCall\Mannequin\Core\Variable\VariableFactory;
 use LastCall\Mannequin\Core\Variable\VariableFactoryInterface;
 use LastCall\Mannequin\Core\Variable\VariableSet;
 use Pimple\Container;
-use Symfony\Component\Finder\Finder;
 
 class Config extends Container implements ConfigInterface {
 
@@ -26,7 +25,6 @@ class Config extends Container implements ConfigInterface {
     $this['labeller'] = function() {
       return new Labeller();
     };
-    $this['finder'] = new Finder();
     $this['extensions'] = function() {
       return [];
     };
@@ -145,10 +143,6 @@ class Config extends Container implements ConfigInterface {
    */
   public function getLabeller(): Labeller {
     return $this['labeller'];
-  }
-
-  public function getFinder(): Finder {
-    return $this['finder'];
   }
 
   public function getVariableFactory(): VariableFactoryInterface {

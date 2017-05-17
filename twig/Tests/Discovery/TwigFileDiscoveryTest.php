@@ -4,13 +4,11 @@
 namespace LastCall\Mannequin\Twig\Tests\Discovery;
 
 use LastCall\Mannequin\Core\Metadata\MetadataFactoryInterface;
-use LastCall\Mannequin\Core\Variable\VariableFactory;
 use LastCall\Mannequin\Twig\Discovery\TwigFileDiscovery;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Symfony\Component\Finder\Finder;
-use LastCall\Mannequin\Core\Variable\ScalarFactory;
 
 class TwigFileDiscoveryTest extends TestCase {
 
@@ -28,7 +26,6 @@ class TwigFileDiscoveryTest extends TestCase {
    */
   public function testDiscover(TwigPattern $expected) {
     $loader = new \Twig_Loader_Filesystem(self::FIXTURES_DIR);
-    $factory = new VariableFactory([], [new ScalarFactory()]);
     $metadata = $this->prophesize(MetadataFactoryInterface::class);
     $metadata->hasMetadata(Argument::type(TwigPattern::class))->willReturn(FALSE);
 
