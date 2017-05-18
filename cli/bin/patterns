@@ -20,11 +20,5 @@ else {
   die(1);
 }
 
-$app = new \Symfony\Component\Console\Application();
-$app->getHelperSet()->set(new \LastCall\Mannequin\Cli\Helper\ConfigHelper());
-$app->addCommands([
-  new \LastCall\Mannequin\Cli\Command\RenderCommand('render'),
-  new \LastCall\Mannequin\Cli\Command\ServerCommand('server'),
-]);
-
-$app->run();
+$app = new \LastCall\Mannequin\Cli\Application();
+return $app->getConsole()->run();

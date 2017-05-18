@@ -13,7 +13,7 @@ class ConfigHelper implements HelperInterface {
   private $helperSet;
 
   public function getName() {
-    return 'patterns_config';
+    return 'mannequin_config';
   }
 
   public function setHelperSet(HelperSet $helperSet = NULL) {
