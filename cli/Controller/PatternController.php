@@ -108,8 +108,13 @@ class PatternController {
 
   public function renderAction(PatternInterface $pattern) {
     $rendered = $this->renderer->render($pattern);
+    $styles = $rendered->getStyles();
+    $scripts = $rendered->getScripts();
+
     $output = $this->templating->render('pattern-render', [
-      'rendered' => $rendered,
+      'markup' => $rendered->getMarkup(),
+      'styles' => $styles,
+      'scripts' => $scripts,
       'title' => $this->labeler->getPatternLabel($rendered->getPattern())
     ]);
     return new Response($output);
