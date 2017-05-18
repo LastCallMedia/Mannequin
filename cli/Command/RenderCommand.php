@@ -36,7 +36,7 @@ class RenderCommand extends Command {
     }
 
     /** @var \LastCall\Mannequin\Core\Config $config */
-    $config = $configHelper->getConfig($input->getOption('config') ?: getcwd().'/.patterns.php');
+    $config = $configHelper->getConfig($input->getOption('config') ?: getcwd().'/.mannequin.php');
     $io->block(sprintf('Generating patterns into %s/', $output));
     $this->uiWriter->writeAll($config,$output);
   }

@@ -32,7 +32,7 @@ class ServerCommand extends Command {
     $io = new SymfonyStyle($input, $output);
     $configHelper = $this->getHelper('mannequin_config');
 
-    $config = $configHelper->getConfig($input->getOption('config') ?: getcwd().'/.patterns.php');
+    $config = $configHelper->getConfig($input->getOption('config') ?: getcwd().'/.mannequin.php');
     $address = $input->getArgument('address');
     if($output = $input->getOption('output-dir')) {
       if(!is_dir($output) || !is_writable($output)) {
