@@ -24,13 +24,15 @@ class ServerCommand extends Command {
 
   public function configure() {
     $this->addArgument('address', InputArgument::OPTIONAL, 'The address to run on.');
+    $this->addOption('config', 'c', InputOption::VALUE_OPTIONAL, 'The path to a mannequin configuration file.');
     $this->addOption('output-dir', 'o', InputOption::VALUE_OPTIONAL, 'The directory to output the UI in');
   }
 
   public function execute(InputInterface $input, OutputInterface $output) {
     $io = new SymfonyStyle($input, $output);
+    $configHelper = $this->getHelper('mannequin_config');
 
-    $config = $this->getHelper('mannequin_config')->getConfig(getcwd().'/.patterns.php');
+    $config = $configHelper->getConfig($input->getOption('config') ?: getcwd().'/.patterns.php');
     $address = $input->getArgument('address');
     if($output = $input->getOption('output-dir')) {
       if(!is_dir($output) || !is_writable($output)) {

@@ -8,6 +8,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Console\Input\InputOption;
 
 class RenderCommand extends Command {
 
@@ -18,11 +20,24 @@ class RenderCommand extends Command {
     $this->uiWriter = $uiWriter;
   }
 
+  public function configure() {
+    $this->addOption('config', 'c', InputOption::VALUE_OPTIONAL, 'The path to a mannequin configuration file.');
+    $this->addOption('output-dir', 'o', InputOption::VALUE_OPTIONAL, 'The directory to output the UI in', 'mannequin');
+  }
+
   public function execute(InputInterface $input, OutputInterface $output) {
     $io = new SymfonyStyle($input, $output);
+    $configHelper = $this->getHelper('mannequin_config');
+
+    $output = $input->getOption('output-dir');
+    (new Filesystem())->mkdir($output);
+    if(!is_dir($output) || !is_writable($output)) {
+      throw new InvalidOptionException('output-dir does not exist or is not writeable');
+    }
+
     /** @var \LastCall\Mannequin\Core\Config $config */
-    $config = $this->getHelper('mannequin_config')->getConfig(getcwd().'/.patterns.php');
-    $io->block('Generating patterns...');
-    $this->uiWriter->writeAll($config,getcwd().'/output');
+    $config = $configHelper->getConfig($input->getOption('config') ?: getcwd().'/.patterns.php');
+    $io->block(sprintf('Generating patterns into %s/', $output));
+    $this->uiWriter->writeAll($config,$output);
   }
 }
