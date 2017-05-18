@@ -31,9 +31,11 @@ class TwigRenderer implements RendererInterface {
   }
 
   public function render(PatternInterface $pattern, VariableSet $overrides = NULL): RenderedInterface {
-    $rendered = new Rendered($pattern, $this->styles, $this->scripts);
+    $rendered = new Rendered($pattern);
     $variables = $this->prepareVariables($pattern, $overrides, $rendered);
     $rendered->setMarkup($this->twig->render($pattern->getSource()->getName(), $variables));
+    $rendered->setStyles($this->styles);
+    $rendered->setScripts($this->scripts);
     return $rendered;
   }
 
