@@ -9,7 +9,6 @@ use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Render\RendererInterface;
 use LastCall\Mannequin\Core\Variable\VariableFactoryInterface;
 use LastCall\Mannequin\Core\Variable\VariableSet;
-use Symfony\Component\Finder\Finder;
 
 interface ConfigInterface {
   public function getCollection(): PatternCollection;
@@ -39,6 +38,10 @@ interface ConfigInterface {
    * @param string[] $scripts
    */
   public function addScripts(array $scripts): ConfigInterface;
+
+  public function addAssetMapping($url, $path): ConfigInterface;
+
+  public function getAssetMappings(): array;
 
   public function getVariables(): VariableSet;
 

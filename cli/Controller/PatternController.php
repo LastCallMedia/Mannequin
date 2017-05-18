@@ -108,7 +108,16 @@ class PatternController {
 
   public function renderAction(PatternInterface $pattern) {
     $rendered = $this->renderer->render($pattern);
-    $styles = $rendered->getStyles();
+
+    $styles = [];
+    foreach($rendered->getStyles() as $style) {
+      if(strpos($style, '//') === FALSE) {
+        if(strpos($style, '/') !== 0) {
+          $style = '/'.$style;
+        }
+      }
+      $styles[] = $style;
+    }
     $scripts = $rendered->getScripts();
 
     $output = $this->templating->render('pattern-render', [

@@ -61,6 +61,9 @@ class Config extends Container implements ConfigInterface {
     $this['scripts'] = function() {
       return [];
     };
+    $this['assets'] = function() {
+      return [];
+    };
 
     $this->addExtension(new CoreExtension());
   }
@@ -125,6 +128,24 @@ class Config extends Container implements ConfigInterface {
       return $existing;
     });
     return $this;
+  }
+
+  public function addAssetMapping($url, $path): ConfigInterface {
+    if(!is_string($url) || strlen($url) === 0 || strpos($url, '/') === 0) {
+      throw new \InvalidArgumentException('URL path specified for %s is invalid.  It should be a relative URL.');
+    }
+    if(!file_exists($path)) {
+      throw new \InvalidArgumentException('Path specified for asset url %s is invalid.', $url);
+    }
+    $this->extend('assets', function(array $existing) use ($url, $path) {
+      $existing[$url] = $path;
+      return $existing;
+    });
+    return $this;
+  }
+
+  public function getAssetMappings(): array {
+    return $this['assets'];
   }
 
   public function getVariables(): VariableSet {

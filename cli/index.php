@@ -4,6 +4,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 use LastCall\Mannequin\Cli\Helper\ConfigHelper;
 use LastCall\Mannequin\Cli\Controller\PatternController;
+use LastCall\Mannequin\Cli\Controller\AssetController;
 use LastCall\Mannequin\Cli\Templating\Helper\UrlHelper;
 use Symfony\Component\Templating\Helper\SlotsHelper;
 use Silex\Application;
@@ -44,6 +45,11 @@ $app['patterns.controller'] = function() use ($app) {
   $config = $app['config'];
   return new PatternController($config->getCollection(), $config->getRenderer(), $config->getLabeller(), $app['templating'], $app['url_generator']);
 };
+$app['asset.controller'] = function() use ($app) {
+  /** @var \LastCall\Mannequin\Core\Config $config */
+  $config = $app['config'];
+  return new AssetController($config->getAssetMappings());
+};
 
 $app->extend('templating.helpers', function(array $helpers) use ($app) {
   $helpers[] = new UrlHelper($app['url_generator']);
@@ -78,5 +84,10 @@ $app
   ->bind('pattern_render')
   ->assert('pattern', '.+')
   ->convert('pattern', 'patterns.controller:convertPattern');
+
+// Match asset paths.
+$app->match('{url}', 'asset.controller:getAssetAction')
+  ->assert('url', '.*');
+
 
 $app->run();
