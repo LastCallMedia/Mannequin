@@ -5,6 +5,7 @@ namespace LastCall\Mannequin\Cli\Writer;
 
 
 use LastCall\Mannequin\Core\ConfigInterface;
+use LastCall\Mannequin\Core\Labeller;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Templating\EngineInterface;
@@ -44,6 +45,7 @@ class UiWriter {
     $this->writeManifest($config, $path);
     $this->writeIndex($config, $path);
     $this->writeAssets($config, $path);
+    $this->writeUi($path);
   }
 
   public function writeManifest(ConfigInterface $config, $path) {
@@ -51,28 +53,57 @@ class UiWriter {
     if(!$this->filesystem->exists($path)) {
       $this->filesystem->mkdir($path);
     }
-    $patterns = [];
+    $patterns = $tags = [];
     foreach($config->getCollection() as $pattern) {
       $patterns[] = [
-        'id' => $pattern->getId(),
+        'id' => md5($pattern->getId()),
         'rendered' => $this->getRenderPath($pattern),
         'name' => $labeller->getPatternLabel($pattern),
         'tags' => $pattern->getTags(),
       ];
+      $tags = array_merge($tags, $this->collectPatternTags($pattern, $labeller));
     }
-    $output = json_encode($patterns, JSON_PRETTY_PRINT);
+    $seen = [];
+    $tags = array_filter($tags, function($tag) use (&$seen) {
+      if(!isset($seen[$tag['id']])) {
+        $seen[$tag['id']] = TRUE;
+        return TRUE;
+      }
+      return FALSE;
+    });
+
+    $output = json_encode([
+      'patterns' => $patterns,
+      'tags' => array_values($tags),
+    ], JSON_PRETTY_PRINT);
     file_put_contents($path.'/manifest.json', $output);
   }
 
   public function writeIndex(ConfigInterface $config, $path) {
     $output = $this->templating->render('index.html.php');
     file_put_contents($path.'/index.php', $output);
-    file_put_contents($path.'/index.html', $output);
   }
 
   public function writeAssets(ConfigInterface $config, $rootPath) {
     foreach($config->getAssetMappings() as $url => $path) {
       $this->filesystem->symlink($path, sprintf('%s/%s', $rootPath, $url));
     }
+  }
+
+  public function writeUi($rootPath) {
+    $this->filesystem->mirror(realpath(__DIR__.'/../../ui/build'), $rootPath, NULL, ['override' => TRUE]);
+  }
+
+  private function collectPatternTags(PatternInterface $pattern, Labeller $labeller) {
+    $tags = [];
+    foreach($pattern->getTags() as $k=> $v) {
+      $tags[] = [
+        'id' => md5($k.':'.$v),
+        'type' => $k,
+        'value' => $v,
+        'name' => $labeller->getTagLabel($k, $v)
+      ];
+    }
+    return $tags;
   }
 }
