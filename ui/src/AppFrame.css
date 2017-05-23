@@ -13,8 +13,12 @@
     color:white;
     text-align:center;
 }
+.AppFrame-controls div {
+    display:inline-block;
+}
 .AppFrame-controls a, .AppFrame-controls span  {
     display:inline-block;
+    color: white;
     background: black;
     line-height: 1;
     font-weight: bold;
@@ -24,8 +28,19 @@
 .AppFrame-controls .AppFrame-close {
 
 }
-.ResizableFrame {
+
+.AppFrame-inner {
+    height: 90%;
+    width: 100%;
     margin: 0 auto;
+    background:white;
+}
+
+.AppFrame-inner iframe {
+    width: 100%;
+    height: 100%;
+}
+.ResizableFrame {
     height: 400px;
     width: 400px;
     overflow:auto;

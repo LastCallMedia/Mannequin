@@ -37,15 +37,17 @@ class AppFrame extends Component{
     });
   }
   render() {
-    const {children, controls} = this.props;
+    const {children, controls, resizable} = this.props;
     return(
       <div className="AppFrame">
         <div className="AppFrame-controls">
           <a onClick={this.handleClose} className="AppFrame-close">x</a>
-          <span className="size">{`${this.state.width}x${this.state.height}`}</span>
+          {resizable && <span className="size">{`${this.state.width}x${this.state.height}`}</span>}
           {controls}
         </div>
-        <ResizableFrame onResize={this.handleResize}>{children}</ResizableFrame>
+        {resizable && <ResizableFrame className="AppFrame-inner" onResize={this.handleResize}>{children}</ResizableFrame>}
+        {!resizable && <div className="AppFrame-inner">{children}</div>}
+
       </div>
     )
   }
@@ -66,8 +68,9 @@ class ResizableFrame extends Component {
     }
   }
   render() {
+    const {className} = this.props;
     return (
-      <div className="ResizableFrame" ref={c => this.resizable = c}>
+      <div className={`ResizableFrame ${className}`} ref={c => this.resizable = c}>
         {this.props.children}
         <ReactResizeDetector handleWidth handleHeight onResize={this.onResize} />
       </div>

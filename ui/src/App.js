@@ -5,8 +5,7 @@ import {
 } from 'react-router-dom';
 
 import PatternBoard from './PatternBoard';
-import AppFrame from './AppFrame';
-import {PatternRenderDisplay} from './Pattern';
+import PatternView from './Pattern';
 import {connect} from 'react-redux';
 import {fetchPatterns} from './actions';
 import './App.css';
@@ -22,17 +21,7 @@ class App extends Component {
       <Router>
         <div className="App">
           <PatternBoard patterns={patterns} tags={tags} grouping={'type'} />
-          <Route path="/pattern/:id" render={(props) => {
-            var selectedPattern = patterns.filter(pattern => pattern.id === props.match.params.id).pop();
-            if(!selectedPattern) {
-              return (<AppFrame><h1>Pattern not found</h1></AppFrame>)
-            }
-            return (
-              <AppFrame onClose={props.history.goBack}>
-                <PatternRenderDisplay pattern={selectedPattern}/>
-              </AppFrame>
-            );
-          }}/>
+          <Route path={'/pattern/:id'} component={PatternView}/>
         </div>
       </Router>
     );
