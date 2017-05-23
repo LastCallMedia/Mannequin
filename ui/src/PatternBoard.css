@@ -11,7 +11,8 @@
 }
 .PatternBoard-col {
     display:inline-block;
-    height: 100%;
+    /* Slightly shorter height to prevent scrollbars when the horizontal scrollbar appears.*/
+    height: 99%;
     width: 33vw;
     overflow-y:auto;
 }

@@ -1,0 +1,33 @@
+
+.AppFrame {
+    position:absolute !important;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
+    background: rgba(0,0,0,.5);
+    padding: 2rem;
+}
+.AppFrame-controls {
+    color:white;
+    text-align:center;
+}
+.AppFrame-controls a, .AppFrame-controls span  {
+    display:inline-block;
+    background: black;
+    line-height: 1;
+    font-weight: bold;
+    padding: 1em;
+    text-decoration: none;
+}
+.AppFrame-controls .AppFrame-close {
+
+}
+.ResizableFrame {
+    margin: 0 auto;
+    height: 400px;
+    width: 400px;
+    overflow:auto;
+    resize: both;
+}

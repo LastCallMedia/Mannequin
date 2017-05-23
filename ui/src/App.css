@@ -9,41 +9,6 @@ html, body, #root {
     height: 100%;
 }
 
-.AppFrame {
-    position:absolute !important;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 5;
-    background: rgba(0,0,0,.5);
-    padding: 2rem;
-}
-.AppFrame-close {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    color:white;
-    border: 3px solid;
-    text-decoration: none;
-    border-radius: 3em;
-    padding: .25em .5em;
-    line-height: 1;
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-.AppFrame-inner {
-    background: white;
-    height: 100%;
-    width: 100%;
-    margin: 0 auto;
-}
-.AppFrame-bar {
-    background: #333;
-    padding: .25rem;
-    box-shadow: 1px 0 1px 0 #aaa;
-}
-
 iframe.pattern-render {
     width: 100%;
     height: 100%;
