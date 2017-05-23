@@ -1,0 +1,34 @@
+
+.PatternCard {
+    display:block;
+    border: 1px solid #ccc;
+    background: white;
+    color: black;
+}
+.PatternCard-title {
+    margin:0;
+    display: inline-block;
+}
+
+.PatternCard .PatternCard-title, .PatternCard .PatternFormatBadge {
+    margin: .35rem .25rem;
+}
+
+.PatternFormatBadge {
+    display:inline-block;
+    border-radius: 3em;
+    border: 1px solid;
+    padding: .25em .5em;
+    font-size: .75rem;
+    line-height: 1;
+    text-transform: uppercase;
+}
+.PatternFormatBadge.status-undefined {
+    color: #ddd;
+}
+.PatternFormatBadge.status-inprogress {
+    color: #31b0d5;
+}
+.PatternFormatBadge.status-complete {
+    color: #2ca02c;
+}

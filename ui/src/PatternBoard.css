@@ -1,0 +1,39 @@
+
+.PatternBoard {
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+    background: #eee;
+}
+.PatternBoard-inner {
+    width: auto;
+    height: 100%;
+}
+.PatternBoard-col {
+    display:inline-block;
+    height: 100%;
+    width: 33vw;
+    overflow-y:auto;
+}
+.PatternBoard-col .PatternBoard-list, .PatternBoard-col > h3 {
+    margin: 0 .5rem;
+}
+.PatternBoard-col:first-child .PatternBoard-list, .PatternBoard-col:first-child > h3 {
+    margin-left: 1rem;
+}
+.PatternBoard-col:last-child .PatternBoard-list, .PatternBoard-col:last-child > h3 {
+    margin-right: 1rem;
+}
+
+.PatternBoard-list {
+    list-style:none;
+    margin: 0;
+    padding:0;
+}
+
+.PatternBoard-list > li {
+    margin-top: 1rem;
+}
+.PatternBoard-list > li:first-child {
+    margin-top: 0;
+}
