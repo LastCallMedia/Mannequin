@@ -21,6 +21,10 @@ class UiWriter {
     return sprintf('_render/%s.html', md5($pattern->getId()));
   }
 
+  private function getSourcePath(PatternInterface $pattern) {
+    return sprintf('_source/%s.txt', md5($pattern->getId()));
+  }
+
   public function writeAll(ConfigInterface $config, $path) {
     $renderer = $config->getRenderer();
     $labeller = $config->getLabeller();
@@ -31,8 +35,12 @@ class UiWriter {
     if(!$this->filesystem->exists($path .'/_render')) {
       $this->filesystem->mkdir($path.'/_render');
     }
+    if(!$this->filesystem->exists($path .'/_source')) {
+      $this->filesystem->mkdir($path.'/_source');
+    }
 
     foreach($config->getCollection() as $pattern) {
+      $source = $renderer->renderSource($pattern);
       $rendered = $renderer->render($pattern);
       $filename = sprintf('%s/%s', $path, $this->getRenderPath($pattern));
       file_put_contents($filename, $this->templating->render('rendered.html.php', [
@@ -41,6 +49,8 @@ class UiWriter {
         'styles' => $rendered->getStyles(),
         'scripts' => $rendered->getScripts(),
       ]));
+      $sourceFilename = sprintf('%s/%s', $path, $this->getSourcePath($pattern));
+      file_put_contents($sourceFilename, $source);
     }
     $this->writeManifest($config, $path);
     $this->writeIndex($config, $path);
@@ -58,6 +68,7 @@ class UiWriter {
       $patterns[] = [
         'id' => md5($pattern->getId()),
         'rendered' => $this->getRenderPath($pattern),
+        'source' => $this->getSourcePath($pattern),
         'name' => $labeller->getPatternLabel($pattern),
         'tags' => $pattern->getTags(),
       ];

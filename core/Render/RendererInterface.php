@@ -13,4 +13,6 @@ interface RendererInterface {
 
   public function render(PatternInterface $pattern, VariableSet $overrides = NULL): RenderedInterface;
 
+  public function renderSource(PatternInterface $pattern): string;
+
 }

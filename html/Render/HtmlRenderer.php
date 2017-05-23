@@ -30,4 +30,8 @@ class HtmlRenderer implements RendererInterface {
     return $rendered;
   }
 
+  public function renderSource(PatternInterface $pattern): string {
+    return file_get_contents($pattern->getFile()->getPathname());
+  }
+
 }

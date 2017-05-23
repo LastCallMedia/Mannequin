@@ -39,6 +39,12 @@ class TwigRenderer implements RendererInterface {
     return $rendered;
   }
 
+  public function renderSource(PatternInterface $pattern): string {
+    if($pattern instanceof TwigPattern) {
+      return $pattern->getSource()->getCode();
+    }
+  }
+
   private function prepareVariables(PatternInterface $pattern, VariableSet $overrides = NULL, RenderedInterface $rendered) {
     $variables = $pattern->getVariables();
     if($this->globals) {
