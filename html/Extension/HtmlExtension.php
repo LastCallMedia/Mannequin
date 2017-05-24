@@ -8,6 +8,8 @@ use LastCall\Mannequin\Core\Extension\AbstractExtension;
 use LastCall\Mannequin\Core\Metadata\YamlFileMetadataFactory;
 use LastCall\Mannequin\Html\Discovery\HtmlDiscovery;
 use LastCall\Mannequin\Html\Render\HtmlRenderer;
+use LastCall\Mannequin\Core\Metadata\ChainMetadataFactory;
+use LastCall\Mannequin\Core\Metadata\MatchingPatternMetadataFactory;
 use Symfony\Component\Finder\Finder;
 
 class HtmlExtension extends AbstractExtension {
@@ -22,7 +24,10 @@ class HtmlExtension extends AbstractExtension {
     };
     $this['metadata_parser'] = function() {
       $config = $this->getConfig();
-      return new YamlFileMetadataFactory($config->getVariableFactory());
+      return new ChainMetadataFactory([
+        new MatchingPatternMetadataFactory('/.*/', ['format' => 'html']),
+        new YamlFileMetadataFactory($config->getVariableFactory()),
+      ]);
     };
     $this['discovery'] = function() {
       return new HtmlDiscovery($this['finder'], $this['metadata_parser']);

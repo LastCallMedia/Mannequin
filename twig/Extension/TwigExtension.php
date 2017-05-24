@@ -5,6 +5,8 @@ namespace LastCall\Mannequin\Twig\Extension;
 
 
 use LastCall\Mannequin\Core\Extension\AbstractExtension;
+use LastCall\Mannequin\Core\Metadata\ChainMetadataFactory;
+use LastCall\Mannequin\Core\Metadata\MatchingPatternMetadataFactory;
 use LastCall\Mannequin\Core\Metadata\YamlFileMetadataFactory;
 use LastCall\Mannequin\Twig\Discovery\TwigFileDiscovery;
 use LastCall\Mannequin\Twig\Metadata\TwigInlineMetadataFactory;
@@ -48,7 +50,10 @@ class TwigExtension extends AbstractExtension {
     };
     $this['metadata_parser'] = function() {
       $config = $this->getConfig();
-      return new TwigInlineMetadataFactory($this['twig'], $config->getVariableFactory());
+      return new ChainMetadataFactory([
+        new MatchingPatternMetadataFactory('/.*/', ['format' => 'twig']),
+        new TwigInlineMetadataFactory($this['twig'], $config->getVariableFactory()),
+      ]);
     };
     $this['discovery'] = function() {
       $config = $this->getConfig();
