@@ -25,6 +25,7 @@ class MatchingPatternMetadataFactory implements MetadataFactoryInterface {
     if($this->matches($pattern)) {
       return [
         'name' => '',
+        'description' => '',
         'tags' => $this->tags,
         'variables' => new VariableSet()
       ];

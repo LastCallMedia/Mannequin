@@ -37,6 +37,7 @@ class TwigFileDiscoveryTest extends TestCase {
     $patterns = $discoverer->discover();
     $pattern = $patterns->get($expected->getId());
     $this->assertEquals($expected->getId(), $pattern->getId());
+    $this->assertEquals($expected->getDescription(), $pattern->getDescription());
     $this->assertEquals($expected->getName(), $pattern->getName());
     $this->assertEquals($expected->getTags(), $pattern->getTags());
     $this->assertEquals($expected->getVariables(), $pattern->getVariables());

@@ -44,30 +44,21 @@ class YamlFileMetadataFactory implements MetadataFactoryInterface {
     throw new \InvalidArgumentException(sprintf('Pattern %s does not implement TemplateFilePatternInterface', $pattern->getId()));
   }
 
-  protected function parseMetadata(array $metadata, PatternInterface $pattern) {
-    $metadata = $this->processMetadata($metadata);
-
-    if(!empty($metadata['name'])) {
-      $pattern->setName($metadata['name']);
-    }
-    if(!empty($metadata['tags'])) {
-      $pattern->setTags($metadata['tags']);
-    }
-    $pattern->setVariables($metadata['variables']);
-    return $pattern;
-  }
-
   protected function processMetadata($metadata) {
     if(!is_array($metadata)) {
       throw new TemplateParsingException('Metadata must be an array');
     }
     $metadata += [
       'name' => '',
+      'description' => '',
       'tags' => [],
       'variables' => [],
     ];
     if(!is_string($metadata['name'])) {
       throw new TemplateParsingException('Name must be a string.');
+    }
+    if(!is_string($metadata['description'])) {
+      throw new TemplateParsingException('Description must be a string');
     }
     if(!is_array($metadata['tags'])) {
       throw new TemplateParsingException('Tags must be an associative array');

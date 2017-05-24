@@ -57,6 +57,7 @@ class TwigFileDiscovery implements DiscoveryInterface {
       if($this->metadataParser->hasMetadata($pattern)) {
         $metadata = $this->metadataParser->getMetadata($pattern);
         $pattern->setName($metadata['name']);
+        $pattern->setDescription($metadata['description']);
         $pattern->setTags($metadata['tags']);
         $pattern->setVariables($metadata['variables']);
       }

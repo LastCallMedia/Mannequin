@@ -62,6 +62,7 @@ class HtmlDiscoveryTest extends TestCase {
   public function testSetsPropertiesOnDiscoveredPatterns() {
     $metadataFactory = $this->mockMetadataFactory([
       'name' => 'Foo',
+      'description' => 'Foo Description',
       'tags' => [],
       'variables' => new VariableSet(),
     ]);
@@ -72,6 +73,7 @@ class HtmlDiscoveryTest extends TestCase {
     $this->assertInstanceOf(HtmlPattern::class, $pattern);
     $this->assertEquals('html://foo.html', $pattern->getId());
     $this->assertEquals('Foo', $pattern->getName());
+    $this->assertEquals('Foo Description', $pattern->getDescription());
   }
 
   public function testSetsFileInfoOnDiscoveredPatterns() {

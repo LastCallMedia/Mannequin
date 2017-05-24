@@ -70,6 +70,7 @@ class UiWriter {
         'rendered' => $this->getRenderPath($pattern),
         'source' => $this->getSourcePath($pattern),
         'name' => $labeller->getPatternLabel($pattern),
+        'description' => $pattern->getDescription(),
         'tags' => $pattern->getTags(),
       ];
       $tags = array_merge($tags, $this->collectPatternTags($pattern, $labeller));

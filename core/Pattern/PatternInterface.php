@@ -8,6 +8,8 @@ interface PatternInterface {
 
   public function setName(string $name): PatternInterface;
 
+  public function setDescription(string $description): PatternInterface;
+
   public function setTags(array $tags): PatternInterface;
 
   public function setVariables(VariableSet $variableSet): PatternInterface;
@@ -18,6 +20,13 @@ interface PatternInterface {
    * @return string
    */
   public function getName(): string;
+
+  /**
+   * Get the description of the pattern.
+   *
+   * @return string
+   */
+  public function getDescription(): string;
 
   /**
    * Get the unique identifier for the pattern.

@@ -36,6 +36,7 @@ class HtmlDiscovery implements DiscoveryInterface {
     if($this->metadataFactory->hasMetadata($pattern)) {
       $metadata = $this->metadataFactory->getMetadata($pattern);
       $pattern->setName($metadata['name']);
+      $pattern->setDescription($metadata['description']);
       $pattern->setVariables($metadata['variables']);
       $pattern->setTags($metadata['tags']);
     }

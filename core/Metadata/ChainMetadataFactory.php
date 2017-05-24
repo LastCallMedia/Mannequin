@@ -47,6 +47,7 @@ class ChainMetadataFactory implements MetadataFactoryInterface {
   private function resolveSets(array $sets) {
     $metadata = [
       'name' => '',
+      'description' => '',
       'tags' => [],
       'variables' => new VariableSet(),
     ];
@@ -54,6 +55,7 @@ class ChainMetadataFactory implements MetadataFactoryInterface {
       if(!empty($set['name'])) {
         $metadata['name'] = $set['name'];
       }
+      $metadata['description'] = $set['description'] ?: $metadata['description'];
       $metadata['tags'] = $set['tags'] + $metadata['tags'];
       $metadata['variables'] = $metadata['variables']->merge($set['variables']);
     }
