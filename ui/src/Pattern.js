@@ -23,12 +23,12 @@ function PatternDisplay(props) {
   }
 
   const controls = (
-    <div>
-      <Link to={`${patternMatch.url}/render`}>View</Link>
-      <Link to={`${patternMatch.url}/source`}>Source</Link>
+    <ul className="tabs">
+      <li className="tabs-title"><Link to={`${patternMatch.url}/render`}>View</Link></li>
+      <li className="tabs-title"><Link to={`${patternMatch.url}/source`}>Source</Link></li>
       {/* Open in new window? */}
       {/* View HTML source? */}
-    </div>
+    </ul>
   );
 
   return (

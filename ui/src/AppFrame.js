@@ -2,15 +2,17 @@
 import React, {Component} from 'react';
 import ReactResizeDetector from 'react-resize-detector';
 
-import './AppFrame.css';
-
 class AppFrame extends Component{
   constructor(props, context) {
     super(props, context);
     this.handleKeypress = this.handleKeypress.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleResize = this.handleResize.bind(this);
+    this.onResize = this.handleResize.bind(this);
     this.state = {width: 0, height: 0};
+  }
+  componentDidMount() {
+    this.handleResize(this.modal.offsetWidth, this.modal.offsetHeight);
   }
   componentWillMount() {
     document.addEventListener('keydown', this.handleKeypress, false);
@@ -39,40 +41,15 @@ class AppFrame extends Component{
   render() {
     const {children, controls, resizable} = this.props;
     return(
-      <div className="AppFrame">
-        <div className="AppFrame-controls">
-          <a onClick={this.handleClose} className="AppFrame-close">x</a>
-          {resizable && <span className="size">{`${this.state.width}x${this.state.height}`}</span>}
-          {controls}
+      <div className="reveal-overlay" style={{display: 'block'}}>
+        {controls && <div className="AppFrame-nav">{controls}</div>}
+        <div className={`AppFrame reveal${resizable ? ' resizable': ''}`} style={{display: 'block'}} ref={c => this.modal = c}>
+
+          <button className="close-button" onClick={this.handleClose}><span aria-hidden="true">&times;</span></button>
+          {children}
+          {resizable && <ReactResizeDetector handleWidth handleHeight onResize={this.onResize} />}
+          {resizable && <span className="label secondary sizing">{`${this.state.height}x${this.state.width}`}</span>}
         </div>
-        {resizable && <ResizableFrame className="AppFrame-inner" onResize={this.handleResize}>{children}</ResizableFrame>}
-        {!resizable && <div className="AppFrame-inner">{children}</div>}
-
-      </div>
-    )
-  }
-}
-
-class ResizableFrame extends Component {
-  constructor() {
-    super();
-    this.onResize = this.onResize.bind(this);
-  }
-  componentDidMount() {
-    // Get the initial size.
-    this.onResize(this.resizable.offsetWidth, this.resizable.offsetHeight);
-  }
-  onResize(w, h) {
-    if(this.props.onResize) {
-      this.props.onResize(w, h);
-    }
-  }
-  render() {
-    const {className} = this.props;
-    return (
-      <div className={`ResizableFrame ${className}`} ref={c => this.resizable = c}>
-        {this.props.children}
-        <ReactResizeDetector handleWidth handleHeight onResize={this.onResize} />
       </div>
     )
   }

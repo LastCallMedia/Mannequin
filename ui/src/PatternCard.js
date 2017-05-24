@@ -1,22 +1,34 @@
 
 import React from 'react';
 import {Link} from 'react-router-dom';
-import './PatternCard.css';
 
 export function PatternCard(props) {
   let {pattern} = props;
   return (
-    <Link className="PatternCard" to={`/pattern/${pattern.id}`}>
-      {/*<PatternBadge format={pattern.tags['format']} status={pattern.tags['status']} />*/}
-      <h4 className="PatternCard-title">{pattern.name}</h4>
-      {pattern.description.length > 0 && <div className="PatternCard-info">
-        <p>{pattern.description}</p>
+    <Link className="card" to={`/pattern/${pattern.id}`}>
+      <div className="card-divider">
+        <PatternBadge format={pattern.tags['format']} status={pattern.tags['status']} />
+        <h5>{pattern.name}</h5>
+      </div>
+      {pattern.description.length > 0 && <div className="card-section">
+        <p><small>{pattern.description}</small></p>
       </div>}
     </Link>
   )
 }
 
 export function PatternBadge(props) {
-  let {format, status} = props;
-  return <span className={`PatternFormatBadge status-${status}`}>{format ? format[0] : '?'}</span>
+  const {format, status} = props;
+  let statusClass = 'secondary';
+  switch(status) {
+    case 'inprogress':
+      statusClass = 'warning';
+      break;
+    case 'complete':
+      statusClass = 'success';
+      break;
+    default:
+      break;
+  }
+  return <span className={`badge float-right ${statusClass}`}>{format ? format[0] : '?'}</span>
 }

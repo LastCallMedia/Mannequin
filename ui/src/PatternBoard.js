@@ -2,7 +2,6 @@
 import React, {Component} from 'react';
 
 import {PatternCard} from './PatternCard';
-import './PatternBoard.css';
 
 class PatternBoard extends Component {
   render() {
@@ -12,7 +11,7 @@ class PatternBoard extends Component {
     let innerW = (Object.keys(groups).length / 3) * 100;
     return (
       <div className="PatternBoard">
-        <div className="PatternBoard-inner" style={{width: `${innerW}vw`}}>
+        <div className="PatternBoard-inner row" style={{width: `${innerW}vw`}}>
           {Object.keys(groups).map(tn => (
             <PatternBoardCol key={`pb:${tn}`} tagId={tn} tagName={tn} patterns={groups[tn]} />
           ))}
@@ -25,9 +24,9 @@ class PatternBoard extends Component {
 function PatternBoardCol(props) {
   let {tagId, tagName, patterns} = props;
   return (
-    <div key={tagId} className="PatternBoard-col">
+    <div key={tagId} className="PatternBoard-col columns small-3">
       <h3>{tagName}</h3>
-      <ul className="PatternBoard-list">
+      <ul className="PatternBoard-list no-bullet">
         {patterns.map(p => {
           return (
             <li key={`pbl:${tagId}:${p.id}`}><PatternCard pattern={p} /></li>
