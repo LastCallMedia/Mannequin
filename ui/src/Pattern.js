@@ -26,6 +26,8 @@ function PatternDisplay(props) {
     <div>
       <Link to={`${patternMatch.url}/render`}>View</Link>
       <Link to={`${patternMatch.url}/source`}>Source</Link>
+      {/* Open in new window? */}
+      {/* View HTML source? */}
     </div>
   );
 
