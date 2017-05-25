@@ -1,6 +1,9 @@
 #!/usr/bin/env php
 <?php
 
+use LastCall\Mannequin\Cli\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+
 $autoload_file = FALSE;
 foreach (array(__DIR__ . '/../../../../autoload.php', __DIR__ . '/../../../vendor/autoload.php', __DIR__ . '/../../vendor/autoload.php') as $file) {
   if (file_exists($file)) {
@@ -20,5 +23,9 @@ else {
   die(1);
 }
 
-$app = new \LastCall\Mannequin\Cli\Application();
+$input = new ArgvInput();
+$app = new Application([
+  'autoload_path' => $autoload_file,
+  'config_file' => $input->getParameterOption(['--config', '-c'], '.mannequin.php')
+]);
 return $app->getConsole()->run();
