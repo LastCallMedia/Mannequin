@@ -33,9 +33,6 @@ class Application extends \Silex\Application {
       $app->addCommands($this['commands']);
       return $app;
     };
-    $this['logger'] = function() {
-      return new Logger('app', [new StreamHandler(__DIR__.'/log.txt')]);
-    };
     $this['config'] = function() {
       $filename = $this['config_file'];
       if(!file_exists($filename)) {
