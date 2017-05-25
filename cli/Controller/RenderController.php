@@ -28,15 +28,17 @@ class RenderController {
   }
 
   public function staticAction($name) {
-    return $this->getUiFile('static/' . $name);
+    if(strpos($name, 'static/') === 0) {
+      return $this->getUiFile($name);
+    }
+    // @todo: Assets need to be checked here.
+    return new Response($name);
   }
 
   private function getUiFile($name) {
     $filename = sprintf(__DIR__.'/../../ui/build/%s', $name);
     if(file_exists($filename)) {
-      $file = new File($filename);
-      $response = new BinaryFileResponse($file);
-      return $response;
+      return new BinaryFileResponse($filename);
     }
     throw new NotFoundHttpException('File not found.');
   }

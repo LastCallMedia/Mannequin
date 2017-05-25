@@ -75,9 +75,7 @@ class Application extends \Silex\Application {
     $this->get('/manifest.json', 'controller.render:manifestAction')->bind('manifest');
     $this->get('/_render/{pattern}', 'controller.render:renderAction')->bind('pattern_render');
     $this->get('/_source/{pattern}', 'controller.render:sourceAction')->bind('pattern_source');
-    $this->get('/static/{name}', 'controller.render:staticAction')
-      ->assert('name', '.+');
-
+    $this->get('/{name}', 'controller.render:staticAction')->assert('name','.+');
   }
 
   public function boot() {
