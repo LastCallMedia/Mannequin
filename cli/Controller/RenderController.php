@@ -1,0 +1,62 @@
+<?php
+
+namespace LastCall\Mannequin\Cli\Controller;
+
+use LastCall\Mannequin\Cli\Ui\UiRenderer;
+use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
+class RenderController {
+
+  private $collection;
+  private $renderer;
+  private $generator;
+
+  public function __construct(PatternCollection $collection, UiRenderer $renderer, UrlGeneratorInterface $generator) {
+    $this->collection = $collection;
+    $this->renderer = $renderer;
+    $this->generator = $generator;
+  }
+
+  public function indexAction() {
+    return $this->getUiFile('index.html');
+  }
+
+  public function staticAction($name) {
+    return $this->getUiFile('static/' . $name);
+  }
+
+  private function getUiFile($name) {
+    $filename = sprintf(__DIR__.'/../../ui/build/%s', $name);
+    if(file_exists($filename)) {
+      $file = new File($filename);
+      $response = new BinaryFileResponse($file);
+      return $response;
+    }
+    throw new NotFoundHttpException('File not found.');
+  }
+
+  public function manifestAction() {
+    $manifest = $this->renderer->renderManifest($this->collection, $this->generator);
+    return new JsonResponse($manifest);
+  }
+
+  public function renderAction($pattern) {
+    if($pattern = $this->collection->get($pattern)) {
+      $rendered = $this->renderer->renderPattern($pattern);
+      return new Response($rendered);
+    }
+  }
+
+  public function sourceAction($pattern) {
+    if($pattern = $this->collection->get($pattern)) {
+      $rendered = $this->renderer->renderSource($pattern);
+      return new Response($rendered);
+    }
+  }
+}

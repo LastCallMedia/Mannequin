@@ -2,8 +2,8 @@
 
 namespace LastCall\Mannequin\Cli\Command;
 
-use LastCall\Mannequin\Cli\Writer\FileWriter;
-use LastCall\Mannequin\Cli\Writer\UiWriter;
+use LastCall\Mannequin\Cli\Ui\UiWriter;
+use LastCall\Mannequin\Core\ConfigInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,10 +14,12 @@ use Symfony\Component\Console\Input\InputOption;
 class RenderCommand extends Command {
 
   private $uiWriter;
+  private $config;
 
-  public function __construct($name = NULL, UiWriter $uiWriter) {
+  public function __construct($name = NULL, UiWriter $uiWriter, ConfigInterface $config) {
     parent::__construct($name);
     $this->uiWriter = $uiWriter;
+    $this->config = $config;
   }
 
   public function configure() {
@@ -27,7 +29,6 @@ class RenderCommand extends Command {
 
   public function execute(InputInterface $input, OutputInterface $output) {
     $io = new SymfonyStyle($input, $output);
-    $configHelper = $this->getHelper('mannequin_config');
 
     $output = $input->getOption('output-dir');
     (new Filesystem())->mkdir($output);
@@ -35,9 +36,17 @@ class RenderCommand extends Command {
       throw new InvalidOptionException('output-dir does not exist or is not writeable');
     }
 
-    /** @var \LastCall\Mannequin\Core\Config $config */
-    $config = $configHelper->getConfig($input->getOption('config') ?: getcwd().'/.mannequin.php');
-    $io->block(sprintf('Generating patterns into %s/', $output));
-    $this->uiWriter->writeAll($config,$output);
+    $this->uiWriter->prepare($output);
+    foreach($this->config->getCollection() as $pattern) {
+      try {
+        $this->uiWriter->writeRender($pattern, realpath($output));
+      }
+      catch(\Exception $e) {
+        $io->warning($e->getMessage());
+      }
+    }
+    $this->uiWriter->writeManifest($this->config->getCollection(), $output);
+    $this->uiWriter->writeAssets($this->config->getAssetMappings(), $output);
+    $this->uiWriter->writeUi($output);
   }
 }

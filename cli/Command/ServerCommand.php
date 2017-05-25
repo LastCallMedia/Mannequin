@@ -4,22 +4,37 @@
 namespace LastCall\Mannequin\Cli\Command;
 
 use LastCall\Mannequin\Cli\Writer\UiWriter;
-use Symfony\Bundle\WebServerBundle\WebServer;
-use Symfony\Bundle\WebServerBundle\WebServerConfig;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Process\ProcessBuilder;
 
 class ServerCommand extends Command {
 
-  public function __construct($name = NULL, UiWriter $uiWriter) {
+  const CODE = <<<'eod'
+<?php
+use LastCall\Mannequin\Cli\Application;
+
+$autoload_file = '%s';
+require $autoload_file;
+$app = new Application([
+  'autoload_file' => $autoload_file,
+  'config_file' => '%s',
+]);
+$app->run();
+eod;
+
+  private $autoloadPath;
+  private $configFile;
+
+
+  public function __construct($name = NULL, $configFile, $autoloadPath) {
     parent::__construct($name);
-    $this->uiWriter = $uiWriter;
+    $this->autoloadPath = $autoloadPath;
+    $this->configFile = $configFile;
   }
 
   public function configure() {
@@ -29,33 +44,22 @@ class ServerCommand extends Command {
   }
 
   public function execute(InputInterface $input, OutputInterface $output) {
-    $io = new SymfonyStyle($input, $output);
-    $configHelper = $this->getHelper('mannequin_config');
-
-    $config = $configHelper->getConfig($input->getOption('config') ?: getcwd().'/.mannequin.php');
     $address = $input->getArgument('address');
-    if($output = $input->getOption('output-dir')) {
-      if(!is_dir($output) || !is_writable($output)) {
-        throw new InvalidOptionException('output-dir does not exist or is not writeable');
-      }
-    }
-    else {
-      $output = sys_get_temp_dir().'/mannequin/ui';
-      (new Filesystem())->mkdir($output);
-    }
 
-    try {
-      // @todo: It would be awesome if we could watch the patterns for changes...
-      $io->write('Writing UI');
-      $this->uiWriter->writeAll($config, $output);
+    $dir = sys_get_temp_dir() .'/mannequin-server';
+    $code = sprintf(self::CODE, $this->autoloadPath, realpath($this->configFile));
+    (new Filesystem())->mkdir($dir);
+    file_put_contents($dir.'/index.php', $code);
+    return $this->runserver($dir, $address, $output);
+  }
 
-      $io->write('Starting server');
-      $serverConfig = new WebServerConfig($output, $address);
-      $server = new WebServer();
-      $server->run($serverConfig, FALSE);
-    }
-    catch(\Exception $e) {
-      $io->error($e->getMessage());
-    }
+  private function runServer($docroot, $address, OutputInterface $output) {
+    $routerFile = realpath(__DIR__.'/../Resources/router.php');
+    $builder = new ProcessBuilder(['php', '-S', $address, $routerFile]);
+    $builder->setWorkingDirectory($docroot);
+    $builder->setTimeout(null);
+    return $builder->getProcess()
+      ->setTty(TRUE)
+      ->run();
   }
 }
