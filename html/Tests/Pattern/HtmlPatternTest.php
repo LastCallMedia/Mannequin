@@ -11,14 +11,15 @@ class HtmlPatternTest extends TestCase {
 
   public function testConstruction() {
     $fileInfo = new \SplFileInfo('baz');
-    $pattern = new HtmlPattern('foo', $fileInfo);
+    $pattern = new HtmlPattern('foo', ['bar'], $fileInfo);
     $this->assertEquals('foo', $pattern->getId());
+    $this->assertEquals(['bar'], $pattern->getAliases());
     $this->assertEquals('', $pattern->getName());
     $this->assertEquals($fileInfo, $pattern->getFile());
   }
 
   public function testIsTaggable() {
-    $pattern = new HtmlPattern('foo', new \SplFileInfo('baz'));
+    $pattern = new HtmlPattern('foo', [], new \SplFileInfo('baz'));
     $pattern->addTag('type', 'atom');
     $this->assertTrue($pattern->hasTag('type', 'atom'));
     $this->assertEquals(['type' => 'atom'], $pattern->getTags());

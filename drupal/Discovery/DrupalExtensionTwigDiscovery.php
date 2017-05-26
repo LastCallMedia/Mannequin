@@ -62,8 +62,7 @@ class DrupalExtensionTwigDiscovery implements DiscoveryInterface {
     if($this->loader->exists($twig_path)) {
       $id = sprintf('drupal:%s', $twig_path);
       $source = $this->loader->getSourceContext($twig_path);
-      $pattern = new DrupalTwigPattern($this->encodeId($id), $source);
-      $pattern->addAlias($id);
+      $pattern = new DrupalTwigPattern($this->encodeId($id), [$id], $source);
       return $pattern;
     }
   }

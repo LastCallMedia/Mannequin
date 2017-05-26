@@ -21,15 +21,6 @@ interface PatternInterface {
   public function getAliases(): array;
 
   /**
-   * Add an alias to the pattern.
-   *
-   * @param string $alias
-   *
-   * @return \LastCall\Mannequin\Core\Pattern\PatternInterface
-   */
-  public function addAlias(string $alias): PatternInterface;
-
-  /**
    * Get the human readable name of the pattern.
    *
    * @return string

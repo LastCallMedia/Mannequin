@@ -13,8 +13,9 @@ class TwigPattern extends AbstractPattern implements TemplateFilePatternInterfac
   private $source;
   private $templateFile;
 
-  public function __construct($id, \Twig_Source $source) {
+  public function __construct($id, array $aliases, \Twig_Source $source) {
     $this->id = $id;
+    $this->aliases = $aliases;
     $this->source = $source;
     $this->templateFile = new \SplFileInfo($source->getPath());
   }

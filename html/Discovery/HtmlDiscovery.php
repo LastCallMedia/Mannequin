@@ -34,8 +34,7 @@ class HtmlDiscovery implements DiscoveryInterface {
 
   protected function parsePattern(\SplFileInfo $fileInfo) {
     $id = sprintf('%s://%s', $this->prefix, $fileInfo->getRelativePathname());
-    $pattern = new HtmlPattern($this->encodeId($id), $fileInfo);
-    $pattern->addAlias($id);
+    $pattern = new HtmlPattern($this->encodeId($id), [$id], $fileInfo);
 
     if($this->metadataFactory->hasMetadata($pattern)) {
       $metadata = $this->metadataFactory->getMetadata($pattern);

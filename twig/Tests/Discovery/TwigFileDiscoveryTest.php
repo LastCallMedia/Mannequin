@@ -15,8 +15,7 @@ class TwigFileDiscoveryTest extends TestCase {
   const FIXTURES_DIR = __DIR__.'/../Resources';
 
   public function getTestCases() {
-    $p1 = new TwigPattern('dHdpZzovL3R3aWctbm8tbWV0YWRhdGEudHdpZw==', new \Twig_Source('', 'twig-no-metadata.twig', 'twig-no-metadata.twig'));
-    $p1->addAlias('twig://twig-no-metadata.twig');
+    $p1 = new TwigPattern('dHdpZzovL3R3aWctbm8tbWV0YWRhdGEudHdpZw==', ['twig://twig-no-metadata.twig'], new \Twig_Source('', 'twig-no-metadata.twig', 'twig-no-metadata.twig'));
     return [
       [$p1],
     ];

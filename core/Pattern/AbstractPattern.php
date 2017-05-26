@@ -32,14 +32,6 @@ abstract class AbstractPattern implements PatternInterface {
   /**
    * {@inheritdoc}
    */
-  public function addAlias(string $alias): PatternInterface {
-    $this->aliases[] = $alias;
-    return $this;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function setName(string $name): PatternInterface {
     $this->name = $name;
     return $this;

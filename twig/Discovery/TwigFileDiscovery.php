@@ -54,8 +54,7 @@ class TwigFileDiscovery implements DiscoveryInterface {
       $id = sprintf('%s://%s', $this->prefix, $fileInfo->getRelativePathname());
       $source = $this->loader->getSourceContext($fileInfo->getRelativePathname());
 
-      $pattern = new TwigPattern($this->encodeId($id), $source);
-      $pattern->addAlias($id);
+      $pattern = new TwigPattern($this->encodeId($id), [$id], $source);
 
       if($this->metadataParser->hasMetadata($pattern)) {
         $metadata = $this->metadataParser->getMetadata($pattern);
