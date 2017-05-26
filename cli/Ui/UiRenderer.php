@@ -7,6 +7,7 @@ namespace LastCall\Mannequin\Cli\Ui;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Render\RendererInterface;
+use LastCall\Mannequin\Core\Variable\Set;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Templating\EngineInterface;
 
@@ -33,8 +34,8 @@ class UiRenderer {
     return $manifest;
   }
 
-  public function renderPattern(PatternInterface $pattern) {
-    $rendered = $this->renderer->render($pattern);
+  public function renderPattern(PatternInterface $pattern, Set $set) {
+    $rendered = $this->renderer->render($pattern, $set);
     return $this->templating->render('rendered.html.php', [
       'title' => $pattern->getName(),
       'markup' => $rendered->getMarkup(),

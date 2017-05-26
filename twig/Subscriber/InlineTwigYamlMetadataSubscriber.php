@@ -22,8 +22,8 @@ class InlineTwigYamlMetadataSubscriber implements EventSubscriberInterface {
   private $parser;
   private $twig;
 
-  public function __construct(VariableFactoryInterface $factory, \Twig_Environment $environment) {
-    $this->parser = new YamlMetadataParser($factory);
+  public function __construct(\Twig_Environment $environment) {
+    $this->parser = new YamlMetadataParser();
     $this->twig = $environment;
   }
  
@@ -42,10 +42,13 @@ class InlineTwigYamlMetadataSubscriber implements EventSubscriberInterface {
           if(empty($pattern->getDescription()) && $metadata['description']) {
             $pattern->setDescription($metadata['description']);
           }
+          $pattern->setVariableDefinition($metadata['definition']);
           foreach($metadata['tags'] as $k => $v) {
             $pattern->addTag($k, $v);
           }
-          $pattern->getVariables()->merge($metadata['variables']);
+          foreach($metadata['sets'] as $k => $set) {
+            $pattern->addVariableSet($k, $set);
+          }
         }
       }
     }

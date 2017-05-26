@@ -6,10 +6,10 @@ namespace LastCall\Mannequin\Core\Variable;
 
 interface VariableFactoryInterface {
 
-  public function create($type, $value = NULL): VariableInterface;
+  public function provides(string $type): bool;
 
-  public function hasType($type): bool;
+  public function validate(string $type, $value);
 
-  public function getTypes(): array;
+  public function realize(string $type, $value);
 
 }

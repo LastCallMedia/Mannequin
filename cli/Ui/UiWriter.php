@@ -28,7 +28,8 @@ class UiWriter {
   }
 
   public function writeRender(PatternInterface $pattern, $dir) {
-    $rendered = $this->renderer->renderPattern($pattern);
+    $set = $pattern->getVariableSets()['default'];
+    $rendered = $this->renderer->renderPattern($pattern, $set);
     $rendered_path = $this->generator->generate('pattern_render', ['pattern' => $pattern->getId()], UrlGeneratorInterface::RELATIVE_PATH);
     file_put_contents(sprintf('%s/%s', $dir, $rendered_path), $rendered);
   }

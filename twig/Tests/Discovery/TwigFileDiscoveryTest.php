@@ -54,9 +54,6 @@ class TwigFileDiscoveryTest extends TestCase {
    */
   public function testDiscover(TwigPattern $expected) {
     $loader = new \Twig_Loader_Filesystem(self::FIXTURES_DIR);
-    $metadata = $this->prophesize(MetadataFactoryInterface::class);
-    $metadata->hasMetadata(Argument::type(TwigPattern::class))->willReturn(FALSE);
-
     $finder = new Finder();
     $finder->in([self::FIXTURES_DIR]);
     $finder->name($expected->getSource()->getPath());

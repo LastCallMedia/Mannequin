@@ -50,13 +50,6 @@ class TwigExtension extends AbstractExtension {
         'auto_reload' => TRUE,
       ]);
     };
-    $this['metadata_parser'] = function() {
-      $config = $this->getConfig();
-      return new ChainMetadataFactory([
-        new MatchingPatternMetadataFactory('/.*/', ['format' => 'twig']),
-        new TwigInlineMetadataFactory($this['twig'], $config->getVariableFactory()),
-      ]);
-    };
     $this['discovery'] = function() {
       return new TwigFileDiscovery($this['twig']->getLoader(), $this['finder'], $this->getConfig()->getDispatcher());
     };
@@ -89,10 +82,10 @@ class TwigExtension extends AbstractExtension {
    */
   public function getRenderers(): array {
     $config = $this->getConfig();
-    return [new TwigRenderer($this['twig'], $config->getVariables(), $config->getStyles(), $config->getScripts())];
+    return [new TwigRenderer($this['twig'], $config->getVariableResolver(), $config->getStyles(), $config->getScripts())];
   }
 
   public function attachToDispatcher(EventDispatcherInterface $dispatcher) {
-    $dispatcher->addSubscriber(new InlineTwigYamlMetadataSubscriber($this->getConfig()->getVariableFactory(), $this['twig']));
+    $dispatcher->addSubscriber(new InlineTwigYamlMetadataSubscriber($this['twig']));
   }
 }

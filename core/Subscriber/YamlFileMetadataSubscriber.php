@@ -13,11 +13,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class YamlFileMetadataSubscriber implements EventSubscriberInterface {
 
-  private $variableFactory;
-
-  public function __construct(VariableFactoryInterface $factory) {
-    $this->variableFactory = $factory;
-    $this->parser = new YamlMetadataParser($factory);
+  public function __construct() {
+    $this->parser = new YamlMetadataParser();
   }
 
   public static function getSubscribedEvents() {
@@ -38,10 +35,13 @@ class YamlFileMetadataSubscriber implements EventSubscriberInterface {
         if(empty($pattern->getDescription()) && $metadata['description']) {
           $pattern->setDescription($metadata['description']);
         }
+        $pattern->setVariableDefinition($metadata['definition']);
         foreach($metadata['tags'] as $k => $v) {
           $pattern->addTag($k, $v);
         }
-        $pattern->getVariables()->merge($metadata['variables']);
+        foreach($metadata['tags'] as $k => $v) {
+          $pattern->addTag($k, $v);
+        }
       }
     }
   }

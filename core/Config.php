@@ -8,6 +8,7 @@ use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Render\DelegatingRenderer;
 use LastCall\Mannequin\Core\Render\RendererInterface;
+use LastCall\Mannequin\Core\Variable\SetResolver;
 use LastCall\Mannequin\Core\Variable\VariableFactory;
 use LastCall\Mannequin\Core\Variable\VariableFactoryInterface;
 use LastCall\Mannequin\Core\Variable\VariableSet;
@@ -47,12 +48,12 @@ class Config extends Container implements ConfigInterface {
     $this['variables'] = function() {
       return new VariableSet();
     };
-    $this['variable.factory'] = function() {
-      $factories = [];
+    $this['variable.resolver'] = function() {
+      $resolvers = [];
       foreach($this->getExtensions() as $extension) {
-        $factories = array_merge($factories, $extension->getVariableFactories());
+        $resolvers = array_merge($resolvers, $extension->getVariableResolvers());
       }
-      return new VariableFactory([], $factories);
+      return new SetResolver($resolvers);
     };
     $this['collection'] = function() {
       return $this['discovery']->discover();
@@ -179,8 +180,8 @@ class Config extends Container implements ConfigInterface {
     return $this['labeller'];
   }
 
-  public function getVariableFactory(): VariableFactoryInterface {
-    return $this['variable.factory'];
+  public function getVariableResolver(): SetResolver {
+    return $this['variable.resolver'];
   }
 
   public function getCacheDir(): string {

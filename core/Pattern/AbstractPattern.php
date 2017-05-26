@@ -4,7 +4,8 @@
 namespace LastCall\Mannequin\Core\Pattern;
 
 
-use LastCall\Mannequin\Core\Variable\VariableSet;
+use LastCall\Mannequin\Core\Variable\Definition;
+use LastCall\Mannequin\Core\Variable\Set;
 
 abstract class AbstractPattern implements PatternInterface {
 
@@ -13,7 +14,15 @@ abstract class AbstractPattern implements PatternInterface {
   private $name = '';
   private $description = '';
   private $tags = [];
+  private $variableDefinition;
+  private $variableSets = [];
   private $variableSet;
+
+  public function __construct($id, array $aliases = []) {
+    $this->id = $id;
+    $this->aliases = $aliases;
+    $this->variableSets['default'] = new Set('Default', []);
+  }
 
   /**
    * {@inheritdoc}
@@ -89,18 +98,20 @@ abstract class AbstractPattern implements PatternInterface {
     return $this;
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function setVariables(VariableSet $variableSet): PatternInterface {
-    $this->variableSet = $variableSet;
+  public function setVariableDefinition(Definition $definition): PatternInterface {
+    $this->variableDefinition = $definition;
     return $this;
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getVariables(): VariableSet {
-    return $this->variableSet ? $this->variableSet : new VariableSet();
+  public function getVariableDefinition(): Definition {
+    return $this->variableDefinition ?: new Definition([]);
+  }
+
+  public function addVariableSet($id, Set $set) {
+    $this->variableSets[$id] = $set;
+  }
+
+  public function getVariableSets(): array {
+    return $this->variableSets;
   }
 }

@@ -12,7 +12,9 @@ use LastCall\Mannequin\Core\Extension\CoreExtension;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Render\DelegatingRenderer;
-use LastCall\Mannequin\Core\Variable\ScalarFactory;
+use LastCall\Mannequin\Core\Variable\ResolverInterface;
+use LastCall\Mannequin\Core\Variable\ScalarResolver;
+use LastCall\Mannequin\Core\Variable\SetResolver;
 use LastCall\Mannequin\Core\Variable\VariableFactory;
 use LastCall\Mannequin\Core\Variable\VariableFactoryInterface;
 use PHPUnit\Framework\TestCase;
@@ -51,19 +53,19 @@ class ConfigTest extends TestCase {
     $config->getCollection();
   }
 
-  public function testUsesExtensionVariableFactories() {
-    $factory = $this->prophesize(VariableFactoryInterface::class);
-    $factory->getTypes()->willReturn(['foo']);
+  public function testUsesExtensionVariableResolvers() {
+    $resolver = $this->prophesize(ResolverInterface::class);
+    $resolver->resolves('foo')->willReturn(TRUE);
 
     $extension = $this->getMockExtension();
-    $extension->getVariableFactories()
-      ->willReturn([$factory])
+    $extension->getVariableResolvers()
+      ->willReturn([$resolver])
       ->shouldBeCalled();
 
-    $extension->getVariableFactories()->shouldBeCalled();
+    $extension->getVariableResolvers()->shouldBeCalled();
     $config = new Config();
     $config->addExtension($extension->reveal());
-    $this->assertTrue($config->getVariableFactory()->hasType('foo'));
+    $this->assertTrue($config->getVariableResolver()->resolves('foo'));
   }
 
   public function testHasCoreExtension() {
@@ -80,6 +82,6 @@ class ConfigTest extends TestCase {
 
   public function testHasVariableFactory() {
     $config = new Config();
-    $this->assertInstanceOf(VariableFactory::class, $config->getVariableFactory());
+    $this->assertInstanceOf(SetResolver::class, $config->getVariableResolver());
   }
 }

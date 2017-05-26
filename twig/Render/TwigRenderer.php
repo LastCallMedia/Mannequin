@@ -8,31 +8,33 @@ use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Render\Rendered;
 use LastCall\Mannequin\Core\Render\RenderedInterface;
 use LastCall\Mannequin\Core\Render\RendererInterface;
-use LastCall\Mannequin\Core\Variable\VariableInterface;
+use LastCall\Mannequin\Core\Variable\Set;
+use LastCall\Mannequin\Core\Variable\SetResolver;
 use LastCall\Mannequin\Core\Variable\VariableSet;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 
 class TwigRenderer implements RendererInterface {
 
   private $twig;
-  private $globals;
   private $styles = [];
   private $scripts = [];
 
-  public function __construct(\Twig_Environment $twig, VariableSet $globals = NULL, array $styles = [], array $scripts = []) {
+  public function __construct(\Twig_Environment $twig, SetResolver $setResolver, array $styles = [], array $scripts = []) {
     $this->twig = $twig;
-    $this->globals = $globals;
     $this->styles = $styles;
     $this->scripts = $scripts;
+    $this->setResolver = $setResolver;
   }
 
   public function supports(PatternInterface $pattern): bool {
     return $pattern instanceof TwigPattern;
   }
 
-  public function render(PatternInterface $pattern, VariableSet $overrides = NULL): RenderedInterface {
+  public function render(PatternInterface $pattern, Set $set): RenderedInterface {
     $rendered = new Rendered($pattern);
-    $variables = $this->prepareVariables($pattern, $overrides, $rendered);
+
+    $variables = $this->setResolver->resolveSet($pattern->getVariableDefinition(), $set);
+
     $rendered->setMarkup($this->twig->render($pattern->getSource()->getName(), $variables));
     $rendered->setStyles($this->styles);
     $rendered->setScripts($this->scripts);
@@ -43,27 +45,5 @@ class TwigRenderer implements RendererInterface {
     if($pattern instanceof TwigPattern) {
       return $pattern->getSource()->getCode();
     }
-  }
-
-  private function prepareVariables(PatternInterface $pattern, VariableSet $overrides = NULL, RenderedInterface $rendered) {
-    $variables = $pattern->getVariables();
-    if($this->globals) {
-      $variables = $variables->applyGlobals($this->globals);
-    }
-    if($overrides) {
-      $variables = $variables->applyOverrides($overrides);
-    }
-    $manifested = $variables->manifest();
-
-    foreach($manifested as &$var) {
-      if($var instanceof RenderedInterface) {
-        // @todo: Ideally, scripts and styles wouldn't be added until this is
-        // used in the template.
-        $rendered->addScripts($var->getScripts());
-        $rendered->addStyles($var->getStyles());
-        $var = new \Twig_Markup($var->getMarkup(), $this->twig->getCharset());
-      }
-    }
-    return $manifested;
   }
 }

@@ -7,6 +7,7 @@ namespace LastCall\Mannequin\Core;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Render\RendererInterface;
+use LastCall\Mannequin\Core\Variable\SetResolver;
 use LastCall\Mannequin\Core\Variable\VariableFactoryInterface;
 use LastCall\Mannequin\Core\Variable\VariableSet;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -50,7 +51,7 @@ interface ConfigInterface {
 
   public function getLabeller(): Labeller;
 
-  public function getVariableFactory(): VariableFactoryInterface;
+  public function getVariableResolver(): SetResolver;
 
   public function getCacheDir(): string;
 

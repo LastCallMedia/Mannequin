@@ -6,6 +6,7 @@ namespace LastCall\Mannequin\Core\Render;
 
 use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Variable\Set;
 use LastCall\Mannequin\Core\Variable\VariableSet;
 
 class DelegatingRenderer implements RendererInterface {
@@ -30,10 +31,10 @@ class DelegatingRenderer implements RendererInterface {
     return FALSE;
   }
 
-  public function render(PatternInterface $pattern, VariableSet $overrides = NULL): RenderedInterface {
+  public function render(PatternInterface $pattern, Set $set): RenderedInterface {
     foreach($this->renderers as $renderer) {
       if($renderer->supports($pattern)) {
-        return $renderer->render($pattern, $overrides);
+        return $renderer->render($pattern, $set);
       }
     }
     throw new UnsupportedPatternException(sprintf('Unable to find a renderer for %s', get_class($pattern)));

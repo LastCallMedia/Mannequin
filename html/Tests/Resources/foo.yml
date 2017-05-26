@@ -2,3 +2,8 @@ name: Foo Pattern
 tags:
   foo: bar
   type: atom
+definition:
+  element_name: string
+sets:
+  default:
+    element_name: h1

@@ -47,7 +47,7 @@ class AbstractExtension extends Container implements ExtensionInterface {
   /**
    * {@inheritdoc}
    */
-  public function getVariableFactories(): array {
+  public function getVariableResolvers(): array {
     return [];
   }
 

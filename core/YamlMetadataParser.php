@@ -5,6 +5,8 @@ namespace LastCall\Mannequin\Core;
 
 
 use LastCall\Mannequin\Core\Exception\TemplateParsingException;
+use LastCall\Mannequin\Core\Variable\Definition;
+use LastCall\Mannequin\Core\Variable\Set;
 use LastCall\Mannequin\Core\Variable\VariableFactoryInterface;
 use LastCall\Mannequin\Core\Exception\InvalidVariableException;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -12,10 +14,6 @@ use Symfony\Component\Yaml\Yaml;
 use LastCall\Mannequin\Core\Variable\VariableSet;
 
 class YamlMetadataParser {
-
-  public function __construct(VariableFactoryInterface $factory) {
-    $this->variableFactory = $factory;
-  }
 
   public function parse($yaml, $exceptionIdentifier = 'unknown') {
     try {
@@ -35,6 +33,8 @@ class YamlMetadataParser {
       'name' => '',
       'description' => '',
       'tags' => [],
+      'definition' => [],
+      'sets' => [],
       'variables' => [],
     ];
     if(!is_string($metadata['name'])) {
@@ -49,22 +49,36 @@ class YamlMetadataParser {
     if(!is_array($metadata['variables'])) {
       throw new TemplateParsingException(sprintf('Variables must be an associative array in %s', $exceptionIdentifier));
     }
-    $metadata['variables'] = $this->createVariableSet($metadata['variables'], $exceptionIdentifier);
+    if(!is_array($metadata['definition'])) {
+      throw new TemplateParsingException(sprintf('Definition must be an associative array in %s', $exceptionIdentifier));
+    }
+    if(!is_array($metadata['sets'])) {
+      throw new TemplateParsingException(sprintf('Sets must be an associative array in %s', $exceptionIdentifier));
+    }
+    $metadata['definition'] = $this->createDefinition($metadata, $exceptionIdentifier);
+    $metadata['sets'] = $this->createSets($metadata, $exceptionIdentifier);
     return $metadata;
   }
 
-  private function createVariableSet(array $variables, $exceptionIdentifier) {
-    $setVars = [];
-    foreach($variables as $key => $info) {
-      if(!is_array($info) || empty($info['type'])) {
-        throw new InvalidVariableException(sprintf('%s must be an array specifying the type in %s', $key, $exceptionIdentifier));
+  public function createSets(array $metadata, $exceptionIdentifier) {
+    $defaultSet = [];
+
+    foreach($metadata['variables'] as $name => $variable) {
+      if(isset($variable['value'])) {
+        $defaultSet[$name] = $variable['value'];
       }
-      $info+= ['value' => NULL];
-      if($info['type'] === 'pattern' && is_array($info['value'])) {
-        $info['value']['variables'] = $this->createVariableSet($info['value']['variables'], $exceptionIdentifier);
-      }
-      $setVars[$key] = $this->variableFactory->create($info['type'], $info['value']);
     }
-    return new VariableSet($setVars);
+
+    return [
+      'default' => new Set('Default', $defaultSet)
+    ];
+  }
+
+  public function createDefinition(array $metadata, $exceptionIdentifier) {
+    $definition = [];
+    foreach($metadata['variables'] as $name => $variable) {
+      $definition[$name] = $variable['type'];
+    }
+    return new Definition($definition);
   }
 }

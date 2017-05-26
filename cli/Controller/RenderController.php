@@ -50,7 +50,8 @@ class RenderController {
 
   public function renderAction($pattern) {
     if($pattern = $this->collection->get($pattern)) {
-      $rendered = $this->renderer->renderPattern($pattern);
+      $set = $pattern->getVariableSets()['default'];
+      $rendered = $this->renderer->renderPattern($pattern, $set);
       return new Response($rendered);
     }
   }

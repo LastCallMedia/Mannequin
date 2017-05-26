@@ -2,6 +2,7 @@
 
 namespace LastCall\Mannequin\Core\Pattern;
 
+use LastCall\Mannequin\Core\Variable\Definition;
 use LastCall\Mannequin\Core\Variable\VariableSet;
 
 interface PatternInterface {
@@ -88,8 +89,8 @@ interface PatternInterface {
    */
   public function setTags(array $tags): PatternInterface;
 
-  public function setVariables(VariableSet $variableSet): PatternInterface;
+  public function getVariableDefinition(): Definition;
 
-  public function getVariables(): VariableSet;
+  public function getVariableSets(): array;
 
 }
