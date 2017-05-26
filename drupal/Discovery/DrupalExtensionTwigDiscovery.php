@@ -64,7 +64,7 @@ class DrupalExtensionTwigDiscovery implements DiscoveryInterface {
   private function parseFile(string $extension, SplFileInfo $fileInfo) {
     $twig_path = sprintf('@%s/%s', $extension, $fileInfo->getRelativePathname());
     if($this->loader->exists($twig_path)) {
-      $id = sprintf('drupal:%s', $twig_path);
+      $id = sprintf('%s:%s', $this->prefix, $twig_path);
       $source = $this->loader->getSourceContext($twig_path);
       $pattern = new DrupalTwigPattern($this->encodeId($id), [$id], $source);
       $pattern->addTag('format', 'drupal');
