@@ -5,6 +5,7 @@ namespace LastCall\Mannequin\Core\Extension;
 
 
 use LastCall\Mannequin\Core\Discovery\TemplateDiscovery;
+use LastCall\Mannequin\Core\Subscriber\LastChanceNameSubscriber;
 use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
 use LastCall\Mannequin\Core\Variable\PatternFactory;
 use LastCall\Mannequin\Core\Variable\ScalarFactory;
@@ -26,5 +27,6 @@ class CoreExtension extends AbstractExtension {
 
   public function attachToDispatcher(EventDispatcherInterface $dispatcher) {
     $dispatcher->addSubscriber(new YamlFileMetadataSubscriber($this->getConfig()->getVariableFactory()));
+    $dispatcher->addSubscriber(new LastChanceNameSubscriber());
   }
 }
