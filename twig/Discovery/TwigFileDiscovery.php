@@ -58,6 +58,7 @@ class TwigFileDiscovery implements DiscoveryInterface {
       $source = $this->loader->getSourceContext($fileInfo->getRelativePathname());
 
       $pattern = new TwigPattern($this->encodeId($id), [$id], $source);
+      $pattern->addTag('format', 'twig');
       $this->dispatcher->dispatch(PatternEvents::DISCOVER, new PatternDiscoveryEvent($pattern));
       return $pattern;
     }
