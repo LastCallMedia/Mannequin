@@ -1,12 +1,11 @@
 <?php
 
-
 namespace LastCall\Mannequin\Drupal\Extension;
 
-
-use LastCall\Mannequin\Twig\Extension\TwigExtension;
 use Drupal\Core\DrupalKernel;
 use Drupal\Core\Site\Settings;
+use LastCall\Mannequin\Drupal\Discovery\DrupalExtensionTwigDiscovery;
+use LastCall\Mannequin\Twig\Extension\TwigExtension;
 use Symfony\Component\HttpFoundation\Request;
 
 class DrupalBootstrapExtension extends TwigExtension {
@@ -14,10 +13,12 @@ class DrupalBootstrapExtension extends TwigExtension {
   public function __construct(array $config = []) {
     $config += [
       'drupal_root' => NULL,
+      'extensions' => [],
     ];
     parent::__construct($config);
 
     $this['drupal'] = function() {
+      chdir($this['drupal_root']);
       $autoloader = require $this['drupal_root'].'/autoload.php';
       require_once $this['drupal_root'] . '/core/includes/bootstrap.inc';
 
@@ -32,5 +33,14 @@ class DrupalBootstrapExtension extends TwigExtension {
     $this['twig'] = function() {
       return $this['drupal']->get('twig');
     };
+
+    $this['discovery'] = function() {
+      return new DrupalExtensionTwigDiscovery($this['drupal_root'], $this['extensions'], $this['drupal'], $this['drupal']->get('twig.loader.filesystem'));
+    };
   }
+
+  public function getDiscoverers(): array {
+    return [$this['discovery']];
+  }
+
 }
