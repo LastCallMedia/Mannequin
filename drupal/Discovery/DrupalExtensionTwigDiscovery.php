@@ -10,10 +10,17 @@ use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Drupal\Pattern\DrupalTwigPattern;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 class DrupalExtensionTwigDiscovery implements DiscoveryInterface {
 
   use IdEncoder;
+
+  private $drupalRoot;
+  private $extensions = [];
+  private $container;
+  private $loader;
+  private $prefix = 'drupal';
 
   public function __construct(string $drupal_root, array $extensions, ContainerInterface $container, \Twig_LoaderInterface $loader) {
     $this->drupalRoot = $drupal_root;
@@ -43,13 +50,21 @@ class DrupalExtensionTwigDiscovery implements DiscoveryInterface {
       ->name('*.html.twig')
       ->in(sprintf('%s/%s/templates', $this->drupalRoot, $path));
     foreach($finder as $fileInfo) {
-      $twig_path = sprintf('@%s/%s', $extension, $fileInfo->getRelativePathname());
-      if($this->loader->exists($twig_path)) {
-        $id = $this->encodeId(sprintf('drupal:%s', $twig_path));
-        $source = $this->loader->getSourceContext($twig_path);
-        $patterns[] = new DrupalTwigPattern($id, $source);
+      if($pattern = $this->parseFile($extension, $fileInfo)) {
+        $patterns[] = $pattern;
       }
     }
     return $patterns;
+  }
+
+  private function parseFile(string $extension, SplFileInfo $fileInfo) {
+    $twig_path = sprintf('@%s/%s', $extension, $fileInfo->getRelativePathname());
+    if($this->loader->exists($twig_path)) {
+      $id = sprintf('drupal:%s', $twig_path);
+      $source = $this->loader->getSourceContext($twig_path);
+      $pattern = new DrupalTwigPattern($this->encodeId($id), $source);
+      $pattern->addAlias($id);
+      return $pattern;
+    }
   }
 }
