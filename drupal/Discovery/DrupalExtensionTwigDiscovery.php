@@ -66,7 +66,7 @@ class DrupalExtensionTwigDiscovery implements DiscoveryInterface {
     if($this->loader->exists($twig_path)) {
       $id = sprintf('%s:%s', $this->prefix, $twig_path);
       $source = $this->loader->getSourceContext($twig_path);
-      $pattern = new DrupalTwigPattern($this->encodeId($id), [$id], $source);
+      $pattern = new DrupalTwigPattern($this->encodeId($id), [$id, $twig_path], $source);
       $pattern->addTag('format', 'drupal');
       $this->dispatcher->dispatch(PatternEvents::DISCOVER, new PatternDiscoveryEvent($pattern));
       return $pattern;
