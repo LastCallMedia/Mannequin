@@ -4,6 +4,7 @@
 namespace LastCall\Mannequin\Drupal\Discovery;
 
 
+use LastCall\Mannequin\Core\Discovery\IdEncoder;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Drupal\Pattern\DrupalTwigPattern;
@@ -11,6 +12,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Finder\Finder;
 
 class DrupalExtensionTwigDiscovery implements DiscoveryInterface {
+
+  use IdEncoder;
 
   public function __construct(string $drupal_root, array $extensions, ContainerInterface $container, \Twig_LoaderInterface $loader) {
     $this->drupalRoot = $drupal_root;
@@ -40,8 +43,12 @@ class DrupalExtensionTwigDiscovery implements DiscoveryInterface {
       ->name('*.html.twig')
       ->in(sprintf('%s/%s/templates', $this->drupalRoot, $path));
     foreach($finder as $fileInfo) {
-      $source = $this->loader->getSourceContext(sprintf('@%s/%s', $extension, $fileInfo->getRelativePathname()));
-      $patterns[] = new DrupalTwigPattern(urlencode('drupal://@'. $extension.'/'.$fileInfo->getRelativePathname()), $source);
+      $twig_path = sprintf('@%s/%s', $extension, $fileInfo->getRelativePathname());
+      if($this->loader->exists($twig_path)) {
+        $id = $this->encodeId(sprintf('drupal:%s', $twig_path));
+        $source = $this->loader->getSourceContext($twig_path);
+        $patterns[] = new DrupalTwigPattern($id, $source);
+      }
     }
     return $patterns;
   }

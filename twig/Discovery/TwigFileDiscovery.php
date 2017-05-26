@@ -5,6 +5,7 @@ namespace LastCall\Mannequin\Twig\Discovery;
 
 
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
+use LastCall\Mannequin\Core\Discovery\IdEncoder;
 use LastCall\Mannequin\Core\Metadata\MetadataFactoryInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use Symfony\Component\Finder\Finder;
@@ -12,6 +13,7 @@ use Symfony\Component\Finder\SplFileInfo;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 
 class TwigFileDiscovery implements DiscoveryInterface {
+  use IdEncoder;
 
   /**
    * @var \Twig_LoaderInterface|\Twig_SourceContextLoaderInterface|\Twig_ExistsLoaderInterface
@@ -49,7 +51,7 @@ class TwigFileDiscovery implements DiscoveryInterface {
 
   public function parseFile(SplFileInfo $fileInfo) {
     if($this->loader->exists($fileInfo->getRelativePathname())) {
-      $id = $this->prefix . $fileInfo->getRelativePathname();
+      $id = $this->encodeId(sprintf('%s:%s', $this->prefix, $fileInfo->getRelativePathname()));
       $source = $this->loader->getSourceContext($fileInfo->getRelativePathname());
 
       $pattern = new TwigPattern($id, $source);

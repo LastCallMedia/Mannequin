@@ -56,8 +56,7 @@ class TwigExtension extends AbstractExtension {
       ]);
     };
     $this['discovery'] = function() {
-      $config = $this->getConfig();
-      return new TwigFileDiscovery($this['loader'], $this['finder'], $this['metadata_parser']);
+      return new TwigFileDiscovery($this['twig']->getLoader(), $this['finder'], $this['metadata_parser']);
     };
   }
 
