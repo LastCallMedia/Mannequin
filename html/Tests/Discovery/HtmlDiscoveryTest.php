@@ -71,7 +71,8 @@ class HtmlDiscoveryTest extends TestCase {
     $discovery = new HtmlDiscovery($finder, $metadataFactory->reveal());
     $pattern = $discovery->discover()->get('html://foo.html');
     $this->assertInstanceOf(HtmlPattern::class, $pattern);
-    $this->assertEquals('html://foo.html', $pattern->getId());
+    $this->assertEquals('aHRtbDovL2Zvby5odG1s', $pattern->getId());
+    $this->assertEquals(['html://foo.html'], $pattern->getAliases());
     $this->assertEquals('Foo', $pattern->getName());
     $this->assertEquals('Foo Description', $pattern->getDescription());
   }

@@ -15,7 +15,8 @@ class TwigFileDiscoveryTest extends TestCase {
   const FIXTURES_DIR = __DIR__.'/../Resources';
 
   public function getTestCases() {
-    $p1 = new TwigPattern('twig://twig-no-metadata.twig', new \Twig_Source('', 'twig-no-metadata.twig', 'twig-no-metadata.twig'));
+    $p1 = new TwigPattern('dHdpZzovL3R3aWctbm8tbWV0YWRhdGEudHdpZw==', new \Twig_Source('', 'twig-no-metadata.twig', 'twig-no-metadata.twig'));
+    $p1->addAlias('twig://twig-no-metadata.twig');
     return [
       [$p1],
     ];
@@ -37,6 +38,7 @@ class TwigFileDiscoveryTest extends TestCase {
     $patterns = $discoverer->discover();
     $pattern = $patterns->get($expected->getId());
     $this->assertEquals($expected->getId(), $pattern->getId());
+    $this->assertEquals($expected->getAliases(), $pattern->getAliases());
     $this->assertEquals($expected->getDescription(), $pattern->getDescription());
     $this->assertEquals($expected->getName(), $pattern->getName());
     $this->assertEquals($expected->getTags(), $pattern->getTags());

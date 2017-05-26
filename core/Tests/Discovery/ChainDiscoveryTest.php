@@ -34,10 +34,12 @@ class ChainDiscoveryTest extends TestCase {
   public function testMergesCollection() {
     $pattern1Mock = $this->prophesize(PatternInterface::class);
     $pattern1Mock->getId()->willReturn('pattern1');
+    $pattern1Mock->getAliases()->willReturn(['pattern/1']);
     $pattern1 = $pattern1Mock->reveal();
 
     $pattern2Mock = $this->prophesize(PatternInterface::class);
     $pattern2Mock->getId()->willReturn('pattern2');
+    $pattern2Mock->getAliases()->willReturn(['pattern/2']);
     $pattern2 = $pattern2Mock->reveal();
 
     $discoverer1 = new ExplicitDiscovery(new PatternCollection([$pattern1]));

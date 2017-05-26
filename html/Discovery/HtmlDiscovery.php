@@ -18,7 +18,7 @@ class HtmlDiscovery implements DiscoveryInterface {
   private $metadataFactory;
   private $prefix;
 
-  public function __construct(Finder $finder, MetadataFactoryInterface $metadataFactory, $prefix = 'html://') {
+  public function __construct(Finder $finder, MetadataFactoryInterface $metadataFactory, $prefix = 'html') {
     $this->finder = $finder;
     $this->metadataFactory = $metadataFactory;
     $this->prefix = $prefix;
@@ -33,7 +33,7 @@ class HtmlDiscovery implements DiscoveryInterface {
   }
 
   protected function parsePattern(\SplFileInfo $fileInfo) {
-    $id = sprintf('%s:%s', $this->prefix, $fileInfo->getRleativePathname());
+    $id = sprintf('%s://%s', $this->prefix, $fileInfo->getRelativePathname());
     $pattern = new HtmlPattern($this->encodeId($id), $fileInfo);
     $pattern->addAlias($id);
 

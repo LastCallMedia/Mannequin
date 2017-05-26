@@ -20,7 +20,7 @@ class TwigFileDiscovery implements DiscoveryInterface {
    */
   private $loader;
   private $finder;
-  private $prefix = 'twig://';
+  private $prefix = 'twig';
   private $metadataParser;
 
   public function __construct(\Twig_LoaderInterface $loader, Finder $finder, MetadataFactoryInterface $metadataParser) {
@@ -51,7 +51,7 @@ class TwigFileDiscovery implements DiscoveryInterface {
 
   private function parseFile(SplFileInfo $fileInfo) {
     if($this->loader->exists($fileInfo->getRelativePathname())) {
-      $id = sprintf('%s:%s', $this->prefix, $fileInfo->getRelativePathname());
+      $id = sprintf('%s://%s', $this->prefix, $fileInfo->getRelativePathname());
       $source = $this->loader->getSourceContext($fileInfo->getRelativePathname());
 
       $pattern = new TwigPattern($this->encodeId($id), $source);
