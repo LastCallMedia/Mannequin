@@ -4,6 +4,7 @@
 namespace LastCall\Mannequin\Html\Tests\Discovery;
 
 
+use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
 use LastCall\Mannequin\Core\Metadata\MetadataFactoryInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Variable\VariableSet;
@@ -11,6 +12,8 @@ use LastCall\Mannequin\Html\Discovery\HtmlDiscovery;
 use LastCall\Mannequin\Html\Pattern\HtmlPattern;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -37,55 +40,50 @@ class HtmlDiscoveryTest extends TestCase {
   }
 
   public function testReturnsCollectionOnEmpty() {
-    $metadataFactory = $this->mockMetadataFactory();
-    $finder = new Finder();
-    $finder->in([self::FIXTURES_DIR.'/null']);
-    $discovery = new HtmlDiscovery($finder, $metadataFactory->reveal());
+    $dispatcher = new EventDispatcher();
+    $finder = Finder::create()
+      ->in($this->getFixturesDir('null'));
+    $discovery = new HtmlDiscovery($finder, $dispatcher);
     $collection = $discovery->discover();
     $this->assertInstanceOf(PatternCollection::class, $collection);
     $this->assertCount(0, $collection);
   }
 
   public function testDiscoversPatternsInDir() {
-    $metadataFactory = $this->mockMetadataFactory();
-    $finder = new Finder();
-    $finder
-      ->in(self::FIXTURES_DIR)
+    $finder = Finder::create()
+      ->files()
       ->name('*.html')
-      ->files();
-    $discovery = new HtmlDiscovery($finder, $metadataFactory->reveal());
+      ->in($this->getFixturesDir());
+    $discovery = new HtmlDiscovery($finder, new EventDispatcher());
     $collection = $discovery->discover();
     $this->assertInstanceOf(PatternCollection::class, $collection);
     $this->assertCount(1, $collection);
   }
 
   public function testSetsPropertiesOnDiscoveredPatterns() {
-    $metadataFactory = $this->mockMetadataFactory([
-      'name' => 'Foo',
-      'description' => 'Foo Description',
-      'tags' => [],
-      'variables' => new VariableSet(),
-    ]);
-    $finder = new Finder();
-    $finder->in($this->getFixturesDir());
-    $discovery = new HtmlDiscovery($finder, $metadataFactory->reveal());
+    $finder = Finder::create()
+      ->files()
+      ->name('*.html')
+      ->in($this->getFixturesDir());
+    $discovery = new HtmlDiscovery($finder, new EventDispatcher());
     $pattern = $discovery->discover()->get('html://foo.html');
     $this->assertInstanceOf(HtmlPattern::class, $pattern);
     $this->assertEquals('aHRtbDovL2Zvby5odG1s', $pattern->getId());
     $this->assertEquals(['html://foo.html'], $pattern->getAliases());
-    $this->assertEquals('Foo', $pattern->getName());
-    $this->assertEquals('Foo Description', $pattern->getDescription());
+    $this->assertInstanceOf(SplFileInfo::class, $pattern->getFile());
+    $this->assertEquals('foo.html', $pattern->getFile()->getRelativePathname());
   }
 
-  public function testSetsFileInfoOnDiscoveredPatterns() {
-    $metadataFactory = $this->mockMetadataFactory();
-    $finder = new Finder();
-    $finder->in($this->getFixturesDir());
-    $discovery = new HtmlDiscovery($finder, $metadataFactory->reveal());
-    $pattern = $discovery->discover()->get('html://foo.html');
-    $info = $pattern->getFile();
-    $this->assertInstanceOf(SplFileInfo::class, $info);
-    $this->assertEquals('foo.html', $info->getRelativePathname());
+  public function testFiresDiscoverEvent() {
+    $finder = Finder::create()
+      ->files()
+      ->name('*.html')
+      ->in($this->getFixturesDir());
+    $dispatcher = $this->prophesize(EventDispatcherInterface::class);
+    $dispatcher
+      ->dispatch('pattern.discover', Argument::type(PatternDiscoveryEvent::class))
+      ->shouldBeCalled();
+    $discovery = new HtmlDiscovery($finder, $dispatcher->reveal());
+    $discovery->discover();
   }
-
 }

@@ -6,9 +6,12 @@ namespace LastCall\Mannequin\Drupal\Discovery;
 
 use LastCall\Mannequin\Core\Discovery\IdEncoder;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
+use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
+use LastCall\Mannequin\Core\Event\PatternEvents;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Drupal\Pattern\DrupalTwigPattern;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -22,11 +25,12 @@ class DrupalExtensionTwigDiscovery implements DiscoveryInterface {
   private $loader;
   private $prefix = 'drupal';
 
-  public function __construct(string $drupal_root, array $extensions, ContainerInterface $container, \Twig_LoaderInterface $loader) {
+  public function __construct(string $drupal_root, array $extensions, ContainerInterface $container, \Twig_LoaderInterface $loader, EventDispatcherInterface $dispatcher) {
     $this->drupalRoot = $drupal_root;
     $this->extensions = $extensions;
     $this->container = $container;
     $this->loader = $loader;
+    $this->dispatcher = $dispatcher;
   }
 
   public function discover(): PatternCollection {
@@ -63,6 +67,7 @@ class DrupalExtensionTwigDiscovery implements DiscoveryInterface {
       $id = sprintf('drupal:%s', $twig_path);
       $source = $this->loader->getSourceContext($twig_path);
       $pattern = new DrupalTwigPattern($this->encodeId($id), [$id], $source);
+      $this->dispatcher->dispatch(PatternEvents::DISCOVER, new PatternDiscoveryEvent($pattern));
       return $pattern;
     }
   }

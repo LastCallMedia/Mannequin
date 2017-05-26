@@ -3,6 +3,7 @@
 namespace LastCall\Mannequin\Core\Extension;
 
 use LastCall\Mannequin\Core\ConfigInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 interface ExtensionInterface {
 
@@ -39,5 +40,14 @@ interface ExtensionInterface {
    * @return \LastCall\Mannequin\Core\Variable\VariableFactoryInterface[]
    */
   public function getVariableFactories(): array;
+
+  /**
+   * Attach an extension's listeners/subscribers to a dispatcher.
+   *
+   * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+   *
+   * @return void
+   */
+  public function attachToDispatcher(EventDispatcherInterface $dispatcher);
 
 }

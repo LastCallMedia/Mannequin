@@ -6,8 +6,11 @@ namespace LastCall\Mannequin\Twig\Discovery;
 
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Discovery\IdEncoder;
+use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
+use LastCall\Mannequin\Core\Event\PatternEvents;
 use LastCall\Mannequin\Core\Metadata\MetadataFactoryInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
@@ -21,9 +24,9 @@ class TwigFileDiscovery implements DiscoveryInterface {
   private $loader;
   private $finder;
   private $prefix = 'twig';
-  private $metadataParser;
+  private $dispatcher;
 
-  public function __construct(\Twig_LoaderInterface $loader, Finder $finder, MetadataFactoryInterface $metadataParser) {
+  public function __construct(\Twig_LoaderInterface $loader, Finder $finder, EventDispatcherInterface $dispatcher) {
     if(!$loader instanceof \Twig_SourceContextLoaderInterface) {
       throw new \InvalidArgumentException('Twig loader must implement Twig_SourceContextLoaderInterface');
     }
@@ -32,7 +35,7 @@ class TwigFileDiscovery implements DiscoveryInterface {
     }
     $this->loader = $loader;
     $this->finder = $finder;
-    $this->metadataParser = $metadataParser;
+    $this->dispatcher = $dispatcher;
   }
 
   public function setPrefix(string $prefix) {
@@ -55,14 +58,7 @@ class TwigFileDiscovery implements DiscoveryInterface {
       $source = $this->loader->getSourceContext($fileInfo->getRelativePathname());
 
       $pattern = new TwigPattern($this->encodeId($id), [$id], $source);
-
-      if($this->metadataParser->hasMetadata($pattern)) {
-        $metadata = $this->metadataParser->getMetadata($pattern);
-        $pattern->setName($metadata['name']);
-        $pattern->setDescription($metadata['description']);
-        $pattern->setTags($metadata['tags']);
-        $pattern->setVariables($metadata['variables']);
-      }
+      $this->dispatcher->dispatch(PatternEvents::DISCOVER, new PatternDiscoveryEvent($pattern));
       return $pattern;
     }
   }

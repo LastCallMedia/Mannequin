@@ -1,3 +1,4 @@
 name: Foo Pattern
 tags:
   foo: bar
+  type: atom

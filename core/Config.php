@@ -12,6 +12,8 @@ use LastCall\Mannequin\Core\Variable\VariableFactory;
 use LastCall\Mannequin\Core\Variable\VariableFactoryInterface;
 use LastCall\Mannequin\Core\Variable\VariableSet;
 use Pimple\Container;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Config extends Container implements ConfigInterface {
 
@@ -64,6 +66,13 @@ class Config extends Container implements ConfigInterface {
     $this['assets'] = function() {
       return [];
     };
+    $this['dispatcher'] = function() {
+      $dispatcher = new EventDispatcher();
+      foreach($this->getExtensions() as $extension) {
+        $extension->attachToDispatcher($dispatcher);
+      }
+      return $dispatcher;
+    };
 
     $this->addExtension(new CoreExtension());
   }
@@ -92,6 +101,10 @@ class Config extends Container implements ConfigInterface {
    */
   public function getExtensions(): array {
     return $this['extensions'];
+  }
+
+  public function getDispatcher(): EventDispatcherInterface {
+    return $this['dispatcher'];
   }
 
   /**

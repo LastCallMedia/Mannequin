@@ -3,11 +3,14 @@
 
 namespace LastCall\Mannequin\Twig\Tests\Discovery;
 
+use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
+use LastCall\Mannequin\Core\Event\PatternEvents;
 use LastCall\Mannequin\Core\Metadata\MetadataFactoryInterface;
 use LastCall\Mannequin\Twig\Discovery\TwigFileDiscovery;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Finder\Finder;
 
 class TwigFileDiscoveryTest extends TestCase {
@@ -19,6 +22,31 @@ class TwigFileDiscoveryTest extends TestCase {
     return [
       [$p1],
     ];
+  }
+
+  public function testDiscoversPatterns() {
+    $loader = new \Twig_Loader_Filesystem(self::FIXTURES_DIR);
+    $finder = Finder::create()
+      ->in(self::FIXTURES_DIR)
+      ->files('twig-no-metadata.twig');
+
+    $discoverer = new TwigFileDiscovery($loader, $finder, new EventDispatcher());
+    $pattern = $discoverer->discover()->get('twig://twig-no-metadata.twig');
+    $this->assertEquals('dHdpZzovL3R3aWctbm8tbWV0YWRhdGEudHdpZw==', $pattern->getId());
+    $this->assertEquals(['twig://twig-no-metadata.twig'], $pattern->getAliases());
+  }
+
+  public function testFiresEvent() {
+    $loader = new \Twig_Loader_Filesystem(self::FIXTURES_DIR);
+    $finder = Finder::create()
+      ->in(self::FIXTURES_DIR)
+      ->files('twig-no-metadata.twig');
+
+    $dispatcher = $this->prophesize(EventDispatcher::class);
+    $dispatcher->dispatch(PatternEvents::DISCOVER, Argument::type(PatternDiscoveryEvent::class))
+      ->shouldBeCalled();
+    $discoverer = new TwigFileDiscovery($loader, $finder, $dispatcher->reveal());
+    $discoverer->discover();
   }
 
   /**
@@ -33,15 +61,11 @@ class TwigFileDiscoveryTest extends TestCase {
     $finder->in([self::FIXTURES_DIR]);
     $finder->name($expected->getSource()->getPath());
 
-    $discoverer = new TwigFileDiscovery($loader, $finder, $metadata->reveal());
+    $discoverer = new TwigFileDiscovery($loader, $finder, new EventDispatcher());
     $patterns = $discoverer->discover();
     $pattern = $patterns->get($expected->getId());
     $this->assertEquals($expected->getId(), $pattern->getId());
     $this->assertEquals($expected->getAliases(), $pattern->getAliases());
-    $this->assertEquals($expected->getDescription(), $pattern->getDescription());
-    $this->assertEquals($expected->getName(), $pattern->getName());
-    $this->assertEquals($expected->getTags(), $pattern->getTags());
-    $this->assertEquals($expected->getVariables(), $pattern->getVariables());
 
   }
 }

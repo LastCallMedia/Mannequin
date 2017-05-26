@@ -5,9 +5,11 @@ namespace LastCall\Mannequin\Core\Extension;
 
 
 use LastCall\Mannequin\Core\Discovery\TemplateDiscovery;
+use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
 use LastCall\Mannequin\Core\Variable\PatternFactory;
 use LastCall\Mannequin\Core\Variable\ScalarFactory;
 use LastCall\Mannequin\Core\Variable\VariableSet;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class CoreExtension extends AbstractExtension {
 
@@ -20,5 +22,9 @@ class CoreExtension extends AbstractExtension {
         return $config->getRenderer()->render($pattern, $overrides);
       })
     ];
+  }
+
+  public function attachToDispatcher(EventDispatcherInterface $dispatcher) {
+    $dispatcher->addSubscriber(new YamlFileMetadataSubscriber($this->getConfig()->getVariableFactory()));
   }
 }

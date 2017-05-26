@@ -9,6 +9,7 @@ use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Render\RendererInterface;
 use LastCall\Mannequin\Core\Variable\VariableFactoryInterface;
 use LastCall\Mannequin\Core\Variable\VariableSet;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 interface ConfigInterface {
   public function getCollection(): PatternCollection;
@@ -52,4 +53,6 @@ interface ConfigInterface {
   public function getVariableFactory(): VariableFactoryInterface;
 
   public function getCacheDir(): string;
+
+  public function getDispatcher(): EventDispatcherInterface;
 }

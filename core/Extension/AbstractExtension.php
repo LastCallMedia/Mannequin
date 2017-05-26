@@ -5,6 +5,7 @@ namespace LastCall\Mannequin\Core\Extension;
 
 use LastCall\Mannequin\Core\ConfigInterface;
 use Pimple\Container;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AbstractExtension extends Container implements ExtensionInterface {
 
@@ -48,6 +49,13 @@ class AbstractExtension extends Container implements ExtensionInterface {
    */
   public function getVariableFactories(): array {
     return [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function attachToDispatcher(EventDispatcherInterface $dispatcher) {
+
   }
 
 }
