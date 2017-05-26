@@ -15,6 +15,8 @@ class PatternCollection implements \Iterator, \Countable {
    */
   private $patterns = [];
 
+  private $aliases = [];
+
   private $parent;
 
   /**
@@ -36,6 +38,16 @@ class PatternCollection implements \Iterator, \Countable {
         throw new \RuntimeException(sprintf('Duplicate pattern detected: %s', $patternId));
       }
       $this->patterns[$patternId] = $pattern;
+
+      foreach($pattern->getAliases() as $alias) {
+        if(isset($this->patterns[$alias])) {
+          throw new \RuntimeException(sprintf('Alias %s would cause a duplicate pattern.', $alias));
+        }
+        if(isset($this->aliases[$alias])) {
+          throw new \RuntimeException(sprintf('Alias %s would cause a duplicate pattern.', $alias));
+        }
+        $this->aliases[$alias] = $patternId;
+      }
     }
   }
 
@@ -70,6 +82,9 @@ class PatternCollection implements \Iterator, \Countable {
   public function get(string $id) {
     if(isset($this->patterns[$id])) {
       return $this->patterns[$id];
+    }
+    if(isset($this->aliases[$id])) {
+      return $this->get($this->aliases[$id]);
     }
     throw new \RuntimeException(sprintf('Unknown pattern %s', $id));
   }

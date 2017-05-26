@@ -9,7 +9,7 @@ use Prophecy\Argument;
 
 class PatternCollectionTest extends TestCase {
 
-  private function getPattern($id, $name, array $tags = []) {
+  private function getPattern($id, $name, array $tags = [], $aliases = []) {
     $pattern = $this->prophesize(PatternInterface::class);
     $pattern->getId()->willReturn($id);
     $pattern->getName()->willReturn($name);
@@ -20,6 +20,7 @@ class PatternCollectionTest extends TestCase {
         list($type, $value) = $args;
         return isset($tags[$type]) && $tags[$type] === $value;
       });
+    $pattern->getAliases()->willReturn($aliases);
     return $pattern->reveal();
   }
 
@@ -77,6 +78,12 @@ class PatternCollectionTest extends TestCase {
     $pattern = $this->getPattern('foo', 'bar');
     $collection = new PatternCollection([$pattern]);
     $this->assertEquals($pattern, $collection->get('bar'));
+  }
+
+  public function testGetByAlias() {
+    $pattern = $this->getPattern('foo', 'bar', [], ['baz']);
+    $collection = new PatternCollection([$pattern]);
+    $this->assertEquals($pattern, $collection->get('baz'));
   }
 
   public function getInvalidPatterns() {
