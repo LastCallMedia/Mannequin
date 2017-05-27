@@ -3,16 +3,13 @@ name: Twig with nested variables
 tags:
   type: organism
 variables:
+  subpattern: pattern
+
+value:
   subpattern:
-    type: pattern
+    id: twig://twig-with-variables.twig
     value:
-      id: twig://twig-with-variables.twig
-      variables:
-        template_type:
-          value: nested
-          type: string
-        local:
-          type: boolean
-          value: false
+      template_type: nested
+      local: false
 {% endblock %}{% endif %}
 I'm on the outside. {{ subpattern }}

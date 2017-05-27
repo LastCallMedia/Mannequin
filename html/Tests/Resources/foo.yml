@@ -2,8 +2,7 @@ name: Foo Pattern
 tags:
   foo: bar
   type: atom
-definition:
+variables:
   element_name: string
-sets:
-  default:
-    element_name: h1
+value:
+  element_name: h1

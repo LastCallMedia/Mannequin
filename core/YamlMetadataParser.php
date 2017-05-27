@@ -30,27 +30,19 @@ class YamlMetadataParser {
       'name' => '',
       'description' => '',
       'tags' => [],
-      'definition' => [],
-      'sets' => [],
       'variables' => [],
+      'value' => [],
+      'values' => [],
     ];
-    if(!is_string($metadata['name'])) {
-      throw new TemplateParsingException(sprintf('Name must be a string in %s', $exceptionIdentifier));
+    foreach(['name', 'description'] as $component) {
+      if(!is_string($metadata[$component])) {
+        throw new TemplateParsingException(sprintf('%s must be a string in %s', $component, $exceptionIdentifier));
+      }
     }
-    if(!is_string($metadata['description'])) {
-      throw new TemplateParsingException(sprintf('Description must be a string in %s', $exceptionIdentifier));
-    }
-    if(!is_array($metadata['tags'])) {
-      throw new TemplateParsingException(sprintf('Tags must be an associative array in %s', $exceptionIdentifier));
-    }
-    if(!is_array($metadata['variables'])) {
-      throw new TemplateParsingException(sprintf('Variables must be an associative array in %s', $exceptionIdentifier));
-    }
-    if(!is_array($metadata['definition'])) {
-      throw new TemplateParsingException(sprintf('Definition must be an associative array in %s', $exceptionIdentifier));
-    }
-    if(!is_array($metadata['sets'])) {
-      throw new TemplateParsingException(sprintf('Sets must be an associative array in %s', $exceptionIdentifier));
+    foreach(['tags', 'variables', 'value', 'values'] as $component) {
+      if(!is_array($metadata[$component])) {
+        throw new TemplateParsingException(sprintf('%s must be an array in %s', $component, $exceptionIdentifier));
+      }
     }
     $metadata['definition'] = $this->createDefinition($metadata, $exceptionIdentifier);
     $metadata['sets'] = $this->createSets($metadata, $exceptionIdentifier);
@@ -58,23 +50,36 @@ class YamlMetadataParser {
   }
 
   public function createSets(array $metadata, $exceptionIdentifier) {
-    $defaultSet = [];
-
-    foreach($metadata['variables'] as $name => $variable) {
-      if(isset($variable['value'])) {
-        $defaultSet[$name] = $variable['value'];
+    $sets = [];
+    if(!empty($metadata['value'])) {
+      $sets['default'] = $this->createSet($metadata['value'], 'Default');
+    }
+    if(!empty($metadata['values'])) {
+      foreach($metadata['values'] as $setId => $setVals) {
+        $sets[$setId] = $this->createSet($setVals, $setId);
       }
     }
+    return $sets;
+  }
 
-    return [
-      'default' => new Set('Default', $defaultSet)
-    ];
+  public function createSet($values, $defaultName) {
+    $name = $defaultName;
+    $description = '';
+    if(isset($values['_name'])) {
+      $name = $values['_name'];
+      unset($values['_name']);
+    }
+    if(isset($values['_description'])) {
+      $description = $values['_description'];
+      unset($values['_description']);
+    }
+    return new Set($name, $values, $description);
   }
 
   public function createDefinition(array $metadata, $exceptionIdentifier) {
     $definition = [];
-    foreach($metadata['variables'] as $name => $variable) {
-      $definition[$name] = $variable['type'];
+    foreach($metadata['variables'] as $name => $type) {
+      $definition[$name] = $type;
     }
     return new Definition($definition);
   }

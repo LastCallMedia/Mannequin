@@ -10,9 +10,10 @@ class Set {
   private $values;
 
 
-  public function __construct(string $name, array $values = []) {
+  public function __construct(string $name, array $values = [], $description = '') {
     $this->name = $name;
     $this->values = $values;
+    $this->description = $description;
   }
 
   public function getName(): string {
