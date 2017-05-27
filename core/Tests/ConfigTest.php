@@ -13,10 +13,7 @@ use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Render\DelegatingRenderer;
 use LastCall\Mannequin\Core\Variable\ResolverInterface;
-use LastCall\Mannequin\Core\Variable\ScalarResolver;
 use LastCall\Mannequin\Core\Variable\SetResolver;
-use LastCall\Mannequin\Core\Variable\VariableFactory;
-use LastCall\Mannequin\Core\Variable\VariableFactoryInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 

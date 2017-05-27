@@ -7,11 +7,8 @@ namespace LastCall\Mannequin\Core;
 use LastCall\Mannequin\Core\Exception\TemplateParsingException;
 use LastCall\Mannequin\Core\Variable\Definition;
 use LastCall\Mannequin\Core\Variable\Set;
-use LastCall\Mannequin\Core\Variable\VariableFactoryInterface;
-use LastCall\Mannequin\Core\Exception\InvalidVariableException;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
-use LastCall\Mannequin\Core\Variable\VariableSet;
 
 class YamlMetadataParser {
 

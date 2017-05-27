@@ -6,7 +6,6 @@ namespace LastCall\Mannequin\Twig\Subscriber;
 
 use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
 use LastCall\Mannequin\Core\Event\PatternEvents;
-use LastCall\Mannequin\Core\Variable\VariableFactoryInterface;
 use LastCall\Mannequin\Core\YamlMetadataParser;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

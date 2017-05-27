@@ -10,7 +10,6 @@ use LastCall\Mannequin\Core\Render\RenderedInterface;
 use LastCall\Mannequin\Core\Render\RendererInterface;
 use LastCall\Mannequin\Core\Variable\Set;
 use LastCall\Mannequin\Core\Variable\SetResolver;
-use LastCall\Mannequin\Core\Variable\VariableSet;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 
 class TwigRenderer implements RendererInterface {

@@ -5,7 +5,10 @@ namespace LastCall\Mannequin\Core\Tests\Extension;
 
 
 use LastCall\Mannequin\Core\ConfigInterface;
+use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
+use LastCall\Mannequin\Core\Render\RendererInterface;
+use LastCall\Mannequin\Core\Variable\ResolverInterface;
 use LastCall\Mannequin\Core\Variable\SetResolver;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -33,25 +36,24 @@ abstract class ExtensionTestCase extends TestCase {
     $dispatcher = $this->prophesize(EventDispatcherInterface::class);
     $dispatcher->addSubscriber(Argument::type(EventSubscriberInterface::class))->willReturn(NULL);
     $extension->attachToDispatcher($dispatcher->reveal());
-
   }
 
   public function testGetRenderers() {
     $extension = $this->getExtension();
     $extension->setConfig($this->getConfig());
-    $this->assertTrue(is_array($extension->getRenderers()));
+    $this->assertContainsOnlyInstancesOf(RendererInterface::class, $extension->getRenderers());
   }
 
   public function testHasVariableResolvers() {
     $extension = $this->getExtension();
     $extension->setConfig($this->getConfig());
-    $this->assertTrue(is_array($extension->getVariableResolvers()));
+    $this->assertContainsOnlyInstancesOf(ResolverInterface::class, $extension->getVariableResolvers());
   }
 
   public function testHasDiscoverers() {
     $extension = $this->getExtension();
     $extension->setConfig($this->getConfig());
-    $this->assertTrue(is_array($extension->getDiscoverers()));
+    $this->assertContainsOnlyInstancesOf(DiscoveryInterface::class, $extension->getDiscoverers());
   }
 
 }

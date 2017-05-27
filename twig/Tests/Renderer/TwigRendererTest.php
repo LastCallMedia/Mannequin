@@ -5,12 +5,9 @@ namespace LastCall\Mannequin\Twig\Tests\Renderer;
 
 
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
-use LastCall\Mannequin\Core\Render\RenderedInterface;
 use LastCall\Mannequin\Core\Variable\Definition;
 use LastCall\Mannequin\Core\Variable\Set;
 use LastCall\Mannequin\Core\Variable\SetResolver;
-use LastCall\Mannequin\Core\Variable\VariableInterface;
-use LastCall\Mannequin\Core\Variable\VariableSet;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 use LastCall\Mannequin\Twig\Render\TwigRenderer;
 use PHPUnit\Framework\TestCase;

@@ -7,7 +7,6 @@ namespace LastCall\Mannequin\Core\Subscriber;
 use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
 use LastCall\Mannequin\Core\Event\PatternEvents;
 use LastCall\Mannequin\Core\Pattern\TemplateFilePatternInterface;
-use LastCall\Mannequin\Core\Variable\VariableFactoryInterface;
 use LastCall\Mannequin\Core\YamlMetadataParser;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
