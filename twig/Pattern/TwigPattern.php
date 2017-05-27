@@ -11,13 +11,11 @@ use LastCall\Mannequin\Core\Variable\VariableSet;
 class TwigPattern extends AbstractPattern implements TemplateFilePatternInterface {
 
   private $source;
-  private $templateFile;
 
   public function __construct($id, array $aliases = [], \Twig_Source $source) {
     parent::__construct($id, $aliases);
     $this->aliases = $aliases;
     $this->source = $source;
-    $this->templateFile = new \SplFileInfo($source->getPath());
   }
 
   public function getSource() {
@@ -25,6 +23,6 @@ class TwigPattern extends AbstractPattern implements TemplateFilePatternInterfac
   }
 
   public function getFile(): \SplFileInfo {
-    return $this->templateFile;
+    return new \SplFileInfo($this->source->getPath());
   }
 }

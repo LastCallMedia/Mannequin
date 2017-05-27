@@ -6,12 +6,21 @@ namespace LastCall\Mannequin\Core\Variable;
 
 class Set {
   private $name;
+  private $description = '';
   private $values;
 
 
   public function __construct(string $name, array $values = []) {
     $this->name = $name;
     $this->values = $values;
+  }
+
+  public function getName(): string {
+    return $this->name;
+  }
+
+  public function getDescription(): string {
+    return $this->description;
   }
 
   public function has(string $name) {

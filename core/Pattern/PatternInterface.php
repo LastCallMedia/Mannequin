@@ -3,6 +3,7 @@
 namespace LastCall\Mannequin\Core\Pattern;
 
 use LastCall\Mannequin\Core\Variable\Definition;
+use LastCall\Mannequin\Core\Variable\Set;
 use LastCall\Mannequin\Core\Variable\VariableSet;
 
 interface PatternInterface {
@@ -81,16 +82,35 @@ interface PatternInterface {
   public function addTag(string $name, $value): PatternInterface;
 
   /**
-   * Set the tags on the pattern.
+   * Get the variable definitions for this pattern.
    *
-   * @param array $tags
+   * @return \LastCall\Mannequin\Core\Variable\Definition
+   */
+  public function getVariableDefinition(): Definition;
+
+  /**
+   * Set the variable definition for this pattern.
+   *
+   * @param \LastCall\Mannequin\Core\Variable\Definition $definition
    *
    * @return \LastCall\Mannequin\Core\Pattern\PatternInterface
    */
-  public function setTags(array $tags): PatternInterface;
+  public function setVariableDefinition(Definition $definition): PatternInterface;
 
-  public function getVariableDefinition(): Definition;
-
+  /**
+   * Get the variable sets for this pattern.
+   *
+   * @return \LastCall\Mannequin\Core\Variable\Set[]
+   */
   public function getVariableSets(): array;
+
+  /**
+   * Add a variable set for this pattern.
+   *
+   * @param \LastCall\Mannequin\Core\Variable\Set $set
+   *
+   * @return \LastCall\Mannequin\Core\Pattern\PatternInterface
+   */
+  public function addVariableSet(string $id, Set $set): PatternInterface;
 
 }

@@ -29,9 +29,21 @@ class UiRenderer {
         'name' => $pattern->getName(),
         'description' => $pattern->getDescription(),
         'tags' => $pattern->getTags(),
+        'sets' => $this->renderPatternSets($pattern),
       ];
     }
     return $manifest;
+  }
+
+  private function renderPatternSets(PatternInterface $pattern) {
+    $sets = [];
+    foreach($pattern->getVariableSets() as $id => $set) {
+      $sets[$id] = [
+        'name' => $set->getName(),
+        'description' => $set->getDescription(),
+      ];
+    }
+    return $sets;
   }
 
   public function renderPattern(PatternInterface $pattern, Set $set) {

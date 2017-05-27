@@ -12,8 +12,7 @@ class HtmlPattern extends AbstractPattern implements TemplateFilePatternInterfac
   private $fileInfo;
 
   public function __construct($id, array $aliases, \SplFileInfo $fileInfo) {
-    $this->id = $id;
-    $this->aliases = $aliases;
+    parent::__construct($id, $aliases);
     $this->fileInfo = $fileInfo;
   }
 

@@ -8,7 +8,7 @@ class Definition {
 
   private $definitions = [];
 
-  public function __construct(array $definitions) {
+  public function __construct(array $definitions = []) {
     foreach($definitions as $name => $type) {
       $this->definitions[$name] = $type;
     }

@@ -17,7 +17,7 @@ class CoreExtension extends AbstractExtension {
   public function getVariableResolvers(): array {
     return [
       new ScalarResolver(),
-//      new PatternResolver(function() {}),
+      new PatternResolver(function() {}),
     ];
   }
 
