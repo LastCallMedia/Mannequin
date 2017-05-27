@@ -4,6 +4,7 @@
 namespace LastCall\Mannequin\Twig\Render;
 
 
+use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Render\Rendered;
 use LastCall\Mannequin\Core\Render\RenderedInterface;
@@ -30,19 +31,21 @@ class TwigRenderer implements RendererInterface {
   }
 
   public function render(PatternInterface $pattern, Set $set): RenderedInterface {
-    $rendered = new Rendered($pattern);
-
-    $variables = $this->setResolver->resolveSet($pattern->getVariableDefinition(), $set);
-
-    $rendered->setMarkup($this->twig->render($pattern->getSource()->getName(), $variables));
-    $rendered->setStyles($this->styles);
-    $rendered->setScripts($this->scripts);
-    return $rendered;
+    if($this->supports($pattern)) {
+      $rendered = new Rendered($pattern);
+      $variables = $this->setResolver->resolveSet($pattern->getVariableDefinition(), $set);
+      $rendered->setMarkup($this->twig->render($pattern->getSource()->getName(), $variables));
+      $rendered->setStyles($this->styles);
+      $rendered->setScripts($this->scripts);
+      return $rendered;
+    }
+    throw new UnsupportedPatternException('Unsupported pattern.');
   }
 
   public function renderSource(PatternInterface $pattern): string {
-    if($pattern instanceof TwigPattern) {
+    if($this->supports($pattern)) {
       return $pattern->getSource()->getCode();
     }
+    throw new UnsupportedPatternException('Unsupported pattern.');
   }
 }

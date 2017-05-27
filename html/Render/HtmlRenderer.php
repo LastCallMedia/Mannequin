@@ -4,6 +4,7 @@
 namespace LastCall\Mannequin\Html\Render;
 
 
+use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
 use LastCall\Mannequin\Core\Variable\Set;
 use LastCall\Mannequin\Html\Pattern\HtmlPattern;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
@@ -23,15 +24,21 @@ class HtmlRenderer implements RendererInterface {
   }
 
   public function render(PatternInterface $pattern, Set $set): RenderedInterface {
-    $rendered = new Rendered($pattern);
-    $rendered->setMarkup(file_get_contents($pattern->getFile()->getPathname()));
-    $rendered->setStyles($this->styles);
-    $rendered->setScripts($this->scripts);
-    return $rendered;
+    if($this->supports($pattern)) {
+      $rendered = new Rendered($pattern);
+      $rendered->setMarkup(file_get_contents($pattern->getFile()->getPathname()));
+      $rendered->setStyles($this->styles);
+      $rendered->setScripts($this->scripts);
+      return $rendered;
+    }
+    throw new UnsupportedPatternException('Unsupported Pattern.');
   }
 
   public function renderSource(PatternInterface $pattern): string {
-    return file_get_contents($pattern->getFile()->getPathname());
+    if($this->supports($pattern)) {
+      return file_get_contents($pattern->getFile()->getPathname());
+    }
+    throw new UnsupportedPatternException('Unsupported pattern.');
   }
 
 }

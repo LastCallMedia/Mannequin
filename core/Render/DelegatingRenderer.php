@@ -23,29 +23,25 @@ class DelegatingRenderer implements RendererInterface {
   }
 
   public function supports(PatternInterface $pattern): bool {
+    return (bool) $this->findRendererFor($pattern, FALSE);
+  }
+
+  private function findRendererFor(PatternInterface $pattern, $require = TRUE) {
     foreach($this->renderers as $renderer) {
       if($renderer->supports($pattern)) {
-        return TRUE;
+        return $renderer;
       }
     }
-    return FALSE;
+    if($require) {
+      throw new UnsupportedPatternException(sprintf('Unable to find a renderer for %s', get_class($pattern)));
+    }
   }
 
   public function render(PatternInterface $pattern, Set $set): RenderedInterface {
-    foreach($this->renderers as $renderer) {
-      if($renderer->supports($pattern)) {
-        return $renderer->render($pattern, $set);
-      }
-    }
-    throw new UnsupportedPatternException(sprintf('Unable to find a renderer for %s', get_class($pattern)));
+    return $this->findRendererFor($pattern)->render($pattern, $set);
   }
 
   public function renderSource(PatternInterface $pattern): string {
-    foreach($this->renderers as $renderer) {
-      if($renderer->supports($pattern)) {
-        return $renderer->renderSource($pattern);
-      }
-    }
-    throw new UnsupportedPatternException(sprintf('Unable to find a renderer for %s', get_class($pattern)));
+    return $this->findRendererFor($pattern)->renderSource($pattern);
   }
 }
