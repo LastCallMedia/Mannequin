@@ -30,7 +30,7 @@ class DrupalBootstrapExtension extends TwigExtension {
       return $this['drupal']->get('twig');
     };
     $this['discovery'] = function() {
-      return new DrupalExtensionTwigDiscovery($this['_drupal_root'], $this['extensions'], $this['twig']->getLoader(), $this->getConfig()->getDispatcher());
+      return new DrupalExtensionTwigDiscovery($this['_drupal_root'], $this['extensions'], $this['twig']->getLoader());
     };
   }
 

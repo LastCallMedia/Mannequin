@@ -1,20 +1,6 @@
 <?php
 
-
 namespace LastCall\Mannequin\Twig\Discovery;
-
-
-use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
-use LastCall\Mannequin\Core\Discovery\IdEncoder;
-use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
-use LastCall\Mannequin\Core\Event\PatternEvents;
-use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
-use LastCall\Mannequin\Core\Metadata\MetadataFactoryInterface;
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
-use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 
 class TwigFileDiscovery extends AbstractTwigDiscovery {
 
@@ -24,9 +10,8 @@ class TwigFileDiscovery extends AbstractTwigDiscovery {
   private $loader;
   private $files;
   private $prefix = 'twig';
-  private $dispatcher;
 
-  public function __construct(\Twig_LoaderInterface $loader, \Traversable $files, EventDispatcherInterface $dispatcher) {
+  public function __construct(\Twig_LoaderInterface $loader, \Traversable $files) {
     if(!$loader instanceof \Twig_SourceContextLoaderInterface) {
       throw new \InvalidArgumentException('Twig loader must implement \Twig_SourceContextLoaderInterface');
     }
@@ -35,7 +20,6 @@ class TwigFileDiscovery extends AbstractTwigDiscovery {
     }
     $this->loader = $loader;
     $this->files = $files;
-    $this->dispatcher = $dispatcher;
   }
 
   protected function getNames(): array {
@@ -44,10 +28,6 @@ class TwigFileDiscovery extends AbstractTwigDiscovery {
       $names[] = $file->getRelativePathname();
     }
     return $names;
-  }
-
-  protected function getDispatcher(): EventDispatcherInterface {
-    return $this->dispatcher;
   }
 
   protected function getLoader(): \Twig_LoaderInterface {

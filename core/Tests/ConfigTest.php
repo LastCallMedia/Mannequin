@@ -40,6 +40,7 @@ class ConfigTest extends TestCase {
   private function getMockExtension() {
     $extension = $this->prophesize(ExtensionInterface::class);
     $extension->setConfig(Argument::type(ConfigInterface::class))->will(function() {});
+    $extension->attachToDispatcher(Argument::type(EventDispatcherInterface::class))->will(function() {});
     return $extension;
   }
 

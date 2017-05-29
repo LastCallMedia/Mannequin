@@ -40,7 +40,7 @@ class Config extends Container implements ConfigInterface {
       foreach($this->getExtensions() as $extension) {
         $discoverers = array_merge($discoverers, $extension->getDiscoverers());
       }
-      return new ChainDiscovery($discoverers);
+      return new ChainDiscovery($discoverers, $this->getDispatcher());
     };
     $this['renderer'] = function() {
       $renderers = [];

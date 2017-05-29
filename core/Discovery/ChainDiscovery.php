@@ -4,26 +4,34 @@
 namespace LastCall\Mannequin\Core\Discovery;
 
 
+use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
+use LastCall\Mannequin\Core\Event\PatternEvents;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ChainDiscovery implements DiscoveryInterface {
 
   private $discoverers = [];
+  private $dispatcher;
 
-  public function __construct(array $discoverers = []) {
+  public function __construct(array $discoverers = [], EventDispatcherInterface $dispatcher) {
     foreach($discoverers as $discoverer) {
       if(!$discoverer instanceof DiscoveryInterface) {
         throw new \InvalidArgumentException(sprintf('Discoverer must implement %s', DiscoveryInterface::class));
       }
       $this->discoverers[] = $discoverer;
     }
+    $this->dispatcher = $dispatcher;
   }
 
   public function discover(): PatternCollection {
-    $rootCollection = new PatternCollection();
+    $patterns = [];
     foreach($this->discoverers as $discoverer) {
-      $rootCollection = $rootCollection->merge($discoverer->discover());
+      foreach($discoverer->discover() as $pattern) {
+        $this->dispatcher->dispatch(PatternEvents::DISCOVER, new PatternDiscoveryEvent($pattern));
+        $patterns[] = $pattern;
+      }
     }
-    return $rootCollection;
+    return new PatternCollection($patterns);
   }
 }

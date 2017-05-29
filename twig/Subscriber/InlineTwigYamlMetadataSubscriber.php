@@ -53,5 +53,4 @@ class InlineTwigYamlMetadataSubscriber implements EventSubscriberInterface {
     }
   }
 
-
 }

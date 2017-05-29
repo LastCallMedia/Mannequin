@@ -3,17 +3,11 @@
 
 namespace LastCall\Mannequin\Twig\Tests\Discovery;
 
-use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
-use LastCall\Mannequin\Core\Event\PatternEvents;
 use LastCall\Mannequin\Core\Metadata\MetadataFactoryInterface;
 use LastCall\Mannequin\Twig\Discovery\TwigFileDiscovery;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 
 class TwigFileDiscoveryTest extends TestCase {
 
@@ -26,7 +20,7 @@ class TwigFileDiscoveryTest extends TestCase {
   public function testConstructWithInvalidLoader1() {
     $loader = $this->prophesize(\Twig_LoaderInterface::class);
     $loader->willImplement(\Twig_SourceContextLoaderInterface::class);
-    new TwigFileDiscovery($loader->reveal(), Finder::create(), new EventDispatcher());
+    new TwigFileDiscovery($loader->reveal(), Finder::create());
   }
 
   /**
@@ -36,17 +30,17 @@ class TwigFileDiscoveryTest extends TestCase {
   public function testConstructWithInvalidLoader2() {
     $loader = $this->prophesize(\Twig_LoaderInterface::class);
     $loader->willImplement(\Twig_ExistsLoaderInterface::class);
-    new TwigFileDiscovery($loader->reveal(), Finder::create(), new EventDispatcher());
+    new TwigFileDiscovery($loader->reveal(), Finder::create());
   }
 
-  private function discoverFixtureCollection(EventDispatcherInterface $dispatcher = NULL) {
+  private function discoverFixtureCollection() {
     $loader = new \Twig_Loader_Filesystem(self::FIXTURES_DIR);
     $finder = Finder::create()
       ->in([self::FIXTURES_DIR])
       ->files()
       ->name('twig-no-metadata.twig');
 
-    $discoverer = new TwigFileDiscovery($loader, $finder, $dispatcher ?: new EventDispatcher());
+    $discoverer = new TwigFileDiscovery($loader, $finder);
     return $discoverer->discover();
   }
 
@@ -79,14 +73,7 @@ class TwigFileDiscoveryTest extends TestCase {
       ->in([__DIR__])
       ->files()
       ->name(basename(__FILE__));
-    $discoverer = new TwigFileDiscovery($loader, $finder, new EventDispatcher());
+    $discoverer = new TwigFileDiscovery($loader, $finder);
     $discoverer->discover();
-  }
-
-  public function testFiresEvent() {
-    $dispatcher = $this->prophesize(EventDispatcher::class);
-    $dispatcher->dispatch(PatternEvents::DISCOVER, Argument::type(PatternDiscoveryEvent::class))
-      ->shouldBeCalled();
-    $this->discoverFixtureCollection($dispatcher->reveal());
   }
 }

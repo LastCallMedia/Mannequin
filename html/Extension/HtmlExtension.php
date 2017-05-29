@@ -20,7 +20,7 @@ class HtmlExtension extends AbstractExtension {
       return $finder;
     };
     $this['discovery'] = function() {
-      return new HtmlDiscovery($this['finder'], $this->getConfig()->getDispatcher());
+      return new HtmlDiscovery($this['finder']);
     };
     $this['renderer'] = function() {
       $config = $this->getConfig();

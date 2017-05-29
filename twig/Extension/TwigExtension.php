@@ -5,16 +5,11 @@ namespace LastCall\Mannequin\Twig\Extension;
 
 
 use LastCall\Mannequin\Core\Extension\AbstractExtension;
-use LastCall\Mannequin\Core\Metadata\ChainMetadataFactory;
-use LastCall\Mannequin\Core\Metadata\MatchingPatternMetadataFactory;
-use LastCall\Mannequin\Core\Metadata\YamlFileMetadataFactory;
 use LastCall\Mannequin\Twig\Discovery\TwigFileDiscovery;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
-use LastCall\Mannequin\Twig\Metadata\TwigInlineMetadataFactory;
-use LastCall\Mannequin\Twig\Parser\TwigParser;
 use LastCall\Mannequin\Twig\Subscriber\InlineTwigYamlMetadataSubscriber;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class TwigExtension extends AbstractExtension {
 
@@ -37,7 +32,7 @@ class TwigExtension extends AbstractExtension {
     ];
     parent::__construct($config);
     $this['discovery'] = function() {
-      return new TwigFileDiscovery($this['twig']->getLoader(), $this['finder'], $this->getConfig()->getDispatcher());
+      return new TwigFileDiscovery($this['twig']->getLoader(), $this['finder']);
     };
   }
 
