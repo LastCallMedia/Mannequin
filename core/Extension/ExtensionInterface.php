@@ -30,7 +30,7 @@ interface ExtensionInterface {
   /**
    * Get the pattern renderers provided by this extension.
    *
-   * @return \LastCall\Mannequin\Core\Render\RendererInterface[]
+   * @return \LastCall\Mannequin\Core\Engine\EngineInterface[]
    */
   public function getRenderers(): array;
 

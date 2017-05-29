@@ -6,8 +6,8 @@ namespace LastCall\Mannequin\Core\Tests\Extension;
 
 use LastCall\Mannequin\Core\ConfigInterface;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
+use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
-use LastCall\Mannequin\Core\Render\RendererInterface;
 use LastCall\Mannequin\Core\Variable\ResolverInterface;
 use LastCall\Mannequin\Core\Variable\SetResolver;
 use PHPUnit\Framework\TestCase;
@@ -41,7 +41,7 @@ abstract class ExtensionTestCase extends TestCase {
   public function testGetRenderers() {
     $extension = $this->getExtension();
     $extension->setConfig($this->getConfig());
-    $this->assertContainsOnlyInstancesOf(RendererInterface::class, $extension->getRenderers());
+    $this->assertContainsOnlyInstancesOf(EngineInterface::class, $extension->getRenderers());
   }
 
   public function testHasVariableResolvers() {

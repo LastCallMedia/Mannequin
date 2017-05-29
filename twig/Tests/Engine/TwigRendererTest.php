@@ -1,22 +1,20 @@
 <?php
 
 
-namespace LastCall\Mannequin\Twig\Tests\Renderer;
+namespace LastCall\Mannequin\Twig\Tests\Engine;
 
 
+use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
-use LastCall\Mannequin\Core\Render\RendererInterface;
-use LastCall\Mannequin\Core\Tests\Render\RendererTestCase;
-use LastCall\Mannequin\Core\Variable\Definition;
-use LastCall\Mannequin\Core\Variable\Set;
+use LastCall\Mannequin\Core\Tests\Engine\RendererTestCase;
 use LastCall\Mannequin\Core\Variable\SetResolver;
+use LastCall\Mannequin\Twig\Engine\TwigEngine;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
-use LastCall\Mannequin\Twig\Render\TwigRenderer;
 
 class TwigRendererTest extends RendererTestCase {
 
-  public function getRenderer(): RendererInterface {
-    return new TwigRenderer($this->getTwig(), new SetResolver(), ['foo'], ['bar']);
+  public function getRenderer(): EngineInterface {
+    return new TwigEngine($this->getTwig(), new SetResolver(), ['foo'], ['bar']);
   }
 
   public function getSupportedPattern(): PatternInterface {
@@ -46,7 +44,7 @@ class TwigRendererTest extends RendererTestCase {
       ->shouldBeCalled()
       ->willReturn(['foo' => 'bar - resolved']);
 
-    $renderer = new TwigRenderer($twig->reveal(), $setResolver->reveal());
+    $renderer = new TwigEngine($twig->reveal(), $setResolver->reveal());
     $renderer->render($pattern, $pattern->getVariableSets()['default']);
   }
 

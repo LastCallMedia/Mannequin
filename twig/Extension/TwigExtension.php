@@ -9,9 +9,9 @@ use LastCall\Mannequin\Core\Metadata\ChainMetadataFactory;
 use LastCall\Mannequin\Core\Metadata\MatchingPatternMetadataFactory;
 use LastCall\Mannequin\Core\Metadata\YamlFileMetadataFactory;
 use LastCall\Mannequin\Twig\Discovery\TwigFileDiscovery;
+use LastCall\Mannequin\Twig\Engine\TwigEngine;
 use LastCall\Mannequin\Twig\Metadata\TwigInlineMetadataFactory;
 use LastCall\Mannequin\Twig\Parser\TwigParser;
-use LastCall\Mannequin\Twig\Render\TwigRenderer;
 use LastCall\Mannequin\Twig\Subscriber\InlineTwigYamlMetadataSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Finder\Finder;
@@ -82,7 +82,7 @@ class TwigExtension extends AbstractExtension {
    */
   public function getRenderers(): array {
     $config = $this->getConfig();
-    return [new TwigRenderer($this['twig'], $config->getVariableResolver(), $config->getStyles(), $config->getScripts())];
+    return [new TwigEngine($this['twig'], $config->getVariableResolver(), $config->getStyles(), $config->getScripts())];
   }
 
   public function attachToDispatcher(EventDispatcherInterface $dispatcher) {

@@ -4,9 +4,9 @@
 namespace LastCall\Mannequin\Core;
 
 
+use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
-use LastCall\Mannequin\Core\Render\RendererInterface;
 use LastCall\Mannequin\Core\Variable\SetResolver;
 use LastCall\Mannequin\Core\Variable\VariableFactoryInterface;
 use LastCall\Mannequin\Core\Variable\VariableSet;
@@ -47,7 +47,7 @@ interface ConfigInterface {
 
   public function getVariables(): VariableSet;
 
-  public function getRenderer(): RendererInterface;
+  public function getRenderer(): EngineInterface;
 
   public function getLabeller(): Labeller;
 

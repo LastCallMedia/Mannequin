@@ -1,19 +1,19 @@
 <?php
 
 
-namespace LastCall\Mannequin\Core\Tests\Render;
+namespace LastCall\Mannequin\Core\Tests\Engine;
 
 
+use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Render\RenderedInterface;
-use LastCall\Mannequin\Core\Render\RendererInterface;
 use LastCall\Mannequin\Core\Variable\Definition;
 use LastCall\Mannequin\Core\Variable\Set;
 use PHPUnit\Framework\TestCase;
 
 abstract class RendererTestCase extends TestCase {
 
-  abstract public function getRenderer(): RendererInterface;
+  abstract public function getRenderer(): EngineInterface;
   abstract public function getSupportedPattern(): PatternInterface;
 
   protected function getUnsupportedPattern(): PatternInterface {

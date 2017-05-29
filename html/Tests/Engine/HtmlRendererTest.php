@@ -1,12 +1,11 @@
 <?php
 
-namespace LastCall\Mannequin\Html\Tests\Render;
+namespace LastCall\Mannequin\Html\Tests\Engine;
 
+use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
-use LastCall\Mannequin\Core\Render\RendererInterface;
-use LastCall\Mannequin\Core\Tests\Render\RendererTestCase;
+use LastCall\Mannequin\Core\Tests\Engine\RendererTestCase;
 use LastCall\Mannequin\Html\Pattern\HtmlPattern;
-use LastCall\Mannequin\Html\Render\HtmlRenderer;
 
 class HtmlRendererTest extends RendererTestCase {
 
@@ -14,8 +13,8 @@ class HtmlRendererTest extends RendererTestCase {
     return new HtmlPattern('foo', [], new \SplFileInfo(__DIR__.'/../Resources/foo.html'));
   }
 
-  public function getRenderer(): RendererInterface {
-    return new HtmlRenderer(['foo'], ['bar']);
+  public function getRenderer(): EngineInterface {
+    return new \LastCall\Mannequin\Html\Engine\HtmlEngine(['foo'], ['bar']);
   }
 
   public function testRender() {

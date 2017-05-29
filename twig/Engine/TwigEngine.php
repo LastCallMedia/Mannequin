@@ -1,19 +1,18 @@
 <?php
 
 
-namespace LastCall\Mannequin\Twig\Render;
+namespace LastCall\Mannequin\Twig\Engine;
 
 
 use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Render\Rendered;
 use LastCall\Mannequin\Core\Render\RenderedInterface;
-use LastCall\Mannequin\Core\Render\RendererInterface;
 use LastCall\Mannequin\Core\Variable\Set;
 use LastCall\Mannequin\Core\Variable\SetResolver;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 
-class TwigRenderer implements RendererInterface {
+class TwigEngine implements \LastCall\Mannequin\Core\Engine\EngineInterface {
 
   private $twig;
   private $styles = [];

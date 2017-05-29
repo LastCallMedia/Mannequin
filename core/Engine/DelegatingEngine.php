@@ -1,22 +1,23 @@
 <?php
 
 
-namespace LastCall\Mannequin\Core\Render;
+namespace LastCall\Mannequin\Core\Engine;
 
 
 use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Render\RenderedInterface;
 use LastCall\Mannequin\Core\Variable\Set;
 use LastCall\Mannequin\Core\Variable\VariableSet;
 
-class DelegatingRenderer implements RendererInterface {
+class DelegatingEngine implements EngineInterface {
 
   private $renderers = [];
 
   public function __construct(array $renderers = []) {
     foreach($renderers as $renderer) {
-      if(!$renderer instanceof RendererInterface) {
-        throw new \InvalidArgumentException('Renderer must implement RendererInterface.');
+      if(!$renderer instanceof EngineInterface) {
+        throw new \InvalidArgumentException('Renderer must implement EngineInterface.');
       }
     }
     $this->renderers = $renderers;

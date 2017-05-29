@@ -1,21 +1,20 @@
 <?php
 
 
-namespace LastCall\Mannequin\Core\Tests\Render;
+namespace LastCall\Mannequin\Core\Tests\Engine;
 
 
 
+use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
-use LastCall\Mannequin\Core\Render\DelegatingRenderer;
 use LastCall\Mannequin\Core\Render\Rendered;
-use LastCall\Mannequin\Core\Render\RendererInterface;
 use LastCall\Mannequin\Core\Variable\Set;
 use Prophecy\Argument;
 
 class DelegatingRendererTest extends RendererTestCase {
 
-  public function getRenderer(): RendererInterface {
-    $subrenderer = $this->prophesize(RendererInterface::class);
+  public function getRenderer(): EngineInterface {
+    $subrenderer = $this->prophesize(EngineInterface::class);
     $subrenderer->supports(Argument::type(PatternInterface::class))->will(function($args) {
       return $args[0]->getId() === 'supported';
     });
@@ -23,7 +22,7 @@ class DelegatingRendererTest extends RendererTestCase {
       return new Rendered($args[0]);
     });
     $subrenderer->renderSource(Argument::type(PatternInterface::class))->willReturn('Test source');
-    return new DelegatingRenderer([$subrenderer->reveal()]);
+    return new \LastCall\Mannequin\Core\Engine\DelegatingEngine([$subrenderer->reveal()]);
   }
 
   public function getSupportedPattern(): PatternInterface {

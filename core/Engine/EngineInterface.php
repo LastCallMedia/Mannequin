@@ -1,14 +1,15 @@
 <?php
 
 
-namespace LastCall\Mannequin\Core\Render;
+namespace LastCall\Mannequin\Core\Engine;
 
 
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Render\RenderedInterface;
 use LastCall\Mannequin\Core\Variable\Set;
 use LastCall\Mannequin\Core\Variable\VariableSet;
 
-interface RendererInterface {
+interface EngineInterface {
 
   public function supports(PatternInterface $pattern): bool;
 

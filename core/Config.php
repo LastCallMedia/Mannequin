@@ -3,11 +3,11 @@
 namespace LastCall\Mannequin\Core;
 
 use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
+use LastCall\Mannequin\Core\Engine\DelegatingEngine;
+use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Extension\CoreExtension;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
-use LastCall\Mannequin\Core\Render\DelegatingRenderer;
-use LastCall\Mannequin\Core\Render\RendererInterface;
 use LastCall\Mannequin\Core\Variable\SetResolver;
 use LastCall\Mannequin\Core\Variable\VariableFactory;
 use LastCall\Mannequin\Core\Variable\VariableFactoryInterface;
@@ -43,7 +43,7 @@ class Config extends Container implements ConfigInterface {
       foreach($this->getExtensions() as $extension) {
         $renderers = array_merge($renderers, $extension->getRenderers());
       }
-      return new DelegatingRenderer($renderers);
+      return new DelegatingEngine($renderers);
     };
     $this['variables'] = function() {
       return new VariableSet();
@@ -167,9 +167,9 @@ class Config extends Container implements ConfigInterface {
   }
 
   /**
-   * @return \LastCall\Mannequin\Core\Render\RendererInterface
+   * @return \LastCall\Mannequin\Core\Engine\EngineInterface
    */
-  public function getRenderer(): RendererInterface {
+  public function getRenderer(): EngineInterface {
     return $this['renderer'];
   }
 

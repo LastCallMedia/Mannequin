@@ -1,18 +1,17 @@
 <?php
 
 
-namespace LastCall\Mannequin\Html\Render;
+namespace LastCall\Mannequin\Html\Engine;
 
 
 use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
+use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Render\Rendered;
+use LastCall\Mannequin\Core\Render\RenderedInterface;
 use LastCall\Mannequin\Core\Variable\Set;
 use LastCall\Mannequin\Html\Pattern\HtmlPattern;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
-use LastCall\Mannequin\Core\Render\RenderedInterface;
-use LastCall\Mannequin\Core\Render\RendererInterface;
-use LastCall\Mannequin\Core\Render\Rendered;
 
-class HtmlRenderer implements RendererInterface {
+class HtmlEngine implements \LastCall\Mannequin\Core\Engine\EngineInterface {
 
   public function __construct(array $styles = [], array $scripts = []) {
     $this->styles = $styles;

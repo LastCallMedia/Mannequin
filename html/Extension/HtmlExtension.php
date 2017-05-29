@@ -6,7 +6,7 @@ namespace LastCall\Mannequin\Html\Extension;
 
 use LastCall\Mannequin\Core\Extension\AbstractExtension;
 use LastCall\Mannequin\Html\Discovery\HtmlDiscovery;
-use LastCall\Mannequin\Html\Render\HtmlRenderer;
+use LastCall\Mannequin\Html\Engine\HtmlEngine;
 use Symfony\Component\Finder\Finder;
 
 class HtmlExtension extends AbstractExtension {
@@ -24,7 +24,7 @@ class HtmlExtension extends AbstractExtension {
     };
     $this['renderer'] = function() {
       $config = $this->getConfig();
-      return new HtmlRenderer($config->getStyles(), $config->getScripts());
+      return new HtmlEngine($config->getStyles(), $config->getScripts());
     };
   }
 
