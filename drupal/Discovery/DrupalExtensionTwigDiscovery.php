@@ -3,21 +3,12 @@
 
 namespace LastCall\Mannequin\Drupal\Discovery;
 
-
-use LastCall\Mannequin\Core\Discovery\IdEncoder;
-use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
-use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
-use LastCall\Mannequin\Core\Event\PatternEvents;
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
-use LastCall\Mannequin\Drupal\Pattern\DrupalTwigPattern;
+use LastCall\Mannequin\Twig\Discovery\AbstractTwigDiscovery;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 
-class DrupalExtensionTwigDiscovery implements DiscoveryInterface {
-
-  use IdEncoder;
+class DrupalExtensionTwigDiscovery extends AbstractTwigDiscovery {
 
   private $drupalRoot;
   private $extensions = [];
@@ -25,51 +16,48 @@ class DrupalExtensionTwigDiscovery implements DiscoveryInterface {
   private $loader;
   private $prefix = 'drupal';
 
-  public function __construct(string $drupal_root, array $extensions, ContainerInterface $container, \Twig_LoaderInterface $loader, EventDispatcherInterface $dispatcher) {
+  public function __construct(string $drupal_root, array $extensions, \Twig_LoaderInterface $loader, EventDispatcherInterface $dispatcher) {
     $this->drupalRoot = $drupal_root;
     $this->extensions = $extensions;
-    $this->container = $container;
     $this->loader = $loader;
     $this->dispatcher = $dispatcher;
   }
 
-  public function discover(): PatternCollection {
-    $patterns = [];
-
-    foreach($this->extensions as $extension) {
-      $patterns = array_merge($patterns, $this->discoverExtensionPatterns($extension));
-    }
-    return new PatternCollection($patterns);
+  protected function getDispatcher(): EventDispatcherInterface {
+    return $this->dispatcher;
   }
 
-  private function discoverExtensionPatterns($extension): array {
-    $patterns = [];
+  protected function getLoader(): \Twig_LoaderInterface {
+    return $this->loader;
+  }
+
+  protected function getPrefix(): string {
+    return $this->prefix;
+  }
+
+  protected function getNames(): array {
+    $names = [];
+    foreach($this->extensions as $extension) {
+      $names = array_merge($names, $this->getExtensionNames($extension));
+    }
+    return $names;
+  }
+
+  private function getExtensionNames($extension): array {
     $path = drupal_get_path('theme', $extension) ?: drupal_get_path('module', $extension);
     if(!$path) {
-      return $patterns;
+      throw new \RuntimeException(sprintf('Unable to determine a path for %s', $extension));
     }
 
     $finder = Finder::create()
       ->files()
       ->name('*.html.twig')
       ->in(sprintf('%s/%s/templates', $this->drupalRoot, $path));
-    foreach($finder as $fileInfo) {
-      if($pattern = $this->parseFile($extension, $fileInfo)) {
-        $patterns[] = $pattern;
-      }
-    }
-    return $patterns;
-  }
 
-  private function parseFile(string $extension, SplFileInfo $fileInfo) {
-    $twig_path = sprintf('@%s/%s', $extension, $fileInfo->getRelativePathname());
-    if($this->loader->exists($twig_path)) {
-      $id = sprintf('%s:%s', $this->prefix, $twig_path);
-      $source = $this->loader->getSourceContext($twig_path);
-      $pattern = new DrupalTwigPattern($this->encodeId($id), [$id, $twig_path], $source);
-      $pattern->addTag('format', 'drupal');
-      $this->dispatcher->dispatch(PatternEvents::DISCOVER, new PatternDiscoveryEvent($pattern));
-      return $pattern;
+    $names = [];
+    foreach($finder as $fileInfo) {
+      $names[] = sprintf('@%s/%s', $extension, $fileInfo->getRelativePathname());
     }
+    return $names;
   }
 }
