@@ -16,9 +16,14 @@ use LastCall\Mannequin\Core\Variable\ResolverInterface;
 use LastCall\Mannequin\Core\Variable\SetResolver;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ConfigTest extends TestCase {
 
+  public function testCanUseCreate() {
+    $config = Config::create();
+    $this->assertInstanceOf(Config::class, $config);
+  }
   public function testSetsConfigWhenExtensionsAreUsed() {
     $extension = $this->prophesize(ExtensionInterface::class);
     $config = new Config();
@@ -80,5 +85,57 @@ class ConfigTest extends TestCase {
   public function testHasVariableFactory() {
     $config = new Config();
     $this->assertInstanceOf(SetResolver::class, $config->getVariableResolver());
+  }
+
+  public function testCallsExtensionAttachToDispatcher() {
+    $config = new Config();
+    $extension = $this->getMockExtension();
+    $extension->attachToDispatcher(Argument::type(EventDispatcherInterface::class))->will(function($args) {
+      $args[0]->addListener('foo', function() {});
+    })->shouldBeCalled();
+    $config->addExtension($extension->reveal());
+    $dispatcher = $config->getDispatcher();
+    $this->assertTrue($dispatcher->hasListeners('foo'));
+  }
+
+  public function testHasDefaultCacheDir() {
+    $config = new Config();
+    $this->assertEquals(realpath(__DIR__.'/../../cache'), realpath($config->getCacheDir()));
+  }
+
+  public function testCacheDirCanBeOverridden() {
+    $config = new Config(['cache_dir' => 'foo']);
+    $this->assertEquals('foo', $config->getCacheDir());
+  }
+
+  public function testHasDefaultStyles() {
+    $config = new Config();
+    $this->assertEquals([], $config->getStyles());
+  }
+
+  public function testCanOverrideStyles() {
+    $config = new Config(['styles' => ['foo']]);
+    $this->assertEquals(['foo'], $config->getStyles());
+  }
+
+  public function testHasDefaultScripts() {
+    $config = new Config();
+    $this->assertEquals([], $config->getScripts());
+  }
+
+  public function testCanOverrideScripts() {
+    $config = new Config(['scripts' => ['foo']]);
+    $this->assertEquals(['foo'], $config->getScripts());
+  }
+
+  public function testHasDefaultAssetMapping() {
+    $config = new Config();
+    $this->assertEquals([], $config->getAssetMappings());
+  }
+
+  public function testCanAddAssetMappings() {
+    $config = new Config();
+    $config->addAssetMapping('foo', __DIR__);
+    $this->assertEquals(['foo' => __DIR__], $config->getAssetMappings());
   }
 }

@@ -23,8 +23,12 @@ class Config extends Container implements ConfigInterface {
   }
 
   public function __construct(array $values = []) {
+    $values += [
+      'cache_dir' => __DIR__.'/../cache',
+      'styles' => [],
+      'scripts' => [],
+    ];
     parent::__construct($values);
-    $this['cache_dir'] = __DIR__.'/../cache';
     $this['labeller'] = function() {
       return new Labeller();
     };
@@ -45,9 +49,6 @@ class Config extends Container implements ConfigInterface {
       }
       return new DelegatingEngine($renderers);
     };
-    $this['variables'] = function() {
-      return new VariableSet();
-    };
     $this['variable.resolver'] = function() {
       $resolvers = [];
       foreach($this->getExtensions() as $extension) {
@@ -57,12 +58,6 @@ class Config extends Container implements ConfigInterface {
     };
     $this['collection'] = function() {
       return $this['discovery']->discover();
-    };
-    $this['styles'] = function() {
-      return [];
-    };
-    $this['scripts'] = function() {
-      return [];
     };
     $this['assets'] = function() {
       return [];
@@ -118,38 +113,16 @@ class Config extends Container implements ConfigInterface {
   /**
    * {@inheritdoc}
    */
-  public function addStyles(array $styles): ConfigInterface {
-    $this->extend('styles', function(array $existing) use ($styles) {
-      $existing = array_merge($existing, $styles);
-      return $existing;
-    });
-    return $this;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getScripts(): array {
     return $this['scripts'];
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function addScripts(array $scripts): ConfigInterface {
-    $this->extend('scripts', function(array $existing) use ($scripts) {
-      $existing = array_merge($existing, $scripts);
-      return $existing;
-    });
-    return $this;
-  }
-
   public function addAssetMapping($url, $path): ConfigInterface {
     if(!is_string($url) || strlen($url) === 0 || strpos($url, '/') === 0) {
-      throw new \InvalidArgumentException('URL path specified for %s is invalid.  It should be a relative URL.');
+      throw new \InvalidArgumentException(sprintf('URL path specified for %s is invalid.  It should be a relative URL.', $path));
     }
     if(!file_exists($path)) {
-      throw new \InvalidArgumentException('Path specified for asset url %s is invalid.', $url);
+      throw new \InvalidArgumentException(sprintf('Path specified for asset url %s is invalid.', $url));
     }
     $this->extend('assets', function(array $existing) use ($url, $path) {
       $existing[$url] = $path;
@@ -160,10 +133,6 @@ class Config extends Container implements ConfigInterface {
 
   public function getAssetMappings(): array {
     return $this['assets'];
-  }
-
-  public function getVariables(): VariableSet {
-    return $this['variables'];
   }
 
   /**

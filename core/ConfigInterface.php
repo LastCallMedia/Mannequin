@@ -9,7 +9,6 @@ use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Variable\SetResolver;
 use LastCall\Mannequin\Core\Variable\VariableFactoryInterface;
-use LastCall\Mannequin\Core\Variable\VariableSet;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 interface ConfigInterface {
@@ -27,25 +26,13 @@ interface ConfigInterface {
   public function getStyles(): array;
 
   /**
-   * @param string[] $styles
-   */
-  public function addStyles(array $styles): ConfigInterface;
-
-  /**
    * @return string[]
    */
   public function getScripts(): array;
 
-  /**
-   * @param string[] $scripts
-   */
-  public function addScripts(array $scripts): ConfigInterface;
-
   public function addAssetMapping($url, $path): ConfigInterface;
 
   public function getAssetMappings(): array;
-
-  public function getVariables(): VariableSet;
 
   public function getRenderer(): EngineInterface;
 
