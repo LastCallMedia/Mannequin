@@ -22,7 +22,7 @@ class LastChanceNameSubscriber implements EventSubscriberInterface {
     if(empty($pattern->getName())) {
       if($pattern instanceof TemplateFilePatternInterface) {
         $file = $pattern->getFile();
-        $name = $file->getBasename($file->getExtension());
+        $name = explode('.', $file->getBasename())[0];
         $name = ucfirst(strtr(trim($name, '-_.'), [
           '-' => ' ',
           '_' => ' ',

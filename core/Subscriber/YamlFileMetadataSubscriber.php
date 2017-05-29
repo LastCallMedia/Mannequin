@@ -12,8 +12,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class YamlFileMetadataSubscriber implements EventSubscriberInterface {
 
-  public function __construct() {
-    $this->parser = new YamlMetadataParser();
+  public function __construct(YamlMetadataParser $parser = NULL) {
+    $this->parser = $parser ?: new YamlMetadataParser();
   }
 
   public static function getSubscribedEvents() {
@@ -28,18 +28,18 @@ class YamlFileMetadataSubscriber implements EventSubscriberInterface {
       $yamlFile = $this->getYamlFileForPatternFile($pattern->getFile());
       if(file_exists($yamlFile)) {
         $metadata = $this->parser->parse(file_get_contents($yamlFile));
-        if(empty($pattern->getName()) && $metadata['name']) {
+        if(!empty($metadata['name'])) {
           $pattern->setName($metadata['name']);
         }
-        if(empty($pattern->getDescription()) && $metadata['description']) {
+        if(!empty($metadata['description'])) {
           $pattern->setDescription($metadata['description']);
         }
         $pattern->setVariableDefinition($metadata['definition']);
         foreach($metadata['tags'] as $k => $v) {
           $pattern->addTag($k, $v);
         }
-        foreach($metadata['tags'] as $k => $v) {
-          $pattern->addTag($k, $v);
+        foreach($metadata['sets'] as $k => $v) {
+          $pattern->addVariableSet($k, $v);
         }
       }
     }
