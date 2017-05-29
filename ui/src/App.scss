@@ -45,3 +45,29 @@ html, body, #root {
   width: 600px;
   margin: 0 auto;
 }
+
+.PatternBoard {
+  .PatternBoard-inner {
+    max-width: none;
+  }
+
+  @for $i from 1 through 8 {
+    .PatternBoard-inner[data-columns="#{$i}"] {
+      width: 100vw * $i;
+    }
+  }
+  @include breakpoint(medium) {
+    @for $i from 1 through 8 {
+      .PatternBoard-inner[data-columns="#{$i}"] {
+        width: max(50vw * $i, 100vw);
+      }
+    }
+  }
+  @include breakpoint(large) {
+    @for $i from 1 through 8 {
+      .PatternBoard-inner[data-columns="#{$i}"] {
+        width: max(25vw * $i, 100vw);
+      }
+    }
+  }
+}
