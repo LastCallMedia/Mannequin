@@ -6,13 +6,14 @@ namespace LastCall\Mannequin\Cli\Ui;
 
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Engine\EngineInterface as PatternEngineInterface;
 use LastCall\Mannequin\Core\Variable\Set;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Templating\EngineInterface;
+use Symfony\Component\Templating\EngineInterface as TemplatingEngineInterface;
 
 class UiRenderer {
 
-  public function __construct(EngineInterface $renderer, EngineInterface $engine) {
+  public function __construct(PatternEngineInterface $renderer, TemplatingEngineInterface $engine) {
     $this->renderer = $renderer;
     $this->templating = $engine;
   }
