@@ -61,7 +61,7 @@ class Application extends \Silex\Application {
       return new UiWriter($this['ui.renderer'], $this['url_generator']);
     };
     $this['ui.renderer'] = function() {
-      return new UiRenderer($this['config']->getRenderer(), $this['template_engine']);
+      return new UiRenderer($this['config']->getRenderer(), $this['template_engine'], $this['config']->getLabeller());
     };
 
     $this->register(new ServiceControllerServiceProvider());

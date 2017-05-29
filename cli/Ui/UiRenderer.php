@@ -4,6 +4,7 @@
 namespace LastCall\Mannequin\Cli\Ui;
 
 
+use LastCall\Mannequin\Core\Labeller;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Engine\EngineInterface as PatternEngineInterface;
@@ -13,13 +14,19 @@ use Symfony\Component\Templating\EngineInterface as TemplatingEngineInterface;
 
 class UiRenderer {
 
-  public function __construct(PatternEngineInterface $renderer, TemplatingEngineInterface $engine) {
+  private $renderer;
+  private $templating;
+  private $labeller;
+
+  public function __construct(PatternEngineInterface $renderer, TemplatingEngineInterface $engine, Labeller $labeller) {
     $this->renderer = $renderer;
     $this->templating = $engine;
+    $this->labeller = $labeller;
   }
 
   public function renderManifest(PatternCollection $collection, UrlGeneratorInterface $generator) {
     $manifest = [];
+    $tags = [];
     foreach($collection as $pattern) {
       $id = $pattern->getId();
       $manifest['patterns'][] = [
@@ -31,7 +38,24 @@ class UiRenderer {
         'tags' => $pattern->getTags(),
         'sets' => $this->renderPatternSets($pattern),
       ];
+      foreach($pattern->getTags() as $k => $v) {
+        if(!isset($tags[$k])) {
+          $tags[$k] = [
+            'unknown' => $this->labeller->getTagLabel($k, 'unknown')
+          ];
+        }
+        if(!isset($tags[$k][$v])) {
+          $tags[$k][$v] = $this->labeller->getTagLabel($k, $v);
+        }
+      }
     }
+    foreach($tags as $k => &$kTags) {
+      uksort($kTags, function($a, $b) use ($k) {
+        return $this->labeller->getTagWeight($k, $a) - $this->labeller->getTagWeight($k, $b);
+      });
+    }
+    $manifest['tags'] = $tags;
+
     return $manifest;
   }
 

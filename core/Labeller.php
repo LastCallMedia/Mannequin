@@ -14,6 +14,16 @@ class Labeller {
   ];
   private $tagLabels = [];
 
+  private $tagWeights = [
+    'type' => [
+      'atom' => -5,
+      'molecule' => -4,
+      'organism' => -3,
+      'template' => -2,
+      'page' => -1,
+    ]
+  ];
+
   public function getCollectionLabel(PatternCollection $collection) {
     $id = $collection->getId();
     if(isset($this->collectionLabels[$id])) {
@@ -27,6 +37,13 @@ class Labeller {
 
   public function getPatternLabel(PatternInterface $pattern) {
     return $pattern->getName();
+  }
+
+  public function getTagWeight($type, $value) {
+    if(isset($this->tagWeights[$type]) && isset($this->tagWeights[$type][$value])) {
+      return $this->tagWeights[$type][$value];
+    }
+    return 0;
   }
 
   public function getTagLabel($type, $value) {

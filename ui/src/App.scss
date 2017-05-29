@@ -53,20 +53,20 @@ html, body, #root {
 
   @for $i from 1 through 8 {
     .PatternBoard-inner[data-columns="#{$i}"] {
-      width: 100vw * $i;
+      width: min(100vw * $i, 98vw);
     }
   }
   @include breakpoint(medium) {
     @for $i from 1 through 8 {
       .PatternBoard-inner[data-columns="#{$i}"] {
-        width: max(50vw * $i, 100vw);
+        width: max(50vw * $i, 98vw);
       }
     }
   }
   @include breakpoint(large) {
     @for $i from 1 through 8 {
       .PatternBoard-inner[data-columns="#{$i}"] {
-        width: max(25vw * $i, 100vw);
+        width: max(25vw * $i, 98vw);
       }
     }
   }
