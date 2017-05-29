@@ -4,6 +4,8 @@
 namespace LastCall\Mannequin\Core\Variable;
 
 
+use LastCall\Mannequin\Core\Exception\InvalidVariableException;
+
 class ScalarResolver implements ResolverInterface {
 
   private static $supportedTypes = [
@@ -11,10 +13,6 @@ class ScalarResolver implements ResolverInterface {
     'boolean',
     'string',
   ];
-
-  public function validate(string $type, $value) {
-    // @todo: Implement this method.
-  }
 
   public function resolves(string $type): bool {
     return in_array($type, $this::$supportedTypes);
@@ -29,5 +27,6 @@ class ScalarResolver implements ResolverInterface {
       case 'string':
         return (string) $value;
     }
+    throw new InvalidVariableException(sprintf('Invalid type %s passed to %s', $type, __CLASS__));
   }
 }
