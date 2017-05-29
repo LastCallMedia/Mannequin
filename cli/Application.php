@@ -5,6 +5,7 @@ namespace LastCall\Mannequin\Cli;
 use LastCall\Mannequin\Cli\Command\RenderCommand;
 use LastCall\Mannequin\Cli\Command\ServerCommand;
 use LastCall\Mannequin\Cli\Controller\RenderController;
+use LastCall\Mannequin\Cli\Controller\UiController;
 use LastCall\Mannequin\Cli\File\ExtensionMimeTypeGuesser;
 use LastCall\Mannequin\Cli\Helper\ConfigHelper;
 use LastCall\Mannequin\Cli\Ui\UiRenderer;
@@ -65,17 +66,20 @@ class Application extends \Silex\Application {
     };
 
     $this->register(new ServiceControllerServiceProvider());
+    $this['controller.ui'] = function() {
+      return new UiController($this['url_generator'], $this['ui.renderer']);
+    };
     $this['controller.render'] = function() {
       $generator = $this['url_generator'];
       $collection = $this['config']->getCollection();
       return new RenderController($collection, $this['ui.renderer'], $generator);
     };
 
-    $this->get('/', 'controller.render:indexAction');
+    $this->get('/', 'controller.ui:indexAction');
     $this->get('/manifest.json', 'controller.render:manifestAction')->bind('manifest');
     $this->get('/_render/{pattern}', 'controller.render:renderAction')->bind('pattern_render');
     $this->get('/_source/{pattern}', 'controller.render:sourceAction')->bind('pattern_source');
-    $this->get('/{name}', 'controller.render:staticAction')->assert('name','.+');
+    $this->get('/{name}', 'controller.ui:staticAction')->assert('name','.+');
   }
 
   public function boot() {

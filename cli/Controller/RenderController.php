@@ -4,11 +4,8 @@ namespace LastCall\Mannequin\Cli\Controller;
 
 use LastCall\Mannequin\Cli\Ui\UiRenderer;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class RenderController {
@@ -21,26 +18,6 @@ class RenderController {
     $this->collection = $collection;
     $this->renderer = $renderer;
     $this->generator = $generator;
-  }
-
-  public function indexAction() {
-    return $this->getUiFile('index.html');
-  }
-
-  public function staticAction($name) {
-    if(strpos($name, 'static/') === 0) {
-      return $this->getUiFile($name);
-    }
-    // @todo: Assets need to be checked here.
-    return new Response($name);
-  }
-
-  private function getUiFile($name) {
-    $filename = sprintf(__DIR__.'/../../ui/build/%s', $name);
-    if(file_exists($filename)) {
-      return new BinaryFileResponse($filename);
-    }
-    throw new NotFoundHttpException('File not found.');
   }
 
   public function manifestAction() {

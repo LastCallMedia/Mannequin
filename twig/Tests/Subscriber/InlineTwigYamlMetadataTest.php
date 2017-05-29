@@ -60,7 +60,7 @@ class InlineTwigYamlMetadataTest extends TestCase {
   }
 
   private function renderAndDispatch($metadata) {
-    $pattern = new TwigPattern('foo', [], new \Twig_Source('', 'test', ''));
+    $pattern = new TwigPattern('foo', [], new \Twig_Source('{%block patterninfo%}{%endblock%}', 'test', ''));
     $parser = $this->getParserProphecy($metadata);
     $subscriber = new InlineTwigYamlMetadataSubscriber($this->getTwig(), $parser->reveal());
     $this->dispatchDiscover($subscriber, $pattern);

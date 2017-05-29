@@ -29,6 +29,10 @@ class InlineTwigYamlMetadataSubscriber implements EventSubscriberInterface {
   public function getYamlMetadata(PatternDiscoveryEvent $event) {
     $pattern = $event->getPattern();
     if($pattern instanceof TwigPattern) {
+      // Exit early if there's absolutely no patterninfo block.
+      if(strpos($pattern->getSource()->getCode(), 'patterninfo') === FALSE) {
+        return;
+      }
       if($this->twig->getLoader()->exists($pattern->getSource()->getName())) {
         $template = $this->twig->load($pattern->getSource()->getName());
         if($template->hasBlock('patterninfo')) {
