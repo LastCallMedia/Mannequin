@@ -31,8 +31,17 @@ class TwigEngine implements EngineInterface {
 
   public function render(PatternInterface $pattern, Set $set): Rendered {
     if($this->supports($pattern)) {
+      $styles = $this->styles;
+      $scripts = $this->scripts;
       $rendered = new Rendered();
       $variables = $this->setResolver->resolveSet($pattern->getVariableDefinition(), $set);
+      foreach($variables as &$variable) {
+        if($variable instanceof Rendered) {
+          $styles = array_merge($styles, $variable->getStyles());
+          $scripts = array_merge($scripts, $variable->getScripts());
+          $variable = new \Twig_Markup($variable, 'UTF-8');
+        }
+      }
       $rendered->setMarkup($this->twig->render($pattern->getSource()->getName(), $variables));
       $rendered->setStyles($this->styles);
       $rendered->setScripts($this->scripts);

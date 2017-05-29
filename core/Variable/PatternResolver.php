@@ -22,7 +22,15 @@ class PatternResolver implements ResolverInterface {
   public function resolve(string $type, $value) {
     if($type === 'pattern') {
       $fn = $this->renderFn;
-      $rendered = $fn($value);
+      if(is_array($value)) {
+        $id = $value['id'];
+        $set = new Set('Nested', $value['value']);
+      }
+      else {
+        $id = $value;
+        $set = NULL;
+      }
+      $rendered = $fn($id, $set);
       if($rendered instanceof Rendered) {
         return $rendered;
       }

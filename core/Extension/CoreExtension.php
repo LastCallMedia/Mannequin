@@ -9,6 +9,7 @@ use LastCall\Mannequin\Core\Subscriber\LastChanceNameSubscriber;
 use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
 use LastCall\Mannequin\Core\Variable\PatternResolver;
 use LastCall\Mannequin\Core\Variable\ScalarResolver;
+use LastCall\Mannequin\Core\Variable\Set;
 use LastCall\Mannequin\Core\Variable\VariableSet;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -17,7 +18,11 @@ class CoreExtension extends AbstractExtension {
   public function getVariableResolvers(): array {
     return [
       new ScalarResolver(),
-      new PatternResolver(function() {}),
+      new PatternResolver(function($id, Set $set = NULL) {
+        $pattern = $this->getConfig()->getCollection()->get($id);
+        $set = $set ?: $pattern->getVariableSets()['default'];
+        return $this->getConfig()->getRenderer()->render($pattern, $set);
+      }),
     ];
   }
 
