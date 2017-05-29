@@ -12,6 +12,7 @@ use LastCall\Mannequin\Core\Variable\ResolverInterface;
 use LastCall\Mannequin\Core\Variable\SetResolver;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -20,7 +21,7 @@ abstract class ExtensionTestCase extends TestCase {
 
   abstract public function getExtension(): ExtensionInterface;
 
-  public function getConfig() {
+  public function getConfig(): ConfigInterface {
     $config = $this->prophesize(ConfigInterface::class);
     $config->getCacheDir()->willReturn('');
     $config->getDispatcher()->willReturn(new EventDispatcher());
@@ -30,12 +31,16 @@ abstract class ExtensionTestCase extends TestCase {
     return $config->reveal();
   }
 
+  protected function getDispatcherProphecy(): ObjectProphecy {
+    $dispatcher = $this->prophesize(EventDispatcherInterface::class);
+    $dispatcher->addSubscriber(Argument::type(EventSubscriberInterface::class))->shouldNotBeCalled();
+    return $dispatcher;
+  }
+
   public function testAttachDispatcher() {
     $extension = $this->getExtension();
     $extension->setConfig($this->getConfig());
-    $dispatcher = $this->prophesize(EventDispatcherInterface::class);
-    $dispatcher->addSubscriber(Argument::type(EventSubscriberInterface::class))->willReturn(NULL);
-    $extension->attachToDispatcher($dispatcher->reveal());
+    $extension->attachToDispatcher($this->getDispatcherProphecy()->reveal());
   }
 
   public function testGetRenderers() {

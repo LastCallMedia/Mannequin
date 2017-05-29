@@ -11,58 +11,82 @@ use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 class TwigFileDiscoveryTest extends TestCase {
 
   const FIXTURES_DIR = __DIR__.'/../Resources';
 
-  public function getTestCases() {
-    $p1 = new TwigPattern('dHdpZzovL3R3aWctbm8tbWV0YWRhdGEudHdpZw==', ['twig://twig-no-metadata.twig'], new \Twig_Source('', 'twig-no-metadata.twig', 'twig-no-metadata.twig'));
-    return [
-      [$p1],
-    ];
-  }
-
-  public function testDiscoversPatterns() {
-    $loader = new \Twig_Loader_Filesystem(self::FIXTURES_DIR);
-    $finder = Finder::create()
-      ->in(self::FIXTURES_DIR)
-      ->files('twig-no-metadata.twig');
-
-    $discoverer = new TwigFileDiscovery($loader, $finder, new EventDispatcher());
-    $pattern = $discoverer->discover()->get('twig://twig-no-metadata.twig');
-    $this->assertEquals('dHdpZzovL3R3aWctbm8tbWV0YWRhdGEudHdpZw==', $pattern->getId());
-    $this->assertEquals(['twig://twig-no-metadata.twig'], $pattern->getAliases());
-  }
-
-  public function testFiresEvent() {
-    $loader = new \Twig_Loader_Filesystem(self::FIXTURES_DIR);
-    $finder = Finder::create()
-      ->in(self::FIXTURES_DIR)
-      ->files('twig-no-metadata.twig');
-
-    $dispatcher = $this->prophesize(EventDispatcher::class);
-    $dispatcher->dispatch(PatternEvents::DISCOVER, Argument::type(PatternDiscoveryEvent::class))
-      ->shouldBeCalled();
-    $discoverer = new TwigFileDiscovery($loader, $finder, $dispatcher->reveal());
-    $discoverer->discover();
+  /**
+   * @expectedException \InvalidArgumentException
+   * @expectedExceptionMessage Twig loader must implement Twig_ExistsLoaderInterface
+   */
+  public function testConstructWithInvalidLoader1() {
+    $loader = $this->prophesize(\Twig_LoaderInterface::class);
+    $loader->willImplement(\Twig_SourceContextLoaderInterface::class);
+    new TwigFileDiscovery($loader->reveal(), Finder::create(), new EventDispatcher());
   }
 
   /**
-   * @dataProvider getTestCases
+   * @expectedException \InvalidArgumentException
+   * @expectedExceptionMessage Twig loader must implement \Twig_SourceContextLoaderInterface
    */
-  public function testDiscover(TwigPattern $expected) {
+  public function testConstructWithInvalidLoader2() {
+    $loader = $this->prophesize(\Twig_LoaderInterface::class);
+    $loader->willImplement(\Twig_ExistsLoaderInterface::class);
+    new TwigFileDiscovery($loader->reveal(), Finder::create(), new EventDispatcher());
+  }
+
+  private function discoverFixtureCollection(EventDispatcherInterface $dispatcher = NULL) {
     $loader = new \Twig_Loader_Filesystem(self::FIXTURES_DIR);
-    $finder = new Finder();
-    $finder->in([self::FIXTURES_DIR]);
-    $finder->name($expected->getSource()->getPath());
+    $finder = Finder::create()
+      ->in([self::FIXTURES_DIR])
+      ->files()
+      ->name('twig-no-metadata.twig');
 
+    $discoverer = new TwigFileDiscovery($loader, $finder, $dispatcher ?: new EventDispatcher());
+    return $discoverer->discover();
+  }
+
+  public function testSetsId() {
+    $pattern = $this->discoverFixtureCollection()->get('dHdpZzovL3R3aWctbm8tbWV0YWRhdGEudHdpZw==');
+    $this->assertInstanceOf(TwigPattern::class, $pattern);
+    $this->assertEquals('dHdpZzovL3R3aWctbm8tbWV0YWRhdGEudHdpZw==', $pattern->getId());
+  }
+
+  public function testSetsAliases() {
+    $pattern = $this->discoverFixtureCollection()->get('dHdpZzovL3R3aWctbm8tbWV0YWRhdGEudHdpZw==');
+    $this->assertEquals(['twig://twig-no-metadata.twig'], $pattern->getAliases());
+  }
+
+  public function testSetsSource() {
+    /** @var TwigPattern $pattern */
+    $pattern = $this->discoverFixtureCollection()->get('dHdpZzovL3R3aWctbm8tbWV0YWRhdGEudHdpZw==');
+    $this->assertInstanceOf(\Twig_Source::class, $pattern->getSource());
+    $expectedSource = new \Twig_Source("I'm on the inside.", 'twig-no-metadata.twig', realpath(self::FIXTURES_DIR.'/twig-no-metadata.twig'));
+    $this->assertEquals($expectedSource, $pattern->getSource());
+  }
+
+  /**
+   * @expectedException \LastCall\Mannequin\Core\Exception\UnsupportedPatternException
+   * @expectedExceptionMessage Unable to load TwigFileDiscoveryTest.php
+   */
+  public function testThrowsExceptionOnNonLoadableFiles() {
+    $loader = new \Twig_Loader_Filesystem(self::FIXTURES_DIR);
+    $finder = Finder::create()
+      ->in([__DIR__])
+      ->files()
+      ->name(basename(__FILE__));
     $discoverer = new TwigFileDiscovery($loader, $finder, new EventDispatcher());
-    $patterns = $discoverer->discover();
-    $pattern = $patterns->get($expected->getId());
-    $this->assertEquals($expected->getId(), $pattern->getId());
-    $this->assertEquals($expected->getAliases(), $pattern->getAliases());
+    $discoverer->discover();
+  }
 
+  public function testFiresEvent() {
+    $dispatcher = $this->prophesize(EventDispatcher::class);
+    $dispatcher->dispatch(PatternEvents::DISCOVER, Argument::type(PatternDiscoveryEvent::class))
+      ->shouldBeCalled();
+    $this->discoverFixtureCollection($dispatcher->reveal());
   }
 }

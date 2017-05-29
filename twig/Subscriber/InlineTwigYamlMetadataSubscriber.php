@@ -21,8 +21,8 @@ class InlineTwigYamlMetadataSubscriber implements EventSubscriberInterface {
   private $parser;
   private $twig;
 
-  public function __construct(\Twig_Environment $environment) {
-    $this->parser = new YamlMetadataParser();
+  public function __construct(\Twig_Environment $environment, YamlMetadataParser $parser = NULL) {
+    $this->parser = $parser ?: new YamlMetadataParser();
     $this->twig = $environment;
   }
  
