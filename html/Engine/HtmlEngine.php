@@ -6,8 +6,7 @@ namespace LastCall\Mannequin\Html\Engine;
 
 use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
-use LastCall\Mannequin\Core\Render\Rendered;
-use LastCall\Mannequin\Core\Render\RenderedInterface;
+use LastCall\Mannequin\Core\Rendered;
 use LastCall\Mannequin\Core\Variable\Set;
 use LastCall\Mannequin\Html\Pattern\HtmlPattern;
 
@@ -22,9 +21,9 @@ class HtmlEngine implements \LastCall\Mannequin\Core\Engine\EngineInterface {
     return $pattern instanceof HtmlPattern;
   }
 
-  public function render(PatternInterface $pattern, Set $set): RenderedInterface {
+  public function render(PatternInterface $pattern, Set $set): Rendered {
     if($this->supports($pattern)) {
-      $rendered = new Rendered($pattern);
+      $rendered = new Rendered();
       $rendered->setMarkup(file_get_contents($pattern->getFile()->getPathname()));
       $rendered->setStyles($this->styles);
       $rendered->setScripts($this->scripts);

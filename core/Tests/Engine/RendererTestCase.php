@@ -6,7 +6,7 @@ namespace LastCall\Mannequin\Core\Tests\Engine;
 
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
-use LastCall\Mannequin\Core\Render\RenderedInterface;
+use LastCall\Mannequin\Core\Rendered;
 use LastCall\Mannequin\Core\Variable\Definition;
 use LastCall\Mannequin\Core\Variable\Set;
 use PHPUnit\Framework\TestCase;
@@ -36,8 +36,7 @@ abstract class RendererTestCase extends TestCase {
   public function testRender() {
     $pattern = $this->getSupportedPattern();
     $rendered = $this->getRenderer()->render($pattern, $pattern->getVariableSets()['default']);
-    $this->assertInstanceOf(RenderedInterface::class, $rendered);
-    $this->assertEquals($pattern, $rendered->getPattern());
+    $this->assertInstanceOf(Rendered::class, $rendered);
     return $rendered;
   }
 

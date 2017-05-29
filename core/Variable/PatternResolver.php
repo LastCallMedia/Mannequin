@@ -4,7 +4,7 @@
 namespace LastCall\Mannequin\Core\Variable;
 
 use LastCall\Mannequin\Core\Exception\InvalidVariableException;
-use LastCall\Mannequin\Core\Render\RenderedInterface;
+use LastCall\Mannequin\Core\Rendered;
 
 
 class PatternResolver implements ResolverInterface {
@@ -23,7 +23,7 @@ class PatternResolver implements ResolverInterface {
     if($type === 'pattern') {
       $fn = $this->renderFn;
       $rendered = $fn($value);
-      if($rendered instanceof RenderedInterface) {
+      if($rendered instanceof Rendered) {
         return $rendered;
       }
       throw new \RuntimeException(sprintf('Pattern resolver callback did not return a valid value for %s', $value));

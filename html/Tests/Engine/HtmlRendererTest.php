@@ -6,6 +6,7 @@ use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Tests\Engine\RendererTestCase;
 use LastCall\Mannequin\Html\Pattern\HtmlPattern;
+use LastCall\Mannequin\Html\Engine\HtmlEngine;
 
 class HtmlRendererTest extends RendererTestCase {
 
@@ -14,7 +15,7 @@ class HtmlRendererTest extends RendererTestCase {
   }
 
   public function getRenderer(): EngineInterface {
-    return new \LastCall\Mannequin\Html\Engine\HtmlEngine(['foo'], ['bar']);
+    return new HtmlEngine(['foo'], ['bar']);
   }
 
   public function testRender() {

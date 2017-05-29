@@ -1,12 +1,8 @@
 <?php
 
-namespace LastCall\Mannequin\Core\Render;
+namespace LastCall\Mannequin\Core;
 
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
-
-class Rendered implements RenderedInterface {
-
-  private $pattern;
+final class Rendered {
 
   private $markup = '';
 
@@ -14,14 +10,9 @@ class Rendered implements RenderedInterface {
 
   private $scripts = [];
 
-  public function __construct(PatternInterface $pattern, array $styles = [], array $scripts = []) {
-    $this->pattern = $pattern;
+  public function __construct(array $styles = [], array $scripts = []) {
     $this->setStyles($styles);
     $this->setScripts($scripts);
-  }
-
-  public function getPattern(): PatternInterface {
-    return $this->pattern;
   }
 
   public function setMarkup(string $markup) {

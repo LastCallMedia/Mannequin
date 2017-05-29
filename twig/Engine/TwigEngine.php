@@ -6,13 +6,13 @@ namespace LastCall\Mannequin\Twig\Engine;
 
 use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
-use LastCall\Mannequin\Core\Render\Rendered;
-use LastCall\Mannequin\Core\Render\RenderedInterface;
+use LastCall\Mannequin\Core\Rendered;
 use LastCall\Mannequin\Core\Variable\Set;
 use LastCall\Mannequin\Core\Variable\SetResolver;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
+use LastCall\Mannequin\Core\Engine\EngineInterface;
 
-class TwigEngine implements \LastCall\Mannequin\Core\Engine\EngineInterface {
+class TwigEngine implements EngineInterface {
 
   private $twig;
   private $styles = [];
@@ -29,9 +29,9 @@ class TwigEngine implements \LastCall\Mannequin\Core\Engine\EngineInterface {
     return $pattern instanceof TwigPattern;
   }
 
-  public function render(PatternInterface $pattern, Set $set): RenderedInterface {
+  public function render(PatternInterface $pattern, Set $set): Rendered {
     if($this->supports($pattern)) {
-      $rendered = new Rendered($pattern);
+      $rendered = new Rendered();
       $variables = $this->setResolver->resolveSet($pattern->getVariableDefinition(), $set);
       $rendered->setMarkup($this->twig->render($pattern->getSource()->getName(), $variables));
       $rendered->setStyles($this->styles);

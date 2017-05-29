@@ -3,22 +3,21 @@
 
 namespace LastCall\Mannequin\Core\Tests\Variable;
 
-
-use LastCall\Mannequin\Core\Render\RenderedInterface;
+use LastCall\Mannequin\Core\Rendered;
 use LastCall\Mannequin\Core\Variable\PatternResolver;
 use PHPUnit\Framework\TestCase;
 
 class PatternResolverTest extends TestCase {
 
   public function testResolvesPatternByCallback() {
-    $rendered = $this->prophesize(RenderedInterface::class)->reveal();
+    $rendered = new Rendered();
     $cb = function($arg) use ($rendered) {
       $this->assertEquals('foo', $arg);
       return $rendered;
     };
 
     $resolver = new PatternResolver($cb);
-    $this->assertEquals($rendered, $resolver->resolve('pattern', 'foo'));
+    $this->assertSame($rendered, $resolver->resolve('pattern', 'foo'));
   }
 
   public function testResolvesPatternTypes() {
