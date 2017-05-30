@@ -39,16 +39,18 @@ class AppFrame extends Component{
     });
   }
   render() {
-    const {children, controls, resizable} = this.props;
+    const {children, controls, resizable, title} = this.props;
     return(
       <div className="reveal-overlay" style={{display: 'block'}}>
-        {controls && <div className="AppFrame-nav">{controls}</div>}
-        <div className={`AppFrame reveal${resizable ? ' resizable': ''}`} style={{display: 'block'}} ref={c => this.modal = c}>
-
+        <div className="AppFrame-nav">
           <button className="close-button" onClick={this.handleClose}><span aria-hidden="true">&times;</span></button>
+          <div className="AppFrameNav-title">{title}</div>
+          {controls && <div className="AppFrame-controls">{controls}</div>}
+          {resizable && <span className="label secondary sizing">{`${this.state.height}x${this.state.width}`}</span>}
+        </div>
+        <div className={`AppFrame reveal${resizable ? ' resizable': ''}`} style={{display: 'block'}} ref={c => this.modal = c}>
           {children}
           {resizable && <ReactResizeDetector handleWidth handleHeight onResize={this.onResize} />}
-          {resizable && <span className="label secondary sizing">{`${this.state.height}x${this.state.width}`}</span>}
         </div>
       </div>
     )

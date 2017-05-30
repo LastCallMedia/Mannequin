@@ -3679,17 +3679,12 @@ html, body, #root {
   height: 100%; }
 
 .AppFrame.reveal {
-  margin: 0 auto; }
+  margin: 0 auto;
+  width: 90%;
+  height: 80%; }
 
 .AppFrame.resizable {
   resize: both; }
-  .AppFrame.resizable .sizing {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.25);
-    padding: .25em;
-    font-family: Consolas, "Liberation Mono", Courier, monospace; }
 
 .AppFrame .AppFrame-nav {
   position: absolute;
@@ -3701,10 +3696,25 @@ html, body, #root {
 
 .AppFrame-nav {
   z-index: 1006;
-  position: relative;
-  top: 100px;
-  width: 600px;
-  margin: 0 auto; }
+  position: absolute;
+  top: 0;
+  width: 100%;
+  margin: 0 auto;
+  background: white;
+  padding: 1em; }
+  .AppFrame-nav .AppFrameNav-title {
+    float: left; }
+    .AppFrame-nav .AppFrameNav-title h1, .AppFrame-nav .AppFrameNav-title h2, .AppFrame-nav .AppFrameNav-title h3, .AppFrame-nav .AppFrameNav-title h4 {
+      margin: 0 1em 0 0; }
+  .AppFrame-nav .tabs {
+    float: left; }
+  .AppFrame-nav .sizing {
+    position: absolute;
+    right: 4rem;
+    top: 1rem;
+    background: rgba(0, 0, 0, 0.25);
+    padding: .25em;
+    font-family: Consolas, "Liberation Mono", Courier, monospace; }
 
 .PatternBoard .PatternBoard-inner {
   max-width: none; }

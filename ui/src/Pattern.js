@@ -24,21 +24,34 @@ function PatternDisplay(props) {
 
   const controls = (
     <ul className="tabs">
-      <li className="tabs-title"><Link to={`${patternMatch.url}/render`}>View</Link></li>
-      <li className="tabs-title"><Link to={`${patternMatch.url}/source`}>Source</Link></li>
+      <MenuLink to={`${patternMatch.url}/render`}>View</MenuLink>
+      <MenuLink to={`${patternMatch.url}/source`}>Source</MenuLink>
       {/* Open in new window? */}
       {/* View HTML source? */}
     </ul>
   );
+  const title = (
+    <h4>{selectedPattern.name} <small>Default</small></h4>
+  )
 
   return (
     <Route path={`${patternMatch.url}/render`} children={({match}) => (
-      <AppFrame resizable={match} onClose={history.push.bind(history, '/')} controls={controls}>
+      <AppFrame resizable={true} title={title} onClose={history.push.bind(history, '/')} controls={controls}>
         <Route path={`${patternMatch.url}/render`} render={() => <PatternRenderDisplay pattern={selectedPattern}/>}/>
         <Route path={`${patternMatch.url}/source`} render={() => <PatternSourceDisplay pattern={selectedPattern}/>}/>
         <Route path={patternMatch.url} exact render={() => <Redirect to={`${patternMatch.url}/render`}/>} />
       </AppFrame>
     )} />
+  )
+}
+
+const MenuLink = (props) => {
+  return (
+    <Route path={props.to} exact={true} children={({match}) => (
+      <li className={match ? 'tabs-title is-active' : 'tabs-title'}>
+        <Link aria-selected={match ? true : false} to={props.to}>{props.children}</Link>
+      </li>
+    )}/>
   )
 }
 
