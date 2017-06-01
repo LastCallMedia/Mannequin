@@ -79,6 +79,16 @@ class PatternCollection implements \Iterator, \Countable {
     return count($this->patterns);
   }
 
+  public function has(string $id) {
+    if(isset($this->patterns[$id])) {
+      return TRUE;
+    }
+    if(isset($this->aliases[$id])) {
+      return TRUE;
+    }
+    return FALSE;
+  }
+
   public function get(string $id) {
     if(isset($this->patterns[$id])) {
       return $this->patterns[$id];

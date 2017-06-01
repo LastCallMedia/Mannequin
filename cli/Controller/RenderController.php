@@ -22,7 +22,10 @@ class RenderController {
 
   public function manifestAction() {
     $manifest = $this->renderer->renderManifest($this->collection, $this->generator);
-    return new JsonResponse($manifest);
+    $res = new JsonResponse($manifest);
+    // @todo: Remove pretty print before release.
+    $res->setEncodingOptions(JSON_PRETTY_PRINT);
+    return $res;
   }
 
   public function renderAction($pattern) {

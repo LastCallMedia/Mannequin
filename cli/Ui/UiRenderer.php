@@ -37,6 +37,8 @@ class UiRenderer {
         'description' => $pattern->getDescription(),
         'tags' => $pattern->getTags(),
         'sets' => $this->renderPatternSets($pattern),
+        'used' => $this->renderPatternUsed($pattern),
+        'aliases' => $pattern->getAliases(),
       ];
       foreach($pattern->getTags() as $k => $v) {
         if(!isset($tags[$k])) {
@@ -68,6 +70,12 @@ class UiRenderer {
       ];
     }
     return $sets;
+  }
+
+  private function renderPatternUsed(PatternInterface $pattern) {
+    return array_map(function(PatternInterface $usedPattern) {
+      return $usedPattern->getId();
+    }, $pattern->getUsedPatterns());
   }
 
   public function renderPattern(PatternInterface $pattern, Set $set) {

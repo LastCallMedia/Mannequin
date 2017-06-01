@@ -28,10 +28,13 @@ class ChainDiscovery implements DiscoveryInterface {
     $patterns = [];
     foreach($this->discoverers as $discoverer) {
       foreach($discoverer->discover() as $pattern) {
-        $this->dispatcher->dispatch(PatternEvents::DISCOVER, new PatternDiscoveryEvent($pattern));
         $patterns[] = $pattern;
       }
     }
-    return new PatternCollection($patterns);
+    $collection = new PatternCollection($patterns);
+    foreach($collection as $pattern) {
+      $this->dispatcher->dispatch(PatternEvents::DISCOVER, new PatternDiscoveryEvent($pattern, $collection));
+    }
+    return $collection;
   }
 }

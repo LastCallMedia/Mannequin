@@ -113,4 +113,8 @@ interface PatternInterface {
    */
   public function addVariableSet(string $id, Set $set): PatternInterface;
 
+
+  public function addUsedPattern(PatternInterface $pattern): PatternInterface;
+
+  public function getUsedPatterns(): array;
 }

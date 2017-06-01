@@ -8,6 +8,7 @@ use LastCall\Mannequin\Core\Extension\AbstractExtension;
 use LastCall\Mannequin\Twig\Discovery\TwigFileDiscovery;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
 use LastCall\Mannequin\Twig\Subscriber\InlineTwigYamlMetadataSubscriber;
+use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -50,5 +51,6 @@ class TwigExtension extends AbstractExtension {
 
   public function attachToDispatcher(EventDispatcherInterface $dispatcher) {
     $dispatcher->addSubscriber(new InlineTwigYamlMetadataSubscriber($this['twig']));
+    $dispatcher->addSubscriber(new TwigIncludeSubscriber($this['twig']));
   }
 }

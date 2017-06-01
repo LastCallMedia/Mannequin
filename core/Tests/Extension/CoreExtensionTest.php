@@ -8,6 +8,7 @@ use LastCall\Mannequin\Core\ConfigInterface;
 use LastCall\Mannequin\Core\Extension\CoreExtension;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Subscriber\LastChanceNameSubscriber;
+use LastCall\Mannequin\Core\Subscriber\NestedPatternVariableSubscriber;
 use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -27,6 +28,7 @@ class CoreExtensionTest extends ExtensionTestCase {
   protected function getDispatcherProphecy(): ObjectProphecy {
     $dispatcher = $this->prophesize(EventDispatcherInterface::class);
     $dispatcher->addSubscriber(Argument::type(YamlFileMetadataSubscriber::class))->shouldBeCalled();
+    $dispatcher->addSubscriber(Argument::type(NestedPatternVariableSubscriber::class))->shouldBeCalled();
     $dispatcher->addSubscriber(Argument::type(LastChanceNameSubscriber::class))->shouldBeCalled();
     return $dispatcher;
   }

@@ -16,6 +16,7 @@ abstract class AbstractPattern implements PatternInterface {
   private $tags = [];
   private $variableDefinition;
   private $variableSets = [];
+  private $used = [];
 
   public function __construct($id, array $aliases = []) {
     $this->id = $id;
@@ -117,6 +118,15 @@ abstract class AbstractPattern implements PatternInterface {
    */
   public function getVariableSets(): array {
     return $this->variableSets;
+  }
+
+  public function addUsedPattern(PatternInterface $pattern): PatternInterface {
+    $this->used[] = $pattern;
+    return $this;
+  }
+
+  public function getUsedPatterns(): array {
+    return $this->used;
   }
 
 }
