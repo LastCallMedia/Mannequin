@@ -1,8 +1,0 @@
-name: Foo Pattern
-tags:
-  foo: bar
-  type: atom
-variables:
-  element_name: string
-value:
-  element_name: h1

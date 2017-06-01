@@ -11,7 +11,7 @@ use LastCall\Mannequin\Html\Engine\HtmlEngine;
 class HtmlRendererTest extends RendererTestCase {
 
   public function getSupportedPattern(): PatternInterface {
-    return new HtmlPattern('foo', [], new \SplFileInfo(__DIR__.'/../Resources/foo.html'));
+    return new HtmlPattern('foo', [], new \SplFileInfo(__DIR__.'/../Resources/button.html'));
   }
 
   public function getRenderer(): EngineInterface {

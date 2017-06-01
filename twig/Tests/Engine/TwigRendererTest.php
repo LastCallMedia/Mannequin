@@ -18,7 +18,7 @@ class TwigRendererTest extends RendererTestCase {
   }
 
   public function getSupportedPattern(): PatternInterface {
-    $src = new \Twig_Source('', 'twig-no-metadata.twig', 'twig-no-metadata.twig');
+    $src = new \Twig_Source('', 'form-input.twig', 'form-input.twig');
     return new TwigPattern('supported', [], $src);
   }
 
@@ -36,7 +36,7 @@ class TwigRendererTest extends RendererTestCase {
 
   public function testResolvesVariables() {
     $twig = $this->prophesize(\Twig_Environment::class);
-    $twig->render('twig-no-metadata.twig', ['foo' => 'bar - resolved'])->willReturn('rendered');
+    $twig->render('form-input.twig', ['foo' => 'bar - resolved'])->willReturn('rendered');
 
     $pattern = $this->getSupportedPattern();
     $setResolver = $this->prophesize(SetResolver::class);

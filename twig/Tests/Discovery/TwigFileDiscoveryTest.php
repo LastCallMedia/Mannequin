@@ -38,29 +38,31 @@ class TwigFileDiscoveryTest extends TestCase {
     $finder = Finder::create()
       ->in([self::FIXTURES_DIR])
       ->files()
-      ->name('twig-no-metadata.twig');
+      ->name('form-input.twig');
 
     $discoverer = new TwigFileDiscovery($loader, $finder);
     return $discoverer->discover();
   }
 
   public function testSetsId() {
-    $pattern = $this->discoverFixtureCollection()->get('dHdpZzovL3R3aWctbm8tbWV0YWRhdGEudHdpZw==');
+    $pattern = $this->discoverFixtureCollection()->get('dHdpZzovL2Zvcm0taW5wdXQudHdpZw==');
     $this->assertInstanceOf(TwigPattern::class, $pattern);
-    $this->assertEquals('dHdpZzovL3R3aWctbm8tbWV0YWRhdGEudHdpZw==', $pattern->getId());
+    $this->assertEquals('dHdpZzovL2Zvcm0taW5wdXQudHdpZw==', $pattern->getId());
   }
 
   public function testSetsAliases() {
-    $pattern = $this->discoverFixtureCollection()->get('dHdpZzovL3R3aWctbm8tbWV0YWRhdGEudHdpZw==');
-    $this->assertEquals(['twig://twig-no-metadata.twig'], $pattern->getAliases());
+    $pattern = $this->discoverFixtureCollection()->get('dHdpZzovL2Zvcm0taW5wdXQudHdpZw==');
+    $this->assertEquals(['twig://form-input.twig'], $pattern->getAliases());
   }
 
   public function testSetsSource() {
     /** @var TwigPattern $pattern */
-    $pattern = $this->discoverFixtureCollection()->get('dHdpZzovL3R3aWctbm8tbWV0YWRhdGEudHdpZw==');
+    $pattern = $this->discoverFixtureCollection()->get('dHdpZzovL2Zvcm0taW5wdXQudHdpZw==');
     $this->assertInstanceOf(\Twig_Source::class, $pattern->getSource());
-    $expectedSource = new \Twig_Source("I'm on the inside.", 'twig-no-metadata.twig', realpath(self::FIXTURES_DIR.'/twig-no-metadata.twig'));
-    $this->assertEquals($expectedSource, $pattern->getSource());
+    $source = $pattern->getSource();
+    $this->assertEquals('form-input.twig', $source->getName());
+    $this->assertEquals(realpath(self::FIXTURES_DIR .'/form-input.twig'), $source->getPath());
+    $this->assertContains('<input', $source->getCode());
   }
 
   /**
