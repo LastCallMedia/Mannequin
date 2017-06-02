@@ -9,9 +9,9 @@ class TwigFileDiscovery extends AbstractTwigDiscovery {
    */
   private $loader;
   private $files;
-  private $prefix = 'twig';
+  private $prefix;
 
-  public function __construct(\Twig_LoaderInterface $loader, \Traversable $files) {
+  public function __construct(\Twig_LoaderInterface $loader, \Traversable $files, string $prefix = 'twig') {
     if(!$loader instanceof \Twig_SourceContextLoaderInterface) {
       throw new \InvalidArgumentException('Twig loader must implement \Twig_SourceContextLoaderInterface');
     }
@@ -20,6 +20,7 @@ class TwigFileDiscovery extends AbstractTwigDiscovery {
     }
     $this->loader = $loader;
     $this->files = $files;
+    $this->prefix = $prefix;
   }
 
   protected function getNames(): array {

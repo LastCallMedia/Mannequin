@@ -14,8 +14,7 @@ class TwigIncludeSubscriber implements EventSubscriberInterface {
 
   private $twig;
   private $cache;
-
-  private $prefix = 'drupal';
+  private $prefix;
 
   public static function getSubscribedEvents() {
     return [
@@ -23,9 +22,10 @@ class TwigIncludeSubscriber implements EventSubscriberInterface {
     ];
   }
 
-  public function __construct(\Twig_Environment $twig, CacheItemPoolInterface $cache) {
+  public function __construct(\Twig_Environment $twig, CacheItemPoolInterface $cache, string $prefix = 'twig') {
     $this->twig = $twig;
     $this->cache = $cache;
+    $this->prefix = $prefix;
   }
 
   public function detectIncludedPatterns(PatternDiscoveryEvent $event) {

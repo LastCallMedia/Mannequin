@@ -19,6 +19,7 @@ class TwigExtension extends AbstractExtension {
   public function __construct(array $config = []) {
     $config += [
       'paths' => [],
+      'prefix' => 'twig',
       'twig' => function() {
         $cache_dir = $this->getConfig()->getCacheDir().DIRECTORY_SEPARATOR.'twig';
         $loader = new \Twig_Loader_Filesystem($this['paths']);
@@ -38,7 +39,7 @@ class TwigExtension extends AbstractExtension {
       return new FilesystemAdapter('', 1000, $this->getConfig()->getCacheDir().'/twig-metadata');
     };
     $this['discovery'] = function() {
-      return new TwigFileDiscovery($this['twig']->getLoader(), $this['finder']);
+      return new TwigFileDiscovery($this['twig']->getLoader(), $this['finder'], $this['prefix']);
     };
   }
 

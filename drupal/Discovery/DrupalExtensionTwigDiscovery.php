@@ -13,12 +13,13 @@ class DrupalExtensionTwigDiscovery extends AbstractTwigDiscovery {
   private $drupalRoot;
   private $extensions = [];
   private $loader;
-  private $prefix = 'drupal';
+  private $prefix;
 
-  public function __construct(string $drupal_root, array $extensions, \Twig_LoaderInterface $loader) {
+  public function __construct(string $drupal_root, array $extensions, \Twig_LoaderInterface $loader, string $prefix = 'drupal') {
     $this->drupalRoot = $drupal_root;
     $this->extensions = $extensions;
     $this->loader = $loader;
+    $this->prefix = $prefix;
   }
 
   protected function getLoader(): \Twig_LoaderInterface {
