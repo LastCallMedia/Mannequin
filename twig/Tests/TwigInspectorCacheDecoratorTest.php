@@ -12,7 +12,7 @@ use Psr\Cache\CacheItemPoolInterface;
 
 class TwigInspectorCacheDecoratorTest extends TestCase {
 
-  public function testReturnsFromCache() {
+  public function testReturnsLinkedFromCache() {
     $source = new \Twig_Source('foo', '', '');
     $inspector = $this->prophesize(TwigInspectorInterface::class);
     $inspector->inspectLinked($source)->shouldNotBeCalled();
@@ -21,14 +21,14 @@ class TwigInspectorCacheDecoratorTest extends TestCase {
     $item->isHit()->willReturn(TRUE);
     $item->get()->willReturn(['bar']);
     $cache = $this->prophesize(CacheItemPoolInterface::class);
-    $cache->getItem('acbd18db4cc2f85cedef654fccc4a4d8')->willReturn($item);
+    $cache->getItem('linked.acbd18db4cc2f85cedef654fccc4a4d8')->willReturn($item);
 
 
     $inspector = new TwigInspectorCacheDecorator($inspector->reveal(), $cache->reveal());
     $this->assertEquals(['bar'], $inspector->inspectLinked($source));
   }
 
-  public function testDelegatesToDecoratedWhenCacheMiss() {
+  public function testFetchesLinkedFromDecoratedWhenCacheMiss() {
     $source = new \Twig_Source('foo', '', '');
     $inspector = $this->prophesize(TwigInspectorInterface::class);
     $inspector->inspectLinked($source)
@@ -42,7 +42,7 @@ class TwigInspectorCacheDecoratorTest extends TestCase {
     });
 
     $cache = $this->prophesize(CacheItemPoolInterface::class);
-    $cache->getItem('acbd18db4cc2f85cedef654fccc4a4d8')->willReturn($item);
+    $cache->getItem('linked.acbd18db4cc2f85cedef654fccc4a4d8')->willReturn($item);
     $cache->save($item)->shouldBeCalled();
 
 

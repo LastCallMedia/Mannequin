@@ -19,6 +19,16 @@ class TwigInspector implements TwigInspectorInterface {
     return array_merge($includes, $embeds, $parents);
   }
 
+  public function inspectPatternData(\Twig_Source $source) {
+    if($this->twig->getLoader()->exists($source->getName())) {
+      $template = $this->twig->load($source->getName());
+      if($template->hasBlock('patterninfo')) {
+        return $template->renderBlock('patterninfo');
+      }
+    }
+    return NULL;
+  }
+
   private static function getParents(\Twig_Node $node) {
     $includes = [];
     if($node->hasNode('parent')) {

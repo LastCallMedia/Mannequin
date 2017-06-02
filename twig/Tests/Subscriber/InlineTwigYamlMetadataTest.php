@@ -6,8 +6,10 @@ use LastCall\Mannequin\Core\Tests\Subscriber\DiscoverySubscriberTestTrait;
 use LastCall\Mannequin\Core\Tests\YamlParserProphecyTrait;
 use LastCall\Mannequin\Core\Variable\Definition;
 use LastCall\Mannequin\Core\Variable\Set;
+use LastCall\Mannequin\Core\YamlMetadataParser;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 use LastCall\Mannequin\Twig\Subscriber\InlineTwigYamlMetadataSubscriber;
+use LastCall\Mannequin\Twig\TwigInspectorInterface;
 use PHPUnit\Framework\TestCase;
 
 class InlineTwigYamlMetadataTest extends TestCase {
@@ -61,8 +63,11 @@ class InlineTwigYamlMetadataTest extends TestCase {
 
   private function renderAndDispatch($metadata) {
     $pattern = new TwigPattern('foo', [], new \Twig_Source('{%block patterninfo%}{%endblock%}', 'test', ''));
+    $inspector = $this->prophesize(TwigInspectorInterface::class);
+    $inspector->inspectPatternData($pattern->getSource())->willReturn('');
+
     $parser = $this->getParserProphecy($metadata);
-    $subscriber = new InlineTwigYamlMetadataSubscriber($this->getTwig(), $parser->reveal());
+    $subscriber = new InlineTwigYamlMetadataSubscriber($inspector->reveal(), $parser->reveal());
     $this->dispatchDiscover($subscriber, $pattern);
     return $pattern;
   }
