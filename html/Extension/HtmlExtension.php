@@ -12,28 +12,24 @@ use Symfony\Component\Finder\Finder;
 class HtmlExtension extends AbstractExtension {
 
   public function __construct(array $values = array()) {
+    $values += [
+      'paths' => [],
+      'prefix' => 'html',
+      'finder' => function() {
+        return Finder::create()
+          ->in($this['paths'])
+          ->files()
+          ->name('*.html');
+      }
+    ];
     parent::__construct($values);
-    $this['finder'] = function() {
-      $finder = new Finder();
-      $finder->files();
-      $finder->name('*.html');
-      return $finder;
-    };
     $this['discovery'] = function() {
-      return new HtmlDiscovery($this['finder']);
+      return new HtmlDiscovery($this['finder'], $this['prefix']);
     };
     $this['renderer'] = function() {
       $config = $this->getConfig();
       return new HtmlEngine($config->getStyles(), $config->getScripts());
     };
-  }
-
-  public function in($dirs) {
-    return $this->extend('finder', function(Finder $finder) use($dirs) {
-      $finder->in($dirs);
-      return $finder;
-    });
-    return $this;
   }
 
   public function getDiscoverers(): array {
