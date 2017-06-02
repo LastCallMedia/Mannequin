@@ -7,11 +7,13 @@ namespace LastCall\Mannequin\Twig\Subscriber;
 use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
 use LastCall\Mannequin\Core\Event\PatternEvents;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
+use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class TwigIncludeSubscriber implements EventSubscriberInterface {
 
   private $twig;
+  private $cache;
 
   private $prefix = 'drupal';
 
@@ -21,8 +23,9 @@ class TwigIncludeSubscriber implements EventSubscriberInterface {
     ];
   }
 
-  public function __construct(\Twig_Environment $twig) {
+  public function __construct(\Twig_Environment $twig, CacheItemPoolInterface $cache) {
     $this->twig = $twig;
+    $this->cache = $cache;
   }
 
   public function detectIncludedPatterns(PatternDiscoveryEvent $event) {
@@ -30,7 +33,15 @@ class TwigIncludeSubscriber implements EventSubscriberInterface {
     $collection = $event->getCollection();
 
     if($pattern instanceof TwigPattern) {
-      $usedArr =  $this->detectUsedTemplates($pattern);
+      $cacheItem = $this->cache->getItem(md5($pattern->getSource()->getCode()));
+      if($cacheItem->isHit()) {
+        $usedArr = $cacheItem->get();
+      }
+      else {
+        $usedArr =  $this->detectUsedTemplates($pattern);
+        $cacheItem->set($usedArr);
+        $this->cache->save($cacheItem);
+      }
 
       foreach($usedArr as $used) {
         $usedId = sprintf('%s://%s', $this->prefix, $used);
