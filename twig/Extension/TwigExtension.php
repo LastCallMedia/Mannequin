@@ -9,6 +9,8 @@ use LastCall\Mannequin\Twig\Discovery\TwigFileDiscovery;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
 use LastCall\Mannequin\Twig\Subscriber\InlineTwigYamlMetadataSubscriber;
 use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
+use LastCall\Mannequin\Twig\TwigInspector;
+use LastCall\Mannequin\Twig\TwigInspectorCacheDecorator;
 use Symfony\Component\Cache\Adapter\ApcuAdapter;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Finder\Finder;
@@ -38,6 +40,12 @@ class TwigExtension extends AbstractExtension {
     $this['cache'] = function() {
       return new FilesystemAdapter('', 1000, $this->getConfig()->getCacheDir().'/twig-metadata');
     };
+    $this['inspector'] = function() {
+      return new TwigInspectorCacheDecorator(
+        new TwigInspector($this['twig']),
+        $this['cache']
+      );
+    };
     $this['discovery'] = function() {
       return new TwigFileDiscovery($this['twig']->getLoader(), $this['finder'], $this['prefix']);
     };
@@ -57,6 +65,6 @@ class TwigExtension extends AbstractExtension {
 
   public function attachToDispatcher(EventDispatcherInterface $dispatcher) {
     $dispatcher->addSubscriber(new InlineTwigYamlMetadataSubscriber($this['twig']));
-    $dispatcher->addSubscriber(new TwigIncludeSubscriber($this['twig'], $this['cache']));
+    $dispatcher->addSubscriber(new TwigIncludeSubscriber($this['inspector'], $this['prefix']));
   }
 }
