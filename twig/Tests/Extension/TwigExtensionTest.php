@@ -15,7 +15,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class TwigExtensionTest extends ExtensionTestCase {
 
   public function getExtension(): ExtensionInterface {
-    return new TwigExtension();
+    return new TwigExtension(['paths' => [__DIR__]]);
   }
 
   public function getDispatcherProphecy(): ObjectProphecy {

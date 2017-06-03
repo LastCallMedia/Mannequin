@@ -5,17 +5,16 @@ namespace LastCall\Mannequin\Twig\Extension;
 
 
 use LastCall\Mannequin\Core\Extension\AbstractExtension;
-use LastCall\Mannequin\Twig\Discovery\TwigFileDiscovery;
+use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
 use LastCall\Mannequin\Twig\Subscriber\InlineTwigYamlMetadataSubscriber;
 use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
+use LastCall\Mannequin\Twig\TemplateFilenameIterator;
 use LastCall\Mannequin\Twig\TwigInspector;
 use LastCall\Mannequin\Twig\TwigInspectorCacheDecorator;
-use Symfony\Component\Cache\Adapter\ApcuAdapter;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Finder\SplFileInfo;
 
 class TwigExtension extends AbstractExtension {
 
@@ -36,6 +35,9 @@ class TwigExtension extends AbstractExtension {
           ->files()
           ->name('*.twig')
           ->in($this['paths']);
+      },
+      'names' => function() {
+        return new TemplateFilenameIterator($this['finder'], $this['paths']);
       }
     ];
     parent::__construct($config);
@@ -49,7 +51,7 @@ class TwigExtension extends AbstractExtension {
       );
     };
     $this['discovery'] = function() {
-      return new TwigFileDiscovery($this['twig']->getLoader(), $this['finder'], $this['prefix']);
+      return new TwigDiscovery($this['twig']->getLoader(), $this['names'], $this['prefix']);
     };
   }
 

@@ -3,44 +3,18 @@
 
 namespace LastCall\Mannequin\Twig\Tests\Discovery;
 
-use LastCall\Mannequin\Core\Metadata\MetadataFactoryInterface;
-use LastCall\Mannequin\Twig\Discovery\TwigFileDiscovery;
+use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\Finder;
 
-class TwigFileDiscoveryTest extends TestCase {
+class TwigDiscoveryTest extends TestCase {
 
   const FIXTURES_DIR = __DIR__.'/../Resources';
 
-  /**
-   * @expectedException \InvalidArgumentException
-   * @expectedExceptionMessage Twig loader must implement Twig_ExistsLoaderInterface
-   */
-  public function testConstructWithInvalidLoader1() {
-    $loader = $this->prophesize(\Twig_LoaderInterface::class);
-    $loader->willImplement(\Twig_SourceContextLoaderInterface::class);
-    new TwigFileDiscovery($loader->reveal(), Finder::create());
-  }
-
-  /**
-   * @expectedException \InvalidArgumentException
-   * @expectedExceptionMessage Twig loader must implement \Twig_SourceContextLoaderInterface
-   */
-  public function testConstructWithInvalidLoader2() {
-    $loader = $this->prophesize(\Twig_LoaderInterface::class);
-    $loader->willImplement(\Twig_ExistsLoaderInterface::class);
-    new TwigFileDiscovery($loader->reveal(), Finder::create());
-  }
-
   private function discoverFixtureCollection() {
     $loader = new \Twig_Loader_Filesystem(self::FIXTURES_DIR);
-    $finder = Finder::create()
-      ->in([self::FIXTURES_DIR])
-      ->files()
-      ->name('form-input.twig');
-
-    $discoverer = new TwigFileDiscovery($loader, $finder);
+    $discoverer = new TwigDiscovery($loader, ['form-input.twig']);
     return $discoverer->discover();
   }
 
@@ -67,15 +41,11 @@ class TwigFileDiscoveryTest extends TestCase {
 
   /**
    * @expectedException \LastCall\Mannequin\Core\Exception\UnsupportedPatternException
-   * @expectedExceptionMessage Unable to load TwigFileDiscoveryTest.php
+   * @expectedExceptionMessage Unable to load some-nonexistent-file.twig
    */
   public function testThrowsExceptionOnNonLoadableFiles() {
     $loader = new \Twig_Loader_Filesystem(self::FIXTURES_DIR);
-    $finder = Finder::create()
-      ->in([__DIR__])
-      ->files()
-      ->name(basename(__FILE__));
-    $discoverer = new TwigFileDiscovery($loader, $finder);
+    $discoverer = new TwigDiscovery($loader, ['some-nonexistent-file.twig']);
     $discoverer->discover();
   }
 }
