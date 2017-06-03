@@ -15,6 +15,7 @@ use Symfony\Component\Cache\Adapter\ApcuAdapter;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Finder\SplFileInfo;
 
 class TwigExtension extends AbstractExtension {
 
@@ -33,6 +34,7 @@ class TwigExtension extends AbstractExtension {
       'finder' => function() {
         return Finder::create()
           ->files()
+          ->name('*.twig')
           ->in($this['paths']);
       }
     ];
