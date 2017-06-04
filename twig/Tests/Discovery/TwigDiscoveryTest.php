@@ -14,24 +14,24 @@ class TwigDiscoveryTest extends TestCase {
 
   private function discoverFixtureCollection() {
     $loader = new \Twig_Loader_Filesystem(self::FIXTURES_DIR);
-    $discoverer = new TwigDiscovery($loader, ['form-input.twig']);
+    $discoverer = new TwigDiscovery($loader, [['form-input.twig']]);
     return $discoverer->discover();
   }
 
   public function testSetsId() {
-    $pattern = $this->discoverFixtureCollection()->get('dHdpZzovL2Zvcm0taW5wdXQudHdpZw==');
+    $pattern = $this->discoverFixtureCollection()->get('Zm9ybS1pbnB1dC50d2ln');
     $this->assertInstanceOf(TwigPattern::class, $pattern);
-    $this->assertEquals('dHdpZzovL2Zvcm0taW5wdXQudHdpZw==', $pattern->getId());
+    $this->assertEquals('Zm9ybS1pbnB1dC50d2ln', $pattern->getId());
   }
 
   public function testSetsAliases() {
-    $pattern = $this->discoverFixtureCollection()->get('dHdpZzovL2Zvcm0taW5wdXQudHdpZw==');
-    $this->assertEquals(['twig://form-input.twig'], $pattern->getAliases());
+    $pattern = $this->discoverFixtureCollection()->get('Zm9ybS1pbnB1dC50d2ln');
+    $this->assertEquals(['form-input.twig'], $pattern->getAliases());
   }
 
   public function testSetsSource() {
     /** @var TwigPattern $pattern */
-    $pattern = $this->discoverFixtureCollection()->get('dHdpZzovL2Zvcm0taW5wdXQudHdpZw==');
+    $pattern = $this->discoverFixtureCollection()->get('Zm9ybS1pbnB1dC50d2ln');
     $this->assertInstanceOf(\Twig_Source::class, $pattern->getSource());
     $source = $pattern->getSource();
     $this->assertEquals('form-input.twig', $source->getName());
@@ -45,7 +45,7 @@ class TwigDiscoveryTest extends TestCase {
    */
   public function testThrowsExceptionOnNonLoadableFiles() {
     $loader = new \Twig_Loader_Filesystem(self::FIXTURES_DIR);
-    $discoverer = new TwigDiscovery($loader, ['some-nonexistent-file.twig']);
+    $discoverer = new TwigDiscovery($loader, [['some-nonexistent-file.twig']]);
     $discoverer->discover();
   }
 }

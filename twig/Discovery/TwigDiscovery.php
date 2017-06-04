@@ -19,35 +19,29 @@ class TwigDiscovery implements DiscoveryInterface {
 
   private $loader;
   private $names;
-  private $prefix;
 
-  public function __construct(\Twig_LoaderInterface $loader, $names, $prefix = 'twig') {
+  public function __construct(\Twig_LoaderInterface $loader, $names) {
     $this->loader = $loader;
     if(!is_array($names) && !$names instanceof \Traversable) {
       throw new \InvalidArgumentException('$names must be an array or a \Traversable object.');
     }
     $this->names = $names;
-    $this->prefix = $prefix;
   }
 
   public function discover(): PatternCollection {
     $patterns = [];
-    foreach($this->names as $name) {
+    foreach($this->names as $names) {
       try {
-        $source = $this->loader->getSourceContext($name);
-        $name = $this->prefixId($name);
-        $pattern = new TwigPattern($this->encodeId($name), [$name], $source);
+        $primary = reset($names);
+        $source = $this->loader->getSourceContext($primary);
+        $pattern = new TwigPattern($this->encodeId($primary), $names, $source);
         $pattern->addTag('format', 'twig');
         $patterns[] = $pattern;
       }
       catch(\Twig_Error_Loader $e) {
-        throw new UnsupportedPatternException(sprintf('Unable to load %s', $name), 0, $e);
+        throw new UnsupportedPatternException(sprintf('Unable to load %s', $primary), 0, $e);
       }
     }
     return new PatternCollection($patterns);
-  }
-
-  private function prefixId($id) {
-    return sprintf('%s://%s', $this->prefix, $id);
   }
 }

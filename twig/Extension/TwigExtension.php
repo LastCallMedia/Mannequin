@@ -7,37 +7,46 @@ namespace LastCall\Mannequin\Twig\Extension;
 use LastCall\Mannequin\Core\Extension\AbstractExtension;
 use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
+use LastCall\Mannequin\Twig\Iterator\TemplateFilenameMapper;
 use LastCall\Mannequin\Twig\Subscriber\InlineTwigYamlMetadataSubscriber;
 use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
-use LastCall\Mannequin\Twig\TemplateFilenameIterator;
 use LastCall\Mannequin\Twig\TwigInspector;
 use LastCall\Mannequin\Twig\TwigInspectorCacheDecorator;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class TwigExtension extends AbstractExtension {
 
   public function __construct(array $config = []) {
     $config += [
-      'paths' => [],
-      'prefix' => 'twig',
+      'globs' => [],
+      'twig_paths' => [
+        \Twig_Loader_Filesystem::MAIN_NAMESPACE => [getcwd()],
+      ],
+      'finder' => function() {
+        throw new \RuntimeException('Finder must be configured.');
+      },
       'twig' => function() {
         $cache_dir = $this->getConfig()->getCacheDir().DIRECTORY_SEPARATOR.'twig';
-        $loader = new \Twig_Loader_Filesystem($this['paths']);
+        $loader = new \Twig_Loader_Filesystem();
+        foreach($this['twig_paths'] as $namespace => $paths) {
+          foreach($paths as $path) {
+            $loader->addPath($path, $namespace);
+          }
+        }
         return new \Twig_Environment($loader, [
           'cache' => $cache_dir,
           'auto_reload' => TRUE,
         ]);
       },
-      'finder' => function() {
-        return Finder::create()
-          ->files()
-          ->name('*.twig')
-          ->in($this['paths']);
-      },
       'names' => function() {
-        return new TemplateFilenameIterator($this['finder'], $this['paths']);
+        $templateNames = new TemplateFilenameMapper($this['finder']);
+        foreach($this['twig_paths'] as $namespace => $paths) {
+          foreach($paths as $path) {
+            $templateNames->addPath($path, $namespace);
+          }
+        }
+        return $templateNames;
       }
     ];
     parent::__construct($config);
@@ -51,7 +60,7 @@ class TwigExtension extends AbstractExtension {
       );
     };
     $this['discovery'] = function() {
-      return new TwigDiscovery($this['twig']->getLoader(), $this['names'], $this['prefix']);
+      return new TwigDiscovery($this['twig']->getLoader(), $this['names']);
     };
   }
 
@@ -69,6 +78,6 @@ class TwigExtension extends AbstractExtension {
 
   public function attachToDispatcher(EventDispatcherInterface $dispatcher) {
     $dispatcher->addSubscriber(new InlineTwigYamlMetadataSubscriber($this['inspector']));
-    $dispatcher->addSubscriber(new TwigIncludeSubscriber($this['inspector'], $this['prefix']));
+    $dispatcher->addSubscriber(new TwigIncludeSubscriber($this['inspector']));
   }
 }

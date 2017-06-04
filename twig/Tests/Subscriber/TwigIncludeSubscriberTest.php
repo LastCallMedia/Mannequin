@@ -21,10 +21,10 @@ class TwigIncludeSubscriberTest extends TestCase {
       ->shouldBeCalled();
 
     $collection = $this->prophesize(PatternCollection::class);
-    $collection->has('twig://bar')
+    $collection->has('bar')
       ->willReturn(TRUE)
       ->shouldBeCalled();
-    $collection->get('twig://bar')
+    $collection->get('bar')
       ->willReturn(new TwigPattern('bar', [], $twigSrc))
       ->shouldBeCalled();
 

@@ -32,10 +32,9 @@ class TwigIncludeSubscriber implements EventSubscriberInterface {
 
     if($pattern instanceof TwigPattern) {
       $included = $this->inspector->inspectLinked($pattern->getSource());
-      foreach ($included as $item) {
-        $id = sprintf('%s://%s', $this->prefix, $item);
-        if($collection->has($id)) {
-          $pattern->addUsedPattern($collection->get($id));
+      foreach ($included as $name) {
+        if($collection->has($name)) {
+          $pattern->addUsedPattern($collection->get($name));
         }
       }
     }

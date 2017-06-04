@@ -11,11 +11,14 @@ use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Finder\Finder;
 
 class TwigExtensionTest extends ExtensionTestCase {
 
   public function getExtension(): ExtensionInterface {
-    return new TwigExtension(['paths' => [__DIR__]]);
+    return new TwigExtension([
+      'finder' => Finder::create()->in(__DIR__)
+    ]);
   }
 
   public function getDispatcherProphecy(): ObjectProphecy {
