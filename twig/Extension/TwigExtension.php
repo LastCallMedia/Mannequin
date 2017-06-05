@@ -7,7 +7,8 @@ namespace LastCall\Mannequin\Twig\Extension;
 use LastCall\Mannequin\Core\Extension\AbstractExtension;
 use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
-use LastCall\Mannequin\Twig\Iterator\TemplateFilenameMapper;
+use LastCall\Mannequin\Twig\Mapper\TemplateFileMapperIterator;
+use LastCall\Mannequin\Twig\Mapper\FilesystemLoaderMapper;
 use LastCall\Mannequin\Twig\Subscriber\InlineTwigYamlMetadataSubscriber;
 use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
 use LastCall\Mannequin\Twig\TwigInspector;
@@ -39,14 +40,17 @@ class TwigExtension extends AbstractExtension {
           'auto_reload' => TRUE,
         ]);
       },
-      'names' => function() {
-        $templateNames = new TemplateFilenameMapper($this['finder']);
+      'filename_mapper' => function() {
+        $mapper = new FilesystemLoaderMapper();
         foreach($this['twig_paths'] as $namespace => $paths) {
           foreach($paths as $path) {
-            $templateNames->addPath($path, $namespace);
+            $mapper->addPath($path, $namespace);
           }
         }
-        return $templateNames;
+        return $mapper;
+      },
+      'names' => function() {
+        return new TemplateFileMapperIterator($this['finder'], $this['filename_mapper']);
       }
     ];
     parent::__construct($config);

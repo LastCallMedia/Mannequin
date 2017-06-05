@@ -1,22 +1,26 @@
 <?php
 
-namespace LastCall\Mannequin\Twig\Iterator;
 
-class TemplateFilenameMapper extends \IteratorIterator {
+namespace LastCall\Mannequin\Twig\Mapper;
+
+
+class FilesystemLoaderMapper {
 
   private $paths = [];
 
-  public function __construct(\Traversable $iterator) {
-    parent::__construct($iterator);
+  public function __construct(array $paths = []) {
+    foreach($paths as $namespace => $namespacePaths) {
+      foreach($namespacePaths as $path) {
+        $this->addPath($path, $namespace);
+      }
+    }
   }
 
   public function addPath($path, $namespace = \Twig_Loader_Filesystem::MAIN_NAMESPACE) {
     $this->paths[$namespace][] = $path;
   }
 
-  public function current() {
-    $filename = realpath(parent::current());
-
+  public function __invoke($filename) {
     $discoveredNames = [];
     foreach($this->paths as $name => $paths) {
       foreach($paths as $path) {
@@ -33,4 +37,5 @@ class TemplateFilenameMapper extends \IteratorIterator {
     }
     throw new \RuntimeException(sprintf('%s does not exist in any known namespace', $filename));
   }
+
 }
