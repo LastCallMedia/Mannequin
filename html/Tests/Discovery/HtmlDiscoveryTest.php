@@ -46,10 +46,10 @@ class HtmlDiscoveryTest extends TestCase {
       ->name('*.html')
       ->in($this->getFixturesDir());
     $discovery = new HtmlDiscovery($finder);
-    $pattern = $discovery->discover()->get('html://button.html');
+    $pattern = $discovery->discover()->get('button.html');
     $this->assertInstanceOf(HtmlPattern::class, $pattern);
-    $this->assertEquals('aHRtbDovL2J1dHRvbi5odG1s', $pattern->getId());
-    $this->assertEquals(['html://button.html'], $pattern->getAliases());
+    $this->assertEquals('YnV0dG9uLmh0bWw=', $pattern->getId());
+    $this->assertEquals(['button.html'], $pattern->getAliases());
     $this->assertInstanceOf(SplFileInfo::class, $pattern->getFile());
     $this->assertEquals('button.html', $pattern->getFile()->getRelativePathname());
   }

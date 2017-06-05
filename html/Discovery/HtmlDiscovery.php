@@ -14,11 +14,9 @@ class HtmlDiscovery implements DiscoveryInterface {
   use IdEncoder;
 
   private $finder;
-  private $prefix;
 
-  public function __construct(Finder $finder, $prefix = 'html') {
+  public function __construct(Finder $finder) {
     $this->finder = $finder;
-    $this->prefix = $prefix;
   }
 
   public function discover(): PatternCollection {
@@ -30,7 +28,7 @@ class HtmlDiscovery implements DiscoveryInterface {
   }
 
   protected function parsePattern(\SplFileInfo $fileInfo) {
-    $id = sprintf('%s://%s', $this->prefix, $fileInfo->getRelativePathname());
+    $id = $fileInfo->getRelativePathname();
     $pattern = new HtmlPattern($this->encodeId($id), [$id], $fileInfo);
     $pattern->addTag('format', 'html');
     return $pattern;

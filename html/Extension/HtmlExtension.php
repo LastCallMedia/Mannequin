@@ -13,18 +13,13 @@ class HtmlExtension extends AbstractExtension {
 
   public function __construct(array $values = array()) {
     $values += [
-      'paths' => [],
-      'prefix' => 'html',
       'finder' => function() {
-        return Finder::create()
-          ->in($this['paths'])
-          ->files()
-          ->name('*.html');
+        throw new \RuntimeException('Finder must be set on HtmlExtension.');
       }
     ];
     parent::__construct($values);
     $this['discovery'] = function() {
-      return new HtmlDiscovery($this['finder'], $this['prefix']);
+      return new HtmlDiscovery($this['finder']);
     };
     $this['renderer'] = function() {
       $config = $this->getConfig();
