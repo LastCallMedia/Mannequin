@@ -22,7 +22,8 @@ class HtmlDiscoveryTest extends TestCase {
   public function testReturnsCollectionOnEmpty() {
     $finder = Finder::create()
       ->files()
-      ->in($this->getFixturesDir('null'));
+      ->in($this->getFixturesDir())
+      ->name('nonexistent.html');
     $discovery = new HtmlDiscovery($finder);
     $collection = $discovery->discover();
     $this->assertInstanceOf(PatternCollection::class, $collection);
