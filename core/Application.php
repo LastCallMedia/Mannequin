@@ -2,8 +2,8 @@
 
 namespace LastCall\Mannequin\Core;
 
-use LastCall\Mannequin\Core\Command\RenderCommand;
-use LastCall\Mannequin\Core\Command\ServerCommand;
+use LastCall\Mannequin\Core\Console\Command\RenderCommand;
+use LastCall\Mannequin\Core\Console\Command\ServerCommand;
 use LastCall\Mannequin\Core\Controller\RenderController;
 use LastCall\Mannequin\Core\Controller\UiController;
 use LastCall\Mannequin\Core\MimeType\ExtensionMimeTypeGuesser;
@@ -26,8 +26,9 @@ class Application extends \Silex\Application {
     parent::__construct($values);
     $this['console'] = function() {
       $app = new ConsoleApplication(self::APP_NAME, self::APP_VERSION);
+      $config = $this->getConfig();
       $app->addCommands([
-        new RenderCommand('render', $this['ui.writer'], $this['config']),
+        new RenderCommand('render', $this['ui.writer'], $config->getCollection(), $config->getAssetMappings()),
         new ServerCommand('server', $this['config_file'], $this['autoload_path'], $this['debug']),
       ]);
       return $app;
@@ -43,17 +44,16 @@ class Application extends \Silex\Application {
       }
       return $config;
     };
-    $this['template_engine'] = function() {
+    $this['templating'] = function() {
       $loader = new FilesystemLoader([__DIR__.'/Resources/ui/%name%']);
       return new PhpEngine(new TemplateNameParser(), $loader);
     };
     $this['ui.writer'] = function() {
-      $this->boot();
       $this->flush();
       return new UiWriter($this['ui.renderer'], $this['url_generator']);
     };
     $this['ui.renderer'] = function() {
-      return new UiRenderer($this['config']->getRenderer(), $this['template_engine'], $this['config']->getLabeller());
+      return new UiRenderer($this['config']->getRenderer(), $this['templating'], $this['config']->getLabeller());
     };
 
     $this->register(new ServiceControllerServiceProvider());
@@ -77,6 +77,13 @@ class Application extends \Silex\Application {
     // Guess file extensions for CSS and JS files.
     MimeTypeGuesser::getInstance()->register(new ExtensionMimeTypeGuesser());
     return parent::boot();
+  }
+
+  /**
+   * @return \LastCall\Mannequin\Core\ConfigInterface
+   */
+  protected function getConfig() {
+    return $this['config'];
   }
 
   public function getConsole() {

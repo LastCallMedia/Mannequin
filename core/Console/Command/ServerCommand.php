@@ -1,7 +1,7 @@
 <?php
 
 
-namespace LastCall\Mannequin\Core\Command;
+namespace LastCall\Mannequin\Core\Console\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
