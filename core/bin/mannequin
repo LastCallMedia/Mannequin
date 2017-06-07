@@ -25,7 +25,9 @@ else {
 
 $input = new ArgvInput();
 $app = new Application([
+  'debug' => (boolean) $input->getParameterOption(['--debug', 'd'], FALSE),
   'autoload_path' => $autoload_file,
   'config_file' => realpath($input->getParameterOption(['--config', '-c'], '.mannequin.php'))
 ]);
+$app->boot();
 return $app->getConsole()->run();

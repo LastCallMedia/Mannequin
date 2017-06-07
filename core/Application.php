@@ -9,8 +9,8 @@ use LastCall\Mannequin\Core\Controller\UiController;
 use LastCall\Mannequin\Core\MimeType\ExtensionMimeTypeGuesser;
 use LastCall\Mannequin\Core\Ui\UiRenderer;
 use LastCall\Mannequin\Core\Ui\UiWriter;
+use LastCall\Mannequin\Core\Console\Application as ConsoleApplication;
 use Silex\Provider\ServiceControllerServiceProvider;
-use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 use Symfony\Component\Templating\Loader\FilesystemLoader;
 use Symfony\Component\Templating\PhpEngine;
@@ -23,10 +23,13 @@ class Application extends \Silex\Application {
   const APP_VERSION = '0.0.0';
 
   public function __construct(array $values = []) {
-    parent::__construct($values + ['debug' => TRUE]);
+    parent::__construct($values);
     $this['console'] = function() {
       $app = new ConsoleApplication(self::APP_NAME, self::APP_VERSION);
-      $app->addCommands($this['commands']);
+      $app->addCommands([
+        new RenderCommand('render', $this['ui.writer'], $this['config']),
+        new ServerCommand('server', $this['config_file'], $this['autoload_path'], $this['debug']),
+      ]);
       return $app;
     };
     $this['config'] = function() {
@@ -40,16 +43,9 @@ class Application extends \Silex\Application {
       }
       return $config;
     };
-    $this['commands'] = function() {
-      return [
-        new RenderCommand('render', $this['ui.writer'], $this['config']),
-        new ServerCommand('server', $this['config_file'], $this['autoload_path']),
-      ];
-    };
     $this['template_engine'] = function() {
-      $parser = new TemplateNameParser();
       $loader = new FilesystemLoader([__DIR__.'/Resources/ui/%name%']);
-      return new PhpEngine($parser, $loader);
+      return new PhpEngine(new TemplateNameParser(), $loader);
     };
     $this['ui.writer'] = function() {
       $this->boot();

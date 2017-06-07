@@ -23,7 +23,6 @@ class RenderCommand extends Command {
   }
 
   public function configure() {
-    $this->addOption('config', 'c', InputOption::VALUE_OPTIONAL, 'The path to a mannequin configuration file.');
     $this->addOption('output-dir', 'o', InputOption::VALUE_OPTIONAL, 'The directory to output the UI in', 'mannequin');
   }
 
