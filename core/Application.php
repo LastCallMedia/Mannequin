@@ -26,6 +26,7 @@ class Application extends \Silex\Application {
     parent::__construct($values);
     $this['console'] = function() {
       $app = new ConsoleApplication(self::APP_NAME, self::APP_VERSION);
+      $app->setDispatcher($this['dispatcher']);
       $config = $this->getConfig();
       $app->addCommands([
         new RenderCommand('render', $this['ui.writer'], $config->getCollection(), $config->getAssetMappings()),
@@ -61,9 +62,8 @@ class Application extends \Silex\Application {
       return new UiController($this['url_generator'], $this['ui.renderer']);
     };
     $this['controller.render'] = function() {
-      $generator = $this['url_generator'];
       $collection = $this['config']->getCollection();
-      return new RenderController($collection, $this['ui.renderer'], $generator);
+      return new RenderController($collection, $this['ui.renderer'], $this['url_generator']);
     };
 
     $this->get('/', 'controller.ui:indexAction');
