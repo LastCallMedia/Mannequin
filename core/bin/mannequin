@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-use LastCall\Mannequin\Cli\Application;
+use LastCall\Mannequin\Core\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 
 $autoload_file = FALSE;

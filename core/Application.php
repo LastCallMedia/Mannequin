@@ -1,18 +1,14 @@
 <?php
 
-namespace LastCall\Mannequin\Cli;
+namespace LastCall\Mannequin\Core;
 
-use LastCall\Mannequin\Cli\Command\RenderCommand;
-use LastCall\Mannequin\Cli\Command\ServerCommand;
-use LastCall\Mannequin\Cli\Controller\RenderController;
-use LastCall\Mannequin\Cli\Controller\UiController;
-use LastCall\Mannequin\Cli\File\ExtensionMimeTypeGuesser;
-use LastCall\Mannequin\Cli\Helper\ConfigHelper;
-use LastCall\Mannequin\Cli\Ui\UiRenderer;
-use LastCall\Mannequin\Cli\Ui\UiWriter;
-use LastCall\Mannequin\Core\ConfigInterface;
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
+use LastCall\Mannequin\Core\Command\RenderCommand;
+use LastCall\Mannequin\Core\Command\ServerCommand;
+use LastCall\Mannequin\Core\Controller\RenderController;
+use LastCall\Mannequin\Core\Controller\UiController;
+use LastCall\Mannequin\Core\MimeType\ExtensionMimeTypeGuesser;
+use LastCall\Mannequin\Core\Ui\UiRenderer;
+use LastCall\Mannequin\Core\Ui\UiWriter;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
@@ -30,7 +26,6 @@ class Application extends \Silex\Application {
     parent::__construct($values + ['debug' => TRUE]);
     $this['console'] = function() {
       $app = new ConsoleApplication(self::APP_NAME, self::APP_VERSION);
-      $app->getHelperSet()->set(new ConfigHelper());
       $app->addCommands($this['commands']);
       return $app;
     };

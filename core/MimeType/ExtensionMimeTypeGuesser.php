@@ -1,8 +1,7 @@
 <?php
 
 
-namespace LastCall\Mannequin\Cli\File;
-
+namespace LastCall\Mannequin\Core\MimeType;
 
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface;
 

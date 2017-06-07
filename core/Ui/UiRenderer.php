@@ -1,7 +1,7 @@
 <?php
 
 
-namespace LastCall\Mannequin\Cli\Ui;
+namespace LastCall\Mannequin\Core\Ui;
 
 
 use LastCall\Mannequin\Core\Labeller;

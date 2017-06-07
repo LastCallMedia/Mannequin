@@ -1,9 +1,8 @@
 <?php
 
 
-namespace LastCall\Mannequin\Cli\Command;
+namespace LastCall\Mannequin\Core\Command;
 
-use LastCall\Mannequin\Cli\Writer\UiWriter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,7 +15,7 @@ class ServerCommand extends Command {
 
   const CODE = <<<'eod'
 <?php
-use LastCall\Mannequin\Cli\Application;
+use LastCall\Mannequin\Core\Application;
 
 $autoload_file = '%s';
 require $autoload_file;

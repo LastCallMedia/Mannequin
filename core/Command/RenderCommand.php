@@ -1,8 +1,8 @@
 <?php
 
-namespace LastCall\Mannequin\Cli\Command;
+namespace LastCall\Mannequin\Core\Command;
 
-use LastCall\Mannequin\Cli\Ui\UiWriter;
+use LastCall\Mannequin\Core\Ui\UiWriter;
 use LastCall\Mannequin\Core\ConfigInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

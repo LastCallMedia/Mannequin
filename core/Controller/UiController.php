@@ -1,10 +1,10 @@
 <?php
 
 
-namespace LastCall\Mannequin\Cli\Controller;
+namespace LastCall\Mannequin\Core\Controller;
 
 
-use LastCall\Mannequin\Cli\Ui\UiRenderer;
+use LastCall\Mannequin\Core\Ui\UiRenderer;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

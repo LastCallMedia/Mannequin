@@ -1,8 +1,8 @@
 <?php
 
-namespace LastCall\Mannequin\Cli\Controller;
+namespace LastCall\Mannequin\Core\Controller;
 
-use LastCall\Mannequin\Cli\Ui\UiRenderer;
+use LastCall\Mannequin\Core\Ui\UiRenderer;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
