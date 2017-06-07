@@ -1,14 +1,14 @@
 <?php
 
 
-namespace LastCall\Mannequin\Core\Controller;
+namespace LastCall\Mannequin\Core\Ui\Controller;
 
 
 use LastCall\Mannequin\Core\Ui\UiRenderer;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UiController {
 
@@ -30,7 +30,7 @@ class UiController {
   }
 
   private function getUiFile($name) {
-    $filename = sprintf(__DIR__.'/../../ui/build/%s', $name);
+    $filename = sprintf(__DIR__.'/../../../ui/build/%s', $name);
     if(file_exists($filename)) {
       return new BinaryFileResponse($filename);
     }

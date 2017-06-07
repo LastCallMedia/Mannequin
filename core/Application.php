@@ -2,14 +2,14 @@
 
 namespace LastCall\Mannequin\Core;
 
+use LastCall\Mannequin\Core\Console\Application as ConsoleApplication;
 use LastCall\Mannequin\Core\Console\Command\RenderCommand;
 use LastCall\Mannequin\Core\Console\Command\ServerCommand;
-use LastCall\Mannequin\Core\Controller\RenderController;
-use LastCall\Mannequin\Core\Controller\UiController;
 use LastCall\Mannequin\Core\MimeType\ExtensionMimeTypeGuesser;
+use LastCall\Mannequin\Core\Ui\Controller\RenderController;
+use LastCall\Mannequin\Core\Ui\Controller\UiController;
 use LastCall\Mannequin\Core\Ui\UiRenderer;
 use LastCall\Mannequin\Core\Ui\UiWriter;
-use LastCall\Mannequin\Core\Console\Application as ConsoleApplication;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 use Symfony\Component\Templating\Loader\FilesystemLoader;

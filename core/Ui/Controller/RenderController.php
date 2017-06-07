@@ -1,9 +1,9 @@
 <?php
 
-namespace LastCall\Mannequin\Core\Controller;
+namespace LastCall\Mannequin\Core\Ui\Controller;
 
-use LastCall\Mannequin\Core\Ui\UiRenderer;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Core\Ui\UiRenderer;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;

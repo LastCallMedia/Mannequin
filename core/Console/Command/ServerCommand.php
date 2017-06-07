@@ -54,7 +54,7 @@ eod;
   }
 
   private function runServer($docroot, $address, OutputInterface $output) {
-    $routerFile = realpath(__DIR__.'/../Resources/router.php');
+    $routerFile = realpath(__DIR__.'/../../Resources/router.php');
     $builder = new ProcessBuilder(['php', '-S', $address, $routerFile]);
     $builder->setWorkingDirectory($docroot);
     $builder->setTimeout(null);
