@@ -42,12 +42,13 @@ class RenderCommand extends Command {
         $rows[] = $this->getErrorRow(sprintf('Pattern: %s', $pattern->getName()), $e);
       }
     }
+
     try {
       $this->uiWriter->writeManifest($this->collection, $outDir);
       $rows[] = $this->getSuccessRow('Manifest');
     }
     catch(\Exception $e) {
-      $rows[] = $this->getErrorRow('Manifest', $e->getMessage());
+      $rows[] = $this->getErrorRow('Manifest', $e);
     }
 
     try {
@@ -55,15 +56,17 @@ class RenderCommand extends Command {
       $rows[] = $this->getSuccessRow('Assets');
     }
     catch(\Exception $e) {
-      $rows[] = $this->getErrorRow('Assets', $e->getMessage());
+      $rows[] = $this->getErrorRow('Assets', $e);
     }
+
     try {
       $this->uiWriter->writeUi($outDir);
       $rows[] = $this->getSuccessRow('UI');
     }
     catch(\Exception $e) {
-      $rows[] = $this->getErrorRow('UI', $e->getMessage());
+      $rows[] = $this->getErrorRow('UI', $e);
     }
+
     $io->table(['', 'Name', 'Message'], $rows);
   }
 
@@ -72,6 +75,6 @@ class RenderCommand extends Command {
   }
 
   private function getErrorRow($name, \Exception $e) {
-    return ['<warning>', $name, $e->getMessage()];
+    return ['<error>x</error>', $name, $e->getMessage()];
   }
 }
