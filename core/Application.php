@@ -23,6 +23,9 @@ class Application extends \Silex\Application {
   const APP_VERSION = '0.0.0';
 
   public function __construct(array $values = []) {
+    $values += [
+      'ui.server' => NULL,
+    ];
     parent::__construct($values);
     $this['console'] = function() {
       $app = new ConsoleApplication(self::APP_NAME, self::APP_VERSION);
@@ -59,18 +62,19 @@ class Application extends \Silex\Application {
 
     $this->register(new ServiceControllerServiceProvider());
     $this['controller.ui'] = function() {
-      return new UiController($this['url_generator'], $this['ui.renderer']);
+      return new UiController($this['url_generator'], $this['ui.renderer'], $this['ui.server']);
     };
     $this['controller.render'] = function() {
       $collection = $this['config']->getCollection();
       return new RenderController($collection, $this['ui.renderer'], $this['url_generator']);
     };
 
-    $this->get('/', 'controller.ui:indexAction');
+
+    $this->match('/', 'controller.ui:indexAction');
     $this->get('/manifest.json', 'controller.render:manifestAction')->bind('manifest');
     $this->get('/_render/{pattern}', 'controller.render:renderAction')->bind('pattern_render');
     $this->get('/_source/{pattern}', 'controller.render:sourceAction')->bind('pattern_source');
-    $this->get('/{name}', 'controller.ui:staticAction')->assert('name','.+');
+    $this->match('/{name}', 'controller.ui:staticAction')->assert('name','.+');
   }
 
   public function boot() {
