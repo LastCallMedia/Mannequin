@@ -21,7 +21,7 @@ class App extends Component {
       <Router>
         <div className="App">
           <PatternBoard patterns={patterns} tags={tags} grouping={'type'} />
-          <Route path={'/pattern/:id'} component={PatternView}/>
+          <Route path={'/pattern/:id/:set'} component={PatternView}/>
         </div>
       </Router>
     );

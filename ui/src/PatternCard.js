@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 export function PatternCard(props) {
   let {pattern} = props;
   return (
-    <Link className="card" to={`/pattern/${pattern.id}`}>
+    <Link className="card" to={`/pattern/${pattern.id}/default`}>
       <div className="card-divider">
         <PatternBadge format={pattern.tags['format']} status={pattern.tags['status']} />
         <h5>{pattern.name}</h5>
