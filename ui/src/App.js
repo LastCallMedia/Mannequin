@@ -4,11 +4,12 @@ import {
   Route
 } from 'react-router-dom';
 
-import PatternBoard from './PatternBoard';
-import PatternView from './Pattern';
 import {connect} from 'react-redux';
 import {fetchPatterns} from './actions';
 import './App.css';
+
+import MannequinHome from './MannequinHome';
+import MannequinNav from './MannequinNav';
 
 
 class App extends Component {
@@ -20,8 +21,8 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <PatternBoard patterns={patterns} tags={tags} grouping={'type'} />
-          <Route path={'/pattern/:id/:set'} component={PatternView}/>
+          <MannequinNav patterns={patterns} tags={tags} />
+          <Route path="/" exact component={MannequinHome} />
         </div>
       </Router>
     );
@@ -44,3 +45,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
+

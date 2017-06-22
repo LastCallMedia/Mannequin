@@ -1,0 +1,75 @@
+
+@import "base";
+
+.MannequinNav {
+  background: black;
+  color: white;
+
+  #responsive-menu {
+    display:flex;
+    width: 100%;
+  }
+
+  ul.main-menu {
+    > li {
+      position: relative;
+      > a {
+        text-transform: uppercase;
+        font-size: rem-calc(10);
+        font-weight: bold;
+        line-height: rem-calc(12);
+        color: white;
+      }
+      // Second level:
+      > ul {
+        display: none;
+        position: absolute;
+        top: 100%;
+        background: white;
+
+        > li {
+          > a {
+            font-size: rem-calc(12);
+            line-height: rem-calc(14);
+            color: #2F2F2F;
+            text-transform: uppercase;
+          }
+          // Third level:
+          > ul {
+            background-color: #F7F7F7;
+            border: 1px solid #E8E8E8;
+            //display: none;
+
+            > li {
+              > a {
+                color: #2F2F2F;
+                font-size: rem-calc(13);
+                line-height: rem-calc(16);
+                font-weight: bold;
+              }
+            }
+          }
+          &.open > ul { display: block; }
+        }
+      }
+      &:hover > ul { display: block; }
+    }
+  }
+
+  .top-bar-title {
+    img {
+      width: rem-calc(14);
+      height: rem-calc(18);
+    }
+  }
+  ul {
+    background-color: transparent;
+  }
+  input[type="search"] {
+    background-color: rgba(#D8D8D8, .05);
+    border-radius: 2px;
+    color: #606C77;
+    border-color: transparent;
+    font-size: rem-calc(10);
+  }
+}

@@ -1,0 +1,53 @@
+/**
+ * Foundation for Sites by ZURB
+ * Version 6.3.1
+ * foundation.zurb.com
+ * Licensed under MIT Open Source
+ */
+.MannequinNav {
+  background: black;
+  color: white; }
+  .MannequinNav #responsive-menu {
+    display: flex;
+    width: 100%; }
+  .MannequinNav ul.main-menu > li {
+    position: relative; }
+    .MannequinNav ul.main-menu > li > a {
+      text-transform: uppercase;
+      font-size: 0.625rem;
+      font-weight: bold;
+      line-height: 0.75rem;
+      color: white; }
+    .MannequinNav ul.main-menu > li > ul {
+      display: none;
+      position: absolute;
+      top: 100%;
+      background: white; }
+      .MannequinNav ul.main-menu > li > ul > li > a {
+        font-size: 0.75rem;
+        line-height: 0.875rem;
+        color: #2F2F2F;
+        text-transform: uppercase; }
+      .MannequinNav ul.main-menu > li > ul > li > ul {
+        background-color: #F7F7F7;
+        border: 1px solid #E8E8E8; }
+        .MannequinNav ul.main-menu > li > ul > li > ul > li > a {
+          color: #2F2F2F;
+          font-size: 0.8125rem;
+          line-height: 1rem;
+          font-weight: bold; }
+      .MannequinNav ul.main-menu > li > ul > li.open > ul {
+        display: block; }
+    .MannequinNav ul.main-menu > li:hover > ul {
+      display: block; }
+  .MannequinNav .top-bar-title img {
+    width: 0.875rem;
+    height: 1.125rem; }
+  .MannequinNav ul {
+    background-color: transparent; }
+  .MannequinNav input[type="search"] {
+    background-color: rgba(216, 216, 216, 0.05);
+    border-radius: 2px;
+    color: #606C77;
+    border-color: transparent;
+    font-size: 0.625rem; }

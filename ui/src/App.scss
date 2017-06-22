@@ -1,5 +1,5 @@
 
-@import "../node_modules/foundation-sites/scss/foundation";
+@import "base";
 
 @include foundation-everything(true);
 
@@ -12,76 +12,76 @@ html, body, #root {
   position:relative;
   height: 100%;
 }
-
-.AppFrame {
-  &.reveal {
-    margin: 0 auto;
-    width: 90%;
-    height: 80%;
-  }
-  &.resizable {
-    resize: both;
-  }
-  .AppFrame-nav {
-    position: absolute;
-    bottom: 100%;
-  }
-  iframe {
-    width: 100%;
-    height: 100%;
-  }
-}
-.AppFrame-nav {
-  z-index: 1006;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  margin: 0 auto;
-  background: white;
-  padding: 1em;
-
-  .AppFrameNav-title {
-    float:left;
-    h1, h2, h3, h4 {
-      margin: 0 1em 0 0;
-    }
-  }
-  .tabs {
-    float: left;
-  }
-
-  .sizing {
-    position: absolute;
-    right: 4rem;
-    top: 1rem;
-    background: rgba(0,0,0, .25);
-    padding: .25em;
-    font-family: $font-family-monospace;
-  }
-}
-
-.PatternBoard {
-  .PatternBoard-inner {
-    max-width: none;
-  }
-
-  @for $i from 1 through 8 {
-    .PatternBoard-inner[data-columns="#{$i}"] {
-      width: min(100vw * $i, 98vw);
-    }
-  }
-  @include breakpoint(medium) {
-    @for $i from 1 through 8 {
-      .PatternBoard-inner[data-columns="#{$i}"] {
-        width: max(50vw * $i, 98vw);
-      }
-    }
-  }
-  @include breakpoint(large) {
-    @for $i from 1 through 8 {
-      .PatternBoard-inner[data-columns="#{$i}"] {
-        width: max(25vw * $i, 98vw);
-      }
-    }
-  }
-}
+//
+//.AppFrame {
+//  &.reveal {
+//    margin: 0 auto;
+//    width: 90%;
+//    height: 80%;
+//  }
+//  &.resizable {
+//    resize: both;
+//  }
+//  .AppFrame-nav {
+//    position: absolute;
+//    bottom: 100%;
+//  }
+//  iframe {
+//    width: 100%;
+//    height: 100%;
+//  }
+//}
+//.AppFrame-nav {
+//  z-index: 1006;
+//  position: absolute;
+//  top: 0;
+//  width: 100%;
+//  margin: 0 auto;
+//  background: white;
+//  padding: 1em;
+//
+//  .AppFrameNav-title {
+//    float:left;
+//    h1, h2, h3, h4 {
+//      margin: 0 1em 0 0;
+//    }
+//  }
+//  .tabs {
+//    float: left;
+//  }
+//
+//  .sizing {
+//    position: absolute;
+//    right: 4rem;
+//    top: 1rem;
+//    background: rgba(0,0,0, .25);
+//    padding: .25em;
+//    font-family: $font-family-monospace;
+//  }
+//}
+//
+//.PatternBoard {
+//  .PatternBoard-inner {
+//    max-width: none;
+//  }
+//
+//  @for $i from 1 through 8 {
+//    .PatternBoard-inner[data-columns="#{$i}"] {
+//      width: min(100vw * $i, 98vw);
+//    }
+//  }
+//  @include breakpoint(medium) {
+//    @for $i from 1 through 8 {
+//      .PatternBoard-inner[data-columns="#{$i}"] {
+//        width: max(50vw * $i, 98vw);
+//      }
+//    }
+//  }
+//  @include breakpoint(large) {
+//    @for $i from 1 through 8 {
+//      .PatternBoard-inner[data-columns="#{$i}"] {
+//        width: max(25vw * $i, 98vw);
+//      }
+//    }
+//  }
+//}
