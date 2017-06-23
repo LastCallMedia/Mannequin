@@ -31,12 +31,11 @@ class UiRenderer {
       $id = $pattern->getId();
       $manifest['patterns'][] = [
         'id' => $id,
-        'rendered' => $generator->generate('pattern_render', ['pattern' => $id]),
         'source' => $generator->generate('pattern_source', ['pattern' => $id]),
         'name' => $pattern->getName(),
         'description' => $pattern->getDescription(),
         'tags' => $pattern->getTags(),
-        'sets' => $this->renderPatternSets($pattern),
+        'sets' => $this->renderPatternSets($pattern, $generator),
         'used' => $this->renderPatternUsed($pattern),
         'aliases' => $pattern->getAliases(),
       ];
@@ -61,12 +60,14 @@ class UiRenderer {
     return $manifest;
   }
 
-  private function renderPatternSets(PatternInterface $pattern) {
+  private function renderPatternSets(PatternInterface $pattern, UrlGeneratorInterface $generator) {
     $sets = [];
     foreach($pattern->getVariableSets() as $id => $set) {
-      $sets[$id] = [
+      $sets[] = [
+        'id' => $id,
         'name' => $set->getName(),
         'description' => $set->getDescription(),
+        'rendered' => $generator->generate('pattern_render', ['pattern' => $pattern->getId(), 'set' => $id], UrlGeneratorInterface::RELATIVE_PATH),
       ];
     }
     return $sets;

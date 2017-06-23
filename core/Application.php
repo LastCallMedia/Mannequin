@@ -72,7 +72,7 @@ class Application extends \Silex\Application {
 
     $this->match('/', 'controller.ui:indexAction');
     $this->get('/manifest.json', 'controller.render:manifestAction')->bind('manifest');
-    $this->get('/_render/{pattern}', 'controller.render:renderAction')->bind('pattern_render');
+    $this->get('/_render/{pattern}/{set}', 'controller.render:renderAction')->bind('pattern_render');
     $this->get('/_source/{pattern}', 'controller.render:sourceAction')->bind('pattern_source');
     $this->match('/{name}', 'controller.ui:staticAction')->assert('name','.+');
   }

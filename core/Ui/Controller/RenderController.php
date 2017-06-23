@@ -28,11 +28,12 @@ class RenderController {
     return $res;
   }
 
-  public function renderAction($pattern) {
+  public function renderAction($pattern, $set) {
     if($pattern = $this->collection->get($pattern)) {
-      $set = $pattern->getVariableSets()['default'];
-      $rendered = $this->renderer->renderPattern($pattern, $set);
-      return new Response($rendered);
+      if($set = $pattern->getVariableSets()[$set]) {
+        $rendered = $this->renderer->renderPattern($pattern, $set);
+        return new Response($rendered);
+      }
     }
   }
 

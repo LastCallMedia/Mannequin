@@ -28,10 +28,12 @@ class UiWriter {
   }
 
   public function writeRender(PatternInterface $pattern, $dir) {
-    $set = $pattern->getVariableSets()['default'];
-    $rendered = $this->renderer->renderPattern($pattern, $set);
-    $rendered_path = $this->generator->generate('pattern_render', ['pattern' => $pattern->getId()], UrlGeneratorInterface::RELATIVE_PATH);
-    file_put_contents(sprintf('%s/%s', $dir, $rendered_path), $rendered);
+    foreach($pattern->getVariableSets() as $setId => $set) {
+      $rendered = $this->renderer->renderPattern($pattern, $set);
+      $rendered_path = $this->generator->generate('pattern_render', ['pattern' => $pattern->getId(), 'set' => $setId], UrlGeneratorInterface::RELATIVE_PATH);
+      $this->filesystem->mkdir(sprintf('%s/%s', $dir, dirname($rendered_path)));
+      file_put_contents(sprintf('%s/%s', $dir, $rendered_path), $rendered);
+    }
   }
 
   public function writeAssets($mapping, $dir) {
