@@ -22,7 +22,8 @@
       display: none;
       position: absolute;
       top: 100%;
-      background: white; }
+      background: white;
+      min-width: 12.5rem; }
       .MannequinNav ul.main-menu > li > ul > li > a {
         font-size: 0.75rem;
         line-height: 0.875rem;

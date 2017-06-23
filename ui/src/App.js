@@ -8,9 +8,11 @@ import {connect} from 'react-redux';
 import {fetchPatterns} from './actions';
 import './App.css';
 
-import MannequinHome from './MannequinHome';
-import MannequinNav from './MannequinNav';
-
+import NavBar from './NavBar';
+import HomePage from './HomePage';
+import TypePage from './TypePage';
+import GroupPage from './GroupPage';
+import PatternPage from './PatternPage';
 
 class App extends Component {
   componentDidMount() {
@@ -21,8 +23,11 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <MannequinNav patterns={patterns} tags={tags} />
-          <Route path="/" exact component={MannequinHome} />
+          <NavBar patterns={patterns} tags={tags} />
+          <Route path="/" exact component={HomePage} />
+          <Route path="/pattern/:pattern" component={PatternPage} />
+          <Route path="/type/:type" exact component={TypePage} />
+          <Route path="/type/:type/group/:group" exact component={GroupPage} />
         </div>
       </Router>
     );

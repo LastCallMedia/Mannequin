@@ -1,9 +1,9 @@
 
 import React, {Component} from 'react';
-import './MannequinHome.css';
+import './HomePage.css';
 import logo from './logo.svg';
 
-class MannequinHome extends Component {
+class HomePage extends Component {
 
   render() {
     return (
@@ -35,4 +35,4 @@ const QuickLinkCard = ({name, category, path, className}) => {
   )
 }
 
-export default MannequinHome
+export default HomePage

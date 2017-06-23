@@ -26,6 +26,7 @@
         position: absolute;
         top: 100%;
         background: white;
+        min-width: rem-calc(200);
 
         > li {
           > a {
