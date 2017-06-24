@@ -10,50 +10,24 @@
     width: 100%;
   }
 
+  ul { background-color: transparent; }
+  // Structure/behavior rules for menu.
   ul.main-menu {
-    > li {
-      position: relative;
-      > a {
-        text-transform: uppercase;
-        font-size: rem-calc(10);
-        font-weight: bold;
-        line-height: rem-calc(12);
-        color: white;
-      }
-      // Second level:
-      > ul {
-        display: none;
-        position: absolute;
-        top: 100%;
-        background: white;
-        min-width: rem-calc(200);
-
-        > li {
-          > a {
-            font-size: rem-calc(12);
-            line-height: rem-calc(14);
-            color: #2F2F2F;
-            text-transform: uppercase;
-          }
-          // Third level:
-          > ul {
-            background-color: #F7F7F7;
-            border: 1px solid #E8E8E8;
-            //display: none;
-
-            > li {
-              > a {
-                color: #2F2F2F;
-                font-size: rem-calc(13);
-                line-height: rem-calc(16);
-                font-weight: bold;
-              }
-            }
-          }
-          &.open > ul { display: block; }
-        }
-      }
-      &:hover > ul { display: block; }
+    li { position: relative; }
+    > li > ul {
+      display: none;
+      position: absolute;
+      top: 100%;
+      min-width: rem-calc(200);
+    }
+    > li:hover > ul {
+      display:block;
+    }
+    > li > ul > li > ul {
+      display: none;
+    }
+    > li > ul > li.open > ul {
+      display: block;
     }
   }
 
@@ -63,9 +37,6 @@
       height: rem-calc(18);
     }
   }
-  ul {
-    background-color: transparent;
-  }
   input[type="search"] {
     background-color: rgba(#D8D8D8, .05);
     border-radius: 2px;
@@ -73,4 +44,61 @@
     border-color: transparent;
     font-size: rem-calc(10);
   }
+}
+
+.MenuList {
+  &.l2 {
+    border: 1px solid #E8E8E8;
+    border-radius: 1px;
+    background-color: #FDFDFD;
+    box-shadow: 0 5px 11px 0 rgba(80,80,80,0.06);
+  }
+  &.l3 {
+    background-color: #F7F7F7;
+    border-top: 1px solid #E8E8E8;
+    border-bottom: 1px solid #E8E8E8;
+  }
+}
+.MenuItem {
+  &.l1 {
+    > a {
+      text-transform: uppercase;
+      font-size: rem-calc(10);
+      font-weight: bold;
+      line-height: rem-calc(12);
+      color: white;
+    }
+  }
+  &.l3 {
+    > a {
+      color: #2F2F2F;
+      font-size: rem-calc(13);
+      line-height: rem-calc(16);
+      font-weight: bold;
+    }
+  }
+}
+.CollapsibleSection {
+  > a {
+    font-size: rem-calc(12);
+    line-height: rem-calc(14);
+    color: #2F2F2F;
+    text-transform: uppercase;
+
+    > .title {
+      font-size: rem-calc(12);
+      line-height: rem-calc(14);
+    }
+    > .indicator {
+      float:right;
+      margin-left: auto;
+      width: 1em;
+      font-size: rem-calc(16);
+      font-weight: 600;
+    }
+  }
+  &.open > a {
+    color: #CBCBCB;
+  }
+
 }

@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import './NavBar.css';
 import logo from './logo.svg';
 
-class MannequinNav extends Component {
+class NavBar extends Component {
 
   buildTreeFromPatterns(patterns) {
     let tree = {};
@@ -51,7 +51,7 @@ class MannequinNav extends Component {
         </div>
         <div id="responsive-menu">
           <div className="top-bar-left">
-            <DropdownMenu items={items} stack={[VerticalMenu, AccordionMenu]} className="main-menu" />
+            <MannequinMenu items={items} />
           </div>
           <div className="top-bar-right">
             <ul className="menu">
@@ -64,49 +64,69 @@ class MannequinNav extends Component {
   }
 }
 
-function DropdownMenu({items, stack, className}) {
-  const submenustack = stack.slice();
-  const MenuElement = submenustack.pop();
+function MannequinMenu({items}) {
   return (
-    <ul className={`menu ${className}`}>
-      {items.map(item => (
-        <li key={item.key}>
-          <Link to={item.path}>{item.name}</Link>
-          {(item.children.length > 0 && MenuElement) && <MenuElement items={item.children} stack={submenustack} />}
-        </li>
+    <ul className="horizontal menu main-menu MenuList l1">
+      {items.map(i => (
+        <MenuItem key={i.key} item={i} className="l1">
+          {i.children.length > 0 &&
+            <ul className="vertical menu MenuList l2">
+              {i.children.map(ii => (
+                <CollapsibleSection key={ii.key} item={ii}>
+                  {ii.children.length > 0 &&
+                    <ul className="vertical menu MenuList l3">
+                      <MenuItem key={ii.key} item={ii} className="l3" />
+                      {ii.children.map(iii => (
+                        <MenuItem key={iii.key} item={iii} className="l3" />
+                      ))}
+                    </ul>
+                  }
+                </CollapsibleSection>
+              ))}
+            </ul>
+          }
+        </MenuItem>
       ))}
     </ul>
   )
 }
 
-function AccordionMenu({items, stack, className}) {
-  const submenustack = stack.slice();
-  const MenuElement = submenustack.pop();
+function MenuItem({item, children, className=''}) {
   return (
-    <ul className={`accordion menu ${className}`}>
-      {items.map(item => (
-        <li key={item.key}>
-          <Link to={item.path}>{item.name}</Link>
-          {(item.children.length > 0 && MenuElement) && <MenuElement items={item.children} stack={submenustack} />}
-        </li>
-      ))}
-    </ul>
+    <li className={`MenuItem ${className}`}>
+      <Link to={item.path}>{item.name}</Link>
+      {children}
+    </li>
   )
 }
 
-function VerticalMenu({items, stack, className}) {
-  const submenustack = stack.slice();
-  const MenuElement = submenustack.pop();
-  return (
-    <ul className={`vertical menu ${className}`}>
-      {items.map(item => (
-        <li key={item.key}>
-          <Link to={item.path}>{item.name}</Link>
-          {(item.children.length > 0 && MenuElement) && <MenuElement items={item.children} stack={submenustack} />}
-        </li>
-      ))}
-    </ul>
-  )
+class CollapsibleSection extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {open: false};
+    this.handleToggle = this.handleToggle.bind(this);
+  }
+  handleToggle(e) {
+    this.setState(s => {
+      return {open: !s.open}
+    });
+    e.preventDefault();
+  }
+  render() {
+    const {item, children} = this.props;
+    const statusClass = this.state.open ? 'open' : 'closed';
+
+    return (
+      <li className={`CollapsibleSection ${statusClass}`}>
+        <a onClick={this.handleToggle}>
+          <span className="title">{item.name}</span>
+          <span className="indicator" onClick={this.handleToggle}>{this.state.open ? '-' : '+'}</span>
+        </a>
+        {children}
+      </li>
+    );
+    return <MenuItem item={item} className={statusClass} onClick={this.handleToggle}>{children}</MenuItem>
+  }
 }
 
-export default MannequinNav;
+export default NavBar;

@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
+import {PatternList} from './Pattern';
 
 class GroupPage extends Component {
   render() {
@@ -9,9 +10,7 @@ class GroupPage extends Component {
     return (
       <main>
         <h1 className="page-title">{group}</h1>
-        {patterns.map(pattern => (
-          <h3 key={pattern.id}>{pattern.name}</h3>
-        ))}
+        <PatternList patterns={patterns} />
       </main>
     )
   }
