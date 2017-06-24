@@ -28,12 +28,6 @@
   .MannequinNav .top-bar-title img {
     width: 0.875rem;
     height: 1.125rem; }
-  .MannequinNav input[type="search"] {
-    background-color: rgba(216, 216, 216, 0.05);
-    border-radius: 2px;
-    color: #606C77;
-    border-color: transparent;
-    font-size: 0.625rem; }
 
 .MenuList.l2 {
   border: 1px solid #E8E8E8;
@@ -76,3 +70,69 @@
 
 .CollapsibleSection.open > a {
   color: #CBCBCB; }
+
+/**
+ * Search styling
+ */
+.AppearingSearchForm {
+  min-width: 200px;
+  position: relative; }
+  .AppearingSearchForm .SearchForm {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    animation: search-slide-up 250ms ease-out; }
+
+.SearchForm input {
+  border-radius: 2px;
+  background-color: #FFFFFF;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.17);
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 14px;
+  padding: 10px 13px;
+  height: auto; }
+
+.SearchForm .results {
+  margin-top: 1rem;
+  border-radius: 2px;
+  border: 1px solid #E8E8E8;
+  background-color: #FDFDFD;
+  box-shadow: 0 5px 11px 0 rgba(80, 80, 80, 0.06);
+  padding: 12px 0; }
+  .SearchForm .results li a {
+    display: block;
+    position: relative;
+    padding: 12px 46px;
+    color: #2F2F2F;
+    font-weight: bold;
+    font-size: 0.75rem;
+    line-height: 0.875rem; }
+    .SearchForm .results li a i {
+      position: absolute;
+      left: 20px; }
+    .SearchForm .results li a span {
+      display: block; }
+    .SearchForm .results li a span.group {
+      text-transform: uppercase; }
+    .SearchForm .results li a span + span {
+      margin-top: 0.4375rem; }
+
+@keyframes search-slide-up {
+  from {
+    top: 10em;
+    opacity: 0; }
+  to {
+    top: 0;
+    opacity: 1; } }
+
+.AppearingSearchButton {
+  display: block;
+  border-radius: 2px;
+  background-color: rgba(216, 216, 216, 0.15);
+  color: #606C77;
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 12px;
+  padding: 10px 13px; }

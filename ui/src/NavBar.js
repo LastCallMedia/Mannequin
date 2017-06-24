@@ -55,11 +55,65 @@ class NavBar extends Component {
           </div>
           <div className="top-bar-right">
             <ul className="menu">
-              <li><input type="search" placeholder="Search..." /></li>
+              <li><AppearingSearchForm /></li>
             </ul>
           </div>
         </div>
       </nav>
+    )
+  }
+}
+
+class AppearingSearchForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {showing: false};
+    this.showForm = this.showForm.bind(this);
+  }
+  showForm() {
+    this.setState({showing: true});
+  }
+  render() {
+    const {showing} = this.state;
+    return (
+      <div className="AppearingSearchForm">
+        <a className="AppearingSearchButton" onClick={this.showForm}>Search...</a>
+        {showing && <SearchForm/>}
+      </div>
+    )
+  }
+}
+
+class SearchForm extends Component {
+  render() {
+    return (
+      <form className="SearchForm">
+        <input type="search" id="search-input" />
+
+        <ul className="results no-bullet">
+          <li>
+            <a>
+              <i className="menu-icon"></i>
+              <span className="group">Blocks</span>
+              <span className="Pattern">Media Block</span>
+            </a>
+          </li>
+          <li>
+            <a>
+              <i className="icon-bar"></i>
+              <span className="group">Blocks</span>
+              <span className="Pattern">Media Block</span>
+            </a>
+          </li>
+          <li>
+            <a>
+              <i className="icon-bar"></i>
+              <span className="group">Blocks</span>
+              <span className="Pattern">Media Block</span>
+            </a>
+          </li>
+        </ul>
+      </form>
     )
   }
 }
