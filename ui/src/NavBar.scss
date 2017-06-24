@@ -20,7 +20,7 @@
       top: 100%;
       min-width: rem-calc(200);
     }
-    > li:hover > ul {
+    > li:hover > ul, > li.focusing > ul {
       display:block;
     }
     > li > ul > li > ul {

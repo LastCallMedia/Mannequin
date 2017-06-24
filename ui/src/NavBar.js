@@ -145,6 +145,31 @@ function MannequinMenu({items}) {
   )
 }
 
+class MenuItem extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {focusing: false};
+    this.handleFocus = this.handleFocus.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
+  }
+  handleFocus(e) {
+    this.setState({focusing: true})
+  }
+  handleBlur(e) {
+    console.log('blurring');
+    this.setState({focusing: false})
+  }
+  render() {
+    const {item, children, className=''} = this.props
+    const focusClass = this.state.focusing ? 'focusing' : '';
+    return (
+      <li className={`MenuItem ${className} ${focusClass}`} onFocus={this.handleFocus} onBlur={this.handleBlur}>
+        <Link to={item.path}>{item.name}</Link>
+        {children}
+      </li>
+    )
+  }
+}
 function MenuItem({item, children, className=''}) {
   return (
     <li className={`MenuItem ${className}`}>

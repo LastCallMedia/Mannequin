@@ -19,7 +19,7 @@
     position: absolute;
     top: 100%;
     min-width: 12.5rem; }
-  .MannequinNav ul.main-menu > li:hover > ul {
+  .MannequinNav ul.main-menu > li:hover > ul, .MannequinNav ul.main-menu > li.focusing > ul {
     display: block; }
   .MannequinNav ul.main-menu > li > ul > li > ul {
     display: none; }
