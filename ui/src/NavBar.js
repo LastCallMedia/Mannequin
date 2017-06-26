@@ -1,6 +1,7 @@
 
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import SearchForm from './Search';
 import './NavBar.css';
 import logo from './logo.svg';
 
@@ -47,7 +48,7 @@ class NavBar extends Component {
     return (
       <nav className="MannequinNav top-bar">
         <div className="top-bar-title">
-          <strong><img src={logo} alt="Mannequin" /></strong>
+          <Link to="/"><strong><img src={logo} alt="Mannequin" /></strong></Link>
         </div>
         <div id="responsive-menu">
           <div className="top-bar-left">
@@ -55,65 +56,11 @@ class NavBar extends Component {
           </div>
           <div className="top-bar-right">
             <ul className="menu">
-              <li><AppearingSearchForm /></li>
+              <li><SearchForm patterns={patterns} /></li>
             </ul>
           </div>
         </div>
       </nav>
-    )
-  }
-}
-
-class AppearingSearchForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {showing: false};
-    this.showForm = this.showForm.bind(this);
-  }
-  showForm() {
-    this.setState({showing: true});
-  }
-  render() {
-    const {showing} = this.state;
-    return (
-      <div className="AppearingSearchForm">
-        <a className="AppearingSearchButton" onClick={this.showForm}>Search...</a>
-        {showing && <SearchForm/>}
-      </div>
-    )
-  }
-}
-
-class SearchForm extends Component {
-  render() {
-    return (
-      <form className="SearchForm">
-        <input type="search" id="search-input" />
-
-        <ul className="results no-bullet">
-          <li>
-            <a>
-              <i className="menu-icon"></i>
-              <span className="group">Blocks</span>
-              <span className="Pattern">Media Block</span>
-            </a>
-          </li>
-          <li>
-            <a>
-              <i className="icon-bar"></i>
-              <span className="group">Blocks</span>
-              <span className="Pattern">Media Block</span>
-            </a>
-          </li>
-          <li>
-            <a>
-              <i className="icon-bar"></i>
-              <span className="group">Blocks</span>
-              <span className="Pattern">Media Block</span>
-            </a>
-          </li>
-        </ul>
-      </form>
     )
   }
 }
@@ -156,7 +103,6 @@ class MenuItem extends Component {
     this.setState({focusing: true})
   }
   handleBlur(e) {
-    console.log('blurring');
     this.setState({focusing: false})
   }
   render() {
@@ -169,14 +115,6 @@ class MenuItem extends Component {
       </li>
     )
   }
-}
-function MenuItem({item, children, className=''}) {
-  return (
-    <li className={`MenuItem ${className}`}>
-      <Link to={item.path}>{item.name}</Link>
-      {children}
-    </li>
-  )
 }
 
 class CollapsibleSection extends Component {
@@ -204,7 +142,6 @@ class CollapsibleSection extends Component {
         {children}
       </li>
     );
-    return <MenuItem item={item} className={statusClass} onClick={this.handleToggle}>{children}</MenuItem>
   }
 }
 
