@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
-import {PatternWrapper} from "./Pattern";
+import {PatternWrapper, PatternInfoWrapper} from "./Pattern";
 
 class PatternPage extends Component {
   render() {
@@ -11,6 +11,7 @@ class PatternPage extends Component {
       <main className="PatternPage">
         <h1 className="page-title">{pattern && pattern.name}</h1>
         {pattern && <PatternWrapper pattern={pattern} />}
+        {pattern && <PatternInfoWrapper pattern={pattern} />}
       </main>
     );
   }

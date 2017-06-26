@@ -10,3 +10,20 @@
 .PatternList {
 
 }
+
+.PatternInfo {
+  .code {
+    position: relative;
+
+    iframe {
+      height: 100%;
+      width: 100%;
+    }
+    .button-group {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      margin-bottom: 0;
+    }
+  }
+}
