@@ -58,8 +58,8 @@
   .SearchResults li > a {
     display: block;
     position: relative;
-    padding: 12px 46px;
     color: #2F2F2F;
+    padding: 12px 46px;
     font-weight: bold;
     font-size: 0.75rem;
     line-height: 0.875rem; }

@@ -58,6 +58,7 @@ class SearchResults extends Component {
       const groupKey = `${t}:${g}`
       if(!tree[groupKey]) {
         tree[groupKey] = {
+          key: groupKey,
           name: g,
           to: `/type/${t}/group/${g}`,
           matches: groupMatches,
@@ -66,6 +67,7 @@ class SearchResults extends Component {
       }
       if(patternMatches) {
         tree[groupKey].patterns.push({
+          key: `${groupKey}:${p.id}`,
           name: p.name,
           to: `/patterns/${p.id}`
         })
@@ -77,19 +79,20 @@ class SearchResults extends Component {
     })
   }
   render() {
-    const {search,} = this.props;
+    const {search} = this.props;
     const results = this.getResults(search);
 
     return (
       <div className="SearchResults">
+        {results.length > 0 &&
         <ul className="no-bullet">
           {results.map(leaf => (
-            <li className={`group-result ${leaf.matches ? 'match' : 'no-match'}`}>
+            <li key={leaf.key} className={`group-result ${leaf.matches ? 'match' : 'no-match'}`}>
               <Link to={leaf.to}>{leaf.name}</Link>
               {leaf.patterns.length > 0 &&
               <ul className="no-bullet">
                 {leaf.patterns.map(p => (
-                  <li className="pattern-result">
+                  <li key={p.key} className="pattern-result">
                     <Link to={p.to}>{p.name}</Link>
                   </li>
                 ))}
@@ -98,6 +101,7 @@ class SearchResults extends Component {
             </li>
           ))}
         </ul>
+        }
       </div>
 
     )
