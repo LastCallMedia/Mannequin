@@ -1,0 +1,15 @@
+
+
+.CodeFrame {
+  position: relative;
+  iframe {
+    width: 100%;
+    height: 100%;
+  }
+  .button-group {
+    position:absolute;
+    bottom: 1rem;
+    right: 1rem;
+    margin-bottom: 0;
+  }
+}
