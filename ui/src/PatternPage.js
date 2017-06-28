@@ -59,11 +59,15 @@ class PatternPage extends Component {
     super(props)
     this.state = {showingInfo: false}
     this.toggleInfo = this.toggleInfo.bind(this)
+    this.openWindow = this.openWindow.bind(this)
   }
   toggleInfo(e) {
     this.setState(state => ({
       showingInfo: !state.showingInfo
     }))
+  }
+  openWindow() {
+    window.open(this.props.set.rendered, this.props.pattern.name, 'resizable');
   }
   render() {
     const {pattern, set, used, onSetChange} = this.props;
@@ -79,6 +83,7 @@ class PatternPage extends Component {
           </div>
           <div className="top-bar-right">
             <ul className="menu">
+              <li><a onClick={this.openWindow}>Open</a></li>
               <li><a onClick={this.toggleInfo} className="button">View Pattern Info</a></li>
             </ul>
           </div>
