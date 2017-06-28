@@ -1,10 +1,80 @@
-.CodeFrame {
+/**
+ * Foundation for Sites by ZURB
+ * Version 6.3.1
+ * foundation.zurb.com
+ * Licensed under MIT Open Source
+ */
+.PatternPage .PatternInfo {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  opacity: 1;
+  transition: height .5s ease-out, opacity .5s; }
+  .PatternPage .PatternInfo.closed {
+    height: 0;
+    opacity: 0; }
+  .PatternPage .PatternInfo > .row {
+    height: 100%;
+    position: relative; }
+
+.PatternInfo .row {
+  background: black;
   position: relative; }
-  .CodeFrame iframe {
-    width: 100%;
-    height: 100%; }
+
+.PatternInfo .close-button {
+  top: -.5em;
+  right: -.5em;
+  background: white;
+  border: 1px solid #ECEAEA;
+  border-radius: 2em;
+  color: black;
+  width: 1em;
+  text-align: center;
+  font-size: 1.875rem;
+  line-height: 1.875rem;
+  text-decoration: none; }
+
+.PatternInfo, .PatternInfo label, .PatternInfo a {
+  color: white; }
+
+.PatternInfo h3 {
+  text-transform: uppercase;
+  font-size: 1.125rem;
+  line-height: 1.375rem;
+  margin: 15px 0;
+  font-weight: bold; }
+
+.PatternInfo label {
+  font-size: 0.625rem;
+  line-height: 1.875rem;
+  font-weight: bold;
+  color: #767676; }
+
+.PatternInfo a {
+  font-size: 0.875rem;
+  line-height: 1.0625rem;
+  text-decoration: underline; }
+
+.PatternInfo p {
+  font-size: 0.875rem;
+  line-height: 1.875rem; }
+
+.RenderFrame iframe, .CodeFrame iframe {
+  width: 100%;
+  height: 100%; }
+
+.CodeFrame {
+  position: relative;
+  height: 100%;
+  overflow: auto; }
   .CodeFrame .button-group {
     position: absolute;
     bottom: 1rem;
     right: 1rem;
     margin-bottom: 0; }
+  .CodeFrame code {
+    background: transparent;
+    border: none;
+    color: white; }
