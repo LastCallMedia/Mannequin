@@ -31,7 +31,7 @@ class UiRenderer {
       $id = $pattern->getId();
       $manifest['patterns'][] = [
         'id' => $id,
-        'source' => $generator->generate('pattern_source', ['pattern' => $id]),
+        'source' => $generator->generate('pattern_render_source_raw', ['pattern' => $id]),
         'name' => $pattern->getName(),
         'description' => $pattern->getDescription(),
         'tags' => $pattern->getTags(),
@@ -67,6 +67,7 @@ class UiRenderer {
         'id' => $id,
         'name' => $set->getName(),
         'description' => $set->getDescription(),
+        'source' => $generator->generate('pattern_render_raw', ['pattern' => $pattern->getId(), 'set' => $id], UrlGeneratorInterface::RELATIVE_PATH),
         'rendered' => $generator->generate('pattern_render', ['pattern' => $pattern->getId(), 'set' => $id], UrlGeneratorInterface::RELATIVE_PATH),
       ];
     }
@@ -89,11 +90,19 @@ class UiRenderer {
     ]);
   }
 
+  public function renderPatternRaw(PatternInterface $pattern, Set $set) {
+    return $this->renderer->render($pattern, $set);
+  }
+
   public function renderSource(PatternInterface $pattern) {
     $source = $this->renderer->renderSource($pattern);
     return $this->templating->render('source.html.php', [
       'title' => sprintf('Source for %s', $pattern->getName()),
       'source' => $source,
     ]);
+  }
+
+  public function renderSourceRaw(PatternInterface $pattern) {
+    return $this->renderer->renderSource($pattern);
   }
 }

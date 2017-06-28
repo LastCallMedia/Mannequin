@@ -26,6 +26,7 @@ class Application extends \Silex\Application {
     $values += [
       'ui.server' => NULL,
     ];
+    $values['debug'] = TRUE;
     parent::__construct($values);
     $this['console'] = function() {
       $app = new ConsoleApplication(self::APP_NAME, self::APP_VERSION);
@@ -73,7 +74,8 @@ class Application extends \Silex\Application {
     $this->match('/', 'controller.ui:indexAction');
     $this->get('/manifest.json', 'controller.render:manifestAction')->bind('manifest');
     $this->get('/_render/{pattern}/{set}', 'controller.render:renderAction')->bind('pattern_render');
-    $this->get('/_source/{pattern}', 'controller.render:sourceAction')->bind('pattern_source');
+    $this->get('/_source/raw/{pattern}', 'controller.render:sourceRawAction')->bind('pattern_render_source_raw');
+    $this->get('/_source/html/{pattern}/{set}', 'controller.render:renderRawAction')->bind('pattern_render_raw');
     $this->match('/{name}', 'controller.ui:staticAction')->assert('name','.+');
   }
 

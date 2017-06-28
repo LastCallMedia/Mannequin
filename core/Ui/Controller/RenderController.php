@@ -37,9 +37,25 @@ class RenderController {
     }
   }
 
+  public function renderRawAction($pattern, $set) {
+    if($pattern = $this->collection->get($pattern)) {
+      if($set = $pattern->getVariableSets()[$set]) {
+        $rendered = $this->renderer->renderPatternRaw($pattern, $set);
+        return new Response($rendered);
+      }
+    }
+  }
+
   public function sourceAction($pattern) {
     if($pattern = $this->collection->get($pattern)) {
       $rendered = $this->renderer->renderSource($pattern);
+      return new Response($rendered);
+    }
+  }
+
+  public function sourceRawAction($pattern) {
+    if($pattern = $this->collection->get($pattern)) {
+      $rendered = $this->renderer->renderSourceRaw($pattern);
       return new Response($rendered);
     }
   }
