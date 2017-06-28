@@ -31,6 +31,6 @@ $config = Config::create([
 ])
   ->addExtension($html)
   ->addExtension($twig)
-  ->addAssetMapping('assets', __DIR__.'/assets');
+//  ->addAssetMapping('assets', __DIR__.'/assets');
 
 return $config;
