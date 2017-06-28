@@ -36,6 +36,7 @@ class RenderCommand extends Command {
     foreach($this->collection as $pattern) {
       try {
         $this->uiWriter->writeRender($pattern, realpath($outDir));
+        $this->uiWriter->writeSource($pattern, realpath($outDir));
         $rows[] = $this->getSuccessRow(sprintf('Pattern: %s', $pattern->getName()));
       }
       catch(\Exception $e) {

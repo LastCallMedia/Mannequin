@@ -36,6 +36,20 @@ class UiWriter {
     }
   }
 
+  public function writeSource(PatternInterface $pattern, $dir) {
+    $raw = $this->renderer->renderSourceRaw($pattern);
+    $raw_path = $this->generator->generate('pattern_render_source_raw', ['pattern' => $pattern->getId()], UrlGeneratorInterface::RELATIVE_PATH);
+    $this->filesystem->mkdir(sprintf('%s/%s', $dir, dirname($raw_path)));
+    file_put_contents(sprintf('%s/%s', $dir, $raw_path), $raw);
+
+    foreach($pattern->getVariableSets() as $setId => $set) {
+      $raw = $this->renderer->renderPatternRaw($pattern, $set);
+      $raw_path = $this->generator->generate('pattern_render_raw', ['pattern' => $pattern->getId(), 'set' => $setId], UrlGeneratorInterface::RELATIVE_PATH);
+      $this->filesystem->mkdir(sprintf('%s/%s', $dir, dirname($raw_path)));
+      file_put_contents(sprintf('%s/%s', $dir, $raw_path), $raw);
+    }
+  }
+
   public function writeAssets($mapping, $dir) {
     foreach($mapping as $src => $dest) {
       $this->filesystem->symlink($dest, sprintf('%s/%s', $dir, $src));
