@@ -71,7 +71,6 @@
     bottom: 1rem;
     right: 1rem;
     margin-bottom: 0; }
-  .CodeFrame code {
-    background: transparent;
-    border: none;
-    color: white; }
+  .CodeFrame pre {
+    margin-top: 20px;
+    margin-bottom: 20px; }
