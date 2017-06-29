@@ -1,7 +1,7 @@
 
 @import "base";
 
-@include foundation-everything(true);
+@include foundation-everything();
 
 html, body, #root {
   height: 100%;

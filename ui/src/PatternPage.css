@@ -1,6 +1,6 @@
 /**
  * Foundation for Sites by ZURB
- * Version 6.3.1
+ * Version 6.4.0
  * foundation.zurb.com
  * Licensed under MIT Open Source
  */
@@ -15,17 +15,14 @@
   .PatternPage .PatternInfo.closed {
     height: 0;
     opacity: 0; }
-  .PatternPage .PatternInfo > .row {
-    height: 100%;
-    position: relative; }
+  .PatternPage .PatternInfo > .grid-x {
+    min-height: 100%; }
 
-.PatternInfo .row {
-  background: black;
-  position: relative; }
+.PatternInfo .grid-x {
+  background: black; }
 
 .PatternInfo .close-button {
-  top: -.5em;
-  right: -.5em;
+  z-index: 1;
   background: white;
   border: 1px solid #ECEAEA;
   border-radius: 2em;
@@ -67,7 +64,7 @@
 
 .CodeFrame {
   position: relative;
-  height: 100%;
+  min-height: 100%;
   overflow: auto; }
   .CodeFrame .button-group {
     position: absolute;

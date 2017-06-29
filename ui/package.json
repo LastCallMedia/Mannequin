@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "foundation-sites": "^6.3.1",
+    "foundation-sites": "^6.4.0",
     "node-sass-chokidar": "^0.0.1",
     "npm-run-all": "^4.0.2",
     "prop-types": "^15.5.10",
@@ -13,6 +13,7 @@
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "react-router-redux": "next",
+    "react-syntax-highlight": "^0.0.6",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1"
