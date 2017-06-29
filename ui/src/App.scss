@@ -3,12 +3,14 @@
 
 @include foundation-everything();
 
-html, body, #root {
-  height: 100%;
-  margin: 0;
-}
 
 .App {
-  position:relative;
-  height: 100%;
+  @include xy-grid-frame(true, false);
+  @include xy-grid($direction: vertical);
+  > nav {
+    @include xy-cell-base();
+  }
+  > main {
+    @include xy-cell-base(auto);
+  }
 }

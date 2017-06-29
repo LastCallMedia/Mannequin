@@ -8,7 +8,6 @@ import './PatternPage.css';
 import 'highlight.js/styles/default.css';
 import 'highlight.js/styles/atom-one-dark.css';
 
-
 const PatternPageLoadingWrapper = ({pattern, set, used, onSetChange}) => (
   <main className="PatternPageLoadingWrapper">
     {pattern && <PatternPage pattern={pattern} set={set} used={used} onSetChange={onSetChange} />}

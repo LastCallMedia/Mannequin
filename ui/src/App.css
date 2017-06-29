@@ -4803,10 +4803,17 @@ a.thumbnail {
   .large-flex-dir-column-reverse {
     flex-direction: column-reverse; } }
 
-html, body, #root {
-  height: 100%;
-  margin: 0; }
-
 .App {
+  height: 100vh;
+  overflow: hidden;
   position: relative;
-  height: 100%; }
+  flex-wrap: nowrap;
+  align-items: stretch;
+  display: flex;
+  flex-flow: column wrap; }
+  .App > nav {
+    flex: 0 0 auto;
+    min-height: 0px;
+    min-width: 0px; }
+  .App > main {
+    flex: 1 1 0px; }
