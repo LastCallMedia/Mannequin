@@ -19,4 +19,8 @@ class HtmlPattern extends AbstractPattern implements TemplateFilePatternInterfac
   public function getFile(): \SplFileInfo {
     return $this->fileInfo;
   }
+
+  public function getRawFormat(): string {
+    return 'html';
+  }
 }

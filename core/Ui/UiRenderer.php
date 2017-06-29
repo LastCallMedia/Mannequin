@@ -38,6 +38,7 @@ class UiRenderer {
         'sets' => $this->renderPatternSets($pattern, $generator),
         'used' => $this->renderPatternUsed($pattern),
         'aliases' => $pattern->getAliases(),
+        'format' => $pattern->getRawFormat(),
       ];
       foreach($pattern->getTags() as $k => $v) {
         if(!isset($tags[$k])) {

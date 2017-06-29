@@ -3,7 +3,11 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 import {Link} from 'react-router-dom';
+import Highlight from 'react-syntax-highlight';
 import './PatternPage.css';
+import 'highlight.js/styles/default.css';
+import 'highlight.js/styles/atom-one-dark.css';
+
 
 const PatternPageLoadingWrapper = ({pattern, set, used, onSetChange}) => (
   <main className="PatternPageLoadingWrapper">
@@ -107,7 +111,7 @@ class PatternPage extends Component {
                 <p>{pattern.description}</p>
               </div>
             </div>
-            <CodeToggleFrame className="columns medium-6" html={set.source} raw={pattern.source} />
+            <CodeToggleFrame className="columns medium-6" html={set.source} raw={pattern.source} rawFormat={pattern.format} />
           </div>
         </div>
       </main>
@@ -129,10 +133,11 @@ class CodeToggleFrame extends Component {
     const {mode} = this.state;
     const src = this.props[mode];
     const title = mode === 'html' ?  'View Html' : 'View Raw';
+    const format = mode === 'html' ? 'html' : this.props.rawFormat;
 
     return (
       <div className={`CodeFrame ${className}`}>
-        <CodeFrame frameBorder="0" title={title} src={src}></CodeFrame>
+        <CodeFrame frameBorder="0" title={title} src={src} format={format}></CodeFrame>
         <div className="button-group">
           <a className="button" data-mode="html" onClick={this.switchMode}>HTML</a>
           <a className="button" data-mode="raw" onClick={this.switchMode}>Raw</a>
@@ -168,6 +173,7 @@ class CodeFrame extends Component {
   }
   render() {
     const {code, loading, err} = this.state;
+    const {format} = this.props;
 
     if(loading) {
       return <p>Loading...</p>
@@ -175,7 +181,7 @@ class CodeFrame extends Component {
     if(err) {
       return <p>Error: {err}</p>
     }
-    return <pre><code>{code}</code></pre>
+    return <Highlight lang={format} value={code} />
   }
 }
 

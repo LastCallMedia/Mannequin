@@ -117,4 +117,6 @@ interface PatternInterface {
   public function addUsedPattern(PatternInterface $pattern): PatternInterface;
 
   public function getUsedPatterns(): array;
+
+  public function getRawFormat(): string;
 }

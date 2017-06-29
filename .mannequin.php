@@ -30,7 +30,6 @@ $config = Config::create([
   'scripts' => ['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/js/foundation.min.js'],
 ])
   ->addExtension($html)
-  ->addExtension($twig)
-//  ->addAssetMapping('assets', __DIR__.'/assets');
+  ->addExtension($twig);
 
 return $config;
