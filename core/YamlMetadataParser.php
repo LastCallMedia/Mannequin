@@ -29,12 +29,13 @@ class YamlMetadataParser {
     $metadata += [
       'name' => '',
       'description' => '',
+      'group' => '',
       'tags' => [],
       'variables' => [],
       'value' => [],
       'values' => [],
     ];
-    foreach(['name', 'description'] as $component) {
+    foreach(['name', 'description', 'group'] as $component) {
       if(!is_string($metadata[$component])) {
         throw new TemplateParsingException(sprintf('%s must be a string in %s', $component, $exceptionIdentifier));
       }

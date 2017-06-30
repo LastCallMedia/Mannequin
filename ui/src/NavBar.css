@@ -21,10 +21,8 @@
     min-width: 12.5rem; }
   .MannequinNav ul.main-menu > li:hover > ul, .MannequinNav ul.main-menu > li.focusing > ul {
     display: block; }
-  .MannequinNav ul.main-menu > li > ul > li > ul {
+  .MannequinNav ul.main-menu > li > ul > li.collapsed > ul {
     display: none; }
-  .MannequinNav ul.main-menu > li > ul > li.open > ul {
-    display: block; }
   .MannequinNav .top-bar-title img {
     width: 0.875rem;
     height: 1.125rem; }
@@ -46,6 +44,25 @@
   font-weight: bold;
   line-height: 0.75rem;
   color: white; }
+
+.MenuItem.l2 > a {
+  font-size: 0.75rem;
+  line-height: 0.875rem;
+  color: #2F2F2F;
+  text-transform: uppercase; }
+
+.MenuItem.l2.collapsible > a {
+  color: #CBCBCB; }
+
+.MenuItem.l2.collapsible > a:after {
+  content: "-";
+  float: right; }
+
+.MenuItem.l2.collapsible.collapsed a {
+  color: #2F2F2F; }
+
+.MenuItem.l2.collapsible.collapsed a:after {
+  content: "+"; }
 
 .MenuItem.l3 > a {
   color: #2F2F2F;

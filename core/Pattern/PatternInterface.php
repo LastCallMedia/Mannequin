@@ -55,6 +55,22 @@ interface PatternInterface {
   public function setDescription(string $description): PatternInterface;
 
   /**
+   * Get the group the pattern appears in.
+   *
+   * @return string
+   */
+  public function getGroup(): string;
+
+  /**
+   * Set the group the pattern appears in.
+   *
+   * @param string $group
+   *
+   * @return self
+   */
+  public function setGroup(string $group): PatternInterface;
+
+  /**
    * Get all the tags on the pattern.
    *
    * @return array

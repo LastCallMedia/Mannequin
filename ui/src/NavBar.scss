@@ -23,11 +23,8 @@
     > li:hover > ul, > li.focusing > ul {
       display:block;
     }
-    > li > ul > li > ul {
+    > li > ul > li.collapsed > ul {
       display: none;
-    }
-    > li > ul > li.open > ul {
-      display: block;
     }
   }
 
@@ -61,6 +58,27 @@
       font-weight: bold;
       line-height: rem-calc(12);
       color: white;
+    }
+  }
+  &.l2 {
+    > a {
+      font-size: rem-calc(12);
+      line-height: rem-calc(14);
+      color: #2F2F2F;
+      text-transform: uppercase;
+    }
+    &.collapsible {
+      > a {color: #CBCBCB;}
+      > a:after {
+        content: "-";
+        float:right;
+      }
+      &.collapsed {
+        a { color: #2F2F2F; }
+        a:after {
+          content: "+";
+        }
+      }
     }
   }
   &.l3 {

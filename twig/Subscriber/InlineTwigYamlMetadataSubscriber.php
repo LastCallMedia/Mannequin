@@ -41,6 +41,9 @@ class InlineTwigYamlMetadataSubscriber implements EventSubscriberInterface {
         if(empty($pattern->getDescription()) && $metadata['description']) {
           $pattern->setDescription($metadata['description']);
         }
+        if(!empty($metadata['group'])) {
+          $pattern->setGroup($metadata['group']);
+        }
         $pattern->setVariableDefinition($metadata['definition']);
         foreach($metadata['tags'] as $k => $v) {
           $pattern->addTag($k, $v);
