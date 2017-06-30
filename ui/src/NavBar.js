@@ -5,22 +5,8 @@ import SearchForm from './Search';
 import './NavBar.css';
 import logo from './logo.svg';
 
-var menuTreeSample = {
-  children: {
-    Atom: {
-      name: 'Atom',
-      children: {
-        Global: {
-          name: 'Global',
-          children: {}
-        }
-      }
-    }
-  }
-};
-
 class NavBar extends Component {
-  buildNewTreeFromPatterns(patterns) {
+  buildTree(patterns) {
     let tree = {children: {}};
     patterns.forEach(p => {
       var parentLeaf = p.group.split('>').reduce((leaf, g) => {
@@ -36,45 +22,9 @@ class NavBar extends Component {
     });
     return tree;
   }
-
-  buildTreeFromPatterns(patterns) {
-    let tree = {};
-    patterns.forEach(pattern => {
-      var type = pattern.tags.type || 'atom';
-      var group = pattern.tags.group || 'global';
-      if(!tree[type]) {
-        tree[type] = {};
-      }
-      if(!tree[type][group]) {
-        tree[type][group] = [];
-      }
-      tree[type][group].push({
-        name: pattern.name,
-        key: `${type}:${group}:${pattern.id}`,
-        path: `/pattern/${pattern.id}`,
-        children: [],
-      });
-    });
-
-    return Object.keys(tree).map(type => {
-      return {
-        name: type,
-        key: type,
-        path: `/type/${type}`,
-        children: Object.keys(tree[type]).map(group => {
-          return {
-            name: group,
-            key: `${type}:${group}`,
-            path: `/type/${type}/group/${group}`,
-            children: tree[type][group]
-          }
-        })
-      }
-    });
-  }
   render() {
     const {patterns} = this.props;
-    const tree = this.buildNewTreeFromPatterns(patterns);
+    const tree = this.buildTree(patterns);
     const menuSettings = {
       collapsible: false,
       className: 'horizontal MenuList l1 menu main-menu',
