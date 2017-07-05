@@ -6,21 +6,40 @@ import './NavBar.css';
 import logo from './logo.svg';
 
 class NavBar extends Component {
+  /**
+   * Returns a menu tree of the following structure:
+   *
+   * {
+   *   children: {
+   *     foo: {
+   *       name: 'Foo Group',
+   *       children: {
+   *         bar: {
+   *           name: 'Bar Pattern',
+   *           to: '/patterns/bar'
+   *         }
+   *       }
+   *     }
+   *   }
+   * }
+   * @param patterns
+   * @returns {*}
+   */
   buildTree(patterns) {
-    let tree = {children: {}};
-    patterns.forEach(p => {
-      var parentLeaf = p.group.split('>').reduce((leaf, g) => {
-        return leaf.children[g] ? leaf.children[g] : leaf.children[g] = {
+    return patterns.reduce((tree, p) => {
+      const group = p.tags['group'] || 'Unknown';
+      const parentLeaf = group.split('>').reduce((leaf, g) => {
+        return leaf.children[g] || Object.assign(leaf.children, {[g] : {
           name: g,
-          children: {}
-        };
-      }, tree);
+          children: {},
+        }})[g];
+      }, tree)
       parentLeaf.children[p.id] = {
         name: p.name,
-        to: '/foo',
+        to: `/pattern/${p.id}`
       }
-    });
-    return tree;
+      return tree
+    }, {children: {}})
   }
   render() {
     const {patterns} = this.props;

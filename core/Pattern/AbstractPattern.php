@@ -13,7 +13,6 @@ abstract class AbstractPattern implements PatternInterface {
   protected $aliases = [];
   private $name = '';
   private $description = '';
-  private $group = 'Unknown';
   private $tags = [];
   private $variableDefinition;
   private $variableSets = [];
@@ -67,15 +66,6 @@ abstract class AbstractPattern implements PatternInterface {
    */
   public function getDescription(): string {
     return $this->description;
-  }
-
-  public function getGroup(): string {
-    return $this->group;
-  }
-
-  public function setGroup(string $group): PatternInterface {
-    $this->group = $group;
-    return $this;
   }
 
   /**

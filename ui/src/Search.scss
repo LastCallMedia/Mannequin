@@ -3,93 +3,74 @@
 /**
  * Search styling
  */
-.AppearingSearchForm {
-  min-width: 200px;
-  position: relative;
-
-  .SearchForm {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    animation: search-slide-up 250ms ease-out;
-  }
-}
-
 .SearchForm {
   min-width: 200px;
   position: relative;
-
-  .hiding {
-    display:none;
-  }
-  .appearing {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    animation: search-slide-up 250ms ease-out;
-  }
   input {
     border-radius: 2px;
-    background-color: #FFFFFF;
-    box-shadow: 0 2px 3px 0 rgba(0,0,0,0.17);
+    border: none;
+    background-color: lighten(black, 5%);
+    color: #606C77;
     font-size: 12px;
     font-weight: bold;
     line-height: 14px;
     padding: 10px 13px;
     height: auto;
+    transition: background-color 1s;
+
+    &:focus {
+      background-color: #FFFFFF;
+      box-shadow: 0 2px 3px 0 rgba(0,0,0,0.17);
+      transition: background-color .3s;
+    }
+  }
+  .SearchResults {
+    position: absolute;
+    top: 120%;
+    left: 0;
+    right: 0;
+    z-index: 5;
   }
 
-}
-
-.AppearingSearchButton {
-  display:block;
-  border-radius: 2px;
-  background-color: rgba(#D8D8D8, .15);
-  color: #606C77;
-  font-size: 10px;
-  font-weight: bold;
-  line-height: 12px;
-  padding: 10px 13px;
 }
 
 .SearchResults {
-  margin-top: rem-calc(16);
   border-radius: 2px;
   border: 1px solid #E8E8E8;
-  background-color: #FDFDFD;
+  background-color: #FDFDFD !important; // Because of .top-bar styles
   box-shadow: 0 5px 11px 0 rgba(80,80,80,0.06);
-  padding: 12px 0;
 
-  li > a {
-    display:block;
-    position: relative;
+  ul {
+    background-color: transparent;
+  }
+  li, li a {
+    border: none;
+    background-color: transparent;
+  }
+  a, span.menu-text {
     color: #2F2F2F;
-    padding: 12px 46px;
+    font-size: 12px;
+    line-height: 14px;
     font-weight: bold;
-    font-size: rem-calc(12);
-    line-height: rem-calc(14);
   }
-
-  .group-result {
-    > a {
-      text-transform: uppercase;
-    }
-    &.no-match > a {
-      opacity: 0.19;
+  span.menu-text {
+    display:block;
+    opacity: 0.19;
+    text-transform: uppercase;
+  }
+  li > span.menu-text {
+    padding-bottom: rem-calc(3.5);
+    padding-top: rem-calc(3.5);
+  }
+  li > ul > li > a{
+    padding-bottom: rem-calc(3.5);
+    padding-top: rem-calc(3.5);
+  }
+  > li {
+    margin-top: rem-calc(15);
+    margin-bottom: rem-calc(15);
+    + li {
+      margin-top: 0;
     }
   }
 }
-
-@keyframes search-slide-up {
-  from {
-    top: 10em;
-    opacity: 0;
-  }
-  to {
-    top: 0;
-    opacity: 1;
-  }
-}
-

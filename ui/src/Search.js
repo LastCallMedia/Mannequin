@@ -6,106 +6,69 @@ import './Search.css'
 class SearchForm extends Component {
   constructor(props) {
     super(props)
-    this.state = {search: '', shown: false}
-    this.showForm = this.showForm.bind(this);
-    this.hideForm = this.hideForm.bind(this);
+    this.state = {search: ''}
     this.setSearch = this.setSearch.bind(this);
-  }
-  showForm() {
-    this.setState({shown: true}, () => this.input.focus())
-  }
-  hideForm() {
-    this.setState({shown: false})
   }
   setSearch(e) {
     this.setState({search: e.target.value});
   }
   render() {
-    const {shown, search} = this.state;
+    const {search} = this.state;
     const {patterns} = this.props;
+    const hasSearched = search.length > 0;
+    const results = groupResults(convertResults(getResults(search, patterns)))
     return (
       <form className="SearchForm" onFocus={this.showForm} onBlur={this.hideForm}>
-        <a onClick={this.showForm} className="AppearingSearchButton">Search...</a>
-        <div className={`appearing ${shown ? 'shown' : 'hiding'}`}>
-          <input type="search" value={search} ref={c => this.input = c} onChange={this.setSearch} />
-          <SearchResults search={search} patterns={patterns} />
-        </div>
+        <input type="search" value={search} onChange={this.setSearch} placeholder="Search..." />
+        {hasSearched && <SearchResults results={results} />}
       </form>
     )
   }
 }
 
-class SearchResults extends Component {
-  getResults(search) {
-    const {patterns} = this.props;
+function getResults(searchString, patterns) {
+  const _searchString = searchString.toLowerCase();
+  return patterns.filter(pattern => {
+    return pattern.name.toLowerCase().indexOf(_searchString) !== -1 ||
+      (pattern.tags['group'] && pattern.tags['group'].toLowerCase().indexOf(_searchString) !== -1)
+  });
+}
 
-    var results = [];
-    var tree = {};
-
-    if(search.length < 1) {
-      return results;
+function convertResults(matchingPatterns) {
+  return matchingPatterns.map(pattern => {
+    return {
+      group: pattern.tags['group'] || 'Unknown',
+      key: pattern.id,
+      name: pattern.name,
+      to: `/pattern/${pattern.id}`
     }
+  })
+}
 
-    patterns.forEach(p => {
-      const {type: t, group: g} = p.tags;
-      const groupMatches = g.toLowerCase().indexOf(search) !== -1;
-      const patternMatches = p.name.toLowerCase().indexOf(search) !== -1;
+function groupResults(matches) {
+  return matches.reduce((groups, match) => {
+    var gi = groups.findIndex(g => g.name === match.group)
+    var thisGroup = gi !== -1 ? groups[gi] : groups[groups.length] = {
+      name: match.group,
+      matches: []
+    }
+    thisGroup.matches.push(match)
+    return groups;
+  }, [])
+}
 
-      if(!patternMatches && !groupMatches) {
-        return;
-      }
-
-      const groupKey = `${t}:${g}`
-      if(!tree[groupKey]) {
-        tree[groupKey] = {
-          key: groupKey,
-          name: g,
-          to: `/type/${t}/group/${g}`,
-          matches: groupMatches,
-          patterns: []
-        }
-      }
-      if(patternMatches) {
-        tree[groupKey].patterns.push({
-          key: `${groupKey}:${p.id}`,
-          name: p.name,
-          to: `/patterns/${p.id}`
-        })
-      }
-    });
-
-    return Object.keys(tree).map(k => {
-      return tree[k];
-    })
-  }
-  render() {
-    const {search} = this.props;
-    const results = this.getResults(search);
-
-    return (
-      <div className="SearchResults">
-        {results.length > 0 &&
-        <ul className="no-bullet">
-          {results.map(leaf => (
-            <li key={leaf.key} className={`group-result ${leaf.matches ? 'match' : 'no-match'}`}>
-              <Link to={leaf.to}>{leaf.name}</Link>
-              {leaf.patterns.length > 0 &&
-              <ul className="no-bullet">
-                {leaf.patterns.map(p => (
-                  <li key={p.key} className="pattern-result">
-                    <Link to={p.to}>{p.name}</Link>
-                  </li>
-                ))}
-              </ul>
-              }
-            </li>
+const SearchResults = ({results}) => (
+  <ul className="SearchResults menu">
+    {results.map(group => (
+      <li key={group.name}><span className="menu-text">{group.name}</span>
+        <ul className="menu">
+          {group.matches.map(match => (
+            <li key={match.key}><Link to={match.to}>{match.name}</Link></li>
           ))}
         </ul>
-        }
-      </div>
-
-    )
-  }
-}
+      </li>
+    ))}
+  </ul>
+)
 
 export default SearchForm;

@@ -34,7 +34,6 @@ class UiRenderer {
         'source' => $generator->generate('pattern_render_source_raw', ['pattern' => $id]),
         'name' => $pattern->getName(),
         'description' => $pattern->getDescription(),
-        'group' => $pattern->getGroup(),
         'tags' => $pattern->getTags(),
         'sets' => $this->renderPatternSets($pattern, $generator),
         'used' => $this->renderPatternUsed($pattern),

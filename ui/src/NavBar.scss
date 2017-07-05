@@ -17,6 +17,7 @@
     > li > ul {
       display: none;
       position: absolute;
+      z-index: 2;
       top: 100%;
       min-width: rem-calc(200);
     }
