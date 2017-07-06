@@ -8,7 +8,7 @@ export const TopBar = ({toggleNav}) => {
   return (
     <nav className="MannequinTopBar">
       <Link to="/"><strong><img className="logo" src={logo} alt="Mannequin" /></strong></Link>
-      <button className="opener" onClick={toggleNav}>Navigation <i className="menu-icon"></i></button>
+      <button className="drawer-toggle opener" onClick={toggleNav}>Navigation <i className="menu-icon"></i></button>
     </nav>
   )
 }
@@ -44,7 +44,7 @@ export class NavDrawer extends Component {
 
     return (
       <nav className={`NavDrawer ${open ? 'open' : 'closed'}`}>
-        <div className="controls">
+        <div className="drawer-toggle">
           <button className="closer" onClick={toggleNav}><span className="arrow">←</span> Close</button>
         </div>
         <form className="SearchForm">

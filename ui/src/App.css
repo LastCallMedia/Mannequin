@@ -4815,20 +4815,41 @@ a.thumbnail {
     flex: 0 0 auto;
     min-height: 0px;
     min-width: 0px; }
-  .App > .NavDrawer {
-    position: fixed;
-    z-index: 10;
-    right: 0;
-    top: 0;
-    transition: transform .6s ease;
-    width: calc(66.66667% - 1.25rem); }
-    @media print, screen and (min-width: 40em) {
-      .App > .NavDrawer {
-        width: calc(50% - 1.875rem); } }
-    @media print, screen and (min-width: 64em) {
-      .App > .NavDrawer {
-        width: calc(33.33333% - 1.875rem); } }
-    .App > .NavDrawer.closed {
-      transform: translate(100%, 0); }
-  .App > main {
-    flex: 1 1 0px; }
+  .App .main-frame {
+    flex: 1 1 0px;
+    width: auto;
+    display: flex;
+    flex-flow: row wrap; }
+    .App .main-frame > main {
+      flex: 1 1 0px;
+      width: auto; }
+    .App .main-frame .NavDrawer {
+      position: fixed;
+      z-index: 10;
+      right: 0;
+      top: 0;
+      transition: transform .6s ease;
+      width: calc(66.66667% - 1.25rem); }
+      .App .main-frame .NavDrawer.closed {
+        transform: translate(100%, 0); }
+      @media print, screen and (min-width: 40em) {
+        .App .main-frame .NavDrawer {
+          width: calc(50% - 1.875rem); } }
+      @media print, screen and (min-width: 64em) {
+        .App .main-frame .NavDrawer {
+          width: calc(33.33333% - 1.875rem); } }
+      @media screen and (min-width: 75em) {
+        .App .main-frame .NavDrawer {
+          width: calc(25% - 1.875rem); } }
+      @media screen and (min-width: 90em) {
+        .App .main-frame .NavDrawer {
+          width: calc(16.66667% - 1.875rem); } }
+  @media screen and (min-width: 75em) {
+    .App .drawer-toggle {
+      display: none; }
+    .App .main-frame .NavDrawer {
+      position: static;
+      top: auto;
+      right: auto; }
+      .App .main-frame .NavDrawer.closed {
+        transform: none; } }

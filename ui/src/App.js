@@ -25,14 +25,16 @@ class App extends Component {
       <Router>
         <div className={`App ${drawer ? 'drawer-open' : 'drawer-closed'}`}>
           <TopBar toggleNav={toggleDrawer} />
-          <NavDrawer patterns={patterns} open={drawer} toggleNav={toggleDrawer} />
-          <Route path="/" exact component={HomePage} />
-          <Route path="/pattern/:pattern" exact render={props => (
-            <Redirect to={`${props.match.url}/set/default`} />
-          )} />
-          <Route path="/pattern/:pattern/set/:set" component={PatternPage} />
-          <Route path="/type/:type" exact component={TypePage} />
-          <Route path="/type/:type/group/:group" exact component={GroupPage} />
+          <div className="main-frame">
+            <Route path="/" exact component={HomePage} />
+            <Route path="/pattern/:pattern" exact render={props => (
+              <Redirect to={`${props.match.url}/set/default`} />
+            )} />
+            <Route path="/pattern/:pattern/set/:set" component={PatternPage} />
+            <Route path="/type/:type" exact component={TypePage} />
+            <Route path="/type/:type/group/:group" exact component={GroupPage} />
+            <NavDrawer patterns={patterns} open={drawer} toggleNav={toggleDrawer} />
+          </div>
         </div>
       </Router>
     );
