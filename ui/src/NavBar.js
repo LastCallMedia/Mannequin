@@ -1,88 +1,92 @@
 
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import SearchForm from './Search';
 import './NavBar.css';
 import logo from './logo.svg';
 
-class NavBar extends Component {
-  /**
-   * Returns a menu tree of the following structure:
-   *
-   * {
-   *   children: {
-   *     foo: {
-   *       name: 'Foo Group',
-   *       children: {
-   *         bar: {
-   *           name: 'Bar Pattern',
-   *           to: '/patterns/bar'
-   *         }
-   *       }
-   *     }
-   *   }
-   * }
-   * @param patterns
-   * @returns {*}
-   */
-  buildTree(patterns) {
-    return patterns.reduce((tree, p) => {
-      const group = p.tags['group'] || 'Unknown';
-      const parentLeaf = group.split('>').reduce((leaf, g) => {
-        return leaf.children[g] || Object.assign(leaf.children, {[g] : {
-          name: g,
-          children: {},
-        }})[g];
-      }, tree)
-      parentLeaf.children[p.id] = {
-        name: p.name,
-        to: `/pattern/${p.id}`
-      }
-      return tree
-    }, {children: {}})
+export const TopBar = ({toggleNav}) => {
+  return (
+    <nav className="MannequinTopBar">
+      <Link to="/"><strong><img className="logo" src={logo} alt="Mannequin" /></strong></Link>
+      <button className="opener" onClick={toggleNav}>Navigation <i className="menu-icon"></i></button>
+    </nav>
+  )
+}
+
+export class NavDrawer extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {filter: ''}
+    this.handleFilterChange = this.handleFilterChange.bind(this)
+  }
+  handleFilterChange(e) {
+    this.setState({filter: e.target.value})
   }
   render() {
-    const {patterns} = this.props;
-    const tree = this.buildTree(patterns);
+    const {open, toggleNav, patterns} = this.props;
+    const {filter} = this.state;
+    const tree = buildTree(filterPatterns(filter, patterns))
     const menuSettings = {
       collapsible: false,
-      className: 'horizontal MenuList l1 menu main-menu',
+      className: 'l1', //horizontal MenuList l1 menu main-menu',
       itemClassName: 'l1',
       children: {
         collapsible: true,
-        className: 'vertical MenuList l2',
+        className: 'l2', //vertical MenuList l2',
         itemClassName: 'l2',
         children: {
           collapsible: false,
-          className: 'vertical l3',
+          className: 'l3', //vertical l3',
           itemClassName: 'l3',
         }
       }
     }
+
     return (
-      <nav className="MannequinNav top-bar">
-        <div className="top-bar-title">
-          <Link to="/"><strong><img src={logo} alt="Mannequin" /></strong></Link>
+      <nav className={`NavDrawer ${open ? 'open' : 'closed'}`}>
+        <div className="controls">
+          <button className="closer" onClick={toggleNav}><span className="arrow">←</span> Close</button>
         </div>
-        <div id="responsive-menu">
-          <div className="top-bar-left">
-            <MainMenu tree={tree.children} settings={menuSettings} />
-          </div>
-          <div className="top-bar-right">
-            <ul className="menu">
-              <li><SearchForm patterns={patterns} /></li>
-            </ul>
-          </div>
-        </div>
+        <form className="SearchForm">
+          <input type="search" placeholder="Search..." onKeyUp={this.handleFilterChange} />
+        </form>
+        <MainMenu tree={tree.children} settings={menuSettings} />
       </nav>
     )
   }
 }
 
+
+function buildTree(patterns) {
+  return patterns.reduce((tree, p) => {
+    const group = p.tags['group'] || 'Unknown';
+    const parentLeaf = group.split('>').reduce((leaf, g) => {
+      return leaf.children[g] || Object.assign(leaf.children, {[g] : {
+          name: g,
+          children: {},
+        }})[g];
+    }, tree)
+    parentLeaf.children[p.id] = {
+      name: p.name,
+      to: `/pattern/${p.id}`
+    }
+    return tree
+  }, {children: {}})
+}
+
+function filterPatterns(searchString, patterns) {
+  if(searchString.length < 1) return patterns;
+  const _searchString = searchString.toLowerCase();
+  return patterns.filter(pattern => {
+    return pattern.name.toLowerCase().indexOf(_searchString) !== -1 ||
+      (pattern.tags['group'] && pattern.tags['group'].toLowerCase().indexOf(_searchString) !== -1)
+  });
+}
+
 function MainMenu({tree, settings = {}}) {
   return (
     <ul className={`MenuList menu ${settings.className}`}>
-      {Object.keys(tree).map(k => <MainMenuItem key={k} leaf={tree[k]} className={settings.itemClassName} collapsible={settings.collapsible} childSettings={settings.children} />)}
+      {Object.keys(tree).map(k => <MainMenuItem key={k} leaf={tree[k]} className={settings.itemClassName} childSettings={settings.children} />)}
     </ul>
   )
 }
@@ -92,24 +96,38 @@ class MainMenuItem extends Component {
     super(props)
     this.state = {collapsed: true}
     this.toggleCollapse = this.toggleCollapse.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
   toggleCollapse() {
     this.setState(state => ({collapsed: !state.collapsed}))
   }
+  handleKeyPress(e) {
+    switch(e.charCode) {
+      case 13:
+      case 32:
+        this.setState(state => ({collapsed: !state.collapsed}))
+    }
+  }
   render() {
-    const {leaf, collapsible, childSettings, className} = this.props;
+    const {leaf, childSettings, className} = this.props;
     const {collapsed} = this.state;
-    const isCollapsible = collapsible && leaf.children;
+    const isCollapsible = true && leaf.children;
     const isCollapsed = isCollapsible && collapsed;
 
+    if(isCollapsible) {
+      return (
+        <li className={`MenuItem ${className} collapsible ${isCollapsed ?'collapsed':''}`}>
+          <a onClick={this.toggleCollapse} onKeyPress={this.handleKeyPress} tabIndex={0}>{leaf.icon}{leaf.name}</a>
+          {leaf.children && <MainMenu tree={leaf.children} settings={childSettings} />}
+        </li>
+      )
+    }
+
     return (
-      <li className={`MenuItem ${className} ${isCollapsible ?'collapsible':''} ${isCollapsed ?'collapsed':''}`}>
+      <li className={`MenuItem ${className}`}>
         {leaf.to && <Link to={leaf.to}>{leaf.icon}{leaf.name}</Link>}
-        {!leaf.to && <a onClick={this.toggleCollapse}>{leaf.icon}{leaf.name}</a>}
         {leaf.children && <MainMenu tree={leaf.children} settings={childSettings} />}
       </li>
     )
   }
 }
-
-export default NavBar;

@@ -24,3 +24,8 @@ function errorPatterns(err) {
   }
 }
 
+export function toggleDrawer() {
+  return {
+    type: 'DRAWER_TOGGLE',
+  }
+}

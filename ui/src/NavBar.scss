@@ -1,117 +1,127 @@
 
 @import "base";
 
-.MannequinNav {
-  background: black;
+%toggle-button {
+  font-size: rem-calc(10);
+  line-height: rem-calc(12);
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+}
+
+.MannequinTopBar {
+  background: $dark-bg;
   color: white;
 
-  #responsive-menu {
-    display:flex;
-    width: 100%;
-  }
-
-  ul { background-color: transparent; }
-  // Structure/behavior rules for menu.
-  ul.main-menu {
-    li { position: relative; }
-    > li > ul {
-      display: none;
-      position: absolute;
-      z-index: 2;
-      top: 100%;
-      min-width: rem-calc(200);
-    }
-    > li:hover > ul, > li.focusing > ul {
-      display:block;
-    }
-    > li > ul > li.collapsed > ul {
-      display: none;
+  .opener {
+    float: right;
+    @extend %toggle-button;
+    padding: rem-calc(7);
+    i {
+      margin-left: rem-calc(17);
     }
   }
+  .logo {
+    width: 30px;
+  }
+}
 
-  .top-bar-title {
-    img {
-      width: rem-calc(14);
-      height: rem-calc(18);
+.NavDrawer {
+  background-color: $dark-bg;
+  box-shadow: inset 1px 0 0 0 #2A2A2A;
+  .controls {
+    text-align: right;
+  }
+  .closer {
+    @extend %toggle-button;
+    padding: rem-calc(12.5) rem-calc(24);
+    .arrow {
+      font-size: rem-calc(24);
+      line-height: rem-calc(12);
+      vertical-align: middle;
+      margin-right: rem-calc(17);
+    }
+  }
+  .SearchForm {
+    margin: rem-calc(12.5);
+    margin-top: 0;
+  }
+}
+
+.SearchForm {
+  input {
+    border-radius: 2px;
+    border: none;
+    background-color: lighten(black, 5%);
+    color: #606C77;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 14px;
+    padding: 10px 13px;
+    height: auto;
+    transition: background-color 1s;
+
+    &:focus {
+      background-color: #FFFFFF;
+      box-shadow: 0 2px 3px 0 rgba(0,0,0,0.17);
+      transition: background-color .3s;
     }
   }
 }
 
 .MenuList {
-  &.l2 {
-    border: 1px solid #E8E8E8;
-    border-radius: 1px;
-    background-color: #FDFDFD;
-    box-shadow: 0 5px 11px 0 rgba(80,80,80,0.06);
-  }
-  &.l3 {
-    background-color: #F7F7F7;
-    border-top: 1px solid #E8E8E8;
-    border-bottom: 1px solid #E8E8E8;
-  }
+  list-style:none;
+  margin: 0;
+  display: block;
 }
 .MenuItem {
+  display: block;
+  border-top: 1px solid #2A2A2A;
+  > a {
+    display: block;
+    font-size: rem-calc(14);
+    line-height: rem-calc(17);
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding: rem-calc(12.5) rem-calc(24);
+  }
   &.l1 {
     > a {
       text-transform: uppercase;
-
-      font-size: rem-calc(10);
-      font-weight: bold;
-      line-height: rem-calc(12);
       color: white;
     }
   }
   &.l2 {
     > a {
-      font-size: rem-calc(12);
-      line-height: rem-calc(14);
-      color: #2F2F2F;
       text-transform: uppercase;
-    }
-    &.collapsible {
-      > a {color: #CBCBCB;}
-      > a:after {
-        content: "-";
-        float:right;
-      }
-      &.collapsed {
-        a { color: #2F2F2F; }
-        a:after {
-          content: "+";
-        }
-      }
+      color: #AFAFAF;
+      padding-left: rem-calc(48);
     }
   }
   &.l3 {
     > a {
-      color: #2F2F2F;
-      font-size: rem-calc(13);
-      line-height: rem-calc(16);
-      font-weight: bold;
+      color: #AFAFAF;
+      padding-left: rem-calc(60);
+    }
+  }
+  &.collapsible {
+    > a:after {
+      content: "-";
+      float:right;
+    }
+    &.collapsed > a:after {
+      content: "+";
     }
   }
 }
-.CollapsibleSection {
-  > a {
-    font-size: rem-calc(12);
-    line-height: rem-calc(14);
-    color: #2F2F2F;
-    text-transform: uppercase;
 
-    > .title {
-      font-size: rem-calc(12);
-      line-height: rem-calc(14);
-    }
-    > .indicator {
-      float:right;
-      margin-left: auto;
-      width: 1em;
-      font-size: rem-calc(16);
-      font-weight: 600;
-    }
-  }
-  &.open > a {
-    color: #CBCBCB;
+.MenuItem.collapsible.collapsed {
+  > .MenuList {
+    clip: rect(0 0 0 0);
+    max-height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    visibility: hidden;
   }
 }
 

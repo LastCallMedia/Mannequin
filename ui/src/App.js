@@ -6,10 +6,10 @@ import {
 } from 'react-router-dom';
 
 import {connect} from 'react-redux';
-import {fetchPatterns} from './actions';
+import {fetchPatterns, toggleDrawer} from './actions';
 import './App.css';
 
-import NavBar from './NavBar';
+import {TopBar, NavDrawer} from './NavBar';
 import HomePage from './HomePage';
 import TypePage from './TypePage';
 import GroupPage from './GroupPage';
@@ -20,11 +20,12 @@ class App extends Component {
     this.props.refreshPatterns();
   }
   render() {
-    let {patterns, tags} = this.props;
+    let {patterns, drawer, toggleDrawer} = this.props;
     return (
       <Router>
-        <div className="App">
-          <NavBar patterns={patterns} tags={tags} />
+        <div className={`App ${drawer ? 'drawer-open' : 'drawer-closed'}`}>
+          <TopBar toggleNav={toggleDrawer} />
+          <NavDrawer patterns={patterns} open={drawer} toggleNav={toggleDrawer} />
           <Route path="/" exact component={HomePage} />
           <Route path="/pattern/:pattern" exact render={props => (
             <Redirect to={`${props.match.url}/set/default`} />
@@ -41,7 +42,8 @@ class App extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     patterns: state.patterns,
-    tags: state.tags
+    tags: state.tags,
+    drawer: state.drawer,
   }
 }
 
@@ -50,6 +52,9 @@ const mapDispatchToProps = (dispatch) => {
     refreshPatterns: () => {
       dispatch(fetchPatterns())
     },
+    toggleDrawer: () => {
+      dispatch(toggleDrawer())
+    }
   }
 }
 

@@ -41,9 +41,19 @@ const loading = (state = 'complete', action) => {
   }
 }
 
+const drawer = (state = false, action) => {
+  switch(action.type) {
+    case 'DRAWER_TOGGLE':
+      return !state;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   patterns,
   loading,
   tags,
-  error
+  error,
+  drawer,
 });

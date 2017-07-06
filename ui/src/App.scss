@@ -7,8 +7,26 @@
 .App {
   @include xy-grid-frame(true, false);
   @include xy-grid($direction: vertical);
-  > nav {
+  > .TopBar {
     @include xy-cell-base();
+  }
+  > .NavDrawer {
+    position: fixed;
+    z-index: 10;
+    right: 0;
+    top: 0;
+    transition: transform .6s ease;
+    @include xy-cell(8, $gutter-output: false);
+    @include breakpoint(medium) {
+      @include xy-cell(6, $gutter-output: false);
+    }
+    @include breakpoint(large) {
+      @include xy-cell(4, $gutter-output: false);
+    }
+
+    &.closed {
+      transform: translate(100%, 0);
+    }
   }
   > main {
     @include xy-cell-base(auto);

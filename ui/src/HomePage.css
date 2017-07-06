@@ -5,10 +5,8 @@
  * Licensed under MIT Open Source
  */
 .MannequinHome {
-  background: black;
-  color: white;
-  height: 100%;
-  overflow: hidden; }
+  background: #181D22;
+  color: white; }
   .MannequinHome h1, .MannequinHome h2, .MannequinHome h3, .MannequinHome h4 {
     text-transform: uppercase; }
   .MannequinHome .branding {

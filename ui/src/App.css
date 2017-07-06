@@ -4811,9 +4811,24 @@ a.thumbnail {
   align-items: stretch;
   display: flex;
   flex-flow: column wrap; }
-  .App > nav {
+  .App > .TopBar {
     flex: 0 0 auto;
     min-height: 0px;
     min-width: 0px; }
+  .App > .NavDrawer {
+    position: fixed;
+    z-index: 10;
+    right: 0;
+    top: 0;
+    transition: transform .6s ease;
+    width: calc(66.66667% - 1.25rem); }
+    @media print, screen and (min-width: 40em) {
+      .App > .NavDrawer {
+        width: calc(50% - 1.875rem); } }
+    @media print, screen and (min-width: 64em) {
+      .App > .NavDrawer {
+        width: calc(33.33333% - 1.875rem); } }
+    .App > .NavDrawer.closed {
+      transform: translate(100%, 0); }
   .App > main {
     flex: 1 1 0px; }
