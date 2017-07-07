@@ -28,7 +28,9 @@
 
 .NavDrawer {
   background-color: $dark-bg;
-  box-shadow: inset 1px 0 0 0 #2A2A2A;
+  border-top: 1px solid #2A2A2A;
+  border-left: 1px solid #2A2A2A;
+  border-bottom: 1px solid #2A2A2A;
   .controls {
     text-align: right;
   }
@@ -44,7 +46,6 @@
   }
   .SearchForm {
     margin: rem-calc(12.5);
-    margin-top: 0;
   }
 }
 
@@ -60,6 +61,7 @@
     padding: 10px 13px;
     height: auto;
     transition: background-color 1s;
+    margin-bottom: 0;
 
     &:focus {
       background-color: #FFFFFF;

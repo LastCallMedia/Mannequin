@@ -3,59 +3,89 @@
 
 @include foundation-everything();
 
-
 .App {
-  @include xy-grid-frame(true, false);
-  @include xy-grid($direction: vertical);
-  > .TopBar {
-    @include xy-cell-base();
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+
+  .app-inner {
+    width: 200%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    transform: translate(0, 0);
+    transition: transform .5s ease;
   }
   .main-frame {
-    @include xy-cell(auto, $gutter-output: false);
-    @include xy-grid();
+    flex: 0 0 50%;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 
-    > main {
-      @include xy-cell(auto, $gutter-output: false);
+    .MannequinTopBar {
+      flex: 0 0;
     }
-
+    main {
+      flex: 1 0;
+    }
+  }
+  .NavDrawer {
+    flex: 0 0 50%;
+    width: 50%;
+    visibility: hidden;
+    transition: visibility 0s linear .5s;
+  }
+  &.drawer-open {
+    .app-inner {
+      transform: translate(-50%, 0);
+      transition: transform .5s ease;
+    }
     .NavDrawer {
-      position: fixed;
-      z-index: 10;
-      right: 0;
-      top: 0;
-      transition: transform .6s ease;
-      &.closed {
-        transform: translate(100%, 0);
-      }
+      visibility: visible;
+      transition: none;
+    }
+  }
 
-      @include xy-cell(8, $gutter-output: false);
-      @include breakpoint(medium) {
-        @include xy-cell(6, $gutter-output: false);
+  @include breakpoint(large) {
+    .app-inner {
+      width: 100%;
+    }
+    .main-frame {
+      flex: 1 0 100%;
+    }
+    .NavDrawer {
+      flex: 1 0 300px;
+      transform: translate(0, 0);
+      transition: transform .5s ease, visibility 0s linear .5s;
+    }
+    &.drawer-open {
+      .app-inner {
+        transform: translate(0, 0);
       }
-      @include breakpoint(large) {
-        @include xy-cell(4, $gutter-output: false);
-      }
-      @include breakpoint(xlarge) {
-        @include xy-cell(3, $gutter-output: false);
-      }
-      @include breakpoint(xxlarge) {
-        @include xy-cell(2, $gutter-output: false);
+      .NavDrawer {
+        transform: translate(-300px, 0);
+        transition: transform .5s ease;
       }
     }
   }
   @include breakpoint(xlarge) {
-    .drawer-toggle {display: none; }
     .main-frame {
+      flex: 1 0 auto;
+    }
+    .NavDrawer {
+      flex: 0 0 300px;
+      visibility: visible;
+      transition: none;
+    }
+    .drawer-toggle {
+      display: none;
+    }
+    &.drawer-open {
       .NavDrawer {
-        position: static;
-        top: auto;
-        right: auto;
-        &.closed {
-          transform: none;
-        }
+        transform: translate(0, 0);
       }
     }
-
   }
-
 }

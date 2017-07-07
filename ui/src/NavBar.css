@@ -1,6 +1,6 @@
 /**
  * Foundation for Sites by ZURB
- * Version 6.4.0
+ * Version 6.4.1
  * foundation.zurb.com
  * Licensed under MIT Open Source
  */
@@ -24,7 +24,9 @@
 
 .NavDrawer {
   background-color: #181D22;
-  box-shadow: inset 1px 0 0 0 #2A2A2A; }
+  border-top: 1px solid #2A2A2A;
+  border-left: 1px solid #2A2A2A;
+  border-bottom: 1px solid #2A2A2A; }
   .NavDrawer .controls {
     text-align: right; }
   .NavDrawer .closer {
@@ -35,8 +37,7 @@
       vertical-align: middle;
       margin-right: 1.0625rem; }
   .NavDrawer .SearchForm {
-    margin: 0.78125rem;
-    margin-top: 0; }
+    margin: 0.78125rem; }
 
 .SearchForm input {
   border-radius: 2px;
@@ -48,7 +49,8 @@
   line-height: 14px;
   padding: 10px 13px;
   height: auto;
-  transition: background-color 1s; }
+  transition: background-color 1s;
+  margin-bottom: 0; }
   .SearchForm input:focus {
     background-color: #FFFFFF;
     box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.17);

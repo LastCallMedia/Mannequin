@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /**
  * Foundation for Sites by ZURB
- * Version 6.4.0
+ * Version 6.4.1
  * foundation.zurb.com
  * Licensed under MIT Open Source
  */
@@ -2206,8 +2206,7 @@ legend {
   .fieldset legend {
     margin: 0;
     margin-left: -0.1875rem;
-    padding: 0 0.1875rem;
-    background: #fefefe; }
+    padding: 0 0.1875rem; }
 
 select {
   height: 2.4375rem;
@@ -2586,6 +2585,34 @@ select {
   margin-right: 1rem;
   margin-left: 0; }
 
+.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a {
+  position: relative; }
+  .accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
+    display: block;
+    width: 0;
+    height: 0;
+    border: inset 6px;
+    content: '';
+    border-bottom-width: 0;
+    border-top-style: solid;
+    border-color: #1779ba transparent transparent;
+    position: absolute;
+    top: 50%;
+    margin-top: -3px;
+    right: 1rem; }
+
+.accordion-menu.align-left .is-accordion-submenu-parent > a::after {
+  left: auto;
+  right: 1rem; }
+
+.accordion-menu.align-right .is-accordion-submenu-parent > a::after {
+  right: auto;
+  left: 1rem; }
+
+.accordion-menu .is-accordion-submenu-parent[aria-expanded='true'] > a::after {
+  transform: rotate(180deg);
+  transform-origin: 50% 50%; }
+
 .is-accordion-submenu-parent {
   position: relative; }
 
@@ -2626,34 +2653,6 @@ select {
   white-space: nowrap;
   clip-path: inset(50%);
   border: 0; }
-
-.is-accordion-submenu-parent:not(.has-submenu-toggle) > a {
-  position: relative; }
-  .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
-    display: block;
-    width: 0;
-    height: 0;
-    border: inset 6px;
-    content: '';
-    border-bottom-width: 0;
-    border-top-style: solid;
-    border-color: #1779ba transparent transparent;
-    position: absolute;
-    top: 50%;
-    margin-top: -3px;
-    right: 1rem; }
-
-.align-left .is-accordion-submenu-parent > a::after {
-  left: auto;
-  right: 1rem; }
-
-.align-right .is-accordion-submenu-parent > a::after {
-  right: auto;
-  left: 1rem; }
-
-.is-accordion-submenu-parent[aria-expanded='true'] > a::after {
-  transform: rotate(180deg);
-  transform-origin: 50% 50%; }
 
 .badge {
   display: inline-block;
@@ -4805,51 +4804,59 @@ a.thumbnail {
 
 .App {
   height: 100vh;
+  width: 100vw;
   overflow: hidden;
-  position: relative;
-  flex-wrap: nowrap;
-  align-items: stretch;
-  display: flex;
-  flex-flow: column wrap; }
-  .App > .TopBar {
-    flex: 0 0 auto;
-    min-height: 0px;
-    min-width: 0px; }
-  .App .main-frame {
-    flex: 1 1 0px;
-    width: auto;
+  position: relative; }
+  .App .app-inner {
+    width: 200%;
+    height: 100%;
     display: flex;
-    flex-flow: row wrap; }
-    .App .main-frame > main {
-      flex: 1 1 0px;
-      width: auto; }
-    .App .main-frame .NavDrawer {
-      position: fixed;
-      z-index: 10;
-      right: 0;
-      top: 0;
-      transition: transform .6s ease;
-      width: calc(66.66667% - 1.25rem); }
-      .App .main-frame .NavDrawer.closed {
-        transform: translate(100%, 0); }
-      @media print, screen and (min-width: 40em) {
-        .App .main-frame .NavDrawer {
-          width: calc(50% - 1.875rem); } }
-      @media print, screen and (min-width: 64em) {
-        .App .main-frame .NavDrawer {
-          width: calc(33.33333% - 1.875rem); } }
-      @media screen and (min-width: 75em) {
-        .App .main-frame .NavDrawer {
-          width: calc(25% - 1.875rem); } }
-      @media screen and (min-width: 90em) {
-        .App .main-frame .NavDrawer {
-          width: calc(16.66667% - 1.875rem); } }
+    flex-direction: row;
+    transform: translate(0, 0);
+    transition: transform .5s ease; }
+  .App .main-frame {
+    flex: 0 0 50%;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column; }
+    .App .main-frame .MannequinTopBar {
+      flex: 0 0; }
+    .App .main-frame main {
+      flex: 1 0; }
+  .App .NavDrawer {
+    flex: 0 0 50%;
+    width: 50%;
+    visibility: hidden;
+    transition: visibility 0s linear .5s; }
+  .App.drawer-open .app-inner {
+    transform: translate(-50%, 0);
+    transition: transform .5s ease; }
+  .App.drawer-open .NavDrawer {
+    visibility: visible;
+    transition: none; }
+  @media print, screen and (min-width: 64em) {
+    .App .app-inner {
+      width: 100%; }
+    .App .main-frame {
+      flex: 1 0 100%; }
+    .App .NavDrawer {
+      flex: 1 0 300px;
+      transform: translate(0, 0);
+      transition: transform .5s ease, visibility 0s linear .5s; }
+    .App.drawer-open .app-inner {
+      transform: translate(0, 0); }
+    .App.drawer-open .NavDrawer {
+      transform: translate(-300px, 0);
+      transition: transform .5s ease; } }
   @media screen and (min-width: 75em) {
+    .App .main-frame {
+      flex: 1 0 auto; }
+    .App .NavDrawer {
+      flex: 0 0 300px;
+      visibility: visible;
+      transition: none; }
     .App .drawer-toggle {
       display: none; }
-    .App .main-frame .NavDrawer {
-      position: static;
-      top: auto;
-      right: auto; }
-      .App .main-frame .NavDrawer.closed {
-        transform: none; } }
+    .App.drawer-open .NavDrawer {
+      transform: translate(0, 0); } }

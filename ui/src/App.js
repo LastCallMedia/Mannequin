@@ -24,15 +24,18 @@ class App extends Component {
     return (
       <Router>
         <div className={`App ${drawer ? 'drawer-open' : 'drawer-closed'}`}>
-          <TopBar toggleNav={toggleDrawer} />
-          <div className="main-frame">
-            <Route path="/" exact component={HomePage} />
-            <Route path="/pattern/:pattern" exact render={props => (
-              <Redirect to={`${props.match.url}/set/default`} />
-            )} />
-            <Route path="/pattern/:pattern/set/:set" component={PatternPage} />
-            <Route path="/type/:type" exact component={TypePage} />
-            <Route path="/type/:type/group/:group" exact component={GroupPage} />
+          <div className="app-inner">
+
+            <div className="main-frame">
+              <TopBar toggleNav={toggleDrawer} />
+              <Route path="/" exact component={HomePage} />
+              <Route path="/pattern/:pattern" exact render={props => (
+                <Redirect to={`${props.match.url}/set/default`} />
+              )} />
+              <Route path="/pattern/:pattern/set/:set" component={PatternPage} />
+              <Route path="/type/:type" exact component={TypePage} />
+              <Route path="/type/:type/group/:group" exact component={GroupPage} />
+            </div>
             <NavDrawer patterns={patterns} open={drawer} toggleNav={toggleDrawer} />
           </div>
         </div>
