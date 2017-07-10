@@ -11,8 +11,6 @@ import './App.css';
 
 import {TopBar, NavDrawer} from './NavBar';
 import HomePage from './HomePage';
-import TypePage from './TypePage';
-import GroupPage from './GroupPage';
 import PatternPage from './PatternPage';
 
 class App extends Component {
@@ -33,8 +31,6 @@ class App extends Component {
                 <Redirect to={`${props.match.url}/set/default`} />
               )} />
               <Route path="/pattern/:pattern/set/:set" component={PatternPage} />
-              <Route path="/type/:type" exact component={TypePage} />
-              <Route path="/type/:type/group/:group" exact component={GroupPage} />
             </div>
             <NavDrawer patterns={patterns} open={drawer} toggleNav={toggleDrawer} />
           </div>

@@ -20,6 +20,40 @@
   }
 }
 
+.PatternTopBar {
+  box-shadow: inset 0 -1px 0 0 rgba(0,0,0,0.08);
+  padding: rem-calc(7) 0;
+
+  .inner {
+    @include xy-grid-container();
+    @include xy-grid();
+    .name, .actions {
+      @include xy-cell(shrink);
+    }
+    .set {
+      @include xy-cell(auto);
+    }
+  }
+  .name {
+    font-size: rem-calc(15);
+    font-weight: bold;
+    line-height: rem-calc(18);
+    align-self: center;
+  }
+  .SetSelector {
+    width: auto;
+    font-size: rem-calc(12);
+    line-height: rem-calc(12);
+    font-weight: bold;
+  }
+  select, .button, h4 {
+    margin-bottom: 0;
+  }
+  .actions {
+    @include menu-base;
+  }
+}
+
 .PatternInfo {
   .grid-x {
     background: black;

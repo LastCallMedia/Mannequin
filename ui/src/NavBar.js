@@ -7,8 +7,11 @@ import logo from './logo.svg';
 export const TopBar = ({toggleNav}) => {
   return (
     <nav className="MannequinTopBar">
-      <Link to="/"><strong><img className="logo" src={logo} alt="Mannequin" /></strong></Link>
-      <button className="drawer-toggle opener" onClick={toggleNav}>Navigation <i className="menu-icon"></i></button>
+      <div className="inner">
+        <Link to="/" className="logo"><strong><img className="main-logo" src={logo} alt="Mannequin" /></strong></Link>
+        <div className="title"></div>
+        <button className="drawer-toggle opener" onClick={toggleNav}>Navigation <i className="menu-icon"></i></button>
+      </div>
     </nav>
   )
 }

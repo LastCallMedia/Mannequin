@@ -14,13 +14,26 @@
 .MannequinTopBar {
   background: #181D22;
   color: white; }
-  .MannequinTopBar .opener {
-    float: right;
-    padding: 0.4375rem; }
-    .MannequinTopBar .opener i {
-      margin-left: 1.0625rem; }
-  .MannequinTopBar .logo {
-    width: 30px; }
+  .MannequinTopBar .inner {
+    max-width: 75rem;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: row wrap; }
+    .MannequinTopBar .inner > .logo, .MannequinTopBar .inner > .opener {
+      flex: 0 0 auto;
+      width: auto;
+      padding-right: 0.625rem;
+      padding-left: 0.625rem; }
+    .MannequinTopBar .inner > .title {
+      flex: 1 1 0px;
+      width: auto;
+      margin-right: 0.625rem;
+      margin-left: 0.625rem; }
+  .MannequinTopBar .opener i {
+    margin-left: 1.0625rem; }
+  .MannequinTopBar img.main-logo {
+    width: 14px;
+    padding: 15px 0; }
 
 .NavDrawer {
   background-color: #181D22;

@@ -13,16 +13,26 @@
   background: $dark-bg;
   color: white;
 
+  .inner {
+    @include xy-grid-container();
+    @include xy-grid();
+    > .logo, > .opener {
+      @include xy-cell(shrink, $gutter-type: padding);
+    }
+    > .title {
+      @include xy-cell(auto);
+    }
+  }
+
   .opener {
-    float: right;
     @extend %toggle-button;
-    padding: rem-calc(7);
     i {
       margin-left: rem-calc(17);
     }
   }
-  .logo {
-    width: 30px;
+  img.main-logo {
+    width: 14px;
+    padding: 15px 0;
   }
 }
 

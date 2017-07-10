@@ -1,5 +1,6 @@
 
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 import {Link} from 'react-router-dom';
@@ -8,11 +9,31 @@ import './PatternPage.css';
 import 'highlight.js/styles/default.css';
 import 'highlight.js/styles/atom-one-dark.css';
 
+const SetShape = {
+  name: PropTypes.string,
+  description: PropTypes.string,
+  rendered: PropTypes.string.isRequired
+}
+const PatternShape = {
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  rendered: PropTypes.string,
+  used: PropTypes.arrayOf(PropTypes.string),
+  sets: PropTypes.arrayOf(PropTypes.shape(SetShape))
+};
+
+
 const PatternPageLoadingWrapper = ({pattern, set, used, onSetChange}) => (
   <main className="PatternPageLoadingWrapper">
     {pattern && <PatternPage pattern={pattern} set={set} used={used} onSetChange={onSetChange} />}
   </main>
 )
+PatternPageLoadingWrapper.propTypes = {
+  pattern: PropTypes.shape(PatternShape),
+  set: PropTypes.shape(SetShape),
+  used: PropTypes.arrayOf(PropTypes.string),
+  onSetChange: PropTypes.func.isRequired,
+}
 /**
  * These reselect selectors pull data out of redux state based on URL params.
  */
@@ -77,23 +98,11 @@ class PatternPage extends Component {
     const {showingInfo} = this.state;
     return (
       <main className="PatternPage">
-        <div className="top-bar">
-          <div className="top-bar-left">
-            <ul className="menu horizontal">
-              <li className="menu-text">{pattern.name}</li>
-              <li><SetSelector sets={pattern.sets} selected={set.id} onChange={onSetChange} /></li>
-            </ul>
-          </div>
-          <div className="top-bar-right">
-            <ul className="menu">
-              <li><a onClick={this.openWindow}>Open</a></li>
-              <li><a onClick={this.toggleInfo} className="button">View Pattern Info</a></li>
-            </ul>
-          </div>
-        </div>
+        <PatternTopBar pattern={pattern} set={set} openWindow={this.openWindow} toggleInfo={this.toggleInfo} changeSet={onSetChange} />
         <div className="RenderFrame">
           <iframe frameBorder="0" src={set.rendered}></iframe>
         </div>
+
         <div className={`PatternInfo grid-container ${showingInfo ? 'open' : 'closed'}`}>
           <div className="grid-x grid-padding-x">
             <button onClick={this.toggleInfo} className="close-button" aria-label="Open Info" type="button"><span aria-hidden="true">&times;</span></button>
@@ -116,6 +125,21 @@ class PatternPage extends Component {
       </main>
     );
   }
+}
+
+const PatternTopBar = ({pattern, set, openWindow, toggleInfo, changeSet}) => {
+  return (
+    <div className="PatternTopBar">
+      <div className="inner">
+        <h4 className="name">{pattern.name}</h4>
+        <div className="set"><SetSelector sets={pattern.sets} selected={set.id} onChange={changeSet} /></div>
+        <ul className="actions">
+          <li><a onClick={openWindow}>Open</a></li>
+          <li><a onClick={toggleInfo} className="button">View Pattern Info</a></li>
+        </ul>
+      </div>
+    </div>
+  )
 }
 
 class CodeToggleFrame extends Component {
