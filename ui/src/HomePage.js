@@ -9,7 +9,7 @@ class HomePage extends Component {
     return (
       <main className="MannequinHome">
         <div className="branding">
-          <img src={logo} className="logo" />
+          <img src={logo} alt="Mannequin" className="logo" />
           <h1>Mannequin <small>Pattern Library</small></h1>
         </div>
         <div className="quicklinks grid-container">

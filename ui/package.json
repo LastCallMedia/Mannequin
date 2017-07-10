@@ -13,7 +13,7 @@
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "react-router-redux": "next",
-    "react-syntax-highlight": "^0.0.6",
+    "react-syntax-highlight": "^15.3.1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1"

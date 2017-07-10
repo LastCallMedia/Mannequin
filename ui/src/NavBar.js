@@ -109,6 +109,9 @@ class MainMenuItem extends Component {
       case 13:
       case 32:
         this.setState(state => ({collapsed: !state.collapsed}))
+        break;
+      default:
+        return;
     }
   }
   render() {

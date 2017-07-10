@@ -100,7 +100,7 @@ class PatternPage extends Component {
       <main className="PatternPage">
         <PatternTopBar pattern={pattern} set={set} openWindow={this.openWindow} toggleInfo={this.toggleInfo} changeSet={onSetChange} />
         <div className="RenderFrame">
-          <iframe frameBorder="0" src={set.rendered}></iframe>
+          <iframe title="Rendered Pattern" frameBorder="0" src={set.rendered}></iframe>
         </div>
 
         <div className={`PatternInfo grid-container ${showingInfo ? 'open' : 'closed'}`}>
