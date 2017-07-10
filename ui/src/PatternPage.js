@@ -103,10 +103,10 @@ class PatternPage extends Component {
           <iframe title="Rendered Pattern" frameBorder="0" src={set.rendered}></iframe>
         </div>
 
-        <div className={`PatternInfo grid-container ${showingInfo ? 'open' : 'closed'}`}>
-          <div className="grid-x grid-padding-x">
+        <div className={`PatternInfo ${showingInfo ? 'open' : 'closed'}`}>
+          <div className="inner">
             <button onClick={this.toggleInfo} className="close-button" aria-label="Open Info" type="button"><span aria-hidden="true">&times;</span></button>
-            <div className="cell medium-auto">
+            <div className="info">
               <h3>{pattern.name}</h3>
               <div className="PatternInfoSection">
                 <label>Uses</label>
@@ -119,7 +119,7 @@ class PatternPage extends Component {
                 <p>{pattern.description}</p>
               </div>
             </div>
-            <CodeToggleFrame className="cell medium-auto" html={set.source} raw={pattern.source} rawFormat={pattern.format} />
+            <CodeToggleFrame className="code" html={set.source} raw={pattern.source} rawFormat={pattern.format} />
           </div>
         </div>
       </main>

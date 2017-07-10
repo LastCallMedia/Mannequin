@@ -1,9 +1,14 @@
 
 @import "base";
 
+.PatternPageLoadingWrapper .PatternPage {
+  height: 100%;
+}
 .PatternPage {
+  position: relative;
+
   .PatternInfo {
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
@@ -14,7 +19,8 @@
       height: 0;
       opacity: 0;
     }
-    > .grid-x {
+    > .inner {
+      position: relative;
       min-height: 100%;
     }
   }
@@ -55,8 +61,17 @@
 }
 
 .PatternInfo {
-  .grid-x {
+  .inner {
     background: black;
+    @include xy-grid-container();
+    @include xy-grid();
+
+    > .info, > .code {
+      @include xy-cell(full);
+      @include breakpoint(medium) {
+        @include xy-cell(auto);
+      }
+    }
   }
   .close-button {
     z-index: 1;
