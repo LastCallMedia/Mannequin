@@ -31,7 +31,10 @@ const PatternPageLoadingWrapper = ({pattern, set, used, onSetChange}) => (
 PatternPageLoadingWrapper.propTypes = {
   pattern: PropTypes.shape(PatternShape),
   set: PropTypes.shape(SetShape),
-  used: PropTypes.arrayOf(PropTypes.string),
+  used: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired
+  })),
   onSetChange: PropTypes.func.isRequired,
 }
 /**

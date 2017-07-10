@@ -8,6 +8,7 @@ import {
 import {connect} from 'react-redux';
 import {fetchPatterns, toggleDrawer} from './actions';
 import './App.css';
+import 'what-input';
 
 import {TopBar, NavDrawer} from './NavBar';
 import HomePage from './HomePage';
