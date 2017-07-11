@@ -31,15 +31,15 @@ export class NavDrawer extends Component {
     const tree = buildTree(filterPatterns(filter, patterns))
     const menuSettings = {
       collapsible: false,
-      className: 'l1', //horizontal MenuList l1 menu main-menu',
+      className: 'l1',
       itemClassName: 'l1',
       children: {
         collapsible: true,
-        className: 'l2', //vertical MenuList l2',
+        className: 'l2',
         itemClassName: 'l2',
         children: {
           collapsible: false,
-          className: 'l3', //vertical l3',
+          className: 'l3',
           itemClassName: 'l3',
         }
       }

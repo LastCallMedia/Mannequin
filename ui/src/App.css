@@ -4849,7 +4849,7 @@ a.thumbnail {
     .App.drawer-open .NavDrawer {
       transform: translate(-300px, 0);
       transition: transform .5s ease; } }
-  @media screen and (min-width: 75em) {
+  @media screen and (min-width: 90em) {
     .App .main-frame {
       flex: 1 0 auto; }
     .App .NavDrawer {
