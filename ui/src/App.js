@@ -13,8 +13,9 @@ import 'what-input';
 import {TopBar, NavDrawer} from './NavBar';
 import HomePage from './HomePage';
 import PatternPage from './PatternPage';
+import PropTypes from 'prop-types';
 
-class App extends Component {
+export class App extends Component {
   componentDidMount() {
     this.props.refreshPatterns();
   }
@@ -24,7 +25,6 @@ class App extends Component {
       <Router>
         <div className={`App ${drawer ? 'drawer-open' : 'drawer-closed'}`}>
           <div className="app-inner">
-
             <div className="main-frame">
               <TopBar toggleNav={toggleDrawer} />
               <Route path="/" exact component={HomePage} />
@@ -40,11 +40,20 @@ class App extends Component {
     );
   }
 }
+App.propTypes = {
+  patterns: PropTypes.arrayOf(PropTypes.object),
+  refreshPatterns: PropTypes.func.isRequired,
+  toggleDrawer: PropTypes.func.isRequired
+}
+App.defaultProps = {
+  patterns: [],
+  refreshPatterns: () => {},
+  toggleDrawer: () => {},
+}
 
 const mapStateToProps = (state, ownProps) => {
   return {
     patterns: state.patterns,
-    tags: state.tags,
     drawer: state.drawer,
   }
 }
