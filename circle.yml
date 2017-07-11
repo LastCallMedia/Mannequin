@@ -9,3 +9,4 @@ dependencies:
 test:
   override:
     - vendor/bin/phpunit
+    - cd ui && npm run test
