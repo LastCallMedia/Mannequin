@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import './NavBar.css';
-import logo from './logo.svg';
+import logo from './svg/logo.svg';
 
 export const TopBar = ({toggleNav}) => {
   return (

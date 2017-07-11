@@ -444,7 +444,7 @@ body {
   margin: 0;
   padding: 0;
   background: #fefefe;
-  font-family: "Helvetica";
+  font-family: "Helvetica", "Arial";
   font-weight: normal;
   line-height: 1.5;
   color: #0a0a0a;
@@ -1786,7 +1786,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Helvetica";
+  font-family: "Helvetica", "Arial";
   font-style: normal;
   font-weight: normal;
   color: inherit;
