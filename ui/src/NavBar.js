@@ -47,9 +47,7 @@ export class NavDrawer extends Component {
 
     return (
       <nav className={`NavDrawer ${open ? 'open' : 'closed'}`}>
-        <div className="drawer-toggle">
-          <button className="closer" onClick={toggleNav}><span className="arrow">←</span> Close</button>
-        </div>
+        <button className="closer drawer-toggle" onClick={toggleNav}><span>Close</span> <i className="arrow">&rarr;</i></button>
         <form className="SearchForm">
           <input type="search" placeholder="Search..." onKeyUp={this.handleFilterChange} />
         </form>

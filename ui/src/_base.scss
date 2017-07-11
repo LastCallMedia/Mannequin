@@ -5,5 +5,15 @@ $impact-font-family: 'Gilroy', 'Gill Sans';
 
 $dark-bg: #181D22;
 
+// Temporary fix for https://github.com/zurb/foundation-sites/issues/10387
+// Can be removed once that is resolved.
+$grid-margin-gutters: (
+        small: 20px,
+        medium: 30px,
+        large: 30px,
+        xlarge: 30px,
+        xxlarge: 30px,
+) !default;
+
 @import "../node_modules/foundation-sites/scss/foundation";
 

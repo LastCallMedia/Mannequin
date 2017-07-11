@@ -7,6 +7,10 @@
   font-weight: bold;
   color: white;
   text-transform: uppercase;
+  cursor: pointer;
+  > i {
+    margin-left: rem-calc(17);
+  }
 }
 
 .MannequinTopBar {
@@ -41,21 +45,25 @@
   border-top: 1px solid #2A2A2A;
   border-left: 1px solid #2A2A2A;
   border-bottom: 1px solid #2A2A2A;
-  .controls {
-    text-align: right;
-  }
-  .closer {
+  @include xy-grid(vertical);
+  > .drawer-toggle {
+    @include xy-cell(shrink, $gutter-position: right left top bottom, $gutter-type: padding);
     @extend %toggle-button;
-    padding: rem-calc(12.5) rem-calc(24);
-    .arrow {
+    text-align: right;
+    line-height: rem-calc(24);
+    > i {
       font-size: rem-calc(24);
-      line-height: rem-calc(12);
       vertical-align: middle;
-      margin-right: rem-calc(17);
     }
   }
-  .SearchForm {
-    margin: rem-calc(12.5);
+  > .SearchForm {
+    @include xy-cell(shrink, $gutter-position: right left bottom, $vertical: true);
+    @include breakpoint(xxlarge) {
+      @include xy-cell(shrink, $gutter-position: right left bottom top, $vertical: true);
+    }
+  }
+  > .MenuList {
+    @include xy-cell(auto, $gutter-output: false, $gutter-type: none, $vertical: true);
   }
 }
 

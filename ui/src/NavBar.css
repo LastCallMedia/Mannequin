@@ -4,12 +4,15 @@
  * foundation.zurb.com
  * Licensed under MIT Open Source
  */
-.MannequinTopBar .opener, .NavDrawer .closer {
+.MannequinTopBar .opener, .NavDrawer > .drawer-toggle {
   font-size: 0.625rem;
   line-height: 0.75rem;
   font-weight: bold;
   color: white;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+  cursor: pointer; }
+  .MannequinTopBar .opener > i, .NavDrawer > .drawer-toggle > i {
+    margin-left: 1.0625rem; }
 
 .MannequinTopBar {
   background: #181D22;
@@ -39,18 +42,38 @@
   background-color: #181D22;
   border-top: 1px solid #2A2A2A;
   border-left: 1px solid #2A2A2A;
-  border-bottom: 1px solid #2A2A2A; }
-  .NavDrawer .controls {
-    text-align: right; }
-  .NavDrawer .closer {
-    padding: 0.78125rem 1.5rem; }
-    .NavDrawer .closer .arrow {
+  border-bottom: 1px solid #2A2A2A;
+  display: flex;
+  flex-flow: column wrap; }
+  .NavDrawer > .drawer-toggle {
+    flex: 0 0 auto;
+    width: auto;
+    padding-right: 0.625rem;
+    padding-left: 0.625rem;
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+    text-align: right;
+    line-height: 1.5rem; }
+    .NavDrawer > .drawer-toggle > i {
       font-size: 1.5rem;
-      line-height: 0.75rem;
-      vertical-align: middle;
-      margin-right: 1.0625rem; }
-  .NavDrawer .SearchForm {
-    margin: 0.78125rem; }
+      vertical-align: middle; }
+  .NavDrawer > .SearchForm {
+    flex: 0 0 auto;
+    height: auto;
+    margin-right: 0.625rem;
+    margin-left: 0.625rem;
+    margin-bottom: 0.625rem; }
+    @media screen and (min-width: 90em) {
+      .NavDrawer > .SearchForm {
+        flex: 0 0 auto;
+        height: auto;
+        margin-right: 0.9375rem;
+        margin-left: 0.9375rem;
+        margin-bottom: 0.9375rem;
+        margin-top: 0.9375rem; } }
+  .NavDrawer > .MenuList {
+    flex: 1 1 0px;
+    height: auto; }
 
 .SearchForm input {
   border-radius: 2px;
