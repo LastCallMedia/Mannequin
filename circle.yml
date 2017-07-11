@@ -1,12 +1,26 @@
-machine:
-  php:
-    version: 7.0.4
+version: 2
+jobs:
+  cli:
+    working_directory: ~/
+    docker:
+      - image: circleci/php:7.0-cli-node
+    steps:
+      - checkout
+      - run: composer install
+      - run: vendor/bin/phpunit
 
-dependencies:
-  cache_directories:
-    - "vendor"
-
-test:
-  override:
-    - vendor/bin/phpunit
-    - cd ui && npm run test
+#machine:
+#  php:
+#    version: 7.0.4
+#
+#dependencies:
+#  cache_directories:
+#    - "vendor"
+#
+#test:
+#  override:
+#    - vendor/bin/phpunit
+#    - cd ui && npm run test
+#
+#deploy:
+#
