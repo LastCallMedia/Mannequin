@@ -19,4 +19,8 @@ class TestFilePattern extends AbstractPattern implements TemplateFilePatternInte
   public function getFile(): \SplFileInfo {
     return $this->file;
   }
+
+  public function getRawFormat(): string {
+    return 'html';
+  }
 }

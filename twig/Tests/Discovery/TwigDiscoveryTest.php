@@ -3,12 +3,13 @@
 
 namespace LastCall\Mannequin\Twig\Tests\Discovery;
 
+use LastCall\Mannequin\Core\Discovery\IdEncoder;
 use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Finder\Finder;
 
 class TwigDiscoveryTest extends TestCase {
+  use IdEncoder;
 
   const FIXTURES_DIR = __DIR__.'/../Resources';
 
@@ -19,19 +20,19 @@ class TwigDiscoveryTest extends TestCase {
   }
 
   public function testSetsId() {
-    $pattern = $this->discoverFixtureCollection()->get('Zm9ybS1pbnB1dC50d2ln');
+    $pattern = $this->discoverFixtureCollection()->get($this->encodeId('form-input.twig'));
     $this->assertInstanceOf(TwigPattern::class, $pattern);
-    $this->assertEquals('Zm9ybS1pbnB1dC50d2ln', $pattern->getId());
+    $this->assertEquals($this->encodeId('form-input.twig'), $pattern->getId());
   }
 
   public function testSetsAliases() {
-    $pattern = $this->discoverFixtureCollection()->get('Zm9ybS1pbnB1dC50d2ln');
+    $pattern = $this->discoverFixtureCollection()->get($this->encodeId('form-input.twig'));
     $this->assertEquals(['form-input.twig'], $pattern->getAliases());
   }
 
   public function testSetsSource() {
     /** @var TwigPattern $pattern */
-    $pattern = $this->discoverFixtureCollection()->get('Zm9ybS1pbnB1dC50d2ln');
+    $pattern = $this->discoverFixtureCollection()->get($this->encodeId('form-input.twig'));
     $this->assertInstanceOf(\Twig_Source::class, $pattern->getSource());
     $source = $pattern->getSource();
     $this->assertEquals('form-input.twig', $source->getName());

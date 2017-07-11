@@ -110,6 +110,9 @@ class PatternCollection implements \Iterator, \Countable {
     return $this->parent;
   }
 
+  /**
+   * @return \LastCall\Mannequin\Core\Pattern\PatternInterface[]
+   */
   public function getPatterns() {
     return array_values($this->patterns);
   }
