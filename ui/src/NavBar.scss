@@ -71,19 +71,18 @@
   input {
     border-radius: 2px;
     border: none;
-    background-color: #1C2025;
+    background-color: #21262B;
     color: white;
     font-size: 12px;
     font-weight: bold;
     line-height: 14px;
     padding: 10px 13px;
     height: auto;
-    transition: background-color 1s;
     margin-bottom: 0;
     border-radius: 0;
 
     &:focus {
-      background-color: #1C2025;
+      background-color: #21262B;
     }
   }
 }
@@ -134,14 +133,10 @@
   }
 }
 
-.MenuItem.collapsible.collapsed {
-  > .MenuList {
-    clip: rect(0 0 0 0);
-    max-height: 1px;
-    margin: -1px;
-    overflow: hidden;
+.MenuItem.collapsible {
+  overflow: hidden;
+
+  &.collapsed .MenuList {
     visibility: hidden;
   }
 }
-
-

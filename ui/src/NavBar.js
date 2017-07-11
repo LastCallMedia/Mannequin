@@ -1,6 +1,7 @@
 
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import FluidContainer from 'react-fluid-container';
 import './NavBar.css';
 import logo from './svg/logo.svg';
 
@@ -122,7 +123,9 @@ class MainMenuItem extends Component {
       return (
         <li className={`MenuItem ${className} collapsible ${isCollapsed ?'collapsed':''}`}>
           <a onClick={this.toggleCollapse} onKeyPress={this.handleKeyPress} tabIndex={0}>{leaf.icon}{leaf.name}</a>
-          {leaf.children && <MainMenu tree={leaf.children} settings={childSettings} />}
+          {leaf.children && <FluidContainer height={isCollapsed ? 0 : 'auto'}>
+            <MainMenu tree={leaf.children} settings={childSettings} />
+          </FluidContainer>}
         </li>
       )
     }
