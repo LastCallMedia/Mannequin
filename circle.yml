@@ -1,26 +1,24 @@
 version: 2
 jobs:
-  cli:
-    working_directory: ~/
+  build:
+    working_directory: ~/mannequin
     docker:
-      - image: circleci/php:7.0-cli-node
+      - image: lastcallmedia/php:7.0-dev
     steps:
       - checkout
+      - restore_cache:
+          key: composer-v1-{{ checksum "composer.json" }}
       - run: composer install
-      - run: vendor/bin/phpunit
+      - save_cache:
+          key: composer-v1-{{ checksum "composer.json" }}
+          paths: [vendor]
 
-#machine:
-#  php:
-#    version: 7.0.4
-#
-#dependencies:
-#  cache_directories:
-#    - "vendor"
-#
-#test:
-#  override:
-#    - vendor/bin/phpunit
-#    - cd ui && npm run test
-#
-#deploy:
-#
+      - restore_cache:
+          key: package-v1-{{ checksum "ui/package.json" }}
+      - run: cd ui && npm install
+      - save_cache:
+          key: package-v1-{{ checksum "ui/package.json" }}
+          paths: [ui/node_modules]
+
+      - run: vendor/bin/phpunit
+      - run: cd ui && npm run test
