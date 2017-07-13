@@ -1,16 +1,14 @@
 <?php
 
 
-namespace LastCall\Mannequin\Ui;
-
+namespace LastCall\Mannequin\Core\Ui;
 
 use LastCall\Mannequin\Core\Rendered;
-use LastCall\Mannequin\Core\Ui\UiInterface;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-class Ui implements UiInterface {
+class MannequinUi implements UiInterface {
 
   const TEMPLATE = <<<'EOD'
 <html>
@@ -22,9 +20,15 @@ class Ui implements UiInterface {
   %s
 </body>
 EOD;
+  
+  private $uiPath;
+
+  public function __construct(string $uiPath) {
+    $this->uiPath = $uiPath;
+  }
 
   public function files(): array {
-    $manifest = file_get_contents(__DIR__.'/build/asset-manifest.json');
+    $manifest = file_get_contents($this->uiPath('asset-manifest.json'));
     $files = [];
     foreach(json_decode($manifest, TRUE) as $file) {
       $files[$file] = $this->uiPath($file);
@@ -48,9 +52,9 @@ EOD;
       $rendered->getMarkup()
     );
   }
-  
+
   private function uiPath($relativePath = '') {
-    return rtrim(sprintf('%s/build/%s', __DIR__, $relativePath), '/');
+    return rtrim(sprintf('%s/%s', $this->uiPath, $relativePath), '/');
   }
 
   private function mapAssets(array $assets, $pattern) {

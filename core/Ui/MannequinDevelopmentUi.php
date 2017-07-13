@@ -1,13 +1,13 @@
 <?php
 
 
-namespace LastCall\Mannequin\Ui;
+namespace LastCall\Mannequin\Core\Ui;
 
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class DevelopmentUi extends Ui {
+class MannequinDevelopmentUi extends MannequinUi {
 
   public function __construct($url) {
     $this->parts = parse_url($url);

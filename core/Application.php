@@ -10,7 +10,7 @@ use LastCall\Mannequin\Core\Ui\Controller\ManifestController;
 use LastCall\Mannequin\Core\Ui\Controller\RenderController;
 use LastCall\Mannequin\Core\Ui\Controller\UiController;
 use LastCall\Mannequin\Core\Ui\Manifester;
-use LastCall\Mannequin\Ui\Ui;
+use LastCall\Mannequin\Core\Ui\MannequinUi;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 
@@ -49,10 +49,7 @@ class Application extends \Silex\Application {
     };
     $this['ui'] = function() {
       $config = $this['config'];
-      if(isset($config['ui'])) {
-        return $config['ui'];
-      }
-      return new Ui();
+      return $config['ui'] ?? new MannequinUi();
     };
 
     $this->register(new ServiceControllerServiceProvider());
