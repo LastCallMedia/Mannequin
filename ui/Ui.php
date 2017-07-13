@@ -27,18 +27,18 @@ EOD;
     $manifest = file_get_contents(__DIR__.'/build/asset-manifest.json');
     $files = [];
     foreach(json_decode($manifest, TRUE) as $file) {
-      $files[$file] = sprintf('%s/build/%s', __DIR__, $file);
+      $files[$file] = $this->uiPath($file);
     }
-    $files['index.html'] = sprintf('%s/build/%s', __DIR__, 'index.html');
+    $files['index.html'] = $this->uiPath('index.html');
     return $files;
   }
 
   public function isUiFile(string $path): bool {
-    return file_exists(sprintf('%s/build/%s', __DIR__, $path));
+    return file_exists($this->uiPath($path));
   }
 
   public function getUiFileResponse(string $path, Request $request) : Response {
-    return new BinaryFileResponse(sprintf('%s/build/%s', __DIR__, $path));
+    return new BinaryFileResponse($this->uiPath($path));
   }
 
   public function decorateRendered(Rendered $rendered): string {
@@ -47,6 +47,10 @@ EOD;
       $this->mapAssets($rendered->getStyles(), '<link rel="stylesheet" href="%s" />'),
       $rendered->getMarkup()
     );
+  }
+  
+  private function uiPath($relativePath = '') {
+    return rtrim(sprintf('%s/build/%s', __DIR__, $relativePath), '/');
   }
 
   private function mapAssets(array $assets, $pattern) {
