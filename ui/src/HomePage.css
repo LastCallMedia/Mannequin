@@ -10,21 +10,30 @@
   .MannequinHome h1, .MannequinHome h2, .MannequinHome h3, .MannequinHome h4 {
     text-transform: uppercase; }
   .MannequinHome .branding {
-    margin: 6.25rem;
+    margin: 6.25rem 0;
     text-align: center; }
     .MannequinHome .branding .logo {
-      height: 118px;
-      width: 92px; }
+      width: 56px; }
     .MannequinHome .branding h1 {
       font-family: "Gilroy", "Gill Sans";
-      font-size: 7rem;
-      line-height: 8.5625rem; }
+      font-size: 40px;
+      line-height: 46px;
+      font-weight: 600; }
       .MannequinHome .branding h1 small {
+        margin-top: 12px;
         display: block;
         font-size: 0.75rem;
         color: inherit;
-        font-weight: 800;
-        letter-spacing: 6px; }
+        font-weight: 600;
+        letter-spacing: 1px; }
+    @media print, screen and (min-width: 64em) {
+      .MannequinHome .branding .logo {
+        width: 124px; }
+      .MannequinHome .branding h1 {
+        font-size: 7rem;
+        line-height: 1; }
+        .MannequinHome .branding h1 small {
+          margin-top: 0; } }
   .MannequinHome .quicklinks h4 {
     text-align: center;
     margin-bottom: 3rem;
