@@ -12,8 +12,7 @@ export function fetchPatterns() {
 function updatePatterns(response) {
   return {
     type: 'PATTERNS_FETCH_SUCCESS',
-    patterns: response.patterns,
-    tags: response.tags
+    patterns: response.patterns
   }
 }
 

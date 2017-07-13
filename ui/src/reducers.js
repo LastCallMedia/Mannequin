@@ -21,15 +21,6 @@ const error = (state = false, action) => {
   }
 }
 
-const tags = (state = {}, action) => {
-  switch(action.type) {
-    case 'PATTERNS_FETCH_SUCCESS':
-      return action.tags;
-    default:
-      return state;
-  }
-}
-
 const loading = (state = 'complete', action) => {
   switch(action.type) {
     case 'PATTERNS_FETCH_LOADING':
@@ -53,7 +44,6 @@ const drawer = (state = false, action) => {
 export default combineReducers({
   patterns,
   loading,
-  tags,
   error,
   drawer,
 });
