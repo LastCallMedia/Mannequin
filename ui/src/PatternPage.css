@@ -31,7 +31,8 @@
     max-width: 75rem;
     margin: 0 auto;
     display: flex;
-    flex-flow: row wrap; }
+    flex-flow: row wrap;
+    align-items: center; }
     .PatternTopBar .inner .name, .PatternTopBar .inner .actions {
       flex: 0 0 auto;
       width: auto;
@@ -45,13 +46,13 @@
   .PatternTopBar .name {
     font-size: 0.9375rem;
     font-weight: bold;
-    line-height: 1.125rem;
-    align-self: center; }
+    line-height: 1.9375rem; }
   .PatternTopBar .SetSelector {
     width: auto;
     font-size: 0.75rem;
     line-height: 0.75rem;
-    font-weight: bold; }
+    font-weight: bold;
+    height: 1.875rem; }
   .PatternTopBar select, .PatternTopBar .button, .PatternTopBar h4 {
     margin-bottom: 0; }
   .PatternTopBar .actions {
@@ -77,6 +78,12 @@
       margin-bottom: 0; }
     .PatternTopBar .actions input {
       display: inline-block; }
+    .PatternTopBar .actions .PatternInfoButton {
+      padding-top: 0.625rem;
+      padding-bottom: 0.625rem; }
+    .PatternTopBar .actions .OpenWindowButton {
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem; }
 
 .PatternInfo .inner {
   background: black;
@@ -151,3 +158,30 @@
   .CodeFrame pre {
     margin-top: 20px;
     margin-bottom: 20px; }
+
+.PatternInfoButton {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0 1rem 0;
+  font-family: inherit;
+  padding: 0.85em 1em;
+  -webkit-appearance: none;
+  border: 1px solid transparent;
+  border-radius: 0;
+  transition: background-color 0.25s ease-out, color 0.25s ease-out;
+  font-size: 0.9rem;
+  line-height: 1;
+  text-align: center;
+  cursor: pointer;
+  background-color: black;
+  color: #fefefe;
+  font-size: 0.5rem;
+  line-height: 0.625rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #FFFFFF; }
+  [data-whatinput='mouse'] .PatternInfoButton {
+    outline: 0; }
+  .PatternInfoButton:hover, .PatternInfoButton:focus {
+    background-color: black;
+    color: #fefefe; }

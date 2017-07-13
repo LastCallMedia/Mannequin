@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 import {Link} from 'react-router-dom';
 import Highlight from 'react-syntax-highlight';
+import {OpenNew} from './Icon';
 import './PatternPage.css';
 import 'highlight.js/styles/default.css';
 import 'highlight.js/styles/atom-one-dark.css';
@@ -137,8 +138,8 @@ const PatternTopBar = ({pattern, set, openWindow, toggleInfo, changeSet}) => {
         <h4 className="name">{pattern.name}</h4>
         <div className="set"><SetSelector sets={pattern.sets} selected={set.id} onChange={changeSet} /></div>
         <ul className="actions">
-          <li><a onClick={openWindow} target="_blank" href={set.rendered}>Open</a></li>
-          <li><a onClick={toggleInfo} href="javascript:" className="button">View Pattern Info</a></li>
+          <li><a onClick={toggleInfo} href="javascript:" className="PatternInfoButton">View Pattern Info</a></li>
+          <li><a onClick={openWindow} target="_blank" className="OpenWindowButton" href={set.rendered}><OpenNew /></a></li>
         </ul>
       </div>
     </div>

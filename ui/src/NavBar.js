@@ -3,13 +3,14 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import FluidContainer from 'react-fluid-container';
 import './NavBar.css';
-import logo from './svg/logo.svg';
+import small_logo from './svg/manny_small.svg';
+import {CloseArrow, Search as SearchIcon} from './Icon';
 
 export const TopBar = ({toggleNav}) => {
   return (
     <nav className="MannequinTopBar">
       <div className="inner">
-        <Link to="/" className="logo"><strong><img className="main-logo" src={logo} alt="Mannequin" /></strong></Link>
+        <Link to="/" className="logo"><strong><img className="main-logo" src={small_logo} alt="Mannequin" /></strong></Link>
         <div className="title"></div>
         <button className="drawer-toggle opener" onClick={toggleNav}>Navigation <i className="menu-icon"></i></button>
       </div>
@@ -48,9 +49,10 @@ export class NavDrawer extends Component {
 
     return (
       <nav className={`NavDrawer ${open ? 'open' : 'closed'}`}>
-        <button className="closer drawer-toggle" onClick={toggleNav}><span>Close</span> <i className="arrow">&rarr;</i></button>
+        <button className="closer drawer-toggle" onClick={toggleNav}><span>Close</span> <CloseArrow /></button>
         <form className="SearchForm">
           <input type="search" placeholder="Search..." onKeyUp={this.handleFilterChange} />
+          <SearchIcon />
         </form>
         <MainMenu tree={tree.children} settings={menuSettings} />
       </nav>

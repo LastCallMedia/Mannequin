@@ -8,7 +8,7 @@
   color: white;
   text-transform: uppercase;
   cursor: pointer;
-  > i {
+  > i, > svg.Icon {
     margin-left: rem-calc(17);
   }
 }
@@ -68,6 +68,7 @@
 }
 
 .SearchForm {
+  position: relative;
   input {
     border-radius: 2px;
     border: none;
@@ -84,6 +85,13 @@
     &:focus {
       background-color: #21262B;
     }
+  }
+  .Icon {
+    position: absolute;
+    top: 50%;
+    right: rem-calc(15);
+    font-size: rem-calc(13);
+    margin-top: -.5em;
   }
 }
 

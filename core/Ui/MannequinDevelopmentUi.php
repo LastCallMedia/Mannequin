@@ -18,7 +18,7 @@ class MannequinDevelopmentUi extends MannequinUi {
   }
 
   public function isUiFile(string $path): bool {
-    return preg_match('@^(static/|sockjs-node/|index.html$)@', $path);
+    return preg_match('@^(static/|sockjs-node/|index.html$|favicon.ico$)@', $path);
   }
 
   public function getUiFileResponse(string $path, Request $request): Response {

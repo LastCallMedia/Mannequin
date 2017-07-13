@@ -33,6 +33,7 @@
   .inner {
     @include xy-grid-container();
     @include xy-grid();
+    align-items: center;
     .name, .actions {
       @include xy-cell(shrink);
     }
@@ -43,20 +44,28 @@
   .name {
     font-size: rem-calc(15);
     font-weight: bold;
-    line-height: rem-calc(18);
-    align-self: center;
+    line-height: rem-calc(31);
   }
   .SetSelector {
     width: auto;
     font-size: rem-calc(12);
     line-height: rem-calc(12);
     font-weight: bold;
+    height: rem-calc(30);
   }
   select, .button, h4 {
     margin-bottom: 0;
   }
   .actions {
     @include menu-base;
+    .PatternInfoButton {
+      padding-top: rem-calc(10);
+      padding-bottom: rem-calc(10);
+    }
+    .OpenWindowButton {
+      padding-top: rem-calc((31 - 23)/2);
+      padding-bottom: rem-calc((31 - 23)/2);
+    }
   }
 }
 
@@ -138,4 +147,13 @@
     //border: none;
     //color: white;
   }
+}
+
+.PatternInfoButton {
+  @include button($background: black, $background-hover: black);
+  font-size: rem-calc(8);
+  line-height: rem-calc(10);
+  text-transform:uppercase;
+  font-weight: bold;
+  color: #FFFFFF;
 }

@@ -1,0 +1,10 @@
+svg.Icon {
+  width: 1em;
+  stroke: white;
+  fill: white; }
+
+svg.OpenNew path {
+  stroke: #181D22; }
+
+svg.Search {
+  stroke: none; }

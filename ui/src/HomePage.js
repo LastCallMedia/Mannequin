@@ -1,7 +1,7 @@
 
 import React, {Component} from 'react';
 import './HomePage.css';
-import logo from './svg/logo.svg';
+import logo from './svg/manny_wave.svg';
 
 class HomePage extends Component {
 
