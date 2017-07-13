@@ -9,7 +9,7 @@ use LastCall\Mannequin\Core\MimeType\ExtensionMimeTypeGuesser;
 use LastCall\Mannequin\Core\Ui\Controller\ManifestController;
 use LastCall\Mannequin\Core\Ui\Controller\RenderController;
 use LastCall\Mannequin\Core\Ui\Controller\UiController;
-use LastCall\Mannequin\Core\Ui\Manifester;
+use LastCall\Mannequin\Core\Ui\ManifestBuilder;
 use LastCall\Mannequin\Core\Ui\MannequinUi;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
@@ -27,7 +27,7 @@ class Application extends \Silex\Application {
       $app->setDispatcher($this['dispatcher']);
       $config = $this->getConfig();
       $app->addCommands([
-        new RenderCommand('render', $this['manifester'], $this['config']->getRenderer(), $config->getCollection(), $this['ui'], $config->getAssetMappings()),
+        new RenderCommand('render', $this['manifest.builder'], $this['config']->getRenderer(), $config->getCollection(), $this['ui'], $config->getAssetMappings()),
         new ServerCommand('server', $this['config_file'], $this['autoload_path'], $this['debug']),
       ]);
       return $app;
@@ -43,9 +43,9 @@ class Application extends \Silex\Application {
       }
       return $config;
     };
-    $this['manifester'] = function() {
+    $this['manifest.builder'] = function() {
       $this->flush();
-      return new Manifester($this['url_generator']);
+      return new ManifestBuilder($this['url_generator']);
     };
     $this['ui'] = function() {
       $config = $this['config'];
@@ -57,7 +57,7 @@ class Application extends \Silex\Application {
       return new UiController($this['ui']);
     };
     $this['controller.manifest'] = function() {
-      return new ManifestController($this['manifester'], $this['config']->getCollection());
+      return new ManifestController($this['manifest.builder'], $this['config']->getCollection());
     };
     $this['controller.render'] = function() {
       $collection = $this['config']->getCollection();

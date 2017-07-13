@@ -6,7 +6,7 @@ use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Ui\FileWriter;
 use LastCall\Mannequin\Core\Ui\HtmlDecorator;
-use LastCall\Mannequin\Core\Ui\Manifester;
+use LastCall\Mannequin\Core\Ui\ManifestBuilder;
 use LastCall\Mannequin\Core\Ui\UiInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,7 +21,7 @@ class RenderCommand extends Command {
   private $collection;
   private $assetMappings;
 
-  public function __construct($name = NULL, Manifester $manifester, EngineInterface $engine, PatternCollection $collection, UiInterface $ui, array $assetMappings = []) {
+  public function __construct($name = NULL, ManifestBuilder $manifester, EngineInterface $engine, PatternCollection $collection, UiInterface $ui, array $assetMappings = []) {
     parent::__construct($name);
     $this->manifester = $manifester;
     $this->engine = $engine;

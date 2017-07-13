@@ -6,7 +6,7 @@ use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class Manifester {
+class ManifestBuilder {
 
   private $generator;
 
