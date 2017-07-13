@@ -6,15 +6,15 @@ use LastCall\Mannequin\Core\Console\Application as ConsoleApplication;
 use LastCall\Mannequin\Core\Console\Command\RenderCommand;
 use LastCall\Mannequin\Core\Console\Command\ServerCommand;
 use LastCall\Mannequin\Core\MimeType\ExtensionMimeTypeGuesser;
+use LastCall\Mannequin\Core\Ui\Controller\ManifestController;
 use LastCall\Mannequin\Core\Ui\Controller\RenderController;
 use LastCall\Mannequin\Core\Ui\Controller\UiController;
+use LastCall\Mannequin\Core\Ui\HtmlDecorator;
 use LastCall\Mannequin\Core\Ui\UiRenderer;
 use LastCall\Mannequin\Core\Ui\UiWriter;
+use LastCall\Mannequin\Ui\Ui;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
-use Symfony\Component\Templating\Loader\FilesystemLoader;
-use Symfony\Component\Templating\PhpEngine;
-use Symfony\Component\Templating\TemplateNameParser;
 
 
 class Application extends \Silex\Application {
@@ -23,17 +23,13 @@ class Application extends \Silex\Application {
   const APP_VERSION = '0.0.0';
 
   public function __construct(array $values = []) {
-    $values += [
-      'ui.server' => NULL,
-    ];
-    $values['debug'] = TRUE;
     parent::__construct($values);
     $this['console'] = function() {
       $app = new ConsoleApplication(self::APP_NAME, self::APP_VERSION);
       $app->setDispatcher($this['dispatcher']);
       $config = $this->getConfig();
       $app->addCommands([
-        new RenderCommand('render', $this['ui.writer'], $config->getCollection(), $config->getAssetMappings()),
+        new RenderCommand('render', $this['manifester'], $this['config']->getRenderer(), $config->getCollection(), $this['ui.decorator'], $this['ui'], $config->getAssetMappings()),
         new ServerCommand('server', $this['config_file'], $this['autoload_path'], $this['debug']),
       ]);
       return $app;
@@ -49,34 +45,40 @@ class Application extends \Silex\Application {
       }
       return $config;
     };
-    $this['templating'] = function() {
-      $loader = new FilesystemLoader([__DIR__.'/Resources/ui/%name%']);
-      return new PhpEngine(new TemplateNameParser(), $loader);
-    };
-    $this['ui.writer'] = function() {
+    $this['manifester'] = function() {
       $this->flush();
-      return new UiWriter($this['ui.renderer'], $this['url_generator']);
+      return new Manifester($this['url_generator']);
     };
-    $this['ui.renderer'] = function() {
-      return new UiRenderer($this['config']->getRenderer(), $this['templating'], $this['config']->getLabeller());
+    $this['ui'] = function() {
+      $config = $this['config'];
+      if(isset($config['ui'])) {
+        return $config['ui'];
+      }
+      return new Ui();
+    };
+    $this['ui.decorator'] = function() {
+      return new HtmlDecorator();
     };
 
     $this->register(new ServiceControllerServiceProvider());
     $this['controller.ui'] = function() {
-      return new UiController($this['url_generator'], $this['ui.renderer'], $this['ui.server']);
+      return new UiController($this['ui']);
+    };
+    $this['controller.manifest'] = function() {
+      return new ManifestController($this['manifester'], $this['config']->getCollection());
     };
     $this['controller.render'] = function() {
       $collection = $this['config']->getCollection();
-      return new RenderController($collection, $this['ui.renderer'], $this['url_generator']);
+      return new RenderController($collection, $this['config']->getRenderer(), $this['ui.decorator']);
     };
 
-
-    $this->match('/', 'controller.ui:indexAction');
-    $this->get('/manifest.json', 'controller.render:manifestAction')->bind('manifest');
+    $this->get('/manifest.json', 'controller.manifest:getManifestAction')->bind('manifest');
     $this->get('/m-render/{pattern}/{set}.html', 'controller.render:renderAction')->bind('pattern_render');
-    $this->get('/m-source/raw/{pattern}.txt', 'controller.render:sourceRawAction')->bind('pattern_render_source_raw');
+    $this->get('/m-source/raw/{pattern}.txt', 'controller.render:renderSourceAction')->bind('pattern_render_source_raw');
     $this->get('/m-source/html/{pattern}/{set}.txt', 'controller.render:renderRawAction')->bind('pattern_render_raw');
-    $this->match('/{name}', 'controller.ui:staticAction')->assert('name','.+');
+    $this->match('/{name}', 'controller.ui:staticAction')
+      ->value('name', 'index.html')
+      ->assert('name','.+');
   }
 
   public function boot() {

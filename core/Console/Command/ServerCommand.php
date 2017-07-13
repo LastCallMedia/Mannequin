@@ -23,7 +23,6 @@ $app = new Application([
   'debug' => %d,
   'autoload_file' => $autoload_file,
   'config_file' => '%s',
-  'ui.server' => '%s',
 ]);
 $app->run();
 eod;
@@ -42,15 +41,13 @@ eod;
   public function configure() {
     $this->addArgument('address', InputArgument::OPTIONAL, 'The address to run on.', '127.0.0.1:8000');
     $this->addOption('output-dir', 'o', InputOption::VALUE_OPTIONAL, 'The directory to output the UI in');
-    $this->addOption('ui-server', 'u', InputOption::VALUE_OPTIONAL, 'The development UI server');
   }
 
   public function execute(InputInterface $input, OutputInterface $output) {
     $address = $input->getArgument('address');
-    $uiServer = $input->getOption('ui-server');
 
     $dir = sys_get_temp_dir() .'/mannequin-server';
-    $code = sprintf(self::CODE, $this->autoloadPath, $this->debug, realpath($this->configFile), $uiServer);
+    $code = sprintf(self::CODE, $this->autoloadPath, $this->debug, realpath($this->configFile));
     (new Filesystem())->mkdir($dir);
     file_put_contents($dir.'/index.php', $code);
     return $this->runserver($dir, $address, $output);

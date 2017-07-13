@@ -12,7 +12,6 @@
         "symfony/console": "^2.7 ||^3.0",
         "pimple/pimple": "^3.0",
         "symfony/filesystem": "^2.7 ||^3.0",
-        "symfony/templating": "^2.7 ||^3.0",
         "symfony/process": "^2.7 ||^3.0",
         "silex/silex": "^2.0",
         "symfony/finder": "^2.7 ||^3.0",
@@ -26,7 +25,8 @@
         "LastCall\\Mannequin\\Cli\\": "cli/",
         "LastCall\\Mannequin\\Html\\": "html/",
         "LastCall\\Mannequin\\Twig\\": "twig/",
-        "LastCall\\Mannequin\\Drupal\\": "drupal/"
+        "LastCall\\Mannequin\\Drupal\\": "drupal/",
+        "LastCall\\Mannequin\\Ui\\": "ui/"
       },
       "exclude-from-classmap": [
         "**/Tests/"
