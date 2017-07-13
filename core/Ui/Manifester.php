@@ -1,6 +1,6 @@
 <?php
 
-namespace LastCall\Mannequin\Core;
+namespace LastCall\Mannequin\Core\Ui;
 
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;

@@ -10,6 +10,7 @@ use LastCall\Mannequin\Core\Ui\Controller\ManifestController;
 use LastCall\Mannequin\Core\Ui\Controller\RenderController;
 use LastCall\Mannequin\Core\Ui\Controller\UiController;
 use LastCall\Mannequin\Core\Ui\HtmlDecorator;
+use LastCall\Mannequin\Core\Ui\Manifester;
 use LastCall\Mannequin\Core\Ui\UiRenderer;
 use LastCall\Mannequin\Core\Ui\UiWriter;
 use LastCall\Mannequin\Ui\Ui;

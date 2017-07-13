@@ -4,8 +4,8 @@
 namespace LastCall\Mannequin\Core\Ui\Controller;
 
 
-use LastCall\Mannequin\Core\Manifester;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Core\Ui\Manifester;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ManifestController {

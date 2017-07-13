@@ -3,16 +3,16 @@
 namespace LastCall\Mannequin\Core\Console\Command;
 
 use LastCall\Mannequin\Core\Engine\EngineInterface;
-use LastCall\Mannequin\Core\Manifester;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Ui\FileWriter;
 use LastCall\Mannequin\Core\Ui\HtmlDecorator;
+use LastCall\Mannequin\Core\Ui\Manifester;
 use LastCall\Mannequin\Core\Ui\UiInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Console\Input\InputOption;
 
 class RenderCommand extends Command {
 
