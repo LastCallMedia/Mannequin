@@ -20,15 +20,13 @@ class RenderCommand extends Command {
   private $engine;
   private $collection;
   private $assetMappings;
-  private $decorator;
 
-  public function __construct($name = NULL, Manifester $manifester, EngineInterface $engine, PatternCollection $collection, HtmlDecorator $decorator, UiInterface $ui, array $assetMappings = []) {
+  public function __construct($name = NULL, Manifester $manifester, EngineInterface $engine, PatternCollection $collection, UiInterface $ui, array $assetMappings = []) {
     parent::__construct($name);
     $this->manifester = $manifester;
     $this->engine = $engine;
     $this->collection = $collection;
     $this->assetMappings = $assetMappings;
-    $this->decorator = $decorator;
     $this->ui = $ui;
   }
 
@@ -56,7 +54,7 @@ class RenderCommand extends Command {
             $set = $pattern->getVariableSets()[$setManifest['id']];
             $rendered = $this->engine->render($pattern, $set);
             $writer->raw($setManifest['source'], $rendered->getMarkup());
-            $writer->raw($setManifest['rendered'], $this->decorator->decorate($rendered->getMarkup(), $rendered->getScripts(), $rendered->getStyles()));
+            $writer->raw($setManifest['rendered'], $this->ui->decorateRendered($rendered));
           }
           $rows[] = $this->getSuccessRow($pattern->getName());
         }

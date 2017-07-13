@@ -9,10 +9,7 @@ use LastCall\Mannequin\Core\MimeType\ExtensionMimeTypeGuesser;
 use LastCall\Mannequin\Core\Ui\Controller\ManifestController;
 use LastCall\Mannequin\Core\Ui\Controller\RenderController;
 use LastCall\Mannequin\Core\Ui\Controller\UiController;
-use LastCall\Mannequin\Core\Ui\HtmlDecorator;
 use LastCall\Mannequin\Core\Ui\Manifester;
-use LastCall\Mannequin\Core\Ui\UiRenderer;
-use LastCall\Mannequin\Core\Ui\UiWriter;
 use LastCall\Mannequin\Ui\Ui;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
@@ -30,7 +27,7 @@ class Application extends \Silex\Application {
       $app->setDispatcher($this['dispatcher']);
       $config = $this->getConfig();
       $app->addCommands([
-        new RenderCommand('render', $this['manifester'], $this['config']->getRenderer(), $config->getCollection(), $this['ui.decorator'], $this['ui'], $config->getAssetMappings()),
+        new RenderCommand('render', $this['manifester'], $this['config']->getRenderer(), $config->getCollection(), $this['ui'], $config->getAssetMappings()),
         new ServerCommand('server', $this['config_file'], $this['autoload_path'], $this['debug']),
       ]);
       return $app;
@@ -57,9 +54,6 @@ class Application extends \Silex\Application {
       }
       return new Ui();
     };
-    $this['ui.decorator'] = function() {
-      return new HtmlDecorator();
-    };
 
     $this->register(new ServiceControllerServiceProvider());
     $this['controller.ui'] = function() {
@@ -70,7 +64,7 @@ class Application extends \Silex\Application {
     };
     $this['controller.render'] = function() {
       $collection = $this['config']->getCollection();
-      return new RenderController($collection, $this['config']->getRenderer(), $this['ui.decorator']);
+      return new RenderController($collection, $this['config']->getRenderer(), $this['ui']);
     };
 
     $this->get('/manifest.json', 'controller.manifest:getManifestAction')->bind('manifest');

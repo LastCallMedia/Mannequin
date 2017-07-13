@@ -3,13 +3,11 @@
 
 namespace LastCall\Mannequin\Ui;
 
-
-use LastCall\Mannequin\Core\Ui\UiInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class DevelopmentUi implements UiInterface {
+class DevelopmentUi extends Ui {
 
   public function __construct($url) {
     $this->parts = parse_url($url);

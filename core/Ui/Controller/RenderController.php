@@ -5,6 +5,7 @@ namespace LastCall\Mannequin\Core\Ui\Controller;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Ui\HtmlDecorator;
+use LastCall\Mannequin\Core\Ui\UiInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -12,11 +13,12 @@ class RenderController {
 
   private $collection;
   private $engine;
+  private $ui;
 
-  public function __construct(PatternCollection $collection, EngineInterface $engine, HtmlDecorator $decorator) {
+  public function __construct(PatternCollection $collection, EngineInterface $engine, UiInterface $ui) {
     $this->collection = $collection;
     $this->engine = $engine;
-    $this->decorator = $decorator;
+    $this->ui = $ui;
   }
 
   private function renderPattern($pattern, $set) {
@@ -30,8 +32,7 @@ class RenderController {
 
   public function renderAction($pattern, $set) {
     $rendered = $this->renderPattern($pattern, $set);
-    $decorated = $this->decorator->decorate($rendered->getMarkup(), $rendered->getScripts(), $rendered->getStyles());
-    return new Response($decorated);
+    return new Response($this->ui->decorateRendered($rendered));
   }
 
   public function renderRawAction($pattern, $set) {
