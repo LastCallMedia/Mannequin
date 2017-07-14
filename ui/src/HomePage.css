@@ -18,13 +18,13 @@
       font-family: "Gilroy", "Gill Sans";
       font-size: 40px;
       line-height: 46px;
-      font-weight: 600; }
+      font-weight: 700; }
       .MannequinHome .branding h1 small {
         margin-top: 12px;
         display: block;
         font-size: 0.75rem;
         color: inherit;
-        font-weight: 600;
+        font-weight: 700;
         letter-spacing: 1px; }
     @media print, screen and (min-width: 64em) {
       .MannequinHome .branding .logo {
