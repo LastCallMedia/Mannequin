@@ -17,3 +17,8 @@ In development, there are two servers that need to be started to see your change
 - (from the root directory) `core/bin/cli --ui-server=http://localhost:3000`
 
 Once these are up and running, you should be able to visit http://localhost:8000 in your browser, and see changes to both PHP and React code as you reload the page.
+
+Deployment/Packaging
+--------------------
+
+This repository is split using [splitsh-lite](https://github.com/splitsh/lite) running inside of the [derusse/docker-gitsplit](https://github.com/jderusse/docker-gitsplit) Docker container.  Pushes to the master branch, as well as pushes of any tags, will be moved to the downstream repositories.
