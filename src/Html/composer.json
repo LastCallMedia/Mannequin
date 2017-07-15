@@ -1,5 +1,5 @@
 {
-    "name": "lastcallmedia/mannequin-html",
+    "name": "lastcall/mannequin-html",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -10,7 +10,8 @@
     ],
     "require": {
         "php": ">7.0",
-        "symfony/finder": "^2.7 ||^3.0"
+        "symfony/finder": "^2.7 ||^3.0",
+        "lastcall/mannequin-core": "~0.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.1"

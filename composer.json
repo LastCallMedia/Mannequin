@@ -1,5 +1,5 @@
 {
-    "name": "lastcallmedia/mannequin",
+    "name": "lastcall/mannequin",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -9,10 +9,10 @@
         }
     ],
     "replace": {
-        "lastcallmedia/mannequin-core": "self.version",
-        "lastcallmedia/mannequin-drupal": "self.version",
-        "lastcallmedia/mannequin-html": "self.version",
-        "lastcallmedia/mannequin-twig": "self.version"
+        "lastcall/mannequin-core": "self.version",
+        "lastcall/mannequin-drupal": "self.version",
+        "lastcall/mannequin-html": "self.version",
+        "lastcall/mannequin-twig": "self.version"
     },
     "require": {
         "php": ">7.0",

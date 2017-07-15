@@ -1,5 +1,5 @@
 {
-    "name": "lastcallmedia/mannequin-drupal",
+    "name": "lastcall/mannequin-drupal",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -11,7 +11,8 @@
     "require": {
         "php": ">7.0",
         "symfony/finder": "^2.7 ||^3.0",
-        "lastcallmedia/mannequin-twig": "~1.0"
+        "lastcall/mannequin-core": "~0.1",
+        "lastcall/mannequin-twig": "~1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.1"
