@@ -4,14 +4,17 @@
 use LastCall\Mannequin\Core\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 
+$candidates = [
+    __DIR__.'/../../../autoload.php', // Package is installed elsewhere
+    __DIR__.'/../vendor/autoload.php',
+    __DIR__.'/../../../vendor/autoload.php',
+];
+
 $autoload_file = false;
-foreach ([
-           __DIR__.'/../../../../autoload.php',
-           __DIR__.'/../../../vendor/autoload.php',
-           __DIR__.'/../../vendor/autoload.php',
-         ] as $file) {
+foreach ($candidates as $file) {
     if (file_exists($file)) {
         $autoload_file = $file;
+        break;
     }
 }
 if ($autoload_file) {
