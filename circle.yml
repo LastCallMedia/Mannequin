@@ -1,24 +1,47 @@
 version: 2
 jobs:
-  build:
-    working_directory: ~/mannequin
+  test_php:
+    working_directory: /srv
     docker:
       - image: lastcallmedia/php:7.0-dev
     steps:
       - checkout
       - restore_cache:
-          key: composer-v1-{{ checksum "composer.json" }}
+          key: composer-v2-{{ checksum "composer.json" }}
       - run: composer install
       - save_cache:
-          key: composer-v1-{{ checksum "composer.json" }}
+          key: composer-v2-{{ checksum "composer.json" }}
           paths: [vendor]
+      - run: vendor/bin/phpunit
 
+  test_ui:
+    working_directory: /srv
+    docker:
+      - image: node:6
+    steps:
+      - checkout
       - restore_cache:
-          key: package-v1-{{ checksum "ui/package.json" }}
+          key: package-v2-{{ checksum "ui/package.json" }}
       - run: cd ui && npm install
       - save_cache:
-          key: package-v1-{{ checksum "ui/package.json" }}
+          key: package-v2-{{ checksum "ui/package.json" }}
           paths: [ui/node_modules]
-
-      - run: vendor/bin/phpunit
       - run: cd ui && npm run test
+
+
+  deploy_split:
+    working_directory: /srv
+    docker:
+      - image: jderusse/gitsplit
+    steps:
+      - checkout
+      - run: gitsplit
+
+workflows:
+  version: 2
+  test_and_deploy:
+    jobs:
+      - test_php
+      - test_ui
+      - deploy_split:
+          requires: [test_php]
