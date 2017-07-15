@@ -20,7 +20,6 @@ use LastCall\Mannequin\Twig\Subscriber\InlineTwigYamlMetadataSubscriber;
 use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
 use LastCall\Mannequin\Twig\TwigInspector;
 use LastCall\Mannequin\Twig\TwigInspectorCacheDecorator;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class TwigExtension extends AbstractExtension
@@ -35,7 +34,7 @@ class TwigExtension extends AbstractExtension
             'finder' => function () {
                 throw new \RuntimeException('Finder must be configured.');
             },
-            'twig_cache_dir' => NULL,
+            'twig_cache_dir' => null,
             'twig' => function () {
                 $loader = new \Twig_Loader_Filesystem();
                 foreach ($this['twig_paths'] as $namespace => $paths) {

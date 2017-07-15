@@ -27,9 +27,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 abstract class ExtensionTestCase extends TestCase
 {
-    protected function getNullCache() {
+    protected function getNullCache()
+    {
         return new NullCacheItemPool();
     }
+
     public function testAttachDispatcher()
     {
         $extension = $this->getExtension();

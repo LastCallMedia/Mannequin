@@ -29,7 +29,7 @@ class Config extends Container implements ConfigInterface
     public function __construct(array $values = [])
     {
         $values += [
-            'cache' => function() {
+            'cache' => function () {
                 return new NullCacheItemPool();
             },
             'styles' => [],
