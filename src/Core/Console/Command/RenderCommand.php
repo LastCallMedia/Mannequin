@@ -11,8 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Console\Command;
 
-use LastCall\Mannequin\Core\Engine\EngineInterface;
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Core\ConfigInterface;
 use LastCall\Mannequin\Core\Ui\FileWriter;
 use LastCall\Mannequin\Core\Ui\ManifestBuilder;
 use LastCall\Mannequin\Core\Ui\UiInterface;
@@ -26,25 +25,19 @@ class RenderCommand extends Command
 {
     private $manifester;
 
-    private $engine;
+    private $config;
 
-    private $collection;
-
-    private $assetMappings;
+    private $ui;
 
     public function __construct(
         $name = null,
         ManifestBuilder $manifester,
-        EngineInterface $engine,
-        PatternCollection $collection,
-        UiInterface $ui,
-        array $assetMappings = []
+        ConfigInterface $config,
+        UiInterface $ui
     ) {
         parent::__construct($name);
         $this->manifester = $manifester;
-        $this->engine = $engine;
-        $this->collection = $collection;
-        $this->assetMappings = $assetMappings;
+        $this->config = $config;
         $this->ui = $ui;
     }
 
@@ -67,21 +60,24 @@ class RenderCommand extends Command
 
         $writer = new FileWriter($outDir);
         try {
-            $manifest = $this->manifester->generate($this->collection);
+            $collection = $this->config->getCollection();
+            $engine = $this->config->getRenderer();
+
+            $manifest = $this->manifester->generate($collection);
             $writer->raw('manifest.json', json_encode($manifest));
             $rows[] = $this->getSuccessRow('Manifest');
 
             foreach ($manifest['patterns'] as $patternManifest) {
                 try {
-                    $pattern = $this->collection->get($patternManifest['id']);
+                    $pattern = $collection->get($patternManifest['id']);
                     $writer->raw(
                         $patternManifest['source'],
-                        $this->engine->renderSource($pattern)
+                        $engine->renderSource($pattern)
                     );
 
                     foreach ($patternManifest['sets'] as $setManifest) {
                         $set = $pattern->getVariableSets()[$setManifest['id']];
-                        $rendered = $this->engine->render($pattern, $set);
+                        $rendered = $engine->render($pattern, $set);
                         $writer->raw(
                             $setManifest['source'],
                             $rendered->getMarkup()
@@ -100,7 +96,7 @@ class RenderCommand extends Command
             $rows[] = $this->getErrorRow('Manifest');
         }
 
-        foreach ($this->assetMappings as $src => $dest) {
+        foreach ($this->config->getAssetMappings() as $src => $dest) {
             $writer->copy($src, $dest);
         }
 

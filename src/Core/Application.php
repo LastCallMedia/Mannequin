@@ -41,10 +41,8 @@ class Application extends \Silex\Application
                     new RenderCommand(
                         'render',
                         $this['manifest.builder'],
-                        $this['config']->getRenderer(),
-                        $config->getCollection(),
-                        $this['ui'],
-                        $config->getAssetMappings()
+                        $this['config'],
+                        $this['ui']
                     ),
                     new ServerCommand(
                         'server',
