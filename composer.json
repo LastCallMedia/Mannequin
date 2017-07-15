@@ -25,14 +25,10 @@
     },
     "autoload": {
         "psr-4": {
-            "LastCall\\Mannequin\\Core\\": "core/",
-            "LastCall\\Mannequin\\Cli\\": "cli/",
-            "LastCall\\Mannequin\\Html\\": "html/",
-            "LastCall\\Mannequin\\Twig\\": "twig/",
-            "LastCall\\Mannequin\\Drupal\\": "drupal/"
+            "LastCall\\Mannequin\\": "src/"
         },
         "exclude-from-classmap": [
-            "**/Tests/"
+            "src/**/Tests/"
         ]
     },
     "bin": [
