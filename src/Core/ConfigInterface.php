@@ -11,36 +11,40 @@ use LastCall\Mannequin\Core\Variable\SetResolver;
 use LastCall\Mannequin\Core\Variable\VariableFactoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-interface ConfigInterface {
-  public function getCollection(): PatternCollection;
-  public function addExtension(ExtensionInterface $extension): ConfigInterface;
+interface ConfigInterface
+{
 
-  /**
-   * @return ExtensionInterface[]
-   */
-  public function getExtensions(): array;
+    public function getCollection(): PatternCollection;
 
-  /**
-   * @return string[]
-   */
-  public function getStyles(): array;
+    public function addExtension(ExtensionInterface $extension
+    ): ConfigInterface;
 
-  /**
-   * @return string[]
-   */
-  public function getScripts(): array;
+    /**
+     * @return ExtensionInterface[]
+     */
+    public function getExtensions(): array;
 
-  public function addAssetMapping($url, $path): ConfigInterface;
+    /**
+     * @return string[]
+     */
+    public function getStyles(): array;
 
-  public function getAssetMappings(): array;
+    /**
+     * @return string[]
+     */
+    public function getScripts(): array;
 
-  public function getRenderer(): EngineInterface;
+    public function addAssetMapping($url, $path): ConfigInterface;
 
-  public function getLabeller(): Labeller;
+    public function getAssetMappings(): array;
 
-  public function getVariableResolver(): SetResolver;
+    public function getRenderer(): EngineInterface;
 
-  public function getCacheDir(): string;
+    public function getLabeller(): Labeller;
 
-  public function getDispatcher(): EventDispatcherInterface;
+    public function getVariableResolver(): SetResolver;
+
+    public function getCacheDir(): string;
+
+    public function getDispatcher(): EventDispatcherInterface;
 }

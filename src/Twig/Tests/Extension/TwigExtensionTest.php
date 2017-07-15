@@ -13,21 +13,28 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Finder\Finder;
 
-class TwigExtensionTest extends ExtensionTestCase {
+class TwigExtensionTest extends ExtensionTestCase
+{
 
-  public function getExtension(): ExtensionInterface {
-    return new TwigExtension([
-      'finder' => Finder::create()->in(__DIR__)
-    ]);
-  }
+    public function getExtension(): ExtensionInterface
+    {
+        return new TwigExtension(
+            [
+                'finder' => Finder::create()->in(__DIR__),
+            ]
+        );
+    }
 
-  public function getDispatcherProphecy(): ObjectProphecy {
-    $dispatcher = $this->prophesize(EventDispatcherInterface::class);
-    $dispatcher->addSubscriber(Argument::type(InlineTwigYamlMetadataSubscriber::class))
-      ->shouldBeCalled();
-    $dispatcher->addSubscriber(Argument::type(TwigIncludeSubscriber::class))
-      ->shouldBeCalled();
+    public function getDispatcherProphecy(): ObjectProphecy
+    {
+        $dispatcher = $this->prophesize(EventDispatcherInterface::class);
+        $dispatcher->addSubscriber(
+            Argument::type(InlineTwigYamlMetadataSubscriber::class)
+        )
+            ->shouldBeCalled();
+        $dispatcher->addSubscriber(Argument::type(TwigIncludeSubscriber::class))
+            ->shouldBeCalled();
 
-    return $dispatcher;
-  }
+        return $dispatcher;
+    }
 }

@@ -7,20 +7,24 @@ namespace LastCall\Mannequin\Core\Tests\Stubs;
 use LastCall\Mannequin\Core\Pattern\AbstractPattern;
 use LastCall\Mannequin\Core\Pattern\TemplateFilePatternInterface;
 
-class TestFilePattern extends AbstractPattern implements TemplateFilePatternInterface {
+class TestFilePattern extends AbstractPattern implements TemplateFilePatternInterface
+{
 
-  private $file;
+    private $file;
 
-  public function __construct($id, array $aliases = [], \SplFileInfo $file) {
-    parent::__construct($id, $aliases);
-    $this->file = $file;
-  }
+    public function __construct($id, array $aliases = [], \SplFileInfo $file)
+    {
+        parent::__construct($id, $aliases);
+        $this->file = $file;
+    }
 
-  public function getFile(): \SplFileInfo {
-    return $this->file;
-  }
+    public function getFile(): \SplFileInfo
+    {
+        return $this->file;
+    }
 
-  public function getRawFormat(): string {
-    return 'html';
-  }
+    public function getRawFormat(): string
+    {
+        return 'html';
+    }
 }

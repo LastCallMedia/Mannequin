@@ -4,30 +4,38 @@
 use LastCall\Mannequin\Core\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 
-$autoload_file = FALSE;
-foreach (array(__DIR__ . '/../../../../autoload.php', __DIR__ . '/../../../vendor/autoload.php', __DIR__ . '/../../vendor/autoload.php') as $file) {
-  if (file_exists($file)) {
-    $autoload_file = $file;
-  }
+$autoload_file = false;
+foreach ([
+           __DIR__.'/../../../../autoload.php',
+           __DIR__.'/../../../vendor/autoload.php',
+           __DIR__.'/../../vendor/autoload.php',
+         ] as $file) {
+    if (file_exists($file)) {
+        $autoload_file = $file;
+    }
 }
-if($autoload_file) {
-  require_once $autoload_file;
-}
-else {
-  fwrite(STDERR,
-    'You need to set up the project dependencies using Composer:' . PHP_EOL . PHP_EOL .
-    '    composer install' . PHP_EOL . PHP_EOL .
-    'You can learn all about Composer on https://getcomposer.org/.' . PHP_EOL
-  );
+if ($autoload_file) {
+    require_once $autoload_file;
+} else {
+    fwrite(
+      STDERR,
+      'You need to set up the project dependencies using Composer:'.PHP_EOL.PHP_EOL.
+      '    composer install'.PHP_EOL.PHP_EOL.
+      'You can learn all about Composer on https://getcomposer.org/.'.PHP_EOL
+    );
 
-  die(1);
+    die(1);
 }
 
 $input = new ArgvInput();
-$app = new Application([
-  'debug' => (boolean) $input->getParameterOption(['--debug', 'd'], FALSE),
-  'autoload_path' => $autoload_file,
-  'config_file' => realpath($input->getParameterOption(['--config', '-c'], '.mannequin.php'))
-]);
+$app = new Application(
+  [
+    'debug' => (boolean)$input->getParameterOption(['--debug', 'd'], false),
+    'autoload_path' => $autoload_file,
+    'config_file' => realpath(
+      $input->getParameterOption(['--config', '-c'], '.mannequin.php')
+    ),
+  ]
+);
 $app->boot();
 return $app->getConsole()->run();

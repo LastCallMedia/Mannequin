@@ -14,34 +14,47 @@ use LastCall\Mannequin\Twig\Pattern\TwigPattern;
  * This class converts an iterable object of template names into TwigPattern
  * objects by using the Twig Loader.
  */
-class TwigDiscovery implements DiscoveryInterface {
-  use IdEncoder;
+class TwigDiscovery implements DiscoveryInterface
+{
 
-  private $loader;
-  private $names;
+    use IdEncoder;
 
-  public function __construct(\Twig_LoaderInterface $loader, $names) {
-    $this->loader = $loader;
-    if(!is_array($names) && !$names instanceof \Traversable) {
-      throw new \InvalidArgumentException('$names must be an array or a \Traversable object.');
+    private $loader;
+
+    private $names;
+
+    public function __construct(\Twig_LoaderInterface $loader, $names)
+    {
+        $this->loader = $loader;
+        if (!is_array($names) && !$names instanceof \Traversable) {
+            throw new \InvalidArgumentException(
+                '$names must be an array or a \Traversable object.'
+            );
+        }
+        $this->names = $names;
     }
-    $this->names = $names;
-  }
 
-  public function discover(): PatternCollection {
-    $patterns = [];
-    foreach($this->names as $names) {
-      try {
-        $primary = reset($names);
-        $source = $this->loader->getSourceContext($primary);
-        $pattern = new TwigPattern($this->encodeId($primary), $names, $source);
-        $pattern->addTag('format', 'twig');
-        $patterns[] = $pattern;
-      }
-      catch(\Twig_Error_Loader $e) {
-        throw new UnsupportedPatternException(sprintf('Unable to load %s', $primary), 0, $e);
-      }
+    public function discover(): PatternCollection
+    {
+        $patterns = [];
+        foreach ($this->names as $names) {
+            try {
+                $primary = reset($names);
+                $source = $this->loader->getSourceContext($primary);
+                $pattern = new TwigPattern(
+                    $this->encodeId($primary),
+                    $names,
+                    $source
+                );
+                $pattern->addTag('format', 'twig');
+                $patterns[] = $pattern;
+            } catch (\Twig_Error_Loader $e) {
+                throw new UnsupportedPatternException(
+                    sprintf('Unable to load %s', $primary), 0, $e
+                );
+            }
+        }
+
+        return new PatternCollection($patterns);
     }
-    return new PatternCollection($patterns);
-  }
 }

@@ -9,12 +9,13 @@ use LastCall\Mannequin\Core\Rendered;
 use LastCall\Mannequin\Core\Variable\Set;
 use LastCall\Mannequin\Core\Variable\VariableSet;
 
-interface EngineInterface {
+interface EngineInterface
+{
 
-  public function supports(PatternInterface $pattern): bool;
+    public function supports(PatternInterface $pattern): bool;
 
-  public function render(PatternInterface $pattern, Set $set): Rendered;
+    public function render(PatternInterface $pattern, Set $set): Rendered;
 
-  public function renderSource(PatternInterface $pattern): string;
+    public function renderSource(PatternInterface $pattern): string;
 
 }

@@ -2,6 +2,6 @@
 
 namespace LastCall\Mannequin\Core\Exception;
 
-class UnsupportedPatternException extends \InvalidArgumentException {
-
+class UnsupportedPatternException extends \InvalidArgumentException
+{
 }

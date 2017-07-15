@@ -16,144 +16,189 @@ use Pimple\Container;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class Config extends Container implements ConfigInterface {
+class Config extends Container implements ConfigInterface
+{
 
-  public static function create(array $values = []): ConfigInterface {
-    return new static($values);
-  }
+    public function __construct(array $values = [])
+    {
+        $values += [
+            'cache_dir' => __DIR__.'/../cache',
+            'styles' => [],
+            'scripts' => [],
+        ];
+        parent::__construct($values);
+        $this['labeller'] = function () {
+            return new Labeller();
+        };
+        $this['extensions'] = function () {
+            return [];
+        };
+        $this['discovery'] = function () {
+            $discoverers = [];
+            foreach ($this->getExtensions() as $extension) {
+                $discoverers = array_merge(
+                    $discoverers,
+                    $extension->getDiscoverers()
+                );
+            }
 
-  public function __construct(array $values = []) {
-    $values += [
-      'cache_dir' => __DIR__.'/../cache',
-      'styles' => [],
-      'scripts' => [],
-    ];
-    parent::__construct($values);
-    $this['labeller'] = function() {
-      return new Labeller();
-    };
-    $this['extensions'] = function() {
-      return [];
-    };
-    $this['discovery'] = function() {
-      $discoverers = [];
-      foreach($this->getExtensions() as $extension) {
-        $discoverers = array_merge($discoverers, $extension->getDiscoverers());
-      }
-      return new ChainDiscovery($discoverers, $this->getDispatcher());
-    };
-    $this['renderer'] = function() {
-      $renderers = [];
-      foreach($this->getExtensions() as $extension) {
-        $renderers = array_merge($renderers, $extension->getRenderers());
-      }
-      return new DelegatingEngine($renderers);
-    };
-    $this['variable.resolver'] = function() {
-      $resolvers = [];
-      foreach($this->getExtensions() as $extension) {
-        $resolvers = array_merge($resolvers, $extension->getVariableResolvers());
-      }
-      return new SetResolver($resolvers);
-    };
-    $this['collection'] = function() {
-      return $this['discovery']->discover();
-    };
-    $this['assets'] = function() {
-      return [];
-    };
-    $this['dispatcher'] = function() {
-      $dispatcher = new EventDispatcher();
-      foreach($this->getExtensions() as $extension) {
-        $extension->attachToDispatcher($dispatcher);
-      }
-      return $dispatcher;
-    };
+            return new ChainDiscovery($discoverers, $this->getDispatcher());
+        };
+        $this['renderer'] = function () {
+            $renderers = [];
+            foreach ($this->getExtensions() as $extension) {
+                $renderers = array_merge(
+                    $renderers,
+                    $extension->getRenderers()
+                );
+            }
 
-    $this->addExtension(new CoreExtension());
-  }
+            return new DelegatingEngine($renderers);
+        };
+        $this['variable.resolver'] = function () {
+            $resolvers = [];
+            foreach ($this->getExtensions() as $extension) {
+                $resolvers = array_merge(
+                    $resolvers,
+                    $extension->getVariableResolvers()
+                );
+            }
 
-  /**
-   * @return PatternCollection
-   */
-  public function getCollection(): PatternCollection {
-    return $this['collection'];
-  }
+            return new SetResolver($resolvers);
+        };
+        $this['collection'] = function () {
+            return $this['discovery']->discover();
+        };
+        $this['assets'] = function () {
+            return [];
+        };
+        $this['dispatcher'] = function () {
+            $dispatcher = new EventDispatcher();
+            foreach ($this->getExtensions() as $extension) {
+                $extension->attachToDispatcher($dispatcher);
+            }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function addExtension(ExtensionInterface $extension): ConfigInterface {
-    $this->extend('extensions', function(array $extensions) use ($extension) {
-      $extension->setConfig($this);
-      $extensions[] = $extension;
-      return $extensions;
-    });
-    return $this;
-  }
+            return $dispatcher;
+        };
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getExtensions(): array {
-    return $this['extensions'];
-  }
-
-  public function getDispatcher(): EventDispatcherInterface {
-    return $this['dispatcher'];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getStyles(): array {
-    return $this['styles'];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getScripts(): array {
-    return $this['scripts'];
-  }
-
-  public function addAssetMapping($url, $path): ConfigInterface {
-    if(!is_string($url) || strlen($url) === 0 || strpos($url, '/') === 0) {
-      throw new \InvalidArgumentException(sprintf('URL path specified for %s is invalid.  It should be a relative URL.', $path));
+        $this->addExtension(new CoreExtension());
     }
-    if(!file_exists($path)) {
-      throw new \InvalidArgumentException(sprintf('Path specified for asset url %s is invalid.', $url));
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getExtensions(): array
+    {
+        return $this['extensions'];
     }
-    $this->extend('assets', function(array $existing) use ($url, $path) {
-      $existing[$url] = $path;
-      return $existing;
-    });
-    return $this;
-  }
 
-  public function getAssetMappings(): array {
-    return $this['assets'];
-  }
+    public function getDispatcher(): EventDispatcherInterface
+    {
+        return $this['dispatcher'];
+    }
 
-  /**
-   * @return \LastCall\Mannequin\Core\Engine\EngineInterface
-   */
-  public function getRenderer(): EngineInterface {
-    return $this['renderer'];
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function addExtension(ExtensionInterface $extension): ConfigInterface
+    {
+        $this->extend(
+            'extensions',
+            function (array $extensions) use ($extension) {
+                $extension->setConfig($this);
+                $extensions[] = $extension;
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getLabeller(): Labeller {
-    return $this['labeller'];
-  }
+                return $extensions;
+            }
+        );
 
-  public function getVariableResolver(): SetResolver {
-    return $this['variable.resolver'];
-  }
+        return $this;
+    }
 
-  public function getCacheDir(): string {
-    return $this['cache_dir'];
-  }
+    public static function create(array $values = []): ConfigInterface
+    {
+        return new static($values);
+    }
+
+    /**
+     * @return PatternCollection
+     */
+    public function getCollection(): PatternCollection
+    {
+        return $this['collection'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStyles(): array
+    {
+        return $this['styles'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getScripts(): array
+    {
+        return $this['scripts'];
+    }
+
+    public function addAssetMapping($url, $path): ConfigInterface
+    {
+        if (!is_string($url) || strlen($url) === 0 || strpos($url, '/') === 0) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'URL path specified for %s is invalid.  It should be a relative URL.',
+                    $path
+                )
+            );
+        }
+        if (!file_exists($path)) {
+            throw new \InvalidArgumentException(
+                sprintf('Path specified for asset url %s is invalid.', $url)
+            );
+        }
+        $this->extend(
+            'assets',
+            function (array $existing) use ($url, $path) {
+                $existing[$url] = $path;
+
+                return $existing;
+            }
+        );
+
+        return $this;
+    }
+
+    public function getAssetMappings(): array
+    {
+        return $this['assets'];
+    }
+
+    /**
+     * @return \LastCall\Mannequin\Core\Engine\EngineInterface
+     */
+    public function getRenderer(): EngineInterface
+    {
+        return $this['renderer'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabeller(): Labeller
+    {
+        return $this['labeller'];
+    }
+
+    public function getVariableResolver(): SetResolver
+    {
+        return $this['variable.resolver'];
+    }
+
+    public function getCacheDir(): string
+    {
+        return $this['cache_dir'];
+    }
 }

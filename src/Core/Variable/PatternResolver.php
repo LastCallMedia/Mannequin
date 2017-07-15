@@ -7,36 +7,46 @@ use LastCall\Mannequin\Core\Exception\InvalidVariableException;
 use LastCall\Mannequin\Core\Rendered;
 
 
-class PatternResolver implements ResolverInterface {
+class PatternResolver implements ResolverInterface
+{
 
-  private $renderFn;
+    private $renderFn;
 
-  public function __construct(callable $renderFn) {
-    $this->renderFn = $renderFn;
-  }
-
-  public function resolves(string $type): bool {
-    return $type === 'pattern';
-  }
-
-  public function resolve(string $type, $value) {
-    if($type === 'pattern') {
-      $fn = $this->renderFn;
-      if(is_array($value)) {
-        $id = $value['id'];
-        $set = new Set('Nested', $value['value']);
-      }
-      else {
-        $id = $value;
-        $set = NULL;
-      }
-      $rendered = $fn($id, $set);
-      if($rendered instanceof Rendered) {
-        return $rendered;
-      }
-      throw new \RuntimeException(sprintf('Pattern resolver callback did not return a valid value for %s', $value));
+    public function __construct(callable $renderFn)
+    {
+        $this->renderFn = $renderFn;
     }
-    throw new InvalidVariableException(sprintf('Invalid type %s passed to %s', $type, __CLASS__));
 
-  }
+    public function resolves(string $type): bool
+    {
+        return $type === 'pattern';
+    }
+
+    public function resolve(string $type, $value)
+    {
+        if ($type === 'pattern') {
+            $fn = $this->renderFn;
+            if (is_array($value)) {
+                $id = $value['id'];
+                $set = new Set('Nested', $value['value']);
+            } else {
+                $id = $value;
+                $set = null;
+            }
+            $rendered = $fn($id, $set);
+            if ($rendered instanceof Rendered) {
+                return $rendered;
+            }
+            throw new \RuntimeException(
+                sprintf(
+                    'Pattern resolver callback did not return a valid value for %s',
+                    $value
+                )
+            );
+        }
+        throw new InvalidVariableException(
+            sprintf('Invalid type %s passed to %s', $type, __CLASS__)
+        );
+
+    }
 }

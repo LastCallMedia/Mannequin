@@ -1,16 +1,16 @@
 {% if _pattern %}{% block patterninfo %}
-name: Form Block
-description: A block displaying a form
-tags:
-  group: Organism>Form
-variables:
-  form: pattern
-  lead: string
-value:
-  form: subscribe-form.twig
-  lead: This is a form block.
+    name: Form Block
+    description: A block displaying a form
+    tags:
+    group: Organism>Form
+    variables:
+    form: pattern
+    lead: string
+    value:
+    form: subscribe-form.twig
+    lead: This is a form block.
 {% endblock %}{% endif %}
 <div class="form-block">
-  <p class="lead">{{ lead }}</p>
-  {{ form }}
+    <p class="lead">{{ lead }}</p>
+    {{ form }}
 </div>

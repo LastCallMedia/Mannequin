@@ -8,19 +8,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class UiController {
+class UiController
+{
 
-  private $ui;
+    private $ui;
 
-  public function __construct(UiInterface $ui) {
-    $this->ui = $ui;
-  }
-
-  public function staticAction($name, Request $request) : Response {
-    if($this->ui->isUiFile($name)) {
-      return $this->ui->getUiFileResponse($name, $request);
+    public function __construct(UiInterface $ui)
+    {
+        $this->ui = $ui;
     }
-    // @todo: Assets need to be checked here.
-    throw new NotFoundHttpException('Asset not found.');
-  }
+
+    public function staticAction($name, Request $request): Response
+    {
+        if ($this->ui->isUiFile($name)) {
+            return $this->ui->getUiFileResponse($name, $request);
+        }
+        // @todo: Assets need to be checked here.
+        throw new NotFoundHttpException('Asset not found.');
+    }
 }

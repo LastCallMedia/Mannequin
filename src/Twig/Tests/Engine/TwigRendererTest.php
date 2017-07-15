@@ -11,41 +11,58 @@ use LastCall\Mannequin\Core\Variable\SetResolver;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 
-class TwigRendererTest extends RendererTestCase {
+class TwigRendererTest extends RendererTestCase
+{
 
-  public function getRenderer(): EngineInterface {
-    return new TwigEngine($this->getTwig(), new SetResolver(), ['foo'], ['bar']);
-  }
+    public function getRenderer(): EngineInterface
+    {
+        return new TwigEngine(
+            $this->getTwig(),
+            new SetResolver(),
+            ['foo'],
+            ['bar']
+        );
+    }
 
-  public function getSupportedPattern(): PatternInterface {
-    $src = new \Twig_Source('', 'form-input.twig', 'form-input.twig');
-    return new TwigPattern('supported', [], $src);
-  }
+    private function getTwig()
+    {
+        $loader = new \Twig_Loader_Filesystem([__DIR__.'/../Resources/']);
+        $twig = new \Twig_Environment($loader);
 
-  private function getTwig() {
-    $loader = new \Twig_Loader_Filesystem([__DIR__.'/../Resources/']);
-    $twig = new \Twig_Environment($loader);
-    return $twig;
-  }
+        return $twig;
+    }
 
-  public function testRender() {
-    $rendered = parent::testRender();
-    $this->assertEquals(['foo'], $rendered->getStyles());
-    $this->assertEquals(['bar'], $rendered->getScripts());
-  }
+    public function testRender()
+    {
+        $rendered = parent::testRender();
+        $this->assertEquals(['foo'], $rendered->getStyles());
+        $this->assertEquals(['bar'], $rendered->getScripts());
+    }
 
-  public function testResolvesVariables() {
-    $twig = $this->prophesize(\Twig_Environment::class);
-    $twig->render('form-input.twig', ['foo' => 'bar - resolved'])->willReturn('rendered');
+    public function testResolvesVariables()
+    {
+        $twig = $this->prophesize(\Twig_Environment::class);
+        $twig->render('form-input.twig', ['foo' => 'bar - resolved'])
+            ->willReturn('rendered');
 
-    $pattern = $this->getSupportedPattern();
-    $setResolver = $this->prophesize(SetResolver::class);
-    $setResolver->resolveSet($pattern->getVariableDefinition(), $pattern->getVariableSets()['default'])
-      ->shouldBeCalled()
-      ->willReturn(['foo' => 'bar - resolved']);
+        $pattern = $this->getSupportedPattern();
+        $setResolver = $this->prophesize(SetResolver::class);
+        $setResolver->resolveSet(
+            $pattern->getVariableDefinition(),
+            $pattern->getVariableSets()['default']
+        )
+            ->shouldBeCalled()
+            ->willReturn(['foo' => 'bar - resolved']);
 
-    $renderer = new TwigEngine($twig->reveal(), $setResolver->reveal());
-    $renderer->render($pattern, $pattern->getVariableSets()['default']);
-  }
+        $renderer = new TwigEngine($twig->reveal(), $setResolver->reveal());
+        $renderer->render($pattern, $pattern->getVariableSets()['default']);
+    }
+
+    public function getSupportedPattern(): PatternInterface
+    {
+        $src = new \Twig_Source('', 'form-input.twig', 'form-input.twig');
+
+        return new TwigPattern('supported', [], $src);
+    }
 
 }

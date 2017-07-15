@@ -1,9 +1,8 @@
 <?php
 
-
 namespace LastCall\Mannequin\Core\Event;
 
-
-class PatternEvents {
-  const DISCOVER = 'pattern.discover';
+class PatternEvents
+{
+    const DISCOVER = 'pattern.discover';
 }

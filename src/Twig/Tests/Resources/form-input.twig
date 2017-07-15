@@ -1,19 +1,19 @@
 {% if _pattern %}{% block patterninfo %}
-name: Form Input
-description: An input element of any type.
-tags:
-  group: Atom>Form
-variables:
-  label: string
-  type: string
-values:
-  default:
+    name: Form Input
+    description: An input element of any type.
+    tags:
+    group: Atom>Form
+    variables:
+    label: string
+    type: string
+    values:
+    default:
     label: This is a textfield
     type: textfield
-  datetime:
+    datetime:
     label: This is a datetime input
     type: datetime
 {% endblock %}{% endif %}
 <label><span>{{ label }}</span>
-  <input type="{{ type }}" />
+    <input type="{{ type }}"/>
 </label>

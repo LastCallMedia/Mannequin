@@ -7,126 +7,156 @@ namespace LastCall\Mannequin\Core\Pattern;
 use LastCall\Mannequin\Core\Variable\Definition;
 use LastCall\Mannequin\Core\Variable\Set;
 
-abstract class AbstractPattern implements PatternInterface {
+abstract class AbstractPattern implements PatternInterface
+{
 
-  protected $id;
-  protected $aliases = [];
-  private $name = '';
-  private $description = '';
-  private $tags = [];
-  private $variableDefinition;
-  private $variableSets = [];
-  private $used = [];
+    protected $id;
 
-  public function __construct($id, array $aliases = []) {
-    $this->id = $id;
-    $this->aliases = $aliases;
-    $this->variableSets['default'] = new Set('Default', []);
-  }
+    protected $aliases = [];
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getId(): string {
-    return $this->id;
-  }
+    private $name = '';
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getAliases(): array {
-    return $this->aliases;
-  }
+    private $description = '';
 
-  /**
-   * {@inheritdoc}
-   */
-  public function setName(string $name): PatternInterface {
-    $this->name = $name;
-    return $this;
-  }
+    private $tags = [];
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getName(): string {
-    return $this->name;
-  }
+    private $variableDefinition;
 
-  /**
-   * {@inheritdoc}
-   */
-  public function setDescription(string $description): PatternInterface {
-    $this->description = $description;
-    return $this;
-  }
+    private $variableSets = [];
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getDescription(): string {
-    return $this->description;
-  }
+    private $used = [];
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getTags(): array {
-    return $this->tags;
-  }
+    public function __construct($id, array $aliases = [])
+    {
+        $this->id = $id;
+        $this->aliases = $aliases;
+        $this->variableSets['default'] = new Set('Default', []);
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function hasTag(string $name, $value): bool {
-    return isset($this->tags[$name]) && $this->tags[$name] === $value;
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function addTag(string $name, $value): PatternInterface {
-    $this->tags[$name] = $value;
-    return $this;
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function getAliases(): array
+    {
+        return $this->aliases;
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function setVariableDefinition(Definition $definition): PatternInterface {
-    $this->variableDefinition = $definition;
-    return $this;
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getVariableDefinition(): Definition {
-    return $this->variableDefinition ?: new Definition([]);
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function setName(string $name): PatternInterface
+    {
+        $this->name = $name;
 
-  /**
-   * {@inheritdoc}
-   */
-  public function addVariableSet(string $id, Set $set): PatternInterface {
-    $this->variableSets[$id] = $set;
-    return $this;
-  }
+        return $this;
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getVariableSets(): array {
-    return $this->variableSets;
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
 
-  public function addUsedPattern(PatternInterface $pattern): PatternInterface {
-    $this->used[] = $pattern;
-    return $this;
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function setDescription(string $description): PatternInterface
+    {
+        $this->description = $description;
 
-  public function getUsedPatterns(): array {
-    return $this->used;
-  }
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTags(): array
+    {
+        return $this->tags;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasTag(string $name, $value): bool
+    {
+        return isset($this->tags[$name]) && $this->tags[$name] === $value;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addTag(string $name, $value): PatternInterface
+    {
+        $this->tags[$name] = $value;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getVariableDefinition(): Definition
+    {
+        return $this->variableDefinition ?: new Definition([]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setVariableDefinition(Definition $definition
+    ): PatternInterface {
+        $this->variableDefinition = $definition;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addVariableSet(string $id, Set $set): PatternInterface
+    {
+        $this->variableSets[$id] = $set;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getVariableSets(): array
+    {
+        return $this->variableSets;
+    }
+
+    public function addUsedPattern(PatternInterface $pattern): PatternInterface
+    {
+        $this->used[] = $pattern;
+
+        return $this;
+    }
+
+    public function getUsedPatterns(): array
+    {
+        return $this->used;
+    }
 
 }

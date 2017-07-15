@@ -1,9 +1,7 @@
 <?php
 
-
 namespace LastCall\Mannequin\Core\Exception;
 
-
-class InvalidVariableException extends \RuntimeException {
-
+class InvalidVariableException extends \RuntimeException
+{
 }

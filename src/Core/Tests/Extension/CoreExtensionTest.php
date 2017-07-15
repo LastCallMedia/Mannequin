@@ -14,22 +14,34 @@ use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class CoreExtensionTest extends ExtensionTestCase {
+class CoreExtensionTest extends ExtensionTestCase
+{
 
-  public function getExtension(): ExtensionInterface {
-    return new CoreExtension();
-  }
+    public function getExtension(): ExtensionInterface
+    {
+        return new CoreExtension();
+    }
 
-  public function getConfig(): ConfigInterface {
-    $config = $this->prophesize(ConfigInterface::class);
-    return $config->reveal();
-  }
+    public function getConfig(): ConfigInterface
+    {
+        $config = $this->prophesize(ConfigInterface::class);
 
-  protected function getDispatcherProphecy(): ObjectProphecy {
-    $dispatcher = $this->prophesize(EventDispatcherInterface::class);
-    $dispatcher->addSubscriber(Argument::type(YamlFileMetadataSubscriber::class))->shouldBeCalled();
-    $dispatcher->addSubscriber(Argument::type(NestedPatternVariableSubscriber::class))->shouldBeCalled();
-    $dispatcher->addSubscriber(Argument::type(LastChanceNameSubscriber::class))->shouldBeCalled();
-    return $dispatcher;
-  }
+        return $config->reveal();
+    }
+
+    protected function getDispatcherProphecy(): ObjectProphecy
+    {
+        $dispatcher = $this->prophesize(EventDispatcherInterface::class);
+        $dispatcher->addSubscriber(
+            Argument::type(YamlFileMetadataSubscriber::class)
+        )->shouldBeCalled();
+        $dispatcher->addSubscriber(
+            Argument::type(NestedPatternVariableSubscriber::class)
+        )->shouldBeCalled();
+        $dispatcher->addSubscriber(
+            Argument::type(LastChanceNameSubscriber::class)
+        )->shouldBeCalled();
+
+        return $dispatcher;
+    }
 }

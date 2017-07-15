@@ -4,10 +4,11 @@
 namespace LastCall\Mannequin\Core\Variable;
 
 
-interface ResolverInterface {
+interface ResolverInterface
+{
 
-  public function resolves(string $type): bool;
+    public function resolves(string $type): bool;
 
-  public function resolve(string $type, $value);
+    public function resolve(string $type, $value);
 
 }

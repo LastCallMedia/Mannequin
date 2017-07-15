@@ -1,6 +1,5 @@
 <?php
 
-
 namespace LastCall\Mannequin\Core\Console\Command;
 
 use Symfony\Component\Console\Command\Command;
@@ -11,9 +10,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\ProcessBuilder;
 
-class ServerCommand extends Command {
-
-  const CODE = <<<'eod'
+class ServerCommand extends Command
+{
+    const CODE = <<<'eod'
 <?php
 use LastCall\Mannequin\Core\Application;
 
@@ -27,39 +26,66 @@ $app = new Application([
 $app->run();
 eod;
 
-  private $autoloadPath;
-  private $configFile;
-  private $debug;
+    private $autoloadPath;
 
-  public function __construct($name = NULL, string $configFile, string $autoloadPath, bool $debug) {
-    parent::__construct($name);
-    $this->autoloadPath = $autoloadPath;
-    $this->configFile = $configFile;
-    $this->debug = $debug;
-  }
+    private $configFile;
 
-  public function configure() {
-    $this->addArgument('address', InputArgument::OPTIONAL, 'The address to run on.', '127.0.0.1:8000');
-    $this->addOption('output-dir', 'o', InputOption::VALUE_OPTIONAL, 'The directory to output the UI in');
-  }
+    private $debug;
 
-  public function execute(InputInterface $input, OutputInterface $output) {
-    $address = $input->getArgument('address');
+    public function __construct(
+        $name = null,
+        string $configFile,
+        string $autoloadPath,
+        bool $debug
+    ) {
+        parent::__construct($name);
+        $this->autoloadPath = $autoloadPath;
+        $this->configFile = $configFile;
+        $this->debug = $debug;
+    }
 
-    $dir = sys_get_temp_dir() .'/mannequin-server';
-    $code = sprintf(self::CODE, $this->autoloadPath, $this->debug, realpath($this->configFile));
-    (new Filesystem())->mkdir($dir);
-    file_put_contents($dir.'/index.php', $code);
-    return $this->runserver($dir, $address, $output);
-  }
+    public function configure()
+    {
+        $this->addArgument(
+            'address',
+            InputArgument::OPTIONAL,
+            'The address to run on.',
+            '127.0.0.1:8000'
+        );
+        $this->addOption(
+            'output-dir',
+            'o',
+            InputOption::VALUE_OPTIONAL,
+            'The directory to output the UI in'
+        );
+    }
 
-  private function runServer($docroot, $address, OutputInterface $output) {
-    $routerFile = realpath(__DIR__.'/../../Resources/router.php');
-    $builder = new ProcessBuilder(['php', '-S', $address, $routerFile]);
-    $builder->setWorkingDirectory($docroot);
-    $builder->setTimeout(null);
-    return $builder->getProcess()
-      ->setTty(TRUE)
-      ->run();
-  }
+    public function execute(InputInterface $input, OutputInterface $output)
+    {
+        $address = $input->getArgument('address');
+
+        $dir = sys_get_temp_dir().'/mannequin-server';
+        $code = sprintf(
+            self::CODE,
+            $this->autoloadPath,
+            $this->debug,
+            realpath($this->configFile)
+        );
+        (new Filesystem())->mkdir($dir);
+        file_put_contents($dir.'/index.php', $code);
+
+        return $this->runserver($dir, $address, $output);
+    }
+
+    private function runServer($docroot, $address, OutputInterface $output)
+    {
+        $routerFile = realpath(__DIR__.'/../../Resources/router.php');
+        $builder = new ProcessBuilder(['php', '-S', $address, $routerFile]);
+        $builder->setWorkingDirectory($docroot);
+        $builder->setTimeout(null);
+
+        return $builder->getProcess()
+            ->setTty(true)
+            ->run();
+    }
 }

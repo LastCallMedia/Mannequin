@@ -7,20 +7,24 @@ namespace LastCall\Mannequin\Html\Pattern;
 use LastCall\Mannequin\Core\Pattern\AbstractPattern;
 use LastCall\Mannequin\Core\Pattern\TemplateFilePatternInterface;
 
-class HtmlPattern extends AbstractPattern implements TemplateFilePatternInterface {
+class HtmlPattern extends AbstractPattern implements TemplateFilePatternInterface
+{
 
-  private $fileInfo;
+    private $fileInfo;
 
-  public function __construct($id, array $aliases, \SplFileInfo $fileInfo) {
-    parent::__construct($id, $aliases);
-    $this->fileInfo = $fileInfo;
-  }
+    public function __construct($id, array $aliases, \SplFileInfo $fileInfo)
+    {
+        parent::__construct($id, $aliases);
+        $this->fileInfo = $fileInfo;
+    }
 
-  public function getFile(): \SplFileInfo {
-    return $this->fileInfo;
-  }
+    public function getFile(): \SplFileInfo
+    {
+        return $this->fileInfo;
+    }
 
-  public function getRawFormat(): string {
-    return 'html';
-  }
+    public function getRawFormat(): string
+    {
+        return 'html';
+    }
 }

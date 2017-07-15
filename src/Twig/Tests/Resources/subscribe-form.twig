@@ -1,15 +1,15 @@
 {% if _pattern %}{% block patterninfo %}
-name: Subscribe form
-description: A newsletter signup form
-tags:
-  group: Molecule>Form
-variables:
-  button: pattern
+    name: Subscribe form
+    description: A newsletter signup form
+    tags:
+    group: Molecule>Form
+    variables:
+    button: pattern
 {% endblock %}{% endif %}
 <form>
-  {% include 'form-input.twig' with {
+    {% include 'form-input.twig' with {
     label: 'E-mail address',
     type: 'email',
-  } %}
-  {{ button }}
+    } %}
+    {{ button }}
 </form>

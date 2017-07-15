@@ -8,10 +8,14 @@ use LastCall\Mannequin\Core\Rendered;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-interface UiInterface {
+interface UiInterface
+{
 
-  public function files(): array;
-  public function isUiFile(string $path): bool;
-  public function getUiFileResponse(string $path, Request $request): Response;
-  public function decorateRendered(Rendered $rendered): string;
+    public function files(): array;
+
+    public function isUiFile(string $path): bool;
+
+    public function getUiFileResponse(string $path, Request $request): Response;
+
+    public function decorateRendered(Rendered $rendered): string;
 }

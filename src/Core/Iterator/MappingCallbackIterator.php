@@ -10,17 +10,20 @@ namespace LastCall\Mannequin\Core\Iterator;
  * convert them into a relative path or a name by which a particular discoverer
  * will know them.
  */
-class MappingCallbackIterator extends \IteratorIterator {
+class MappingCallbackIterator extends \IteratorIterator
+{
+    private $resolver;
 
-  private $resolver;
+    public function __construct(\Traversable $iterator, callable $resolver)
+    {
+        parent::__construct($iterator);
+        $this->resolver = $resolver;
+    }
 
-  public function __construct(\Traversable $iterator, callable $resolver) {
-    parent::__construct($iterator);
-    $this->resolver = $resolver;
-  }
+    public function current()
+    {
+        $resolver = $this->resolver;
 
-  public function current() {
-    $resolver = $this->resolver;
-    return $resolver(parent::current());
-  }
+        return $resolver(parent::current());
+    }
 }

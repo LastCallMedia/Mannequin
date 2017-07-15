@@ -9,11 +9,15 @@ use LastCall\Mannequin\Core\Tests\Extension\ExtensionTestCase;
 use LastCall\Mannequin\Html\Extension\HtmlExtension;
 use Symfony\Component\Finder\Finder;
 
-class HtmlExtensionTest extends ExtensionTestCase {
+class HtmlExtensionTest extends ExtensionTestCase
+{
 
-  public function getExtension(): ExtensionInterface {
-    return new HtmlExtension([
-      'finder' => Finder::create()->in([__DIR__])
-    ]);
-  }
+    public function getExtension(): ExtensionInterface
+    {
+        return new HtmlExtension(
+            [
+                'finder' => Finder::create()->in([__DIR__]),
+            ]
+        );
+    }
 }

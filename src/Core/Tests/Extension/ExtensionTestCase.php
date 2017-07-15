@@ -17,48 +17,70 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-abstract class ExtensionTestCase extends TestCase {
+abstract class ExtensionTestCase extends TestCase
+{
 
-  abstract public function getExtension(): ExtensionInterface;
+    public function testAttachDispatcher()
+    {
+        $extension = $this->getExtension();
+        $extension->setConfig($this->getConfig());
+        $extension->attachToDispatcher(
+            $this->getDispatcherProphecy()->reveal()
+        );
+    }
 
-  public function getConfig(): ConfigInterface {
-    $config = $this->prophesize(ConfigInterface::class);
-    $config->getCacheDir()->willReturn('');
-    $config->getDispatcher()->willReturn(new EventDispatcher());
-    $config->getVariableResolver()->willReturn(new SetResolver());
-    $config->getStyles()->willReturn([]);
-    $config->getScripts()->willReturn([]);
-    return $config->reveal();
-  }
+    abstract public function getExtension(): ExtensionInterface;
 
-  protected function getDispatcherProphecy(): ObjectProphecy {
-    $dispatcher = $this->prophesize(EventDispatcherInterface::class);
-    $dispatcher->addSubscriber(Argument::type(EventSubscriberInterface::class))->shouldNotBeCalled();
-    return $dispatcher;
-  }
+    public function getConfig(): ConfigInterface
+    {
+        $config = $this->prophesize(ConfigInterface::class);
+        $config->getCacheDir()->willReturn('');
+        $config->getDispatcher()->willReturn(new EventDispatcher());
+        $config->getVariableResolver()->willReturn(new SetResolver());
+        $config->getStyles()->willReturn([]);
+        $config->getScripts()->willReturn([]);
 
-  public function testAttachDispatcher() {
-    $extension = $this->getExtension();
-    $extension->setConfig($this->getConfig());
-    $extension->attachToDispatcher($this->getDispatcherProphecy()->reveal());
-  }
+        return $config->reveal();
+    }
 
-  public function testGetRenderers() {
-    $extension = $this->getExtension();
-    $extension->setConfig($this->getConfig());
-    $this->assertContainsOnlyInstancesOf(EngineInterface::class, $extension->getRenderers());
-  }
+    protected function getDispatcherProphecy(): ObjectProphecy
+    {
+        $dispatcher = $this->prophesize(EventDispatcherInterface::class);
+        $dispatcher->addSubscriber(
+            Argument::type(EventSubscriberInterface::class)
+        )->shouldNotBeCalled();
 
-  public function testHasVariableResolvers() {
-    $extension = $this->getExtension();
-    $extension->setConfig($this->getConfig());
-    $this->assertContainsOnlyInstancesOf(ResolverInterface::class, $extension->getVariableResolvers());
-  }
+        return $dispatcher;
+    }
 
-  public function testHasDiscoverers() {
-    $extension = $this->getExtension();
-    $extension->setConfig($this->getConfig());
-    $this->assertContainsOnlyInstancesOf(DiscoveryInterface::class, $extension->getDiscoverers());
-  }
+    public function testGetRenderers()
+    {
+        $extension = $this->getExtension();
+        $extension->setConfig($this->getConfig());
+        $this->assertContainsOnlyInstancesOf(
+            EngineInterface::class,
+            $extension->getRenderers()
+        );
+    }
+
+    public function testHasVariableResolvers()
+    {
+        $extension = $this->getExtension();
+        $extension->setConfig($this->getConfig());
+        $this->assertContainsOnlyInstancesOf(
+            ResolverInterface::class,
+            $extension->getVariableResolvers()
+        );
+    }
+
+    public function testHasDiscoverers()
+    {
+        $extension = $this->getExtension();
+        $extension->setConfig($this->getConfig());
+        $this->assertContainsOnlyInstancesOf(
+            DiscoveryInterface::class,
+            $extension->getDiscoverers()
+        );
+    }
 
 }

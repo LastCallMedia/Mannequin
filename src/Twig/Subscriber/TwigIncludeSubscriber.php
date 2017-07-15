@@ -10,33 +10,40 @@ use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 use LastCall\Mannequin\Twig\TwigInspectorInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class TwigIncludeSubscriber implements EventSubscriberInterface {
+class TwigIncludeSubscriber implements EventSubscriberInterface
+{
 
-  private $inspector;
-  private $prefix;
+    private $inspector;
 
-  public static function getSubscribedEvents() {
-    return [
-      PatternEvents::DISCOVER => 'detect',
-    ];
-  }
+    private $prefix;
 
-  public function __construct(TwigInspectorInterface $inspector, string $prefix = 'twig') {
-    $this->inspector = $inspector;
-    $this->prefix = $prefix;
-  }
-
-  public function detect(PatternDiscoveryEvent $event) {
-    $pattern = $event->getPattern();
-    $collection = $event->getCollection();
-
-    if($pattern instanceof TwigPattern) {
-      $included = $this->inspector->inspectLinked($pattern->getSource());
-      foreach ($included as $name) {
-        if($collection->has($name)) {
-          $pattern->addUsedPattern($collection->get($name));
-        }
-      }
+    public function __construct(
+        TwigInspectorInterface $inspector,
+        string $prefix = 'twig'
+    ) {
+        $this->inspector = $inspector;
+        $this->prefix = $prefix;
     }
-  }
+
+    public static function getSubscribedEvents()
+    {
+        return [
+            PatternEvents::DISCOVER => 'detect',
+        ];
+    }
+
+    public function detect(PatternDiscoveryEvent $event)
+    {
+        $pattern = $event->getPattern();
+        $collection = $event->getCollection();
+
+        if ($pattern instanceof TwigPattern) {
+            $included = $this->inspector->inspectLinked($pattern->getSource());
+            foreach ($included as $name) {
+                if ($collection->has($name)) {
+                    $pattern->addUsedPattern($collection->get($name));
+                }
+            }
+        }
+    }
 }

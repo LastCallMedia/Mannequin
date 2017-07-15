@@ -5,7 +5,6 @@ namespace LastCall\Mannequin\Core\Console\Command;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Ui\FileWriter;
-use LastCall\Mannequin\Core\Ui\HtmlDecorator;
 use LastCall\Mannequin\Core\Ui\ManifestBuilder;
 use LastCall\Mannequin\Core\Ui\UiInterface;
 use Symfony\Component\Console\Command\Command;
@@ -14,76 +13,102 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class RenderCommand extends Command {
+class RenderCommand extends Command
+{
+    private $manifester;
 
-  private $manifester;
-  private $engine;
-  private $collection;
-  private $assetMappings;
+    private $engine;
 
-  public function __construct($name = NULL, ManifestBuilder $manifester, EngineInterface $engine, PatternCollection $collection, UiInterface $ui, array $assetMappings = []) {
-    parent::__construct($name);
-    $this->manifester = $manifester;
-    $this->engine = $engine;
-    $this->collection = $collection;
-    $this->assetMappings = $assetMappings;
-    $this->ui = $ui;
-  }
+    private $collection;
 
-  public function configure() {
-    $this->addOption('output-dir', 'o', InputOption::VALUE_OPTIONAL, 'The directory to output the UI in', 'mannequin');
-  }
+    private $assetMappings;
 
-  public function execute(InputInterface $input, OutputInterface $output) {
-    $io = new SymfonyStyle($input, $output);
+    public function __construct(
+        $name = null,
+        ManifestBuilder $manifester,
+        EngineInterface $engine,
+        PatternCollection $collection,
+        UiInterface $ui,
+        array $assetMappings = []
+    ) {
+        parent::__construct($name);
+        $this->manifester = $manifester;
+        $this->engine = $engine;
+        $this->collection = $collection;
+        $this->assetMappings = $assetMappings;
+        $this->ui = $ui;
+    }
 
-    $outDir = $input->getOption('output-dir');
+    public function configure()
+    {
+        $this->addOption(
+            'output-dir',
+            'o',
+            InputOption::VALUE_OPTIONAL,
+            'The directory to output the UI in',
+            'mannequin'
+        );
+    }
 
-    $writer = new FileWriter($outDir);
-    try {
-      $manifest = $this->manifester->generate($this->collection);
-      $writer->raw('manifest.json', json_encode($manifest));
-      $rows[] = $this->getSuccessRow('Manifest');
+    public function execute(InputInterface $input, OutputInterface $output)
+    {
+        $io = new SymfonyStyle($input, $output);
 
-      foreach($manifest['patterns'] as $patternManifest) {
+        $outDir = $input->getOption('output-dir');
+
+        $writer = new FileWriter($outDir);
         try {
-          $pattern = $this->collection->get($patternManifest['id']);
-          $writer->raw($patternManifest['source'], $this->engine->renderSource($pattern));
+            $manifest = $this->manifester->generate($this->collection);
+            $writer->raw('manifest.json', json_encode($manifest));
+            $rows[] = $this->getSuccessRow('Manifest');
 
-          foreach($patternManifest['sets'] as $setManifest) {
-            $set = $pattern->getVariableSets()[$setManifest['id']];
-            $rendered = $this->engine->render($pattern, $set);
-            $writer->raw($setManifest['source'], $rendered->getMarkup());
-            $writer->raw($setManifest['rendered'], $this->ui->decorateRendered($rendered));
-          }
-          $rows[] = $this->getSuccessRow($pattern->getName());
+            foreach ($manifest['patterns'] as $patternManifest) {
+                try {
+                    $pattern = $this->collection->get($patternManifest['id']);
+                    $writer->raw(
+                        $patternManifest['source'],
+                        $this->engine->renderSource($pattern)
+                    );
+
+                    foreach ($patternManifest['sets'] as $setManifest) {
+                        $set = $pattern->getVariableSets()[$setManifest['id']];
+                        $rendered = $this->engine->render($pattern, $set);
+                        $writer->raw(
+                            $setManifest['source'],
+                            $rendered->getMarkup()
+                        );
+                        $writer->raw(
+                            $setManifest['rendered'],
+                            $this->ui->decorateRendered($rendered)
+                        );
+                    }
+                    $rows[] = $this->getSuccessRow($pattern->getName());
+                } catch (\Exception $e) {
+                    $rows[] = $this->getErrorRow($pattern->getName(), $e);
+                }
+            }
+        } catch (\Exception $e) {
+            $rows[] = $this->getErrorRow('Manifest');
         }
-        catch(\Exception $e) {
-          $rows[] = $this->getErrorRow($pattern->getName(), $e);
+
+        foreach ($this->assetMappings as $src => $dest) {
+            $writer->copy($src, $dest);
         }
 
-      }
-    }
-    catch(\Exception $e) {
-      $rows[] = $this->getErrorRow('Manifest');
-    }
+        foreach ($this->ui->files() as $dest => $src) {
+            $writer->copy($src, $dest);
+        }
 
-    foreach($this->assetMappings as $src => $dest) {
-      $writer->copy($src, $dest);
+        $io->table(['', 'Name', 'Message'], $rows);
     }
 
-    foreach($this->ui->files() as $dest => $src) {
-      $writer->copy($src, $dest);
+    private function getSuccessRow($name)
+    {
+        return ['<info>✓</info>', $name, ''];
     }
 
-    $io->table(['', 'Name', 'Message'], $rows);
-  }
-
-  private function getSuccessRow($name) {
-    return ['<info>✓</info>', $name, ''];
-  }
-
-  private function getErrorRow($name, \Exception $e) {
-    return ['<error>x</error>', $name, $e->getMessage()];
-  }
+    private function getErrorRow($name, \Exception $e)
+    {
+        return ['<error>x</error>', $name, $e->getMessage()];
+    }
 }
