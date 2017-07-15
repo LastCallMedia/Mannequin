@@ -24,8 +24,8 @@
         "pimple/pimple": "^3.0",
         "symfony/yaml": "^2.7 ||^3.0",
         "symfony/finder": "^2.7 ||^3.0",
-        "symfony/cache": "^3.3",
-        "twig/twig": "^1.3.0"
+        "twig/twig": "^1.3.0",
+        "psr/cache": "~1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.1",

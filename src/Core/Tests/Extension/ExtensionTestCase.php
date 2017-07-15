@@ -11,6 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Tests\Extension;
 
+use LastCall\Mannequin\Core\Cache\NullCacheItemPool;
 use LastCall\Mannequin\Core\ConfigInterface;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
@@ -26,6 +27,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 abstract class ExtensionTestCase extends TestCase
 {
+    protected function getNullCache() {
+        return new NullCacheItemPool();
+    }
     public function testAttachDispatcher()
     {
         $extension = $this->getExtension();
@@ -40,7 +44,7 @@ abstract class ExtensionTestCase extends TestCase
     public function getConfig(): ConfigInterface
     {
         $config = $this->prophesize(ConfigInterface::class);
-        $config->getCacheDir()->willReturn('');
+        $config->getCache()->willReturn($this->getNullCache());
         $config->getDispatcher()->willReturn(new EventDispatcher());
         $config->getVariableResolver()->willReturn(new SetResolver());
         $config->getStyles()->willReturn([]);

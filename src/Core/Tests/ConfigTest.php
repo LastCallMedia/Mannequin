@@ -11,6 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Tests;
 
+use LastCall\Mannequin\Core\Cache\NullCacheItemPool;
 use LastCall\Mannequin\Core\Config;
 use LastCall\Mannequin\Core\ConfigInterface;
 use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
@@ -23,6 +24,7 @@ use LastCall\Mannequin\Core\Variable\ResolverInterface;
 use LastCall\Mannequin\Core\Variable\SetResolver;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ConfigTest extends TestCase
@@ -140,19 +142,20 @@ class ConfigTest extends TestCase
         $this->assertTrue($dispatcher->hasListeners('foo'));
     }
 
-    public function testHasDefaultCacheDir()
+    public function testHasDefaultCache()
     {
         $config = new Config();
         $this->assertEquals(
-            realpath(__DIR__.'/../../cache'),
-            realpath($config->getCacheDir())
+            new NullCacheItemPool(),
+            $config->getCache()
         );
     }
 
-    public function testCacheDirCanBeOverridden()
+    public function testCacheCanBeOverridden()
     {
-        $config = new Config(['cache_dir' => 'foo']);
-        $this->assertEquals('foo', $config->getCacheDir());
+        $cache = $this->prophesize(CacheItemPoolInterface::class)->reveal();
+        $config = new Config(['cache' => $cache]);
+        $this->assertEquals($cache, $config->getCache());
     }
 
     public function testHasDefaultStyles()

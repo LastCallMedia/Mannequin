@@ -11,6 +11,7 @@
 
 namespace LastCall\Mannequin\Core;
 
+use LastCall\Mannequin\Core\Cache\NullCacheItemPool;
 use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
 use LastCall\Mannequin\Core\Engine\DelegatingEngine;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
@@ -19,6 +20,7 @@ use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Variable\SetResolver;
 use Pimple\Container;
+use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -27,7 +29,9 @@ class Config extends Container implements ConfigInterface
     public function __construct(array $values = [])
     {
         $values += [
-            'cache_dir' => __DIR__.'/../cache',
+            'cache' => function() {
+                return new NullCacheItemPool();
+            },
             'styles' => [],
             'scripts' => [],
         ];
@@ -202,8 +206,8 @@ class Config extends Container implements ConfigInterface
         return $this['variable.resolver'];
     }
 
-    public function getCacheDir(): string
+    public function getCache(): CacheItemPoolInterface
     {
-        return $this['cache_dir'];
+        return $this['cache'];
     }
 }

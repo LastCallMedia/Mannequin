@@ -15,6 +15,7 @@ use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Variable\SetResolver;
+use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 interface ConfigInterface
@@ -49,7 +50,7 @@ interface ConfigInterface
 
     public function getVariableResolver(): SetResolver;
 
-    public function getCacheDir(): string;
+    public function getCache(): CacheItemPoolInterface;
 
     public function getDispatcher(): EventDispatcherInterface;
 }

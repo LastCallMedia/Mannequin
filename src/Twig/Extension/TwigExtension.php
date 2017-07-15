@@ -35,9 +35,8 @@ class TwigExtension extends AbstractExtension
             'finder' => function () {
                 throw new \RuntimeException('Finder must be configured.');
             },
+            'twig_cache_dir' => NULL,
             'twig' => function () {
-                $cache_dir = $this->getConfig()->getCacheDir(
-                    ).DIRECTORY_SEPARATOR.'twig';
                 $loader = new \Twig_Loader_Filesystem();
                 foreach ($this['twig_paths'] as $namespace => $paths) {
                     foreach ($paths as $path) {
@@ -47,7 +46,7 @@ class TwigExtension extends AbstractExtension
 
                 return new \Twig_Environment(
                     $loader, [
-                    'cache' => $cache_dir,
+                    'cache' => $this['twig_cache_dir'],
                     'auto_reload' => true,
                 ]
                 );
@@ -70,17 +69,10 @@ class TwigExtension extends AbstractExtension
             },
         ];
         parent::__construct($config);
-        $this['cache'] = function () {
-            return new FilesystemAdapter(
-                '',
-                1000,
-                $this->getConfig()->getCacheDir().'/twig-metadata'
-            );
-        };
         $this['inspector'] = function () {
             return new TwigInspectorCacheDecorator(
                 new TwigInspector($this['twig']),
-                $this['cache']
+                $this->getConfig()->getCache()
             );
         };
         $this['discovery'] = function () {
