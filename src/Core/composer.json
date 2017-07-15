@@ -32,5 +32,10 @@
     },
     "bin": [
         "cli/bin/patterns"
-    ]
+    ],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.99-dev"
+        }
+    }
 }
