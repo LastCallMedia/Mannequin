@@ -31,6 +31,6 @@ class UiController
             return $this->ui->getUiFileResponse($name, $request);
         }
         // @todo: Assets need to be checked here.
-        throw new NotFoundHttpException('Asset not found.');
+        throw new NotFoundHttpException(sprintf('Asset not found: %s', $name));
     }
 }
