@@ -29,8 +29,7 @@
             "LastCall\\Mannequin\\Cli\\": "cli/",
             "LastCall\\Mannequin\\Html\\": "html/",
             "LastCall\\Mannequin\\Twig\\": "twig/",
-            "LastCall\\Mannequin\\Drupal\\": "drupal/",
-            "LastCall\\Mannequin\\Ui\\": "ui/"
+            "LastCall\\Mannequin\\Drupal\\": "drupal/"
         },
         "exclude-from-classmap": [
             "**/Tests/"
