@@ -1,8 +1,15 @@
 <?php
 
+/*
+ * This file is part of Mannequin.
+ *
+ * (c) 2017 Last Call Media, Rob Bayliss <rob@lastcallmedia.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace LastCall\Mannequin\Core\Tests\Extension;
-
 
 use LastCall\Mannequin\Core\ConfigInterface;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
@@ -19,7 +26,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 abstract class ExtensionTestCase extends TestCase
 {
-
     public function testAttachDispatcher()
     {
         $extension = $this->getExtension();
@@ -82,5 +88,4 @@ abstract class ExtensionTestCase extends TestCase
             $extension->getDiscoverers()
         );
     }
-
 }

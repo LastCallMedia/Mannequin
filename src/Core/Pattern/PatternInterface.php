@@ -1,14 +1,21 @@
 <?php
 
+/*
+ * This file is part of Mannequin.
+ *
+ * (c) 2017 Last Call Media, Rob Bayliss <rob@lastcallmedia.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace LastCall\Mannequin\Core\Pattern;
 
 use LastCall\Mannequin\Core\Variable\Definition;
 use LastCall\Mannequin\Core\Variable\Set;
-use LastCall\Mannequin\Core\Variable\VariableSet;
 
 interface PatternInterface
 {
-
     /**
      * Get the unique identifier for the pattern.
      *
@@ -114,7 +121,6 @@ interface PatternInterface
      * @return \LastCall\Mannequin\Core\Pattern\PatternInterface
      */
     public function addVariableSet(string $id, Set $set): PatternInterface;
-
 
     public function addUsedPattern(PatternInterface $pattern): PatternInterface;
 

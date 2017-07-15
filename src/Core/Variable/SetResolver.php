@@ -1,14 +1,20 @@
 <?php
 
+/*
+ * This file is part of Mannequin.
+ *
+ * (c) 2017 Last Call Media, Rob Bayliss <rob@lastcallmedia.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace LastCall\Mannequin\Core\Variable;
-
 
 use LastCall\Mannequin\Core\Exception\InvalidVariableException;
 
 class SetResolver
 {
-
     /**
      * @var \LastCall\Mannequin\Core\Variable\ResolverInterface[]
      */
@@ -50,6 +56,6 @@ class SetResolver
 
     public function resolves($type)
     {
-        return (bool)$this->findResolver($type);
+        return (bool) $this->findResolver($type);
     }
 }

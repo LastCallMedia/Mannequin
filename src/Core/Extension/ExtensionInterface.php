@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of Mannequin.
+ *
+ * (c) 2017 Last Call Media, Rob Bayliss <rob@lastcallmedia.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace LastCall\Mannequin\Core\Extension;
 
 use LastCall\Mannequin\Core\ConfigInterface;
@@ -7,7 +16,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 interface ExtensionInterface
 {
-
     /**
      * Set the configuration instance.
      *
@@ -16,8 +24,6 @@ interface ExtensionInterface
      * but not in the constructor.
      *
      * @param \LastCall\Mannequin\Core\ConfigInterface $container
-     *
-     * @return void
      */
     public function setConfig(ConfigInterface $container);
 
@@ -46,9 +52,6 @@ interface ExtensionInterface
      * Attach an extension's listeners/subscribers to a dispatcher.
      *
      * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
-     *
-     * @return void
      */
     public function attachToDispatcher(EventDispatcherInterface $dispatcher);
-
 }

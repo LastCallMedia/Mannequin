@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of Mannequin.
+ *
+ * (c) 2017 Last Call Media, Rob Bayliss <rob@lastcallmedia.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace LastCall\Mannequin\Core;
 
 use LastCall\Mannequin\Core\Console\Application as ConsoleApplication;
@@ -14,10 +23,8 @@ use LastCall\Mannequin\Core\Ui\MannequinUi;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 
-
 class Application extends \Silex\Application
 {
-
     const APP_NAME = 'Mannequin';
 
     const APP_VERSION = '0.0.0';
