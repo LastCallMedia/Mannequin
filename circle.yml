@@ -36,7 +36,12 @@ jobs:
       - save_cache:
           key: package-v2-{{ checksum "ui/package.json" }}
           paths: [ui/node_modules]
+      - run: cd ui && npm run build
       - run: cd ui && npm run test
+      - persist_to_workspace:
+          root: ui
+          paths:
+            - build/*
 
 
   deploy_split:
@@ -47,6 +52,17 @@ jobs:
       - checkout
       - run: gitsplit
 
+  deploy_ui:
+    working_directory: /srv
+    docker:
+      - image: node:6
+    steps:
+      - checkout
+      - attach_workspace:
+          root: ui
+      - run: ls ui/build
+
+
 workflows:
   version: 2
   test_and_deploy:
@@ -55,3 +71,5 @@ workflows:
       - test_ui
       - deploy_split:
           requires: [test_php]
+      - deploy_ui:
+          requires: [test_ui]
