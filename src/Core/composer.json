@@ -31,7 +31,7 @@
         ]
     },
     "bin": [
-        "cli/bin/mannequin"
+        "bin/mannequin"
     ],
     "extra": {
         "branch-alias": {
