@@ -1,5 +1,6 @@
 {
     "name": "lastcall/mannequin-html",
+    "description": "HTML extension for the Mannequin template viewer",
     "type": "library",
     "license": "MIT",
     "authors": [

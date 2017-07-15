@@ -1,5 +1,6 @@
 {
     "name": "lastcall/mannequin-drupal",
+    "description": "Drupal extension for the Mannequin template viewer",
     "type": "library",
     "license": "MIT",
     "authors": [

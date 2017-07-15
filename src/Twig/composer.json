@@ -1,5 +1,6 @@
 {
     "name": "lastcall/mannequin-twig",
+    "description": "Twig extension for the Mannequin template viewer",
     "type": "library",
     "license": "MIT",
     "authors": [

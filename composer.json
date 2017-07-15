@@ -1,5 +1,6 @@
 {
     "name": "lastcall/mannequin",
+    "description": "An open source template viewer",
     "type": "library",
     "license": "MIT",
     "authors": [
