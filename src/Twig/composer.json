@@ -1,0 +1,29 @@
+{
+    "name": "lastcallmedia/mannequin-twig",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rob Bayliss",
+            "email": "rob@lastcallmedia.com"
+        }
+    ],
+    "require": {
+        "php": ">7.0",
+        "lastcallmedia/mannequin-core": "~1.0",
+        "symfony/finder": "^2.7 ||^3.0",
+        "symfony/cache": "^3.3",
+        "twig/twig": "^1.3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "LastCall\\Mannequin\\Twig\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests"
+        ]
+    }
+}
