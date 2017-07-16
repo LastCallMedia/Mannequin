@@ -59,7 +59,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: /srv/ui
-      - run: curl -L -o ~/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 && chmod +x ~/bin/jq
+      - run: curl -L -o /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 && chmod +x /usr/bin/jq
       - run: |
           cd ui
           package=$(cat package.json | jq -r .name)
