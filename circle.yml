@@ -39,10 +39,9 @@ jobs:
       - run: cd ui && npm run build
       - run: cd ui && npm run test
       - persist_to_workspace:
-          root: ui
+          root: /srv/ui
           paths:
-            - build/*
-
+            - build
 
   deploy_split:
     working_directory: /srv
@@ -59,9 +58,18 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          root: ui
-      - run: ls ui/build
-
+          at: /srv/ui
+      - run: curl -L -o ~/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 && chmod +x ~/bin/jq
+      - run: |
+          cd ui
+          package=$(cat package.json | jq -r .name)
+          version=$(cat package.version | jq -r version)
+          if [ -z "$(npm info ${package}@${version} 2> /dev/null)" ]; then
+            echo "Running npm publish on ${package}@${version}"
+            npm publish
+          else
+            echo "Skipping npm publish"
+          fi
 
 workflows:
   version: 2
@@ -73,3 +81,6 @@ workflows:
           requires: [test_php]
       - deploy_ui:
           requires: [test_ui]
+          filters:
+            branches:
+              only: master
