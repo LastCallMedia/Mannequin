@@ -139,7 +139,7 @@ const PatternTopBar = ({pattern, set, openWindow, toggleInfo, changeSet}) => {
         <h4 className="name">{pattern.name}</h4>
         <div className="set"><SetSelector sets={pattern.sets} selected={set.id} onChange={changeSet} /></div>
         <ul className="actions">
-          <li><button onClick={toggleInfo} className="PatterinInfoButton">View Pattern Info</button></li>
+          <li><button onClick={toggleInfo} className="PatternInfoButton">View Pattern Info</button></li>
           <li><a onClick={openWindow} target="_blank" className="OpenWindowButton" href={set.rendered}><OpenNew /></a></li>
         </ul>
       </div>

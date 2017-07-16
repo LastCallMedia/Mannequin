@@ -71,7 +71,7 @@
 
 .PatternInfo {
   .inner {
-    background: black;
+    background: $dark-bg;
     @include xy-grid-container();
     @include xy-grid();
 
