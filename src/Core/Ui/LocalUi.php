@@ -16,7 +16,12 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class MannequinUi implements UiInterface
+/**
+ * Local UI.
+ *
+ * This class depends on precompiled UI files being available on the filesystem.
+ */
+class LocalUi implements UiInterface
 {
     const TEMPLATE = <<<'EOD'
 <html>

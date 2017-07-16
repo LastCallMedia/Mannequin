@@ -19,7 +19,7 @@ use LastCall\Mannequin\Core\Ui\Controller\ManifestController;
 use LastCall\Mannequin\Core\Ui\Controller\RenderController;
 use LastCall\Mannequin\Core\Ui\Controller\UiController;
 use LastCall\Mannequin\Core\Ui\ManifestBuilder;
-use LastCall\Mannequin\Core\Ui\MannequinUi;
+use LastCall\Mannequin\Core\Ui\RemoteUi;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 
@@ -35,7 +35,6 @@ class Application extends \Silex\Application
         $this['console'] = function () {
             $app = new ConsoleApplication(self::APP_NAME, self::APP_VERSION);
             $app->setDispatcher($this['dispatcher']);
-            $config = $this->getConfig();
             $app->addCommands(
                 [
                     new RenderCommand(
@@ -82,7 +81,7 @@ class Application extends \Silex\Application
         $this['ui'] = function () {
             $config = $this['config'];
 
-            return $config['ui'] ?? new MannequinUi();
+            return $config['ui'] ?? new RemoteUi(sys_get_temp_dir().'/mannequin-ui');
         };
 
         $this->register(new ServiceControllerServiceProvider());

@@ -15,7 +15,13 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class MannequinDevelopmentUi extends MannequinUi
+/**
+ * Local Development UI.
+ *
+ * This class is used to proxy UI file requests to the live development server
+ * (webpack).
+ */
+class LocalDevelopmentUi extends LocalUi
 {
     public function __construct($url)
     {
