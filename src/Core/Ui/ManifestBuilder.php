@@ -26,7 +26,7 @@ class ManifestBuilder
 
     public function generate(PatternCollection $collection)
     {
-        $manifest = [];
+        $manifest = ['patterns' => []];
         $generator = $this->generator;
         foreach ($collection as $pattern) {
             $id = $pattern->getId();

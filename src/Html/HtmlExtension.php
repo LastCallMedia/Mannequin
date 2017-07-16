@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace LastCall\Mannequin\Html\Extension;
+namespace LastCall\Mannequin\Html;
 
 use LastCall\Mannequin\Core\Extension\AbstractExtension;
 use LastCall\Mannequin\Core\Iterator\MappingCallbackIterator;

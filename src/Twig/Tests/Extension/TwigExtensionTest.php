@@ -13,9 +13,9 @@ namespace LastCall\Mannequin\Twig\Tests\Extension;
 
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Tests\Extension\ExtensionTestCase;
-use LastCall\Mannequin\Twig\Extension\TwigExtension;
 use LastCall\Mannequin\Twig\Subscriber\InlineTwigYamlMetadataSubscriber;
 use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
+use LastCall\Mannequin\Twig\TwigExtension;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

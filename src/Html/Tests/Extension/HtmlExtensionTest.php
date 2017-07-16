@@ -13,7 +13,7 @@ namespace LastCall\Mannequin\Html\Tests\Extension;
 
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Tests\Extension\ExtensionTestCase;
-use LastCall\Mannequin\Html\Extension\HtmlExtension;
+use LastCall\Mannequin\Html\HtmlExtension;
 use Symfony\Component\Finder\Finder;
 
 class HtmlExtensionTest extends ExtensionTestCase

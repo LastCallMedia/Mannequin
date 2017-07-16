@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace LastCall\Mannequin\Twig\Extension;
+namespace LastCall\Mannequin\Twig;
 
 use LastCall\Mannequin\Core\Extension\AbstractExtension;
 use LastCall\Mannequin\Core\Iterator\MappingCallbackIterator;
@@ -18,8 +18,6 @@ use LastCall\Mannequin\Twig\Engine\TwigEngine;
 use LastCall\Mannequin\Twig\Mapper\FilesystemLoaderMapper;
 use LastCall\Mannequin\Twig\Subscriber\InlineTwigYamlMetadataSubscriber;
 use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
-use LastCall\Mannequin\Twig\TwigInspector;
-use LastCall\Mannequin\Twig\TwigInspectorCacheDecorator;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class TwigExtension extends AbstractExtension

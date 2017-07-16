@@ -9,14 +9,14 @@
  * with this source code in the file LICENSE.
  */
 
-namespace LastCall\Mannequin\Drupal\Extension;
+namespace LastCall\Mannequin\Drupal;
 
 use Drupal\Core\DrupalKernel;
 use Drupal\Core\Site\Settings;
-use LastCall\Mannequin\Twig\Extension\TwigExtension;
+use LastCall\Mannequin\Twig\TwigExtension;
 use Symfony\Component\HttpFoundation\Request;
 
-class DrupalBootstrapExtension extends TwigExtension
+class DrupalExtension extends TwigExtension
 {
     public function __construct(array $config = [])
     {
