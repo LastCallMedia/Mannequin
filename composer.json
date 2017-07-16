@@ -1,5 +1,6 @@
 {
-    "name": "lastcallmedia/mannequin",
+    "name": "lastcall/mannequin",
+    "description": "An open source template viewer",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -8,34 +9,36 @@
             "email": "rob@lastcallmedia.com"
         }
     ],
+    "replace": {
+        "lastcall/mannequin-core": "self.version",
+        "lastcall/mannequin-drupal": "self.version",
+        "lastcall/mannequin-html": "self.version",
+        "lastcall/mannequin-twig": "self.version"
+    },
     "require": {
+        "php": ">7.0",
         "symfony/console": "^2.7 ||^3.0",
-        "pimple/pimple": "^3.0",
         "symfony/filesystem": "^2.7 ||^3.0",
         "symfony/process": "^2.7 ||^3.0",
         "silex/silex": "^2.0",
+        "pimple/pimple": "^3.0",
+        "symfony/yaml": "^2.7 ||^3.0",
         "symfony/finder": "^2.7 ||^3.0",
         "twig/twig": "^1.3.0",
-        "symfony/yaml": "^2.7 ||^3.0",
-        "symfony/cache": "^3.3"
-    },
-    "autoload": {
-      "psr-4": {
-        "LastCall\\Mannequin\\Core\\": "core/",
-        "LastCall\\Mannequin\\Cli\\": "cli/",
-        "LastCall\\Mannequin\\Html\\": "html/",
-        "LastCall\\Mannequin\\Twig\\": "twig/",
-        "LastCall\\Mannequin\\Drupal\\": "drupal/",
-        "LastCall\\Mannequin\\Ui\\": "ui/"
-      },
-      "exclude-from-classmap": [
-        "**/Tests/"
-      ]
+        "psr/cache": "~1.0",
+        "alchemy/zippy": "~0.4.0",
+        "guzzlehttp/guzzle": "^6.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.1"
+        "phpunit/phpunit": "^6.1",
+        "friendsofphp/php-cs-fixer": "^2.3"
     },
-  "bin": [
-    "cli/bin/patterns"
-  ]
+    "autoload": {
+        "psr-4": {
+            "LastCall\\Mannequin\\": "src/"
+        },
+        "exclude-from-classmap": [
+            "src/*/Tests"
+        ]
+    }
 }

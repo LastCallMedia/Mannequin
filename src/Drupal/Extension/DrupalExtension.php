@@ -1,0 +1,24 @@
+<?php
+
+/*
+ * This file is part of Mannequin.
+ *
+ * (c) 2017 Last Call Media, Rob Bayliss <rob@lastcallmedia.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
+namespace LastCall\Mannequin\Drupal\Extension;
+
+use LastCall\Mannequin\Drupal\Twig\DrupalTwigExtension;
+use LastCall\Mannequin\Twig\Extension\TwigExtension;
+
+class DrupalExtension extends TwigExtension
+{
+    public function __construct(array $config = [])
+    {
+        parent::__construct($config);
+        $this->addExtension(new DrupalTwigExtension());
+    }
+}

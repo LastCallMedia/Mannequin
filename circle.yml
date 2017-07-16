@@ -1,24 +1,87 @@
 version: 2
 jobs:
-  build:
-    working_directory: ~/mannequin
+  test_php:
+    working_directory: /srv
     docker:
       - image: lastcallmedia/php:7.0-dev
     steps:
       - checkout
       - restore_cache:
-          key: composer-v1-{{ checksum "composer.json" }}
+          key: composer-v2-{{ checksum "composer.json" }}
       - run: composer install
       - save_cache:
-          key: composer-v1-{{ checksum "composer.json" }}
+          key: composer-v2-{{ checksum "composer.json" }}
           paths: [vendor]
+      - run: |
+          COMMIT_RANGE=`echo $CIRCLE_COMPARE_URL | cut -d/ -f7`
+          IFS=$'\n'; COMMIT_SCA_FILES=($(git diff --name-only --diff-filter=ACMRTUXB "${COMMIT_RANGE}")); unset IFS
+          vendor/bin/php-cs-fixer fix --config=.php_cs.dist -v --dry-run --stop-on-violation --using-cache=no --path-mode=intersection -- "${COMMIT_SCA_FILES[@]}"
+      - run: |
+          composer validate
+          for dir in src/*; do
+            echo "Checking composer.json in $dir"
+            composer validate -d $dir
+          done
+      - run: vendor/bin/phpunit
 
+  test_ui:
+    working_directory: /srv
+    docker:
+      - image: node:6
+    steps:
+      - checkout
       - restore_cache:
-          key: package-v1-{{ checksum "ui/package.json" }}
+          key: package-v2-{{ checksum "ui/package.json" }}
       - run: cd ui && npm install
       - save_cache:
-          key: package-v1-{{ checksum "ui/package.json" }}
+          key: package-v2-{{ checksum "ui/package.json" }}
           paths: [ui/node_modules]
-
-      - run: vendor/bin/phpunit
+      - run: cd ui && npm run build
       - run: cd ui && npm run test
+      - persist_to_workspace:
+          root: /srv/ui
+          paths:
+            - build
+
+  deploy_split:
+    working_directory: /srv
+    docker:
+      - image: jderusse/gitsplit
+    steps:
+      - checkout
+      - run: gitsplit
+
+  deploy_ui:
+    working_directory: /srv
+    docker:
+      - image: node:6
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /srv/ui
+      - run: curl -L -o /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 && chmod +x /usr/bin/jq
+      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+      - run: |
+          cd ui
+          package=$(cat package.json | jq -r .name)
+          version=$(cat package.json | jq -r .version)
+          if [ -z "$(npm info ${package}@${version} 2> /dev/null)" ]; then
+            echo "Running npm publish on ${package}@${version}"
+            npm publish
+          else
+            echo "Skipping npm publish"
+          fi
+
+workflows:
+  version: 2
+  test_and_deploy:
+    jobs:
+      - test_php
+      - test_ui
+      - deploy_split:
+          requires: [test_php]
+      - deploy_ui:
+          requires: [test_ui]
+          filters:
+            branches:
+              only: master

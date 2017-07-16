@@ -92,7 +92,8 @@ class PatternPage extends Component {
   toggleInfo(e) {
     this.setState(state => ({
       showingInfo: !state.showingInfo
-    }))
+    }));
+    e.preventDefault();
   }
   openWindow(e) {
     window.open(this.props.set.rendered, this.props.pattern.name, 'resizable');
@@ -138,7 +139,7 @@ const PatternTopBar = ({pattern, set, openWindow, toggleInfo, changeSet}) => {
         <h4 className="name">{pattern.name}</h4>
         <div className="set"><SetSelector sets={pattern.sets} selected={set.id} onChange={changeSet} /></div>
         <ul className="actions">
-          <li><a onClick={toggleInfo} href="javascript:" className="PatternInfoButton">View Pattern Info</a></li>
+          <li><button onClick={toggleInfo} className="PatterinInfoButton">View Pattern Info</button></li>
           <li><a onClick={openWindow} target="_blank" className="OpenWindowButton" href={set.rendered}><OpenNew /></a></li>
         </ul>
       </div>

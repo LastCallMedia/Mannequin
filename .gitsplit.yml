@@ -1,0 +1,15 @@
+# List of splits.
+splits:
+  - prefix: "src/Core"
+    target: "https://${GH_TOKEN}@github.com/LastCallMedia/Mannequin-Core.git"
+  - prefix: "src/Html"
+    target: "https://${GH_TOKEN}@github.com/LastCallMedia/Mannequin-Html.git"
+  - prefix: "src/Drupal"
+    target: "https://${GH_TOKEN}@github.com/LastCallMedia/Mannequin-Drupal.git"
+  - prefix: "src/Twig"
+    target: "https://${GH_TOKEN}@github.com/LastCallMedia/Mannequin-Twig.git"
+
+# List of references to split (defined as regexp)
+origins:
+  - ^master$
+  - ^v\d+\.\d+\.\d+$

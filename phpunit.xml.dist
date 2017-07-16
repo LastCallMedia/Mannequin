@@ -3,24 +3,15 @@
 <phpunit colors="true" bootstrap="vendor/autoload.php">
     <testsuites>
         <testsuite name="Patterns Test Suite">
-            <directory>./cli/Tests</directory>
-            <directory>./core/Tests</directory>
-            <directory>./html/Tests</directory>
-            <directory>./twig/Tests</directory>
+            <directory>./src/*/Tests</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory>./cli/</directory>
-            <directory>./core/</directory>
-            <directory>./html/</directory>
-            <directory>./twig/</directory>
+            <directory>./src/*/</directory>
             <exclude>
-                <directory>./cli/Tests</directory>
-                <directory>./core/Tests</directory>
-                <directory>./html/Tests</directory>
-                <directory>./twig/Tests</directory>
+                <directory>./src/*/Tests</directory>
             </exclude>
         </whitelist>
     </filter>

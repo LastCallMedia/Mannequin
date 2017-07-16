@@ -7,16 +7,16 @@ use Symfony\Component\Finder\Finder;
 
 $twigFinder = Finder::create()
   ->files()
-  ->in(__DIR__.'/twig/Tests/Resources');
+  ->in(__DIR__.'/src/Twig/Tests/Resources');
 
 $htmlFinder = Finder::create()
   ->files()
-  ->in(__DIR__.'/html/Tests/Resources');
+  ->in(__DIR__.'/src/Html/Tests/Resources');
 
 $twig = new TwigExtension([
   'finder' => $twigFinder,
   'twig_paths' => [
-    '__main__' => [__DIR__.'/twig/Tests/Resources']
+    '__main__' => [__DIR__.'/src/Twig/Tests/Resources']
   ]
 ]);
 

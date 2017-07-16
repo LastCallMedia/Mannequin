@@ -1,0 +1,44 @@
+{
+    "name": "lastcall/mannequin-core",
+    "description": "An open source template viewer",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rob Bayliss",
+            "email": "rob@lastcallmedia.com"
+        }
+    ],
+    "require": {
+        "php": ">7.0",
+        "symfony/console": "^2.7 ||^3.0",
+        "symfony/filesystem": "^2.7 ||^3.0",
+        "symfony/process": "^2.7 ||^3.0",
+        "silex/silex": "^2.0",
+        "pimple/pimple": "^3.0",
+        "symfony/yaml": "^2.7 ||^3.0",
+        "psr/cache": "~1.0",
+        "alchemy/zippy": "~0.4.0",
+        "guzzlehttp/guzzle": "^6.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "LastCall\\Mannequin\\Core\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests"
+        ]
+    },
+    "bin": [
+        "bin/mannequin"
+    ],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.99-dev"
+        },
+        "uiVersion": "0.1.2"
+    }
+}

@@ -1,0 +1,34 @@
+{
+    "name": "lastcall/mannequin-drupal",
+    "description": "Drupal extension for the Mannequin template viewer",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rob Bayliss",
+            "email": "rob@lastcallmedia.com"
+        }
+    ],
+    "require": {
+        "php": ">7.0",
+        "symfony/finder": "^2.7 ||^3.0",
+        "lastcall/mannequin-core": "~0.1",
+        "lastcall/mannequin-twig": "~0.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "LastCall\\Mannequin\\Drupal\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.99-dev"
+        }
+    }
+}
