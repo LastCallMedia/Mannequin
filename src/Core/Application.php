@@ -39,8 +39,7 @@ class Application extends \Silex\Application
                     new RenderCommand(
                         'render',
                         $this['manifest.builder'],
-                        $this['config'],
-                        $this['ui']
+                        $this['config']
                     ),
                     new ServerCommand(
                         'server',
@@ -80,7 +79,7 @@ class Application extends \Silex\Application
 
         $this->register(new ServiceControllerServiceProvider());
         $this['controller.ui'] = function () {
-            return new UiController($this['ui']);
+            return new UiController($this['config']->getUi());
         };
         $this['controller.manifest'] = function () {
             return new ManifestController(
