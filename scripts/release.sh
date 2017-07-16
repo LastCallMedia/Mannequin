@@ -42,6 +42,12 @@ if git rev-parse "$tag" >& /dev/null; then
   exit 1
 fi
 
+# Verify that these files are otherwise clean.
+if ! git diff-index --quiet HEAD -- ui/package.json src/Core/composer.json; then
+  echo "Cannot release with uncommitted changes to package.json or composer.json"
+  exit 1
+fi
+
 cat src/Core/composer.json | jq --indent 4 -r ".extra.uiVersion = \"$tag\"" | tee src/Core/composer.json > /dev/null
 cat ui/package.json | jq -r ".version = \"$tag\"" | tee ui/package.json > /dev/null
 
