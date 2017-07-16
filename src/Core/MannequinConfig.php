@@ -26,7 +26,7 @@ use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class Config extends Container implements ConfigInterface
+class MannequinConfig extends Container implements ConfigInterface
 {
     public function __construct(array $values = [])
     {

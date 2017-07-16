@@ -12,7 +12,7 @@
 namespace LastCall\Mannequin\Core\Tests;
 
 use LastCall\Mannequin\Core\Cache\NullCacheItemPool;
-use LastCall\Mannequin\Core\Config;
+use LastCall\Mannequin\Core\MannequinConfig;
 use LastCall\Mannequin\Core\ConfigInterface;
 use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
@@ -27,18 +27,18 @@ use Prophecy\Argument;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class ConfigTest extends TestCase
+class MannequinConfigTest extends TestCase
 {
     public function testCanUseCreate()
     {
-        $config = Config::create();
-        $this->assertInstanceOf(Config::class, $config);
+        $config = MannequinConfig::create();
+        $this->assertInstanceOf(MannequinConfig::class, $config);
     }
 
     public function testSetsConfigWhenExtensionsAreUsed()
     {
         $extension = $this->prophesize(ExtensionInterface::class);
-        $config = new Config();
+        $config = new MannequinConfig();
         $extension->setConfig($config)->shouldBeCalled();
         $config->addExtension($extension->reveal());
         $config->getExtensions();
@@ -46,7 +46,7 @@ class ConfigTest extends TestCase
 
     public function testHasDiscovery()
     {
-        $config = new Config();
+        $config = new MannequinConfig();
         $this->assertInstanceOf(ChainDiscovery::class, $config['discovery']);
     }
 
@@ -58,7 +58,7 @@ class ConfigTest extends TestCase
             ->shouldBeCalled();
         $extension = $this->getMockExtension();
         $extension->getDiscoverers()->willReturn([$discoverer]);
-        $config = new Config();
+        $config = new MannequinConfig();
         $config->addExtension($extension->reveal());
         $config->getCollection();
     }
@@ -91,14 +91,14 @@ class ConfigTest extends TestCase
             ->shouldBeCalled();
 
         $extension->getVariableResolvers()->shouldBeCalled();
-        $config = new Config();
+        $config = new MannequinConfig();
         $config->addExtension($extension->reveal());
         $this->assertTrue($config->getVariableResolver()->resolves('foo'));
     }
 
     public function testHasCoreExtension()
     {
-        $config = new Config();
+        $config = new MannequinConfig();
         $extensions = $config->getExtensions();
         $this->assertCount(1, $extensions);
         $this->assertInstanceOf(CoreExtension::class, reset($extensions));
@@ -106,7 +106,7 @@ class ConfigTest extends TestCase
 
     public function testHasRenderer()
     {
-        $config = new Config();
+        $config = new MannequinConfig();
         $this->assertInstanceOf(
             DelegatingEngine::class,
             $config->getRenderer()
@@ -115,7 +115,7 @@ class ConfigTest extends TestCase
 
     public function testHasVariableFactory()
     {
-        $config = new Config();
+        $config = new MannequinConfig();
         $this->assertInstanceOf(
             SetResolver::class,
             $config->getVariableResolver()
@@ -124,7 +124,7 @@ class ConfigTest extends TestCase
 
     public function testCallsExtensionAttachToDispatcher()
     {
-        $config = new Config();
+        $config = new MannequinConfig();
         $extension = $this->getMockExtension();
         $extension->attachToDispatcher(
             Argument::type(EventDispatcherInterface::class)
@@ -144,7 +144,7 @@ class ConfigTest extends TestCase
 
     public function testHasDefaultCache()
     {
-        $config = new Config();
+        $config = new MannequinConfig();
         $this->assertEquals(
             new NullCacheItemPool(),
             $config->getCache()
@@ -154,43 +154,43 @@ class ConfigTest extends TestCase
     public function testCacheCanBeOverridden()
     {
         $cache = $this->prophesize(CacheItemPoolInterface::class)->reveal();
-        $config = new Config(['cache' => $cache]);
+        $config = new MannequinConfig(['cache' => $cache]);
         $this->assertEquals($cache, $config->getCache());
     }
 
     public function testHasDefaultStyles()
     {
-        $config = new Config();
+        $config = new MannequinConfig();
         $this->assertEquals([], $config->getStyles());
     }
 
     public function testCanOverrideStyles()
     {
-        $config = new Config(['styles' => ['foo']]);
+        $config = new MannequinConfig(['styles' => ['foo']]);
         $this->assertEquals(['foo'], $config->getStyles());
     }
 
     public function testHasDefaultScripts()
     {
-        $config = new Config();
+        $config = new MannequinConfig();
         $this->assertEquals([], $config->getScripts());
     }
 
     public function testCanOverrideScripts()
     {
-        $config = new Config(['scripts' => ['foo']]);
+        $config = new MannequinConfig(['scripts' => ['foo']]);
         $this->assertEquals(['foo'], $config->getScripts());
     }
 
     public function testHasDefaultAssetMapping()
     {
-        $config = new Config();
+        $config = new MannequinConfig();
         $this->assertEquals([], $config->getAssetMappings());
     }
 
     public function testCanAddAssetMappings()
     {
-        $config = new Config();
+        $config = new MannequinConfig();
         $config->addAssetMapping('foo', __DIR__);
         $this->assertEquals(['foo' => __DIR__], $config->getAssetMappings());
     }
