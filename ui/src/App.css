@@ -5061,7 +5061,8 @@ a.thumbnail {
     .App .main-frame .MannequinTopBar {
       flex: 0 0; }
     .App .main-frame main {
-      flex: 1 0; }
+      flex: 1 0;
+      overflow-y: auto; }
   .App .NavDrawer {
     flex: 0 0 50%;
     width: 50%;

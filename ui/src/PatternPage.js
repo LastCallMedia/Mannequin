@@ -25,9 +25,9 @@ const PatternShape = {
 };
 
 
-const PatternPageLoadingWrapper = ({pattern, set, used, onSetChange, onPatternViewed}) => (
+const PatternPageLoadingWrapper = ({pattern, set, used, onSetChange, onPatternView}) => (
   <main className="PatternPageLoadingWrapper">
-    {pattern && <PatternPage pattern={pattern} set={set} used={used} onSetChange={onSetChange} onPatternViewed={onPatternViewed} />}
+    {pattern && <PatternPage pattern={pattern} set={set} used={used} onSetChange={onSetChange} onPatternViewed={onPatternView} />}
   </main>
 )
 PatternPageLoadingWrapper.propTypes = {
@@ -74,13 +74,13 @@ const mapStateToProps = (state, ownProps) => {
     used: getUsed(state, ownProps)
   }
 }
-const mapDispatchToProps = (state, ownProps) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onSetChange: (sid) => {
       ownProps.history.push(`/pattern/${ownProps.match.params.pattern}/set/${sid}`)
     },
     onPatternView: (pattern) => {
-
+      dispatch(patternView(pattern));
     }
   }
 }

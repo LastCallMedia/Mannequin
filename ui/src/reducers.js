@@ -45,7 +45,14 @@ const quickLinks = (state = [], action) => {
   switch(action.type) {
     case 'PATTERN_VIEW':
       const pid = action.pattern.id;
-      return state.slice(0).push(pid);
+      const idx = state.indexOf(pid);
+      let newState = state.slice(0);
+      if(-1 !== idx) {
+        // Pop the item out of the array.
+        newState.splice(idx, 1);
+      }
+      newState.unshift(pid);
+      return newState.slice(0, 5);
     default:
       return state;
   }
