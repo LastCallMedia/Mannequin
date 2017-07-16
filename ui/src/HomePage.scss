@@ -13,16 +13,16 @@
     text-align:center;
 
     .logo {
-      width: 56px;
+      width: rem-calc(56);
     }
     h1 {
       font-family: $impact-font-family;
-      font-size: 40px;
-      line-height: 46px;
+      font-size: rem-calc(40);
+      line-height: rem-calc(46);
       font-weight: 700;
 
       small {
-        margin-top: 12px;
+        margin-top: rem-calc(12);
         display:block;
         font-size: rem-calc(12);
         color: inherit;
@@ -32,7 +32,7 @@
     }
     @include breakpoint(large) {
       .logo {
-        width: 124px;
+        width: rem-calc(124);
       }
       h1 {
         font-size: rem-calc(112);
@@ -47,7 +47,6 @@
     h4 {
       text-align: center;
       margin-bottom: rem-calc(48);
-
       font-family: $impact-font-family;
       font-weight: 300;
       font-size: rem-calc(9);

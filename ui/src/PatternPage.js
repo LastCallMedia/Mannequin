@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
+import {patternView} from './actions';
 import {Link} from 'react-router-dom';
 import Highlight from 'react-syntax-highlight';
 import {OpenNew} from './Icon';
@@ -24,9 +25,9 @@ const PatternShape = {
 };
 
 
-const PatternPageLoadingWrapper = ({pattern, set, used, onSetChange}) => (
+const PatternPageLoadingWrapper = ({pattern, set, used, onSetChange, onPatternViewed}) => (
   <main className="PatternPageLoadingWrapper">
-    {pattern && <PatternPage pattern={pattern} set={set} used={used} onSetChange={onSetChange} />}
+    {pattern && <PatternPage pattern={pattern} set={set} used={used} onSetChange={onSetChange} onPatternViewed={onPatternViewed} />}
   </main>
 )
 PatternPageLoadingWrapper.propTypes = {
@@ -37,6 +38,7 @@ PatternPageLoadingWrapper.propTypes = {
     id: PropTypes.string.isRequired
   })),
   onSetChange: PropTypes.func.isRequired,
+  onPatternView: PropTypes.func.isRequired
 }
 /**
  * These reselect selectors pull data out of redux state based on URL params.
@@ -76,6 +78,9 @@ const mapDispatchToProps = (state, ownProps) => {
   return {
     onSetChange: (sid) => {
       ownProps.history.push(`/pattern/${ownProps.match.params.pattern}/set/${sid}`)
+    },
+    onPatternView: (pattern) => {
+
     }
   }
 }
@@ -88,6 +93,9 @@ class PatternPage extends Component {
     this.state = {showingInfo: false}
     this.toggleInfo = this.toggleInfo.bind(this)
     this.openWindow = this.openWindow.bind(this)
+  }
+  componentDidMount() {
+    this.props.onPatternViewed(this.props.pattern)
   }
   toggleInfo(e) {
     this.setState(state => ({

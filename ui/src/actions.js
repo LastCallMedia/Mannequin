@@ -28,3 +28,10 @@ export function toggleDrawer() {
     type: 'DRAWER_TOGGLE',
   }
 }
+
+export function onPatternView(pattern) {
+  return {
+    type: 'PATTERN_VIEW',
+    pattern: pattern
+  }
+}

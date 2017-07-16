@@ -41,9 +41,20 @@ const drawer = (state = false, action) => {
   }
 }
 
+const quickLinks = (state = [], action) => {
+  switch(action.type) {
+    case 'PATTERN_VIEW':
+      const pid = action.pattern.id;
+      return state.slice(0).push(pid);
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   patterns,
   loading,
   error,
   drawer,
+  quickLinks
 });

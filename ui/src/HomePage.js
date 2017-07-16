@@ -1,6 +1,8 @@
 
 import React, {Component} from 'react';
 import './HomePage.css';
+import {createSelector} from 'reselect';
+import {connect} from 'react-redux';
 import logo from './svg/manny_wave.svg';
 
 class HomePage extends Component {
@@ -35,4 +37,20 @@ const QuickLinkCard = ({name, category, path, className}) => {
   )
 }
 
-export default HomePage
+const getPatternsFromState = state => state.patterns;
+const getQuickLinksFromState = state => state.quickLinks;
+const getQuickLinks = createSelector(
+  [getPatternsFromState, getQuickLinksFromState],
+  (patterns, quickLinks) => {
+    console.log(quickLinks);
+  }
+)
+
+const mapStateToProps = (state) => {
+  return {
+    quickLinks: getQuickLinks(state)
+  }
+}
+
+
+export default connect(mapStateToProps)(HomePage)
