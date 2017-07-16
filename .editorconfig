@@ -9,6 +9,9 @@ end_of_line = LF
 indent_style = space
 indent_size = 4
 
+[Makefile]
+indent_style = tab
+
 [*.php]
 indent_style = space
 indent_size = 4
