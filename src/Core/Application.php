@@ -19,7 +19,6 @@ use LastCall\Mannequin\Core\Ui\Controller\ManifestController;
 use LastCall\Mannequin\Core\Ui\Controller\RenderController;
 use LastCall\Mannequin\Core\Ui\Controller\UiController;
 use LastCall\Mannequin\Core\Ui\ManifestBuilder;
-use LastCall\Mannequin\Core\Ui\RemoteUi;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 
@@ -78,11 +77,6 @@ class Application extends \Silex\Application
 
             return new ManifestBuilder($this['url_generator']);
         };
-        $this['ui'] = function () {
-            $config = $this['config'];
-
-            return $config['ui'] ?? new RemoteUi(sys_get_temp_dir().'/mannequin-ui');
-        };
 
         $this->register(new ServiceControllerServiceProvider());
         $this['controller.ui'] = function () {
@@ -100,7 +94,7 @@ class Application extends \Silex\Application
             return new RenderController(
                 $collection,
                 $this['config']->getRenderer(),
-                $this['ui']
+                $this['config']->getUi()
             );
         };
 

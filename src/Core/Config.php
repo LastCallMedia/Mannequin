@@ -18,6 +18,8 @@ use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Extension\CoreExtension;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Core\Ui\RemoteUi;
+use LastCall\Mannequin\Core\Ui\UiInterface;
 use LastCall\Mannequin\Core\Variable\SetResolver;
 use Pimple\Container;
 use Psr\Cache\CacheItemPoolInterface;
@@ -31,6 +33,11 @@ class Config extends Container implements ConfigInterface
         $values += [
             'cache' => function () {
                 return new NullCacheItemPool();
+            },
+            'ui' => function () {
+                $composer = json_decode(file_get_contents(__DIR__.'/composer.json'), true);
+
+                return new RemoteUi(sys_get_temp_dir().'/mannequin-ui', $composer['extra']['uiVersion']);
             },
             'styles' => [],
             'scripts' => [],
@@ -209,5 +216,10 @@ class Config extends Container implements ConfigInterface
     public function getCache(): CacheItemPoolInterface
     {
         return $this['cache'];
+    }
+
+    public function getUi(): UiInterface
+    {
+        return $this['ui'];
     }
 }

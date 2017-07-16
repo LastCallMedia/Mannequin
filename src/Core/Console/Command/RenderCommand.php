@@ -14,7 +14,6 @@ namespace LastCall\Mannequin\Core\Console\Command;
 use LastCall\Mannequin\Core\ConfigInterface;
 use LastCall\Mannequin\Core\Ui\FileWriter;
 use LastCall\Mannequin\Core\Ui\ManifestBuilder;
-use LastCall\Mannequin\Core\Ui\UiInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -32,13 +31,11 @@ class RenderCommand extends Command
     public function __construct(
         $name = null,
         ManifestBuilder $manifester,
-        ConfigInterface $config,
-        UiInterface $ui
+        ConfigInterface $config
     ) {
         parent::__construct($name);
         $this->manifester = $manifester;
         $this->config = $config;
-        $this->ui = $ui;
     }
 
     public function configure()
@@ -62,6 +59,7 @@ class RenderCommand extends Command
         try {
             $collection = $this->config->getCollection();
             $engine = $this->config->getRenderer();
+            $ui = $this->config->getUi();
 
             $manifest = $this->manifester->generate($collection);
             $writer->raw('manifest.json', json_encode($manifest));
@@ -84,7 +82,7 @@ class RenderCommand extends Command
                         );
                         $writer->raw(
                             $setManifest['rendered'],
-                            $this->ui->decorateRendered($rendered)
+                            $ui->decorateRendered($rendered)
                         );
                     }
                     $rows[] = $this->getSuccessRow($pattern->getName());
@@ -100,7 +98,7 @@ class RenderCommand extends Command
             $writer->copy($src, $dest);
         }
 
-        foreach ($this->ui->files() as $dest => $src) {
+        foreach ($ui->files() as $dest => $src) {
             $writer->copy($src, $dest);
         }
 
