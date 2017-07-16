@@ -9,24 +9,37 @@
     text-transform: uppercase;
   }
   .branding {
-    margin: rem-calc(100);
+    margin: rem-calc(100) 0;
     text-align:center;
 
     .logo {
-      height: 118px;
-      width: 92px;
+      width: 56px;
     }
     h1 {
       font-family: $impact-font-family;
-      font-size: rem-calc(112);
-      //font-weight: 600;
-      line-height: rem-calc(137);
+      font-size: 40px;
+      line-height: 46px;
+      font-weight: 700;
+
       small {
+        margin-top: 12px;
         display:block;
         font-size: rem-calc(12);
         color: inherit;
-        font-weight: 800;
-        letter-spacing: 6px;
+        font-weight: 700;
+        letter-spacing: 1px;
+      }
+    }
+    @include breakpoint(large) {
+      .logo {
+        width: 124px;
+      }
+      h1 {
+        font-size: rem-calc(112);
+        line-height: 1;
+        small {
+          margin-top: 0;
+        }
       }
     }
   }
