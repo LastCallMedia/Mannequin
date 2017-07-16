@@ -18,6 +18,5 @@ return PhpCsFixer\Config::create()
   ])
   ->setFinder(
     PhpCsFixer\Finder::create()
-      ->notPath('Core/Resources/router.php')
       ->in(__DIR__.'/src')
   );

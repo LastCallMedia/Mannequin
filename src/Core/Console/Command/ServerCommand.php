@@ -16,36 +16,23 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\ProcessBuilder;
 
 class ServerCommand extends Command
 {
-    const CODE = <<<'eod'
-<?php
-use LastCall\Mannequin\Core\Application;
-
-$autoload_file = '%s';
-require $autoload_file;
-$app = new Application([
-  'debug' => %d,
-  'autoload_file' => $autoload_file,
-  'config_file' => '%s',
-]);
-$app->run();
-eod;
-
     private $autoloadPath;
 
     private $configFile;
 
     private $debug;
 
+    private $processBuilder;
+
     public function __construct(
-        $name = null,
+        $name,
         string $configFile,
         string $autoloadPath,
-        bool $debug
+        bool $debug = false
     ) {
         parent::__construct($name);
         $this->autoloadPath = $autoloadPath;
@@ -69,29 +56,32 @@ eod;
         );
     }
 
+    private function getProcessBuilder(): ProcessBuilder
+    {
+        return $this->processBuilder ?? new ProcessBuilder();
+    }
+
+    public function setProcessBuilder(ProcessBuilder $builder)
+    {
+        $this->processBuilder = $builder;
+
+        return $this;
+    }
+
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $address = $input->getArgument('address');
 
-        $dir = sys_get_temp_dir().'/mannequin-server';
-        $code = sprintf(
-            self::CODE,
-            $this->autoloadPath,
-            $this->debug,
-            realpath($this->configFile)
-        );
-        (new Filesystem())->mkdir($dir);
-        file_put_contents($dir.'/index.php', $code);
-
-        return $this->runserver($dir, $address, $output);
-    }
-
-    private function runServer($docroot, $address, OutputInterface $output)
-    {
         $routerFile = realpath(__DIR__.'/../../Resources/router.php');
-        $builder = new ProcessBuilder(['php', '-S', $address, $routerFile]);
-        $builder->setWorkingDirectory($docroot);
-        $builder->setTimeout(null);
+        $builder = $this->getProcessBuilder()
+            ->setArguments(['php', '-S', $address, $routerFile])
+            ->addEnvironmentVariables([
+                'MANNEQUIN_CONFIG' => realpath($this->configFile),
+                'MANNEQUIN_AUTOLOAD' => realpath($this->autoloadPath),
+                'MANNEQUIN_DEBUG' => $this->debug,
+            ])
+            ->setWorkingDirectory(realpath(__DIR__.'/../../Resources'))
+            ->setTimeout(null);
 
         return $builder->getProcess()
             ->setTty(true)

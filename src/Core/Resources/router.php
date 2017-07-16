@@ -1,60 +1,22 @@
 <?php
 
 /*
- * This file is part of the Symfony package.
+ * This file is part of Mannequin.
  *
- * (c) Fabien Potencier <fabien@symfony.com>
+ * (c) 2017 Last Call Media, Rob Bayliss <rob@lastcallmedia.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
-/*
- * This file implements rewrite rules for PHP built-in web server.
- *
- * See: http://www.php.net/manual/en/features.commandline.webserver.php
- *
- * If you have custom directory layout, then you have to write your own router
- * and pass it as a value to 'router' option of server:run command.
- *
- * @author: Michał Pipa <michal.pipa.xsolve@gmail.com>
- * @author: Albert Jessurum <ajessu@gmail.com>
- */
-
-// Workaround https://bugs.php.net/64566
-if (ini_get('auto_prepend_file') && !in_array(
-        realpath(ini_get('auto_prepend_file')),
-        get_included_files(),
-        true
-    )
-) {
-    require ini_get('auto_prepend_file');
+if (getenv('MANNEQUIN_AUTOLOAD')) {
+    require_once getenv('MANNEQUIN_AUTOLOAD');
 }
 
-if (is_file(
-    $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$_SERVER['SCRIPT_NAME']
-)) {
-    return false;
-}
+$app = new \LastCall\Mannequin\Core\Application([
+    'debug' => getenv('MANNEQUIN_DEBUG') ?? false,
+    'autoload_file' => getenv('MANNEQUIN_AUTOLOAD'),
+    'config_file' => getenv('MANNEQUIN_CONFIG'),
+]);
 
-$script = getenv('APP_FRONT_CONTROLLER') ?: 'index.php';
-
-$_SERVER = array_merge($_SERVER, $_ENV);
-$_SERVER['SCRIPT_FILENAME'] = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$script;
-
-// Since we are rewriting to app_dev.php, adjust SCRIPT_NAME and PHP_SELF accordingly
-$_SERVER['SCRIPT_NAME'] = DIRECTORY_SEPARATOR.$script;
-$_SERVER['PHP_SELF'] = DIRECTORY_SEPARATOR.$script;
-
-require $script;
-
-error_log(
-    sprintf(
-        '%s:%d [%d]: %s',
-        $_SERVER['REMOTE_ADDR'],
-        $_SERVER['REMOTE_PORT'],
-        http_response_code(),
-        $_SERVER['REQUEST_URI']
-    ),
-    4
-);
+$app->run();
