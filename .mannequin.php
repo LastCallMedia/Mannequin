@@ -1,8 +1,8 @@
 <?php
 
 use LastCall\Mannequin\Core\Config;
-use LastCall\Mannequin\Html\Extension\HtmlExtension;
-use LastCall\Mannequin\Twig\Extension\TwigExtension;
+use LastCall\Mannequin\Html\HtmlExtension;
+use LastCall\Mannequin\Twig\TwigExtension;
 use Symfony\Component\Finder\Finder;
 
 $twigFinder = Finder::create()
