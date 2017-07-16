@@ -62,10 +62,10 @@ class Application extends \Silex\Application
                     )
                 );
             }
-            $config = require_once $filename;
+            $config = require $filename;
             if (!$config instanceof ConfigInterface) {
                 throw new \RuntimeException(
-                    'Config was not returned or not an instance of Config.'
+                    sprintf('Config was not returned or not an instance of Config in %s', $filename)
                 );
             }
 
@@ -116,14 +116,6 @@ class Application extends \Silex\Application
             ->assert('name', '.+');
     }
 
-    /**
-     * @return \LastCall\Mannequin\Core\ConfigInterface
-     */
-    protected function getConfig()
-    {
-        return $this['config'];
-    }
-
     public function boot()
     {
         // Guess file extensions for CSS and JS files.
@@ -134,7 +126,7 @@ class Application extends \Silex\Application
         return parent::boot();
     }
 
-    public function getConsole()
+    public function getConsole(): ConsoleApplication
     {
         return $this['console'];
     }
