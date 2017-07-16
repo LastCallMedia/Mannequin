@@ -49,6 +49,6 @@ cat ui/package.json | jq -r ".version = \"$tag\"" | tee ui/package.json > /dev/n
 if $commit; then
   echo "Committing..."
   git add src/Core/composer.json ui/package.json
-  git commit -m "Tagging for ${tag} release"
-  git tag "$(tag)"
+  git commit -m "Tagging for $tag release"
+  git tag "$tag"
 fi

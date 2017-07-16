@@ -60,6 +60,7 @@ jobs:
       - attach_workspace:
           at: /srv/ui
       - run: curl -L -o /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 && chmod +x /usr/bin/jq
+      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
       - run: |
           cd ui
           package=$(cat package.json | jq -r .name)
