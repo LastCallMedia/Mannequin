@@ -43,9 +43,6 @@ class MannequinConfig extends Container implements ConfigInterface
             'scripts' => [],
         ];
         parent::__construct($values);
-        $this['labeller'] = function () {
-            return new Labeller();
-        };
         $this['extensions'] = function () {
             return [];
         };
@@ -198,14 +195,6 @@ class MannequinConfig extends Container implements ConfigInterface
     public function getRenderer(): EngineInterface
     {
         return $this['renderer'];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getLabeller(): Labeller
-    {
-        return $this['labeller'];
     }
 
     public function getVariableResolver(): SetResolver

@@ -47,8 +47,6 @@ interface ConfigInterface
 
     public function getRenderer(): EngineInterface;
 
-    public function getLabeller(): Labeller;
-
     public function getVariableResolver(): SetResolver;
 
     public function getCache(): CacheItemPoolInterface;
