@@ -16,6 +16,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\ProcessBuilder;
 
 class ServerCommand extends Command
@@ -68,9 +69,47 @@ class ServerCommand extends Command
         return $this;
     }
 
+    private function validateAddress($address)
+    {
+        if (null === $address) {
+            $hostname = '127.0.0.1';
+            $port = $this->findBestPort();
+        } elseif (false !== $pos = strrpos($address, ':')) {
+            $hostname = substr($address, 0, $pos);
+            $port = substr($address, $pos + 1);
+        } elseif (ctype_digit($address)) {
+            $hostname = '127.0.0.1';
+            $port = $address;
+        } else {
+            $hostname = $address;
+            $port = $this->findBestPort();
+        }
+        if ($hostname === '*') {
+            $hostname = '0.0.0.0';
+        }
+        if (!ctype_digit($port)) {
+            throw new \InvalidArgumentException(sprintf('Port %s is not valid', $port));
+        }
+
+        return sprintf('%s:%s', $hostname, $port);
+    }
+
+    private function findBestPort()
+    {
+        $port = 8000;
+        while (false !== $fp = @fsockopen($this->hostname, $port, $errno, $errstr, 1)) {
+            fclose($fp);
+            if ($port++ >= 8100) {
+                throw new \RuntimeException('Unable to find a port available to run the web server.');
+            }
+        }
+
+        return $port;
+    }
+
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $address = $input->getArgument('address');
+        $address = $this->validateAddress($input->getArgument('address'));
 
         $routerFile = realpath(__DIR__.'/../../Resources/router.php');
         $builder = $this->getProcessBuilder()
@@ -79,12 +118,18 @@ class ServerCommand extends Command
                 'MANNEQUIN_CONFIG' => realpath($this->configFile),
                 'MANNEQUIN_AUTOLOAD' => realpath($this->autoloadPath),
                 'MANNEQUIN_DEBUG' => $this->debug,
+                'MANNEQUIN_VERBOSITY' => $output->getVerbosity(),
             ])
             ->setWorkingDirectory(realpath(__DIR__.'/../../Resources'))
             ->setTimeout(null);
 
-        return $builder->getProcess()
-            ->setTty(true)
-            ->run();
+        $process = $builder->getProcess();
+        $io = new SymfonyStyle($input, $output);
+        $io->success([
+            sprintf('Starting server on http://%s', $address),
+            'For debug output, use the -v flag',
+        ]);
+
+        return $this->getHelper('process')->run($output, $process, null, null);
     }
 }

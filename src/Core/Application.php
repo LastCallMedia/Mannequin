@@ -112,6 +112,7 @@ class Application extends \Silex\Application
             'controller.render:renderRawAction'
         )->bind('pattern_render_raw');
         $this->match('/{name}', 'controller.ui:staticAction')
+            ->bind('static')
             ->value('name', 'index.html')
             ->assert('name', '.+');
     }
