@@ -22,7 +22,9 @@ jobs:
             echo "Checking composer.json in $dir"
             composer validate -d $dir
           done
-      - run: vendor/bin/phpunit
+      - run: vendor/bin/phpunit --log-junit=phpunit-out.xml
+      - store_test_results:
+          path: phpunit-out.xml
 
   test_ui:
     working_directory: /srv
