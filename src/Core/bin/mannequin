@@ -3,6 +3,8 @@
 
 use LastCall\Mannequin\Core\Application;
 use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 
 $candidates = [
     __DIR__.'/../../../autoload.php', // Package is installed elsewhere
@@ -31,10 +33,12 @@ if ($autoload_file) {
 }
 
 $input = new ArgvInput();
+$output = new ConsoleOutput();
 $app = new Application(
   [
     'debug' => (boolean)$input->getParameterOption(['--debug', 'd'], false),
     'autoload_path' => $autoload_file,
+    'logger' => new ConsoleLogger($output),
     'config_file' => realpath(
       $input->getParameterOption(['--config', '-c'], '.mannequin.php')
     ),
