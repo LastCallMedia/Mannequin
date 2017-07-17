@@ -13,21 +13,42 @@ namespace LastCall\Mannequin\Core\Tests\Console\Command;
 
 use LastCall\Mannequin\Core\Console\Command\ServerCommand;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Console\Helper\DebugFormatterHelper;
+use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class ServerCommandTest extends TestCase
 {
-    public function testExecutesCommand()
+    public function getInputOutput()
+    {
+        return [
+            [null, '127.0.0.1:8000'],
+            ['0.0.0.0', '0.0.0.0:8000'],
+            ['*:8002', '0.0.0.0:8002'],
+            ['8002', '127.0.0.1:8002'],
+        ];
+    }
+
+    /**
+     * @dataProvider getInputOutput
+     */
+    public function testCommandIo($inputAddress, $expectedListenAddress)
     {
         $command = new ServerCommand('server', __FILE__, __FILE__);
+        $command->setHelperSet(new HelperSet([
+            new ProcessHelper(),
+            new DebugFormatterHelper(),
+        ]));
         $builder = $this->prophesize(ProcessBuilder::class);
         $builder
             ->setArguments([
                 'php',
                 '-S',
-                '127.0.0.1:8000',
+                $expectedListenAddress,
                 realpath(__DIR__.'/../../../Resources/router.php'),
             ])
             ->shouldBeCalled()
@@ -38,6 +59,7 @@ class ServerCommandTest extends TestCase
                 'MANNEQUIN_CONFIG' => __FILE__,
                 'MANNEQUIN_AUTOLOAD' => __FILE__,
                 'MANNEQUIN_DEBUG' => false,
+                'MANNEQUIN_VERBOSITY' => OutputInterface::VERBOSITY_NORMAL,
             ])
             ->shouldBeCalled()
             ->willReturn($builder);
@@ -49,7 +71,7 @@ class ServerCommandTest extends TestCase
             ->shouldBeCalled()
             ->willReturn($builder);
 
-        $process = new Process('test 0');
+        $process = new Process('/bin/true');
         $builder
             ->getProcess()
             ->willReturn($process);
@@ -57,8 +79,26 @@ class ServerCommandTest extends TestCase
         $command->setProcessBuilder($builder->reveal());
 
         $tester = new CommandTester($command);
-        $tester->execute([
-            'server',
-        ]);
+        $tester->execute(['address' => $inputAddress]);
+
+        $expectedOutput = sprintf('Starting server on http://%s', $expectedListenAddress);
+        $this->assertContains($expectedOutput, $tester->getDisplay());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Port test is not valid
+     */
+    public function testInvalidPort()
+    {
+        $command = new ServerCommand('server', __FILE__, __FILE__);
+        $command->setHelperSet(new HelperSet([
+            new ProcessHelper(),
+            new DebugFormatterHelper(),
+        ]));
+        $builder = $this->prophesize(ProcessBuilder::class);
+        $command->setProcessBuilder($builder->reveal());
+        $tester = new CommandTester($command);
+        $tester->execute(['address' => 'test:test']);
     }
 }

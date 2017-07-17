@@ -15,8 +15,10 @@ use LastCall\Mannequin\Core\Application;
 use LastCall\Mannequin\Core\Console\Application as ConsoleApplication;
 use LastCall\Mannequin\Core\Console\Command\RenderCommand;
 use LastCall\Mannequin\Core\Console\Command\ServerCommand;
+use LastCall\Mannequin\Core\Ui\Controller\ManifestController;
+use LastCall\Mannequin\Core\Ui\Controller\RenderController;
+use LastCall\Mannequin\Core\Ui\Controller\UiController;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\Request;
 
 class ApplicationTest extends TestCase
 {
@@ -26,14 +28,11 @@ class ApplicationTest extends TestCase
         $application->flush();
         /** @var \Symfony\Component\Routing\RouteCollection $routes */
         $routes = $application['routes'];
-        $expectedRoutes = [
-            'manifest',
-            'pattern_render',
-            'pattern_render_source_raw',
-        ];
-        foreach ($expectedRoutes as $name) {
-            $this->assertInstanceOf('Symfony\Component\Routing\Route', $routes->get($name));
-        }
+        $this->assertEquals('controller.manifest:getManifestAction', $routes->get('manifest')->getDefault('_controller'));
+        $this->assertEquals('controller.render:renderAction', $routes->get('pattern_render')->getDefault('_controller'));
+        $this->assertEquals('controller.render:renderSourceAction', $routes->get('pattern_render_source_raw')->getDefault('_controller'));
+        $this->assertEquals('controller.render:renderRawAction', $routes->get('pattern_render_raw')->getDefault('_controller'));
+        $this->assertEquals('controller.ui:staticAction', $routes->get('static')->getDefault('_controller'));
     }
 
     public function testHasConsole()
@@ -48,26 +47,59 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(ServerCommand::class, $console->get('server'));
     }
 
-    public function testServesManifest()
+    public function testHasManifestController()
     {
         $application = new Application([
             'config_file' => __DIR__.'/Resources/bare-config.php',
         ]);
-        $request = Request::create('/manifest.json');
-        $response = $application->handle($request);
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertInstanceOf(ManifestController::class, $application['controller.manifest']);
     }
 
-    public function testServesRender()
+    public function testHasRenderController()
     {
-        $this->markTestIncomplete('This test does not work yet.  Fix 500 being thrown in missing pattern.');
         $application = new Application([
             'config_file' => __DIR__.'/Resources/bare-config.php',
-            'debug' => true,
         ]);
-        $request = Request::create('/m-render/abc/def.html');
-        $response = $application->handle($request);
-        $this->assertEquals(404, $response->getStatusCode());
+        $this->assertInstanceOf(RenderController::class, $application['controller.render']);
+    }
+
+    public function testHasUiController()
+    {
+        $application = new Application([
+            'config_file' => __DIR__.'/Resources/bare-config.php',
+        ]);
+        $this->assertInstanceOf(UiController::class, $application['controller.ui']);
+    }
+
+    public function testResolvesConfig()
+    {
+        $application = new Application([
+            'config_file' => __DIR__.'/Resources/bare-config.php',
+        ]);
+        $this->assertEquals('bare-config', $application['config']['name']);
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Expected config in foo, but the file does not exist
+     */
+    public function testThrowsForNonexistentConfigFile()
+    {
+        $application = new Application([
+            'config_file' => 'foo',
+        ]);
+        $application['config'];
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Config was not returned from
+     */
+    public function testThrowsForNonReturningConfigFile()
+    {
+        $application = new Application([
+            'config_file' => __DIR__.'/Resources/nonreturning-config.php',
+        ]);
+        $application['config'];
     }
 }

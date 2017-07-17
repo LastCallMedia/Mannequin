@@ -8,7 +8,3 @@
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
-
-return \LastCall\Mannequin\Core\MannequinConfig::create([
-    'name' => 'bare-config',
-]);

@@ -20,6 +20,7 @@ use LastCall\Mannequin\Core\Engine\DelegatingEngine;
 use LastCall\Mannequin\Core\Extension\CoreExtension;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Core\Ui\UiInterface;
 use LastCall\Mannequin\Core\Variable\ResolverInterface;
 use LastCall\Mannequin\Core\Variable\SetResolver;
 use PHPUnit\Framework\TestCase;
@@ -193,5 +194,18 @@ class MannequinConfigTest extends TestCase
         $config = new MannequinConfig();
         $config->addAssetMapping('foo', __DIR__);
         $this->assertEquals(['foo' => __DIR__], $config->getAssetMappings());
+    }
+
+    public function testHasDefaultUi()
+    {
+        $config = new MannequinConfig();
+        $this->assertInstanceOf(UiInterface::class, $config->getUi());
+    }
+
+    public function getCanOverrideUi()
+    {
+        $ui = $this->prophesize(UiInterface::class);
+        $config = new MannequinConfig(['ui' => $ui->reveal()]);
+        $this->assertEquals($ui, $config->getUi());
     }
 }

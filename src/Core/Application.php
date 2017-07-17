@@ -65,7 +65,7 @@ class Application extends \Silex\Application
             $config = require $filename;
             if (!$config instanceof ConfigInterface) {
                 throw new \RuntimeException(
-                    sprintf('Config was not returned or not an instance of Config in %s', $filename)
+                    sprintf('Config was not returned from %s.  Did you forget to add a return statement?', $filename)
                 );
             }
 
