@@ -34,7 +34,8 @@ class ManifestBuilder
                 'id' => $id,
                 'source' => $generator->generate(
                     'pattern_render_source_raw',
-                    ['pattern' => $id]
+                    ['pattern' => $id],
+                    UrlGeneratorInterface::RELATIVE_PATH
                 ),
                 'name' => $pattern->getName(),
                 'description' => $pattern->getDescription(),
