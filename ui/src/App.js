@@ -29,9 +29,9 @@ export class App extends Component {
               <TopBar toggleNav={toggleDrawer} />
               <Route path="/" exact component={HomePage} />
               <Route path="/pattern/:pattern" exact render={props => (
-                <Redirect to={`${props.match.url}/set/default`} />
+                <Redirect to={`${props.match.url}/variant/default`} />
               )} />
-              <Route path="/pattern/:pattern/set/:set" component={PatternPage} />
+              <Route path="/pattern/:pattern/variant/:variant" component={PatternPage} />
             </div>
             <NavDrawer patterns={patterns} open={drawer} toggleNav={toggleDrawer} />
           </div>

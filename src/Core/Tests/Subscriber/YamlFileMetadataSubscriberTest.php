@@ -47,25 +47,9 @@ class YamlFileMetadataSubscriberTest extends TestCase
         $this->assertEquals('foo', $event->getPattern()->getName());
     }
 
-    public function testSetsDescription()
-    {
-        $parser = $this->getParserProphecy(['description' => 'foo']);
-        $pattern = new TestFilePattern(
-            'foo',
-            [],
-            new \SplFileInfo($this->templateFile)
-        );
-        $event = $this->dispatchDiscover(
-            new YamlFileMetadataSubscriber($parser->reveal()),
-            $pattern
-        );
-        $this->assertEquals('foo', $event->getPattern()->getDescription());
-    }
-
     public function testSetsDefinition()
     {
-        $definition = new Definition(['foo' => 'bar']);
-        $parser = $this->getParserProphecy(['definition' => $definition]);
+        $parser = $this->getParserProphecy(['variables' => ['foo' => 'bar']]);
         $pattern = new TestFilePattern(
             'foo',
             [],
@@ -75,8 +59,8 @@ class YamlFileMetadataSubscriberTest extends TestCase
             new YamlFileMetadataSubscriber($parser->reveal()),
             $pattern
         );
-        $this->assertSame(
-            $definition,
+        $this->assertEquals(
+            new Definition(['foo' => 'bar']),
             $event->getPattern()->getVariableDefinition()
         );
     }
@@ -114,7 +98,7 @@ class YamlFileMetadataSubscriberTest extends TestCase
     public function testCanSetDefaultSet()
     {
         $parser = $this->getParserProphecy(
-            ['sets' => ['default' => new Set('Overridden')]]
+            ['variants' => ['default' => ['name' => 'Overridden', 'values' => []]]]
         );
         $pattern = new TestFilePattern(
             'foo',
@@ -137,7 +121,7 @@ class YamlFileMetadataSubscriberTest extends TestCase
     public function testCanSetAdditionalSet()
     {
         $parser = $this->getParserProphecy(
-            ['sets' => ['additional' => new Set('Additional')]]
+            ['variants' => ['additional' => ['name' => 'Additional', 'values' => []]]]
         );
         $pattern = new TestFilePattern(
             'foo',

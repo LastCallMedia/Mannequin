@@ -1,23 +1,22 @@
 {% if _pattern %}{% block patterninfo %}
 name: Form Input
-description: An input element of any type.
-tags:
-    group: Atom>Form
+_group: Atom>Form
+_description: An input element of any type.
 variables:
-    label: string
-    type: string
-@default:
-    label: This is a textfield
-    type: textfield
-
-{#values:#}
-    {#default:#}
-        {#label: This is a textfield#}
-        {#type: textfield#}
-    {#datetime:#}
-        {#label: This is a datetime input#}
-        {#type: datetime#}
+    # This is where we declare the TYPES of the variables that are used
+    # in this template.
+    element_label: string
+    input_type: string
+variants:
+    # This is where we define variants.  Variants are sets of values used
+    # for the variables in the template.
+    Text:
+        element_label: This is a textfield.
+        input_type: textfield
+    Datetime:
+        element_label: This is a datetime.
+        input_type: datetime
 {% endblock %}{% endif %}
-<label><span>{{ label }}</span>
-    <input type="{{ type }}"/>
+<label><span>{{ element_label }}</span>
+    <input type="{{ input_type }}"/>
 </label>

@@ -11,7 +11,7 @@ import './PatternPage.css';
 import 'highlight.js/styles/default.css';
 import 'highlight.js/styles/atom-one-dark.css';
 
-const SetShape = {
+const VariantShape = {
   name: PropTypes.string,
   description: PropTypes.string,
   rendered: PropTypes.string.isRequired
@@ -21,24 +21,24 @@ const PatternShape = {
   description: PropTypes.string,
   rendered: PropTypes.string,
   used: PropTypes.arrayOf(PropTypes.string),
-  sets: PropTypes.arrayOf(PropTypes.shape(SetShape)),
+  variants: PropTypes.arrayOf(PropTypes.shape(VariantShape)),
   tags: PropTypes.shape(),
 };
 
 
-const PatternPageLoadingWrapper = ({pattern, set, used, onSetChange, onPatternView}) => (
+const PatternPageLoadingWrapper = ({pattern, variant, used, onVariantChange, onPatternView}) => (
   <main className="PatternPageLoadingWrapper">
-    {pattern && <PatternPage pattern={pattern} set={set} used={used} onSetChange={onSetChange} onPatternViewed={onPatternView} />}
+    {pattern && <PatternPage pattern={pattern} variant={variant} used={used} onVariantChange={onVariantChange} onPatternViewed={onPatternView} />}
   </main>
 )
 PatternPageLoadingWrapper.propTypes = {
   pattern: PropTypes.shape(PatternShape),
-  set: PropTypes.shape(SetShape),
+  variant: PropTypes.shape(VariantShape),
   used: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired
   })),
-  onSetChange: PropTypes.func.isRequired,
+  onVariantChange: PropTypes.func.isRequired,
   onPatternView: PropTypes.func.isRequired
 }
 /**
@@ -46,17 +46,17 @@ PatternPageLoadingWrapper.propTypes = {
  */
 const getPatternsFromState = state => state.patterns;
 const getSelectedPatternId = (state, ownProps) => ownProps.match.params.pattern;
-const getSelectedSetId = (state, ownProps) => ownProps.match.params.set;
+const getSelectedVariantId = (state, ownProps) => ownProps.match.params.variant;
 const getPattern = createSelector(
   [getPatternsFromState, getSelectedPatternId],
   (patterns, patternId) => {
     return patterns.filter(p => p.id === patternId).pop();
   }
 )
-const getSet = createSelector(
-  [getPattern, getSelectedSetId],
-  (pattern, setId) => {
-    return pattern ? pattern.sets.filter(s => s.id === setId).pop() : undefined;
+const getVariant = createSelector(
+  [getPattern, getSelectedVariantId],
+  (pattern, variantId) => {
+    return pattern ? pattern.variants.filter(s => s.id === variantId).pop() : undefined;
   }
 )
 const getUsed = createSelector(
@@ -71,14 +71,14 @@ const getUsed = createSelector(
 const mapStateToProps = (state, ownProps) => {
   return {
     pattern: getPattern(state, ownProps),
-    set: getSet(state, ownProps),
+    variant: getVariant(state, ownProps),
     used: getUsed(state, ownProps)
   }
 }
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onSetChange: (sid) => {
-      ownProps.history.push(`/pattern/${ownProps.match.params.pattern}/set/${sid}`)
+    onVariantChange: (vid) => {
+      ownProps.history.push(`/pattern/${ownProps.match.params.pattern}/variant/${vid}`)
     },
     onPatternView: (pattern) => {
       dispatch(patternView(pattern));
@@ -105,17 +105,17 @@ class PatternPage extends Component {
     e.preventDefault();
   }
   openWindow(e) {
-    window.open(this.props.set.rendered, this.props.pattern.name, 'resizable');
+    window.open(this.props.variant.rendered, this.props.pattern.name, 'resizable');
   }
   render() {
-    const {pattern, set, used, onSetChange} = this.props;
+    const {pattern, variant, used, onVariantChange} = this.props;
     const {showingInfo} = this.state;
     const rawFormat = pattern.tags.source_format || 'html';
     return (
       <main className="PatternPage">
-        <PatternTopBar pattern={pattern} set={set} openWindow={this.openWindow} toggleInfo={this.toggleInfo} changeSet={onSetChange} />
+        <PatternTopBar pattern={pattern} variant={variant} openWindow={this.openWindow} toggleInfo={this.toggleInfo} changeVariant={onVariantChange} />
         <div className="RenderFrame">
-          <iframe title="Rendered Pattern" frameBorder="0" src={set.rendered}></iframe>
+          <iframe title="Rendered Pattern" frameBorder="0" src={variant.rendered}></iframe>
         </div>
 
         <div className={`PatternInfo ${showingInfo ? 'open' : 'closed'}`}>
@@ -134,7 +134,7 @@ class PatternPage extends Component {
                 <p>{pattern.description}</p>
               </div>
             </div>
-            <CodeToggleFrame className="code" html={set.source} raw={pattern.source} rawFormat={rawFormat} />
+            <CodeToggleFrame className="code" html={variant.source} raw={pattern.source} rawFormat={rawFormat} />
           </div>
         </div>
       </main>
@@ -142,15 +142,15 @@ class PatternPage extends Component {
   }
 }
 
-const PatternTopBar = ({pattern, set, openWindow, toggleInfo, changeSet}) => {
+const PatternTopBar = ({pattern, variant, openWindow, toggleInfo, changeVariant}) => {
   return (
     <div className="PatternTopBar">
       <div className="inner">
         <h4 className="name">{pattern.name}</h4>
-        <div className="set"><SetSelector sets={pattern.sets} selected={set.id} onChange={changeSet} /></div>
+        <div className="variant"><VariantSelector variants={pattern.variants} selected={variant.id} onChange={changeVariant} /></div>
         <ul className="actions">
           <li><button onClick={toggleInfo} className="PatternInfoButton">View Pattern Info</button></li>
-          <li><a onClick={openWindow} target="_blank" className="OpenWindowButton" href={set.rendered}><OpenNew /></a></li>
+          <li><a onClick={openWindow} target="_blank" className="OpenWindowButton" href={variant.rendered}><OpenNew /></a></li>
         </ul>
       </div>
     </div>
@@ -223,10 +223,10 @@ class CodeFrame extends Component {
   }
 }
 
-const SetSelector = ({sets, selected, onChange}) => (
-  <select className="SetSelector" value={selected} onChange={e => onChange(e.target.value)}>
-    {sets.map(set => (
-      <option key={set.id} value={set.id}>{set.name}</option>
+const VariantSelector = ({variants, selected, onChange}) => (
+  <select className="VariantSelector" value={selected} onChange={e => onChange(e.target.value)}>
+    {variants.map(variant => (
+      <option key={variant.id} value={variant.id}>{variant.name}</option>
     ))}
   </select>
 )

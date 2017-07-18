@@ -166,7 +166,8 @@ abstract class AbstractPattern implements PatternInterface
         return $this->used;
     }
 
-    protected static function getDefaultTags(): array {
+    protected static function getDefaultTags(): array
+    {
         return [
             'category' => 'Unknown',
             'source_format' => 'html',

@@ -12,7 +12,6 @@
 namespace LastCall\Mannequin\Core;
 
 use LastCall\Mannequin\Core\Exception\TemplateParsingException;
-use LastCall\Mannequin\Core\Variable\Definition;
 use LastCall\Mannequin\Core\Variable\Set;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
@@ -45,82 +44,96 @@ class YamlMetadataParser
         }
         $metadata += [
             'name' => '',
-            'description' => '',
-            'group' => '',
             'tags' => [],
             'variables' => [],
-            'value' => [],
-            'values' => [],
+            'variants' => [],
         ];
-        foreach (['name', 'description', 'group'] as $component) {
-            if (!is_string($metadata[$component])) {
+
+        return [
+            'name' => $this->extractName($metadata, $exceptionIdentifier),
+            'variables' => $this->extractVariables($metadata, $exceptionIdentifier),
+            'tags' => $this->extractTags($metadata),
+            'variants' => $this->extractVariants($metadata, $exceptionIdentifier),
+        ];
+    }
+
+    private function extractVariants(array $metadata, $exceptionIdentifier)
+    {
+        $metadata += ['variants' => []];
+        if (!is_array($metadata['variants'])) {
+            throw new TemplateParsingException(
+                sprintf(
+                    'variants must be an array in %s',
+                    $exceptionIdentifier
+                )
+            );
+        }
+
+        $variants = [];
+        foreach ($metadata['variants'] as $name => $definition) {
+            if (!is_array($definition)) {
                 throw new TemplateParsingException(
                     sprintf(
-                        '%s must be a string in %s',
-                        $component,
+                        'variant %s must be an array in %s',
+                        $name,
                         $exceptionIdentifier
                     )
                 );
             }
+            $tags = $this->extractTags($definition, true);
+            // @todo: Pass tags to set.
+            $variants[$name] = [
+                'name' => $name,
+                'values' => $definition,
+                'tags' => $tags,
+            ];
         }
-        foreach (['tags', 'variables', 'value', 'values'] as $component) {
-            if (!is_array($metadata[$component])) {
-                throw new TemplateParsingException(
-                    sprintf(
-                        '%s must be an array in %s',
-                        $component,
-                        $exceptionIdentifier
-                    )
-                );
+
+        return $variants;
+    }
+
+    private function extractVariables(array $metadata, $exceptionIdentifier)
+    {
+        $metadata += ['variables' => []];
+        if (!is_array($metadata['variables'])) {
+            throw new TemplateParsingException(
+                sprintf(
+                    'variables must be an array in %s',
+                    $exceptionIdentifier
+                )
+            );
+        }
+
+        return $metadata['variables'];
+    }
+
+    private function extractName(array $metadata, $exceptionIdentifier)
+    {
+        $metadata += ['name' => ''];
+        if (!is_string($metadata['name'])) {
+            throw new TemplateParsingException(
+                sprintf(
+                    'name must be a string in %s',
+                    $exceptionIdentifier
+                )
+            );
+        }
+
+        return $metadata['name'];
+    }
+
+    public function extractTags(array &$metadata, $remove = false)
+    {
+        $tags = [];
+        foreach ($metadata as $k => $v) {
+            if (strpos($k, '_') === 0) {
+                $tags[substr($k, 1)] = $v;
+                if ($remove) {
+                    unset($metadata[$k]);
+                }
             }
         }
-        $metadata['definition'] = $this->createDefinition(
-            $metadata,
-            $exceptionIdentifier
-        );
-        $metadata['sets'] = $this->createSets($metadata, $exceptionIdentifier);
 
-        return $metadata;
-    }
-
-    public function createDefinition(array $metadata, $exceptionIdentifier)
-    {
-        $definition = [];
-        foreach ($metadata['variables'] as $name => $type) {
-            $definition[$name] = $type;
-        }
-
-        return new Definition($definition);
-    }
-
-    public function createSets(array $metadata, $exceptionIdentifier)
-    {
-        $sets = [];
-        if (!empty($metadata['value'])) {
-            $sets['default'] = $this->createSet($metadata['value'], 'Default');
-        }
-        if (!empty($metadata['values'])) {
-            foreach ($metadata['values'] as $setId => $setVals) {
-                $sets[$setId] = $this->createSet($setVals, $setId);
-            }
-        }
-
-        return $sets;
-    }
-
-    public function createSet($values, $defaultName)
-    {
-        $name = $defaultName;
-        $description = '';
-        if (isset($values['_name'])) {
-            $name = $values['_name'];
-            unset($values['_name']);
-        }
-        if (isset($values['_description'])) {
-            $description = $values['_description'];
-            unset($values['_description']);
-        }
-
-        return new Set($name, $values, $description);
+        return $tags;
     }
 }

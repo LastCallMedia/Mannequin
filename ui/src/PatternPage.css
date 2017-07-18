@@ -38,7 +38,7 @@
       width: auto;
       margin-right: 0.625rem;
       margin-left: 0.625rem; }
-    .PatternTopBar .inner .set {
+    .PatternTopBar .inner .variant {
       flex: 1 1 0px;
       width: auto;
       margin-right: 0.625rem;
@@ -47,7 +47,7 @@
     font-size: 0.9375rem;
     font-weight: bold;
     line-height: 1.9375rem; }
-  .PatternTopBar .SetSelector {
+  .PatternTopBar .VariantSelector {
     width: auto;
     font-size: 0.75rem;
     line-height: 0.75rem;

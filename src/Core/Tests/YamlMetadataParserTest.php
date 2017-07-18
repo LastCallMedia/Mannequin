@@ -27,8 +27,8 @@ class YamlMetadataParserTest extends TestCase
 
     public function testParsesDescription()
     {
-        $parsed = (new YamlMetadataParser())->parse('description: foo');
-        $this->assertEquals('foo', $parsed['description']);
+        $parsed = (new YamlMetadataParser())->parse('_description: foo');
+        $this->assertArraySubset(['description' => 'foo'], $parsed['tags']);
     }
 
     public function testDefaults()
@@ -37,14 +37,13 @@ class YamlMetadataParserTest extends TestCase
         $this->assertEquals('', $parsed['name']);
         $this->assertEquals('', $parsed['description']);
         $this->assertEquals([], $parsed['tags']);
-        $this->assertEquals(new Definition(), $parsed['definition']);
-        // @todo: Fix this once the format is updated.
-        $this->assertEquals([], $parsed['sets']);
+        $this->assertNull($parsed['definition']);
+        $this->assertEquals([], $parsed['variants']);
     }
 
     public function testParsesTags()
     {
-        $parsed = (new YamlMetadataParser())->parse('tags: {foo: bar}');
+        $parsed = (new YamlMetadataParser())->parse('_foo: bar');
         $this->assertEquals(['foo' => 'bar'], $parsed['tags']);
     }
 
@@ -52,51 +51,40 @@ class YamlMetadataParserTest extends TestCase
     {
         $parsed = (new YamlMetadataParser())->parse('variables: {foo: bar}');
         $this->assertEquals(
-            new Definition(['foo' => 'bar']),
-            $parsed['definition']
+            ['foo' => 'bar'],
+            $parsed['variables']
         );
     }
 
-    public function testParsesValueToDefaultSet()
-    {
-        $parsed = (new YamlMetadataParser())->parse('value: {foo: bar}');
-        $this->assertEquals(
-            ['default' => new Set('Default', ['foo' => 'bar'])],
-            $parsed['sets']
-        );
-    }
-
-    public function testParsesValuesToDefaultSet()
+    public function testParsesVariants()
     {
         $parsed = (new YamlMetadataParser())->parse(
-            'values: {foo: {bar: baz}}'
+            'variants: {foo: {bar: baz, _baz: bar}}'
         );
+        $this->assertInternalType('array', $parsed['variants']['foo']);
+
+        return $parsed;
+
         $this->assertEquals(
             ['foo' => new Set('foo', ['bar' => 'baz'])],
             $parsed['sets']
         );
     }
 
-    public function testParseValueNameToDefaultSet()
+    /**
+     * @depends testParsesVariants
+     */
+    public function testParsesVariantValues($metadata)
     {
-        $parsed = (new YamlMetadataParser())->parse(
-            'value: {_name: My Default, _description: Some description }'
-        );
-        $this->assertEquals(
-            ['default' => new Set('My Default', [], 'Some description')],
-            $parsed['sets']
-        );
+        $this->assertEquals(['bar' => 'baz'], $metadata['variants']['foo']['values']);
     }
 
-    public function testParseValuesNameToSetName()
+    /**
+     * @depends testParsesVariants
+     */
+    public function testParsesVariantTags($metadata)
     {
-        $parsed = (new YamlMetadataParser())->parse(
-            'values: {foo: {_name: My Foo, _description: Some description }}'
-        );
-        $this->assertEquals(
-            ['foo' => new Set('My Foo', [], 'Some description')],
-            $parsed['sets']
-        );
+        $this->assertEquals(['baz' => 'bar'], $metadata['variants']['foo']['tags']);
     }
 
     public function getInvalidMetadataTests()
@@ -106,7 +94,7 @@ class YamlMetadataParserTest extends TestCase
                 '{,]',
                 'foo',
                 new TemplateParsingException(
-                    'Unable to parse YAML metadata in foo'
+                    'Unable to parse YAML metadata in foo. Malformed inline YAML string'
                 ),
             ],
             [
@@ -120,18 +108,6 @@ class YamlMetadataParserTest extends TestCase
                 new TemplateParsingException('name must be a string in foo'),
             ],
             [
-                'description: {}',
-                'foo',
-                new TemplateParsingException(
-                    'description must be a string in foo'
-                ),
-            ],
-            [
-                'tags: ""',
-                'foo',
-                new TemplateParsingException('tags must be an array in foo'),
-            ],
-            [
                 'variables: ""',
                 'foo',
                 new TemplateParsingException(
@@ -139,14 +115,9 @@ class YamlMetadataParserTest extends TestCase
                 ),
             ],
             [
-                'value: ""',
+                'variants: ""',
                 'foo',
-                new TemplateParsingException('value must be an array in foo'),
-            ],
-            [
-                'values: ""',
-                'foo',
-                new TemplateParsingException('values must be an array in foo'),
+                new TemplateParsingException('variants must be an array in foo'),
             ],
         ];
     }
@@ -163,7 +134,7 @@ class YamlMetadataParserTest extends TestCase
             (new YamlMetadataParser())->parse($input, $identifier);
         } catch (\Throwable $e) {
             $this->assertInstanceOf(get_class($expectedException), $e);
-            $this->assertEquals(
+            $this->assertContains(
                 $expectedException->getMessage(),
                 $e->getMessage()
             );

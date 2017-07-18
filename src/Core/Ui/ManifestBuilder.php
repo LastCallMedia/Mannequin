@@ -32,15 +32,14 @@ class ManifestBuilder
             $id = $pattern->getId();
             $manifest['patterns'][] = [
                 'id' => $id,
+                'name' => $pattern->getName(),
                 'source' => $generator->generate(
                     'pattern_render_source_raw',
                     ['pattern' => $id],
                     UrlGeneratorInterface::RELATIVE_PATH
                 ),
-                'name' => $pattern->getName(),
-                'description' => $pattern->getDescription(),
                 'tags' => $pattern->getTags(),
-                'sets' => $this->generateSets($pattern),
+                'variants' => $this->generateVariants($pattern),
                 'used' => $this->generateUsed($pattern),
                 'aliases' => $pattern->getAliases(),
             ];
@@ -49,7 +48,7 @@ class ManifestBuilder
         return $manifest;
     }
 
-    private function generateSets(PatternInterface $pattern)
+    private function generateVariants(PatternInterface $pattern)
     {
         $sets = [];
         $generator = $this->generator;
@@ -57,7 +56,7 @@ class ManifestBuilder
             $sets[] = [
                 'id' => $id,
                 'name' => $set->getName(),
-                'description' => $set->getDescription(),
+                // @todo: Add tags here.
                 'source' => $generator->generate(
                     'pattern_render_raw',
                     ['pattern' => $pattern->getId(), 'set' => $id],

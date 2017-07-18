@@ -42,16 +42,15 @@ class ManifesterTest extends TestCase
                 [
                     'id' => 'p1',
                     'name' => 'Pattern 1',
-                    'description' => 'This is pattern 1',
                     'tags' => ['foo' => 'bar'],
                     'aliases' => ['p1-alias'],
                     'used' => ['p1'],
                     'source' => '/pattern_render_source_raw/pattern:p1',
-                    'sets' => [
+                    'variants' => [
                         [
                             'id' => 'default',
                             'name' => 'foo',
-                            'description' => 's1 description',
+                            // @todo: Add tags.
                             'source' => '/pattern_render_raw/pattern:p1/set:default',
                             'rendered' => '/pattern_render/pattern:p1/set:default',
                         ],

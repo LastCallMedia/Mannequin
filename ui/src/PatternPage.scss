@@ -37,7 +37,7 @@
     .name, .actions {
       @include xy-cell(shrink);
     }
-    .set {
+    .variant {
       @include xy-cell(auto);
     }
   }
@@ -46,7 +46,7 @@
     font-weight: bold;
     line-height: rem-calc(31);
   }
-  .SetSelector {
+  .VariantSelector {
     width: auto;
     font-size: rem-calc(12);
     line-height: rem-calc(12);
