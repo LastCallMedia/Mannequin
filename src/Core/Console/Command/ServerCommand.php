@@ -125,10 +125,11 @@ class ServerCommand extends Command
 
         $process = $builder->getProcess();
         $io = new SymfonyStyle($input, $output);
-        $io->success([
-            sprintf('Starting server on http://%s', $address),
-            'For debug output, use the -v flag',
-        ]);
+        $message = [sprintf('Starting server on http://%s', $address)];
+        if (!$output->isVerbose()) {
+            $message[] = 'For debug output, use the -v flag';
+        }
+        $io->success($message);
 
         return $this->getHelper('process')->run($output, $process, null, null);
     }
