@@ -13,9 +13,9 @@ namespace LastCall\Mannequin\Core\Tests\Subscriber;
 
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Pattern\PatternVariant;
 use LastCall\Mannequin\Core\Subscriber\NestedPatternVariableSubscriber;
 use LastCall\Mannequin\Core\Variable\Definition;
-use LastCall\Mannequin\Core\Variable\Set;
 use PHPUnit\Framework\TestCase;
 
 class NestedPatternVariableSubscriberTest extends TestCase
@@ -31,8 +31,8 @@ class NestedPatternVariableSubscriberTest extends TestCase
         $pattern->getVariableDefinition()->willReturn(
             new Definition(['bar' => 'pattern'])
         );
-        $pattern->getVariableSets()->willReturn(
-            ['default' => new Set('Default', ['bar' => 'baz'])]
+        $pattern->getVariants()->willReturn(
+            ['default' => new PatternVariant('default', 'Default', ['bar' => 'baz'])]
         );
         $pattern->addUsedPattern($nested)->willReturn($nested)->shouldBeCalled(
         );

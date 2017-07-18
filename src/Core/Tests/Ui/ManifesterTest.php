@@ -12,47 +12,44 @@
 namespace LastCall\Mannequin\Core\Tests\Ui;
 
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Tests\Stubs\TestFilePattern;
 use LastCall\Mannequin\Core\Ui\ManifestBuilder;
-use LastCall\Mannequin\Core\Variable\Set;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ManifesterTest extends TestCase
 {
     public function getGenerateTests()
     {
-        $s1 = $this->prophesize(Set::class);
-        $s1->getName()->willReturn('foo');
-        $s1->getDescription()->willReturn('s1 description');
+        $pattern = new TestFilePattern('p1', ['p1-alias'], new File(__FILE__));
+        $pattern->setName('Pattern 1');
+        $pattern->addTag('foo', 'bar');
+        $pattern->createVariant('foo', 'Foo', [], ['foo' => 'bar']);
+        $pattern->addUsedPattern($pattern);
 
-        $p1 = $this->prophesize(PatternInterface::class);
-        $p1->getId()->willReturn('p1');
-        $p1->getAliases()->willReturn(['p1-alias']);
-        $p1->getName()->willReturn('Pattern 1');
-        $p1->getDescription()->willReturn('This is pattern 1');
-        $p1->getTags()->willReturn(['foo' => 'bar']);
-        $p1->getVariableSets()->willReturn(['default' => $s1]);
-        $p1->getUsedPatterns()->willReturn([$p1]);
-
-        $collection = new PatternCollection([$p1->reveal()]);
+        $collection = new PatternCollection([$pattern]);
         $expected = [
             'patterns' => [
                 [
                     'id' => 'p1',
                     'name' => 'Pattern 1',
-                    'tags' => ['foo' => 'bar'],
+                    'tags' => [
+                        'foo' => 'bar',
+                        'category' => 'Unknown',
+                        'source_format' => 'html',
+                    ],
                     'aliases' => ['p1-alias'],
                     'used' => ['p1'],
                     'source' => '/pattern_render_source_raw/pattern:p1',
                     'variants' => [
                         [
-                            'id' => 'default',
-                            'name' => 'foo',
-                            // @todo: Add tags.
-                            'source' => '/pattern_render_raw/pattern:p1/set:default',
-                            'rendered' => '/pattern_render/pattern:p1/set:default',
+                            'id' => 'foo',
+                            'name' => 'Foo',
+                            'source' => '/pattern_render_raw/pattern:p1/variant:foo',
+                            'rendered' => '/pattern_render/pattern:p1/variant:foo',
+                            'tags' => ['foo' => 'bar'],
                         ],
                     ],
                 ],

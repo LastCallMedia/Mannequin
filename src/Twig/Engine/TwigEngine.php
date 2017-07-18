@@ -15,7 +15,6 @@ use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Rendered;
-use LastCall\Mannequin\Core\Variable\Set;
 use LastCall\Mannequin\Core\Variable\SetResolver;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 
@@ -39,7 +38,7 @@ class TwigEngine implements EngineInterface
         $this->setResolver = $setResolver;
     }
 
-    public function render(PatternInterface $pattern, Set $set): Rendered
+    public function render(PatternInterface $pattern, array $values = []): Rendered
     {
         if ($this->supports($pattern)) {
             $styles = $this->styles;
@@ -47,7 +46,7 @@ class TwigEngine implements EngineInterface
             $rendered = new Rendered();
             $variables = $this->setResolver->resolveSet(
                 $pattern->getVariableDefinition(),
-                $set
+                $values
             );
             foreach ($variables as &$variable) {
                 if ($variable instanceof Rendered) {

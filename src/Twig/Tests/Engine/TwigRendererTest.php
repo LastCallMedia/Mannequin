@@ -55,13 +55,13 @@ class TwigRendererTest extends RendererTestCase
         $setResolver = $this->prophesize(SetResolver::class);
         $setResolver->resolveSet(
             $pattern->getVariableDefinition(),
-            $pattern->getVariableSets()['default']
+            ['foo' => 'bar']
         )
             ->shouldBeCalled()
             ->willReturn(['foo' => 'bar - resolved']);
 
         $renderer = new TwigEngine($twig->reveal(), $setResolver->reveal());
-        $renderer->render($pattern, $pattern->getVariableSets()['default']);
+        $renderer->render($pattern, ['foo' => 'bar']);
     }
 
     public function getSupportedPattern(): PatternInterface

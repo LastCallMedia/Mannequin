@@ -11,8 +11,8 @@
 
 namespace LastCall\Mannequin\Core\Pattern;
 
+use LastCall\Mannequin\Core\Exception\VariantNotFoundException;
 use LastCall\Mannequin\Core\Variable\Definition;
-use LastCall\Mannequin\Core\Variable\Set;
 
 abstract class AbstractPattern implements PatternInterface
 {
@@ -28,6 +28,8 @@ abstract class AbstractPattern implements PatternInterface
 
     private $variableDefinition;
 
+    private $variants = [];
+
     private $variableSets = [];
 
     private $used = [];
@@ -36,8 +38,7 @@ abstract class AbstractPattern implements PatternInterface
     {
         $this->id = $id;
         $this->aliases = $aliases;
-        $this->variableSets['default'] = new Set('Default', []);
-        $this->tags = self::getDefaultTags();
+        $this->tags = static::getDefaultTags();
     }
 
     /**
@@ -139,19 +140,37 @@ abstract class AbstractPattern implements PatternInterface
     /**
      * {@inheritdoc}
      */
-    public function addVariableSet(string $id, Set $set): PatternInterface
+    public function createVariant($id, $name, array $values, array $tags): PatternVariant
     {
-        $this->variableSets[$id] = $set;
-
-        return $this;
+        return $this->variants[$id] = new PatternVariant($id, $name, $values, $tags);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getVariableSets(): array
+    public function getVariants(): array
     {
-        return $this->variableSets;
+        return $this->variants;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasVariant(string $name): bool
+    {
+        return isset($this->variants[$name]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getVariant(string $name): PatternVariant
+    {
+        if (!isset($this->variants[$name])) {
+            throw new VariantNotFoundException(sprintf('Variant %s not found', $name));
+        }
+
+        return $this->variants[$name];
     }
 
     public function addUsedPattern(PatternInterface $pattern): PatternInterface

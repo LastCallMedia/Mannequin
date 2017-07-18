@@ -50,27 +50,27 @@ class ManifestBuilder
 
     private function generateVariants(PatternInterface $pattern)
     {
-        $sets = [];
+        $variants = [];
         $generator = $this->generator;
-        foreach ($pattern->getVariableSets() as $id => $set) {
-            $sets[] = [
-                'id' => $id,
-                'name' => $set->getName(),
-                // @todo: Add tags here.
+        foreach ($pattern->getVariants() as $id => $variant) {
+            $variants[] = [
+                'id' => $variant->getId(),
+                'name' => $variant->getName(),
+                'tags' => $variant->getTags(),
                 'source' => $generator->generate(
                     'pattern_render_raw',
-                    ['pattern' => $pattern->getId(), 'set' => $id],
+                    ['pattern' => $pattern->getId(), 'variant' => $id],
                     UrlGeneratorInterface::RELATIVE_PATH
                 ),
                 'rendered' => $generator->generate(
                     'pattern_render',
-                    ['pattern' => $pattern->getId(), 'set' => $id],
+                    ['pattern' => $pattern->getId(), 'variant' => $id],
                     UrlGeneratorInterface::RELATIVE_PATH
                 ),
             ];
         }
 
-        return $sets;
+        return $variants;
     }
 
     private function generateUsed(PatternInterface $pattern)

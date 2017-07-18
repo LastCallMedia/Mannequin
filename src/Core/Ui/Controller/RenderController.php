@@ -12,7 +12,10 @@
 namespace LastCall\Mannequin\Core\Ui\Controller;
 
 use LastCall\Mannequin\Core\Engine\EngineInterface;
+use LastCall\Mannequin\Core\Exception\PatternNotFoundException;
+use LastCall\Mannequin\Core\Exception\VariantNotFoundException;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Ui\UiInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -35,36 +38,51 @@ class RenderController
         $this->ui = $ui;
     }
 
-    public function renderAction($pattern, $set)
+    public function renderAction($pattern, $variant)
     {
-        $rendered = $this->renderPattern($pattern, $set);
+        $rendered = $this->renderPattern($pattern, $variant);
 
         return new Response($this->ui->decorateRendered($rendered));
     }
 
-    private function renderPattern($pattern, $set)
+    private function renderPattern($pattern, $variant)
     {
-        if ($pattern = $this->collection->get($pattern)) {
-            if ($set = $pattern->getVariableSets()[$set]) {
-                return $this->engine->render($pattern, $set);
-            }
-        }
-        throw new NotFoundHttpException('Pattern not found.');
+        $pattern = $this->getPattern($pattern);
+        $variant = $this->getPatternVariant($pattern, $variant);
+
+        return $this->engine->render($pattern, $variant->getValues());
     }
 
-    public function renderRawAction($pattern, $set)
+    public function renderRawAction($pattern, $variant)
     {
-        $rendered = $this->renderPattern($pattern, $set);
+        $rendered = $this->renderPattern($pattern, $variant);
 
         return new Response($rendered->getMarkup());
     }
 
     public function renderSourceAction($pattern)
     {
-        if ($pattern = $this->collection->get($pattern)) {
-            $markup = $this->engine->renderSource($pattern);
+        $pattern = $this->getPattern($pattern);
+        $markup = $this->engine->renderSource($pattern);
 
-            return new Response($markup);
+        return new Response($markup);
+    }
+
+    private function getPattern($patternId)
+    {
+        try {
+            return $this->collection->get($patternId);
+        } catch (PatternNotFoundException $e) {
+            throw new NotFoundHttpException($e->getMessage(), $e);
+        }
+    }
+
+    private function getPatternVariant(PatternInterface $pattern, $variantId)
+    {
+        try {
+            return $pattern->getVariant($variantId);
+        } catch (VariantNotFoundException $e) {
+            throw new NotFoundHttpException($e->getMessage(), $e);
         }
     }
 }

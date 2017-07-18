@@ -15,7 +15,6 @@ use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
 use LastCall\Mannequin\Core\Tests\Stubs\TestFilePattern;
 use LastCall\Mannequin\Core\Tests\YamlParserProphecyTrait;
 use LastCall\Mannequin\Core\Variable\Definition;
-use LastCall\Mannequin\Core\Variable\Set;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -105,17 +104,12 @@ class YamlFileMetadataSubscriberTest extends TestCase
             [],
             new \SplFileInfo($this->templateFile)
         );
-        $event = $this->dispatchDiscover(
+        $this->dispatchDiscover(
             new YamlFileMetadataSubscriber($parser->reveal()),
             $pattern
         );
 
-        $this->assertEquals(
-            [
-                'default' => new Set('Overridden'),
-            ],
-            $event->getPattern()->getVariableSets()
-        );
+        $this->assertEquals('Overridden', $pattern->getVariant('default')->getName());
     }
 
     public function testCanSetAdditionalSet()
@@ -128,17 +122,12 @@ class YamlFileMetadataSubscriberTest extends TestCase
             [],
             new \SplFileInfo($this->templateFile)
         );
-        $event = $this->dispatchDiscover(
+        $this->dispatchDiscover(
             new YamlFileMetadataSubscriber($parser->reveal()),
             $pattern
         );
 
-        $this->assertEquals(
-            [
-                'default' => new Set('Default'),
-                'additional' => new Set('Additional'),
-            ],
-            $event->getPattern()->getVariableSets()
-        );
+        $this->assertTrue($pattern->hasVariant('additional'));
+        $this->assertCount(1, $pattern->getVariants());
     }
 }

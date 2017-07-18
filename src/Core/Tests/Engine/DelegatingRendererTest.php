@@ -14,7 +14,6 @@ namespace LastCall\Mannequin\Core\Tests\Engine;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Rendered;
-use LastCall\Mannequin\Core\Variable\Set;
 use Prophecy\Argument;
 
 class DelegatingRendererTest extends RendererTestCase
@@ -29,7 +28,7 @@ class DelegatingRendererTest extends RendererTestCase
         );
         $subrenderer->render(
             Argument::type(PatternInterface::class),
-            Argument::type(Set::class)
+            Argument::type('array')
         )->will(
             function ($args) {
                 return new Rendered();

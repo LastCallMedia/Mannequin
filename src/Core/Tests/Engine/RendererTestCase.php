@@ -15,7 +15,6 @@ use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Rendered;
 use LastCall\Mannequin\Core\Variable\Definition;
-use LastCall\Mannequin\Core\Variable\Set;
 use PHPUnit\Framework\TestCase;
 
 abstract class RendererTestCase extends TestCase
@@ -43,9 +42,6 @@ abstract class RendererTestCase extends TestCase
     {
         $pattern = $this->prophesize(PatternInterface::class);
         $pattern->getId()->willReturn($id);
-        $pattern->getVariableSets()->willReturn(
-            ['default' => new Set('Default')]
-        );
         $pattern->getVariableDefinition()->willReturn(new Definition());
 
         return $pattern;
@@ -55,8 +51,7 @@ abstract class RendererTestCase extends TestCase
     {
         $pattern = $this->getSupportedPattern();
         $rendered = $this->getRenderer()->render(
-            $pattern,
-            $pattern->getVariableSets()['default']
+            $pattern
         );
         $this->assertInstanceOf(Rendered::class, $rendered);
 
@@ -70,8 +65,7 @@ abstract class RendererTestCase extends TestCase
     {
         $pattern = $this->getUnsupportedPattern();
         $this->getRenderer()->render(
-            $pattern,
-            $pattern->getVariableSets()['default']
+            $pattern
         );
     }
 
@@ -79,8 +73,7 @@ abstract class RendererTestCase extends TestCase
     {
         $pattern = $this->getSupportedPattern();
         $source = $this->getRenderer()->renderSource(
-            $pattern,
-            $pattern->getVariableSets()['default']
+            $pattern
         );
         $this->assertInternalType('string', $source);
 
@@ -94,8 +87,7 @@ abstract class RendererTestCase extends TestCase
     {
         $pattern = $this->getUnsupportedPattern();
         $this->getRenderer()->renderSource(
-            $pattern,
-            $pattern->getVariableSets()['default']
+            $pattern
         );
     }
 }

@@ -106,21 +106,30 @@ interface PatternInterface
     public function setVariableDefinition(Definition $definition
     ): PatternInterface;
 
-    /**
-     * Get the variable sets for this pattern.
-     *
-     * @return \LastCall\Mannequin\Core\Variable\Set[]
-     */
-    public function getVariableSets(): array;
+    public function createVariant($id, $name, array $values, array $tags): PatternVariant;
 
     /**
-     * Add a variable set for this pattern.
-     *
-     * @param \LastCall\Mannequin\Core\Variable\Set $set
-     *
-     * @return \LastCall\Mannequin\Core\Pattern\PatternInterface
+     * @return \LastCall\Mannequin\Core\Pattern\PatternVariant[]
      */
-    public function addVariableSet(string $id, Set $set): PatternInterface;
+    public function getVariants(): array;
+
+    /**
+     * Check whether the pattern has a named variant.
+     *
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function hasVariant(string $name): bool;
+
+    /**
+     * Get a variant.
+     *
+     * @param string $name
+     *
+     * @return \LastCall\Mannequin\Core\Pattern\PatternVariant
+     */
+    public function getVariant(string $name): PatternVariant;
 
     public function addUsedPattern(PatternInterface $pattern): PatternInterface;
 

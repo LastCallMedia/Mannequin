@@ -14,7 +14,6 @@ namespace LastCall\Mannequin\Html\Engine;
 use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Rendered;
-use LastCall\Mannequin\Core\Variable\Set;
 use LastCall\Mannequin\Html\Pattern\HtmlPattern;
 
 class HtmlEngine implements \LastCall\Mannequin\Core\Engine\EngineInterface
@@ -25,7 +24,7 @@ class HtmlEngine implements \LastCall\Mannequin\Core\Engine\EngineInterface
         $this->scripts = $scripts;
     }
 
-    public function render(PatternInterface $pattern, Set $set): Rendered
+    public function render(PatternInterface $pattern, array $values = []): Rendered
     {
         if ($this->supports($pattern)) {
             $rendered = new Rendered();

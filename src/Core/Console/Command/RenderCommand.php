@@ -73,15 +73,15 @@ class RenderCommand extends Command
                         $engine->renderSource($pattern)
                     );
 
-                    foreach ($patternManifest['sets'] as $setManifest) {
-                        $set = $pattern->getVariableSets()[$setManifest['id']];
-                        $rendered = $engine->render($pattern, $set);
+                    foreach ($patternManifest['variants'] as $variantManifest) {
+                        $variant = $pattern->getVariant($variantManifest['id']);
+                        $rendered = $engine->render($pattern, $variant->getValues());
                         $writer->raw(
-                            $setManifest['source'],
+                            $variantManifest['source'],
                             $rendered->getMarkup()
                         );
                         $writer->raw(
-                            $setManifest['rendered'],
+                            $variantManifest['rendered'],
                             $ui->decorateRendered($rendered)
                         );
                     }

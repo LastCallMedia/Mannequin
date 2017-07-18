@@ -16,7 +16,6 @@ use LastCall\Mannequin\Core\Event\PatternEvents;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Pattern\TemplateFilePatternInterface;
 use LastCall\Mannequin\Core\Variable\Definition;
-use LastCall\Mannequin\Core\Variable\Set;
 use LastCall\Mannequin\Core\YamlMetadataParser;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -50,10 +49,14 @@ class YamlFileMetadataSubscriber implements EventSubscriberInterface
                 }
             }
             if (!empty($metadata['variants'])) {
-                foreach ($metadata['variants'] as $name => $setDef) {
-                    // @todo: Add tags to set here.
-                    $pattern->addVariableSet($name, new Set($setDef['name'], $setDef['values']));
+                foreach ($metadata['variants'] as $vidx => $setDef) {
+                    $name = $setDef['name'] ?? $vidx;
+                    $tags = $setDef['tags'] ?? [];
+                    $values = $setDef['values'] ?? [];
+                    $pattern->createVariant($vidx, $name, $values, $tags);
                 }
+            } else {
+                $pattern->createVariant('default', 'Default', [], []);
             }
         }
     }

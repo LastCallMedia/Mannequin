@@ -14,7 +14,6 @@ namespace LastCall\Mannequin\Core\Engine;
 use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Rendered;
-use LastCall\Mannequin\Core\Variable\Set;
 
 class DelegatingEngine implements EngineInterface
 {
@@ -51,9 +50,9 @@ class DelegatingEngine implements EngineInterface
         }
     }
 
-    public function render(PatternInterface $pattern, Set $set): Rendered
+    public function render(PatternInterface $pattern, array $values = []): Rendered
     {
-        return $this->findRendererFor($pattern)->render($pattern, $set);
+        return $this->findRendererFor($pattern)->render($pattern, $values);
     }
 
     public function renderSource(PatternInterface $pattern): string

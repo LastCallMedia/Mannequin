@@ -13,7 +13,6 @@ namespace LastCall\Mannequin\Core\Tests\Variable;
 
 use LastCall\Mannequin\Core\Variable\Definition;
 use LastCall\Mannequin\Core\Variable\ResolverInterface;
-use LastCall\Mannequin\Core\Variable\Set;
 use LastCall\Mannequin\Core\Variable\SetResolver;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -22,13 +21,12 @@ class SetResolverTest extends TestCase
 {
     public function testResolvesKnownTypes()
     {
-        $set = new Set('Test', ['foo' => 'baz']);
         $definition = new Definition(['foo' => 'bar']);
 
         $setResolver = new SetResolver([$this->getBarResolver()]);
         $this->assertEquals(
             ['foo' => 'baz'],
-            $setResolver->resolveSet($definition, $set)
+            $setResolver->resolveSet($definition, ['foo' => 'baz'])
         );
     }
 
@@ -54,13 +52,12 @@ class SetResolverTest extends TestCase
      */
     public function testDoesNotResolveUnknown()
     {
-        $set = new Set('Test', ['foo' => 'baz']);
         $definition = new Definition(['foo' => 'baz']);
 
         $setResolver = new SetResolver([$this->getBarResolver()]);
         $this->assertEquals(
             ['foo' => 'baz'],
-            $setResolver->resolveSet($definition, $set)
+            $setResolver->resolveSet($definition, ['foo' => 'baz'])
         );
     }
 }

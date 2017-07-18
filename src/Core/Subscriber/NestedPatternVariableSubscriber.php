@@ -32,13 +32,14 @@ class NestedPatternVariableSubscriber implements EventSubscriberInterface
         $pattern = $event->getPattern();
         $collection = $event->getCollection();
         $definition = $pattern->getVariableDefinition();
-        $sets = $pattern->getVariableSets();
+        $variants = $pattern->getVariants();
 
         foreach ($definition->keys() as $varName) {
             if ('pattern' === $definition->get($varName)) {
-                foreach ($sets as $set) {
-                    if ($set->has($varName)) {
-                        $id = $set->get($varName);
+                foreach ($variants as $variant) {
+                    $values = $variant->getValues();
+                    if (array_key_exists($varName, $values)) {
+                        $id = $values[$varName];
                         if ($nested = $collection->get($id)) {
                             $pattern->addUsedPattern($nested);
                         }

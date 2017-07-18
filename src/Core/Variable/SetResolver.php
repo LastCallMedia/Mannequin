@@ -25,15 +25,15 @@ class SetResolver
         $this->resolvers = $resolvers;
     }
 
-    public function resolveSet(Definition $definition, Set $set)
+    public function resolveSet(Definition $definition, array $values)
     {
         $resolved = [];
 
         foreach ($definition->keys() as $key) {
             $type = $definition->get($key);
             $resolver = $this->findResolver($type);
-            if ($set->has($key)) {
-                $resolved[$key] = $resolver->resolve($type, $set->get($key));
+            if (array_key_exists($key, $values)) {
+                $resolved[$key] = $resolver->resolve($type, $values[$key]);
             }
         }
 

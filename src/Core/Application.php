@@ -106,7 +106,7 @@ class Application extends \Silex\Application
         $this->get('/manifest.json', 'controller.manifest:getManifestAction')
             ->bind('manifest');
         $this->get(
-            '/m-render/{pattern}/{set}.html',
+            '/m-render/{pattern}/{variant}.html',
             'controller.render:renderAction'
         )->bind('pattern_render');
         $this->get(
@@ -114,7 +114,7 @@ class Application extends \Silex\Application
             'controller.render:renderSourceAction'
         )->bind('pattern_render_source_raw');
         $this->get(
-            '/m-source/html/{pattern}/{set}.txt',
+            '/m-source/html/{pattern}/{variant}.txt',
             'controller.render:renderRawAction'
         )->bind('pattern_render_raw');
         $this->match('/{name}', 'controller.ui:staticAction')

@@ -2,11 +2,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {createSelector} from 'reselect';
+
 import {patternView} from './actions';
 import {Link} from 'react-router-dom';
 import Highlight from 'react-syntax-highlight';
 import {OpenNew} from './Icon';
+import {getPattern, getVariant, getUsed} from './selectors';
 import './PatternPage.css';
 import 'highlight.js/styles/default.css';
 import 'highlight.js/styles/atom-one-dark.css';
@@ -41,32 +42,6 @@ PatternPageLoadingWrapper.propTypes = {
   onVariantChange: PropTypes.func.isRequired,
   onPatternView: PropTypes.func.isRequired
 }
-/**
- * These reselect selectors pull data out of redux state based on URL params.
- */
-const getPatternsFromState = state => state.patterns;
-const getSelectedPatternId = (state, ownProps) => ownProps.match.params.pattern;
-const getSelectedVariantId = (state, ownProps) => ownProps.match.params.variant;
-const getPattern = createSelector(
-  [getPatternsFromState, getSelectedPatternId],
-  (patterns, patternId) => {
-    return patterns.filter(p => p.id === patternId).pop();
-  }
-)
-const getVariant = createSelector(
-  [getPattern, getSelectedVariantId],
-  (pattern, variantId) => {
-    return pattern ? pattern.variants.filter(s => s.id === variantId).pop() : undefined;
-  }
-)
-const getUsed = createSelector(
-  [getPatternsFromState, getPattern],
-  (patterns, pattern) => {
-    return pattern ? pattern.used.map(id => (
-      patterns.filter(p => p.id === id).pop()
-    )) : [];
-  }
-)
 
 const mapStateToProps = (state, ownProps) => {
   return {

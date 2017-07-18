@@ -12,9 +12,9 @@
 namespace LastCall\Mannequin\Core\Tests\Pattern;
 
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Pattern\PatternVariant;
 use LastCall\Mannequin\Core\Pattern\TemplateFilePatternInterface;
 use LastCall\Mannequin\Core\Variable\Definition;
-use LastCall\Mannequin\Core\Variable\Set;
 use PHPUnit\Framework\TestCase;
 
 abstract class PatternTestCase extends TestCase
@@ -81,27 +81,18 @@ abstract class PatternTestCase extends TestCase
         $this->assertEquals($definition, $pattern->getVariableDefinition());
     }
 
-    public function testVariableSets()
+    public function testVariants()
     {
-        $defaultSet = new Set('Default');
-        $fooSet = new Set('Foo');
-        $overriddenDefault = new Set('OverriddenDefault');
-
         $pattern = $this->getPattern();
-        $this->assertEquals(
-            ['default' => $defaultSet],
-            $pattern->getVariableSets()
-        );
-        $this->assertEquals($pattern, $pattern->addVariableSet('foo', $fooSet));
-        $this->assertEquals(
-            ['default' => $defaultSet, 'foo' => $fooSet],
-            $pattern->getVariableSets()
-        );
-        $pattern->addVariableSet('default', $overriddenDefault);
-        $this->assertEquals(
-            ['default' => $overriddenDefault, 'foo' => $fooSet],
-            $pattern->getVariableSets()
-        );
+        $pattern->createVariant('default', 'Default', [], []);
+        $this->assertEquals([
+            'default' => new PatternVariant('default', 'Default'),
+        ], $pattern->getVariants());
+
+        $pattern->createVariant('default', 'Overridden', [], []);
+        $this->assertEquals([
+            'default' => new PatternVariant('default', 'Overridden'),
+        ], $pattern->getVariants());
     }
 
     public function testGetFile()

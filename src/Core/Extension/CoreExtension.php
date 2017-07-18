@@ -11,12 +11,12 @@
 
 namespace LastCall\Mannequin\Core\Extension;
 
+use LastCall\Mannequin\Core\Pattern\PatternVariant;
 use LastCall\Mannequin\Core\Subscriber\LastChanceNameSubscriber;
 use LastCall\Mannequin\Core\Subscriber\NestedPatternVariableSubscriber;
 use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
 use LastCall\Mannequin\Core\Variable\PatternResolver;
 use LastCall\Mannequin\Core\Variable\ScalarResolver;
-use LastCall\Mannequin\Core\Variable\Set;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class CoreExtension extends AbstractExtension
@@ -26,13 +26,13 @@ class CoreExtension extends AbstractExtension
         return [
             new ScalarResolver(),
             new PatternResolver(
-                function ($id, Set $set = null) {
+                function ($id, PatternVariant $variant = null) {
                     $pattern = $this->getConfig()->getCollection()->get($id);
-                    $set = $set ?: $pattern->getVariableSets()['default'];
+                    $variant = $variant ?: reset($pattern->getVariants());
 
                     return $this->getConfig()->getRenderer()->render(
                         $pattern,
-                        $set
+                        $variant->getValues()
                     );
                 }
             ),
