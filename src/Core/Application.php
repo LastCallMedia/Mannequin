@@ -12,6 +12,7 @@
 namespace LastCall\Mannequin\Core;
 
 use LastCall\Mannequin\Core\Console\Application as ConsoleApplication;
+use LastCall\Mannequin\Core\Console\Command\DebugCommand;
 use LastCall\Mannequin\Core\Console\Command\RenderCommand;
 use LastCall\Mannequin\Core\Console\Command\ServerCommand;
 use LastCall\Mannequin\Core\MimeType\ExtensionMimeTypeGuesser;
@@ -46,6 +47,11 @@ class Application extends \Silex\Application
                         $this['config_file'],
                         $this['autoload_path'],
                         $this['debug']
+                    ),
+                    new DebugCommand(
+                        'debug',
+                        $this['manifest.builder'],
+                        $this['config']
                     ),
                 ]
             );

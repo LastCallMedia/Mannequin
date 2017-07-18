@@ -95,8 +95,7 @@ class RenderCommand extends Command
                     $writer->copy($src, $dest);
                 }
                 $rows[] = $this->getSuccessRow('Assets');
-            }
-            catch(\Exception $e) {
+            } catch (\Exception $e) {
                 $rows[] = $this->getErrorRow('Assets', $e);
             }
             try {
@@ -104,11 +103,9 @@ class RenderCommand extends Command
                     $writer->copy($src, $dest);
                 }
                 $rows[] = $this->getSuccessRow('UI');
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 $rows[] = $this->getErrorRow('UI', $e);
             }
-
         } catch (\Exception $e) {
             $rows[] = $this->getErrorRow('Manifest', $e);
         }
