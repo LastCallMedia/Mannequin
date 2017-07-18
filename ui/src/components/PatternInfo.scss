@@ -1,0 +1,72 @@
+
+@import "../base";
+
+.PatternInfo {
+  .inner {
+    background: $dark-bg;
+    @include xy-grid-container();
+    @include xy-grid();
+
+    > .info, > .code {
+      @include xy-cell(full);
+      @include breakpoint(medium) {
+        @include xy-cell(auto);
+      }
+    }
+  }
+  .close-button {
+    z-index: 1;
+    background: white;
+    border: 1px solid #ECEAEA;
+    border-radius: 2em;
+    color: black;
+    width: 1em;
+    text-align:center;
+    font-size: rem-calc(30);
+    line-height: rem-calc(30);
+    text-decoration: none;
+  }
+
+  &, label, a {
+    color: white;
+  }
+  h3 {
+    text-transform: uppercase;
+    font-size: rem-calc(18);
+    line-height: rem-calc(22);
+    margin: 15px 0;
+    font-weight: bold;
+  }
+  label {
+    font-size: rem-calc(10);
+    line-height: rem-calc(30);
+    font-weight: bold;
+    color: #767676;
+  }
+  a {
+    font-size: rem-calc(14);
+    line-height: rem-calc(17);
+    text-decoration: underline;
+  }
+  p {
+    font-size: rem-calc(14);
+    line-height: rem-calc(30);
+  }
+}
+
+.CodeFrame {
+  position: relative;
+  min-height: 100%;
+  overflow: auto;
+  .button-group {
+    position:absolute;
+    bottom: 1rem;
+    right: 1rem;
+    margin-bottom: 0;
+  }
+  pre {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+}
+

@@ -1,0 +1,33 @@
+
+@import "../base";
+
+.Card {
+  text-align:center;
+  a {
+    color: white;
+    display:block;
+    border-bottom: 8px solid;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+
+    &:hover {
+      border-bottom-color: #5CBB8A;;
+    }
+  }
+}
+
+.CardGrid {
+  @include xy-grid();
+  justify-content: center;
+
+  .Card {
+    @include xy-cell($gutter-position: right left bottom);
+
+    @include breakpoint(medium) {
+      @include xy-cell(2/4);
+    }
+    @include breakpoint(large) {
+      @include xy-cell(1/4);
+    }
+  }
+}

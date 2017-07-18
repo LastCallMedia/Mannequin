@@ -1,0 +1,39 @@
+/**
+ * Foundation for Sites by ZURB
+ * Version 6.4.1
+ * foundation.zurb.com
+ * Licensed under MIT Open Source
+ */
+.Card {
+  text-align: center; }
+  .Card a {
+    color: white;
+    display: block;
+    border-bottom: 8px solid;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px; }
+    .Card a:hover {
+      border-bottom-color: #5CBB8A; }
+
+.CardGrid {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center; }
+  .CardGrid .Card {
+    flex: 0 0 auto;
+    min-height: 0px;
+    min-width: 0px;
+    width: calc(100% - 1.25rem);
+    margin-right: 0.625rem;
+    margin-left: 0.625rem;
+    margin-bottom: 0.625rem; }
+    @media print, screen and (min-width: 40em) {
+      .CardGrid .Card {
+        width: calc(50% - 1.875rem);
+        margin-right: 0.9375rem;
+        margin-left: 0.9375rem; } }
+    @media print, screen and (min-width: 64em) {
+      .CardGrid .Card {
+        width: calc(25% - 1.875rem);
+        margin-right: 0.9375rem;
+        margin-left: 0.9375rem; } }

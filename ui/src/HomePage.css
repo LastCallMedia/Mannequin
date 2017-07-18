@@ -41,14 +41,3 @@
     font-weight: 300;
     font-size: 0.5625rem;
     letter-spacing: 5px; }
-
-.QuickLinkCard {
-  text-align: center; }
-  .QuickLinkCard a {
-    color: white;
-    display: block;
-    border-bottom: 8px solid;
-    border-bottom-right-radius: 2px;
-    border-bottom-left-radius: 2px; }
-    .QuickLinkCard a:hover {
-      border-bottom-color: #5CBB8A; }

@@ -55,17 +55,3 @@
   }
 }
 
-.QuickLinkCard {
-  text-align:center;
-  a {
-    color: white;
-    display:block;
-    border-bottom: 8px solid;
-    border-bottom-right-radius: 2px;
-    border-bottom-left-radius: 2px;
-
-    &:hover {
-      border-bottom-color: #5CBB8A;;
-    }
-  }
-}
