@@ -36,7 +36,7 @@ class InlineTwigYamlMetadataSubscriber extends YamlFileMetadataSubscriber
         if ($pattern instanceof TwigPattern) {
             $yaml = $this->inspector->inspectPatternData($pattern->getSource());
             if (false !== $yaml) {
-                return $this->parser->parse($yaml);
+                return $this->parser->parse($yaml, $pattern->getSource()->getPath());
             }
         }
     }
