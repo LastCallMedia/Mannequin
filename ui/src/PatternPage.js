@@ -21,7 +21,8 @@ const PatternShape = {
   description: PropTypes.string,
   rendered: PropTypes.string,
   used: PropTypes.arrayOf(PropTypes.string),
-  sets: PropTypes.arrayOf(PropTypes.shape(SetShape))
+  sets: PropTypes.arrayOf(PropTypes.shape(SetShape)),
+  tags: PropTypes.shape(),
 };
 
 
@@ -109,6 +110,7 @@ class PatternPage extends Component {
   render() {
     const {pattern, set, used, onSetChange} = this.props;
     const {showingInfo} = this.state;
+    const rawFormat = pattern.tags.source_format || 'html';
     return (
       <main className="PatternPage">
         <PatternTopBar pattern={pattern} set={set} openWindow={this.openWindow} toggleInfo={this.toggleInfo} changeSet={onSetChange} />
@@ -132,7 +134,7 @@ class PatternPage extends Component {
                 <p>{pattern.description}</p>
               </div>
             </div>
-            <CodeToggleFrame className="code" html={set.source} raw={pattern.source} rawFormat={pattern.format} />
+            <CodeToggleFrame className="code" html={set.source} raw={pattern.source} rawFormat={rawFormat} />
           </div>
         </div>
       </main>
