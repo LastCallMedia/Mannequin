@@ -40,6 +40,9 @@ class TwigDiscovery implements DiscoveryInterface
         $this->names = $names;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function discover(): PatternCollection
     {
         $patterns = [];
@@ -52,7 +55,7 @@ class TwigDiscovery implements DiscoveryInterface
                     $names,
                     $source
                 );
-                $pattern->addTag('format', 'twig');
+                $pattern->setName($primary);
                 $patterns[] = $pattern;
             } catch (\Twig_Error_Loader $e) {
                 throw new UnsupportedPatternException(

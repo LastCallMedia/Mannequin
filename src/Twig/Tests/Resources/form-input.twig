@@ -6,13 +6,17 @@ tags:
 variables:
     label: string
     type: string
-values:
-    default:
-        label: This is a textfield
-        type: textfield
-    datetime:
-        label: This is a datetime input
-        type: datetime
+@default:
+    label: This is a textfield
+    type: textfield
+
+{#values:#}
+    {#default:#}
+        {#label: This is a textfield#}
+        {#type: textfield#}
+    {#datetime:#}
+        {#label: This is a datetime input#}
+        {#type: datetime#}
 {% endblock %}{% endif %}
 <label><span>{{ label }}</span>
     <input type="{{ type }}"/>

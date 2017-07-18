@@ -11,14 +11,13 @@
 
 namespace LastCall\Mannequin\Twig\Subscriber;
 
-use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
-use LastCall\Mannequin\Core\Event\PatternEvents;
+use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
 use LastCall\Mannequin\Core\YamlMetadataParser;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 use LastCall\Mannequin\Twig\TwigInspectorInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class InlineTwigYamlMetadataSubscriber implements EventSubscriberInterface
+class InlineTwigYamlMetadataSubscriber extends YamlFileMetadataSubscriber
 {
     private $parser;
 
@@ -32,40 +31,12 @@ class InlineTwigYamlMetadataSubscriber implements EventSubscriberInterface
         $this->parser = $parser ?: new YamlMetadataParser();
     }
 
-    public static function getSubscribedEvents()
+    protected function getMetadataForPattern(PatternInterface $pattern)
     {
-        return [
-            PatternEvents::DISCOVER => 'getYamlMetadata',
-        ];
-    }
-
-    public function getYamlMetadata(PatternDiscoveryEvent $event)
-    {
-        $pattern = $event->getPattern();
         if ($pattern instanceof TwigPattern) {
             $yaml = $this->inspector->inspectPatternData($pattern->getSource());
-            if ($yaml !== null) {
-                $metadata = $this->parser->parse($yaml);
-
-                if (empty($pattern->getName()) && $metadata['name']) {
-                    $pattern->setName($metadata['name']);
-                }
-                if (empty(
-                    $pattern->getDescription()
-                    ) && $metadata['description']
-                ) {
-                    $pattern->setDescription($metadata['description']);
-                }
-                if (!empty($metadata['group'])) {
-                    $pattern->setGroup($metadata['group']);
-                }
-                $pattern->setVariableDefinition($metadata['definition']);
-                foreach ($metadata['tags'] as $k => $v) {
-                    $pattern->addTag($k, $v);
-                }
-                foreach ($metadata['sets'] as $k => $set) {
-                    $pattern->addVariableSet($k, $set);
-                }
+            if (false !== $yaml) {
+                return $this->parser->parse($yaml);
             }
         }
     }

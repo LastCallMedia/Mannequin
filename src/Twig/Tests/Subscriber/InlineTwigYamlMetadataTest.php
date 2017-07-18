@@ -38,6 +38,7 @@ class InlineTwigYamlMetadataTest extends TestCase
             [],
             new \Twig_Source('{%block patterninfo%}{%endblock%}', 'test', '')
         );
+        $pattern->setName('default');
         $inspector = $this->prophesize(TwigInspectorInterface::class);
         $inspector->inspectPatternData($pattern->getSource())->willReturn('');
 
