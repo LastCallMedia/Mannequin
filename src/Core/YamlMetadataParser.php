@@ -26,8 +26,9 @@ class YamlMetadataParser
         } catch (ParseException $e) {
             throw new TemplateParsingException(
                 sprintf(
-                    'Unable to parse YAML metadata in %s',
-                    $exceptionIdentifier
+                    'Unable to parse YAML metadata in %s. %s',
+                    $exceptionIdentifier,
+                    $e->getMessage()
                 ), $e->getCode(), $e
             );
         }
