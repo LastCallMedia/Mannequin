@@ -13,9 +13,16 @@ namespace LastCall\Mannequin\Core\Discovery;
 
 use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
 use LastCall\Mannequin\Core\Event\PatternEvents;
+use LastCall\Mannequin\Core\Exception\TemplateParsingException;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * Chain discovery.
+ *
+ * Run discovery for multiple discoverers, then execute a pattern discovery
+ * event for each pattern that was found.
+ */
 class ChainDiscovery implements DiscoveryInterface
 {
     private $discoverers = [];
@@ -50,10 +57,16 @@ class ChainDiscovery implements DiscoveryInterface
         }
         $collection = new PatternCollection($patterns);
         foreach ($collection as $pattern) {
-            $this->dispatcher->dispatch(
-                PatternEvents::DISCOVER,
-                new PatternDiscoveryEvent($pattern, $collection)
-            );
+            try {
+                $this->dispatcher->dispatch(
+                    PatternEvents::DISCOVER,
+                    new PatternDiscoveryEvent($pattern, $collection)
+                );
+            } catch (TemplateParsingException $e) {
+                // @todo: Logging and error handling here to allow the error to
+                // be exposed.
+                throw $e;
+            }
         }
 
         return $collection;
