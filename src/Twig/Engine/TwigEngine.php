@@ -15,7 +15,7 @@ use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Rendered;
-use LastCall\Mannequin\Core\Variable\SetResolver;
+use LastCall\Mannequin\Core\Variable\VariableResolver;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 
 class TwigEngine implements EngineInterface
@@ -28,7 +28,7 @@ class TwigEngine implements EngineInterface
 
     public function __construct(
         \Twig_Environment $twig,
-        SetResolver $setResolver,
+        VariableResolver $setResolver,
         array $styles = [],
         array $scripts = []
     ) {

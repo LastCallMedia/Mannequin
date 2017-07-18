@@ -14,7 +14,7 @@ namespace LastCall\Mannequin\Twig\Tests\Engine;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Tests\Engine\RendererTestCase;
-use LastCall\Mannequin\Core\Variable\SetResolver;
+use LastCall\Mannequin\Core\Variable\VariableResolver;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 
@@ -24,7 +24,7 @@ class TwigRendererTest extends RendererTestCase
     {
         return new TwigEngine(
             $this->getTwig(),
-            new SetResolver(),
+            new VariableResolver(),
             ['foo'],
             ['bar']
         );
@@ -52,7 +52,7 @@ class TwigRendererTest extends RendererTestCase
             ->willReturn('rendered');
 
         $pattern = $this->getSupportedPattern();
-        $setResolver = $this->prophesize(SetResolver::class);
+        $setResolver = $this->prophesize(VariableResolver::class);
         $setResolver->resolveSet(
             $pattern->getVariableDefinition(),
             ['foo' => 'bar']

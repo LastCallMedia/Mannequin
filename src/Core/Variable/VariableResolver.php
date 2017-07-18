@@ -13,7 +13,7 @@ namespace LastCall\Mannequin\Core\Variable;
 
 use LastCall\Mannequin\Core\Exception\InvalidVariableException;
 
-class SetResolver
+class VariableResolver
 {
     /**
      * @var \LastCall\Mannequin\Core\Variable\ResolverInterface[]

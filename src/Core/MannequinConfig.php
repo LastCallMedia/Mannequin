@@ -20,7 +20,7 @@ use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Ui\RemoteUi;
 use LastCall\Mannequin\Core\Ui\UiInterface;
-use LastCall\Mannequin\Core\Variable\SetResolver;
+use LastCall\Mannequin\Core\Variable\VariableResolver;
 use Pimple\Container;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -77,7 +77,7 @@ class MannequinConfig extends Container implements ConfigInterface
                 );
             }
 
-            return new SetResolver($resolvers);
+            return new VariableResolver($resolvers);
         };
         $this['collection'] = function () {
             return $this['discovery']->discover();
@@ -197,7 +197,7 @@ class MannequinConfig extends Container implements ConfigInterface
         return $this['renderer'];
     }
 
-    public function getVariableResolver(): SetResolver
+    public function getVariableResolver(): VariableResolver
     {
         return $this['variable.resolver'];
     }

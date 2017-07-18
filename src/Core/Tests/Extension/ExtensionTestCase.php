@@ -17,7 +17,7 @@ use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Variable\ResolverInterface;
-use LastCall\Mannequin\Core\Variable\SetResolver;
+use LastCall\Mannequin\Core\Variable\VariableResolver;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -48,7 +48,7 @@ abstract class ExtensionTestCase extends TestCase
         $config = $this->prophesize(ConfigInterface::class);
         $config->getCache()->willReturn($this->getNullCache());
         $config->getDispatcher()->willReturn(new EventDispatcher());
-        $config->getVariableResolver()->willReturn(new SetResolver());
+        $config->getVariableResolver()->willReturn(new VariableResolver());
         $config->getStyles()->willReturn([]);
         $config->getScripts()->willReturn([]);
 

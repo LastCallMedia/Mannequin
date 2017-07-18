@@ -22,7 +22,7 @@ use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Ui\UiInterface;
 use LastCall\Mannequin\Core\Variable\ResolverInterface;
-use LastCall\Mannequin\Core\Variable\SetResolver;
+use LastCall\Mannequin\Core\Variable\VariableResolver;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Psr\Cache\CacheItemPoolInterface;
@@ -118,7 +118,7 @@ class MannequinConfigTest extends TestCase
     {
         $config = new MannequinConfig();
         $this->assertInstanceOf(
-            SetResolver::class,
+            VariableResolver::class,
             $config->getVariableResolver()
         );
     }
