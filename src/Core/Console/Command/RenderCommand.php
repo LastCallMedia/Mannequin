@@ -90,16 +90,27 @@ class RenderCommand extends Command
                     $rows[] = $this->getErrorRow($pattern->getName(), $e);
                 }
             }
+            try {
+                foreach ($this->config->getAssetMappings() as $src => $dest) {
+                    $writer->copy($src, $dest);
+                }
+                $rows[] = $this->getSuccessRow('Assets');
+            }
+            catch(\Exception $e) {
+                $rows[] = $this->getErrorRow('Assets', $e);
+            }
+            try {
+                foreach ($ui->files() as $dest => $src) {
+                    $writer->copy($src, $dest);
+                }
+                $rows[] = $this->getSuccessRow('UI');
+            }
+            catch (\Exception $e) {
+                $rows[] = $this->getErrorRow('UI', $e);
+            }
+
         } catch (\Exception $e) {
-            $rows[] = $this->getErrorRow('Manifest');
-        }
-
-        foreach ($this->config->getAssetMappings() as $src => $dest) {
-            $writer->copy($src, $dest);
-        }
-
-        foreach ($ui->files() as $dest => $src) {
-            $writer->copy($src, $dest);
+            $rows[] = $this->getErrorRow('Manifest', $e);
         }
 
         $io->table(['', 'Name', 'Message'], $rows);
