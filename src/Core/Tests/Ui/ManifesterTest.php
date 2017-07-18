@@ -35,7 +35,6 @@ class ManifesterTest extends TestCase
         $p1->getTags()->willReturn(['foo' => 'bar']);
         $p1->getVariableSets()->willReturn(['default' => $s1]);
         $p1->getUsedPatterns()->willReturn([$p1]);
-        $p1->getRawFormat()->willReturn('html');
 
         $collection = new PatternCollection([$p1->reveal()]);
         $expected = [
@@ -48,7 +47,6 @@ class ManifesterTest extends TestCase
                     'aliases' => ['p1-alias'],
                     'used' => ['p1'],
                     'source' => '/pattern_render_source_raw/pattern:p1',
-                    'format' => 'html',
                     'sets' => [
                         [
                             'id' => 'default',

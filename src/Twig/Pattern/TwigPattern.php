@@ -35,8 +35,10 @@ class TwigPattern extends AbstractPattern implements TemplateFilePatternInterfac
         return new \SplFileInfo($this->source->getPath());
     }
 
-    public function getRawFormat(): string
+    protected static function getDefaultTags(): array
     {
-        return 'twig';
+        return parent::getDefaultTags() + [
+            'source_format' => 'twig',
+        ];
     }
 }

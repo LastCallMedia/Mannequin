@@ -60,7 +60,7 @@ class InlineTwigYamlMetadataTest extends TestCase
     public function testSetsTags()
     {
         $pattern = $this->renderAndDispatch(['tags' => ['foo' => 'bar']]);
-        $this->assertEquals(['foo' => 'bar'], $pattern->getTags());
+        $this->assertArraySubset(['foo' => 'bar'], $pattern->getTags());
     }
 
     public function testSetsDefinition()

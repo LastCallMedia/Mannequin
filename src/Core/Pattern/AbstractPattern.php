@@ -37,6 +37,7 @@ abstract class AbstractPattern implements PatternInterface
         $this->id = $id;
         $this->aliases = $aliases;
         $this->variableSets['default'] = new Set('Default', []);
+        $this->tags = self::getDefaultTags();
     }
 
     /**
@@ -163,5 +164,12 @@ abstract class AbstractPattern implements PatternInterface
     public function getUsedPatterns(): array
     {
         return $this->used;
+    }
+
+    protected static function getDefaultTags(): array {
+        return [
+            'category' => 'Unknown',
+            'source_format' => 'html',
+        ];
     }
 }

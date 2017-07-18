@@ -28,9 +28,4 @@ class TestFilePattern extends AbstractPattern implements TemplateFilePatternInte
     {
         return $this->file;
     }
-
-    public function getRawFormat(): string
-    {
-        return 'html';
-    }
 }

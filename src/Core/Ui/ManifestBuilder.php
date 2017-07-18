@@ -43,7 +43,6 @@ class ManifestBuilder
                 'sets' => $this->generateSets($pattern),
                 'used' => $this->generateUsed($pattern),
                 'aliases' => $pattern->getAliases(),
-                'format' => $pattern->getRawFormat(),
             ];
         }
 

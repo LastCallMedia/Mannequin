@@ -93,7 +93,21 @@ class YamlFileMetadataSubscriberTest extends TestCase
             new YamlFileMetadataSubscriber($parser->reveal()),
             $pattern
         );
-        $this->assertEquals(['foo' => 'bar'], $event->getPattern()->getTags());
+        $this->assertArraySubset(['foo' => 'bar'], $event->getPattern()->getTags());
+    }
+
+    public function testOverridesTags() {
+        $parser = $this->getParserProphecy(['tags' => ['category' => 'baz']]);
+        $pattern = new TestFilePattern(
+            'foo',
+            [],
+            new \SplFileInfo($this->templateFile)
+        );
+        $event = $this->dispatchDiscover(
+            new YamlFileMetadataSubscriber($parser->reveal()),
+            $pattern
+        );
+        $this->assertArraySubset(['category' => 'baz'], $event->getPattern()->getTags());
     }
 
     public function testCanSetDefaultSet()
