@@ -96,7 +96,8 @@ class YamlFileMetadataSubscriberTest extends TestCase
         $this->assertArraySubset(['foo' => 'bar'], $event->getPattern()->getTags());
     }
 
-    public function testOverridesTags() {
+    public function testOverridesTags()
+    {
         $parser = $this->getParserProphecy(['tags' => ['category' => 'baz']]);
         $pattern = new TestFilePattern(
             'foo',
