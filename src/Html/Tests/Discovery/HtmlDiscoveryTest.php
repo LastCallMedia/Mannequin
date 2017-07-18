@@ -21,48 +21,78 @@ class HtmlDiscoveryTest extends TestCase
 {
     use IdEncoder;
 
-    public function testReturnsCollectionOnEmpty()
+    private function discoverFixtureCollection()
     {
-        $discovery = new HtmlDiscovery(new \ArrayIterator([]));
-        $collection = $discovery->discover();
-        $this->assertInstanceOf(PatternCollection::class, $collection);
-        $this->assertCount(0, $collection);
+        $discoverer = new HtmlDiscovery([
+            __DIR__.'/../Resources/button.html',
+        ]);
+
+        return $discoverer->discover();
     }
 
-    public function getCreatesPatternTests()
+    public function testDiscoversPattern()
     {
-        return [
-            [['foo'], $this->encodeId('foo'), ['foo'], 'foo'],
-            [[['foo', 'bar']], $this->encodeId('foo'), ['foo', 'bar'], 'foo'],
-            [
-                [new \SplFileInfo(__FILE__)],
-                $this->encodeId(__FILE__),
-                [__FILE__],
-                __FILE__,
-            ],
-        ];
+        $id = __DIR__.'/../Resources/button.html';
+        $pattern = $this->discoverFixtureCollection()->get(
+            $this->encodeId($id)
+        );
+        $this->assertInstanceOf(HtmlPattern::class, $pattern);
+
+        return $pattern;
     }
 
     /**
-     * @dataProvider getCreatesPatternTests
+     * @depends testDiscoversPattern
      */
-    public function testCreatesPattern(
-        $input,
-        $expectedId,
-        $expectedAliases,
-        $expectedPathname
-    ) {
-        $discovery = new HtmlDiscovery(new \ArrayIterator($input));
+    public function testSetsId(HtmlPattern $pattern)
+    {
+        $id = __DIR__.'/../Resources/button.html';
+        $this->assertEquals($this->encodeId($id), $pattern->getId());
+    }
+
+    /**
+     * @depends testDiscoversPattern
+     */
+    public function testHasDefaultTags(HtmlPattern $pattern)
+    {
+        $this->assertArraySubset([
+            'category' => 'Unknown',
+            'source_format' => 'html',
+        ], $pattern->getTags());
+    }
+
+    /**
+     * @depends testDiscoversPattern
+     */
+    public function testSetsName(HtmlPattern $pattern)
+    {
+        $name = __DIR__.'/../Resources/button.html';
+        $this->assertEquals($name, $pattern->getName());
+    }
+
+    /**
+     * @depends testDiscoversPattern
+     */
+    public function testSetsFile(HtmlPattern $pattern)
+    {
+        $file = __DIR__.'/../Resources/button.html';
+        $this->assertEquals($file, $pattern->getFile()->getPathname());
+    }
+
+    /**
+     * @depends testDiscoversPattern
+     */
+    public function testSetsAliases(HtmlPattern $pattern)
+    {
+        $file = __DIR__.'/../Resources/button.html';
+        $this->assertEquals([$file], $pattern->getAliases());
+    }
+
+    public function testReturnsCollectionOnEmpty()
+    {
+        $discovery = new HtmlDiscovery([]);
         $collection = $discovery->discover();
         $this->assertInstanceOf(PatternCollection::class, $collection);
-        $pattern = $collection->get($expectedId);
-        $this->assertInstanceOf(HtmlPattern::class, $pattern);
-        $this->assertEquals($expectedId, $pattern->getId());
-        $this->assertEquals($expectedAliases, $pattern->getAliases());
-        $this->assertInstanceOf(\SplFileInfo::class, $pattern->getFile());
-        $this->assertEquals(
-            $expectedPathname,
-            $pattern->getFile()->getPathname()
-        );
+        $this->assertCount(0, $collection);
     }
 }

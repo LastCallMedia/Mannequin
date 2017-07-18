@@ -22,8 +22,16 @@ class HtmlDiscovery implements DiscoveryInterface
 
     private $files;
 
-    public function __construct(\Traversable $files)
+    /**
+     * HtmlDiscovery constructor.
+     *
+     * @param \Traversable|array $files
+     */
+    public function __construct($files)
     {
+        if (!is_array($files) && !$files instanceof \Traversable) {
+            throw new \InvalidArgumentException('$files must be an array, or \Traversable.');
+        }
         $this->files = $files;
     }
 
@@ -31,6 +39,7 @@ class HtmlDiscovery implements DiscoveryInterface
     {
         $patterns = [];
         foreach ($this->files as $filenames) {
+            // @todo: Clean this up and make it consistent with TwigDiscovery.
             if (!is_array($filenames)) {
                 $filenames = [$filenames];
             }
@@ -47,7 +56,7 @@ class HtmlDiscovery implements DiscoveryInterface
                 $filenames,
                 new \SplFileInfo($id)
             );
-            $pattern->addTag('format', 'html');
+            $pattern->setName($id);
             $patterns[] = $pattern;
         }
 
