@@ -23,8 +23,8 @@ interface ResolverInterface
      * Used in debugging the container.
      *
      * @return array
-     *   An associative array, with the key being the type, and the value
-     *   describing what value you expect to receive, and what it will resolve to.
+     *               An associative array, with the key being the type, and the value
+     *               describing what value you expect to receive, and what it will resolve to
      */
     public function describe(): array;
 }

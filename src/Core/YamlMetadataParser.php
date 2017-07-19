@@ -70,19 +70,24 @@ class YamlMetadataParser
         }
 
         $variants = [];
-        foreach ($metadata['variants'] as $name => $definition) {
+        foreach ($metadata['variants'] as $key => $definition) {
             if (!is_array($definition)) {
                 throw new TemplateParsingException(
                     sprintf(
                         'variant %s must be an array in %s',
-                        $name,
+                        $key,
                         $exceptionIdentifier
                     )
                 );
             }
             $tags = $this->extractTags($definition, true);
+            $name = $key;
+            if (isset($tags['name'])) {
+                $name = $tags['name'];
+                unset($tags['name']);
+            }
             // @todo: Pass tags to set.
-            $variants[$name] = [
+            $variants[$key] = [
                 'name' => $name,
                 'values' => $definition,
                 'tags' => $tags,

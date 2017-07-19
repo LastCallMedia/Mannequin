@@ -47,11 +47,13 @@ class DebugCommand extends Command
         $output->write($yaml);
     }
 
-    private function splitResolverDescription(array $description) {
+    private function splitResolverDescription(array $description)
+    {
         $cells = [];
-        foreach($description as $type => $description) {
+        foreach ($description as $type => $description) {
             $cells[] = [$type, $description];
         }
+
         return $cells;
     }
 }

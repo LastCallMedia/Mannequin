@@ -62,9 +62,10 @@ class VariableResolver
     public function describe(): array
     {
         $description = [];
-        foreach($this->resolvers as $resolver) {
+        foreach ($this->resolvers as $resolver) {
             $description = array_merge($description, $resolver->describe());
         }
+
         return $description;
     }
 }

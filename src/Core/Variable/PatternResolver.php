@@ -12,7 +12,6 @@
 namespace LastCall\Mannequin\Core\Variable;
 
 use LastCall\Mannequin\Core\Exception\InvalidVariableException;
-use LastCall\Mannequin\Core\Pattern\PatternVariant;
 use LastCall\Mannequin\Core\Rendered;
 
 class PatternResolver implements ResolverInterface
@@ -59,11 +58,12 @@ class PatternResolver implements ResolverInterface
 
     public function describe(): array
     {
-        $description = 'Render a pattern from the collection.'. PHP_EOL;
-        $description .= 'Accepts a pattern ID/alias.' . PHP_EOL;
+        $description = 'Render a pattern from the collection.'.PHP_EOL;
+        $description .= 'Accepts a pattern ID/alias.'.PHP_EOL;
         $description .= 'Returns a rendered pattern.';
+
         return [
-            'pattern' => $description
+            'pattern' => $description,
         ];
     }
 }

@@ -59,7 +59,9 @@ class YamlMetadataParserTest extends TestCase
     public function testParsesVariants()
     {
         $parsed = (new YamlMetadataParser())->parse(
-            'variants: {foo: {bar: baz, _baz: bar}}'
+            'variants:
+                    foo: {bar: baz, _baz: bar}
+                    bar: {_name: Barz}'
         );
         $this->assertInternalType('array', $parsed['variants']['foo']);
 
@@ -85,6 +87,22 @@ class YamlMetadataParserTest extends TestCase
     public function testParsesVariantTags($metadata)
     {
         $this->assertEquals(['baz' => 'bar'], $metadata['variants']['foo']['tags']);
+    }
+
+    /**
+     * @depends testParsesVariants
+     */
+    public function testParsesVariantNameFromTags($metadata)
+    {
+        $this->assertEquals('Barz', $metadata['variants']['bar']['name']);
+    }
+
+    /**
+     * @depends testParsesVariants
+     */
+    public function testRemovesVariantNameFromTags($metadata)
+    {
+        $this->assertArrayNotHasKey('name', $metadata['variants']['bar']['tags']);
     }
 
     public function getInvalidMetadataTests()
