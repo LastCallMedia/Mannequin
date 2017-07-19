@@ -64,7 +64,7 @@ class ServerCommandTest extends TestCase
             ->shouldBeCalled()
             ->willReturn($builder);
         $builder
-            ->setWorkingDirectory(realpath(__DIR__.'/../../../Resources/'))
+            ->setWorkingDirectory(__DIR__)
             ->shouldBeCalled()->willReturn($builder);
         $builder
             ->setTimeout(null)
