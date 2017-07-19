@@ -20,6 +20,8 @@ use LastCall\Mannequin\Core\Ui\Controller\ManifestController;
 use LastCall\Mannequin\Core\Ui\Controller\RenderController;
 use LastCall\Mannequin\Core\Ui\Controller\UiController;
 use LastCall\Mannequin\Core\Ui\ManifestBuilder;
+use Psr\Log\NullLogger;
+use Silex\EventListener\LogListener;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 
@@ -31,6 +33,11 @@ class Application extends \Silex\Application
 
     public function __construct(array $values = [])
     {
+        $values += [
+            'logger' => function() {
+                return new NullLogger();
+            }
+        ];
         parent::__construct($values);
         $this['console'] = function () {
             $app = new ConsoleApplication(self::APP_NAME, self::APP_VERSION);
@@ -58,6 +65,11 @@ class Application extends \Silex\Application
 
             return $app;
         };
+
+        $this['log.listener'] = function() {
+            return new LogListener($this['logger']);
+        };
+
         $this['config'] = function () {
             $filename = $this['config_file'];
             if (!file_exists($filename)) {
@@ -125,6 +137,7 @@ class Application extends \Silex\Application
 
     public function boot()
     {
+        $this['dispatcher']->addSubscriber($this['log.listener']);
         // Guess file extensions for CSS and JS files.
         MimeTypeGuesser::getInstance()->register(
             new ExtensionMimeTypeGuesser()
