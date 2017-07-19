@@ -35,4 +35,5 @@ Commands
 Further Reading
 ---------------
 * [Configuration](configuration.md)
-* 
+* [Patterns](patterns.md)
+* [Extensions](extensions.md)
