@@ -1,7 +1,7 @@
 Mannequin HTML
 ==============
 
-Contains the HTML extension for [Mannequin](https://github.com/LastCallMedia/Mannequin).
+Contains the HTML extension for [Mannequin](https://github.com/LastCallMedia/Mannequin). Please file any bug reports or feature requests to the [main repository](https://github.com/LastCallMedia/Mannequin).
 
 When would I use this?
 -----------------------

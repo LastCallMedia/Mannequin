@@ -14,13 +14,7 @@ $config = MannequinConfig::create([
 return $config;
 ```
 
-Next, you will choose one or more extensions to use.  The extensions that are currently available:
-
-* [*HTML Extension*](https://github.com/LastCallMedia/Mannequin-Html) - Display static HTML files as Mannequin patterns.
-* [*Twig Extension*](https://github.com/LastCallMedia/Mannequin-Twig) - Display Twig templates as Mannequin patterns.
-* [*Drupal Extension*](https://github.com/LastCallMedia/Mannequin-Drupal) - Display Drupal 8 Twig templates as Mannequin patterns.
-
-Configure and add the extension to your configuration object like this:
+Next, configure and add one of the [available extensions](index.md#Extensions) to your configuration object like this:
 
 ```php
 use LastCall\Mannequin\Core\MannequinConfig;
