@@ -23,7 +23,7 @@ const PatternInfo = ({pattern, used, variant, toggleInfo, className}) => {
                     </div>
                     <div className="PatternInfoSection">
                         <label>Description</label>
-                        <p>{pattern.description}</p>
+                        <p>{pattern.tags.description}</p>
                     </div>
                 </div>
                 <CodeToggleFrame className="code" html={variant.source} raw={pattern.source} rawFormat={rawFormat} />

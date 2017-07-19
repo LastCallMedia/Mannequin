@@ -8,11 +8,11 @@ export const VariantShape = {
     id: PropTypes.string,
     name: PropTypes.string,
     description: PropTypes.string,
-    rendered: PropTypes.string.isRequired
+    rendered: PropTypes.string.isRequired,
+    tags: PropTypes.shape()
 }
 export const PatternShape = {
     name: PropTypes.string.isRequired,
-    description: PropTypes.string,
     rendered: PropTypes.string,
     used: PropTypes.arrayOf(PropTypes.string),
     variants: PropTypes.arrayOf(PropTypes.shape(VariantShape)),
