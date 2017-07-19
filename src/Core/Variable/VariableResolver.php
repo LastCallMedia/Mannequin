@@ -58,4 +58,13 @@ class VariableResolver
     {
         return (bool) $this->findResolver($type);
     }
+
+    public function describe(): array
+    {
+        $description = [];
+        foreach($this->resolvers as $resolver) {
+            $description = array_merge($description, $resolver->describe());
+        }
+        return $description;
+    }
 }

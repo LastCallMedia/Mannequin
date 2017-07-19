@@ -40,4 +40,13 @@ class ScalarResolver implements ResolverInterface
             sprintf('Invalid type %s passed to %s', $type, __CLASS__)
         );
     }
+
+    public function describe(): array
+    {
+        return [
+            'integer' => 'A simple integer type.',
+            'boolean' => 'A simple boolean type.',
+            'string' => 'A simple string type.',
+        ];
+    }
 }
