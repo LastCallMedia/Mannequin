@@ -2,6 +2,7 @@
 
 use LastCall\Mannequin\Core\MannequinConfig;
 use LastCall\Mannequin\Twig\TwigExtension;
+use LastCall\Mannequin\Html\HtmlExtension;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -28,10 +29,24 @@ $twigExtension = new TwigExtension([
 ]);
 
 /**
+ * Create a finder to search and list the static HTML files.
+ */
+$htmlFinder = Finder::create()
+    ->files()
+    ->in(__DIR__.'/static')
+    ->name('*.html');
+
+$htmlExtension = new HtmlExtension([
+    'finder' => $htmlFinder
+]);
+
+/**
  * Create and return the configuration.  Don't forget to return it!
  */
 return MannequinConfig::create([
+        'ui' => new \LastCall\Mannequin\Core\Ui\LocalDevelopmentUi('http://10.0.1.140:3000'),
         'styles' => ['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/css/foundation.css'],
         'scripts' => ['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/js/foundation.min.js'],
     ])
+    ->addExtension($htmlExtension)
     ->addExtension($twigExtension);
