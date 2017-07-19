@@ -4,10 +4,10 @@ Mannequin is a component based theming tool for the web.  It builds on the work 
 
 Our Mission
 -----------
-1.  Front end development should be [loosely coupled](https://en.wikipedia.org/wiki/Loose_coupling) to the backend development.  One should not block the other.
-2.  Front end development should not happen in a silo, and it should not require copy/pasting files from one place to another.  We should be able to develop templates and associated assets wherever they will eventually be used (inside of the framework).
+1.  Front end development should be [loosely coupled](https://en.wikipedia.org/wiki/Loose_coupling) to backend development.  One should not block the other.
+2.  Front end development should not happen in a silo, and it should not require copying files from one place to another.  We should be able to develop templates and associated assets wherever they will eventually be used (alongside or inside of the application).
 3.  Front end assets are some of the most important targets for automated testing.  It should be easy to expose rendered output to tools that can run visual regression, accessibility, or other types of tests.
-4.  Patterns/templates should be as self-documenting as posible.  The metadata for a pattern should live as close to the template itself as possible.
+4.  Patterns/templates should be as self-documenting as possible.  The metadata for a pattern should live as close to the template itself as possible.
 
 Getting Started
 ---------------
