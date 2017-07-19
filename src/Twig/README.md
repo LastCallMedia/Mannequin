@@ -1,7 +1,7 @@
 Mannequin Twig
 ==============
 
-[![Packagist](https://img.shields.io/packagist/v/lastcall/mannequin-twig.svg)]()
+[![Packagist](https://img.shields.io/packagist/v/lastcall/mannequin-twig.svg)](https://packagist.org/packages/lastcall/mannequin-twig)
 
 Contains the Twig extension for [Mannequin](https://github.com/LastCallMedia/Mannequin). Please file any bug reports or feature requests to the [main repository](https://github.com/LastCallMedia/Mannequin).
 

@@ -1,7 +1,7 @@
 Mannequin Core
 ==============
 
-[![Packagist](https://img.shields.io/packagist/v/lastcall/mannequin-core.svg)]()
+[![Packagist](https://img.shields.io/packagist/v/lastcall/mannequin-core.svg)](https://packagist.org/packages/lastcall/mannequin-core)
 
 Contains the CLI and common code for [Mannequin](https://github.com/LastCallMedia/Mannequin).  Please file any bug reports or feature requests to the [main repository](https://github.com/LastCallMedia/Mannequin).
 

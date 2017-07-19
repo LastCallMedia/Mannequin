@@ -1,7 +1,7 @@
 Mannequin HTML
 ==============
 
-[![Packagist](https://img.shields.io/packagist/v/lastcall/mannequin-html.svg)]()
+[![Packagist](https://img.shields.io/packagist/v/lastcall/mannequin-html.svg)](https://packagist.org/packages/lastcall/mannequin-html)
 
 Contains the HTML extension for [Mannequin](https://github.com/LastCallMedia/Mannequin). Please file any bug reports or feature requests to the [main repository](https://github.com/LastCallMedia/Mannequin).
 
