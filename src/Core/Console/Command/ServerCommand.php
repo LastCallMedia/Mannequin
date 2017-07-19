@@ -121,7 +121,7 @@ class ServerCommand extends Command
                 'MANNEQUIN_DEBUG' => $this->debug,
                 'MANNEQUIN_VERBOSITY' => $output->getVerbosity(),
             ])
-            ->setWorkingDirectory(realpath(__DIR__.'/../../Resources'))
+            ->setWorkingDirectory(dirname(realpath($this->configFile)))
             ->setTimeout(null);
 
         $process = $builder->getProcess();
