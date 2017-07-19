@@ -26,8 +26,6 @@ class RenderCommand extends Command
 
     private $config;
 
-    private $ui;
-
     public function __construct(
         $name = null,
         ManifestBuilder $manifester,
@@ -40,6 +38,7 @@ class RenderCommand extends Command
 
     public function configure()
     {
+        $this->setDescription('Render everything to static HTML');
         $this->addOption(
             'output-dir',
             'o',

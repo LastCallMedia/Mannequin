@@ -31,6 +31,11 @@ class DebugCommand extends Command
         $this->config = $config;
     }
 
+    public function configure()
+    {
+        $this->setDescription('Display information on patterns and variable types');
+    }
+
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
