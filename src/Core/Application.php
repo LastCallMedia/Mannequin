@@ -34,9 +34,9 @@ class Application extends \Silex\Application
     public function __construct(array $values = [])
     {
         $values += [
-            'logger' => function() {
+            'logger' => function () {
                 return new NullLogger();
-            }
+            },
         ];
         parent::__construct($values);
         $this['console'] = function () {
@@ -66,7 +66,7 @@ class Application extends \Silex\Application
             return $app;
         };
 
-        $this['log.listener'] = function() {
+        $this['log.listener'] = function () {
             return new LogListener($this['logger']);
         };
 
