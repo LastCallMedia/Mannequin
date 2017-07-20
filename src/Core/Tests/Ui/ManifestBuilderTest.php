@@ -19,7 +19,7 @@ use Prophecy\Argument;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class ManifesterTest extends TestCase
+class ManifestBuilderTest extends TestCase
 {
     public function getGenerateTests()
     {
