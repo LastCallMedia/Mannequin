@@ -1,0 +1,41 @@
+{% if _pattern %}{% block patterninfo %}
+name: Button
+_group: Controls
+_description: An HTML Button
+variables:
+    # This is where we declare the TYPES of the variables that are used
+    # in this template.
+    text: string
+    modifier: string
+    disabled: boolean
+    clear: boolean
+variants:
+    # This is where we define variants.  Variants are sets of values used
+    # for the variables in the template.
+    Primary:
+        text: Primary
+        modifier: primary
+    Secondary:
+        text: Secondary
+        modifier: secondary
+    Success:
+        text: Success
+        modifier: success
+    Alert:
+        text: Alert
+        modifier: alert
+    Warning:
+        text: Warning
+        modifier: warning
+    Hollow:
+        text: Hollow
+        modifier: hollow
+    Disabled:
+        text: Disabled
+        disabled: true
+    Clear:
+        text: Clear
+        clear: true
+
+{% endblock %}{% endif %}
+<button type="{{ type |default('button') }}" class="{{ clear ? 'clear ' : '' }}button{{ modifier ? ' ' ~ modifier : '' }}" {{ disabled? 'disabled': '' }}>{{ text }}</button>
