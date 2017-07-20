@@ -22,27 +22,11 @@ class DrupalExtension extends TwigExtension
     {
         $config += [
             'drupal_root' => null,
-            'prefix' => 'drupal',
             'drupal' => function () {
                 return $this->bootDrupal();
             },
-            'twig_paths' => function () {
-                $paths = [];
-                $loader = $this['drupal']->get('twig.loader.filesystem');
-                foreach ($loader->getNamespaces() as $namespace) {
-                    // Skip the main namespace, as it would cause a file scan on the entire
-                    // drupal directory.
-                    if ($namespace === \Twig_Loader_Filesystem::MAIN_NAMESPACE) {
-                        continue;
-                    }
-                    foreach ($loader->getPaths($namespace) as $path) {
-                        if (file_exists($path)) {
-                            $paths[$namespace][] = realpath($path);
-                        }
-                    }
-                }
-
-                return $paths;
+            'twig_loader' => function() {
+                return $this['drupal']->get('twig.loader.filesystem'),
             },
         ];
         parent::__construct($config);

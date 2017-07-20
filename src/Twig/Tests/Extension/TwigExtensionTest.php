@@ -44,4 +44,57 @@ class TwigExtensionTest extends ExtensionTestCase
 
         return $dispatcher;
     }
+
+    public function testGetDefaultTwig()
+    {
+        $extension = new TwigExtension();
+        $this->assertInstanceOf(\Twig_Environment::class, $extension['twig']);
+
+        return $extension['twig'];
+    }
+
+    public function testGetConfiguredTwig()
+    {
+        $extension = new TwigExtension([
+            'twig_cache' => sys_get_temp_dir(),
+            'twig_root' => __DIR__,
+        ]);
+        $this->assertInstanceOf(\Twig_Environment::class, $extension['twig']);
+
+        return $extension['twig'];
+    }
+
+    /**
+     * @depends testGetDefaultTwig
+     */
+    public function testDefaultTwigCache(\Twig_Environment $default)
+    {
+        $this->assertFalse($default->getCache());
+    }
+
+    /**
+     * @depends testGetConfiguredTwig
+     */
+    public function testConfigurableTwigCache(\Twig_Environment $configured)
+    {
+        $this->assertEquals(sys_get_temp_dir(), $configured->getCache());
+    }
+
+    /**
+     * @depends testGetDefaultTwig
+     */
+    public function testDefaultTwigRoot(\Twig_Environment $default)
+    {
+        $dir = getcwd();
+        $this->assertEquals(new \Twig_Loader_Filesystem([\Twig_Loader_Filesystem::MAIN_NAMESPACE => $dir], $dir), $default->getLoader());
+    }
+
+    /**
+     * @depends testGetConfiguredTwig
+     */
+    public function testConfigurableTwigRoot(\Twig_Environment $configured)
+    {
+        $dir = __DIR__;
+        $this->assertEquals(new \Twig_Loader_Filesystem([\Twig_Loader_Filesystem::MAIN_NAMESPACE => $dir], $dir), $configured->getLoader());
+    }
 }

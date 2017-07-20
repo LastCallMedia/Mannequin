@@ -5,22 +5,15 @@ use LastCall\Mannequin\Html\HtmlExtension;
 use LastCall\Mannequin\Twig\TwigExtension;
 use Symfony\Component\Finder\Finder;
 
-$twigFinder = Finder::create()
-  ->files()
-  ->in(__DIR__.'/src/Twig/Tests/Resources');
-
 $htmlFinder = Finder::create()
   ->files()
-  ->in(__DIR__.'/src/Html/Tests/Resources');
+  ->name('*.html')
+  ->in(__DIR__.'/demo/static');
 
 $twig = new TwigExtension([
-  'finder' => $twigFinder,
-  'twig_paths' => [
-    '__main__' => [__DIR__.'/src/Twig/Tests/Resources']
-  ]
+    'globs' => ['*'],
+    'twig_root' => __DIR__.'/demo/templates',
 ]);
-
-
 $html = new HtmlExtension([
   'finder' => $htmlFinder,
 ]);

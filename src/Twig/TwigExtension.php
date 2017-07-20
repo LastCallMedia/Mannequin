@@ -12,10 +12,8 @@
 namespace LastCall\Mannequin\Twig;
 
 use LastCall\Mannequin\Core\Extension\AbstractExtension;
-use LastCall\Mannequin\Core\Iterator\MappingCallbackIterator;
 use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
-use LastCall\Mannequin\Twig\Mapper\FilesystemLoaderMapper;
 use LastCall\Mannequin\Twig\Subscriber\InlineTwigYamlMetadataSubscriber;
 use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -26,43 +24,19 @@ class TwigExtension extends AbstractExtension
     {
         $config += [
             'globs' => [],
-            'twig_paths' => [
-                \Twig_Loader_Filesystem::MAIN_NAMESPACE => [getcwd()],
-            ],
-            'finder' => function () {
-                throw new \RuntimeException('Finder must be configured.');
+            'twig_cache' => null,
+            'twig_root' => getcwd(),
+            'twig_loader' => function () {
+                return new \Twig_Loader_Filesystem([$this['twig_root']], $this['twig_root']);
             },
-            'twig_cache_dir' => null,
             'twig' => function () {
-                $loader = new \Twig_Loader_Filesystem();
-                foreach ($this['twig_paths'] as $namespace => $paths) {
-                    foreach ($paths as $path) {
-                        $loader->addPath($path, $namespace);
-                    }
-                }
-
-                return new \Twig_Environment(
-                    $loader, [
-                    'cache' => $this['twig_cache_dir'],
-                    'auto_reload' => true,
-                ]
-                );
-            },
-            'filename_mapper' => function () {
-                $mapper = new FilesystemLoaderMapper();
-                foreach ($this['twig_paths'] as $namespace => $paths) {
-                    foreach ($paths as $path) {
-                        $mapper->addPath($path, $namespace);
-                    }
-                }
-
-                return $mapper;
+                return new \Twig_Environment($this['twig_loader'], [
+                        'cache' => $this['twig_cache'],
+                        'auto_reload' => true,
+                ]);
             },
             'names' => function () {
-                return new MappingCallbackIterator(
-                    $this['finder'],
-                    $this['filename_mapper']
-                );
+                return new TwigLoaderIterator($this['twig_loader'], $this['twig_root'], $this['globs']);
             },
         ];
         parent::__construct($config);
