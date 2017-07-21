@@ -1,7 +1,7 @@
 Patterns
 ========
 
-A library for generating a style guide from templates.
+A library for generating a style guide from templates. [View a demo](https://demo.mannequin.io), or [read the docs](https://mannequin.io).
 
 Development
 -----------

@@ -1,6 +1,6 @@
 What is this?
 -------------
-Mannequin is a component based theming tool for the web.  It builds on the work of tools like [Pattern Lab](http://patternlab.io/), and [Fractal](http://fractal.build/).
+Mannequin is a component based theming tool for the web.  It builds on the work of tools like [Pattern Lab](http://patternlab.io/), and [Fractal](http://fractal.build/).  [View a demo](https://demo.mannequin.io)
 
 Our Mission
 -----------
