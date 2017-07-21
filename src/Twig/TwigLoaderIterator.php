@@ -31,12 +31,14 @@ class TwigLoaderIterator implements \IteratorAggregate
     {
         $outer = new \AppendIterator();
         foreach ($this->globs as $glob) {
-            list($nsRegex, $nameRegex) = $this->convertGlob($glob);
-            foreach ($this->matchingNamespaces($nsRegex) as $ns) {
+            list($nsGlob, $nameGlob) = $this->explodeGlob($glob);
+            foreach ($this->matchingNamespaces($nsGlob) as $ns) {
+                $paths = $this->prefixPaths($this->loader->getPaths($ns));
+
                 $finder = Finder::create()
                     ->files()
-                    ->name($nameRegex)
-                    ->in($this->loader->getPaths($ns));
+                    ->name($nameGlob)
+                    ->in($paths);
                 $inner = new MappingCallbackIterator($finder, function ($file) use ($ns) {
                     $filename = $file->getRelativePathname();
                     if ($ns !== \Twig_Loader_Filesystem::MAIN_NAMESPACE) {
@@ -52,28 +54,50 @@ class TwigLoaderIterator implements \IteratorAggregate
         return $outer;
     }
 
-    private function convertGlob(string $glob): array
+    private function explodeGlob($glob)
     {
         if (strpos($glob, '@') === 0) {
-            $parts = explode('/', $glob, 1);
-
-            return [
-                Glob::toRegex($parts[0]),
-                Glob::toRegex($parts[1] ?? '*'),
-            ];
-        } else {
-            // This is an un-namespaced glob.
-            return [\Twig_Loader_Filesystem::MAIN_NAMESPACE, Glob::toRegex($glob)];
+            return explode('/', $glob, 2);
         }
+
+        return ['@'.\Twig_Loader_Filesystem::MAIN_NAMESPACE, $glob];
     }
 
-    private function matchingNamespaces($regex)
+    private function prefixPaths(array $paths)
     {
-        if ($regex === \Twig_Loader_Filesystem::MAIN_NAMESPACE) {
-            return [$regex];
-        }
+        return array_map(function ($path) {
+            return $this->isAbsolutePath($path)
+                ? $path
+                : $this->rootPath.'/'.$path;
+        }, $paths);
+    }
 
-        return array_filter($this->loader->getNamespaces(), function ($ns) use ($regex) {
+    private function isAbsolutePath($file)
+    {
+        return strspn($file, '/\\', 0, 1)
+            || (strlen($file) > 3 && ctype_alpha($file[0])
+                && substr($file, 1, 1) === ':'
+                && strspn($file, '/\\', 2, 1)
+            )
+            || null !== parse_url($file, PHP_URL_SCHEME)
+            ;
+    }
+
+    public function matchingNamespaces($spec)
+    {
+        $namespaces = $this->loader->getNamespaces();
+
+        if (strpos($spec, '@') === 0) {
+            // This is a specifically scoped specification.
+            $spec = substr($spec, 1);
+        } else {
+            $spec = \Twig_Loader_Filesystem::MAIN_NAMESPACE.'/'.$spec;
+        }
+        list($spec) = explode('/', $spec, 2);
+
+        $regex = Glob::toRegex($spec);
+
+        return array_filter($namespaces, function ($ns) use ($regex) {
             return preg_match($regex, $ns);
         });
     }
