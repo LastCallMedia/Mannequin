@@ -33,7 +33,7 @@ class InlineTwigYamlMetadataTest extends TestCase
         $inspector = $this->prophesize(TwigInspectorInterface::class);
 
         $parser = $this->prophesize(YamlMetadataParser::class);
-        $source = new \Twig_Source('{%block patterninfo%}{%endblock%}', 'test', 'test');
+        $source = new \Twig_Source('', 'test', 'test');
         $pattern = new TwigPattern('foo', [], $source);
 
         $inspector
@@ -49,7 +49,7 @@ class InlineTwigYamlMetadataTest extends TestCase
         $inspector = $this->prophesize(TwigInspectorInterface::class);
 
         $parser = $this->prophesize(YamlMetadataParser::class);
-        $source = new \Twig_Source('{%block patterninfo%}{%endblock%}', 'test', 'test');
+        $source = new \Twig_Source('', 'test', 'test');
         $pattern = new TwigPattern('foo', [], $source);
 
         $inspector

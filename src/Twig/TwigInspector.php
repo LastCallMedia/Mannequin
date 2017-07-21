@@ -85,15 +85,16 @@ class TwigInspector implements TwigInspectorInterface
         return $includes;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function inspectPatternData(\Twig_Source $source)
     {
-        if ($this->twig->getLoader()->exists($source->getName())) {
-            $template = $this->twig->load($source->getName());
-            if ($template->hasBlock('patterninfo')) {
-                return $template->renderBlock('patterninfo');
-            }
+        $template = $this->twig->load($source->getName());
+        if ($template->hasBlock('patterninfo')) {
+            return $template->renderBlock('patterninfo');
         }
 
-        return null;
+        return false;
     }
 }
