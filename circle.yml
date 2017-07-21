@@ -12,6 +12,10 @@ jobs:
       - save_cache:
           key: composer-v2-{{ checksum "composer.json" }}
           paths: [vendor]
+      - persist_to_workspace:
+          root: /srv
+          paths:
+            - vendor
       - run: |
           COMMIT_RANGE=`echo $CIRCLE_COMPARE_URL | cut -d/ -f7`
           IFS=$'\n'; COMMIT_SCA_FILES=($(git diff --name-only --diff-filter=ACMRTUXB "${COMMIT_RANGE}")); unset IFS
@@ -62,6 +66,8 @@ jobs:
       - checkout
       - attach_workspace:
           at: /srv/ui
+      - attach_workspace:
+          at: /srv
       - run: curl -L -o /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 && chmod +x /usr/bin/jq
       - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
       - run: |
@@ -82,6 +88,12 @@ jobs:
       - checkout
       - attach_workspace:
           at: /srv/ui
+      - restore_cache:
+          key: composer-v2-{{ checksum "composer.json" }}
+      - run: composer install
+      - save_cache:
+          key: composer-v2-{{ checksum "composer.json" }}
+          paths: [vendor]
       - run: src/Core/bin/mannequin render
 
 workflows:
