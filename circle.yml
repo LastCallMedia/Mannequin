@@ -12,10 +12,6 @@ jobs:
       - save_cache:
           key: composer-v2-{{ checksum "composer.json" }}
           paths: [vendor]
-      - persist_to_workspace:
-          root: /srv
-          paths:
-            - vendor
       - run: |
           COMMIT_RANGE=`echo $CIRCLE_COMPARE_URL | cut -d/ -f7`
           IFS=$'\n'; COMMIT_SCA_FILES=($(git diff --name-only --diff-filter=ACMRTUXB "${COMMIT_RANGE}")); unset IFS
@@ -49,6 +45,25 @@ jobs:
           root: /srv/ui
           paths:
             - build
+  build_demo:
+    working_directory: /srv
+    docker:
+      - image: lastcallmedia/php:7.0-dev
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /srv/ui
+      - restore_cache:
+          key: composer-v2-{{ checksum "composer.json" }}
+      - run: composer install
+      - save_cache:
+          key: composer-v2-{{ checksum "composer.json" }}
+          paths: [vendor]
+      - run: src/Core/bin/mannequin render
+      - persist_to_workspace:
+          root: /srv
+          paths:
+            - mannequin
 
   deploy_split:
     working_directory: /srv
@@ -80,21 +95,15 @@ jobs:
           else
             echo "Skipping npm publish"
           fi
+
   deploy_demo:
     working_directory: /srv
     docker:
-      - image: lastcallmedia/php:7.0-dev
+      - image: cgswong/aws:aws
     steps:
       - checkout
       - attach_workspace:
-          at: /srv/ui
-      - restore_cache:
-          key: composer-v2-{{ checksum "composer.json" }}
-      - run: composer install
-      - save_cache:
-          key: composer-v2-{{ checksum "composer.json" }}
-          paths: [vendor]
-      - run: src/Core/bin/mannequin render
+          at: /srv
       - run: aws s3 sync mannequin s3://demo.mannequin.io --delete
 
 workflows:
@@ -103,6 +112,8 @@ workflows:
     jobs:
       - test_php
       - test_ui
+      - build_demo:
+          requires: [test_ui]
       - deploy_split:
           requires: [test_php]
       - deploy_ui:
@@ -111,4 +122,4 @@ workflows:
             branches:
               only: master
       - deploy_demo:
-          requires: [test_php, test_ui]
+          requires: [build_demo]
