@@ -74,6 +74,15 @@ jobs:
           else
             echo "Skipping npm publish"
           fi
+  deploy_demo:
+    working_directory: /srv
+    docker:
+      - image: lastcallmedia/php:7.0-dev
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /srv/ui
+      - run: src/Core/bin/mannequin render
 
 workflows:
   version: 2
@@ -88,3 +97,5 @@ workflows:
           filters:
             branches:
               only: master
+      - deploy_demo:
+          requires: [test_php, test_ui]
