@@ -123,3 +123,6 @@ workflows:
               only: master
       - deploy_demo:
           requires: [build_demo]
+          filters:
+            branches:
+              only: master
