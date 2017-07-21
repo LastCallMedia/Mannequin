@@ -22,6 +22,9 @@ class DrupalExtension extends TwigExtension
     {
         $config += [
             'drupal_root' => null,
+            'twig_root' => function () {
+                return $this['_drupal_root'];
+            },
             'drupal' => function () {
                 return $this->bootDrupal();
             },
