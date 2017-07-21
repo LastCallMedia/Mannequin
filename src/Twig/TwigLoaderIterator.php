@@ -45,7 +45,7 @@ class TwigLoaderIterator implements \IteratorAggregate
                         $filename = sprintf('@%s/%s', $ns, $filename);
                     }
 
-                    return [$filename];
+                    return $filename;
                 });
                 $outer->append($inner);
             }

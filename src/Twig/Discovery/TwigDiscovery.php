@@ -48,18 +48,19 @@ class TwigDiscovery implements DiscoveryInterface
         $patterns = [];
         foreach ($this->names as $names) {
             try {
-                $primary = reset($names);
-                $source = $this->loader->getSourceContext($primary);
+                $aliases = (array) $names;
+                $name = reset($aliases);
+                $source = $this->loader->getSourceContext($name);
                 $pattern = new TwigPattern(
-                    $this->encodeId($primary),
-                    $names,
+                    $this->encodeId($name),
+                    $aliases,
                     $source
                 );
-                $pattern->setName($primary);
+                $pattern->setName($name);
                 $patterns[] = $pattern;
             } catch (\Twig_Error_Loader $e) {
                 throw new UnsupportedPatternException(
-                    sprintf('Unable to load %s', $primary), 0, $e
+                    sprintf('Unable to load %s', $name), 0, $e
                 );
             }
         }

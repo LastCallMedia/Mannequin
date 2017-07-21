@@ -16,16 +16,11 @@ use PHPUnit\Framework\TestCase;
 
 class TwigLoaderIteratorTest extends TestCase
 {
-    private function getFixturesDir()
-    {
-        return __DIR__.'/Resources';
-    }
-
     public function testSearchesMainNamespaceWithWildcard()
     {
         $loader = new \Twig_Loader_Filesystem(['Resources'], __DIR__);
         $iterator = new TwigLoaderIterator($loader, __DIR__, ['*.twig']);
-        $this->assertIteratorContains([['form-input.twig']], $iterator);
+        $this->assertContains('form-input.twig', $iterator);
     }
 
     public function testSearchesAltNamespaceWithNsWildcard()
@@ -33,7 +28,7 @@ class TwigLoaderIteratorTest extends TestCase
         $loader = new \Twig_Loader_Filesystem(['Discovery'], __DIR__);
         $loader->setPaths(['Resources'], 'test');
         $iterator = new TwigLoaderIterator($loader, __DIR__, ['@*/*.twig']);
-        $this->assertIteratorContains([['@test/form-input.twig']], $iterator);
+        $this->assertContains('@test/form-input.twig', $iterator);
     }
 
     public function testOnlySearchesMainNamespaceWithWildcard()
@@ -44,9 +39,20 @@ class TwigLoaderIteratorTest extends TestCase
         $this->assertEmpty(iterator_to_array($iterator));
     }
 
-    private function assertIteratorContains(array $expected, $iterator)
+    public function testFilenameGlobNarrowsResultsWithoutNsGlob()
     {
-        $items = iterator_to_array($iterator);
-        $this->assertArraySubset($expected, array_values($items));
+        $loader = new \Twig_Loader_Filesystem(['Resources'], __DIR__);
+        $iterator = new TwigLoaderIterator($loader, __DIR__, ['form-input.twig']);
+        $this->assertContains('form-input.twig', $iterator);
+        $this->assertCount(1, $iterator);
+    }
+
+    public function testFilenameGlobNarrowsResultsWithNsGlob()
+    {
+        $loader = new \Twig_Loader_Filesystem(['Discovery'], __DIR__);
+        $loader->setPaths(['Resources'], 'test');
+        $iterator = new TwigLoaderIterator($loader, __DIR__, ['@test/form-input.twig']);
+        $this->assertContains('@test/form-input.twig', $iterator);
+        $this->assertCount(1, $iterator);
     }
 }
