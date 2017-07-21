@@ -45,6 +45,25 @@ jobs:
           root: /srv/ui
           paths:
             - build
+  build_demo:
+    working_directory: /srv
+    docker:
+      - image: lastcallmedia/php:7.0-dev
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /srv/ui
+      - restore_cache:
+          key: composer-v2-{{ checksum "composer.json" }}
+      - run: composer install
+      - save_cache:
+          key: composer-v2-{{ checksum "composer.json" }}
+          paths: [vendor]
+      - run: src/Core/bin/mannequin render
+      - persist_to_workspace:
+          root: /srv
+          paths:
+            - mannequin
 
   deploy_split:
     working_directory: /srv
@@ -62,6 +81,8 @@ jobs:
       - checkout
       - attach_workspace:
           at: /srv/ui
+      - attach_workspace:
+          at: /srv
       - run: curl -L -o /usr/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 && chmod +x /usr/bin/jq
       - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
       - run: |
@@ -75,16 +96,33 @@ jobs:
             echo "Skipping npm publish"
           fi
 
+  deploy_demo:
+    working_directory: /srv
+    docker:
+      - image: cgswong/aws:aws
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /srv
+      - run: aws s3 sync mannequin s3://demo.mannequin.io --delete
+
 workflows:
   version: 2
   test_and_deploy:
     jobs:
       - test_php
       - test_ui
+      - build_demo:
+          requires: [test_ui]
       - deploy_split:
           requires: [test_php]
       - deploy_ui:
           requires: [test_ui]
+          filters:
+            branches:
+              only: master
+      - deploy_demo:
+          requires: [build_demo]
           filters:
             branches:
               only: master
