@@ -1,0 +1,48 @@
+{% if _pattern %}{% block patterninfo %}
+name: Callout
+_group: Containers
+_description: A flexible container for featuring a piece of content, typically as a link to an extended view of that content.
+variables:
+    # This is where we declare the TYPES of the variables that are used
+    # in this template.
+    type: string
+    title: string
+    content: string
+variants:
+    # This is where we define variants.  Variants are sets of values used
+    # for the variables in the template.
+    Primary:
+        title: Primary Callout
+        type: primary
+        content: This is a primary callout.
+    Secondary:
+        title: Secondary Callout
+        type: secondary
+        content: This is a secondary callout.
+    Success:
+        title: Success Callout
+        type: success
+        content: This is a callout.
+    Warning:
+        title: Warning Callout
+        type: warning
+        content: This is a callout.
+    Alert:
+        title: Alert Callout
+        type: alert
+        content: This is an alert callout.
+    Small:
+        title: Small Callout
+        type: small
+        content: This is a small callout.
+    Large:
+        title: Large Callout
+        type: small
+        content: This is a large callout.
+{% endblock %}{% endif %}
+<div class="callout {{ type ? type }}">
+    {% if title %}<h5>{{ title }}</h5>{% endif %}
+    {% block callout_content %}
+        <p>{{ content }}</p>
+    {% endblock %}
+</div>
