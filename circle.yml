@@ -95,6 +95,7 @@ jobs:
           key: composer-v2-{{ checksum "composer.json" }}
           paths: [vendor]
       - run: src/Core/bin/mannequin render
+      - run: aws s3 sync mannequin s3://demo.mannequin.io --delete
 
 workflows:
   version: 2
