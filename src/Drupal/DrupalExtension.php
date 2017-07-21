@@ -25,8 +25,8 @@ class DrupalExtension extends TwigExtension
             'drupal' => function () {
                 return $this->bootDrupal();
             },
-            'twig_loader' => function() {
-                return $this['drupal']->get('twig.loader.filesystem'),
+            'twig_loader' => function () {
+                return $this['drupal']->get('twig.loader.filesystem');
             },
         ];
         parent::__construct($config);
