@@ -32,7 +32,7 @@ const PatternInnerPage = ({pattern, variant, showingInfo, match, toggleInfo, bas
     const problems = pattern && pattern.problems.length ? <PatternProblems className="Content" problems={pattern.problems} /> : null;
     const actions = (
         <ul>
-            {variant && <li><OpenButton href={variant.source} /></li>}
+            {variant && <li><OpenButton href={variant.rendered} /></li>}
             <li><ViewInfoButton onClick={toggleInfo} /></li>
         </ul>
     );
