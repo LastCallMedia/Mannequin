@@ -1,6 +1,6 @@
 
 import React from 'react';
 
-export const VariantNotFound = () => {
-    return <span>Not Found</span>
+export const VariantNotFound = ({text = 'Variant not found'}) => {
+    return <div className="NotFound Content callout warning">{text}</div>
 }

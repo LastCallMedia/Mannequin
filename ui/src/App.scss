@@ -30,6 +30,10 @@
     main {
       flex: 1 0;
       overflow-y:auto;
+
+      &.no-scroll {
+        overflow-y:hidden;
+      }
     }
   }
   .NavDrawer {

@@ -2,10 +2,12 @@
 @import "../base";
 
 .PatternInfo {
+  overflow-y: auto;
   .inner {
     background: $dark-bg;
     @include xy-grid-container();
     @include xy-grid();
+    position: relative;
 
     > .info, > .code {
       @include xy-cell(full);
@@ -13,20 +15,13 @@
         @include xy-cell(auto);
       }
     }
+    .controls {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 1;
+    }
   }
-  .close-button {
-    z-index: 1;
-    background: white;
-    border: 1px solid #ECEAEA;
-    border-radius: 2em;
-    color: black;
-    width: 1em;
-    text-align:center;
-    font-size: rem-calc(30);
-    line-height: rem-calc(30);
-    text-decoration: none;
-  }
-
   &, label, a {
     color: white;
   }
@@ -57,7 +52,6 @@
 .CodeFrame {
   position: relative;
   min-height: 100%;
-  overflow: auto;
   .button-group {
     position:absolute;
     bottom: 1rem;

@@ -1,90 +1,93 @@
 
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-
-import {patternView} from './actions';
-import {getPattern, getVariant, getUsed} from './selectors';
-import {PatternShape, VariantShape, UsedShape} from './types';
-
-import {loadingWrapper} from './common';
-
-import PatternTopBar from './components/PatternTopBar';
+import React from 'react';
+import {Redirect, Switch, Route} from 'react-router-dom';
+import {connect} from 'react-redux'
+import {getPattern, getPatternUsedPatterns, getVariantFromPattern, getUsed} from './selectors';
+import {toggleInfo} from './actions';
 import PatternInfo from './components/PatternInfo';
+import RenderFrame from './components/RenderFrame';
+import {VariantNotFound} from './components/NotFound';
+import VariantSelector from './components/VariantSelector';
+import PatternProblems from './components/PatternProblems';
+import PatternTopBar from './components/PatternTopBar';
+import {OpenButton, ViewInfoButton, InfoCloseButton} from './components/Buttons';
 
 import './PatternPage.css';
 
-
-class PatternPage extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {showingInfo: false}
-    this.toggleInfo = this.toggleInfo.bind(this)
-    this.openWindow = this.openWindow.bind(this)
-  }
-  componentDidMount() {
-    this.props.onPatternView(this.props.pattern)
-  }
-  toggleInfo(e) {
-    this.setState(state => ({
-      showingInfo: !state.showingInfo
-    }));
-    e.preventDefault();
-  }
-  openWindow(e) {
-    window.open(this.props.variant.rendered, this.props.pattern.name, 'resizable');
-  }
-  render() {
-    const {pattern, variant, used, onVariantChange} = this.props;
-    const {showingInfo} = this.state;
+const PatternOuterPage = (props) => {
+    const {pattern, match} = props;
 
     return (
-      <main className="PatternPage">
-        <PatternTopBar pattern={pattern} variant={variant} openWindow={this.openWindow} toggleInfo={this.toggleInfo} changeVariant={onVariantChange} />
-          {pattern.problems &&
-            <div className="callout">
-                <h3>This pattern has problems!</h3>
-                <ul>
-                    {pattern.problems.map(p => (
-                        <li>{p}</li>
-                    ))}
-                </ul>
-            </div>
-          }
-        <div className="RenderFrame">
-          <iframe title="Rendered Pattern" frameBorder="0" src={variant.rendered}></iframe>
-        </div>
+        <Route path={`${match.url}/variant/:vid`} children={({match: variantMatch}) => {
+            const variant = variantMatch ? getVariantFromPattern(pattern, variantMatch.params.vid) : null;
+            return <PatternInnerPage base={match.url} variant={variant} {...props} />
+        }}/>
+    )
+}
 
-        <PatternInfo toggleInfo={this.toggleInfo} used={used} pattern={pattern} variant={variant} className={showingInfo ? 'open' : 'closed'} />
-      </main>
+const PatternInnerPage = ({pattern, variant, showingInfo, match, toggleInfo, base, history}) => {
+    const changeVariant = (e) => history.push(`${base}/variant/${e.target.value}`);
+    const variants = pattern ? pattern.variants : [];
+    const selector = variants.length ? <VariantSelector onChange={changeVariant} value={variant ? variant.id : ''} variants={variants} /> : null;
+    const problems = pattern && pattern.problems.length ? <PatternProblems className="Content" problems={pattern.problems} /> : null;
+    const actions = (
+        <ul>
+            {variant && <li><OpenButton href={variant.source} /></li>}
+            <li><ViewInfoButton onClick={toggleInfo} /></li>
+        </ul>
     );
-  }
+    var info;
+    if(pattern) {
+        info = <ConnectedPatternInfo className={showingInfo ? 'showing' : 'hiding'} pattern={pattern} variant={variant} controls={<InfoCloseButton onClick={toggleInfo} />} />
+    }
+    else {
+        info = null;
+    }
+    return (
+        <main id="PatternInnerPage" className="PatternInnerPage no-scroll">
+            <PatternTopBar actions={actions} selector={selector} title={pattern ? pattern.name : 'Loading...'} />
+            {problems}
+            <Switch>
+                <Route path={`${match.path}`} exact render={({match}) => {
+                    if(pattern && pattern.variants.length) {
+                        return <Redirect to={`${match.url}/variant/${pattern.variants[0].id}`}/>
+                    }
+                    return <VariantNotFound text={'There are no variants for this pattern.'} />
+                }}/>
+                {/* Then try to match on the exact variant. */}
+                {pattern && pattern.variants.map(variant => {
+                    return <Route key={variant.id} path={`${match.path}/variant/${variant.id}`} render={(p) => {
+                        return <RenderFrame src={variant.rendered} />
+                    }} />
+                })}
+                <Route component={VariantNotFound} />
+            </Switch>
+            {info}
+        </main>
+    )
 }
 
-PatternPage.propTypes = {
-    pattern: PropTypes.shape(PatternShape),
-    variant: PropTypes.shape(VariantShape),
-    used: PropTypes.arrayOf(PropTypes.shape(UsedShape)),
-    onVariantChange: PropTypes.func.isRequired,
-    onPatternView: PropTypes.func.isRequired
+
+const iMapStateToProps = (state, ownProps) => {
+    return {
+        used: getPatternUsedPatterns(ownProps.pattern, state.patterns)
+    }
 }
+const ConnectedPatternInfo = connect(iMapStateToProps)(PatternInfo);
+
 
 const mapStateToProps = (state, ownProps) => {
     return {
         pattern: getPattern(state, ownProps),
-        variant: getVariant(state, ownProps),
+        showingInfo: state.info,
         used: getUsed(state, ownProps)
     }
 }
-const mapDispatchToProps = (dispatch, ownProps) => {
+
+const mapDispatchToProps = (dispatch) => {
     return {
-        onVariantChange: (vid) => {
-            ownProps.history.push(`/pattern/${ownProps.match.params.pattern}/variant/${vid}`)
-        },
-        onPatternView: (pattern) => {
-            dispatch(patternView(pattern));
-        }
+        toggleInfo: () => dispatch(toggleInfo()),
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(loadingWrapper('pattern', PatternPage));
 
+export default connect(mapStateToProps, mapDispatchToProps)(PatternOuterPage);

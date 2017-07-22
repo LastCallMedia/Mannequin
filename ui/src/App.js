@@ -12,7 +12,6 @@ import 'what-input';
 import {TopBar, NavDrawer} from './NavBar';
 import HomePage from './HomePage';
 import PatternPage from './PatternPage';
-import PatternRedirectPage from './PatternRedirectPage';
 import PropTypes from 'prop-types';
 
 export class App extends Component {
@@ -28,9 +27,7 @@ export class App extends Component {
             <div className="main-frame">
               <TopBar toggleNav={toggleDrawer} />
               <Route path="/" exact component={HomePage} />
-              <Route path={'/pattern/:pattern'} component={PatternRedirectPage} />
-              {/*<Route path={'/pattern/:pattern'} exact component={PatternRedirectPage}/>*/}
-              {/*<Route path="/pattern/:pattern/variant/:variant" component={PatternPage} />*/}
+              <Route path={'/pattern/:pattern'} component={PatternPage} />
             </div>
             <NavDrawer patterns={patterns} open={drawer} toggleNav={toggleDrawer} />
           </div>
@@ -50,7 +47,7 @@ App.defaultProps = {
   toggleDrawer: () => {},
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     patterns: state.patterns,
     drawer: state.drawer,

@@ -4,15 +4,18 @@ import {Link} from 'react-router-dom';
 import CodeFrame from './CodeFrame';
 import PropTypes from 'prop-types';
 import {PatternShape, VariantShape, UsedShape} from '../types';
-
+import cx from 'classnames';
 import './PatternInfo.css';
 
-const PatternInfo = ({pattern, used, variant, toggleInfo, className}) => {
+const PatternInfo = ({pattern, used, controls, variant, className}) => {
     const rawFormat = pattern.tags.source_format || 'html';
+    const theseControls = React.cloneElement(controls, {
+        className: cx(controls.props.className, 'controls')
+    });
     return (
         <div className={`PatternInfo ${className}`}>
             <div className="inner">
-                <button onClick={toggleInfo} className="close-button" aria-label="Open Info" type="button"><span aria-hidden="true">&times;</span></button>
+                {theseControls}
                 <div className="info">
                     <h3>{pattern.name}</h3>
                     <div className="PatternInfoSection">
@@ -26,13 +29,14 @@ const PatternInfo = ({pattern, used, variant, toggleInfo, className}) => {
                         <p>{pattern.tags.description}</p>
                     </div>
                 </div>
-                <CodeToggleFrame className="code" html={variant.source} raw={pattern.source} rawFormat={rawFormat} />
+                <CodeToggleFrame className="code" html={variant && variant.source} raw={pattern.source} rawFormat={rawFormat} />
             </div>
         </div>
     )
 }
 
 PatternInfo.propTypes = {
+    controls: PropTypes.node,
     pattern: PropTypes.shape(PatternShape),
     variant: PropTypes.shape(VariantShape),
     used: PropTypes.arrayOf(PropTypes.shape(UsedShape)),

@@ -3,14 +3,13 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import FluidContainer from 'react-fluid-container';
 import './NavBar.css';
-import small_logo from './svg/manny_small.svg';
-import {CloseArrow, Search as SearchIcon} from './Icon';
+import {CloseArrow, Search as SearchIcon, MannySmall} from './Icon';
 
 export const TopBar = ({toggleNav}) => {
   return (
     <nav className="MannequinTopBar">
       <div className="inner">
-        <Link to="/" className="logo"><strong><img className="main-logo" src={small_logo} alt="Mannequin" /></strong></Link>
+        <Link to="/" className="logo"><MannySmall/></Link>
         <div className="title"></div>
         <button className="drawer-toggle opener" onClick={toggleNav}>Navigation <i className="menu-icon"></i></button>
       </div>

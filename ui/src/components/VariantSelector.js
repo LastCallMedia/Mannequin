@@ -5,7 +5,7 @@ import {VariantShape} from '../types';
 
 const VariantSelector = ({variants, value, onChange}) => {
     return (
-        <select value={value} onChange={onChange}>
+        <select className="VariantSelector" value={value} onChange={onChange}>
             {variants.map(variant => (
                 <option key={variant.id} value={variant.id}>{variant.name}</option>
             ))}

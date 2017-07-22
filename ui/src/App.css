@@ -5063,6 +5063,8 @@ a.thumbnail {
     .App .main-frame main {
       flex: 1 0;
       overflow-y: auto; }
+      .App .main-frame main.no-scroll {
+        overflow-y: hidden; }
   .App .NavDrawer {
     flex: 0 0 50%;
     width: 50%;
