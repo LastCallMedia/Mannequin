@@ -22,15 +22,11 @@ abstract class AbstractPattern implements PatternInterface
 
     private $name = '';
 
-    private $description = '';
-
     private $tags = [];
 
     private $variableDefinition;
 
     private $variants = [];
-
-    private $variableSets = [];
 
     private $used = [];
 
@@ -71,24 +67,6 @@ abstract class AbstractPattern implements PatternInterface
     public function setName(string $name): PatternInterface
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setDescription(string $description): PatternInterface
-    {
-        $this->description = $description;
 
         return $this;
     }

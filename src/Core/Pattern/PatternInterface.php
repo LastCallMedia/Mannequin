@@ -47,22 +47,6 @@ interface PatternInterface
     public function setName(string $name): PatternInterface;
 
     /**
-     * Get the description of the pattern.
-     *
-     * @return string
-     */
-    public function getDescription(): string;
-
-    /**
-     * Set the pattern description.
-     *
-     * @param string $description
-     *
-     * @return \LastCall\Mannequin\Core\Pattern\PatternInterface
-     */
-    public function setDescription(string $description): PatternInterface;
-
-    /**
      * Get all the tags on the pattern.
      *
      * @return array

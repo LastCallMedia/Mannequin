@@ -47,13 +47,6 @@ abstract class PatternTestCase extends TestCase
         $this->assertEquals('Foobarbaz', $pattern->getName());
     }
 
-    public function testGetDescription()
-    {
-        $pattern = $this->getPattern();
-        $this->assertSame($pattern, $pattern->setDescription('foobarbaz'));
-        $this->assertEquals('foobarbaz', $pattern->getDescription());
-    }
-
     public function testPatternTagging()
     {
         $pattern = $this->getPattern();
