@@ -33,6 +33,7 @@ class ManifestBuilder
             $manifest['patterns'][] = [
                 'id' => $id,
                 'name' => $pattern->getName(),
+                'problems' => $pattern->getProblems(),
                 'source' => $generator->generate(
                     'pattern_render_source_raw',
                     ['pattern' => $id],

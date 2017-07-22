@@ -30,6 +30,8 @@ abstract class AbstractPattern implements PatternInterface
 
     private $used = [];
 
+    private $problems = [];
+
     public function __construct($id, array $aliases = [])
     {
         $this->id = $id;
@@ -161,6 +163,18 @@ abstract class AbstractPattern implements PatternInterface
     public function getUsedPatterns(): array
     {
         return $this->used;
+    }
+
+    public function addProblem(string $problem): PatternInterface
+    {
+        $this->problems[] = $problem;
+
+        return $this;
+    }
+
+    public function getProblems(): array
+    {
+        return $this->problems;
     }
 
     protected static function getDefaultTags(): array

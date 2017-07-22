@@ -16,11 +16,14 @@ use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Discovery\ExplicitDiscovery;
 use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
 use LastCall\Mannequin\Core\Event\PatternEvents;
+use LastCall\Mannequin\Core\Exception\TemplateParsingException;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ChainDiscoveryTest extends TestCase
 {
@@ -50,15 +53,8 @@ class ChainDiscoveryTest extends TestCase
 
     public function testMergesCollection()
     {
-        $pattern1Mock = $this->prophesize(PatternInterface::class);
-        $pattern1Mock->getId()->willReturn('pattern1');
-        $pattern1Mock->getAliases()->willReturn(['pattern/1']);
-        $pattern1 = $pattern1Mock->reveal();
-
-        $pattern2Mock = $this->prophesize(PatternInterface::class);
-        $pattern2Mock->getId()->willReturn('pattern2');
-        $pattern2Mock->getAliases()->willReturn(['pattern/2']);
-        $pattern2 = $pattern2Mock->reveal();
+        $pattern1 = $this->getMockPattern('pattern1')->reveal();
+        $pattern2 = $this->getMockPattern('pattern2')->reveal();
 
         $discoverer1 = new ExplicitDiscovery(
             new PatternCollection([$pattern1])
@@ -77,10 +73,7 @@ class ChainDiscoveryTest extends TestCase
 
     public function testDispatchesEvent()
     {
-        $pattern1Mock = $this->prophesize(PatternInterface::class);
-        $pattern1Mock->getId()->willReturn('pattern1');
-        $pattern1Mock->getAliases()->willReturn(['pattern/1']);
-        $pattern1 = $pattern1Mock->reveal();
+        $pattern1 = $this->getMockPattern('pattern1')->reveal();
 
         $dispatcher = $this->prophesize(EventDispatcher::class);
         $dispatcher->dispatch(
@@ -89,10 +82,61 @@ class ChainDiscoveryTest extends TestCase
         )
             ->shouldBeCalled();
 
+        $this->executeDiscovery($pattern1, $dispatcher->reveal());
+    }
+
+    public function testAddsProblemForParsingException()
+    {
+        $pattern = $this->getMockPattern('pattern1');
+        $pattern->addProblem('foo')->shouldBeCalled();
+        $dispatcher = $this->getExceptionDispatcher();
+        $this->executeDiscovery($pattern->reveal(), $dispatcher->reveal());
+    }
+
+    public function testLogsParsingException()
+    {
+        $pattern = $this->getMockPattern('pattern1');
+        $pattern->addProblem('foo')->shouldBeCalled();
+        $dispatcher = $this->getExceptionDispatcher();
+        $logger = $this->prophesize(LoggerInterface::class);
+        $logger->error('Metadata error for pattern1. foo', Argument::type('array'))->shouldBeCalled();
+
+        $this->executeDiscovery($pattern->reveal(), $dispatcher->reveal(), $logger->reveal());
+    }
+
+    private function getMockPattern($name, array $aliases = [])
+    {
+        $pattern = $this->prophesize(PatternInterface::class);
+        $pattern->getId()->willReturn($name);
+        $pattern->getName()->willReturn($name);
+        $pattern->getAliases()->willReturn($aliases);
+        $pattern->addProblem(Argument::type('string'))->willReturn($pattern);
+
+        return $pattern;
+    }
+
+    private function getExceptionDispatcher()
+    {
+        $dispatcher = $this->prophesize(EventDispatcherInterface::class);
+        $dispatcher->dispatch(
+            PatternEvents::DISCOVER,
+            Argument::type(PatternDiscoveryEvent::class)
+        )
+            ->willThrow(new TemplateParsingException('foo'));
+
+        return $dispatcher;
+    }
+
+    private function executeDiscovery($patterns, EventDispatcherInterface $dispatcher, LoggerInterface $logger = null)
+    {
+        if (!is_array($patterns)) {
+            $patterns = [$patterns];
+        }
         $discoverer1 = new ExplicitDiscovery(
-            new PatternCollection([$pattern1])
+            new PatternCollection($patterns)
         );
-        $chain = new ChainDiscovery([$discoverer1], $dispatcher->reveal());
-        $chain->discover();
+        $chain = new ChainDiscovery([$discoverer1], $dispatcher, $logger);
+
+        return $chain->discover();
     }
 }

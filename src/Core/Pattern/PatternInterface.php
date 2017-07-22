@@ -118,4 +118,8 @@ interface PatternInterface
     public function addUsedPattern(PatternInterface $pattern): PatternInterface;
 
     public function getUsedPatterns(): array;
+
+    public function addProblem(string $problem): PatternInterface;
+
+    public function getProblems(): array;
 }

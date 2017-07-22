@@ -15,6 +15,7 @@ use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
 use LastCall\Mannequin\Core\Event\PatternEvents;
 use LastCall\Mannequin\Core\Exception\TemplateParsingException;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -31,7 +32,8 @@ class ChainDiscovery implements DiscoveryInterface
 
     public function __construct(
         array $discoverers = [],
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
+        LoggerInterface $logger = null
     ) {
         foreach ($discoverers as $discoverer) {
             if (!$discoverer instanceof DiscoveryInterface) {
@@ -45,6 +47,7 @@ class ChainDiscovery implements DiscoveryInterface
             $this->discoverers[] = $discoverer;
         }
         $this->dispatcher = $dispatcher;
+        $this->logger = $logger;
     }
 
     public function discover(): PatternCollection
@@ -63,9 +66,16 @@ class ChainDiscovery implements DiscoveryInterface
                     new PatternDiscoveryEvent($pattern, $collection)
                 );
             } catch (TemplateParsingException $e) {
-                // @todo: Logging and error handling here to allow the error to
-                // be exposed.
-                throw $e;
+                $pattern->addProblem($e->getMessage());
+                if ($this->logger) {
+                    $message = sprintf('Metadata error for %s. %s', $pattern->getName(), $e->getMessage());
+                    $this->logger->error($message, [
+                        'exception' => $e,
+                    ]);
+                }
+                // Swallow the error message now that it's been noted.
+                // We don't want the rest of discovery to be blocked because
+                // of one bad template.
             }
         }
 
