@@ -58,10 +58,20 @@ const quickLinks = (state = [], action) => {
   }
 }
 
+const info = (state = false, action) => {
+  switch(action.type) {
+      case 'INFO_TOGGLE':
+        return !state;
+      default:
+        return state;
+  }
+}
+
 export default combineReducers({
   patterns,
   loading,
   error,
   drawer,
-  quickLinks
+  quickLinks,
+  info
 });

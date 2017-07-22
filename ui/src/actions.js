@@ -35,3 +35,9 @@ export function patternView(pattern) {
     pattern: pattern
   }
 }
+
+export function toggleInfo() {
+    return {
+      type: 'INFO_TOGGLE',
+    }
+}

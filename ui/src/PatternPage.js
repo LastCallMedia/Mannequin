@@ -41,6 +41,16 @@ class PatternPage extends Component {
     return (
       <main className="PatternPage">
         <PatternTopBar pattern={pattern} variant={variant} openWindow={this.openWindow} toggleInfo={this.toggleInfo} changeVariant={onVariantChange} />
+          {pattern.problems &&
+            <div className="callout">
+                <h3>This pattern has problems!</h3>
+                <ul>
+                    {pattern.problems.map(p => (
+                        <li>{p}</li>
+                    ))}
+                </ul>
+            </div>
+          }
         <div className="RenderFrame">
           <iframe title="Rendered Pattern" frameBorder="0" src={variant.rendered}></iframe>
         </div>

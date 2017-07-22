@@ -9,6 +9,9 @@ const getPatternsFromState = state => state.patterns;
 const getQuickLinksFromState = state => state.quickLinks;
 const getSelectedPatternId = (state, ownProps) => ownProps.match.params.pattern;
 const getSelectedVariantId = (state, ownProps) => ownProps.match.params.variant;
+export const getVariantFromPattern = (pattern, variantId) => (
+    pattern ? pattern.variants.filter(s => s.id === variantId).pop() : undefined
+);
 
 // More complex selectors that do manipulation or filtering of data.
 export const getPattern = createSelector(
@@ -19,9 +22,7 @@ export const getPattern = createSelector(
 )
 export const getVariant = createSelector(
     [getPattern, getSelectedVariantId],
-    (pattern, variantId) => {
-        return pattern ? pattern.variants.filter(s => s.id === variantId).pop() : undefined;
-    }
+    getVariantFromPattern
 )
 export const getUsed = createSelector(
     [getPatternsFromState, getPattern],
@@ -31,6 +32,15 @@ export const getUsed = createSelector(
         )) : [];
     }
 )
+
+export const getPatternUsedPatterns = (pattern, patterns) => {
+    return pattern ? pattern.used.map(id => (
+        patterns.filter(p => p.id === id).pop()
+    )) : [];
+}
+
+
+
 
 export const getQuicklinks = createSelector(
     [getPatternsFromState, getQuickLinksFromState],

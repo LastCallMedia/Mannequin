@@ -17,6 +17,7 @@ export const PatternShape = {
     used: PropTypes.arrayOf(PropTypes.string),
     variants: PropTypes.arrayOf(PropTypes.shape(VariantShape)),
     tags: PropTypes.shape(),
+    problems: PropTypes.arrayOf(PropTypes.string)
 };
 
 export const UsedShape = {
