@@ -14,12 +14,12 @@
     "react-redux": "^5.0.5",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
-    "react-router-redux": "next",
     "react-scripts": "^1.0.0",
     "react-syntax-highlight": "^15.3.1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
+    "source-map-explorer": "^1.4.0",
     "what-input": "^4.3.0"
   },
   "scripts": {
@@ -29,7 +29,8 @@
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm run build-css && react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "analyze": "source-map-explorer build/static/js/main.*"
   },
   "homepage": ".",
   "files": [
