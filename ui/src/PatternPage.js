@@ -1,9 +1,9 @@
 
-import React from 'react';
+import React, {Component} from 'react';
 import {Redirect, Switch, Route} from 'react-router-dom';
 import {connect} from 'react-redux'
 import {getPattern, getVariantFromPattern, getUsed} from './selectors';
-import {toggleInfo} from './actions';
+import {toggleInfo, patternView} from './actions';
 import PatternInfo from './components/PatternInfo';
 import RenderFrame from './components/RenderFrame';
 import {VariantNotFound} from './components/NotFound';
@@ -14,14 +14,26 @@ import {OpenButton, ViewInfoButton, InfoCloseButton} from './components/Buttons'
 
 import './PatternPage.css';
 
-const PatternOuterPage = (props) => {
-    const {pattern, match} = props;
-    return (
-        <Route path={`${match.url}/variant/:vid`} children={({match: variantMatch}) => {
-            const variant = variantMatch ? getVariantFromPattern(pattern, variantMatch.params.vid) : null;
-            return <PatternInnerPage base={match.url} variant={variant} {...props} />
-        }}/>
-    )
+class PatternOuterPage extends Component {
+    componentDidMount() {
+        if(this.props.pattern) {
+            this.props.patternView(this.props.pattern);
+        }
+    }
+    componentDidUpdate(prevProps) {
+        if(this.props.pattern !== prevProps.pattern) {
+            this.props.patternView(this.props.pattern);
+        }
+    }
+    render() {
+        const {pattern, match} = this.props;
+        return(
+            <Route path={`${match.url}/variant/:vid`} children={({match: variantMatch}) => {
+                const variant = variantMatch ? getVariantFromPattern(pattern, variantMatch.params.vid) : null;
+                return <PatternInnerPage base={match.url} variant={variant} {...this.props} />
+            }}/>
+        )
+    }
 }
 
 const PatternInnerPage = ({pattern, variant, showingInfo, match, toggleInfo, base, history, used}) => {
@@ -77,6 +89,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         toggleInfo: () => dispatch(toggleInfo()),
+        patternView: (pattern) => dispatch(patternView(pattern))
     }
 }
 
