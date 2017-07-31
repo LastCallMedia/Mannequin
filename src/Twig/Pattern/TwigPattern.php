@@ -37,8 +37,8 @@ class TwigPattern extends AbstractPattern implements TemplateFilePatternInterfac
 
     protected static function getDefaultTags(): array
     {
-        return parent::getDefaultTags() + [
+        return [
             'source_format' => 'twig',
-        ];
+        ] + parent::getDefaultTags();
     }
 }

@@ -23,4 +23,12 @@ class TwigPatternTest extends PatternTestCase
 
         return new TwigPattern(self::PATTERN_ID, self::PATTERN_ALIASES, $src);
     }
+
+    public function testRawFormat()
+    {
+        $pattern = $this->getPattern();
+        $this->assertArraySubset([
+            'source_format' => 'twig',
+        ], $pattern->getTags());
+    }
 }
