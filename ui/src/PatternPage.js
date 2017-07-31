@@ -2,7 +2,7 @@
 import React from 'react';
 import {Redirect, Switch, Route} from 'react-router-dom';
 import {connect} from 'react-redux'
-import {getPattern, getPatternUsedPatterns, getVariantFromPattern, getUsed} from './selectors';
+import {getPattern, getVariantFromPattern, getUsed} from './selectors';
 import {toggleInfo} from './actions';
 import PatternInfo from './components/PatternInfo';
 import RenderFrame from './components/RenderFrame';
@@ -16,7 +16,6 @@ import './PatternPage.css';
 
 const PatternOuterPage = (props) => {
     const {pattern, match} = props;
-
     return (
         <Route path={`${match.url}/variant/:vid`} children={({match: variantMatch}) => {
             const variant = variantMatch ? getVariantFromPattern(pattern, variantMatch.params.vid) : null;
@@ -25,7 +24,7 @@ const PatternOuterPage = (props) => {
     )
 }
 
-const PatternInnerPage = ({pattern, variant, showingInfo, match, toggleInfo, base, history}) => {
+const PatternInnerPage = ({pattern, variant, showingInfo, match, toggleInfo, base, history, used}) => {
     const changeVariant = (e) => history.push(`${base}/variant/${e.target.value}`);
     const variants = pattern ? pattern.variants : [];
     const selector = variants.length ? <VariantSelector onChange={changeVariant} value={variant ? variant.id : ''} variants={variants} /> : null;
@@ -38,7 +37,7 @@ const PatternInnerPage = ({pattern, variant, showingInfo, match, toggleInfo, bas
     );
     var info;
     if(pattern) {
-        info = <ConnectedPatternInfo className={showingInfo ? 'showing' : 'hiding'} pattern={pattern} variant={variant} controls={<InfoCloseButton onClick={toggleInfo} />} />
+        info = <PatternInfo className={showingInfo ? 'showing' : 'hiding'} pattern={pattern} variant={variant} used={used} controls={<InfoCloseButton onClick={toggleInfo} />} />
     }
     else {
         info = null;
@@ -49,13 +48,13 @@ const PatternInnerPage = ({pattern, variant, showingInfo, match, toggleInfo, bas
             {problems}
             <Switch>
                 <Route path={`${match.path}`} exact render={({match}) => {
-                    if(pattern && pattern.variants.length) {
+                    if(variants.length) {
                         return <Redirect to={`${match.url}/variant/${pattern.variants[0].id}`}/>
                     }
                     return <VariantNotFound text={'There are no variants for this pattern.'} />
                 }}/>
                 {/* Then try to match on the exact variant. */}
-                {pattern && pattern.variants.map(variant => {
+                {variants.map(variant => {
                     return <Route key={variant.id} path={`${match.path}/variant/${variant.id}`} render={(p) => {
                         return <RenderFrame src={variant.rendered} />
                     }} />
@@ -66,15 +65,6 @@ const PatternInnerPage = ({pattern, variant, showingInfo, match, toggleInfo, bas
         </main>
     )
 }
-
-
-const iMapStateToProps = (state, ownProps) => {
-    return {
-        used: getPatternUsedPatterns(ownProps.pattern, state.patterns)
-    }
-}
-const ConnectedPatternInfo = connect(iMapStateToProps)(PatternInfo);
-
 
 const mapStateToProps = (state, ownProps) => {
     return {
