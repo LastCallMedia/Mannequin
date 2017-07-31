@@ -4,6 +4,7 @@
   "license": "MIT",
   "author": "Rob Bayliss <rob@lastcallmedia.com>",
   "devDependencies": {
+    "classnames": "^2.2.5",
     "foundation-sites": "^6.4.0",
     "node-sass-chokidar": "^0.0.1",
     "npm-run-all": "^4.0.2",
@@ -15,7 +16,7 @@
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "react-scripts": "^1.0.0",
-    "react-syntax-highlight": "^15.3.1",
+    "react-syntax-highlighter": "^5.6.2",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
@@ -36,7 +37,5 @@
   "files": [
     "build/*"
   ],
-  "dependencies": {
-    "classnames": "^2.2.5"
-  }
+  "dependencies": {}
 }

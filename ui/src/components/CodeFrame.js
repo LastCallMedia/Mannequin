@@ -1,8 +1,13 @@
 
 import React, {Component} from 'react';
-import Highlight from 'react-syntax-highlight';
-import 'highlight.js/styles/default.css';
-import 'highlight.js/styles/atom-one-dark.css';
+
+import SyntaxHighlighter, { registerLanguage } from "react-syntax-highlighter/dist/light";
+import twig from "react-syntax-highlighter/dist/languages/twig";
+import xml from "react-syntax-highlighter/dist/languages/xml";
+import codeStyle from 'react-syntax-highlighter/dist/styles/foundation';
+
+registerLanguage('twig', twig);
+registerLanguage('html', xml);
 
 class CodeFrame extends Component {
     constructor(props) {
@@ -38,7 +43,7 @@ class CodeFrame extends Component {
         if(err) {
             return <p>Error: {err}</p>
         }
-        return <Highlight lang={format} value={code} />
+        return <SyntaxHighlighter style={codeStyle} showLineNumbers={true} language={format}>{code}</SyntaxHighlighter>
     }
 }
 

@@ -2159,12 +2159,12 @@ figure {
   margin: 0; }
 
 code {
-  padding: 0.125rem 0.3125rem 0.0625rem;
-  border: 1px solid #cacaca;
-  background-color: #e6e6e6;
+  padding: none;
+  border: none;
+  background-color: transparent;
   font-family: Consolas, "Liberation Mono", Courier, monospace;
   font-weight: normal;
-  color: #0a0a0a; }
+  color: inherit; }
 
 kbd {
   margin: 0;
