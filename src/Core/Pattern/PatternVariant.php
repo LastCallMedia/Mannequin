@@ -11,19 +11,22 @@
 
 namespace LastCall\Mannequin\Core\Pattern;
 
+use LastCall\Mannequin\Core\Variable\VariableSet;
+
 class PatternVariant
 {
     private $id;
     private $name;
     private $values = [];
     private $tags = [];
+    private $variables;
 
-    public function __construct($id, $name, array $values = [], array $tags = [])
+    public function __construct($id, $name, VariableSet $set = null, array $tags = [])
     {
         $this->id = $id;
         $this->name = $name;
-        $this->values = $values;
         $this->tags = $tags;
+        $this->variables = $set ?: new VariableSet();
     }
 
     public function getId(): string
@@ -36,6 +39,9 @@ class PatternVariant
         return $this->name;
     }
 
+    /**
+     * @deprecated
+     */
     public function getValues(): array
     {
         return $this->values;
@@ -44,5 +50,10 @@ class PatternVariant
     public function getTags(): array
     {
         return $this->tags;
+    }
+
+    public function getVariables(): VariableSet
+    {
+        return $this->variables;
     }
 }

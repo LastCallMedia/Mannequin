@@ -13,8 +13,8 @@ namespace LastCall\Mannequin\Twig\Tests\Engine;
 
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Rendered;
 use LastCall\Mannequin\Core\Tests\Engine\RendererTestCase;
-use LastCall\Mannequin\Core\Variable\VariableResolver;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 
@@ -24,7 +24,6 @@ class TwigRendererTest extends RendererTestCase
     {
         return new TwigEngine(
             $this->getTwig(),
-            new VariableResolver(),
             ['foo'],
             ['bar']
         );
@@ -45,23 +44,35 @@ class TwigRendererTest extends RendererTestCase
         $this->assertEquals(['bar'], $rendered->getScripts());
     }
 
-    public function testResolvesVariables()
+    public function testWrapsRendered()
     {
         $twig = $this->prophesize(\Twig_Environment::class);
-        $twig->render('form-input.twig', ['foo' => 'bar - resolved'])
-            ->willReturn('rendered');
+        $twig->render('form-input.twig', ['foo' => new \Twig_Markup('bar', 'UTF-8')])
+            ->willReturn('rendered')
+            ->shouldBeCalled();
 
         $pattern = $this->getSupportedPattern();
-        $setResolver = $this->prophesize(VariableResolver::class);
-        $setResolver->resolveSet(
-            $pattern->getVariableDefinition(),
-            ['foo' => 'bar']
-        )
-            ->shouldBeCalled()
-            ->willReturn(['foo' => 'bar - resolved']);
+        $renderer = new TwigEngine($twig->reveal(), ['foostyle'], ['fooscript']);
+        $rendered = new Rendered(['barstyle'], ['barscript']);
+        $rendered->setMarkup('bar');
 
-        $renderer = new TwigEngine($twig->reveal(), $setResolver->reveal());
-        $renderer->render($pattern, ['foo' => 'bar']);
+        return $renderer->render($pattern, ['foo' => $rendered]);
+    }
+
+    /**
+     * @depends testWrapsRendered
+     */
+    public function testAggregatesStyles(Rendered $rendered)
+    {
+        $this->assertEquals(['foostyle', 'barstyle'], $rendered->getStyles());
+    }
+
+    /**
+     * @depends testWrapsRendered
+     */
+    public function testAggregatesScripts(Rendered $rendered)
+    {
+        $this->assertEquals(['fooscript', 'barscript'], $rendered->getScripts());
     }
 
     public function getSupportedPattern(): PatternInterface

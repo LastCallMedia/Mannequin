@@ -12,7 +12,7 @@
 namespace LastCall\Mannequin\Core\Pattern;
 
 use LastCall\Mannequin\Core\Exception\VariantNotFoundException;
-use LastCall\Mannequin\Core\Variable\Definition;
+use LastCall\Mannequin\Core\Variable\VariableSet;
 
 abstract class AbstractPattern implements PatternInterface
 {
@@ -23,8 +23,6 @@ abstract class AbstractPattern implements PatternInterface
     private $name = '';
 
     private $tags = [];
-
-    private $variableDefinition;
 
     private $variants = [];
 
@@ -102,27 +100,9 @@ abstract class AbstractPattern implements PatternInterface
     /**
      * {@inheritdoc}
      */
-    public function getVariableDefinition(): Definition
+    public function createVariant($id, $name, VariableSet $variables = null, array $tags = []): PatternVariant
     {
-        return $this->variableDefinition ?: new Definition([]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setVariableDefinition(Definition $definition
-    ): PatternInterface {
-        $this->variableDefinition = $definition;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createVariant($id, $name, array $values, array $tags): PatternVariant
-    {
-        return $this->variants[$id] = new PatternVariant($id, $name, $values, $tags);
+        return $this->variants[$id] = new PatternVariant($id, $name, $variables, $tags);
     }
 
     /**

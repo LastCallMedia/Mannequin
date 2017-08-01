@@ -15,7 +15,6 @@ use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Rendered;
-use LastCall\Mannequin\Core\Variable\VariableResolver;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 
 class TwigEngine implements EngineInterface
@@ -28,45 +27,51 @@ class TwigEngine implements EngineInterface
 
     public function __construct(
         \Twig_Environment $twig,
-        VariableResolver $setResolver,
         array $styles = [],
         array $scripts = []
     ) {
         $this->twig = $twig;
         $this->styles = $styles;
         $this->scripts = $scripts;
-        $this->setResolver = $setResolver;
     }
 
-    public function render(PatternInterface $pattern, array $values = []): Rendered
+    public function render(PatternInterface $pattern, array $variables = []): Rendered
     {
         if ($this->supports($pattern)) {
             $styles = $this->styles;
             $scripts = $this->scripts;
             $rendered = new Rendered();
-            $variables = $this->setResolver->resolveSet(
-                $pattern->getVariableDefinition(),
-                $values
-            );
-            foreach ($variables as &$variable) {
-                if ($variable instanceof Rendered) {
-                    $styles = array_merge($styles, $variable->getStyles());
-                    $scripts = array_merge($scripts, $variable->getScripts());
-                    $variable = new \Twig_Markup($variable, 'UTF-8');
-                }
-            }
+
             $rendered->setMarkup(
                 $this->twig->render(
                     $pattern->getSource()->getName(),
-                    $variables
+                    $this->wrapRendered($variables, $styles, $scripts)
                 )
             );
-            $rendered->setStyles($this->styles);
-            $rendered->setScripts($this->scripts);
+            $rendered->setStyles($styles);
+            $rendered->setScripts($scripts);
 
             return $rendered;
         }
         throw new UnsupportedPatternException('Unsupported pattern.');
+    }
+
+    private function wrapRendered(array $variables, &$styles, &$scripts)
+    {
+        $wrapped = [];
+        foreach ($variables as $key => $value) {
+            if ($value instanceof Rendered) {
+                $wrapped[$key] = new \Twig_Markup($value, 'UTF-8');
+                $styles = array_merge($styles, $value->getStyles());
+                $scripts = array_merge($scripts, $value->getScripts());
+            } else {
+                $wrapped[$key] = is_array($value)
+                    ? $this->wrapRendered($value, $styles, $scripts)
+                    : $value;
+            }
+        }
+
+        return $wrapped;
     }
 
     public function supports(PatternInterface $pattern): bool

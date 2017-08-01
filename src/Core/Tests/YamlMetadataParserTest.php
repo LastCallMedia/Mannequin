@@ -47,15 +47,6 @@ class YamlMetadataParserTest extends TestCase
         $this->assertEquals(['foo' => 'bar'], $parsed['tags']);
     }
 
-    public function testParsesDefinition()
-    {
-        $parsed = (new YamlMetadataParser())->parse('variables: {foo: bar}');
-        $this->assertEquals(
-            ['foo' => 'bar'],
-            $parsed['variables']
-        );
-    }
-
     public function testParsesVariants()
     {
         $parsed = (new YamlMetadataParser())->parse(
@@ -124,13 +115,6 @@ class YamlMetadataParserTest extends TestCase
                 'name: {}',
                 'foo',
                 new TemplateParsingException('name must be a string in foo'),
-            ],
-            [
-                'variables: ""',
-                'foo',
-                new TemplateParsingException(
-                    'variables must be an array in foo'
-                ),
             ],
             [
                 'variants: ""',

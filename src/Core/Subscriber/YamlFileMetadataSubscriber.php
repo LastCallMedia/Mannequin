@@ -15,7 +15,7 @@ use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
 use LastCall\Mannequin\Core\Event\PatternEvents;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Pattern\TemplateFilePatternInterface;
-use LastCall\Mannequin\Core\Variable\Definition;
+use LastCall\Mannequin\Core\Variable\VariableSet;
 use LastCall\Mannequin\Core\YamlMetadataParser;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -40,9 +40,6 @@ class YamlFileMetadataSubscriber implements EventSubscriberInterface
             if (!empty($metadata['name'])) {
                 $pattern->setName($metadata['name']);
             }
-            if (!empty($metadata['variables'])) {
-                $pattern->setVariableDefinition(new Definition($metadata['variables']));
-            }
             if (!empty($metadata['tags'])) {
                 foreach ($metadata['tags'] as $k => $v) {
                     $pattern->addTag($k, $v);
@@ -52,11 +49,11 @@ class YamlFileMetadataSubscriber implements EventSubscriberInterface
                 foreach ($metadata['variants'] as $vidx => $setDef) {
                     $name = $setDef['name'] ?? $vidx;
                     $tags = $setDef['tags'] ?? [];
-                    $values = $setDef['values'] ?? [];
-                    $pattern->createVariant($vidx, $name, $values, $tags);
+                    $variables = $setDef['variables'] ?? new VariableSet();
+                    $pattern->createVariant($vidx, $name, $variables, $tags);
                 }
             } else {
-                $pattern->createVariant('default', 'Default', [], []);
+                $pattern->createVariant('default', 'Default', new VariableSet(), []);
             }
         }
     }

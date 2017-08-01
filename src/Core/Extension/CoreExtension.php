@@ -11,38 +11,42 @@
 
 namespace LastCall\Mannequin\Core\Extension;
 
-use LastCall\Mannequin\Core\Pattern\PatternVariant;
 use LastCall\Mannequin\Core\Subscriber\LastChanceNameSubscriber;
-use LastCall\Mannequin\Core\Subscriber\NestedPatternVariableSubscriber;
 use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
-use LastCall\Mannequin\Core\Variable\PatternResolver;
-use LastCall\Mannequin\Core\Variable\ScalarResolver;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\ExpressionLanguage\ExpressionFunction;
+use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 
-class CoreExtension extends AbstractExtension
+class CoreExtension extends AbstractExtension implements ExpressionFunctionProviderInterface
 {
-    public function getVariableResolvers(): array
+    public function getFunctions()
     {
         return [
-            new ScalarResolver(),
-            new PatternResolver(
-                function ($id, PatternVariant $variant = null) {
-                    $pattern = $this->getConfig()->getCollection()->get($id);
-                    $variant = $variant ?: reset($pattern->getVariants());
-
-                    return $this->getConfig()->getRenderer()->render(
-                        $pattern,
-                        $variant->getValues()
-                    );
-                }
-            ),
+            $this->getPatternExpressionFunction(),
         ];
     }
 
     public function attachToDispatcher(EventDispatcherInterface $dispatcher)
     {
-        $dispatcher->addSubscriber(new YamlFileMetadataSubscriber());
-        $dispatcher->addSubscriber(new NestedPatternVariableSubscriber());
+        $dispatcher->addSubscriber(new YamlFileMetadataSubscriber($this->getConfig()->getMetadataParser()));
         $dispatcher->addSubscriber(new LastChanceNameSubscriber());
+    }
+
+    private function getPatternExpressionFunction()
+    {
+        return new ExpressionFunction('pattern', function ($arguments, $pid) {
+            throw new \ErrorException('Pattern expressions cannot yet be compiled.');
+        }, function ($arguments, $pid) {
+            /** @var \LastCall\Mannequin\Core\Pattern\PatternCollection $collection */
+            $collection = $arguments['collection'];
+            $engine = $arguments['engine'];
+            $resolver = $arguments['resolver'];
+
+            $pattern = $collection->get($pid);
+            $variant = reset($pattern->getVariants());
+            $resolved = $resolver->resolve($variant->getVariables());
+
+            return $engine->render($pattern, $resolved);
+        });
     }
 }

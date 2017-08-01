@@ -14,6 +14,7 @@ namespace LastCall\Mannequin\Core\Tests\Ui;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Tests\Stubs\TestFilePattern;
 use LastCall\Mannequin\Core\Ui\ManifestBuilder;
+use LastCall\Mannequin\Core\Variable\VariableSet;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Symfony\Component\HttpFoundation\File\File;
@@ -42,7 +43,7 @@ class ManifestBuilderTest extends TestCase
         $pattern = new TestFilePattern('p1', ['p1-alias'], new File(__FILE__));
         $pattern->setName('Pattern 1');
         $pattern->addTag('foo', 'bar');
-        $pattern->createVariant('foo', 'Foo', [], ['foo' => 'bar']);
+        $pattern->createVariant('foo', 'Foo', new VariableSet(), ['foo' => 'bar']);
         $pattern->addUsedPattern($pattern);
         $pattern->addProblem('foo problem');
 

@@ -14,7 +14,6 @@ namespace LastCall\Mannequin\Core\Tests\Pattern;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Pattern\PatternVariant;
 use LastCall\Mannequin\Core\Pattern\TemplateFilePatternInterface;
-use LastCall\Mannequin\Core\Variable\Definition;
 use PHPUnit\Framework\TestCase;
 
 abstract class PatternTestCase extends TestCase
@@ -59,30 +58,15 @@ abstract class PatternTestCase extends TestCase
         $this->assertTrue($pattern->hasTag('foo', 'baz'));
     }
 
-    public function testVariableDefinition()
-    {
-        $definition = new Definition(['foo' => 'bar']);
-        $pattern = $this->getPattern();
-        $this->assertEquals(
-            new Definition(),
-            $pattern->getVariableDefinition()
-        );
-        $this->assertEquals(
-            $pattern,
-            $pattern->setVariableDefinition($definition)
-        );
-        $this->assertEquals($definition, $pattern->getVariableDefinition());
-    }
-
     public function testVariants()
     {
         $pattern = $this->getPattern();
-        $pattern->createVariant('default', 'Default', [], []);
+        $pattern->createVariant('default', 'Default');
         $this->assertEquals([
             'default' => new PatternVariant('default', 'Default'),
         ], $pattern->getVariants());
 
-        $pattern->createVariant('default', 'Overridden', [], []);
+        $pattern->createVariant('default', 'Overridden');
         $this->assertEquals([
             'default' => new PatternVariant('default', 'Overridden'),
         ], $pattern->getVariants());

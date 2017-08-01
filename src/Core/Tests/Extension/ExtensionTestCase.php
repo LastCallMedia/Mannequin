@@ -16,8 +16,7 @@ use LastCall\Mannequin\Core\ConfigInterface;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
-use LastCall\Mannequin\Core\Variable\ResolverInterface;
-use LastCall\Mannequin\Core\Variable\VariableResolver;
+use LastCall\Mannequin\Core\YamlMetadataParser;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -46,9 +45,9 @@ abstract class ExtensionTestCase extends TestCase
     public function getConfig(): ConfigInterface
     {
         $config = $this->prophesize(ConfigInterface::class);
+        $config->getMetadataParser()->willReturn(new YamlMetadataParser());
         $config->getCache()->willReturn($this->getNullCache());
         $config->getDispatcher()->willReturn(new EventDispatcher());
-        $config->getVariableResolver()->willReturn(new VariableResolver());
         $config->getStyles()->willReturn([]);
         $config->getScripts()->willReturn([]);
 
@@ -72,16 +71,6 @@ abstract class ExtensionTestCase extends TestCase
         $this->assertContainsOnlyInstancesOf(
             EngineInterface::class,
             $extension->getRenderers()
-        );
-    }
-
-    public function testHasVariableResolvers()
-    {
-        $extension = $this->getExtension();
-        $extension->setConfig($this->getConfig());
-        $this->assertContainsOnlyInstancesOf(
-            ResolverInterface::class,
-            $extension->getVariableResolvers()
         );
     }
 

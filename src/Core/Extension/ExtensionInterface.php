@@ -42,13 +42,6 @@ interface ExtensionInterface
     public function getRenderers(): array;
 
     /**
-     * Get the variable resolvers provided by this extension.
-     *
-     * @return \LastCall\Mannequin\Core\Variable\ResolverInterface[]
-     */
-    public function getVariableResolvers(): array;
-
-    /**
      * Attach an extension's listeners/subscribers to a dispatcher.
      *
      * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher

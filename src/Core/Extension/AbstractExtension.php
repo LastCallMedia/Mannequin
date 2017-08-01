@@ -38,14 +38,6 @@ class AbstractExtension extends Container implements ExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function getVariableResolvers(): array
-    {
-        return [];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function attachToDispatcher(EventDispatcherInterface $dispatcher)
     {
     }

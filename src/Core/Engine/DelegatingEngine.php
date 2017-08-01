@@ -50,9 +50,9 @@ class DelegatingEngine implements EngineInterface
         }
     }
 
-    public function render(PatternInterface $pattern, array $values = []): Rendered
+    public function render(PatternInterface $pattern, array $variables = []): Rendered
     {
-        return $this->findRendererFor($pattern)->render($pattern, $values);
+        return $this->findRendererFor($pattern)->render($pattern, $variables);
     }
 
     public function renderSource(PatternInterface $pattern): string

@@ -11,53 +11,29 @@
 
 namespace LastCall\Mannequin\Core\Tests\Variable;
 
-use LastCall\Mannequin\Core\Variable\Definition;
-use LastCall\Mannequin\Core\Variable\ResolverInterface;
+use LastCall\Mannequin\Core\Variable\Variable;
 use LastCall\Mannequin\Core\Variable\VariableResolver;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 class VariableResolverTest extends TestCase
 {
-    public function testResolvesKnownTypes()
+    public function getResolveTests()
     {
-        $definition = new Definition(['foo' => 'bar']);
-
-        $setResolver = new VariableResolver([$this->getBarResolver()]);
-        $this->assertEquals(
-            ['foo' => 'baz'],
-            $setResolver->resolveSet($definition, ['foo' => 'baz'])
-        );
-    }
-
-    protected function getBarResolver()
-    {
-        $resolver = $this->prophesize(ResolverInterface::class);
-        $resolver->resolves(Argument::type('string'))->will(
-            function ($args) {
-                return $args[0] === 'bar';
-            }
-        );
-        $resolver->resolves('bar')->willReturn(true);
-        $resolver->resolve(Argument::type('string'), Argument::any())
-            ->willReturnArgument(1);
-
-        return $resolver->reveal();
+        return [
+            [new Variable('simple', 'foo'), 'foo'],
+            [new Variable('expression', 'constant("PHP_VERSION")'), PHP_VERSION],
+        ];
     }
 
     /**
-     * @expectedException \LastCall\Mannequin\Core\Exception\InvalidVariableException
-     * @expectedExceptionMessage No resolver knows how to resolve a baz
-     *   variable
+     * @dataProvider getResolveTests
      */
-    public function testDoesNotResolveUnknown()
+    public function testResolve($input, $expected)
     {
-        $definition = new Definition(['foo' => 'baz']);
-
-        $setResolver = new VariableResolver([$this->getBarResolver()]);
-        $this->assertEquals(
-            ['foo' => 'baz'],
-            $setResolver->resolveSet($definition, ['foo' => 'baz'])
-        );
+        $el = new ExpressionLanguage();
+        $resolver = new VariableResolver($el);
+        $output = $resolver->resolve($input);
+        $this->assertEquals($expected, $output);
     }
 }

@@ -11,7 +11,6 @@
 
 namespace LastCall\Mannequin\Core\Tests;
 
-use LastCall\Mannequin\Core\Variable\Definition;
 use LastCall\Mannequin\Core\YamlMetadataParser;
 
 trait YamlParserProphecyTrait
@@ -22,7 +21,6 @@ trait YamlParserProphecyTrait
                 'name' => '',
                 'description' => '',
                 'tags' => [],
-                'definition' => new Definition(),
                 'sets' => [],
             ];
         $parser = $this->prophesize(YamlMetadataParser::class);

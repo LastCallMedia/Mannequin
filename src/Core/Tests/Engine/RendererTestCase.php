@@ -14,7 +14,6 @@ namespace LastCall\Mannequin\Core\Tests\Engine;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Rendered;
-use LastCall\Mannequin\Core\Variable\Definition;
 use PHPUnit\Framework\TestCase;
 
 abstract class RendererTestCase extends TestCase
@@ -42,7 +41,6 @@ abstract class RendererTestCase extends TestCase
     {
         $pattern = $this->prophesize(PatternInterface::class);
         $pattern->getId()->willReturn($id);
-        $pattern->getVariableDefinition()->willReturn(new Definition());
 
         return $pattern;
     }

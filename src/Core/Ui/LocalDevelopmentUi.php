@@ -59,7 +59,7 @@ class LocalDevelopmentUi extends LocalUi
         }
         if ($path === 'index.html') {
             $ctx = stream_context_create([
-                'http' => ['timeout' => 5]
+                'http' => ['timeout' => 5],
             ]);
             // The index cannot be served with a redirect.
             return new Response(file_get_contents($uri, false, $ctx));

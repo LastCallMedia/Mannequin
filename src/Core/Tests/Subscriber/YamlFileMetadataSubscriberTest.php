@@ -14,7 +14,6 @@ namespace LastCall\Mannequin\Core\Tests\Subscriber;
 use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
 use LastCall\Mannequin\Core\Tests\Stubs\TestFilePattern;
 use LastCall\Mannequin\Core\Tests\YamlParserProphecyTrait;
-use LastCall\Mannequin\Core\Variable\Definition;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -44,24 +43,6 @@ class YamlFileMetadataSubscriberTest extends TestCase
             $pattern
         );
         $this->assertEquals('foo', $event->getPattern()->getName());
-    }
-
-    public function testSetsDefinition()
-    {
-        $parser = $this->getParserProphecy(['variables' => ['foo' => 'bar']]);
-        $pattern = new TestFilePattern(
-            'foo',
-            [],
-            new \SplFileInfo($this->templateFile)
-        );
-        $event = $this->dispatchDiscover(
-            new YamlFileMetadataSubscriber($parser->reveal()),
-            $pattern
-        );
-        $this->assertEquals(
-            new Definition(['foo' => 'bar']),
-            $event->getPattern()->getVariableDefinition()
-        );
     }
 
     public function testSetsTags()

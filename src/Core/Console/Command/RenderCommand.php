@@ -14,6 +14,7 @@ namespace LastCall\Mannequin\Core\Console\Command;
 use LastCall\Mannequin\Core\ConfigInterface;
 use LastCall\Mannequin\Core\Ui\FileWriter;
 use LastCall\Mannequin\Core\Ui\ManifestBuilder;
+use LastCall\Mannequin\Core\Variable\VariableResolver;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -26,14 +27,18 @@ class RenderCommand extends Command
 
     private $config;
 
+    private $resolver;
+
     public function __construct(
         $name = null,
         ManifestBuilder $manifester,
-        ConfigInterface $config
+        ConfigInterface $config,
+        VariableResolver $resolver
     ) {
         parent::__construct($name);
         $this->manifester = $manifester;
         $this->config = $config;
+        $this->resolver = $resolver;
     }
 
     public function configure()
@@ -59,6 +64,7 @@ class RenderCommand extends Command
             $collection = $this->config->getCollection();
             $engine = $this->config->getRenderer();
             $ui = $this->config->getUi();
+            $resolver = $this->resolver;
 
             $manifest = $this->manifester->generate($collection);
             $writer->raw('manifest.json', json_encode($manifest));
@@ -74,7 +80,8 @@ class RenderCommand extends Command
 
                     foreach ($patternManifest['variants'] as $variantManifest) {
                         $variant = $pattern->getVariant($variantManifest['id']);
-                        $rendered = $engine->render($pattern, $variant->getValues());
+                        $resolved = $resolver->resolve($variant->getVariables());
+                        $rendered = $engine->render($pattern, $resolved);
                         $writer->raw(
                             $variantManifest['source'],
                             $rendered->getMarkup()

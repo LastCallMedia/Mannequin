@@ -21,8 +21,6 @@ use LastCall\Mannequin\Core\Extension\CoreExtension;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Ui\UiInterface;
-use LastCall\Mannequin\Core\Variable\ResolverInterface;
-use LastCall\Mannequin\Core\Variable\VariableResolver;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Psr\Cache\CacheItemPoolInterface;
@@ -81,22 +79,6 @@ class MannequinConfigTest extends TestCase
         return $extension;
     }
 
-    public function testUsesExtensionVariableResolvers()
-    {
-        $resolver = $this->prophesize(ResolverInterface::class);
-        $resolver->resolves('foo')->willReturn(true);
-
-        $extension = $this->getMockExtension();
-        $extension->getVariableResolvers()
-            ->willReturn([$resolver])
-            ->shouldBeCalled();
-
-        $extension->getVariableResolvers()->shouldBeCalled();
-        $config = new MannequinConfig();
-        $config->addExtension($extension->reveal());
-        $this->assertTrue($config->getVariableResolver()->resolves('foo'));
-    }
-
     public function testHasCoreExtension()
     {
         $config = new MannequinConfig();
@@ -111,15 +93,6 @@ class MannequinConfigTest extends TestCase
         $this->assertInstanceOf(
             DelegatingEngine::class,
             $config->getRenderer()
-        );
-    }
-
-    public function testHasVariableFactory()
-    {
-        $config = new MannequinConfig();
-        $this->assertInstanceOf(
-            VariableResolver::class,
-            $config->getVariableResolver()
         );
     }
 

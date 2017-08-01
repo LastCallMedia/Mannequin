@@ -68,7 +68,6 @@ class TwigExtension extends AbstractExtension
         return [
             new TwigEngine(
                 $this['twig'],
-                $config->getVariableResolver(),
                 $config->getStyles(),
                 $config->getScripts()
             ),

@@ -20,7 +20,7 @@ use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Ui\RemoteUi;
 use LastCall\Mannequin\Core\Ui\UiInterface;
-use LastCall\Mannequin\Core\Variable\VariableResolver;
+use LastCall\Mannequin\Core\Variable\VariableParser;
 use Pimple\Container;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -68,16 +68,12 @@ class MannequinConfig extends Container implements ConfigInterface
 
             return new DelegatingEngine($renderers);
         };
-        $this['variable.resolver'] = function () {
-            $resolvers = [];
-            foreach ($this->getExtensions() as $extension) {
-                $resolvers = array_merge(
-                    $resolvers,
-                    $extension->getVariableResolvers()
-                );
-            }
 
-            return new VariableResolver($resolvers);
+        $this['variable.parser'] = function () {
+            return new VariableParser();
+        };
+        $this['metadata.parser'] = function () {
+            return new YamlMetadataParser($this['variable.parser']);
         };
         $this['collection'] = function () {
             return $this['discovery']->discover();
@@ -197,9 +193,9 @@ class MannequinConfig extends Container implements ConfigInterface
         return $this['renderer'];
     }
 
-    public function getVariableResolver(): VariableResolver
+    public function getMetadataParser(): YamlMetadataParser
     {
-        return $this['variable.resolver'];
+        return $this['metadata.parser'];
     }
 
     public function getCache(): CacheItemPoolInterface

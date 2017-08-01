@@ -39,26 +39,10 @@ class DebugCommand extends Command
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $resolver = $this->config->getVariableResolver();
-        $io->block('Variable Types');
-        $io->table(
-            ['Type', 'Description'],
-            $this->splitResolverDescription($resolver->describe())
-        );
 
         $io->block('Patterns');
         $manifest = $this->builder->generate($this->config->getCollection());
         $yaml = Yaml::dump($manifest['patterns'], 5);
         $output->write($yaml);
-    }
-
-    private function splitResolverDescription(array $description)
-    {
-        $cells = [];
-        foreach ($description as $type => $description) {
-            $cells[] = [$type, $description];
-        }
-
-        return $cells;
     }
 }

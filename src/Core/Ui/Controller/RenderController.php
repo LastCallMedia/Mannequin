@@ -17,6 +17,7 @@ use LastCall\Mannequin\Core\Exception\VariantNotFoundException;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Ui\UiInterface;
+use LastCall\Mannequin\Core\Variable\VariableResolver;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -31,11 +32,13 @@ class RenderController
     public function __construct(
         PatternCollection $collection,
         EngineInterface $engine,
-        UiInterface $ui
+        UiInterface $ui,
+        VariableResolver $resolver
     ) {
         $this->collection = $collection;
         $this->engine = $engine;
         $this->ui = $ui;
+        $this->resolver = $resolver;
     }
 
     public function renderAction($pattern, $variant)
@@ -49,8 +52,15 @@ class RenderController
     {
         $pattern = $this->getPattern($pattern);
         $variant = $this->getPatternVariant($pattern, $variant);
+        $resolved = $this->resolver->resolve($variant->getVariables(), [
+            'collection' => $this->collection,
+            'resolver' => $this->resolver,
+            'engine' => $this->engine,
+            'pattern' => $pattern,
+            'variant' => $variant,
+        ]);
 
-        return $this->engine->render($pattern, $variant->getValues());
+        return $this->engine->render($pattern, $resolved);
     }
 
     public function renderRawAction($pattern, $variant)

@@ -12,12 +12,19 @@
 namespace LastCall\Mannequin\Core;
 
 use LastCall\Mannequin\Core\Exception\TemplateParsingException;
-use LastCall\Mannequin\Core\Variable\Set;
+use LastCall\Mannequin\Core\Variable\VariableParser;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 class YamlMetadataParser
 {
+    private $variableParser;
+
+    public function __construct(VariableParser $variableParser = null)
+    {
+        $this->variableParser = $variableParser ?: new VariableParser();
+    }
+
     public function parse($yaml, $exceptionIdentifier = 'unknown')
     {
         try {
@@ -45,13 +52,11 @@ class YamlMetadataParser
         $metadata += [
             'name' => '',
             'tags' => [],
-            'variables' => [],
             'variants' => [],
         ];
 
         return [
             'name' => $this->extractName($metadata, $exceptionIdentifier),
-            'variables' => $this->extractVariables($metadata, $exceptionIdentifier),
             'tags' => $this->extractTags($metadata),
             'variants' => $this->extractVariants($metadata, $exceptionIdentifier),
         ];
@@ -81,22 +86,27 @@ class YamlMetadataParser
                 );
             }
             $tags = $this->extractTags($definition, true);
+
             $name = $key;
             if (isset($tags['name'])) {
                 $name = $tags['name'];
                 unset($tags['name']);
             }
-            // @todo: Pass tags to set.
             $variants[$key] = [
                 'name' => $name,
+                // @todo: Remove values key.
                 'values' => $definition,
                 'tags' => $tags,
+                'variables' => $this->variableParser->parse($definition),
             ];
         }
 
         return $variants;
     }
 
+    /**
+     * @deprecated
+     */
     private function extractVariables(array $metadata, $exceptionIdentifier)
     {
         $metadata += ['variables' => []];

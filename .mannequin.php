@@ -20,8 +20,8 @@ $html = new HtmlExtension([
 
 $config = MannequinConfig::create([
   'ui' => new \LastCall\Mannequin\Core\Ui\LocalUi(__DIR__.'/ui/build'),
-  'styles' => ['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/css/foundation.min.css'],
-  'scripts' => ['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/js/foundation.min.js'],
+  'styles' => ['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/css/foundation.min.css'],
+  'scripts' => ['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/js/foundation.min.js'],
 ])
   ->addExtension($html)
   ->addExtension($twig);

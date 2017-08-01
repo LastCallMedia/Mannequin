@@ -20,9 +20,12 @@ use LastCall\Mannequin\Core\Ui\Controller\ManifestController;
 use LastCall\Mannequin\Core\Ui\Controller\RenderController;
 use LastCall\Mannequin\Core\Ui\Controller\UiController;
 use LastCall\Mannequin\Core\Ui\ManifestBuilder;
+use LastCall\Mannequin\Core\Variable\VariableResolver;
 use Psr\Log\NullLogger;
 use Silex\EventListener\LogListener;
 use Silex\Provider\ServiceControllerServiceProvider;
+use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 
 class Application extends \Silex\Application
@@ -47,7 +50,8 @@ class Application extends \Silex\Application
                     new RenderCommand(
                         'render',
                         $this['manifest.builder'],
-                        $this['config']
+                        $this['config'],
+                        $this['variable.resolver']
                     ),
                     new ServerCommand(
                         'server',
@@ -94,6 +98,16 @@ class Application extends \Silex\Application
 
             return new ManifestBuilder($this['url_generator']);
         };
+        $this['variable.resolver'] = function () {
+            $expressionLanguage = new ExpressionLanguage();
+            foreach ($this['config']->getExtensions() as $extension) {
+                if ($extension instanceof ExpressionFunctionProviderInterface) {
+                    $expressionLanguage->registerProvider($extension);
+                }
+            }
+
+            return new VariableResolver($expressionLanguage);
+        };
 
         $this->register(new ServiceControllerServiceProvider());
         $this['controller.ui'] = function () {
@@ -111,7 +125,8 @@ class Application extends \Silex\Application
             return new RenderController(
                 $collection,
                 $this['config']->getRenderer(),
-                $this['config']->getUi()
+                $this['config']->getUi(),
+                $this['variable.resolver']
             );
         };
 

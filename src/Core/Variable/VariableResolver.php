@@ -11,61 +11,45 @@
 
 namespace LastCall\Mannequin\Core\Variable;
 
-use LastCall\Mannequin\Core\Exception\InvalidVariableException;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
-class VariableResolver
+/**
+ * Handles resolving VariableSets and Variables to their native values.
+ *
+ * This class is only used right before patterns are rendered.
+ */
+final class VariableResolver
 {
-    /**
-     * @var \LastCall\Mannequin\Core\Variable\ResolverInterface[]
-     */
-    private $resolvers = [];
-
-    public function __construct(array $resolvers = [])
+    public function __construct(ExpressionLanguage $expressionLanguage)
     {
-        $this->resolvers = $resolvers;
+        $this->expressionLanguage = $expressionLanguage;
     }
 
-    public function resolveSet(Definition $definition, array $values)
+    public function resolve($variable, array $context = [])
+    {
+        if ($variable instanceof VariableSet) {
+            return $this->resolveSet($variable, $context);
+        } elseif ($variable instanceof Variable) {
+            return $this->resolveVariable($variable, $context);
+        }
+    }
+
+    private function resolveSet(VariableSet $set, array $context)
     {
         $resolved = [];
-
-        foreach ($definition->keys() as $key) {
-            $type = $definition->get($key);
-            $resolver = $this->findResolver($type);
-            if (array_key_exists($key, $values)) {
-                $resolved[$key] = $resolver->resolve($type, $values[$key]);
-            }
+        foreach ($set as $key => $value) {
+            $resolved[$key] = $this->resolve($value, $context);
         }
 
         return $resolved;
     }
 
-    private function findResolver(string $type, bool $throw = true)
+    private function resolveVariable(Variable $variable, array $context)
     {
-        foreach ($this->resolvers as $resolver) {
-            if ($resolver->resolves($type)) {
-                return $resolver;
-            }
+        if ($variable->getType() === 'expression') {
+            return $this->expressionLanguage->evaluate($variable->getValue(), $context);
+        } else {
+            return $variable->getValue();
         }
-        if ($throw) {
-            throw new InvalidVariableException(
-                sprintf('No resolver knows how to resolve a %s variable', $type)
-            );
-        }
-    }
-
-    public function resolves($type)
-    {
-        return (bool) $this->findResolver($type);
-    }
-
-    public function describe(): array
-    {
-        $description = [];
-        foreach ($this->resolvers as $resolver) {
-            $description = array_merge($description, $resolver->describe());
-        }
-
-        return $description;
     }
 }
