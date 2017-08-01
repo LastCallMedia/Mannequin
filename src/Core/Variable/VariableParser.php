@@ -23,7 +23,6 @@ namespace LastCall\Mannequin\Core\Variable;
  */
 final class VariableParser
 {
-
     /**
      * Parse a string or array into a set or variable.
      */
