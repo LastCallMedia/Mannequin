@@ -23,16 +23,6 @@ _group: Molecule>Containers
 
 This YAML gives the pattern a name and a group that it belongs to.
 
-Variables
----------
-Most pattern [engines](extensions.md#Engine) (except the HTML engine) have the ability to pass variables into a template when it is rendered.  In order for Mannequin to use these variables, they must be declared in the YAML file.  As an example, given a Twig template that uses a `title` variable, and an `img_src` variable, you would tell Mannequin the following:
-
-```yaml
-variables:
-  title: string
-  img_src: string
-```
-
 Variants
 --------
 A variant is a version of the pattern that is rendered with specific variables. Any pattern that can have variables can have variants.  Using our card example, you might create variants that show off how it will look with a short title, and how it will look with a long title.  We need to describe these variants in YAML in order to specify values for `title` and `img_src`:
@@ -54,10 +44,6 @@ YAML Reference
 name: # The display name of the pattern.
 _group: # The grouping to place the pattern in.  Use a > character to nest the group.
 _description: # The long form description of the pattern.  Add implementation instructions, or anything else you need here.
-
-variables: # An associative array describing the TYPES of the variables.
-  variable_1...: # Declare types for as many variables as you like here.  For a full description of the types that are available to you, see the debug command.
-
 variants: # An associative describing the sets of variables you would like to use.
   Variant1: # This will be the name of the variant.  This is an associative array describing the VALUES for the variables.
     _name: # A name for the description, if you want to use something other than the key you used above.
