@@ -15,6 +15,7 @@ use LastCall\Mannequin\Core\Console\Application as ConsoleApplication;
 use LastCall\Mannequin\Core\Console\Command\DebugCommand;
 use LastCall\Mannequin\Core\Console\Command\RenderCommand;
 use LastCall\Mannequin\Core\Console\Command\ServerCommand;
+use LastCall\Mannequin\Core\Engine\DelegatingEngine;
 use LastCall\Mannequin\Core\MimeType\ExtensionMimeTypeGuesser;
 use LastCall\Mannequin\Core\Ui\Controller\ManifestController;
 use LastCall\Mannequin\Core\Ui\Controller\RenderController;
@@ -51,6 +52,7 @@ class Application extends \Silex\Application
                         'render',
                         $this['manifest.builder'],
                         $this['config'],
+                        $this['engine'],
                         $this['variable.resolver']
                     ),
                     new ServerCommand(
@@ -98,9 +100,17 @@ class Application extends \Silex\Application
 
             return new ManifestBuilder($this['url_generator']);
         };
+        $this['engine'] = function () {
+            $engines = [];
+            foreach ($this->getExtensions() as $extension) {
+                $engines = array_merge($engines, $extension->getEngines());
+            }
+
+            return new DelegatingEngine($engines);
+        };
         $this['variable.resolver'] = function () {
             $expressionLanguage = new ExpressionLanguage();
-            foreach ($this['config']->getExtensions() as $extension) {
+            foreach ($this->getExtensions() as $extension) {
                 if ($extension instanceof ExpressionFunctionProviderInterface) {
                     $expressionLanguage->registerProvider($extension);
                 }
@@ -124,7 +134,7 @@ class Application extends \Silex\Application
 
             return new RenderController(
                 $collection,
-                $this['config']->getRenderer(),
+                $this['engine'],
                 $this['config']->getUi(),
                 $this['variable.resolver']
             );
@@ -164,5 +174,13 @@ class Application extends \Silex\Application
     public function getConsole(): ConsoleApplication
     {
         return $this['console'];
+    }
+
+    /**
+     * @return \LastCall\Mannequin\Core\Extension\ExtensionInterface[]
+     */
+    private function getExtensions()
+    {
+        return $this['config']->getExtensions();
     }
 }

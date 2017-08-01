@@ -11,7 +11,6 @@
 
 namespace LastCall\Mannequin\Core;
 
-use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Ui\UiInterface;
@@ -43,8 +42,6 @@ interface ConfigInterface
     public function addAssetMapping($url, $path): ConfigInterface;
 
     public function getAssetMappings(): array;
-
-    public function getRenderer(): EngineInterface;
 
     public function getMetadataParser(): YamlMetadataParser;
 

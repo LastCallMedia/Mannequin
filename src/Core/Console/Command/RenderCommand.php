@@ -12,6 +12,7 @@
 namespace LastCall\Mannequin\Core\Console\Command;
 
 use LastCall\Mannequin\Core\ConfigInterface;
+use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Ui\FileWriter;
 use LastCall\Mannequin\Core\Ui\ManifestBuilder;
 use LastCall\Mannequin\Core\Variable\VariableResolver;
@@ -29,15 +30,19 @@ class RenderCommand extends Command
 
     private $resolver;
 
+    private $engine;
+
     public function __construct(
         $name = null,
         ManifestBuilder $manifester,
         ConfigInterface $config,
+        EngineInterface $engine,
         VariableResolver $resolver
     ) {
         parent::__construct($name);
         $this->manifester = $manifester;
         $this->config = $config;
+        $this->engine = $engine;
         $this->resolver = $resolver;
     }
 
@@ -62,7 +67,7 @@ class RenderCommand extends Command
         $writer = new FileWriter($outDir);
         try {
             $collection = $this->config->getCollection();
-            $engine = $this->config->getRenderer();
+            $engine = $this->engine;
             $ui = $this->config->getUi();
             $resolver = $this->resolver;
 

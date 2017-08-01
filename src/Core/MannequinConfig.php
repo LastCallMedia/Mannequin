@@ -14,7 +14,6 @@ namespace LastCall\Mannequin\Core;
 use LastCall\Mannequin\Core\Cache\NullCacheItemPool;
 use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
 use LastCall\Mannequin\Core\Engine\DelegatingEngine;
-use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Extension\CoreExtension;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
@@ -183,14 +182,6 @@ class MannequinConfig extends Container implements ConfigInterface
     public function getAssetMappings(): array
     {
         return $this['assets'];
-    }
-
-    /**
-     * @return \LastCall\Mannequin\Core\Engine\EngineInterface
-     */
-    public function getRenderer(): EngineInterface
-    {
-        return $this['renderer'];
     }
 
     public function getMetadataParser(): YamlMetadataParser

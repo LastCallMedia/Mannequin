@@ -16,7 +16,6 @@ use LastCall\Mannequin\Core\MannequinConfig;
 use LastCall\Mannequin\Core\ConfigInterface;
 use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
-use LastCall\Mannequin\Core\Engine\DelegatingEngine;
 use LastCall\Mannequin\Core\Extension\CoreExtension;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
@@ -85,15 +84,6 @@ class MannequinConfigTest extends TestCase
         $extensions = $config->getExtensions();
         $this->assertCount(1, $extensions);
         $this->assertInstanceOf(CoreExtension::class, reset($extensions));
-    }
-
-    public function testHasRenderer()
-    {
-        $config = new MannequinConfig();
-        $this->assertInstanceOf(
-            DelegatingEngine::class,
-            $config->getRenderer()
-        );
     }
 
     public function testCallsExtensionAttachToDispatcher()
