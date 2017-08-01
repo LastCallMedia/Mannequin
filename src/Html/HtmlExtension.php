@@ -50,7 +50,7 @@ class HtmlExtension extends AbstractExtension
         return [$this['discovery']];
     }
 
-    public function getRenderers(): array
+    public function getEngines(): array
     {
         return [$this['renderer']];
     }

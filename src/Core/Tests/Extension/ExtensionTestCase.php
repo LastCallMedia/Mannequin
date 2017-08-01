@@ -70,7 +70,7 @@ abstract class ExtensionTestCase extends TestCase
         $extension->setConfig($this->getConfig());
         $this->assertContainsOnlyInstancesOf(
             EngineInterface::class,
-            $extension->getRenderers()
+            $extension->getEngines()
         );
     }
 

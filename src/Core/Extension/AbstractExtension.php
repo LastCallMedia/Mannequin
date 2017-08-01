@@ -22,7 +22,7 @@ class AbstractExtension extends Container implements ExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function getRenderers(): array
+    public function getEngines(): array
     {
         return [];
     }

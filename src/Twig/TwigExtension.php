@@ -61,7 +61,7 @@ class TwigExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getRenderers(): array
+    public function getEngines(): array
     {
         $config = $this->getConfig();
 

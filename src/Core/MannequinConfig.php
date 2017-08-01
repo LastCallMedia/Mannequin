@@ -62,7 +62,7 @@ class MannequinConfig extends Container implements ConfigInterface
             foreach ($this->getExtensions() as $extension) {
                 $renderers = array_merge(
                     $renderers,
-                    $extension->getRenderers()
+                    $extension->getEngines()
                 );
             }
 

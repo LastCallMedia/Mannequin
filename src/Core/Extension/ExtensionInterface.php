@@ -39,7 +39,7 @@ interface ExtensionInterface
      *
      * @return \LastCall\Mannequin\Core\Engine\EngineInterface[]
      */
-    public function getRenderers(): array;
+    public function getEngines(): array;
 
     /**
      * Attach an extension's listeners/subscribers to a dispatcher.
