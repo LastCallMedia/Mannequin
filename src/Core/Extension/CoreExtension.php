@@ -36,15 +36,15 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
     {
         return new ExpressionFunction('pattern', function ($arguments, $pid) {
             throw new \ErrorException('Pattern expressions cannot yet be compiled.');
-        }, function ($arguments, $pid) {
+        }, function ($context, $pid) {
             /** @var \LastCall\Mannequin\Core\Pattern\PatternCollection $collection */
-            $collection = $arguments['collection'];
-            $engine = $arguments['engine'];
-            $resolver = $arguments['resolver'];
+            $collection = $context['collection'];
+            $engine = $context['engine'];
+            $resolver = $context['resolver'];
 
             $pattern = $collection->get($pid);
             $variant = reset($pattern->getVariants());
-            $resolved = $resolver->resolve($variant->getVariables());
+            $resolved = $resolver->resolve($variant->getVariables(), $context);
 
             return $engine->render($pattern, $resolved);
         });
