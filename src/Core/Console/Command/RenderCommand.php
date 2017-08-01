@@ -80,7 +80,16 @@ class RenderCommand extends Command
 
                     foreach ($patternManifest['variants'] as $variantManifest) {
                         $variant = $pattern->getVariant($variantManifest['id']);
-                        $resolved = $resolver->resolve($variant->getVariables());
+                        $resolved = $resolver->resolve(
+                            $variant->getVariables(),
+                            [
+                                'collection' => $collection,
+                                'engine' => $engine,
+                                'resolver' => $resolver,
+                                'pattern' => $pattern,
+                                'variant' => $variant,
+                            ]
+                        );
                         $rendered = $engine->render($pattern, $resolved);
                         $writer->raw(
                             $variantManifest['source'],
