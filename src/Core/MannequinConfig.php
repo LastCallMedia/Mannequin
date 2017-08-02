@@ -83,7 +83,7 @@ class MannequinConfig extends Container implements ConfigInterface
         $this['dispatcher'] = function () {
             $dispatcher = new EventDispatcher();
             foreach ($this->getExtensions() as $extension) {
-                $extension->attachToDispatcher($dispatcher);
+                $extension->subscribe($dispatcher);
             }
 
             return $dispatcher;

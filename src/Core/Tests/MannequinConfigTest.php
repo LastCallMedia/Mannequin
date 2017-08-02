@@ -68,7 +68,7 @@ class MannequinConfigTest extends TestCase
             function () {
             }
         );
-        $extension->attachToDispatcher(
+        $extension->subscribe(
             Argument::type(EventDispatcherInterface::class)
         )->will(
             function () {
@@ -90,20 +90,11 @@ class MannequinConfigTest extends TestCase
     {
         $config = new MannequinConfig();
         $extension = $this->getMockExtension();
-        $extension->attachToDispatcher(
+        $extension->subscribe(
             Argument::type(EventDispatcherInterface::class)
-        )->will(
-            function ($args) {
-                $args[0]->addListener(
-                    'foo',
-                    function () {
-                    }
-                );
-            }
         )->shouldBeCalled();
         $config->addExtension($extension->reveal());
-        $dispatcher = $config->getDispatcher();
-        $this->assertTrue($dispatcher->hasListeners('foo'));
+        $config->getDispatcher();
     }
 
     public function testHasDefaultCache()

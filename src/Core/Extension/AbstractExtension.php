@@ -38,7 +38,7 @@ class AbstractExtension extends Container implements ExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function attachToDispatcher(EventDispatcherInterface $dispatcher)
+    public function subscribe(EventDispatcherInterface $dispatcher)
     {
     }
 

@@ -74,7 +74,7 @@ class TwigExtension extends AbstractExtension
         ];
     }
 
-    public function attachToDispatcher(EventDispatcherInterface $dispatcher)
+    public function subscribe(EventDispatcherInterface $dispatcher)
     {
         $dispatcher->addSubscriber(
             new InlineTwigYamlMetadataSubscriber($this['inspector'])

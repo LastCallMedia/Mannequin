@@ -35,7 +35,7 @@ abstract class ExtensionTestCase extends TestCase
     {
         $extension = $this->getExtension();
         $extension->setConfig($this->getConfig());
-        $extension->attachToDispatcher(
+        $extension->subscribe(
             $this->getDispatcherProphecy()->reveal()
         );
     }

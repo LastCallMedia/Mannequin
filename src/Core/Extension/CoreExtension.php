@@ -26,7 +26,7 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
         ];
     }
 
-    public function attachToDispatcher(EventDispatcherInterface $dispatcher)
+    public function subscribe(EventDispatcherInterface $dispatcher)
     {
         $dispatcher->addSubscriber(new YamlFileMetadataSubscriber($this->getConfig()->getMetadataParser()));
         $dispatcher->addSubscriber(new LastChanceNameSubscriber());

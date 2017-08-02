@@ -46,5 +46,5 @@ interface ExtensionInterface
      *
      * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
      */
-    public function attachToDispatcher(EventDispatcherInterface $dispatcher);
+    public function subscribe(EventDispatcherInterface $dispatcher);
 }
