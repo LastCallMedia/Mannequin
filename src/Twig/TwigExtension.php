@@ -24,7 +24,7 @@ class TwigExtension extends AbstractExtension
     {
         $config += [
             'globs' => [],
-            'twig_cache' => null,
+            'twig_cache' => false,
             'twig_root' => getcwd(),
             'twig_loader' => function () {
                 return new \Twig_Loader_Filesystem([$this['twig_root']], $this['twig_root']);
