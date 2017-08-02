@@ -11,6 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Extension;
 
+use LastCall\Mannequin\Core\Application;
 use LastCall\Mannequin\Core\ConfigInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -47,4 +48,6 @@ interface ExtensionInterface
      * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
      */
     public function subscribe(EventDispatcherInterface $dispatcher);
+
+    public function registerToApp(Application $application);
 }

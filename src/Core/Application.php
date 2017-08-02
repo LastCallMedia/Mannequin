@@ -92,6 +92,9 @@ class Application extends \Silex\Application
                     sprintf('Config was not returned from %s.  Did you forget to add a return statement?', $filename)
                 );
             }
+            foreach ($config->getExtensions() as $extension) {
+                $extension->registerToApp($this);
+            }
 
             return $config;
         };

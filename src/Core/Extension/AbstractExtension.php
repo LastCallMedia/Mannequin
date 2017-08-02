@@ -11,6 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Extension;
 
+use LastCall\Mannequin\Core\Application;
 use LastCall\Mannequin\Core\ConfigInterface;
 use Pimple\Container;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -40,6 +41,11 @@ class AbstractExtension extends Container implements ExtensionInterface
      */
     public function subscribe(EventDispatcherInterface $dispatcher)
     {
+    }
+
+    public function registerToApp(Application $mannequin)
+    {
+        $this->mannequin = $mannequin;
     }
 
     /**
