@@ -67,14 +67,6 @@ class YamlMetadataParserTest extends TestCase
     /**
      * @depends testParsesVariants
      */
-    public function testParsesVariantValues($metadata)
-    {
-        $this->assertEquals(['bar' => 'baz'], $metadata['variants']['foo']['values']);
-    }
-
-    /**
-     * @depends testParsesVariants
-     */
     public function testParsesVariantTags($metadata)
     {
         $this->assertEquals(['baz' => 'bar'], $metadata['variants']['foo']['tags']);

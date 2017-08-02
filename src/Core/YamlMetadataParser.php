@@ -94,32 +94,12 @@ class YamlMetadataParser
             }
             $variants[$key] = [
                 'name' => $name,
-                // @todo: Remove values key.
-                'values' => $definition,
                 'tags' => $tags,
                 'variables' => $this->variableParser->parse($definition),
             ];
         }
 
         return $variants;
-    }
-
-    /**
-     * @deprecated
-     */
-    private function extractVariables(array $metadata, $exceptionIdentifier)
-    {
-        $metadata += ['variables' => []];
-        if (!is_array($metadata['variables'])) {
-            throw new TemplateParsingException(
-                sprintf(
-                    'variables must be an array in %s',
-                    $exceptionIdentifier
-                )
-            );
-        }
-
-        return $metadata['variables'];
     }
 
     private function extractName(array $metadata, $exceptionIdentifier)

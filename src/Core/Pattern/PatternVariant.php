@@ -17,7 +17,6 @@ class PatternVariant
 {
     private $id;
     private $name;
-    private $values = [];
     private $tags = [];
     private $variables;
 
@@ -37,14 +36,6 @@ class PatternVariant
     public function getName(): string
     {
         return $this->name;
-    }
-
-    /**
-     * @deprecated
-     */
-    public function getValues(): array
-    {
-        return $this->values;
     }
 
     public function getTags(): array
