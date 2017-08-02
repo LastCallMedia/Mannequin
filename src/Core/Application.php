@@ -121,6 +121,9 @@ class Application extends \Silex\Application
 
             return new VariableResolver($expressionLanguage);
         };
+        $this['metadata_parser'] = function() {
+            return new YamlMetadataParser();
+        };
 
         $this->register(new ServiceControllerServiceProvider());
         $this['controller.ui'] = function () {
@@ -172,6 +175,10 @@ class Application extends \Silex\Application
         );
 
         return parent::boot();
+    }
+
+    public function getMetadataParser() : YamlMetadataParser {
+        return $this['metadata_parser'];
     }
 
     public function getConsole(): ConsoleApplication

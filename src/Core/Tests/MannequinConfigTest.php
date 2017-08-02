@@ -86,17 +86,6 @@ class MannequinConfigTest extends TestCase
         $this->assertInstanceOf(CoreExtension::class, reset($extensions));
     }
 
-    public function testCallsExtensionAttachToDispatcher()
-    {
-        $config = new MannequinConfig();
-        $extension = $this->getMockExtension();
-        $extension->subscribe(
-            Argument::type(EventDispatcherInterface::class)
-        )->shouldBeCalled();
-        $config->addExtension($extension->reveal());
-        $config->getDispatcher();
-    }
-
     public function testHasDefaultCache()
     {
         $config = new MannequinConfig();

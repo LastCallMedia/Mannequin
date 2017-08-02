@@ -11,6 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Tests\Extension;
 
+use LastCall\Mannequin\Core\Application;
 use LastCall\Mannequin\Core\Cache\NullCacheItemPool;
 use LastCall\Mannequin\Core\ConfigInterface;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
@@ -35,6 +36,7 @@ abstract class ExtensionTestCase extends TestCase
     {
         $extension = $this->getExtension();
         $extension->setConfig($this->getConfig());
+        $extension->registerToApp($this->getMannequin());
         $extension->subscribe(
             $this->getDispatcherProphecy()->reveal()
         );
@@ -54,6 +56,14 @@ abstract class ExtensionTestCase extends TestCase
         return $config->reveal();
     }
 
+    public function getMannequin(): Application
+    {
+        $mannequin = $this->prophesize(Application::class);
+        $mannequin->getMetadataParser()->willReturn(new YamlMetadataParser());
+
+        return $mannequin->reveal();
+    }
+
     protected function getDispatcherProphecy(): ObjectProphecy
     {
         $dispatcher = $this->prophesize(EventDispatcherInterface::class);
@@ -68,6 +78,7 @@ abstract class ExtensionTestCase extends TestCase
     {
         $extension = $this->getExtension();
         $extension->setConfig($this->getConfig());
+        $extension->registerToApp($this->getMannequin());
         $this->assertContainsOnlyInstancesOf(
             EngineInterface::class,
             $extension->getEngines()
@@ -78,6 +89,7 @@ abstract class ExtensionTestCase extends TestCase
     {
         $extension = $this->getExtension();
         $extension->setConfig($this->getConfig());
+        $extension->registerToApp($this->getMannequin());
         $this->assertContainsOnlyInstancesOf(
             DiscoveryInterface::class,
             $extension->getDiscoverers()

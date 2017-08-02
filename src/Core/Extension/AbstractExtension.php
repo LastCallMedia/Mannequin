@@ -21,6 +21,11 @@ class AbstractExtension extends Container implements ExtensionInterface
     protected $config;
 
     /**
+     * @var Application
+     */
+    protected $mannequin;
+
+    /**
      * {@inheritdoc}
      */
     public function getEngines(): array

@@ -54,7 +54,7 @@ class MannequinConfig extends Container implements ConfigInterface
                 );
             }
 
-            return new ChainDiscovery($discoverers, $this->getDispatcher());
+            return new ChainDiscovery($discoverers, new EventDispatcher());
         };
         $this['renderer'] = function () {
             $renderers = [];
