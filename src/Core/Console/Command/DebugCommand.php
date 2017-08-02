@@ -12,6 +12,7 @@
 namespace LastCall\Mannequin\Core\Console\Command;
 
 use LastCall\Mannequin\Core\ConfigInterface;
+use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Ui\ManifestBuilder;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,14 +22,14 @@ use Symfony\Component\Yaml\Yaml;
 
 class DebugCommand extends Command
 {
-    private $config;
     private $builder;
+    private $discovery;
 
-    public function __construct($name, ManifestBuilder $builder, ConfigInterface $config)
+    public function __construct($name, ManifestBuilder $builder, DiscoveryInterface $discovery)
     {
         parent::__construct($name);
         $this->builder = $builder;
-        $this->config = $config;
+        $this->discovery = $discovery;
     }
 
     public function configure()
@@ -41,7 +42,7 @@ class DebugCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $io->block('Patterns');
-        $manifest = $this->builder->generate($this->config->getCollection());
+        $manifest = $this->builder->generate($this->discovery->discover());
         $yaml = Yaml::dump($manifest['patterns'], 5);
         $output->write($yaml);
     }

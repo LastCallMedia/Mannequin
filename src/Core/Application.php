@@ -15,6 +15,7 @@ use LastCall\Mannequin\Core\Console\Application as ConsoleApplication;
 use LastCall\Mannequin\Core\Console\Command\DebugCommand;
 use LastCall\Mannequin\Core\Console\Command\RenderCommand;
 use LastCall\Mannequin\Core\Console\Command\ServerCommand;
+use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
 use LastCall\Mannequin\Core\Engine\DelegatingEngine;
 use LastCall\Mannequin\Core\MimeType\ExtensionMimeTypeGuesser;
 use LastCall\Mannequin\Core\Ui\Controller\ManifestController;
@@ -51,9 +52,11 @@ class Application extends \Silex\Application
                     new RenderCommand(
                         'render',
                         $this['manifest.builder'],
-                        $this['config'],
+                        $this['discovery'],
+                        $this['config']->getUi(),
                         $this['engine'],
-                        $this['variable.resolver']
+                        $this['variable.resolver'],
+                        $this['config']->getAssetMappings()
                     ),
                     new ServerCommand(
                         'server',
@@ -64,7 +67,7 @@ class Application extends \Silex\Application
                     new DebugCommand(
                         'debug',
                         $this['manifest.builder'],
-                        $this['config']
+                        $this['discovery']
                     ),
                 ]
             );
@@ -94,6 +97,7 @@ class Application extends \Silex\Application
             }
             foreach ($config->getExtensions() as $extension) {
                 $extension->registerToApp($this);
+                $extension->subscribe($this['dispatcher']);
             }
 
             return $config;
@@ -111,6 +115,14 @@ class Application extends \Silex\Application
 
             return new DelegatingEngine($engines);
         };
+        $this['discovery'] = function () {
+            $discoverers = [];
+            foreach($this->getExtensions() as $extension) {
+                $discoverers = array_merge($discoverers, $extension->getDiscoverers());
+            }
+            return new ChainDiscovery($discoverers, $this['dispatcher'], $this['logger']);
+        };
+
         $this['variable.resolver'] = function () {
             $expressionLanguage = new ExpressionLanguage();
             foreach ($this->getExtensions() as $extension) {
@@ -132,11 +144,11 @@ class Application extends \Silex\Application
         $this['controller.manifest'] = function () {
             return new ManifestController(
                 $this['manifest.builder'],
-                $this['config']->getCollection()
+                $this['discovery']->discover()
             );
         };
         $this['controller.render'] = function () {
-            $collection = $this['config']->getCollection();
+            $collection = $this['discovery']->discover();
 
             return new RenderController(
                 $collection,

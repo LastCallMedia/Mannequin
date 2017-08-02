@@ -12,9 +12,11 @@
 namespace LastCall\Mannequin\Core\Console\Command;
 
 use LastCall\Mannequin\Core\ConfigInterface;
+use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Ui\FileWriter;
 use LastCall\Mannequin\Core\Ui\ManifestBuilder;
+use LastCall\Mannequin\Core\Ui\UiInterface;
 use LastCall\Mannequin\Core\Variable\VariableResolver;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,24 +28,32 @@ class RenderCommand extends Command
 {
     private $manifester;
 
-    private $config;
-
     private $resolver;
 
     private $engine;
 
+    private $discovery;
+
+    private $ui;
+
+    private $assetMappings = [];
+
     public function __construct(
         $name = null,
         ManifestBuilder $manifester,
-        ConfigInterface $config,
+        DiscoveryInterface $discovery,
+        UiInterface $ui,
         EngineInterface $engine,
-        VariableResolver $resolver
+        VariableResolver $resolver,
+        array $assetMapping = []
     ) {
         parent::__construct($name);
         $this->manifester = $manifester;
-        $this->config = $config;
+        $this->discovery = $discovery;
+        $this->ui = $ui;
         $this->engine = $engine;
         $this->resolver = $resolver;
+        $this->assetMapping = $assetMapping;
     }
 
     public function configure()
@@ -66,9 +76,9 @@ class RenderCommand extends Command
 
         $writer = new FileWriter($outDir);
         try {
-            $collection = $this->config->getCollection();
+            $collection = $this->discovery->discover();
             $engine = $this->engine;
-            $ui = $this->config->getUi();
+            $ui = $this->ui;
             $resolver = $this->resolver;
 
             $manifest = $this->manifester->generate($collection);
@@ -111,7 +121,7 @@ class RenderCommand extends Command
                 }
             }
             try {
-                foreach ($this->config->getAssetMappings() as $src => $dest) {
+                foreach ($this->assetMappings as $src => $dest) {
                     $writer->copy($src, $dest);
                 }
                 $rows[] = $this->getSuccessRow('Assets');

@@ -42,42 +42,6 @@ class MannequinConfigTest extends TestCase
         $config->getExtensions();
     }
 
-    public function testHasDiscovery()
-    {
-        $config = new MannequinConfig();
-        $this->assertInstanceOf(ChainDiscovery::class, $config['discovery']);
-    }
-
-    public function testUsesExtensionDiscoverers()
-    {
-        $discoverer = $this->prophesize(DiscoveryInterface::class);
-        $discoverer->discover()
-            ->willReturn(new PatternCollection())
-            ->shouldBeCalled();
-        $extension = $this->getMockExtension();
-        $extension->getDiscoverers()->willReturn([$discoverer]);
-        $config = new MannequinConfig();
-        $config->addExtension($extension->reveal());
-        $config->getCollection();
-    }
-
-    private function getMockExtension()
-    {
-        $extension = $this->prophesize(ExtensionInterface::class);
-        $extension->setConfig(Argument::type(ConfigInterface::class))->will(
-            function () {
-            }
-        );
-        $extension->subscribe(
-            Argument::type(EventDispatcherInterface::class)
-        )->will(
-            function () {
-            }
-        );
-
-        return $extension;
-    }
-
     public function testHasCoreExtension()
     {
         $config = new MannequinConfig();

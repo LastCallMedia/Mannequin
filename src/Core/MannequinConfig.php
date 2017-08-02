@@ -13,7 +13,6 @@ namespace LastCall\Mannequin\Core;
 
 use LastCall\Mannequin\Core\Cache\NullCacheItemPool;
 use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
-use LastCall\Mannequin\Core\Engine\DelegatingEngine;
 use LastCall\Mannequin\Core\Extension\CoreExtension;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
@@ -45,37 +44,12 @@ class MannequinConfig extends Container implements ConfigInterface
         $this['extensions'] = function () {
             return [];
         };
-        $this['discovery'] = function () {
-            $discoverers = [];
-            foreach ($this->getExtensions() as $extension) {
-                $discoverers = array_merge(
-                    $discoverers,
-                    $extension->getDiscoverers()
-                );
-            }
-
-            return new ChainDiscovery($discoverers, new EventDispatcher());
-        };
-        $this['renderer'] = function () {
-            $renderers = [];
-            foreach ($this->getExtensions() as $extension) {
-                $renderers = array_merge(
-                    $renderers,
-                    $extension->getEngines()
-                );
-            }
-
-            return new DelegatingEngine($renderers);
-        };
 
         $this['variable.parser'] = function () {
             return new VariableParser();
         };
         $this['metadata.parser'] = function () {
             return new YamlMetadataParser($this['variable.parser']);
-        };
-        $this['collection'] = function () {
-            return $this['discovery']->discover();
         };
         $this['assets'] = function () {
             return [];
