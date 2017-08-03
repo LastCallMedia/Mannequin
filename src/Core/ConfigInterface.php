@@ -43,11 +43,7 @@ interface ConfigInterface
 
     public function getAssetMappings(): array;
 
-    public function getMetadataParser(): YamlMetadataParser;
-
     public function getCache(): CacheItemPoolInterface;
-
-    public function getDispatcher(): EventDispatcherInterface;
 
     public function getUi(): UiInterface;
 }

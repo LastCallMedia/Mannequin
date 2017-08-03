@@ -72,9 +72,7 @@ abstract class ExtensionTestCase extends TestCase
     public function getConfig(): ConfigInterface
     {
         $config = $this->prophesize(ConfigInterface::class);
-        $config->getMetadataParser()->willReturn(new YamlMetadataParser());
         $config->getCache()->willReturn($this->getNullCache());
-        $config->getDispatcher()->willReturn(new EventDispatcher());
         $config->getStyles()->willReturn([]);
         $config->getScripts()->willReturn([]);
 

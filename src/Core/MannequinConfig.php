@@ -42,28 +42,11 @@ class MannequinConfig extends Container implements ConfigInterface
         ];
         parent::__construct($values);
         $this['extensions'] = function () {
-            return [];
-        };
-
-        $this['variable.parser'] = function () {
-            return new VariableParser();
-        };
-        $this['metadata.parser'] = function () {
-            return new YamlMetadataParser($this['variable.parser']);
+            return [new CoreExtension()];
         };
         $this['assets'] = function () {
             return [];
         };
-        $this['dispatcher'] = function () {
-            $dispatcher = new EventDispatcher();
-            foreach ($this->getExtensions() as $extension) {
-                $extension->subscribe($dispatcher);
-            }
-
-            return $dispatcher;
-        };
-
-        $this->addExtension(new CoreExtension());
     }
 
     /**
@@ -72,11 +55,6 @@ class MannequinConfig extends Container implements ConfigInterface
     public function getExtensions(): array
     {
         return $this['extensions'];
-    }
-
-    public function getDispatcher(): EventDispatcherInterface
-    {
-        return $this['dispatcher'];
     }
 
     /**
@@ -156,11 +134,6 @@ class MannequinConfig extends Container implements ConfigInterface
     public function getAssetMappings(): array
     {
         return $this['assets'];
-    }
-
-    public function getMetadataParser(): YamlMetadataParser
-    {
-        return $this['metadata.parser'];
     }
 
     public function getCache(): CacheItemPoolInterface
