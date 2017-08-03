@@ -19,8 +19,6 @@ use LastCall\Mannequin\Twig\TwigInspectorInterface;
 
 class InlineTwigYamlMetadataSubscriber extends YamlFileMetadataSubscriber
 {
-    private $parser;
-
     private $inspector;
 
     public function __construct(
@@ -28,7 +26,7 @@ class InlineTwigYamlMetadataSubscriber extends YamlFileMetadataSubscriber
         YamlMetadataParser $parser = null
     ) {
         $this->inspector = $inspector;
-        $this->parser = $parser ?: new YamlMetadataParser();
+        parent::__construct($parser);
     }
 
     protected function getMetadataForPattern(PatternInterface $pattern)
@@ -36,7 +34,7 @@ class InlineTwigYamlMetadataSubscriber extends YamlFileMetadataSubscriber
         if ($pattern instanceof TwigPattern) {
             $yaml = $this->inspector->inspectPatternData($pattern->getSource());
             if (false !== $yaml) {
-                return $this->parser->parse($yaml, $pattern->getSource()->getPath());
+                return $this->parseYaml($yaml, $pattern->getSource()->getPath());
             }
         }
     }

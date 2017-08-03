@@ -13,6 +13,8 @@ namespace LastCall\Mannequin\Twig;
 
 class TwigInspector implements TwigInspectorInterface
 {
+    private $twig;
+
     public function __construct(\Twig_Environment $twig)
     {
         $this->twig = $twig;

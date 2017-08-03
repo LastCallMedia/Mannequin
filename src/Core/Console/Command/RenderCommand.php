@@ -44,7 +44,7 @@ class RenderCommand extends Command
         UiInterface $ui,
         EngineInterface $engine,
         VariableResolver $resolver,
-        array $assetMapping = []
+        array $assetMappings = []
     ) {
         parent::__construct($name);
         $this->manifester = $manifester;
@@ -52,7 +52,7 @@ class RenderCommand extends Command
         $this->ui = $ui;
         $this->engine = $engine;
         $this->resolver = $resolver;
-        $this->assetMapping = $assetMapping;
+        $this->assetMappings = $assetMappings;
     }
 
     public function configure()

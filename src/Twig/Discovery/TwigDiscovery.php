@@ -60,7 +60,7 @@ class TwigDiscovery implements DiscoveryInterface
                 $patterns[] = $pattern;
             } catch (\Twig_Error_Loader $e) {
                 throw new UnsupportedPatternException(
-                    sprintf('Unable to load %s', $name), 0, $e
+                    sprintf('Unable to load %s', reset($names)), 0, $e
                 );
             }
         }

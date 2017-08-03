@@ -16,8 +16,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AbstractExtension implements ExtensionInterface
 {
-    private $config;
-
     /**
      * @var Application
      */

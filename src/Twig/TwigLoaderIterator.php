@@ -19,6 +19,7 @@ class TwigLoaderIterator implements \IteratorAggregate
 {
     private $loader;
     private $globs = [];
+    private $rootPath;
 
     public function __construct(\Twig_Loader_Filesystem $loader, $rootPath, array $globs = ['@*/*'])
     {

@@ -74,7 +74,7 @@ class ServerCommand extends Command
     {
         if (null === $address) {
             $hostname = '127.0.0.1';
-            $port = $this->findBestPort();
+            $port = $this->findBestPort($hostname);
         } elseif (false !== $pos = strrpos($address, ':')) {
             $hostname = substr($address, 0, $pos);
             $port = substr($address, $pos + 1);
@@ -83,7 +83,7 @@ class ServerCommand extends Command
             $port = $address;
         } else {
             $hostname = $address;
-            $port = $this->findBestPort();
+            $port = $this->findBestPort($hostname);
         }
         if ($hostname === '*') {
             $hostname = '0.0.0.0';
@@ -95,10 +95,10 @@ class ServerCommand extends Command
         return sprintf('%s:%s', $hostname, $port);
     }
 
-    private function findBestPort()
+    private function findBestPort($hostname)
     {
         $port = 8000;
-        while (false !== $fp = @fsockopen($this->hostname, $port, $errno, $errstr, 1)) {
+        while (false !== $fp = @fsockopen($hostname, $port, $errno, $errstr, 1)) {
             fclose($fp);
             if ($port++ >= 8100) {
                 throw new \RuntimeException('Unable to find a port available to run the web server.');

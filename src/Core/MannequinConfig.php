@@ -61,7 +61,6 @@ class MannequinConfig extends Container implements ConfigInterface
         $this->extend(
             'extensions',
             function (array $extensions) use ($extension) {
-                $extension->setConfig($this);
                 $extensions[] = $extension;
 
                 return $extensions;

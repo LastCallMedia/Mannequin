@@ -39,7 +39,9 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
         }, function ($context, $pid) {
             /** @var \LastCall\Mannequin\Core\Pattern\PatternCollection $collection */
             $collection = $context['collection'];
+            /** @var \LastCall\Mannequin\Core\Engine\EngineInterface $engine */
             $engine = $context['engine'];
+            /** @var \LastCall\Mannequin\Core\Variable\VariableResolver $resolver */
             $resolver = $context['resolver'];
 
             $pattern = $collection->get($pid);

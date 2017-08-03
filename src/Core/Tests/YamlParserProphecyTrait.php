@@ -15,7 +15,7 @@ use LastCall\Mannequin\Core\YamlMetadataParser;
 
 trait YamlParserProphecyTrait
 {
-    public function getParserProphecy(array $partialMetadata)
+    public function getParserProphecy(array $partialMetadata, $exceptionIdentifier = 'unknown')
     {
         $metadata = $partialMetadata + [
                 'name' => '',
@@ -24,7 +24,7 @@ trait YamlParserProphecyTrait
                 'sets' => [],
             ];
         $parser = $this->prophesize(YamlMetadataParser::class);
-        $parser->parse('')->willreturn($metadata);
+        $parser->parse('', $exceptionIdentifier)->willreturn($metadata);
 
         return $parser;
     }

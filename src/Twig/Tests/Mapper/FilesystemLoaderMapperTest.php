@@ -18,14 +18,14 @@ class FilesystemLoaderMapperTest extends TestCase
 {
     public function testMapsFilenameToMainNamespace()
     {
-        $mapper = new \LastCall\Mannequin\Twig\Mapper\FilesystemLoaderMapper();
+        $mapper = new FilesystemLoaderMapper();
         $mapper->addPath(__DIR__);
         $this->assertEquals([basename(__FILE__)], $mapper(__FILE__));
     }
 
     public function testMapsFilenameToAlternateNamespace()
     {
-        $mapper = new \LastCall\Mannequin\Twig\Mapper\FilesystemLoaderMapper();
+        $mapper = new FilesystemLoaderMapper();
         $mapper->addPath(__DIR__, 'alternate');
         $this->assertEquals(
             ['@alternate/'.basename(__FILE__)],

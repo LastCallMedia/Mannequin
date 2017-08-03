@@ -33,9 +33,13 @@ class FileWriter
     public function copy($src, $dest)
     {
         if (is_file($src)) {
-            return $this->fs->copy($src, sprintf('%s/%s', $this->dir, $dest));
+            $this->fs->copy($src, sprintf('%s/%s', $this->dir, $dest));
+
+            return;
         } elseif (is_dir($src)) {
-            return $this->fs->mirror($src, sprintf('%s/%s', $this->dir, $dest));
+            $this->fs->mirror($src, sprintf('%s/%s', $this->dir, $dest));
+
+            return;
         }
         throw new \RuntimeException(
             sprintf('Source file does not exist: %s', $src)

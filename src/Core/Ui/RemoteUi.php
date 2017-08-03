@@ -59,7 +59,7 @@ class RemoteUi extends LocalUi
                 }
             }
             if (!$this->fetched) {
-                throw new \RuntimeException(sprintf('Unable to download UI package from %s to %s', $this->fetchUrl, $this->downloadDir));
+                throw new \RuntimeException(sprintf('Unable to download UI package to %s', $this->downloadDir));
             }
         }
     }

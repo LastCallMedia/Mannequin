@@ -48,6 +48,8 @@ class DelegatingEngine implements EngineInterface
                 sprintf('Unable to find a renderer for %s', get_class($pattern))
             );
         }
+
+        return false;
     }
 
     public function render(PatternInterface $pattern, array $variables = []): Rendered

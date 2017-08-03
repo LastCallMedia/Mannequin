@@ -23,6 +23,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class LocalDevelopmentUi extends LocalUi
 {
+    private $parts;
+
     public function __construct($url)
     {
         $this->parts = parse_url($url);

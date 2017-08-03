@@ -12,8 +12,6 @@
 namespace LastCall\Mannequin\Core\Tests;
 
 use LastCall\Mannequin\Core\Exception\TemplateParsingException;
-use LastCall\Mannequin\Core\Variable\Definition;
-use LastCall\Mannequin\Core\Variable\Set;
 use LastCall\Mannequin\Core\YamlMetadataParser;
 use PHPUnit\Framework\TestCase;
 
@@ -57,11 +55,6 @@ class YamlMetadataParserTest extends TestCase
         $this->assertInternalType('array', $parsed['variants']['foo']);
 
         return $parsed;
-
-        $this->assertEquals(
-            ['foo' => new Set('foo', ['bar' => 'baz'])],
-            $parsed['sets']
-        );
     }
 
     /**

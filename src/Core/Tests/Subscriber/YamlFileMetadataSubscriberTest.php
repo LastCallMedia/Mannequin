@@ -11,9 +11,13 @@
 
 namespace LastCall\Mannequin\Core\Tests\Subscriber;
 
+use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Pattern\PatternVariant;
 use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
 use LastCall\Mannequin\Core\Tests\Stubs\TestFilePattern;
 use LastCall\Mannequin\Core\Tests\YamlParserProphecyTrait;
+use LastCall\Mannequin\Core\Variable\Variable;
+use LastCall\Mannequin\Core\Variable\VariableSet;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -21,6 +25,9 @@ class YamlFileMetadataSubscriberTest extends TestCase
 {
     use DiscoverySubscriberTestTrait;
     use YamlParserProphecyTrait;
+
+    private $templateFile;
+    private $yamlFile;
 
     public function setUp()
     {
@@ -30,85 +37,111 @@ class YamlFileMetadataSubscriberTest extends TestCase
         (new Filesystem())->touch($this->yamlFile);
     }
 
-    public function testSetsName()
-    {
-        $parser = $this->getParserProphecy(['name' => 'foo']);
-        $pattern = new TestFilePattern(
-            'foo',
-            [],
-            new \SplFileInfo($this->templateFile)
-        );
-        $event = $this->dispatchDiscover(
-            new YamlFileMetadataSubscriber($parser->reveal()),
-            $pattern
-        );
-        $this->assertEquals('foo', $event->getPattern()->getName());
-    }
-
-    public function testSetsTags()
-    {
-        $parser = $this->getParserProphecy(['tags' => ['foo' => 'bar']]);
-        $pattern = new TestFilePattern(
-            'foo',
-            [],
-            new \SplFileInfo($this->templateFile)
-        );
-        $event = $this->dispatchDiscover(
-            new YamlFileMetadataSubscriber($parser->reveal()),
-            $pattern
-        );
-        $this->assertArraySubset(['foo' => 'bar'], $event->getPattern()->getTags());
-    }
-
-    public function testOverridesTags()
-    {
-        $parser = $this->getParserProphecy(['tags' => ['category' => 'baz']]);
-        $pattern = new TestFilePattern(
-            'foo',
-            [],
-            new \SplFileInfo($this->templateFile)
-        );
-        $event = $this->dispatchDiscover(
-            new YamlFileMetadataSubscriber($parser->reveal()),
-            $pattern
-        );
-        $this->assertArraySubset(['category' => 'baz'], $event->getPattern()->getTags());
-    }
-
-    public function testCanSetDefaultSet()
+    public function testParsesMetadata()
     {
         $parser = $this->getParserProphecy(
-            ['variants' => ['default' => ['name' => 'Overridden', 'values' => []]]]
+            [
+                'name' => 'Foo',
+                'tags' => ['foo' => 'bar'],
+                'variants' => [
+                    'additional' => [
+                        'name' => 'Additional',
+                        'variables' => new VariableSet([
+                            'var1' => new Variable('simple', 'foo'),
+                        ]),
+                    ],
+                ],
+            ],
+            $this->yamlFile
         );
-        $pattern = new TestFilePattern(
-            'foo',
-            [],
-            new \SplFileInfo($this->templateFile)
-        );
-        $this->dispatchDiscover(
+        $pattern = new TestFilePattern('foo', [], new \SplFileInfo($this->templateFile));
+        $event = $this->dispatchDiscover(
             new YamlFileMetadataSubscriber($parser->reveal()),
             $pattern
         );
+        $this->assertInstanceOf(TestFilePattern::class, $event->getPattern());
 
-        $this->assertEquals('Overridden', $pattern->getVariant('default')->getName());
+        return $event->getPattern();
     }
 
-    public function testCanSetAdditionalSet()
+    /**
+     * @depends testParsesMetadata
+     */
+    public function testSetsPatternName(TestFilePattern $pattern)
     {
-        $parser = $this->getParserProphecy(
-            ['variants' => ['additional' => ['name' => 'Additional', 'values' => []]]]
-        );
-        $pattern = new TestFilePattern(
-            'foo',
-            [],
-            new \SplFileInfo($this->templateFile)
-        );
-        $this->dispatchDiscover(
-            new YamlFileMetadataSubscriber($parser->reveal()),
-            $pattern
-        );
+        $this->assertEquals('Foo', $pattern->getName());
+    }
 
+    /**
+     * @depends testParsesMetadata
+     */
+    public function testSetsPatternTags(TestFilePattern $pattern)
+    {
+        $this->assertArraySubset(['foo' => 'bar'], $pattern->getTags());
+    }
+
+    /**
+     * @depends testParsesMetadata
+     */
+    public function testAddsVariant(TestFilePattern $pattern)
+    {
         $this->assertTrue($pattern->hasVariant('additional'));
-        $this->assertCount(1, $pattern->getVariants());
+        $expectedVariant = new PatternVariant(
+            'additional',
+            'Additional',
+            new VariableSet(['var1' => new Variable('simple', 'foo')])
+        );
+        $this->assertEquals($expectedVariant, $pattern->getVariant('additional'));
+    }
+
+    public function testParsesOverrideMetadata()
+    {
+        $parser = $this->getParserProphecy(
+            [
+                'name' => 'Foo',
+                'tags' => ['foo' => 'baz'],
+                'variants' => [
+                    'default' => [
+                        'name' => 'Overridden',
+                        'variables' => new VariableSet([
+                            'var1' => new Variable('simple', 'foo'),
+                        ]),
+                    ],
+                ],
+            ],
+            $this->yamlFile
+        );
+        $pattern = new TestFilePattern('foo', [], new \SplFileInfo($this->templateFile));
+        $pattern->addTag('foo', 'bar');
+        $event = $this->dispatchDiscover(
+            new YamlFileMetadataSubscriber($parser->reveal()),
+            $pattern
+        );
+        $this->assertInstanceOf(TestFilePattern::class, $event->getPattern());
+
+        return $event->getPattern();
+    }
+
+    /**
+     * @depends testParsesOverrideMetadata
+     */
+    public function testOverridesTags(PatternInterface $pattern)
+    {
+        $this->assertArraySubset([
+            'foo' => 'baz',
+        ], $pattern->getTags());
+    }
+
+    /**
+     * @depends testParsesOverrideMetadata
+     */
+    public function testOverridesDefaultVariant(PatternInterface $pattern)
+    {
+        $expectedVariant = new PatternVariant(
+            'default',
+            'Overridden',
+            new VariableSet(['var1' => new Variable('simple', 'foo')])
+        );
+        $this->assertEquals($expectedVariant, $pattern->getVariant('default'));
     }
 }

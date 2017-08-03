@@ -11,13 +11,17 @@
 
 namespace LastCall\Mannequin\Html\Engine;
 
+use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Rendered;
 use LastCall\Mannequin\Html\Pattern\HtmlPattern;
 
-class HtmlEngine implements \LastCall\Mannequin\Core\Engine\EngineInterface
+class HtmlEngine implements EngineInterface
 {
+    private $styles;
+    private $scripts;
+
     public function __construct(array $styles = [], array $scripts = [])
     {
         $this->styles = $styles;

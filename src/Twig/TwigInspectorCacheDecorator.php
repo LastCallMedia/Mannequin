@@ -19,6 +19,9 @@ use Psr\Cache\CacheItemPoolInterface;
  */
 class TwigInspectorCacheDecorator implements TwigInspectorInterface
 {
+    private $decorated;
+    private $cache;
+
     public function __construct(
         TwigInspectorInterface $decorated,
         CacheItemPoolInterface $cache

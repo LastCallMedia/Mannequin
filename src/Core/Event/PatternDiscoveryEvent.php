@@ -17,6 +17,9 @@ use Symfony\Component\EventDispatcher\Event;
 
 class PatternDiscoveryEvent extends Event
 {
+    private $pattern;
+    private $collection;
+
     public function __construct(
         PatternInterface $pattern,
         PatternCollection $collection

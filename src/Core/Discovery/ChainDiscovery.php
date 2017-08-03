@@ -30,6 +30,8 @@ class ChainDiscovery implements DiscoveryInterface
 
     private $dispatcher;
 
+    private $logger;
+
     public function __construct(
         array $discoverers = [],
         EventDispatcherInterface $dispatcher,

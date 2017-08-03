@@ -24,7 +24,7 @@ class ExtensionMimeTypeGuesser implements MimeTypeGuesserInterface
             case 'js':
                 return 'application/javascript';
             default:
-                return;
+                return null;
         }
     }
 }

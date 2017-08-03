@@ -11,6 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Tests\Engine;
 
+use LastCall\Mannequin\Core\Engine\DelegatingEngine;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Rendered;
@@ -30,14 +31,14 @@ class DelegatingRendererTest extends RendererTestCase
             Argument::type(PatternInterface::class),
             Argument::type('array')
         )->will(
-            function ($args) {
+            function () {
                 return new Rendered();
             }
         );
         $subrenderer->renderSource(Argument::type(PatternInterface::class))
             ->willReturn('Test source');
 
-        return new \LastCall\Mannequin\Core\Engine\DelegatingEngine(
+        return new DelegatingEngine(
             [$subrenderer->reveal()]
         );
     }

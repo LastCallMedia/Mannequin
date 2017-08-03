@@ -21,6 +21,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class YamlFileMetadataSubscriber implements EventSubscriberInterface
 {
+    private $parser;
+
     public function __construct(YamlMetadataParser $parser = null)
     {
         $this->parser = $parser ?: new YamlMetadataParser();
@@ -64,14 +66,17 @@ class YamlFileMetadataSubscriber implements EventSubscriberInterface
             if ($file = $pattern->getFile()) {
                 $yamlFile = $this->getYamlFileForPatternFile($pattern->getFile());
                 if (file_exists($yamlFile)) {
-                    $metadata = $this->parser->parse(file_get_contents($yamlFile));
-
-                    return $metadata;
+                    return $this->parseYaml(file_get_contents($yamlFile), $yamlFile);
                 }
             }
         }
 
         return false;
+    }
+
+    protected function parseYaml($yamlString, $exceptionIdentifier = 'unknown')
+    {
+        return $this->parser->parse($yamlString, $exceptionIdentifier);
     }
 
     private function getYamlFileForPatternFile(\SplFileInfo $patternFile)
