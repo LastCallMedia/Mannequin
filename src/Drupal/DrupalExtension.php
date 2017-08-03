@@ -24,13 +24,13 @@ class DrupalExtension extends AbstractTwigExtension
 
     public function __construct(array $config = [])
     {
-        if(isset($config['globs'])) {
+        if (isset($config['globs'])) {
             $this->globs = $config['globs'];
         }
-        if(isset($config['drupal_root'])) {
+        if (isset($config['drupal_root'])) {
             $this->drupalRoot = $config['drupal_root'];
         }
-        if(!is_dir($this->drupalRoot) || !file_exists($this->drupalRoot.'/autoload.php')) {
+        if (!is_dir($this->drupalRoot) || !file_exists($this->drupalRoot.'/autoload.php')) {
             throw new \InvalidArgumentException(
                 sprintf('Invalid Drupal Root: %s', $this->drupalRoot)
             );
@@ -57,8 +57,9 @@ class DrupalExtension extends AbstractTwigExtension
         return $this->drupalRoot;
     }
 
-    private function getDrupal() {
-        if(!$this->drupal) {
+    private function getDrupal()
+    {
+        if (!$this->drupal) {
             $this->drupal = $this->bootDrupal();
         }
     }

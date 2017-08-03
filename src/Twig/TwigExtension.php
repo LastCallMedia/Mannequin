@@ -19,14 +19,14 @@ class TwigExtension extends AbstractTwigExtension
 
     public function __construct(array $config = [])
     {
-        if(isset($config['globs'])) {
+        if (isset($config['globs'])) {
             $this->globs = $config['globs'];
         }
-        if(isset($config['twig_options'])) {
+        if (isset($config['twig_options'])) {
             $this->twigOptions = $config['twig_options'];
         }
         $this->twigRoot = $config['twig_root'] ?: getcwd();
-        if(!is_dir($this->twigRoot)) {
+        if (!is_dir($this->twigRoot)) {
             throw new \InvalidArgumentException(
                 sprintf('Invalid twig root %s', $this->twigRoot)
             );
@@ -38,7 +38,8 @@ class TwigExtension extends AbstractTwigExtension
         return new \Twig_Environment($this->getLoader(), $this->twigOptions);
     }
 
-    protected function getTwigRoot(): string  {
+    protected function getTwigRoot(): string
+    {
         return $this->twigRoot;
     }
 
@@ -50,6 +51,7 @@ class TwigExtension extends AbstractTwigExtension
     protected function getLoader(): \Twig_LoaderInterface
     {
         $root = $this->twigRoot;
+
         return new \Twig_Loader_Filesystem([$root], $root);
     }
 }

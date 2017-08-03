@@ -13,17 +13,10 @@ namespace LastCall\Mannequin\Core\Tests;
 
 use LastCall\Mannequin\Core\Cache\NullCacheItemPool;
 use LastCall\Mannequin\Core\MannequinConfig;
-use LastCall\Mannequin\Core\ConfigInterface;
-use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
-use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Extension\CoreExtension;
-use LastCall\Mannequin\Core\Extension\ExtensionInterface;
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Ui\UiInterface;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 use Psr\Cache\CacheItemPoolInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class MannequinConfigTest extends TestCase
 {

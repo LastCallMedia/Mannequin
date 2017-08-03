@@ -21,7 +21,6 @@ use LastCall\Mannequin\Core\YamlMetadataParser;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -50,6 +49,7 @@ abstract class ExtensionTestCase extends TestCase
             EngineInterface::class,
             $engines
         );
+
         return $engines;
     }
 
@@ -62,6 +62,7 @@ abstract class ExtensionTestCase extends TestCase
             DiscoveryInterface::class,
             $discoverers
         );
+
         return $discoverers;
     }
 

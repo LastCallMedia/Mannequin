@@ -1,13 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: rbayliss
- * Date: 8/3/17
- * Time: 7:10 AM
+
+/*
+ * This file is part of Mannequin.
+ *
+ * (c) 2017 Last Call Media, Rob Bayliss <rob@lastcallmedia.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace LastCall\Mannequin\Twig;
-
 
 use LastCall\Mannequin\Core\Extension\AbstractExtension;
 use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
@@ -18,13 +20,12 @@ use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
 
 abstract class AbstractTwigExtension extends AbstractExtension
 {
-
     public function getDiscoverers(): array
     {
         return [
             new TwigDiscovery(
                 $this->getTwig()->getLoader(), $this->getIterator()
-            )
+            ),
         ];
     }
 
@@ -33,8 +34,9 @@ abstract class AbstractTwigExtension extends AbstractExtension
         $config = $this->mannequin->getConfig();
         $styles = $config->getStyles();
         $scripts = $config->getScripts();
+
         return [
-            new TwigEngine($this->getTwig(), $styles, $scripts)
+            new TwigEngine($this->getTwig(), $styles, $scripts),
         ];
     }
 
@@ -49,7 +51,8 @@ abstract class AbstractTwigExtension extends AbstractExtension
         );
     }
 
-    protected function getIterator() {
+    protected function getIterator()
+    {
         return new TwigLoaderIterator(
             $this->getLoader(),
             $this->getTwigRoot(),
@@ -57,14 +60,17 @@ abstract class AbstractTwigExtension extends AbstractExtension
         );
     }
 
-    protected function getInspector() {
+    protected function getInspector()
+    {
         // @todo: Wrap with caching inspector.
         return new TwigInspector($this->getTwig());
     }
 
     abstract protected function getTwig(): \Twig_Environment;
-    abstract protected function getLoader(): \Twig_LoaderInterface;
-    abstract protected function getTwigRoot(): string;
-    abstract protected function getGlobs(): array;
 
+    abstract protected function getLoader(): \Twig_LoaderInterface;
+
+    abstract protected function getTwigRoot(): string;
+
+    abstract protected function getGlobs(): array;
 }

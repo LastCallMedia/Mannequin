@@ -117,9 +117,10 @@ class Application extends \Silex\Application
         };
         $this['discovery'] = function () {
             $discoverers = [];
-            foreach($this->getExtensions() as $extension) {
+            foreach ($this->getExtensions() as $extension) {
                 $discoverers = array_merge($discoverers, $extension->getDiscoverers());
             }
+
             return new ChainDiscovery($discoverers, $this['dispatcher'], $this['logger']);
         };
 
@@ -133,7 +134,7 @@ class Application extends \Silex\Application
 
             return new VariableResolver($expressionLanguage);
         };
-        $this['metadata_parser'] = function() {
+        $this['metadata_parser'] = function () {
             return new YamlMetadataParser();
         };
 
@@ -189,7 +190,8 @@ class Application extends \Silex\Application
         return parent::boot();
     }
 
-    public function getMetadataParser() : YamlMetadataParser {
+    public function getMetadataParser(): YamlMetadataParser
+    {
         return $this['metadata_parser'];
     }
 

@@ -23,7 +23,7 @@ class HtmlExtension extends AbstractExtension
 
     public function __construct(array $values = [])
     {
-        if(isset($values['finder'])) {
+        if (isset($values['finder'])) {
             $this->finder = $values['finder'];
         }
     }
@@ -31,19 +31,21 @@ class HtmlExtension extends AbstractExtension
     public function getDiscoverers(): array
     {
         return [
-            new HtmlDiscovery($this->getIterator())
+            new HtmlDiscovery($this->getIterator()),
         ];
     }
 
     public function getEngines(): array
     {
         $config = $this->mannequin->getConfig();
+
         return [
-            new HtmlEngine($config->getStyles(), $config->getScripts())
+            new HtmlEngine($config->getStyles(), $config->getScripts()),
         ];
     }
 
-    private function getIterator() {
+    private function getIterator()
+    {
         return new MappingCallbackIterator(
             $this->finder,
             new RelativePathMapper()

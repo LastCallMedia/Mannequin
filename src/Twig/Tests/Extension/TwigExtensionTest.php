@@ -44,18 +44,19 @@ class TwigExtensionTest extends ExtensionTestCase
         return $dispatcher;
     }
 
-
-    public function getTwigDiscoveryTests() {
+    public function getTwigDiscoveryTests()
+    {
         return [
             [[], ['twig_root' => getcwd(), 'globs' => []]],
-            [['twig_root' => __DIR__, 'globs' => ['*']], ['twig_root' => __DIR__, 'globs' => ['*']]]
+            [['twig_root' => __DIR__, 'globs' => ['*']], ['twig_root' => __DIR__, 'globs' => ['*']]],
         ];
     }
 
     /**
      * @dataProvider getTwigDiscoveryTests
      */
-    public function testTwigDiscoveryCreation($input, $expected) {
+    public function testTwigDiscoveryCreation($input, $expected)
+    {
         $loader = new \Twig_Loader_Filesystem([$expected['twig_root']], $expected['twig_root']);
         $iterator = new TwigLoaderIterator($loader, $expected['twig_root'], $expected['globs']);
         $discovery = new TwigDiscovery($loader, $iterator);
@@ -63,7 +64,8 @@ class TwigExtensionTest extends ExtensionTestCase
         $this->assertEquals([$discovery], $extension->getDiscoverers());
     }
 
-    public function testCanOverrideTwigOptions() {
+    public function testCanOverrideTwigOptions()
+    {
         $options = [
             'cache' => sys_get_temp_dir(),
             'auto_reload' => false,
@@ -76,7 +78,8 @@ class TwigExtensionTest extends ExtensionTestCase
         $this->assertEquals([$engine], $extension->getEngines());
     }
 
-    public function testPassesStylesAndScriptsToEngine() {
+    public function testPassesStylesAndScriptsToEngine()
+    {
         $loader = new \Twig_Loader_Filesystem([getcwd()], getcwd());
         $twig = new \Twig_Environment($loader);
         $engine = new TwigEngine($twig, ['foo'], ['bar']);

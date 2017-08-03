@@ -11,7 +11,6 @@
 
 namespace LastCall\Mannequin\Core\Console\Command;
 
-use LastCall\Mannequin\Core\ConfigInterface;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Ui\FileWriter;
