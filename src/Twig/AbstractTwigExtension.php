@@ -62,8 +62,10 @@ abstract class AbstractTwigExtension extends AbstractExtension
 
     protected function getInspector()
     {
-        // @todo: Wrap with caching inspector.
-        return new TwigInspector($this->getTwig());
+        return new TwigInspectorCacheDecorator(
+            new TwigInspector($this->getTwig()),
+            $this->mannequin->getCache()
+        );
     }
 
     abstract protected function getTwig(): \Twig_Environment;

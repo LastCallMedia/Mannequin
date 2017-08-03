@@ -23,6 +23,7 @@ use LastCall\Mannequin\Core\Ui\Controller\RenderController;
 use LastCall\Mannequin\Core\Ui\Controller\UiController;
 use LastCall\Mannequin\Core\Ui\ManifestBuilder;
 use LastCall\Mannequin\Core\Variable\VariableResolver;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\NullLogger;
 use Silex\Application;
 use Silex\EventListener\LogListener;
@@ -98,7 +99,6 @@ class Mannequin extends Application
             }
             foreach ($config->getExtensions() as $extension) {
                 $extension->register($this);
-                $extension->subscribe($this['dispatcher']);
             }
 
             return $config;
@@ -187,6 +187,9 @@ class Mannequin extends Application
         MimeTypeGuesser::getInstance()->register(
             new ExtensionMimeTypeGuesser()
         );
+        foreach($this->getExtensions() as $extension) {
+            $extension->subscribe($this['dispatcher']);
+        }
 
         return parent::boot();
     }
@@ -204,6 +207,11 @@ class Mannequin extends Application
     public function getConfig(): ConfigInterface
     {
         return $this['config'];
+    }
+
+    public function getCache(): CacheItemPoolInterface
+    {
+        return $this['config']->getCache();
     }
 
     /**
