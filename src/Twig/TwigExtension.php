@@ -11,6 +11,9 @@
 
 namespace LastCall\Mannequin\Twig;
 
+/**
+ * Provides Twig template discovery and rendering.
+ */
 class TwigExtension extends AbstractTwigExtension
 {
     private $globs = [];

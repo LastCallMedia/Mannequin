@@ -17,6 +17,9 @@ use LastCall\Mannequin\Core\Iterator\RelativePathMapper;
 use LastCall\Mannequin\Html\Discovery\HtmlDiscovery;
 use LastCall\Mannequin\Html\Engine\HtmlEngine;
 
+/**
+ * Provides HTML file discovery and rendering.
+ */
 class HtmlExtension extends AbstractExtension
 {
     private $finder;

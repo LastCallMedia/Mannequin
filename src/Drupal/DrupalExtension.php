@@ -16,6 +16,9 @@ use Drupal\Core\Site\Settings;
 use LastCall\Mannequin\Twig\AbstractTwigExtension;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Provides Drupal Twig template discovery and rendering.
+ */
 class DrupalExtension extends AbstractTwigExtension
 {
     private $drupal;
