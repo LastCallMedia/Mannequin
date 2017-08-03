@@ -72,7 +72,7 @@ class TwigExtensionTest extends ExtensionTestCase
         $twig = new \Twig_Environment($loader, $options);
         $engine = new TwigEngine($twig);
         $extension = new TwigExtension(['twig_options' => $options]);
-        $extension->setConfig(new MannequinConfig());
+        $extension->register($this->getMannequin());
         $this->assertEquals([$engine], $extension->getEngines());
     }
 
@@ -85,7 +85,7 @@ class TwigExtensionTest extends ExtensionTestCase
             'styles' => ['foo'],
             'scripts' => ['bar'],
         ]);
-        $extension->setConfig($config);
+        $extension->register($this->getMannequin($config));
         $this->assertEquals([$engine], $extension->getEngines());
     }
 }

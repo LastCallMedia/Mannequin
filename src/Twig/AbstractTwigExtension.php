@@ -30,8 +30,9 @@ abstract class AbstractTwigExtension extends AbstractExtension
 
     public function getEngines(): array
     {
-        $styles = $this->getConfig()->getStyles();
-        $scripts = $this->getConfig()->getScripts();
+        $config = $this->mannequin->getConfig();
+        $styles = $config->getStyles();
+        $scripts = $config->getScripts();
         return [
             new TwigEngine($this->getTwig(), $styles, $scripts)
         ];

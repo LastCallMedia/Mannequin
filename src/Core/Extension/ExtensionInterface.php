@@ -18,17 +18,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 interface ExtensionInterface
 {
     /**
-     * Set the configuration instance.
-     *
-     * This method will be called when extensions are first called for.
-     * The container will be available before calling any of the get* mehtods,
-     * but not in the constructor.
-     *
-     * @param \LastCall\Mannequin\Core\ConfigInterface $container
-     */
-    public function setConfig(ConfigInterface $container);
-
-    /**
      * Get the pattern discoverers provided by this extension.
      *
      * @return \LastCall\Mannequin\Core\Discovery\DiscoveryInterface[]
@@ -49,5 +38,12 @@ interface ExtensionInterface
      */
     public function subscribe(EventDispatcherInterface $dispatcher);
 
+    /**
+     * Register the extension with the application.
+     *
+     * @param \LastCall\Mannequin\Core\Application $application
+     *
+     * @return mixed
+     */
     public function register(Application $application);
 }

@@ -12,12 +12,11 @@
 namespace LastCall\Mannequin\Core\Extension;
 
 use LastCall\Mannequin\Core\Application;
-use LastCall\Mannequin\Core\ConfigInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AbstractExtension implements ExtensionInterface
 {
-    protected $config;
+    private $config;
 
     /**
      * @var Application
@@ -50,26 +49,5 @@ class AbstractExtension implements ExtensionInterface
     public function register(Application $mannequin)
     {
         $this->mannequin = $mannequin;
-    }
-
-    /**
-     * Get the configuration instance.
-     *
-     * Config will be set at the time the container is instantiated, but will
-     * not be available in the constructor.
-     *
-     * @return ConfigInterface|null
-     */
-    protected function getConfig(): ConfigInterface
-    {
-        return $this->config;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setConfig(ConfigInterface $config)
-    {
-        $this->config = $config;
     }
 }

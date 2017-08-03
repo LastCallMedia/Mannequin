@@ -37,7 +37,7 @@ class HtmlExtension extends AbstractExtension
 
     public function getEngines(): array
     {
-        $config = $this->getConfig();
+        $config = $this->mannequin->getConfig();
         return [
             new HtmlEngine($config->getStyles(), $config->getScripts())
         ];

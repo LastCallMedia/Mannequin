@@ -44,7 +44,6 @@ abstract class ExtensionTestCase extends TestCase
     public function testGetRenderers()
     {
         $extension = $this->getExtension();
-        $extension->setConfig($this->getConfig());
         $extension->register($this->getMannequin());
         $engines = $extension->getEngines();
         $this->assertContainsOnlyInstancesOf(
@@ -57,7 +56,6 @@ abstract class ExtensionTestCase extends TestCase
     public function testHasDiscoverers()
     {
         $extension = $this->getExtension();
-        $extension->setConfig($this->getConfig());
         $extension->register($this->getMannequin());
         $discoverers = $extension->getDiscoverers();
         $this->assertContainsOnlyInstancesOf(
@@ -79,10 +77,11 @@ abstract class ExtensionTestCase extends TestCase
         return $config->reveal();
     }
 
-    public function getMannequin(): Application
+    public function getMannequin(ConfigInterface $config = null): Application
     {
         $mannequin = $this->prophesize(Application::class);
         $mannequin->getMetadataParser()->willReturn(new YamlMetadataParser());
+        $mannequin->getConfig()->willReturn($config ?? $this->getConfig());
 
         return $mannequin->reveal();
     }

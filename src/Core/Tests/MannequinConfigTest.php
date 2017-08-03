@@ -33,15 +33,6 @@ class MannequinConfigTest extends TestCase
         $this->assertInstanceOf(MannequinConfig::class, $config);
     }
 
-    public function testSetsConfigWhenExtensionsAreUsed()
-    {
-        $extension = $this->prophesize(ExtensionInterface::class);
-        $config = new MannequinConfig();
-        $extension->setConfig($config)->shouldBeCalled();
-        $config->addExtension($extension->reveal());
-        $config->getExtensions();
-    }
-
     public function testHasCoreExtension()
     {
         $config = new MannequinConfig();

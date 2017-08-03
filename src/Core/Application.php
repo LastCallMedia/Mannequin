@@ -198,6 +198,11 @@ class Application extends \Silex\Application
         return $this['console'];
     }
 
+    public function getConfig(): ConfigInterface
+    {
+        return $this['config'];
+    }
+
     /**
      * @return \LastCall\Mannequin\Core\Extension\ExtensionInterface[]
      */
