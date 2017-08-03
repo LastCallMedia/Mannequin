@@ -32,14 +32,39 @@ abstract class ExtensionTestCase extends TestCase
         return new NullCacheItemPool();
     }
 
-    public function testAttachDispatcher()
+    public function testSubscribe()
     {
         $extension = $this->getExtension();
-        $extension->setConfig($this->getConfig());
         $extension->registerToApp($this->getMannequin());
         $extension->subscribe(
             $this->getDispatcherProphecy()->reveal()
         );
+    }
+
+    public function testGetRenderers()
+    {
+        $extension = $this->getExtension();
+        $extension->setConfig($this->getConfig());
+        $extension->registerToApp($this->getMannequin());
+        $engines = $extension->getEngines();
+        $this->assertContainsOnlyInstancesOf(
+            EngineInterface::class,
+            $engines
+        );
+        return $engines;
+    }
+
+    public function testHasDiscoverers()
+    {
+        $extension = $this->getExtension();
+        $extension->setConfig($this->getConfig());
+        $extension->registerToApp($this->getMannequin());
+        $discoverers = $extension->getDiscoverers();
+        $this->assertContainsOnlyInstancesOf(
+            DiscoveryInterface::class,
+            $discoverers
+        );
+        return $discoverers;
     }
 
     abstract public function getExtension(): ExtensionInterface;
@@ -72,27 +97,5 @@ abstract class ExtensionTestCase extends TestCase
         )->shouldNotBeCalled();
 
         return $dispatcher;
-    }
-
-    public function testGetRenderers()
-    {
-        $extension = $this->getExtension();
-        $extension->setConfig($this->getConfig());
-        $extension->registerToApp($this->getMannequin());
-        $this->assertContainsOnlyInstancesOf(
-            EngineInterface::class,
-            $extension->getEngines()
-        );
-    }
-
-    public function testHasDiscoverers()
-    {
-        $extension = $this->getExtension();
-        $extension->setConfig($this->getConfig());
-        $extension->registerToApp($this->getMannequin());
-        $this->assertContainsOnlyInstancesOf(
-            DiscoveryInterface::class,
-            $extension->getDiscoverers()
-        );
     }
 }

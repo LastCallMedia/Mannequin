@@ -11,76 +11,45 @@
 
 namespace LastCall\Mannequin\Twig;
 
-use LastCall\Mannequin\Core\Extension\AbstractExtension;
-use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
-use LastCall\Mannequin\Twig\Engine\TwigEngine;
-use LastCall\Mannequin\Twig\Subscriber\InlineTwigYamlMetadataSubscriber;
-use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-
-class TwigExtension extends AbstractExtension
+class TwigExtension extends AbstractTwigExtension
 {
+    private $globs = [];
+    private $twigRoot;
+    private $twigOptions = [];
+
     public function __construct(array $config = [])
     {
-        $config += [
-            'globs' => [],
-            'twig_cache' => false,
-            'twig_root' => getcwd(),
-            'twig_loader' => function () {
-                return new \Twig_Loader_Filesystem([$this['twig_root']], $this['twig_root']);
-            },
-            'twig' => function () {
-                return new \Twig_Environment($this['twig_loader'], [
-                        'cache' => $this['twig_cache'],
-                        'auto_reload' => true,
-                ]);
-            },
-            'names' => function () {
-                return new TwigLoaderIterator($this['twig_loader'], $this['twig_root'], $this['globs']);
-            },
-        ];
-        parent::__construct($config);
-        $this['inspector'] = function () {
-            return new TwigInspectorCacheDecorator(
-                new TwigInspector($this['twig']),
-                $this->getConfig()->getCache()
+        if(isset($config['globs'])) {
+            $this->globs = $config['globs'];
+        }
+        if(isset($config['twig_options'])) {
+            $this->twigOptions = $config['twig_options'];
+        }
+        $this->twigRoot = $config['twig_root'] ?: getcwd();
+        if(!is_dir($this->twigRoot)) {
+            throw new \InvalidArgumentException(
+                sprintf('Invalid twig root %s', $this->twigRoot)
             );
-        };
-        $this['discovery'] = function () {
-            return new TwigDiscovery(
-                $this['twig']->getLoader(), $this['names']
-            );
-        };
+        }
     }
 
-    public function getDiscoverers(): array
+    protected function getTwig(): \Twig_Environment
     {
-        return [$this['discovery']];
+        return new \Twig_Environment($this->getLoader(), $this->twigOptions);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getEngines(): array
-    {
-        $config = $this->getConfig();
-
-        return [
-            new TwigEngine(
-                $this['twig'],
-                $config->getStyles(),
-                $config->getScripts()
-            ),
-        ];
+    protected function getTwigRoot(): string  {
+        return $this->twigRoot;
     }
 
-    public function subscribe(EventDispatcherInterface $dispatcher)
+    protected function getGlobs(): array
     {
-        $dispatcher->addSubscriber(
-            new InlineTwigYamlMetadataSubscriber($this['inspector'])
-        );
-        $dispatcher->addSubscriber(
-            new TwigIncludeSubscriber($this['inspector'])
-        );
+        return $this->globs;
+    }
+
+    protected function getLoader(): \Twig_LoaderInterface
+    {
+        $root = $this->twigRoot;
+        return new \Twig_Loader_Filesystem([$root], $root);
     }
 }

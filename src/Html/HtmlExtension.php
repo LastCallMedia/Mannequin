@@ -19,39 +19,34 @@ use LastCall\Mannequin\Html\Engine\HtmlEngine;
 
 class HtmlExtension extends AbstractExtension
 {
+    private $finder;
+
     public function __construct(array $values = [])
     {
-        $values += [
-            'finder' => function () {
-                throw new \RuntimeException(
-                    'Finder must be set on HtmlExtension.'
-                );
-            },
-            'files' => function () {
-                return new MappingCallbackIterator(
-                    $this['finder'],
-                    new RelativePathMapper()
-                );
-            },
-        ];
-        parent::__construct($values);
-        $this['discovery'] = function () {
-            return new HtmlDiscovery($this['files']);
-        };
-        $this['renderer'] = function () {
-            $config = $this->getConfig();
-
-            return new HtmlEngine($config->getStyles(), $config->getScripts());
-        };
+        if(isset($values['finder'])) {
+            $this->finder = $values['finder'];
+        }
     }
 
     public function getDiscoverers(): array
     {
-        return [$this['discovery']];
+        return [
+            new HtmlDiscovery($this->getIterator())
+        ];
     }
 
     public function getEngines(): array
     {
-        return [$this['renderer']];
+        $config = $this->getConfig();
+        return [
+            new HtmlEngine($config->getStyles(), $config->getScripts())
+        ];
+    }
+
+    private function getIterator() {
+        return new MappingCallbackIterator(
+            $this->finder,
+            new RelativePathMapper()
+        );
     }
 }

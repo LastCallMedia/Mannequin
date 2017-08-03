@@ -12,24 +12,23 @@
 namespace LastCall\Mannequin\Twig\Tests\Extension;
 
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
+use LastCall\Mannequin\Core\MannequinConfig;
 use LastCall\Mannequin\Core\Tests\Extension\ExtensionTestCase;
+use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
+use LastCall\Mannequin\Twig\Engine\TwigEngine;
 use LastCall\Mannequin\Twig\Subscriber\InlineTwigYamlMetadataSubscriber;
 use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
 use LastCall\Mannequin\Twig\TwigExtension;
+use LastCall\Mannequin\Twig\TwigLoaderIterator;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Finder\Finder;
 
 class TwigExtensionTest extends ExtensionTestCase
 {
     public function getExtension(): ExtensionInterface
     {
-        return new TwigExtension(
-            [
-                'finder' => Finder::create()->in(__DIR__),
-            ]
-        );
+        return new TwigExtension();
     }
 
     public function getDispatcherProphecy(): ObjectProphecy
@@ -45,56 +44,48 @@ class TwigExtensionTest extends ExtensionTestCase
         return $dispatcher;
     }
 
-    public function testGetDefaultTwig()
-    {
+
+    public function getTwigDiscoveryTests() {
+        return [
+            [[], ['twig_root' => getcwd(), 'globs' => []]],
+            [['twig_root' => __DIR__, 'globs' => ['*']], ['twig_root' => __DIR__, 'globs' => ['*']]]
+        ];
+    }
+
+    /**
+     * @dataProvider getTwigDiscoveryTests
+     */
+    public function testTwigDiscoveryCreation($input, $expected) {
+        $loader = new \Twig_Loader_Filesystem([$expected['twig_root']], $expected['twig_root']);
+        $iterator = new TwigLoaderIterator($loader, $expected['twig_root'], $expected['globs']);
+        $discovery = new TwigDiscovery($loader, $iterator);
+        $extension = new TwigExtension($input);
+        $this->assertEquals([$discovery], $extension->getDiscoverers());
+    }
+
+    public function testCanOverrideTwigOptions() {
+        $options = [
+            'cache' => sys_get_temp_dir(),
+            'auto_reload' => false,
+        ];
+        $loader = new \Twig_Loader_Filesystem([getcwd()], getcwd());
+        $twig = new \Twig_Environment($loader, $options);
+        $engine = new TwigEngine($twig);
+        $extension = new TwigExtension(['twig_options' => $options]);
+        $extension->setConfig(new MannequinConfig());
+        $this->assertEquals([$engine], $extension->getEngines());
+    }
+
+    public function testPassesStylesAndScriptsToEngine() {
+        $loader = new \Twig_Loader_Filesystem([getcwd()], getcwd());
+        $twig = new \Twig_Environment($loader);
+        $engine = new TwigEngine($twig, ['foo'], ['bar']);
         $extension = new TwigExtension();
-        $this->assertInstanceOf(\Twig_Environment::class, $extension['twig']);
-
-        return $extension['twig'];
-    }
-
-    public function testGetConfiguredTwig()
-    {
-        $extension = new TwigExtension([
-            'twig_cache' => sys_get_temp_dir(),
-            'twig_root' => __DIR__,
+        $config = MannequinConfig::create([
+            'styles' => ['foo'],
+            'scripts' => ['bar'],
         ]);
-        $this->assertInstanceOf(\Twig_Environment::class, $extension['twig']);
-
-        return $extension['twig'];
-    }
-
-    /**
-     * @depends testGetDefaultTwig
-     */
-    public function testDefaultTwigCache(\Twig_Environment $default)
-    {
-        $this->assertFalse($default->getCache());
-    }
-
-    /**
-     * @depends testGetConfiguredTwig
-     */
-    public function testConfigurableTwigCache(\Twig_Environment $configured)
-    {
-        $this->assertEquals(sys_get_temp_dir(), $configured->getCache());
-    }
-
-    /**
-     * @depends testGetDefaultTwig
-     */
-    public function testDefaultTwigRoot(\Twig_Environment $default)
-    {
-        $dir = getcwd();
-        $this->assertEquals(new \Twig_Loader_Filesystem([\Twig_Loader_Filesystem::MAIN_NAMESPACE => $dir], $dir), $default->getLoader());
-    }
-
-    /**
-     * @depends testGetConfiguredTwig
-     */
-    public function testConfigurableTwigRoot(\Twig_Environment $configured)
-    {
-        $dir = __DIR__;
-        $this->assertEquals(new \Twig_Loader_Filesystem([\Twig_Loader_Filesystem::MAIN_NAMESPACE => $dir], $dir), $configured->getLoader());
+        $extension->setConfig($config);
+        $this->assertEquals([$engine], $extension->getEngines());
     }
 }
