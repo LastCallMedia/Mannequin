@@ -47,7 +47,7 @@ class AbstractExtension implements ExtensionInterface
     {
     }
 
-    public function registerToApp(Application $mannequin)
+    public function register(Application $mannequin)
     {
         $this->mannequin = $mannequin;
     }

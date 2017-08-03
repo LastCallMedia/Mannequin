@@ -96,7 +96,7 @@ class Application extends \Silex\Application
                 );
             }
             foreach ($config->getExtensions() as $extension) {
-                $extension->registerToApp($this);
+                $extension->register($this);
                 $extension->subscribe($this['dispatcher']);
             }
 

@@ -35,7 +35,7 @@ abstract class ExtensionTestCase extends TestCase
     public function testSubscribe()
     {
         $extension = $this->getExtension();
-        $extension->registerToApp($this->getMannequin());
+        $extension->register($this->getMannequin());
         $extension->subscribe(
             $this->getDispatcherProphecy()->reveal()
         );
@@ -45,7 +45,7 @@ abstract class ExtensionTestCase extends TestCase
     {
         $extension = $this->getExtension();
         $extension->setConfig($this->getConfig());
-        $extension->registerToApp($this->getMannequin());
+        $extension->register($this->getMannequin());
         $engines = $extension->getEngines();
         $this->assertContainsOnlyInstancesOf(
             EngineInterface::class,
@@ -58,7 +58,7 @@ abstract class ExtensionTestCase extends TestCase
     {
         $extension = $this->getExtension();
         $extension->setConfig($this->getConfig());
-        $extension->registerToApp($this->getMannequin());
+        $extension->register($this->getMannequin());
         $discoverers = $extension->getDiscoverers();
         $this->assertContainsOnlyInstancesOf(
             DiscoveryInterface::class,

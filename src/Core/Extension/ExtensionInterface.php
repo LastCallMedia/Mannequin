@@ -49,5 +49,5 @@ interface ExtensionInterface
      */
     public function subscribe(EventDispatcherInterface $dispatcher);
 
-    public function registerToApp(Application $application);
+    public function register(Application $application);
 }
