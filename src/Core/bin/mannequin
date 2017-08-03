@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-use LastCall\Mannequin\Core\Application;
+use LastCall\Mannequin\Core\Mannequin;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Logger\ConsoleLogger;
@@ -34,7 +34,7 @@ if ($autoload_file) {
 
 $input = new ArgvInput();
 $output = new ConsoleOutput();
-$app = new Application(
+$app = new Mannequin(
   [
     'debug' => (boolean)$input->getParameterOption(['--debug', 'd'], false),
     'autoload_path' => $autoload_file,

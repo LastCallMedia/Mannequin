@@ -11,7 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Tests;
 
-use LastCall\Mannequin\Core\Application;
+use LastCall\Mannequin\Core\Mannequin;
 use LastCall\Mannequin\Core\Console\Application as ConsoleApplication;
 use LastCall\Mannequin\Core\Console\Command\RenderCommand;
 use LastCall\Mannequin\Core\Console\Command\ServerCommand;
@@ -24,7 +24,7 @@ class ApplicationTest extends TestCase
 {
     public function testHasExpectedRoutes()
     {
-        $application = new Application();
+        $application = new Mannequin();
         $application->flush();
         /** @var \Symfony\Component\Routing\RouteCollection $routes */
         $routes = $application['routes'];
@@ -37,7 +37,7 @@ class ApplicationTest extends TestCase
 
     public function testHasConsole()
     {
-        $application = new Application([
+        $application = new Mannequin([
             'config_file' => __DIR__.'/Resources/bare-config.php',
             'autoload_path' => __FILE__,
         ]);
@@ -49,7 +49,7 @@ class ApplicationTest extends TestCase
 
     public function testHasManifestController()
     {
-        $application = new Application([
+        $application = new Mannequin([
             'config_file' => __DIR__.'/Resources/bare-config.php',
         ]);
         $this->assertInstanceOf(ManifestController::class, $application['controller.manifest']);
@@ -57,7 +57,7 @@ class ApplicationTest extends TestCase
 
     public function testHasRenderController()
     {
-        $application = new Application([
+        $application = new Mannequin([
             'config_file' => __DIR__.'/Resources/bare-config.php',
         ]);
         $this->assertInstanceOf(RenderController::class, $application['controller.render']);
@@ -65,7 +65,7 @@ class ApplicationTest extends TestCase
 
     public function testHasUiController()
     {
-        $application = new Application([
+        $application = new Mannequin([
             'config_file' => __DIR__.'/Resources/bare-config.php',
         ]);
         $this->assertInstanceOf(UiController::class, $application['controller.ui']);
@@ -73,7 +73,7 @@ class ApplicationTest extends TestCase
 
     public function testResolvesConfig()
     {
-        $application = new Application([
+        $application = new Mannequin([
             'config_file' => __DIR__.'/Resources/bare-config.php',
         ]);
         $this->assertEquals('bare-config', $application['config']['name']);
@@ -85,7 +85,7 @@ class ApplicationTest extends TestCase
      */
     public function testThrowsForNonexistentConfigFile()
     {
-        $application = new Application([
+        $application = new Mannequin([
             'config_file' => 'foo',
         ]);
         $application['config'];
@@ -97,7 +97,7 @@ class ApplicationTest extends TestCase
      */
     public function testThrowsForNonReturningConfigFile()
     {
-        $application = new Application([
+        $application = new Mannequin([
             'config_file' => __DIR__.'/Resources/nonreturning-config.php',
         ]);
         $application['config'];

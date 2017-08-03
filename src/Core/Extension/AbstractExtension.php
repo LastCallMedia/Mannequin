@@ -11,13 +11,13 @@
 
 namespace LastCall\Mannequin\Core\Extension;
 
-use LastCall\Mannequin\Core\Application;
+use LastCall\Mannequin\Core\Mannequin;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AbstractExtension implements ExtensionInterface
 {
     /**
-     * @var Application
+     * @var Mannequin
      */
     protected $mannequin;
 
@@ -44,7 +44,7 @@ class AbstractExtension implements ExtensionInterface
     {
     }
 
-    public function register(Application $mannequin)
+    public function register(Mannequin $mannequin)
     {
         $this->mannequin = $mannequin;
     }

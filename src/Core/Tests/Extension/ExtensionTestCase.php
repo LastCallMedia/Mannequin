@@ -11,7 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Tests\Extension;
 
-use LastCall\Mannequin\Core\Application;
+use LastCall\Mannequin\Core\Mannequin;
 use LastCall\Mannequin\Core\Cache\NullCacheItemPool;
 use LastCall\Mannequin\Core\ConfigInterface;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
@@ -78,9 +78,9 @@ abstract class ExtensionTestCase extends TestCase
         return $config->reveal();
     }
 
-    public function getMannequin(ConfigInterface $config = null): Application
+    public function getMannequin(ConfigInterface $config = null): Mannequin
     {
-        $mannequin = $this->prophesize(Application::class);
+        $mannequin = $this->prophesize(Mannequin::class);
         $mannequin->getMetadataParser()->willReturn(new YamlMetadataParser());
         $mannequin->getConfig()->willReturn($config ?? $this->getConfig());
 

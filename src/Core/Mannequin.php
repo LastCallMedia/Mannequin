@@ -24,13 +24,14 @@ use LastCall\Mannequin\Core\Ui\Controller\UiController;
 use LastCall\Mannequin\Core\Ui\ManifestBuilder;
 use LastCall\Mannequin\Core\Variable\VariableResolver;
 use Psr\Log\NullLogger;
+use Silex\Application;
 use Silex\EventListener\LogListener;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 
-class Application extends \Silex\Application
+class Mannequin extends Application
 {
     const APP_NAME = 'Mannequin';
 

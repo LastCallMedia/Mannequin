@@ -11,7 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Extension;
 
-use LastCall\Mannequin\Core\Application;
+use LastCall\Mannequin\Core\Mannequin;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 interface ExtensionInterface
@@ -40,9 +40,9 @@ interface ExtensionInterface
     /**
      * Register the extension with the application.
      *
-     * @param \LastCall\Mannequin\Core\Application $application
+     * @param \LastCall\Mannequin\Core\Mannequin $application
      *
      * @return mixed
      */
-    public function register(Application $application);
+    public function register(Mannequin $application);
 }
