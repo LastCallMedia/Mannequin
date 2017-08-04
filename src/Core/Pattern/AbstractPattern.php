@@ -160,7 +160,7 @@ abstract class AbstractPattern implements PatternInterface
     protected static function getDefaultTags(): array
     {
         return [
-            'category' => 'Unknown',
+            'group' => 'Unknown',
             'source_format' => 'html',
         ];
     }

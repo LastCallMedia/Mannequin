@@ -56,7 +56,7 @@ class HtmlDiscoveryTest extends TestCase
     public function testHasDefaultTags(HtmlPattern $pattern)
     {
         $this->assertArraySubset([
-            'category' => 'Unknown',
+            'group' => 'Unknown',
             'source_format' => 'html',
         ], $pattern->getTags());
     }
