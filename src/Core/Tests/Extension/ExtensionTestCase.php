@@ -21,6 +21,7 @@ use LastCall\Mannequin\Core\YamlMetadataParser;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
+use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -82,6 +83,7 @@ abstract class ExtensionTestCase extends TestCase
     {
         $mannequin = $this->prophesize(Mannequin::class);
         $mannequin->getMetadataParser()->willReturn(new YamlMetadataParser());
+        $mannequin->getCache()->willReturn($this->prophesize(CacheItemPoolInterface::class));
         $mannequin->getConfig()->willReturn($config ?? $this->getConfig());
 
         return $mannequin->reveal();

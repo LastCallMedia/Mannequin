@@ -10,8 +10,13 @@ $htmlFinder = Finder::create()
   ->name('*.html')
   ->in(__DIR__.'/demo/static');
 
+$twigFinder = Finder::create()
+    ->files()
+    ->name('*.twig')
+    ->in(__DIR__.'/demo/templates');
+
 $twig = new TwigExtension([
-    'globs' => ['*'],
+    'finder' => $twigFinder,
     'twig_root' => __DIR__.'/demo/templates',
 ]);
 $html = new HtmlExtension([

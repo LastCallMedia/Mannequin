@@ -22,18 +22,39 @@ class TwigExtension extends AbstractTwigExtension
 
     public function __construct(array $config = [])
     {
-        if (isset($config['globs'])) {
-            $this->globs = $config['globs'];
-        }
-        if (isset($config['twig_options'])) {
-            $this->twigOptions = $config['twig_options'];
-        }
+        $this->iterator = $config['finder'] ?: new \ArrayIterator([]);
+        $this->twigOptions = $config['twig_options'] ?: [];
         $this->twigRoot = $config['twig_root'] ?: getcwd();
+
+        if (!$this->iterator instanceof \Traversable) {
+            throw new \InvalidArgumentException(
+                sprintf('Invalid finder passed to TwigExtension.  Finder must be an instance of \Traversable')
+            );
+        }
+
         if (!is_dir($this->twigRoot)) {
             throw new \InvalidArgumentException(
                 sprintf('Invalid twig root %s', $this->twigRoot)
             );
         }
+    }
+
+    protected function getNamespaces(): array
+    {
+        $namespaces = [];
+        $loader = $this->getLoader();
+        if ($loader instanceof \Twig_Loader_Filesystem) {
+            foreach ($loader->getNamespaces() as $namespace) {
+                $namespaces[$namespace] = $loader->getPaths($namespace);
+            }
+        }
+
+        return $namespaces;
+    }
+
+    protected function getIterator()
+    {
+        return $this->iterator;
     }
 
     protected function getTwig(): \Twig_Environment

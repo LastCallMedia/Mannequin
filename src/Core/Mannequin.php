@@ -187,7 +187,7 @@ class Mannequin extends Application
         MimeTypeGuesser::getInstance()->register(
             new ExtensionMimeTypeGuesser()
         );
-        foreach($this->getExtensions() as $extension) {
+        foreach ($this->getExtensions() as $extension) {
             $extension->subscribe($this['dispatcher']);
         }
 

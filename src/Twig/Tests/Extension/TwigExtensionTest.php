@@ -12,14 +12,15 @@
 namespace LastCall\Mannequin\Twig\Tests\Extension;
 
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
+use LastCall\Mannequin\Core\Iterator\MappingCallbackIterator;
 use LastCall\Mannequin\Core\MannequinConfig;
 use LastCall\Mannequin\Core\Tests\Extension\ExtensionTestCase;
 use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
 use LastCall\Mannequin\Twig\Subscriber\InlineTwigYamlMetadataSubscriber;
 use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
+use LastCall\Mannequin\Twig\TemplateNameMapper;
 use LastCall\Mannequin\Twig\TwigExtension;
-use LastCall\Mannequin\Twig\TwigLoaderIterator;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -44,23 +45,25 @@ class TwigExtensionTest extends ExtensionTestCase
         return $dispatcher;
     }
 
-    public function getTwigDiscoveryTests()
+    public function testTwigDiscoveryGetsMappingIterator()
     {
-        return [
-            [[], ['twig_root' => getcwd(), 'globs' => []]],
-            [['twig_root' => __DIR__, 'globs' => ['*']], ['twig_root' => __DIR__, 'globs' => ['*']]],
-        ];
+        $root = getcwd();
+        $loader = new \Twig_Loader_Filesystem([$root], $root);
+        $inner = new \ArrayIterator([]);
+        $outer = new MappingCallbackIterator($inner, new TemplateNameMapper($root));
+        $discovery = new TwigDiscovery($loader, $outer);
+        $extension = new TwigExtension();
+        $this->assertEquals([$discovery], $extension->getDiscoverers());
     }
 
-    /**
-     * @dataProvider getTwigDiscoveryTests
-     */
-    public function testTwigDiscoveryCreation($input, $expected)
+    public function testTwigDiscoveryGetsPassedIterator()
     {
-        $loader = new \Twig_Loader_Filesystem([$expected['twig_root']], $expected['twig_root']);
-        $iterator = new TwigLoaderIterator($loader, $expected['twig_root'], $expected['globs']);
-        $discovery = new TwigDiscovery($loader, $iterator);
-        $extension = new TwigExtension($input);
+        $iterator = new \ArrayIterator(['foo']);
+        $root = getcwd();
+        $loader = new \Twig_Loader_Filesystem([$root], $root);
+        $outer = new MappingCallbackIterator($iterator, new TemplateNameMapper($root));
+        $discovery = new TwigDiscovery($loader, $outer);
+        $extension = new TwigExtension(['finder' => $iterator]);
         $this->assertEquals([$discovery], $extension->getDiscoverers());
     }
 

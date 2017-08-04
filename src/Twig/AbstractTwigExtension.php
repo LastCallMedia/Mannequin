@@ -12,6 +12,7 @@
 namespace LastCall\Mannequin\Twig;
 
 use LastCall\Mannequin\Core\Extension\AbstractExtension;
+use LastCall\Mannequin\Core\Iterator\MappingCallbackIterator;
 use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -24,7 +25,7 @@ abstract class AbstractTwigExtension extends AbstractExtension
     {
         return [
             new TwigDiscovery(
-                $this->getTwig()->getLoader(), $this->getIterator()
+                $this->getTwig()->getLoader(), $this->getTemplateNameIterator()
             ),
         ];
     }
@@ -51,13 +52,22 @@ abstract class AbstractTwigExtension extends AbstractExtension
         );
     }
 
-    protected function getIterator()
+    protected function getTemplateNameIterator()
     {
-        return new TwigLoaderIterator(
-            $this->getLoader(),
-            $this->getTwigRoot(),
-            $this->getGlobs()
-        );
+        $iterator = $this->getIterator();
+        $mapper = $this->getTemplateNameMapper();
+
+        return new MappingCallbackIterator($iterator, $mapper);
+    }
+
+    protected function getTemplateNameMapper()
+    {
+        $mapper = new TemplateNameMapper($this->getTwigRoot());
+        foreach ($this->getNamespaces() as $namespace => $paths) {
+            $mapper->addNamespace($namespace, $paths);
+        }
+
+        return $mapper;
     }
 
     protected function getInspector()
@@ -67,6 +77,10 @@ abstract class AbstractTwigExtension extends AbstractExtension
             $this->mannequin->getCache()
         );
     }
+
+    abstract protected function getNamespaces(): array;
+
+    abstract protected function getIterator();
 
     abstract protected function getTwig(): \Twig_Environment;
 
