@@ -16,7 +16,6 @@ namespace LastCall\Mannequin\Twig;
  */
 class TwigExtension extends AbstractTwigExtension
 {
-    private $globs = [];
     private $twigRoot;
     private $twigOptions = [];
 
@@ -65,11 +64,6 @@ class TwigExtension extends AbstractTwigExtension
     protected function getTwigRoot(): string
     {
         return $this->twigRoot;
-    }
-
-    protected function getGlobs(): array
-    {
-        return $this->globs;
     }
 
     protected function getLoader(): \Twig_LoaderInterface

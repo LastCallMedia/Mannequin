@@ -22,14 +22,12 @@ use Symfony\Component\HttpFoundation\Request;
 class DrupalExtension extends AbstractTwigExtension
 {
     private $drupal;
-    private $globs;
+    private $iterator;
     private $drupalRoot;
 
     public function __construct(array $config = [])
     {
-        if (isset($config['globs'])) {
-            $this->globs = $config['globs'];
-        }
+        $this->iterator = $config['finder'] ?: new \ArrayIterator([]);
         if (isset($config['drupal_root'])) {
             $this->drupalRoot = $config['drupal_root'];
         }
@@ -38,6 +36,11 @@ class DrupalExtension extends AbstractTwigExtension
                 sprintf('Invalid Drupal Root: %s', $this->drupalRoot)
             );
         }
+    }
+
+    protected function getIterator()
+    {
+        return $this->iterator;
     }
 
     protected function getTwig(): \Twig_Environment
@@ -58,6 +61,19 @@ class DrupalExtension extends AbstractTwigExtension
     protected function getTwigRoot(): string
     {
         return $this->drupalRoot;
+    }
+
+    protected function getNamespaces(): array
+    {
+        $namespaces = [];
+        $loader = $this->getLoader();
+        if ($loader instanceof \Twig_Loader_Filesystem) {
+            foreach ($loader->getNamespaces() as $namespace) {
+                $namespaces[$namespace] = $loader->getPaths($namespace);
+            }
+        }
+
+        return $namespaces;
     }
 
     private function getDrupal()

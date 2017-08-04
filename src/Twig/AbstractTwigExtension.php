@@ -87,6 +87,4 @@ abstract class AbstractTwigExtension extends AbstractExtension
     abstract protected function getLoader(): \Twig_LoaderInterface;
 
     abstract protected function getTwigRoot(): string;
-
-    abstract protected function getGlobs(): array;
 }
