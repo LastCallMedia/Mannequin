@@ -133,6 +133,9 @@ abstract class AbstractPattern implements PatternInterface
         return $this->variants[$name];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function addUsedPattern(PatternInterface $pattern): PatternInterface
     {
         $this->used[] = $pattern;
@@ -140,11 +143,17 @@ abstract class AbstractPattern implements PatternInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getUsedPatterns(): array
     {
         return $this->used;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function addProblem(string $problem): PatternInterface
     {
         $this->problems[] = $problem;
@@ -152,6 +161,9 @@ abstract class AbstractPattern implements PatternInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getProblems(): array
     {
         return $this->problems;

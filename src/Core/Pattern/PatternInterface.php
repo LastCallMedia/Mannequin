@@ -97,11 +97,35 @@ interface PatternInterface
      */
     public function getVariant(string $name): PatternVariant;
 
+    /**
+     * Add a pattern that this pattern uses in the course of rendering.
+     *
+     * @param \LastCall\Mannequin\Core\Pattern\PatternInterface $pattern
+     *
+     * @return \LastCall\Mannequin\Core\Pattern\PatternInterface
+     */
     public function addUsedPattern(PatternInterface $pattern): PatternInterface;
 
+    /**
+     * Get all of the patterns that this pattern "uses".
+     *
+     * @return array
+     */
     public function getUsedPatterns(): array;
 
+    /**
+     * Note a problem during the discovery process for this pattern.
+     *
+     * @param string $problem
+     *
+     * @return \LastCall\Mannequin\Core\Pattern\PatternInterface
+     */
     public function addProblem(string $problem): PatternInterface;
 
+    /**
+     * Get an array of all problems with this pattern.
+     *
+     * @return array
+     */
     public function getProblems(): array;
 }
