@@ -15,3 +15,37 @@ Install using composer:
 ```bash
 composer require lastcall/mannequin-twig
 ```
+
+Usage
+-----
+The Twig Extension must be registered on your Mannequin configuration. In your .mannequin.php:
+
+```php
+<?php
+# .mannequin.php
+use LastCall\Mannequin\Core\MannequinConfig;
+use LastCall\Mannequin\Twig\TwigExtension;
+use Symfony\Component\Finder\Finder;
+
+$finder = Finder::create()
+    ->in(__DIR__.'/templates')
+    ->name('*.twig')
+    ->files();
+
+$twig = new TwigExtension([
+    'finder' => $twigFinder,
+    'twig_root' => __DIR__.'/templates'
+]);
+
+return MannequinConfig::create()
+  ->addExtension($twig);
+```
+
+Configuration
+-------------
+The TwigExtension has the following configuration options:
+
+| name | Description |
+| ---- | ----------- |
+| finder | A Symfony Finder object that lists the files you would like to use as patterns.  Optionally, any iterator containing Twig template names can be passed. |
+| twig_root | The root path to your Twig templates. |
