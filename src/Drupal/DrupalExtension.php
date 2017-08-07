@@ -13,13 +13,16 @@ namespace LastCall\Mannequin\Drupal;
 
 use Drupal\Core\DrupalKernel;
 use Drupal\Core\Site\Settings;
+use Drupal\Core\Template\Attribute;
 use LastCall\Mannequin\Twig\AbstractTwigExtension;
+use Symfony\Component\ExpressionLanguage\ExpressionFunction;
+use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Provides Drupal Twig template discovery and rendering.
  */
-class DrupalExtension extends AbstractTwigExtension
+class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctionProviderInterface
 {
     private $drupal;
     private $iterator;
@@ -36,6 +39,17 @@ class DrupalExtension extends AbstractTwigExtension
                 sprintf('Invalid Drupal Root: %s', $this->drupalRoot)
             );
         }
+    }
+
+    public function getFunctions()
+    {
+        $attributes = new ExpressionFunction('attributes', function ($args) {
+            throw new \InvalidArgumentException('Attributes cannot be compiled.');
+        }, function ($args, $attrs) {
+            return new Attribute($attrs);
+        });
+
+        return [$attributes];
     }
 
     protected function getIterator()
@@ -81,6 +95,8 @@ class DrupalExtension extends AbstractTwigExtension
         if (!$this->drupal) {
             $this->drupal = $this->bootDrupal();
         }
+
+        return $this->drupal;
     }
 
     private function bootDrupal()
