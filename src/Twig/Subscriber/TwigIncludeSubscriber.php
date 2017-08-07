@@ -21,14 +21,10 @@ class TwigIncludeSubscriber implements EventSubscriberInterface
 {
     private $inspector;
 
-    private $prefix;
-
     public function __construct(
-        TwigInspectorInterface $inspector,
-        string $prefix = 'twig'
+        TwigInspectorInterface $inspector
     ) {
         $this->inspector = $inspector;
-        $this->prefix = $prefix;
     }
 
     public static function getSubscribedEvents()
