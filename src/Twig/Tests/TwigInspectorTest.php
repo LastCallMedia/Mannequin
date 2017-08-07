@@ -40,4 +40,28 @@ class TwigInspectorTest extends TestCase
         $inspector = new TwigInspector($twig);
         $this->assertEquals('foodata', $inspector->inspectPatternData($source));
     }
+
+    /**
+     * @expectedException \LastCall\Mannequin\Core\Exception\TemplateParsingException
+     * @expectedExceptionMessage Twig error thrown during inspection of nonexistent:
+     */
+    public function testInspectPatternDataThrowParsingError()
+    {
+        $source = new \Twig_Source('', 'nonexistent', 'nodata');
+        $twig = $this->getTwig();
+        $inspector = new TwigInspector($twig);
+        $inspector->inspectPatternData($source);
+    }
+
+    /**
+     * @expectedException \LastCall\Mannequin\Core\Exception\TemplateParsingException
+     * @expectedExceptionMessage Twig error thrown during inspection of nonexistent:
+     */
+    public function testInspectLinkedThrowParsingError()
+    {
+        $source = new \Twig_Source('{% if foo %}', 'nonexistent', 'nodata');
+        $twig = $this->getTwig();
+        $inspector = new TwigInspector($twig);
+        $inspector->inspectLinked($source);
+    }
 }

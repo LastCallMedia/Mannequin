@@ -11,6 +11,8 @@
 
 namespace LastCall\Mannequin\Twig;
 
+use LastCall\Mannequin\Core\Exception\TemplateParsingException;
+
 class TwigInspector implements TwigInspectorInterface
 {
     private $twig;
@@ -22,12 +24,20 @@ class TwigInspector implements TwigInspectorInterface
 
     public function inspectLinked(\Twig_Source $source): array
     {
-        $parsed = $this->twig->parse($this->twig->tokenize($source));
-        $includes = self::walkNodes($parsed, \Twig_Node_Include::class);
-        $embeds = self::walkEmbeds($parsed);
-        $parents = self::getParents($parsed);
+        try {
+            $parsed = $this->twig->parse($this->twig->tokenize($source));
+            $includes = self::walkNodes($parsed, \Twig_Node_Include::class);
+            $embeds = self::walkEmbeds($parsed);
+            $parents = self::getParents($parsed);
 
-        return array_merge($includes, $embeds, $parents);
+            return array_merge($includes, $embeds, $parents);
+        } catch (\Twig_Error $e) {
+            $message = sprintf('Twig error thrown during inspection of %s: %s',
+                $source->getName(),
+                $e->getMessage()
+            );
+            throw new TemplateParsingException($message, $e->getCode(), $e);
+        }
     }
 
     private static function walkNodes(\Twig_Node $node, $forClass)
@@ -92,9 +102,17 @@ class TwigInspector implements TwigInspectorInterface
      */
     public function inspectPatternData(\Twig_Source $source)
     {
-        $template = $this->twig->load($source->getName());
-        if ($template->hasBlock('patterninfo')) {
-            return $template->renderBlock('patterninfo');
+        try {
+            $template = $this->twig->load($source->getName());
+            if ($template->hasBlock('patterninfo')) {
+                return $template->renderBlock('patterninfo');
+            }
+        } catch (\Twig_Error $e) {
+            $message = sprintf('Twig error thrown during inspection of %s: %s',
+                $source->getName(),
+                $e->getMessage()
+            );
+            throw new TemplateParsingException($message, $e->getCode(), $e);
         }
 
         return false;
