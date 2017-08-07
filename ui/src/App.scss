@@ -12,23 +12,19 @@
   .app-inner {
     width: 200%;
     height: 100%;
-    display: flex;
-    flex-direction: row;
+    @include xy-grid($wrap: false);
     transform: translate(0, 0);
     transition: transform .5s ease;
   }
   .main-frame {
-    flex: 0 0 50%;
-    width: 50%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+    @include xy-cell(.5, $gutter-output: false, $gutter-type: none);
+    @include xy-grid($direction: vertical, $wrap: false);
 
     .MannequinTopBar {
-      flex: 0 0;
+      @include xy-cell(shrink, $vertical: true, $gutter-output: false, $gutter-type: none);
     }
     main {
-      flex: 1 0;
+      @include xy-cell(auto, $vertical: true, $gutter-output: false, $gutter-type: none);
       overflow-y:auto;
 
       &.no-scroll {
@@ -37,8 +33,7 @@
     }
   }
   .NavDrawer {
-    flex: 0 0 50%;
-    width: 50%;
+    @include xy-cell(.5, $gutter-output: false, $gutter-type: none);
     visibility: hidden;
     transition: visibility 0s linear .5s;
   }
@@ -58,10 +53,10 @@
       width: 100%;
     }
     .main-frame {
-      flex: 1 0 100%;
+      @include xy-cell(full, $gutter-output: false, $gutter-type: none);
     }
     .NavDrawer {
-      flex: 1 0 300px;
+      @include xy-cell(3/12, $gutter-output: false, $gutter-type: none);
       transform: translate(0, 0);
       transition: transform .5s ease, visibility 0s linear .5s;
     }
@@ -70,17 +65,16 @@
         transform: translate(0, 0);
       }
       .NavDrawer {
-        transform: translate(-300px, 0);
+        transform: translate(-100%, 0);
         transition: transform .5s ease;
       }
     }
   }
   @include breakpoint(xxlarge) {
     .main-frame {
-      flex: 1 0 auto;
+      @include xy-cell(auto, $gutter-output: false, $gutter-type: none);
     }
     .NavDrawer {
-      flex: 0 0 300px;
       visibility: visible;
       transition: none;
     }

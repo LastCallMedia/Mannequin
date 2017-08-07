@@ -64,6 +64,7 @@
   }
   > .MenuList {
     @include xy-cell(auto, $gutter-output: false, $gutter-type: none, $vertical: true);
+    overflow:auto;
   }
 }
 
@@ -142,8 +143,6 @@
 }
 
 .MenuItem.collapsible {
-  overflow: hidden;
-
   &.collapsed .MenuList {
     visibility: hidden;
   }

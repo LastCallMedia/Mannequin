@@ -73,7 +73,8 @@
         margin-top: 0.9375rem; } }
   .NavDrawer > .MenuList {
     flex: 1 1 0px;
-    height: auto; }
+    height: auto;
+    overflow: auto; }
 
 .SearchForm {
   position: relative; }
@@ -129,7 +130,5 @@
   .MenuItem.collapsible.collapsed > a:after {
     content: "+"; }
 
-.MenuItem.collapsible {
-  overflow: hidden; }
-  .MenuItem.collapsible.collapsed .MenuList {
-    visibility: hidden; }
+.MenuItem.collapsible.collapsed .MenuList {
+  visibility: hidden; }

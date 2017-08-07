@@ -124,7 +124,7 @@ class MainMenuItem extends Component {
       return (
         <li className={`MenuItem ${className} collapsible ${isCollapsed ?'collapsed':''}`}>
           <a onClick={this.toggleCollapse} onKeyPress={this.handleKeyPress} tabIndex={0}>{leaf.icon}{leaf.name}</a>
-          {leaf.children && <FluidContainer height={isCollapsed ? 0 : 'auto'}>
+          {leaf.children && <FluidContainer height={isCollapsed ? 0 : 'auto'} style={{overflow: 'hidden'}}>
             <MainMenu tree={leaf.children} settings={childSettings} />
           </FluidContainer>}
         </li>
