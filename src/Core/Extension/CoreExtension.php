@@ -23,6 +23,7 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
     {
         return [
             $this->getPatternExpressionFunction(),
+            $this->getMarkupExpressionFunction(),
         ];
     }
 
@@ -49,6 +50,18 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
             $resolved = $resolver->resolve($variant->getVariables(), $context);
 
             return $engine->render($pattern, $resolved);
+        });
+    }
+
+    private function getMarkupExpressionFunction()
+    {
+        return new ExpressionFunction('markup', function () {
+            throw new \ErrorException('Markup expressions cannot be compiled.');
+        }, function ($args, $markup) {
+            $rendered = new Rendered();
+            $rendered->setMarkup($markup);
+
+            return $rendered;
         });
     }
 }

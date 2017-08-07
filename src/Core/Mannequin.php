@@ -141,7 +141,7 @@ class Mannequin extends Application
 
         $this->register(new ServiceControllerServiceProvider());
         $this['controller.ui'] = function () {
-            return new UiController($this['config']->getUi());
+            return new UiController($this['config']->getUi(), $this['config']->getAssetMappings());
         };
         $this['controller.manifest'] = function () {
             return new ManifestController(

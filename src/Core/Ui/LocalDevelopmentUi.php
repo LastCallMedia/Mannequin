@@ -60,11 +60,15 @@ class LocalDevelopmentUi extends LocalUi
             $uri .= sprintf('?%s', $parts['query']);
         }
         if ($path === 'index.html') {
+            // The index cannot be served with a redirect.
             $ctx = stream_context_create([
                 'http' => ['timeout' => 5],
             ]);
-            // The index cannot be served with a redirect.
-            return new Response(file_get_contents($uri, false, $ctx));
+            $index_contents = file_get_contents($uri, false, $ctx);
+            if (false !== $index_contents) {
+                return new Response($index_contents);
+            }
+            throw new GoneHttpException(sprintf('Failed to fetch index.html'));
         }
 
         return new RedirectResponse($uri, 307);

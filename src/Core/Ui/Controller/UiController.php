@@ -15,14 +15,16 @@ use LastCall\Mannequin\Core\Ui\UiInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class UiController
 {
     private $ui;
 
-    public function __construct(UiInterface $ui)
+    public function __construct(UiInterface $ui, array $assetMappings)
     {
         $this->ui = $ui;
+        $this->assetMappings = $assetMappings;
     }
 
     public function staticAction($name, Request $request): Response
@@ -30,7 +32,18 @@ class UiController
         if ($this->ui->isUiFile($name)) {
             return $this->ui->getUiFileResponse($name, $request);
         }
-        // @todo: Assets need to be checked here.
+
+        // Check if the file exists in our asset map.
+        foreach ($this->assetMappings as $urlPart => $pathPart) {
+            if (strpos($name, $urlPart) !== false) {
+                $end = substr($name, strlen($urlPart));
+
+                if (file_exists($pathPart.'/'.$end)) {
+                    return new BinaryFileResponse($pathPart.'/'.$end);
+                }
+            }
+        }
+
         throw new NotFoundHttpException(sprintf('Asset not found: %s', $name));
     }
 }
