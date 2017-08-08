@@ -120,8 +120,8 @@ class RenderCommand extends Command
                 }
             }
             try {
-                foreach ($this->assetMappings as $src => $dest) {
-                    $writer->copy($src, $dest);
+                foreach ($this->assetMappings as $url => $path) {
+                    $writer->copy($path, $url);
                 }
                 $rows[] = $this->getSuccessRow('Assets');
             } catch (\Exception $e) {

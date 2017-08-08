@@ -16,6 +16,7 @@ use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
+use LastCall\Mannequin\Core\Rendered;
 
 class CoreExtension extends AbstractExtension implements ExpressionFunctionProviderInterface
 {
