@@ -29,6 +29,6 @@ class TwigPatternTest extends PatternTestCase
         $pattern = $this->getPattern();
         $this->assertArraySubset([
             'source_format' => 'twig',
-        ], $pattern->getTags());
+        ], $pattern->getMetadata());
     }
 }

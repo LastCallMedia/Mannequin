@@ -77,7 +77,7 @@ class YamlFileMetadataSubscriberTest extends TestCase
      */
     public function testSetsPatternTags(TestFilePattern $pattern)
     {
-        $this->assertArraySubset(['foo' => 'bar'], $pattern->getTags());
+        $this->assertArraySubset(['foo' => 'bar'], $pattern->getMetadata());
     }
 
     /**
@@ -112,7 +112,7 @@ class YamlFileMetadataSubscriberTest extends TestCase
             $this->yamlFile
         );
         $pattern = new TestFilePattern('foo', [], new \SplFileInfo($this->templateFile));
-        $pattern->addTag('foo', 'bar');
+        $pattern->addMetadata('foo', 'bar');
         $event = $this->dispatchDiscover(
             new YamlFileMetadataSubscriber($parser->reveal()),
             $pattern
@@ -129,7 +129,7 @@ class YamlFileMetadataSubscriberTest extends TestCase
     {
         $this->assertArraySubset([
             'foo' => 'baz',
-        ], $pattern->getTags());
+        ], $pattern->getMetadata());
     }
 
     /**

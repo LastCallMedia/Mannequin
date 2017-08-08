@@ -44,7 +44,7 @@ class YamlFileMetadataSubscriber implements EventSubscriberInterface
             }
             if (!empty($metadata['tags'])) {
                 foreach ($metadata['tags'] as $k => $v) {
-                    $pattern->addTag($k, $v);
+                    $pattern->addMetadata($k, $v);
                 }
             }
             if (!empty($metadata['variants'])) {

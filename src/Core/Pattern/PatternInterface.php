@@ -50,7 +50,7 @@ interface PatternInterface
      *
      * @return array
      */
-    public function getTags(): array;
+    public function getMetadata(): MetadataCollection;
 
     /**
      * Check whether the pattern has a given tag.
@@ -60,7 +60,7 @@ interface PatternInterface
      *
      * @return bool
      */
-    public function hasTag(string $name, $value): bool;
+    public function hasMetadata(string $name, $value): bool;
 
     /**
      * Add a new tag to the pattern.
@@ -70,9 +70,9 @@ interface PatternInterface
      *
      * @return mixed
      */
-    public function addTag(string $name, $value): PatternInterface;
+    public function addMetadata(string $name, $value): PatternInterface;
 
-    public function createVariant($id, $name, VariableSet $variables = null, array $tags = []): PatternVariant;
+    public function createVariant($id, $name, VariableSet $variables = null, array $metadata = []): PatternVariant;
 
     /**
      * @return \LastCall\Mannequin\Core\Pattern\PatternVariant[]

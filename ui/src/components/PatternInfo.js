@@ -8,7 +8,7 @@ import cx from 'classnames';
 import './PatternInfo.css';
 
 const PatternInfo = ({pattern, used, controls, variant, className}) => {
-    const rawFormat = pattern.tags.source_format || 'html';
+    const rawFormat = pattern.metadata.source_format || 'html';
     const theseControls = React.cloneElement(controls, {
         className: cx(controls.props.className, 'controls')
     });
@@ -26,7 +26,7 @@ const PatternInfo = ({pattern, used, controls, variant, className}) => {
                     </div>
                     <div className="PatternInfoSection">
                         <label>Description</label>
-                        <p>{pattern.tags.description}</p>
+                        <p>{pattern.metadata.description}</p>
                     </div>
                 </div>
                 <CodeToggleFrame className="code" html={variant && variant.source} raw={pattern.source} rawFormat={rawFormat} />

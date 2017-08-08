@@ -49,13 +49,12 @@ abstract class PatternTestCase extends TestCase
     public function testPatternTagging()
     {
         $pattern = $this->getPattern();
-        $this->assertInternalType('array', $pattern->getTags());
-        $this->assertEquals($pattern, $pattern->addTag('foo', 'bar'));
-        $this->assertArraySubset(['foo' => 'bar'], $pattern->getTags());
-        $this->assertTrue($pattern->hasTag('foo', 'bar'));
-        $this->assertFalse($pattern->hasTag('foo', 'baz'));
-        $pattern->addTag('foo', 'baz');
-        $this->assertTrue($pattern->hasTag('foo', 'baz'));
+        $this->assertEquals($pattern, $pattern->addMetadata('foo', 'bar'));
+        $this->assertArraySubset(['foo' => 'bar'], $pattern->getMetadata());
+        $this->assertTrue($pattern->hasMetadata('foo', 'bar'));
+        $this->assertFalse($pattern->hasMetadata('foo', 'baz'));
+        $pattern->addMetadata('foo', 'baz');
+        $this->assertTrue($pattern->hasMetadata('foo', 'baz'));
     }
 
     public function testVariants()

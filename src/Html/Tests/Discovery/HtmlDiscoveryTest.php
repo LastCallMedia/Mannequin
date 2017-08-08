@@ -58,7 +58,7 @@ class HtmlDiscoveryTest extends TestCase
         $this->assertArraySubset([
             'group' => 'Unknown',
             'source_format' => 'html',
-        ], $pattern->getTags());
+        ], $pattern->getMetadata());
     }
 
     /**

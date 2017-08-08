@@ -20,11 +20,11 @@ class PatternVariant
     private $tags = [];
     private $variables;
 
-    public function __construct($id, $name, VariableSet $set = null, array $tags = [])
+    public function __construct($id, $name, VariableSet $set = null, array $metadata = [])
     {
         $this->id = $id;
         $this->name = $name;
-        $this->tags = $tags;
+        $this->tags = new MetadataCollection($metadata);
         $this->variables = $set ?: new VariableSet();
     }
 
@@ -38,7 +38,7 @@ class PatternVariant
         return $this->name;
     }
 
-    public function getTags(): array
+    public function getMetadata(): MetadataCollection
     {
         return $this->tags;
     }

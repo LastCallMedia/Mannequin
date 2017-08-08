@@ -9,14 +9,14 @@ export const VariantShape = {
     name: PropTypes.string,
     description: PropTypes.string,
     rendered: PropTypes.string.isRequired,
-    tags: PropTypes.shape()
+    metadata: PropTypes.shape()
 }
 export const PatternShape = {
     name: PropTypes.string.isRequired,
     rendered: PropTypes.string,
     used: PropTypes.arrayOf(PropTypes.string),
     variants: PropTypes.arrayOf(PropTypes.shape(VariantShape)),
-    tags: PropTypes.shape(),
+    metadata: PropTypes.shape(),
     problems: PropTypes.arrayOf(PropTypes.string)
 };
 

@@ -14,7 +14,6 @@ namespace LastCall\Mannequin\Core\Tests\Pattern;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 
 class PatternCollectionTest extends TestCase
 {
@@ -63,21 +62,11 @@ class PatternCollectionTest extends TestCase
         $this->assertEquals([$pattern1, $pattern2], $patterns);
     }
 
-    private function getPattern($id, $name, array $tags = [], $aliases = [])
+    private function getPattern($id, $name, $aliases = [])
     {
         $pattern = $this->prophesize(PatternInterface::class);
         $pattern->getId()->willReturn($id);
         $pattern->getName()->willReturn($name);
-
-        $pattern->getTags()->willReturn($tags);
-        $pattern->hasTag(Argument::type('string'), Argument::type('string'))
-            ->will(
-                function ($args) use ($tags) {
-                    list($type, $value) = $args;
-
-                    return isset($tags[$type]) && $tags[$type] === $value;
-                }
-            );
         $pattern->getAliases()->willReturn($aliases);
 
         return $pattern->reveal();
@@ -103,7 +92,7 @@ class PatternCollectionTest extends TestCase
 
     public function testGetByAlias()
     {
-        $pattern = $this->getPattern('foo', 'bar', [], ['baz']);
+        $pattern = $this->getPattern('foo', 'bar', ['baz']);
         $collection = new PatternCollection([$pattern]);
         $this->assertEquals($pattern, $collection->get('baz'));
     }
@@ -134,47 +123,6 @@ class PatternCollectionTest extends TestCase
         $pattern1 = $this->getPattern('foo', 'bar');
         $pattern2 = $this->getPattern('foo', 'baz');
         new PatternCollection([$pattern1, $pattern2]);
-    }
-
-    public function testGetTags()
-    {
-        $pattern1 = $this->getPattern(
-            'foo',
-            'Foo',
-            ['type' => 'element', 'size' => 'large', 'smell' => 'bad']
-        );
-        $pattern2 = $this->getPattern(
-            'bar',
-            'Bar',
-            ['type' => 'atom', 'smell' => 'bad']
-        );
-        $collection = new PatternCollection([$pattern1, $pattern2]);
-        $this->assertEquals(
-            [
-                'type' => ['element', 'atom'],
-                'size' => ['large'],
-                'smell' => ['bad'],
-            ],
-            $collection->getTags()
-        );
-    }
-
-    public function testWithTag()
-    {
-        $pattern = $this->getPattern('foo', 'bar', ['type' => 'element']);
-        $collection = new PatternCollection([$pattern]);
-        $tagCollection = $collection->withTag('type', 'element');
-        $this->assertEquals(1, $tagCollection->count());
-        $this->assertEquals('tag:type:element', $tagCollection->getId());
-        $this->assertEquals($collection, $tagCollection->getParent());
-    }
-
-    public function testWithTagEmpty()
-    {
-        $collection = new PatternCollection();
-        $subCollection = $collection->withTag('type', 'element');
-        $this->assertInstanceOf(PatternCollection::class, $subCollection);
-        $this->assertCount(0, $subCollection);
     }
 
     public function testMergeMergesPatterns()

@@ -42,7 +42,7 @@ class ManifestBuilderTest extends TestCase
     {
         $pattern = new TestFilePattern('p1', ['p1-alias'], new File(__FILE__));
         $pattern->setName('Pattern 1');
-        $pattern->addTag('foo', 'bar');
+        $pattern->addMetadata('foo', 'bar');
         $pattern->createVariant('foo', 'Foo', new VariableSet(), ['foo' => 'bar']);
         $pattern->addUsedPattern($pattern);
         $pattern->addProblem('foo problem');
@@ -93,13 +93,13 @@ class ManifestBuilderTest extends TestCase
     /**
      * @depends testManifestPattern
      */
-    public function testSetsTagsOnPattern($patternManifest)
+    public function testSetsMetadataOnPattern($patternManifest)
     {
-        // Avoid checking equality, since the pattern may have other tags
+        // Avoid checking equality, since the pattern may have other metadata
         // we don't care about.
         $this->assertArraySubset([
             'foo' => 'bar',
-        ], $patternManifest['tags']);
+        ], $patternManifest['metadata']);
     }
 
     /**
@@ -164,10 +164,10 @@ class ManifestBuilderTest extends TestCase
     /**
      * @depends testPatternVariants
      */
-    public function testSetsTagsOnVariant($variantManifest)
+    public function testSetsMetadataOnVariant($variantManifest)
     {
         $this->assertArraySubset([
             'foo' => 'bar',
-        ], $variantManifest['tags']);
+        ], $variantManifest['metadata']);
     }
 }

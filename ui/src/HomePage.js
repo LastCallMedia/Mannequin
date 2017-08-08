@@ -17,7 +17,7 @@ const HomePage = ({quickLinks}) => (
             <h4>Quick Links</h4>
             <div className="CardGrid">
                 {quickLinks.map(pattern => (
-                    <Card key={pattern.id} title={pattern.name} subtitle={pattern.tags['group']} to={`pattern/${pattern.id}`} />
+                    <Card key={pattern.id} title={pattern.name} subtitle={pattern.metadata['group']} to={`pattern/${pattern.id}`} />
                 ))}
             </div>
         </div>

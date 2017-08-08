@@ -39,7 +39,7 @@ class ManifestBuilder
                     ['pattern' => $id],
                     UrlGeneratorInterface::RELATIVE_PATH
                 ),
-                'tags' => $pattern->getTags(),
+                'metadata' => $pattern->getMetadata(),
                 'variants' => $this->generateVariants($pattern),
                 'used' => $this->generateUsed($pattern),
                 'aliases' => $pattern->getAliases(),
@@ -57,7 +57,7 @@ class ManifestBuilder
             $variants[] = [
                 'id' => $variant->getId(),
                 'name' => $variant->getName(),
-                'tags' => $variant->getTags(),
+                'metadata' => $variant->getMetadata(),
                 'source' => $generator->generate(
                     'pattern_render_raw',
                     ['pattern' => $pattern->getId(), 'variant' => $id],

@@ -34,7 +34,7 @@ abstract class AbstractPattern implements PatternInterface
     {
         $this->id = $id;
         $this->aliases = $aliases;
-        $this->tags = static::getDefaultTags();
+        $this->tags = new MetadataCollection(static::getDefaultMetadata());
     }
 
     /**
@@ -74,7 +74,7 @@ abstract class AbstractPattern implements PatternInterface
     /**
      * {@inheritdoc}
      */
-    public function getTags(): array
+    public function getMetadata(): MetadataCollection
     {
         return $this->tags;
     }
@@ -82,7 +82,7 @@ abstract class AbstractPattern implements PatternInterface
     /**
      * {@inheritdoc}
      */
-    public function hasTag(string $name, $value): bool
+    public function hasMetadata(string $name, $value): bool
     {
         return isset($this->tags[$name]) && $this->tags[$name] === $value;
     }
@@ -90,7 +90,7 @@ abstract class AbstractPattern implements PatternInterface
     /**
      * {@inheritdoc}
      */
-    public function addTag(string $name, $value): PatternInterface
+    public function addMetadata(string $name, $value): PatternInterface
     {
         $this->tags[$name] = $value;
 
@@ -169,7 +169,7 @@ abstract class AbstractPattern implements PatternInterface
         return $this->problems;
     }
 
-    protected static function getDefaultTags(): array
+    protected static function getDefaultMetadata(): array
     {
         return [
             'group' => 'Unknown',

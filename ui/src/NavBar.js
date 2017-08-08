@@ -62,7 +62,7 @@ export class NavDrawer extends Component {
 
 function buildTree(patterns) {
   return patterns.reduce((tree, p) => {
-    const group = p.tags['group'] || 'Unknown';
+    const group = p.metadata['group'] || 'Unknown';
     const parentLeaf = group.split('>').reduce((leaf, g) => {
       return leaf.children[g] || Object.assign(leaf.children, {[g] : {
           name: g,
@@ -82,7 +82,7 @@ function filterPatterns(searchString, patterns) {
   const _searchString = searchString.toLowerCase();
   return patterns.filter(pattern => {
     return pattern.name.toLowerCase().indexOf(_searchString) !== -1 ||
-      (pattern.tags['group'] && pattern.tags['group'].toLowerCase().indexOf(_searchString) !== -1)
+      (pattern.metadata['group'] && pattern.metadata['group'].toLowerCase().indexOf(_searchString) !== -1)
   });
 }
 
