@@ -49,6 +49,7 @@ EOD;
             $files[$file] = $this->uiPath($file);
         }
         $files['index.html'] = $this->uiPath('index.html');
+        $files['favicon.ico'] = $this->uiPath('favicon.ico');
 
         return $files;
     }
