@@ -21,10 +21,10 @@ class UiController
 {
     private $ui;
 
-    public function __construct(UiInterface $ui, array $assetMappings)
+    public function __construct(UiInterface $ui, string $assetDir)
     {
         $this->ui = $ui;
-        $this->assetMappings = $assetMappings;
+        $this->assetDir = $assetDir;
     }
 
     public function staticAction($name, Request $request): Response
@@ -33,15 +33,9 @@ class UiController
             return $this->ui->getUiFileResponse($name, $request);
         }
 
-        // Check if the file exists in our asset map.
-        foreach ($this->assetMappings as $urlPart => $pathPart) {
-            if (strpos($name, $urlPart) !== false) {
-                $end = substr($name, strlen($urlPart));
-
-                if (file_exists($pathPart.'/'.$end)) {
-                    return new BinaryFileResponse($pathPart.'/'.$end);
-                }
-            }
+        // Check if this file is an asset we already know:
+        if (file_exists($this->assetDir.'/'.$name)) {
+            return new BinaryFileResponse($this->assetDir.'/'.$name);
         }
 
         throw new NotFoundHttpException(sprintf('Asset not found: %s', $name));

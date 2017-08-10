@@ -11,6 +11,10 @@
 
 namespace LastCall\Mannequin\Core;
 
+use Assetic\AssetManager;
+use Assetic\Factory\AssetFactory;
+use Assetic\FilterManager;
+use LastCall\Mannequin\Core\Asset\HttpAssetCachingWorker;
 use LastCall\Mannequin\Core\Console\Application as ConsoleApplication;
 use LastCall\Mannequin\Core\Console\Command\DebugCommand;
 use LastCall\Mannequin\Core\Console\Command\RenderCommand;
@@ -58,7 +62,7 @@ class Mannequin extends Application
                         $this['config']->getUi(),
                         $this['engine'],
                         $this['variable.resolver'],
-                        $this['config']->getAssetMappings()
+                        $this['asset.factory']
                     ),
                     new ServerCommand(
                         'server',
@@ -125,6 +129,21 @@ class Mannequin extends Application
             return new ChainDiscovery($discoverers, $this['dispatcher'], $this['logger']);
         };
 
+        $this['asset.factory'] = function () {
+            $factory = new AssetFactory(getcwd());
+            $factory->setAssetManager(new AssetManager());
+            $factory->setFilterManager(new FilterManager());
+            $factory->addWorker(new HttpAssetCachingWorker($this['cache_dir'].'/http-assets'));
+
+            return $factory;
+        };
+        $this['cache_dir'] = function () {
+            return sys_get_temp_dir().'/mannequin';
+        };
+        $this['asset.cache_dir'] = function () {
+            return $this['cache_dir'].'/assets';
+        };
+
         $this['variable.resolver'] = function () {
             $expressionLanguage = new ExpressionLanguage();
             foreach ($this->getExtensions() as $extension) {
@@ -141,7 +160,7 @@ class Mannequin extends Application
 
         $this->register(new ServiceControllerServiceProvider());
         $this['controller.ui'] = function () {
-            return new UiController($this['config']->getUi(), $this['config']->getAssetMappings());
+            return new UiController($this['config']->getUi(), $this['asset.cache_dir']);
         };
         $this['controller.manifest'] = function () {
             return new ManifestController(
@@ -156,7 +175,9 @@ class Mannequin extends Application
                 $collection,
                 $this['engine'],
                 $this['config']->getUi(),
-                $this['variable.resolver']
+                $this['variable.resolver'],
+                $this['asset.factory'],
+                $this['asset.cache_dir']
             );
         };
 
@@ -189,6 +210,25 @@ class Mannequin extends Application
         );
         foreach ($this->getExtensions() as $extension) {
             $extension->subscribe($this['dispatcher']);
+        }
+        $config = $this->getConfig();
+        /** @var AssetFactory $factory */
+        $factory = $this['asset.factory'];
+        $am = $factory->getAssetManager();
+        $styles = $factory->createAsset($config->getGlobalStyles(), [], [
+            'name' => 'global',
+            'output' => 'css/global.css',
+        ]);
+        $scripts = $factory->createAsset($config->getGlobalJs(), [], [
+            'name' => 'global',
+            'output' => 'js/global.js',
+        ]);
+        $assets = $factory->createAsset($config->getGlobalAssets());
+        $am->set('global_styles', $styles);
+        $am->set('global_scripts', $scripts);
+        $am->set('global_assets', $assets);
+        foreach ($config->getAssetLibraries() as $name => $definition) {
+            $am->set($name, $factory->createAsset($definition));
         }
 
         return parent::boot();

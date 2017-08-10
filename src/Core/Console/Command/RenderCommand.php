@@ -11,6 +11,8 @@
 
 namespace LastCall\Mannequin\Core\Console\Command;
 
+use Assetic\AssetWriter;
+use Assetic\Factory\AssetFactory;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Ui\FileWriter;
@@ -44,7 +46,7 @@ class RenderCommand extends Command
         UiInterface $ui,
         EngineInterface $engine,
         VariableResolver $resolver,
-        array $assetMappings = []
+        AssetFactory $assetFactory
     ) {
         parent::__construct($name);
         $this->manifester = $manifester;
@@ -52,7 +54,7 @@ class RenderCommand extends Command
         $this->ui = $ui;
         $this->engine = $engine;
         $this->resolver = $resolver;
-        $this->assetMappings = $assetMappings;
+        $this->assetFactory = $assetFactory;
     }
 
     public function configure()
@@ -74,6 +76,7 @@ class RenderCommand extends Command
         $outDir = $input->getOption('output-dir');
 
         $writer = new FileWriter($outDir);
+        $assetWriter = new AssetWriter($outDir);
         try {
             $collection = $this->discovery->discover();
             $engine = $this->engine;
@@ -105,6 +108,20 @@ class RenderCommand extends Command
                             ]
                         );
                         $rendered = $engine->render($pattern, $resolved);
+                        $css = $this->assetFactory->createAsset($rendered->getStyles(), [], [
+                            'name' => implode('-', ['style', $pattern->getId(), $variant->getId()]),
+                            'output' => 'css/*.css',
+                        ]);
+                        $js = $this->assetFactory->createAsset($rendered->getScripts(), [], [
+                            'name' => implode('-', ['script', $pattern->getId(), $variant->getId()]),
+                            'output' => 'js/*.js',
+                        ]);
+
+                        $assetWriter->writeAsset($css);
+                        $assetWriter->writeAsset($js);
+                        $rendered->setScripts([$js->getTargetPath()]);
+                        $rendered->setStyles([$css->getTargetPath()]);
+
                         $writer->raw(
                             $variantManifest['source'],
                             $rendered->getMarkup()

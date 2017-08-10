@@ -21,26 +21,19 @@ class TwigEngine implements EngineInterface
 {
     private $twig;
 
-    private $styles = [];
-
-    private $scripts = [];
-
     public function __construct(
-        \Twig_Environment $twig,
-        array $styles = [],
-        array $scripts = []
+        \Twig_Environment $twig
     ) {
         $this->twig = $twig;
-        $this->styles = $styles;
-        $this->scripts = $scripts;
     }
 
     public function render(PatternInterface $pattern, array $variables = []): Rendered
     {
         if ($this->supports($pattern)) {
-            $styles = $this->styles;
-            $scripts = $this->scripts;
             $rendered = new Rendered();
+
+            $styles = ['@global_styles'];
+            $scripts = ['@global_scripts'];
 
             $rendered->setMarkup(
                 $this->twig->render(

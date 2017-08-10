@@ -28,21 +28,15 @@ interface ConfigInterface
      */
     public function getExtensions(): array;
 
-    /**
-     * @return string[]
-     */
-    public function getStyles(): array;
-
-    /**
-     * @return string[]
-     */
-    public function getScripts(): array;
-
-    public function addAssetMapping($url, $path): ConfigInterface;
-
-    public function getAssetMappings(): array;
-
     public function getCache(): CacheItemPoolInterface;
 
     public function getUi(): UiInterface;
+
+    public function getGlobalStyles(): array;
+
+    public function getGlobalJs(): array;
+
+    public function getGlobalAssets(): array;
+
+    public function getAssetLibraries(): array;
 }

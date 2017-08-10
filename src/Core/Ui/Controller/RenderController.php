@@ -11,6 +11,8 @@
 
 namespace LastCall\Mannequin\Core\Ui\Controller;
 
+use Assetic\AssetWriter;
+use Assetic\Factory\AssetFactory;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Exception\PatternNotFoundException;
 use LastCall\Mannequin\Core\Exception\VariantNotFoundException;
@@ -29,23 +31,46 @@ class RenderController
 
     private $ui;
 
+    private $assetFactory;
+
+    private $assetWriter;
+
     public function __construct(
         PatternCollection $collection,
         EngineInterface $engine,
         UiInterface $ui,
-        VariableResolver $resolver
+        VariableResolver $resolver,
+        AssetFactory $factory,
+        string $assetDir
     ) {
         $this->collection = $collection;
         $this->engine = $engine;
         $this->ui = $ui;
         $this->resolver = $resolver;
+        $this->assetFactory = $factory;
+        $this->assetWriter = new AssetWriter($assetDir);
     }
 
     public function renderAction($pattern, $variant)
     {
         $rendered = $this->renderPattern($pattern, $variant);
 
-        return new Response($this->ui->decorateRendered($rendered));
+        $css = $this->assetFactory->createAsset($rendered->getStyles(), [], [
+            'name' => implode('-', ['style', $pattern, $variant]),
+            'output' => 'css/*.css',
+        ]);
+        $js = $this->assetFactory->createAsset($rendered->getScripts(), [], [
+            'name' => implode('-', ['script', $pattern, $variant]),
+            'output' => 'js/*.js',
+        ]);
+        $this->assetWriter->writeAsset($css);
+        $this->assetWriter->writeAsset($js);
+        $rendered->setStyles([$css->getTargetPath()]);
+        $rendered->setScripts([$js->getTargetPath()]);
+
+        return new Response($this->ui->decorateRendered(
+            $rendered
+        ));
     }
 
     private function renderPattern($pattern, $variant)

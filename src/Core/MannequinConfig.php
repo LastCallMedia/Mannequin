@@ -33,15 +33,14 @@ class MannequinConfig extends Container implements ConfigInterface
 
                 return new RemoteUi(sys_get_temp_dir().'/mannequin-ui', $composer['extra']['uiVersion']);
             },
-            'styles' => [],
-            'scripts' => [],
+            'global_styles' => [],
+            'global_js' => [],
+            'global_assets' => [],
+            'asset_libraries' => [],
         ];
         parent::__construct($values);
         $this['extensions'] = function () {
             return [new CoreExtension()];
-        };
-        $this['assets'] = function () {
-            return [];
         };
     }
 
@@ -70,7 +69,7 @@ class MannequinConfig extends Container implements ConfigInterface
         return $this;
     }
 
-    public static function create(array $values = []): ConfigInterface
+    public static function create(array $values = []): MannequinConfig
     {
         return new static($values);
     }
@@ -83,54 +82,6 @@ class MannequinConfig extends Container implements ConfigInterface
         return $this['collection'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getStyles(): array
-    {
-        return $this['styles'];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getScripts(): array
-    {
-        return $this['scripts'];
-    }
-
-    public function addAssetMapping($url, $path): ConfigInterface
-    {
-        if (!is_string($url) || strlen($url) === 0 || strpos($url, '/') === 0) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'URL path specified for %s is invalid.  It should be a relative URL.',
-                    $path
-                )
-            );
-        }
-        if (!file_exists($path)) {
-            throw new \InvalidArgumentException(
-                sprintf('Path specified for asset url %s is invalid.', $url)
-            );
-        }
-        $this->extend(
-            'assets',
-            function (array $existing) use ($url, $path) {
-                $existing[$url] = $path;
-
-                return $existing;
-            }
-        );
-
-        return $this;
-    }
-
-    public function getAssetMappings(): array
-    {
-        return $this['assets'];
-    }
-
     public function getCache(): CacheItemPoolInterface
     {
         return $this['cache'];
@@ -139,5 +90,46 @@ class MannequinConfig extends Container implements ConfigInterface
     public function getUi(): UiInterface
     {
         return $this['ui'];
+    }
+
+    public function getGlobalStyles(): array
+    {
+        return $this['global_styles'];
+    }
+
+    public function setGlobalStyles(array $styles)
+    {
+        $this['global_styles'] = $styles;
+
+        return $this;
+    }
+
+    public function getGlobalJs(): array
+    {
+        return $this['global_js'];
+    }
+
+    public function setGlobalJs(array $js)
+    {
+        $this['global_js'] = $js;
+
+        return $this;
+    }
+
+    public function getGlobalAssets(): array
+    {
+        return $this['global_assets'];
+    }
+
+    public function getAssetLibraries(): array
+    {
+        return $this['asset_libraries'];
+    }
+
+    public function setGlobalAssets(array $assets)
+    {
+        $this['global_assets'] = $assets;
+
+        return $this;
     }
 }
