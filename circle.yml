@@ -64,6 +64,8 @@ jobs:
           root: /srv
           paths:
             - mannequin
+      - store_artifacts:
+          path: /srv/mannequin
 
   deploy_split:
     working_directory: /srv
