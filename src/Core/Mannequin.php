@@ -223,8 +223,8 @@ class Mannequin extends Application
             'name' => 'global',
             'output' => 'js/global.js',
         ]);
-        $am->set('global_styles', $styles);
-        $am->set('global_scripts', $scripts);
+        $am->set('global_css', $styles);
+        $am->set('global_js', $scripts);
 
         return parent::boot();
     }
