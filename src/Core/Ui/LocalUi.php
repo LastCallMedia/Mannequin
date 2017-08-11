@@ -89,7 +89,7 @@ EOD;
     {
         $tags = [];
         foreach ($assets as $asset) {
-            $tags[] = sprintf($pattern, '/'.$asset);
+            $tags[] = sprintf($pattern, $asset);
         }
 
         return implode("\n", $tags);

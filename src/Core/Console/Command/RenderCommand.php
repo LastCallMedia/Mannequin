@@ -24,6 +24,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RequestContext;
 
 class RenderCommand extends Command
 {
@@ -37,7 +39,9 @@ class RenderCommand extends Command
 
     private $ui;
 
-    private $assetMappings = [];
+    private $assetFactory;
+
+    private $urlGenerator;
 
     public function __construct(
         $name = null,
@@ -46,7 +50,8 @@ class RenderCommand extends Command
         UiInterface $ui,
         EngineInterface $engine,
         VariableResolver $resolver,
-        AssetFactory $assetFactory
+        AssetFactory $assetFactory,
+        UrlGeneratorInterface $urlGenerator
     ) {
         parent::__construct($name);
         $this->manifester = $manifester;
@@ -55,6 +60,7 @@ class RenderCommand extends Command
         $this->engine = $engine;
         $this->resolver = $resolver;
         $this->assetFactory = $assetFactory;
+        $this->urlGenerator = $urlGenerator;
     }
 
     public function configure()
@@ -107,6 +113,9 @@ class RenderCommand extends Command
                                 'variant' => $variant,
                             ]
                         );
+                        $context = new RequestContext();
+                        $context->setPathInfo('/'.$variantManifest['rendered']);
+                        $this->urlGenerator->setContext($context);
                         $rendered = $engine->render($pattern, $resolved);
                         $css = $this->assetFactory->createAsset($rendered->getCss(), [], [
                             'name' => implode('-', ['style', $pattern->getId(), $variant->getId()]),
@@ -119,8 +128,12 @@ class RenderCommand extends Command
 
                         $assetWriter->writeAsset($css);
                         $assetWriter->writeAsset($js);
-                        $rendered->setJs([$js->getTargetPath()]);
-                        $rendered->setCss([$css->getTargetPath()]);
+                        $rendered->setJs([
+                            $this->urlGenerator->generate('static', ['name' => $js->getTargetPath()], UrlGeneratorInterface::RELATIVE_PATH),
+                        ]);
+                        $rendered->setCss([
+                            $this->urlGenerator->generate('static', ['name' => $css->getTargetPath()], UrlGeneratorInterface::RELATIVE_PATH),
+                        ]);
 
                         $writer->raw(
                             $variantManifest['source'],
@@ -135,14 +148,6 @@ class RenderCommand extends Command
                 } catch (\Exception $e) {
                     $rows[] = $this->getErrorRow($pattern->getName(), $e);
                 }
-            }
-            try {
-                foreach ($this->assetMappings as $url => $path) {
-                    $writer->copy($path, $url);
-                }
-                $rows[] = $this->getSuccessRow('Assets');
-            } catch (\Exception $e) {
-                $rows[] = $this->getErrorRow('Assets', $e);
             }
             try {
                 foreach ($ui->files() as $dest => $src) {

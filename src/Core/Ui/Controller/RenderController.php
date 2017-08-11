@@ -22,6 +22,7 @@ use LastCall\Mannequin\Core\Ui\UiInterface;
 use LastCall\Mannequin\Core\Variable\VariableResolver;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class RenderController
 {
@@ -35,13 +36,16 @@ class RenderController
 
     private $assetWriter;
 
+    private $urlGenerator;
+
     public function __construct(
         PatternCollection $collection,
         EngineInterface $engine,
         UiInterface $ui,
         VariableResolver $resolver,
         AssetFactory $factory,
-        string $assetDir
+        string $assetDir,
+        UrlGeneratorInterface $urlGenerator
     ) {
         $this->collection = $collection;
         $this->engine = $engine;
@@ -49,6 +53,7 @@ class RenderController
         $this->resolver = $resolver;
         $this->assetFactory = $factory;
         $this->assetWriter = new AssetWriter($assetDir);
+        $this->urlGenerator = $urlGenerator;
     }
 
     public function renderAction($pattern, $variant)
@@ -65,8 +70,12 @@ class RenderController
         ]);
         $this->assetWriter->writeAsset($css);
         $this->assetWriter->writeAsset($js);
-        $rendered->setCss([$css->getTargetPath()]);
-        $rendered->setJs([$js->getTargetPath()]);
+        $rendered->setCss([
+            $this->urlGenerator->generate('static', ['name' => $css->getTargetPath()], UrlGeneratorInterface::RELATIVE_PATH),
+        ]);
+        $rendered->setJs([
+            $this->urlGenerator->generate('static', ['name' => $js->getTargetPath()], UrlGeneratorInterface::RELATIVE_PATH),
+        ]);
 
         return new Response($this->ui->decorateRendered(
             $rendered

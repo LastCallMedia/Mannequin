@@ -62,7 +62,8 @@ class Mannequin extends Application
                         $this['config']->getUi(),
                         $this['engine'],
                         $this['variable.resolver'],
-                        $this['asset.factory']
+                        $this['asset.factory'],
+                        $this['url_generator']
                     ),
                     new ServerCommand(
                         'server',
@@ -177,7 +178,8 @@ class Mannequin extends Application
                 $this['config']->getUi(),
                 $this['variable.resolver'],
                 $this['asset.factory'],
-                $this['asset.cache_dir']
+                $this['asset.cache_dir'],
+                $this['url_generator']
             );
         };
 
