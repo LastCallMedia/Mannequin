@@ -32,7 +32,11 @@ class DelegatingRendererTest extends RendererTestCase
             Argument::type('array')
         )->will(
             function () {
-                return new Rendered();
+                $rendered = new Rendered();
+                $rendered->setCss(['@global_css']);
+                $rendered->setJs(['@global_js']);
+
+                return $rendered;
             }
         );
         $subrenderer->renderSource(Argument::type(PatternInterface::class))

@@ -55,18 +55,18 @@ class RenderController
     {
         $rendered = $this->renderPattern($pattern, $variant);
 
-        $css = $this->assetFactory->createAsset($rendered->getStyles(), [], [
+        $css = $this->assetFactory->createAsset($rendered->getCss(), [], [
             'name' => implode('-', ['style', $pattern, $variant]),
             'output' => 'css/*.css',
         ]);
-        $js = $this->assetFactory->createAsset($rendered->getScripts(), [], [
+        $js = $this->assetFactory->createAsset($rendered->getJs(), [], [
             'name' => implode('-', ['script', $pattern, $variant]),
             'output' => 'js/*.js',
         ]);
         $this->assetWriter->writeAsset($css);
         $this->assetWriter->writeAsset($js);
-        $rendered->setStyles([$css->getTargetPath()]);
-        $rendered->setScripts([$js->getTargetPath()]);
+        $rendered->setCss([$css->getTargetPath()]);
+        $rendered->setJs([$js->getTargetPath()]);
 
         return new Response($this->ui->decorateRendered(
             $rendered

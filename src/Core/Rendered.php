@@ -15,14 +15,14 @@ final class Rendered
 {
     private $markup = '';
 
-    private $styles = [];
+    private $css = [];
 
-    private $scripts = [];
+    private $js = [];
 
     public function __construct(array $styles = [], array $scripts = [])
     {
-        $this->setStyles($styles);
-        $this->setScripts($scripts);
+        $this->setCss($styles);
+        $this->setJs($scripts);
     }
 
     public function getMarkup(): string
@@ -35,34 +35,34 @@ final class Rendered
         $this->markup = $markup;
     }
 
-    public function addStyles(array $styles)
+    public function addCss(array $css)
     {
-        $this->styles = array_merge($this->styles, $styles);
+        $this->css = array_merge($this->css, $css);
     }
 
-    public function getStyles(): array
+    public function getCss(): array
     {
-        return $this->styles;
+        return $this->css;
     }
 
-    public function setStyles(array $styles)
+    public function setCss(array $css)
     {
-        $this->styles = $styles;
+        $this->css = $css;
     }
 
-    public function addScripts(array $scripts)
+    public function add(array $js)
     {
-        $this->scripts = array_merge($this->scripts, $scripts);
+        $this->js = array_merge($this->js, $js);
     }
 
-    public function getScripts(): array
+    public function getJs(): array
     {
-        return $this->scripts;
+        return $this->js;
     }
 
-    public function setScripts(array $scripts)
+    public function setJs(array $js)
     {
-        $this->scripts = $scripts;
+        $this->js = $js;
     }
 
     public function __toString()

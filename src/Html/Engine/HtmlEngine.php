@@ -30,8 +30,8 @@ class HtmlEngine implements EngineInterface
             $rendered->setMarkup(
                 file_get_contents($pattern->getFile()->getPathname())
             );
-            $rendered->addStyles(['@global_styles']);
-            $rendered->addScripts(['@global_scripts']);
+            $rendered->setCss(['@global_css']);
+            $rendered->setJs(['@global_js']);
 
             return $rendered;
         }

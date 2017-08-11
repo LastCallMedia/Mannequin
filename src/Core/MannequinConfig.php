@@ -33,10 +33,8 @@ class MannequinConfig extends Container implements ConfigInterface
 
                 return new RemoteUi(sys_get_temp_dir().'/mannequin-ui', $composer['extra']['uiVersion']);
             },
-            'global_styles' => [],
+            'global_css' => [],
             'global_js' => [],
-            'global_assets' => [],
-            'asset_libraries' => [],
         ];
         parent::__construct($values);
         $this['extensions'] = function () {
@@ -92,14 +90,14 @@ class MannequinConfig extends Container implements ConfigInterface
         return $this['ui'];
     }
 
-    public function getGlobalStyles(): array
+    public function getGlobalCss(): array
     {
-        return $this['global_styles'];
+        return $this['global_css'];
     }
 
-    public function setGlobalStyles(array $styles)
+    public function setGlobalCss(array $styles)
     {
-        $this['global_styles'] = $styles;
+        $this['global_css'] = $styles;
 
         return $this;
     }
@@ -112,23 +110,6 @@ class MannequinConfig extends Container implements ConfigInterface
     public function setGlobalJs(array $js)
     {
         $this['global_js'] = $js;
-
-        return $this;
-    }
-
-    public function getGlobalAssets(): array
-    {
-        return $this['global_assets'];
-    }
-
-    public function getAssetLibraries(): array
-    {
-        return $this['asset_libraries'];
-    }
-
-    public function setGlobalAssets(array $assets)
-    {
-        $this['global_assets'] = $assets;
 
         return $this;
     }

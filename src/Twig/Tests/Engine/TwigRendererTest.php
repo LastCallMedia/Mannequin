@@ -37,13 +37,6 @@ class TwigRendererTest extends RendererTestCase
         return $twig;
     }
 
-    public function testRender()
-    {
-        $rendered = parent::testRender();
-        $this->assertEquals(['foo'], $rendered->getStyles());
-        $this->assertEquals(['bar'], $rendered->getScripts());
-    }
-
     public function testWrapsRendered()
     {
         $twig = $this->prophesize(\Twig_Environment::class);
@@ -53,7 +46,7 @@ class TwigRendererTest extends RendererTestCase
 
         $pattern = $this->getSupportedPattern();
         $renderer = new TwigEngine($twig->reveal(), ['foostyle'], ['fooscript']);
-        $rendered = new Rendered(['barstyle'], ['barscript']);
+        $rendered = new Rendered(['@pattern_css'], ['@pattern_js']);
         $rendered->setMarkup('bar');
 
         return $renderer->render($pattern, ['foo' => $rendered]);
@@ -64,7 +57,7 @@ class TwigRendererTest extends RendererTestCase
      */
     public function testAggregatesStyles(Rendered $rendered)
     {
-        $this->assertEquals(['foostyle', 'barstyle'], $rendered->getStyles());
+        $this->assertEquals(['@global_css', '@pattern_css'], $rendered->getCss());
     }
 
     /**
@@ -72,7 +65,7 @@ class TwigRendererTest extends RendererTestCase
      */
     public function testAggregatesScripts(Rendered $rendered)
     {
-        $this->assertEquals(['fooscript', 'barscript'], $rendered->getScripts());
+        $this->assertEquals(['@global_js', '@pattern_js'], $rendered->getJs());
     }
 
     public function getSupportedPattern(): PatternInterface

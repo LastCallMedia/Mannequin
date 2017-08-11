@@ -108,19 +108,19 @@ class RenderCommand extends Command
                             ]
                         );
                         $rendered = $engine->render($pattern, $resolved);
-                        $css = $this->assetFactory->createAsset($rendered->getStyles(), [], [
+                        $css = $this->assetFactory->createAsset($rendered->getCss(), [], [
                             'name' => implode('-', ['style', $pattern->getId(), $variant->getId()]),
                             'output' => 'css/*.css',
                         ]);
-                        $js = $this->assetFactory->createAsset($rendered->getScripts(), [], [
+                        $js = $this->assetFactory->createAsset($rendered->getJs(), [], [
                             'name' => implode('-', ['script', $pattern->getId(), $variant->getId()]),
                             'output' => 'js/*.js',
                         ]);
 
                         $assetWriter->writeAsset($css);
                         $assetWriter->writeAsset($js);
-                        $rendered->setScripts([$js->getTargetPath()]);
-                        $rendered->setStyles([$css->getTargetPath()]);
+                        $rendered->setJs([$js->getTargetPath()]);
+                        $rendered->setCss([$css->getTargetPath()]);
 
                         $writer->raw(
                             $variantManifest['source'],

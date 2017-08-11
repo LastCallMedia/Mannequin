@@ -20,7 +20,7 @@ use LastCall\Mannequin\Core\Ui\Controller\RenderController;
 use LastCall\Mannequin\Core\Ui\Controller\UiController;
 use PHPUnit\Framework\TestCase;
 
-class ApplicationTest extends TestCase
+class MannequinTest extends TestCase
 {
     public function testHasExpectedRoutes()
     {

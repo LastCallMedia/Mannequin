@@ -52,6 +52,8 @@ abstract class RendererTestCase extends TestCase
             $pattern
         );
         $this->assertInstanceOf(Rendered::class, $rendered);
+        $this->assertEquals(['@global_css'], $rendered->getCss());
+        $this->assertEquals(['@global_js'], $rendered->getJs());
 
         return $rendered;
     }

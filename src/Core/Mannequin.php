@@ -215,7 +215,7 @@ class Mannequin extends Application
         /** @var AssetFactory $factory */
         $factory = $this['asset.factory'];
         $am = $factory->getAssetManager();
-        $styles = $factory->createAsset($config->getGlobalStyles(), [], [
+        $styles = $factory->createAsset($config->getGlobalCss(), [], [
             'name' => 'global',
             'output' => 'css/global.css',
         ]);

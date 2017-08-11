@@ -73,8 +73,6 @@ abstract class ExtensionTestCase extends TestCase
     {
         $config = $this->prophesize(ConfigInterface::class);
         $config->getCache()->willReturn($this->getNullCache());
-        $config->getStyles()->willReturn([]);
-        $config->getScripts()->willReturn([]);
 
         return $config->reveal();
     }

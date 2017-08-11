@@ -74,11 +74,11 @@ EOD;
         return sprintf(
             self::TEMPLATE,
             $this->mapAssets(
-                $rendered->getScripts(),
+                $rendered->getJs(),
                 '<script type="text/javascript" src="%s"></script>'
             ),
             $this->mapAssets(
-                $rendered->getStyles(),
+                $rendered->getCss(),
                 '<link rel="stylesheet" href="%s" />'
             ),
             $rendered->getMarkup()

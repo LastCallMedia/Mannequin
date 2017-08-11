@@ -27,16 +27,16 @@ class RenderedTest extends TestCase
     public function testStyles()
     {
         $rendered = new Rendered();
-        $rendered->setStyles(['foo']);
-        $rendered->addStyles(['bar']);
-        $this->assertEquals(['foo', 'bar'], $rendered->getStyles());
+        $rendered->setCss(['foo']);
+        $rendered->addCss(['bar']);
+        $this->assertEquals(['foo', 'bar'], $rendered->getCss());
     }
 
     public function testScripts()
     {
         $rendered = new Rendered();
-        $rendered->setScripts(['foo']);
-        $rendered->addScripts(['bar']);
-        $this->assertEquals(['foo', 'bar'], $rendered->getScripts());
+        $rendered->setJs(['foo']);
+        $rendered->add(['bar']);
+        $this->assertEquals(['foo', 'bar'], $rendered->getJs());
     }
 }

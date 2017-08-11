@@ -32,11 +32,7 @@ interface ConfigInterface
 
     public function getUi(): UiInterface;
 
-    public function getGlobalStyles(): array;
+    public function getGlobalCss(): array;
 
     public function getGlobalJs(): array;
-
-    public function getGlobalAssets(): array;
-
-    public function getAssetLibraries(): array;
 }

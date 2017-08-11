@@ -32,8 +32,8 @@ class TwigEngine implements EngineInterface
         if ($this->supports($pattern)) {
             $rendered = new Rendered();
 
-            $styles = ['@global_styles'];
-            $scripts = ['@global_scripts'];
+            $styles = ['@global_css'];
+            $scripts = ['@global_js'];
 
             $rendered->setMarkup(
                 $this->twig->render(
@@ -41,8 +41,8 @@ class TwigEngine implements EngineInterface
                     $this->wrapRendered($variables, $styles, $scripts)
                 )
             );
-            $rendered->setStyles($styles);
-            $rendered->setScripts($scripts);
+            $rendered->setCss($styles);
+            $rendered->setJs($scripts);
 
             return $rendered;
         }
@@ -55,8 +55,8 @@ class TwigEngine implements EngineInterface
         foreach ($variables as $key => $value) {
             if ($value instanceof Rendered) {
                 $wrapped[$key] = new \Twig_Markup($value, 'UTF-8');
-                $styles = array_merge($styles, $value->getStyles());
-                $scripts = array_merge($scripts, $value->getScripts());
+                $styles = array_merge($styles, $value->getCss());
+                $scripts = array_merge($scripts, $value->getJs());
             } else {
                 $wrapped[$key] = is_array($value)
                     ? $this->wrapRendered($value, $styles, $scripts)
