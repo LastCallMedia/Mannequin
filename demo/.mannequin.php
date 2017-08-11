@@ -43,9 +43,8 @@ $htmlExtension = new HtmlExtension([
 /**
  * Create and return the configuration.  Don't forget to return it!
  */
-return MannequinConfig::create([
-        'styles' => ['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/css/foundation.css'],
-        'scripts' => ['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/js/foundation.min.js'],
-    ])
+return MannequinConfig::create()
+    ->setGlobalJs(['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/js/foundation.min.js'])
+    ->setGlobalCss(['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/css/foundation.css'])
     ->addExtension($htmlExtension)
     ->addExtension($twigExtension);

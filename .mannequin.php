@@ -29,7 +29,7 @@ $config = MannequinConfig::create([
     ->setGlobalJs([
         'https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/js/foundation.min.js'
     ])
-    ->setGlobalStyles([
+    ->setGlobalCss([
         'https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/css/foundation.min.css'
     ])
     ->addExtension($html)
