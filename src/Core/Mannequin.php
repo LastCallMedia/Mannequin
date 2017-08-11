@@ -223,13 +223,8 @@ class Mannequin extends Application
             'name' => 'global',
             'output' => 'js/global.js',
         ]);
-        $assets = $factory->createAsset($config->getGlobalAssets());
         $am->set('global_styles', $styles);
         $am->set('global_scripts', $scripts);
-        $am->set('global_assets', $assets);
-        foreach ($config->getAssetLibraries() as $name => $definition) {
-            $am->set($name, $factory->createAsset($definition));
-        }
 
         return parent::boot();
     }
