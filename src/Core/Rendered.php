@@ -50,7 +50,7 @@ final class Rendered
         $this->css = $css;
     }
 
-    public function add(array $js)
+    public function addJs(array $js)
     {
         $this->js = array_merge($this->js, $js);
     }

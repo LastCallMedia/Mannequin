@@ -36,7 +36,7 @@ class RenderedTest extends TestCase
     {
         $rendered = new Rendered();
         $rendered->setJs(['foo']);
-        $rendered->add(['bar']);
+        $rendered->addJs(['bar']);
         $this->assertEquals(['foo', 'bar'], $rendered->getJs());
     }
 }
