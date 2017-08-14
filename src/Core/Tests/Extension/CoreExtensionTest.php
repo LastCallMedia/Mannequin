@@ -13,7 +13,7 @@ namespace LastCall\Mannequin\Core\Tests\Extension;
 
 use LastCall\Mannequin\Core\Extension\CoreExtension;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
-use LastCall\Mannequin\Core\Subscriber\CssJsRenderSubscriber;
+use LastCall\Mannequin\Core\Subscriber\CssJsResolverSubscriber;
 use LastCall\Mannequin\Core\Subscriber\LastChanceNameSubscriber;
 use LastCall\Mannequin\Core\Subscriber\VariableResolverSubscriber;
 use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
@@ -39,7 +39,7 @@ class CoreExtensionTest extends ExtensionTestCase
         )->shouldBeCalled();
 
         $dispatcher->addSubscriber(
-            Argument::type(CssJsRenderSubscriber::class)
+            Argument::type(CssJsResolverSubscriber::class)
         )->shouldBeCalled();
 
         $dispatcher->addSubscriber(

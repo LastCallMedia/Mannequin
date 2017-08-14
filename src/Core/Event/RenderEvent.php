@@ -24,13 +24,15 @@ class RenderEvent extends Event
     private $variant;
     private $rendered;
     private $variables = [];
+    private $isRoot;
 
-    public function __construct(PatternCollection $collection, PatternInterface $pattern, PatternVariant $variant, Rendered $rendered)
+    public function __construct(PatternCollection $collection, PatternInterface $pattern, PatternVariant $variant, Rendered $rendered, $isRoot = true)
     {
         $this->collection = $collection;
         $this->pattern = $pattern;
         $this->variant = $variant;
         $this->rendered = $rendered;
+        $this->isRoot = $isRoot;
     }
 
     public function getCollection(): PatternCollection
@@ -61,5 +63,10 @@ class RenderEvent extends Event
     public function setVariables(array $variables = [])
     {
         $this->variables = $variables;
+    }
+
+    public function isRoot(): bool
+    {
+        return $this->isRoot;
     }
 }

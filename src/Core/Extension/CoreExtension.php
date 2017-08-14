@@ -11,7 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Extension;
 
-use LastCall\Mannequin\Core\Subscriber\CssJsRenderSubscriber;
+use LastCall\Mannequin\Core\Subscriber\CssJsResolverSubscriber;
 use LastCall\Mannequin\Core\Subscriber\LastChanceNameSubscriber;
 use LastCall\Mannequin\Core\Subscriber\VariableResolverSubscriber;
 use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
@@ -37,7 +37,7 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
         $dispatcher->addSubscriber(new YamlFileMetadataSubscriber($this->mannequin->getMetadataParser()));
         $dispatcher->addSubscriber(new LastChanceNameSubscriber());
         $dispatcher->addSubscriber(new VariableResolverSubscriber($this->mannequin->getVariableResolver()));
-        $dispatcher->addSubscriber(new CssJsRenderSubscriber($this->mannequin->getAssetFactory(), $this->mannequin->getUrlGenerator()));
+        $dispatcher->addSubscriber(new CssJsResolverSubscriber($this->mannequin->getAssetFactory(), $this->mannequin->getUrlGenerator()));
     }
 
     private function getPatternExpressionFunction()

@@ -24,6 +24,7 @@ class PatternRenderer
 {
     private $engine;
     private $dispatcher;
+    private $isRendering = false;
 
     public function __construct(EngineInterface $engine, EventDispatcherInterface $dispatcher)
     {
@@ -33,15 +34,27 @@ class PatternRenderer
 
     public function render(PatternCollection $collection, PatternInterface $pattern, PatternVariant $variant): Rendered
     {
-        $rendered = new Rendered();
-        $rendered->setCss(['@global_css']);
-        $rendered->setJs(['@global_js']);
-        $event = new RenderEvent($collection, $pattern, $variant, $rendered);
-        $this->dispatcher->dispatch(PatternEvents::PRE_RENDER, $event);
-        $this->engine->render($pattern, $event->getVariables(), $rendered);
-        $this->dispatcher->dispatch(PatternEvents::POST_RENDER, $event);
+        return $this->enterRender(function ($isRoot) use ($collection, $pattern, $variant) {
+            $rendered = new Rendered();
+            $rendered->setCss(['@global_css']);
+            $rendered->setJs(['@global_js']);
+            $event = new RenderEvent($collection, $pattern, $variant, $rendered, $isRoot);
+            $this->dispatcher->dispatch(PatternEvents::PRE_RENDER, $event);
+            $this->engine->render($pattern, $event->getVariables(), $rendered);
+            $this->dispatcher->dispatch(PatternEvents::POST_RENDER, $event);
 
-        return $rendered;
+            return $rendered;
+        });
+    }
+
+    private function enterRender(callable $cb)
+    {
+        $isRoot = !$this->isRendering;
+        $this->isRendering = true;
+        $return = $cb($isRoot);
+        $this->isRendering = !$isRoot;
+
+        return $return;
     }
 
     public function renderSource(PatternInterface $pattern): string
