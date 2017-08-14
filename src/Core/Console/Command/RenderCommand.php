@@ -11,14 +11,11 @@
 
 namespace LastCall\Mannequin\Core\Console\Command;
 
-use Assetic\AssetWriter;
-use Assetic\Factory\AssetFactory;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
-use LastCall\Mannequin\Core\Engine\EngineInterface;
+use LastCall\Mannequin\Core\PatternRenderer;
 use LastCall\Mannequin\Core\Ui\FileWriter;
 use LastCall\Mannequin\Core\Ui\ManifestBuilder;
 use LastCall\Mannequin\Core\Ui\UiInterface;
-use LastCall\Mannequin\Core\Variable\VariableResolver;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -31,15 +28,9 @@ class RenderCommand extends Command
 {
     private $manifester;
 
-    private $resolver;
-
-    private $engine;
-
     private $discovery;
 
     private $ui;
-
-    private $assetFactory;
 
     private $urlGenerator;
 
@@ -48,19 +39,15 @@ class RenderCommand extends Command
         ManifestBuilder $manifester,
         DiscoveryInterface $discovery,
         UiInterface $ui,
-        EngineInterface $engine,
-        VariableResolver $resolver,
-        AssetFactory $assetFactory,
-        UrlGeneratorInterface $urlGenerator
+        UrlGeneratorInterface $urlGenerator,
+        PatternRenderer $renderer
     ) {
         parent::__construct($name);
         $this->manifester = $manifester;
         $this->discovery = $discovery;
         $this->ui = $ui;
-        $this->engine = $engine;
-        $this->resolver = $resolver;
-        $this->assetFactory = $assetFactory;
         $this->urlGenerator = $urlGenerator;
+        $this->renderer = $renderer;
     }
 
     public function configure()
@@ -80,69 +67,38 @@ class RenderCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $outDir = $input->getOption('output-dir');
-
         $writer = new FileWriter($outDir);
-        $assetWriter = new AssetWriter($outDir);
         try {
             $collection = $this->discovery->discover();
-            $engine = $this->engine;
             $ui = $this->ui;
-            $resolver = $this->resolver;
+            $renderer = $this->renderer;
+            $urlGenerator = $this->urlGenerator;
 
             $manifest = $this->manifester->generate($collection);
             $writer->raw('manifest.json', json_encode($manifest));
             $rows[] = $this->getSuccessRow('Manifest');
 
-            foreach ($manifest['patterns'] as $patternManifest) {
+            foreach ($collection as $pattern) {
                 try {
-                    $pattern = $collection->get($patternManifest['id']);
                     $writer->raw(
-                        $patternManifest['source'],
-                        $engine->renderSource($pattern)
+                        $this->urlGenerator->generate('pattern_render_source_raw', ['pattern' => $pattern->getId()]),
+                        $renderer->renderSource($pattern)
                     );
-
-                    foreach ($patternManifest['variants'] as $variantManifest) {
-                        $variant = $pattern->getVariant($variantManifest['id']);
-                        $resolved = $resolver->resolve(
-                            $variant->getVariables(),
-                            [
-                                'collection' => $collection,
-                                'engine' => $engine,
-                                'resolver' => $resolver,
-                                'pattern' => $pattern,
-                                'variant' => $variant,
-                            ]
-                        );
-                        $context = new RequestContext();
-                        $context->setPathInfo('/'.$variantManifest['rendered']);
-                        $this->urlGenerator->setContext($context);
-                        $rendered = $engine->render($pattern, $resolved);
-                        $css = $this->assetFactory->createAsset($rendered->getCss(), [], [
-                            'name' => implode('-', ['style', $pattern->getId(), $variant->getId()]),
-                            'output' => 'css/*.css',
-                        ]);
-                        $js = $this->assetFactory->createAsset($rendered->getJs(), [], [
-                            'name' => implode('-', ['script', $pattern->getId(), $variant->getId()]),
-                            'output' => 'js/*.js',
-                        ]);
-
-                        $assetWriter->writeAsset($css);
-                        $assetWriter->writeAsset($js);
-                        $rendered->setJs([
-                            $this->urlGenerator->generate('static', ['name' => $js->getTargetPath()], UrlGeneratorInterface::RELATIVE_PATH),
-                        ]);
-                        $rendered->setCss([
-                            $this->urlGenerator->generate('static', ['name' => $css->getTargetPath()], UrlGeneratorInterface::RELATIVE_PATH),
-                        ]);
-
+                    foreach ($pattern->getVariants() as $variant) {
+                        $args = ['pattern' => $pattern->getId(), 'variant' => $variant->getId()];
+                        $ctx = new RequestContext();
+                        $ctx->setPathInfo($urlGenerator->generate('pattern_render', $args));
+                        $urlGenerator->setContext($ctx);
+                        $rendered = $renderer->render($collection, $pattern, $variant);
                         $writer->raw(
-                            $variantManifest['source'],
+                            $urlGenerator->generate('pattern_render', $args),
+                            $this->ui->decorateRendered($rendered)
+                        );
+                        $writer->raw(
+                            $urlGenerator->generate('pattern_render_raw', $args),
                             $rendered->getMarkup()
                         );
-                        $writer->raw(
-                            $variantManifest['rendered'],
-                            $ui->decorateRendered($rendered)
-                        );
+                        $renderer->writeAssets($rendered, $outDir);
                     }
                     $rows[] = $this->getSuccessRow($pattern->getName());
                 } catch (\Exception $e) {

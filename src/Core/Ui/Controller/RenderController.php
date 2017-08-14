@@ -11,71 +11,41 @@
 
 namespace LastCall\Mannequin\Core\Ui\Controller;
 
-use Assetic\AssetWriter;
-use Assetic\Factory\AssetFactory;
-use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Exception\PatternNotFoundException;
 use LastCall\Mannequin\Core\Exception\VariantNotFoundException;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\PatternRenderer;
 use LastCall\Mannequin\Core\Ui\UiInterface;
-use LastCall\Mannequin\Core\Variable\VariableResolver;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class RenderController
 {
     private $collection;
 
-    private $engine;
+    private $renderer;
 
     private $ui;
 
-    private $assetFactory;
-
-    private $assetWriter;
-
-    private $urlGenerator;
+    private $assetDir;
 
     public function __construct(
         PatternCollection $collection,
-        EngineInterface $engine,
+        PatternRenderer $renderer,
         UiInterface $ui,
-        VariableResolver $resolver,
-        AssetFactory $factory,
-        string $assetDir,
-        UrlGeneratorInterface $urlGenerator
+        string $assetDir
     ) {
         $this->collection = $collection;
-        $this->engine = $engine;
+        $this->renderer = $renderer;
         $this->ui = $ui;
-        $this->resolver = $resolver;
-        $this->assetFactory = $factory;
-        $this->assetWriter = new AssetWriter($assetDir);
-        $this->urlGenerator = $urlGenerator;
+        $this->assetDir = $assetDir;
     }
 
     public function renderAction($pattern, $variant)
     {
         $rendered = $this->renderPattern($pattern, $variant);
-
-        $css = $this->assetFactory->createAsset($rendered->getCss(), [], [
-            'name' => implode('-', ['style', $pattern, $variant]),
-            'output' => 'css/*.css',
-        ]);
-        $js = $this->assetFactory->createAsset($rendered->getJs(), [], [
-            'name' => implode('-', ['script', $pattern, $variant]),
-            'output' => 'js/*.js',
-        ]);
-        $this->assetWriter->writeAsset($css);
-        $this->assetWriter->writeAsset($js);
-        $rendered->setCss([
-            $this->urlGenerator->generate('static', ['name' => $css->getTargetPath()], UrlGeneratorInterface::RELATIVE_PATH),
-        ]);
-        $rendered->setJs([
-            $this->urlGenerator->generate('static', ['name' => $js->getTargetPath()], UrlGeneratorInterface::RELATIVE_PATH),
-        ]);
+        $this->renderer->writeAssets($rendered, $this->assetDir);
 
         return new Response($this->ui->decorateRendered(
             $rendered
@@ -86,15 +56,8 @@ class RenderController
     {
         $pattern = $this->getPattern($pattern);
         $variant = $this->getPatternVariant($pattern, $variant);
-        $resolved = $this->resolver->resolve($variant->getVariables(), [
-            'collection' => $this->collection,
-            'resolver' => $this->resolver,
-            'engine' => $this->engine,
-            'pattern' => $pattern,
-            'variant' => $variant,
-        ]);
 
-        return $this->engine->render($pattern, $resolved);
+        return $this->renderer->render($this->collection, $pattern, $variant);
     }
 
     public function renderRawAction($pattern, $variant)
@@ -107,9 +70,8 @@ class RenderController
     public function renderSourceAction($pattern)
     {
         $pattern = $this->getPattern($pattern);
-        $markup = $this->engine->renderSource($pattern);
 
-        return new Response($markup);
+        return new Response($this->renderer->renderSource($pattern));
     }
 
     private function getPattern($patternId)

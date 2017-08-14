@@ -60,10 +60,8 @@ class Mannequin extends Application
                         $this['manifest.builder'],
                         $this['discovery'],
                         $this['config']->getUi(),
-                        $this['engine'],
-                        $this['variable.resolver'],
-                        $this['asset.factory'],
-                        $this['url_generator']
+                        $this['url_generator'],
+                        $this['renderer']
                     ),
                     new ServerCommand(
                         'server',
@@ -158,6 +156,14 @@ class Mannequin extends Application
         $this['metadata_parser'] = function () {
             return new YamlMetadataParser();
         };
+        $this['renderer'] = function () {
+            return new PatternRenderer(
+                $this['engine'],
+                $this['url_generator'],
+                $this['variable.resolver'],
+                $this['asset.factory']
+            );
+        };
 
         $this->register(new ServiceControllerServiceProvider());
         $this['controller.ui'] = function () {
@@ -174,12 +180,9 @@ class Mannequin extends Application
 
             return new RenderController(
                 $collection,
-                $this['engine'],
+                $this['renderer'],
                 $this['config']->getUi(),
-                $this['variable.resolver'],
-                $this['asset.factory'],
-                $this['asset.cache_dir'],
-                $this['url_generator']
+                $this['asset.cache_dir']
             );
         };
 
@@ -234,6 +237,11 @@ class Mannequin extends Application
     public function getMetadataParser(): YamlMetadataParser
     {
         return $this['metadata_parser'];
+    }
+
+    public function getAssetFactory(): AssetFactory
+    {
+        return $this['asset.factory'];
     }
 
     public function getConsole(): ConsoleApplication

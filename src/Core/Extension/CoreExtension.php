@@ -17,6 +17,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 use LastCall\Mannequin\Core\Rendered;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CoreExtension extends AbstractExtension implements ExpressionFunctionProviderInterface
 {
@@ -25,6 +26,7 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
         return [
             $this->getPatternExpressionFunction(),
             $this->getMarkupExpressionFunction(),
+            $this->getAssetExpressionFunction(),
         ];
     }
 
@@ -63,6 +65,25 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
             $rendered->setMarkup($markup);
 
             return $rendered;
+        });
+    }
+
+    private function getAssetExpressionFunction()
+    {
+        return new ExpressionFunction('asset', function () {
+            throw new \ErrorException('Asset expressions cannot be compiled.');
+        }, function ($args, $spec) {
+            $asset = $this->mannequin->getAssetFactory()->createAsset($spec, [], [
+                'output' => 'assets/*',
+            ]);
+            $args['assets']->add($asset);
+            $path = $asset->getTargetPath();
+
+            return $this->mannequin['url_generator']->generate(
+                'static',
+                ['name' => $path],
+                UrlGeneratorInterface::RELATIVE_PATH
+            );
         });
     }
 }
