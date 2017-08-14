@@ -13,6 +13,7 @@ namespace LastCall\Mannequin\Core\Extension;
 
 use LastCall\Mannequin\Core\Subscriber\CssJsResolverSubscriber;
 use LastCall\Mannequin\Core\Subscriber\LastChanceNameSubscriber;
+use LastCall\Mannequin\Core\Subscriber\NestedAssetSubscriber;
 use LastCall\Mannequin\Core\Subscriber\VariableResolverSubscriber;
 use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -38,6 +39,7 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
         $dispatcher->addSubscriber(new LastChanceNameSubscriber());
         $dispatcher->addSubscriber(new VariableResolverSubscriber($this->mannequin->getVariableResolver()));
         $dispatcher->addSubscriber(new CssJsResolverSubscriber($this->mannequin->getAssetFactory(), $this->mannequin->getUrlGenerator()));
+        $dispatcher->addSubscriber(new NestedAssetSubscriber());
     }
 
     private function getPatternExpressionFunction()
