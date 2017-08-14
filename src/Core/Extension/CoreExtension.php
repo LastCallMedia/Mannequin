@@ -11,7 +11,9 @@
 
 namespace LastCall\Mannequin\Core\Extension;
 
+use LastCall\Mannequin\Core\Subscriber\CssJsRenderSubscriber;
 use LastCall\Mannequin\Core\Subscriber\LastChanceNameSubscriber;
+use LastCall\Mannequin\Core\Subscriber\VariableResolverSubscriber;
 use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
@@ -34,6 +36,8 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
     {
         $dispatcher->addSubscriber(new YamlFileMetadataSubscriber($this->mannequin->getMetadataParser()));
         $dispatcher->addSubscriber(new LastChanceNameSubscriber());
+        $dispatcher->addSubscriber(new VariableResolverSubscriber($this->mannequin->getVariableResolver()));
+        $dispatcher->addSubscriber(new CssJsRenderSubscriber($this->mannequin->getAssetFactory(), $this->mannequin->getUrlGenerator()));
     }
 
     private function getPatternExpressionFunction()
@@ -43,16 +47,11 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
         }, function ($context, $pid) {
             /** @var \LastCall\Mannequin\Core\Pattern\PatternCollection $collection */
             $collection = $context['collection'];
-            /** @var \LastCall\Mannequin\Core\Engine\EngineInterface $engine */
-            $engine = $context['engine'];
-            /** @var \LastCall\Mannequin\Core\Variable\VariableResolver $resolver */
-            $resolver = $context['resolver'];
-
             $pattern = $collection->get($pid);
             $variant = reset($pattern->getVariants());
-            $resolved = $resolver->resolve($variant->getVariables(), $context);
+            $renderer = $this->mannequin->getRenderer();
 
-            return $engine->render($pattern, $resolved);
+            return $renderer->render($collection, $pattern, $variant);
         });
     }
 
@@ -72,16 +71,17 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
     {
         return new ExpressionFunction('asset', function () {
             throw new \ErrorException('Asset expressions cannot be compiled.');
-        }, function ($args, $spec) {
+        }, function ($context, $spec) {
             $asset = $this->mannequin->getAssetFactory()->createAsset($spec, [], [
                 'output' => 'assets/*',
             ]);
-            $args['assets']->add($asset);
-            $path = $asset->getTargetPath();
+            /** @var Rendered $rendered */
+            $rendered = $context['rendered'];
+            $rendered->getAssets()->add($asset);
 
             return $this->mannequin['url_generator']->generate(
                 'static',
-                ['name' => $path],
+                ['name' => $asset->getTargetPath()],
                 UrlGeneratorInterface::RELATIVE_PATH
             );
         });

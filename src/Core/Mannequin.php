@@ -35,6 +35,7 @@ use Silex\Provider\ServiceControllerServiceProvider;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class Mannequin extends Application
 {
@@ -159,9 +160,7 @@ class Mannequin extends Application
         $this['renderer'] = function () {
             return new PatternRenderer(
                 $this['engine'],
-                $this['url_generator'],
-                $this['variable.resolver'],
-                $this['asset.factory']
+                $this['dispatcher']
             );
         };
 
@@ -242,6 +241,21 @@ class Mannequin extends Application
     public function getAssetFactory(): AssetFactory
     {
         return $this['asset.factory'];
+    }
+
+    public function getVariableResolver(): VariableResolver
+    {
+        return $this['variable.resolver'];
+    }
+
+    public function getUrlGenerator(): UrlGeneratorInterface
+    {
+        return $this['url_generator'];
+    }
+
+    public function getRenderer(): PatternRenderer
+    {
+        return $this['renderer'];
     }
 
     public function getConsole(): ConsoleApplication

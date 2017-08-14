@@ -27,39 +27,30 @@ class TwigEngine implements EngineInterface
         $this->twig = $twig;
     }
 
-    public function render(PatternInterface $pattern, array $variables = []): Rendered
+    public function render(PatternInterface $pattern, array $variables = [], Rendered $rendered)
     {
         if ($this->supports($pattern)) {
-            $rendered = new Rendered();
-
-            $styles = ['@global_css'];
-            $scripts = ['@global_js'];
-
             $rendered->setMarkup(
                 $this->twig->render(
                     $pattern->getSource()->getName(),
-                    $this->wrapRendered($variables, $styles, $scripts)
+                    $this->wrapRendered($variables)
                 )
             );
-            $rendered->setCss($styles);
-            $rendered->setJs($scripts);
 
-            return $rendered;
+            return;
         }
-        throw new UnsupportedPatternException('Unsupported pattern.');
+        throw new UnsupportedPatternException(sprintf('Unsupported pattern: %s', $pattern->getId()));
     }
 
-    private function wrapRendered(array $variables, &$styles, &$scripts)
+    private function wrapRendered(array $variables)
     {
         $wrapped = [];
         foreach ($variables as $key => $value) {
             if ($value instanceof Rendered) {
                 $wrapped[$key] = new \Twig_Markup($value, 'UTF-8');
-                $styles = array_merge($styles, $value->getCss());
-                $scripts = array_merge($scripts, $value->getJs());
             } else {
                 $wrapped[$key] = is_array($value)
-                    ? $this->wrapRendered($value, $styles, $scripts)
+                    ? $this->wrapRendered($value)
                     : $value;
             }
         }

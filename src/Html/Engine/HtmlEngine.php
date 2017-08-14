@@ -23,17 +23,14 @@ class HtmlEngine implements EngineInterface
     {
     }
 
-    public function render(PatternInterface $pattern, array $values = []): Rendered
+    public function render(PatternInterface $pattern, array $values = [], Rendered $rendered)
     {
         if ($this->supports($pattern)) {
-            $rendered = new Rendered();
             $rendered->setMarkup(
                 file_get_contents($pattern->getFile()->getPathname())
             );
-            $rendered->setCss(['@global_css']);
-            $rendered->setJs(['@global_js']);
 
-            return $rendered;
+            return;
         }
         throw new UnsupportedPatternException('Unsupported Pattern.');
     }

@@ -12,73 +12,34 @@
 namespace LastCall\Mannequin\Core;
 
 use Assetic\AssetWriter;
-use Assetic\Factory\AssetFactory;
-use Assetic\Asset\AssetCollection;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
+use LastCall\Mannequin\Core\Event\PatternEvents;
+use LastCall\Mannequin\Core\Event\RenderEvent;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Pattern\PatternVariant;
-use LastCall\Mannequin\Core\Variable\VariableResolver;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class PatternRenderer
 {
-    private $urlGenerator;
-    private $resolver;
-    private $assetFactory;
     private $engine;
+    private $dispatcher;
 
-    public function __construct(EngineInterface $engine, UrlGeneratorInterface $generator, VariableResolver $resolver, AssetFactory $assetFactory)
+    public function __construct(EngineInterface $engine, EventDispatcherInterface $dispatcher)
     {
-        $this->resolver = $resolver;
-        $this->urlGenerator = $generator;
-        $this->assetFactory = $assetFactory;
         $this->engine = $engine;
+        $this->dispatcher = $dispatcher;
     }
 
     public function render(PatternCollection $collection, PatternInterface $pattern, PatternVariant $variant): Rendered
     {
-        $generator = $this->urlGenerator;
-        $assets = new AssetCollection();
-        $resolved = $this->resolver->resolve($variant->getVariables(), [
-            'collection' => $collection,
-            'resolver' => $this->resolver,
-            'engine' => $this->engine,
-            'pattern' => $pattern,
-            'variant' => $variant,
-            'assets' => $assets,
-            'generator' => $generator,
-        ]);
-
-        $rendered = $this->engine->render($pattern, $resolved);
-        if ($css = $rendered->getCss()) {
-            $css = $this->assetFactory->createAsset($css, [], [
-                'output' => 'css/*.css',
-            ]);
-            $cssUrl = $generator->generate(
-                'static',
-                ['name' => $css->getTargetPath()],
-                UrlGeneratorInterface::RELATIVE_PATH
-            );
-            $rendered->setCss([$cssUrl]);
-            $rendered->getAssets()->add($css);
-        }
-
-        if ($js = $rendered->getJs()) {
-            $js = $this->assetFactory->createAsset($js, [], [
-                'output' => 'js/*.js',
-            ]);
-            $jsUrl = $generator->generate(
-                'static',
-                ['name' => $js->getTargetPath()],
-                UrlGeneratorInterface::RELATIVE_PATH
-            );
-            $rendered->setJs([$jsUrl]);
-            $rendered->getAssets()->add($js);
-        }
-        foreach ($assets->all() as $asset) {
-            $rendered->getAssets()->add($asset);
-        }
+        $rendered = new Rendered();
+        $rendered->setCss(['@global_css']);
+        $rendered->setJs(['@global_js']);
+        $event = new RenderEvent($collection, $pattern, $variant, $rendered);
+        $this->dispatcher->dispatch(PatternEvents::PRE_RENDER, $event);
+        $this->engine->render($pattern, $event->getVariables(), $rendered);
+        $this->dispatcher->dispatch(PatternEvents::POST_RENDER, $event);
 
         return $rendered;
     }

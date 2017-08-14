@@ -29,7 +29,8 @@ class DelegatingRendererTest extends RendererTestCase
         );
         $subrenderer->render(
             Argument::type(PatternInterface::class),
-            Argument::type('array')
+            Argument::type('array'),
+            Argument::type(Rendered::class)
         )->will(
             function () {
                 $rendered = new Rendered();

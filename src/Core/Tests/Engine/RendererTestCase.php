@@ -48,12 +48,13 @@ abstract class RendererTestCase extends TestCase
     public function testRender()
     {
         $pattern = $this->getSupportedPattern();
-        $rendered = $this->getRenderer()->render(
-            $pattern
+        $rendered = new Rendered();
+        $this->getRenderer()->render(
+            $pattern,
+            [],
+            $rendered
         );
         $this->assertInstanceOf(Rendered::class, $rendered);
-        $this->assertEquals(['@global_css'], $rendered->getCss());
-        $this->assertEquals(['@global_js'], $rendered->getJs());
 
         return $rendered;
     }
@@ -65,7 +66,9 @@ abstract class RendererTestCase extends TestCase
     {
         $pattern = $this->getUnsupportedPattern();
         $this->getRenderer()->render(
-            $pattern
+            $pattern,
+            [],
+            new Rendered()
         );
     }
 

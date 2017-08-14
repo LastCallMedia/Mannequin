@@ -49,23 +49,8 @@ class TwigRendererTest extends RendererTestCase
         $rendered = new Rendered(['@pattern_css'], ['@pattern_js']);
         $rendered->setMarkup('bar');
 
-        return $renderer->render($pattern, ['foo' => $rendered]);
-    }
-
-    /**
-     * @depends testWrapsRendered
-     */
-    public function testAggregatesStyles(Rendered $rendered)
-    {
-        $this->assertEquals(['@global_css', '@pattern_css'], $rendered->getCss());
-    }
-
-    /**
-     * @depends testWrapsRendered
-     */
-    public function testAggregatesScripts(Rendered $rendered)
-    {
-        $this->assertEquals(['@global_js', '@pattern_js'], $rendered->getJs());
+        $output = new Rendered();
+        $renderer->render($pattern, ['foo' => $rendered], $output);
     }
 
     public function getSupportedPattern(): PatternInterface
