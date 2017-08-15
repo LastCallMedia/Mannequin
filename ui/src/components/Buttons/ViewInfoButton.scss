@@ -1,0 +1,11 @@
+
+@import "../../base";
+
+.ViewInfoButton {
+  @include button($background: black, $background-hover: black);
+  font-size: rem-calc(8);
+  line-height: rem-calc(10);
+  text-transform:uppercase;
+  font-weight: bold;
+  color: #FFFFFF;
+}

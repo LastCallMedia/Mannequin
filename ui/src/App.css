@@ -1328,6 +1328,44 @@ a.button:hover, a.button:focus {
     background: #8a8a8a;
     box-shadow: 0 7px 0 #8a8a8a, 0 14px 0 #8a8a8a; }
 
+.callout {
+  position: relative;
+  margin: 0 0 1rem 0;
+  padding: 1rem;
+  border: 1px solid rgba(10, 10, 10, 0.25);
+  border-radius: 0;
+  background-color: white;
+  color: #0a0a0a; }
+  .callout > :first-child {
+    margin-top: 0; }
+  .callout > :last-child {
+    margin-bottom: 0; }
+  .callout.primary {
+    background-color: #d7ecfa;
+    color: #0a0a0a; }
+  .callout.secondary {
+    background-color: #eaeaea;
+    color: #0a0a0a; }
+  .callout.success {
+    background-color: #e1faea;
+    color: #0a0a0a; }
+  .callout.warning {
+    background-color: #fff3d9;
+    color: #0a0a0a; }
+  .callout.alert {
+    background-color: #f7e4e1;
+    color: #0a0a0a; }
+  .callout.small {
+    padding-top: 0.5rem;
+    padding-right: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.5rem; }
+  .callout.large {
+    padding-top: 3rem;
+    padding-right: 3rem;
+    padding-bottom: 3rem;
+    padding-left: 3rem; }
+
 .App {
   height: 100vh;
   width: 100vw;

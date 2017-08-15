@@ -30,7 +30,8 @@
 
   .opener {
     @extend %toggle-button;
-    i {
+    i.menu-icon {
+      @include hamburger($color: $titlebar-icon-color, $color-hover: $titlebar-icon-color-hover);
       margin-left: rem-calc(17);
     }
   }

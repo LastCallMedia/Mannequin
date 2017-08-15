@@ -1,7 +1,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {VariantShape} from '../types';
 
 const VariantSelector = ({variants, value, onChange}) => {
     return (
@@ -13,9 +12,20 @@ const VariantSelector = ({variants, value, onChange}) => {
     )
 }
 VariantSelector.propTypes = {
-    variants: PropTypes.arrayOf(PropTypes.shape(VariantShape)),
+    /** An array of variant objects. */
+    variants: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string,
+        name: PropTypes.string
+    })),
+    /** The current value of the selector */
     value: PropTypes.string,
+    /** A function to call when changed. */
     onChange: PropTypes.func,
+}
+VariantSelector.defaultProps = {
+    variants: [],
+    value: '',
+    onChange: () => {}
 }
 
 export default VariantSelector;

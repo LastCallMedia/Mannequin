@@ -1,10 +1,10 @@
 /**
  * Foundation for Sites by ZURB
- * Version 6.4.1
+ * Version 6.4.2
  * foundation.zurb.com
  * Licensed under MIT Open Source
  */
-.PatternInfoButton {
+.ViewInfoButton {
   display: inline-block;
   vertical-align: middle;
   margin: 0 0 1rem 0;
@@ -25,19 +25,8 @@
   text-transform: uppercase;
   font-weight: bold;
   color: #FFFFFF; }
-  [data-whatinput='mouse'] .PatternInfoButton {
+  [data-whatinput='mouse'] .ViewInfoButton {
     outline: 0; }
-  .PatternInfoButton:hover, .PatternInfoButton:focus {
+  .ViewInfoButton:hover, .ViewInfoButton:focus {
     background-color: black;
     color: #fefefe; }
-
-.InfoCloseButton {
-  background: white;
-  border: 1px solid #ECEAEA;
-  border-radius: 2em;
-  color: black;
-  width: 1em;
-  text-align: center;
-  font-size: 1.875rem;
-  line-height: 1.875rem;
-  text-decoration: none; }

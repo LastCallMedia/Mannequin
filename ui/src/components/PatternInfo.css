@@ -1,6 +1,6 @@
 /**
  * Foundation for Sites by ZURB
- * Version 6.4.1
+ * Version 6.4.2
  * foundation.zurb.com
  * Licensed under MIT Open Source
  */
@@ -8,11 +8,29 @@
   overflow-y: auto; }
   .PatternInfo .inner {
     background: #181D22;
+    padding-right: 0.625rem;
+    padding-left: 0.625rem;
     max-width: 75rem;
     margin: 0 auto;
     display: flex;
     flex-flow: row wrap;
     position: relative; }
+    @media print, screen and (min-width: 40em) {
+      .PatternInfo .inner {
+        padding-right: 0.9375rem;
+        padding-left: 0.9375rem; } }
+    @media print, screen and (min-width: 64em) {
+      .PatternInfo .inner {
+        padding-right: 0.9375rem;
+        padding-left: 0.9375rem; } }
+    @media screen and (min-width: 75em) {
+      .PatternInfo .inner {
+        padding-right: 0.9375rem;
+        padding-left: 0.9375rem; } }
+    @media screen and (min-width: 90em) {
+      .PatternInfo .inner {
+        padding-right: 0.9375rem;
+        padding-left: 0.9375rem; } }
     .PatternInfo .inner > .info, .PatternInfo .inner > .code {
       flex: 0 0 auto;
       min-height: 0px;

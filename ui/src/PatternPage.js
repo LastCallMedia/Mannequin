@@ -10,7 +10,7 @@ import {VariantNotFound} from './components/NotFound';
 import VariantSelector from './components/VariantSelector';
 import PatternProblems from './components/PatternProblems';
 import PatternTopBar from './components/PatternTopBar';
-import {OpenButton, ViewInfoButton, InfoCloseButton} from './components/Buttons';
+import {OpenWindowButton, ViewInfoButton, CloseButton} from './components/Buttons/';
 
 import './PatternPage.css';
 
@@ -43,13 +43,13 @@ const PatternInnerPage = ({pattern, variant, showingInfo, match, toggleInfo, bas
     const problems = pattern && pattern.problems.length ? <PatternProblems className="Content" problems={pattern.problems} /> : null;
     const actions = (
         <ul>
-            {variant && <li><OpenButton href={variant.rendered} /></li>}
+            {variant && <li><OpenWindowButton href={variant.rendered} /></li>}
             <li><ViewInfoButton onClick={toggleInfo} /></li>
         </ul>
     );
     var info;
     if(pattern) {
-        info = <PatternInfo className={showingInfo ? 'showing' : 'hiding'} pattern={pattern} variant={variant} used={used} controls={<InfoCloseButton onClick={toggleInfo} />} />
+        info = <PatternInfo className={showingInfo ? 'showing' : 'hiding'} pattern={pattern} variant={variant} used={used} controls={<CloseButton onClick={toggleInfo} />} />
     }
     else {
         info = null;

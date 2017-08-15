@@ -1,0 +1,16 @@
+/**
+ * Foundation for Sites by ZURB
+ * Version 6.4.2
+ * foundation.zurb.com
+ * Licensed under MIT Open Source
+ */
+.CloseButton {
+  background: white;
+  border: 1px solid #ECEAEA;
+  border-radius: 2em;
+  color: black;
+  width: 1em;
+  text-align: center;
+  font-size: 1.875rem;
+  line-height: 1.875rem;
+  text-decoration: none; }

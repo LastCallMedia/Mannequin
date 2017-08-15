@@ -10,7 +10,8 @@ export const VariantShape = {
     description: PropTypes.string,
     rendered: PropTypes.string.isRequired,
     metadata: PropTypes.shape()
-}
+};
+
 export const PatternShape = {
     name: PropTypes.string.isRequired,
     rendered: PropTypes.string,
@@ -23,4 +24,4 @@ export const PatternShape = {
 export const UsedShape = {
     name: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired
-}
+};

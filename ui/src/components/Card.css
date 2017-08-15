@@ -1,6 +1,6 @@
 /**
  * Foundation for Sites by ZURB
- * Version 6.4.1
+ * Version 6.4.2
  * foundation.zurb.com
  * Licensed under MIT Open Source
  */
@@ -13,7 +13,7 @@
     .Card:hover h6 {
       color: white; }
   .Card a {
-    color: white;
+    color: inherit;
     display: block; }
   .Card h6 {
     font-size: 0.5625rem;

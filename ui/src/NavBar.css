@@ -50,8 +50,27 @@
       width: auto;
       margin-right: 0.625rem;
       margin-left: 0.625rem; }
-  .MannequinTopBar .opener i {
+  .MannequinTopBar .opener i.menu-icon {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    height: 16px;
+    cursor: pointer;
     margin-left: 1.0625rem; }
+    .MannequinTopBar .opener i.menu-icon::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: #fefefe;
+      box-shadow: 0 7px 0 #fefefe, 0 14px 0 #fefefe;
+      content: ''; }
+    .MannequinTopBar .opener i.menu-icon:hover::after {
+      background: #cacaca;
+      box-shadow: 0 7px 0 #cacaca, 0 14px 0 #cacaca; }
   .MannequinTopBar .MannySmall {
     width: 37px;
     padding: 10px 0; }

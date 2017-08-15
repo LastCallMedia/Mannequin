@@ -4,6 +4,9 @@ import logo from '../svg/manny_wave.svg';
 
 import './Branding.css';
 
+/**
+ * Homepage branding block.
+ */
 const Branding = () => (
     <div className="Branding">
         <div className="top">

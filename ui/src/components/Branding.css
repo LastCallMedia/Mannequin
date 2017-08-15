@@ -1,12 +1,30 @@
 /**
  * Foundation for Sites by ZURB
- * Version 6.4.1
+ * Version 6.4.2
  * foundation.zurb.com
  * Licensed under MIT Open Source
  */
 .Branding {
+  padding-right: 0.625rem;
+  padding-left: 0.625rem;
   max-width: 75rem;
   margin: 0 auto; }
+  @media print, screen and (min-width: 40em) {
+    .Branding {
+      padding-right: 0.9375rem;
+      padding-left: 0.9375rem; } }
+  @media print, screen and (min-width: 64em) {
+    .Branding {
+      padding-right: 0.9375rem;
+      padding-left: 0.9375rem; } }
+  @media screen and (min-width: 75em) {
+    .Branding {
+      padding-right: 0.9375rem;
+      padding-left: 0.9375rem; } }
+  @media screen and (min-width: 90em) {
+    .Branding {
+      padding-right: 0.9375rem;
+      padding-left: 0.9375rem; } }
   .Branding h1 {
     font-family: "Gilroy", "Gill Sans";
     font-weight: 700;

@@ -19,13 +19,13 @@ const PatternTopBar = ({title, selector, actions}) => {
 }
 PatternTopBar.propTypes = {
     title: PropTypes.string,
-    selector: PropTypes.element,
-    actions: PropTypes.node,
-
-    // actions: PropTypes.arrayOf(PropTypes.element).isRequired
+    selector: PropTypes.node,
+    actions: PropTypes.element,
 }
 PatternTopBar.defaultProps = {
-    actions: []
+    title: '',
+    selector: [],
+    actions: null,
 }
 
 export default PatternTopBar;
