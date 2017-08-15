@@ -21,10 +21,14 @@ export class NavDrawer extends Component {
   constructor(props) {
     super(props)
     this.state = {filter: ''}
-    this.handleFilterChange = this.handleFilterChange.bind(this)
+    this.handleFilterChange = this.handleFilterChange.bind(this);
+    this.handleLinkPress = this.handleLinkPress.bind(this);
   }
   handleFilterChange(e) {
     this.setState({filter: e.target.value})
+  }
+  handleLinkPress(e) {
+    this.props.toggleNav();
   }
   render() {
     const {open, toggleNav, patterns} = this.props;
@@ -34,14 +38,17 @@ export class NavDrawer extends Component {
       collapsible: false,
       className: 'l1',
       itemClassName: 'l1',
+      onNavigate: this.handleLinkPress,
       children: {
         collapsible: true,
         className: 'l2',
         itemClassName: 'l2',
+        onNavigate: this.handleLinkPress,
         children: {
           collapsible: false,
           className: 'l3',
           itemClassName: 'l3',
+          onNavigate: this.handleLinkPress,
         }
       }
     }
@@ -89,7 +96,7 @@ function filterPatterns(searchString, patterns) {
 function MainMenu({tree, settings = {}}) {
   return (
     <ul className={`MenuList menu ${settings.className}`}>
-      {Object.keys(tree).map(k => <MainMenuItem key={k} leaf={tree[k]} className={settings.itemClassName} childSettings={settings.children} />)}
+      {Object.keys(tree).map(k => <MainMenuItem key={k} leaf={tree[k]} className={settings.itemClassName} childSettings={settings.children} onNavigate={settings.onNavigate} />)}
     </ul>
   )
 }
@@ -133,7 +140,7 @@ class MainMenuItem extends Component {
 
     return (
       <li className={`MenuItem ${className}`}>
-        {leaf.to && <Link to={leaf.to}>{leaf.icon}{leaf.name}</Link>}
+        {leaf.to && <Link to={leaf.to} onClick={this.props.onNavigate}>{leaf.icon}{leaf.name}</Link>}
         {leaf.children && <MainMenu tree={leaf.children} settings={childSettings} />}
       </li>
     )
