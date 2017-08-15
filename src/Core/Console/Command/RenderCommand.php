@@ -11,6 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Console\Command;
 
+use LastCall\Mannequin\Core\Asset\AssetManager;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\PatternRenderer;
 use LastCall\Mannequin\Core\Ui\FileWriter;
@@ -22,7 +23,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Routing\RequestContext;
 
 class RenderCommand extends Command
 {
@@ -34,13 +34,18 @@ class RenderCommand extends Command
 
     private $urlGenerator;
 
+    private $renderer;
+
+    private $assetManager;
+
     public function __construct(
         $name = null,
         ManifestBuilder $manifester,
         DiscoveryInterface $discovery,
         UiInterface $ui,
         UrlGeneratorInterface $urlGenerator,
-        PatternRenderer $renderer
+        PatternRenderer $renderer,
+        AssetManager $assetManager
     ) {
         parent::__construct($name);
         $this->manifester = $manifester;
@@ -48,6 +53,7 @@ class RenderCommand extends Command
         $this->ui = $ui;
         $this->urlGenerator = $urlGenerator;
         $this->renderer = $renderer;
+        $this->assetManager = $assetManager;
     }
 
     public function configure()
@@ -86,9 +92,7 @@ class RenderCommand extends Command
                     );
                     foreach ($pattern->getVariants() as $variant) {
                         $args = ['pattern' => $pattern->getId(), 'variant' => $variant->getId()];
-                        $ctx = new RequestContext();
-                        $ctx->setPathInfo($urlGenerator->generate('pattern_render', $args));
-                        $urlGenerator->setContext($ctx);
+                        $urlGenerator->getContext()->setPathInfo($urlGenerator->generate('pattern_render', $args));
                         $rendered = $renderer->render($collection, $pattern, $variant);
                         $writer->raw(
                             $urlGenerator->generate('pattern_render', $args),
@@ -98,12 +102,17 @@ class RenderCommand extends Command
                             $urlGenerator->generate('pattern_render_raw', $args),
                             $rendered->getMarkup()
                         );
-                        $renderer->writeAssets($rendered, $outDir);
                     }
                     $rows[] = $this->getSuccessRow($pattern->getName());
                 } catch (\Exception $e) {
                     $rows[] = $this->getErrorRow($pattern->getName(), $e);
                 }
+            }
+            try {
+                $this->assetManager->write($outDir);
+                $rows[] = $this->getSuccessRow('Assets');
+            } catch (\Exception $e) {
+                $rows[] = $this->getErrorRow('Assets', $e);
             }
             try {
                 foreach ($ui->files() as $dest => $src) {

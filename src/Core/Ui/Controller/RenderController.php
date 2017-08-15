@@ -11,6 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Ui\Controller;
 
+use LastCall\Mannequin\Core\Asset\AssetManager;
 use LastCall\Mannequin\Core\Exception\PatternNotFoundException;
 use LastCall\Mannequin\Core\Exception\VariantNotFoundException;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
@@ -30,22 +31,26 @@ class RenderController
 
     private $assetDir;
 
+    private $assetManager;
+
     public function __construct(
         PatternCollection $collection,
         PatternRenderer $renderer,
         UiInterface $ui,
+        AssetManager $assetManager,
         string $assetDir
     ) {
         $this->collection = $collection;
         $this->renderer = $renderer;
         $this->ui = $ui;
+        $this->assetManager = $assetManager;
         $this->assetDir = $assetDir;
     }
 
     public function renderAction($pattern, $variant)
     {
         $rendered = $this->renderPattern($pattern, $variant);
-        $this->renderer->writeAssets($rendered, $this->assetDir);
+        $this->assetManager->write($this->assetDir);
 
         return new Response($this->ui->decorateRendered(
             $rendered

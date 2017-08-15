@@ -38,6 +38,6 @@ class UiController
             return new BinaryFileResponse($this->assetDir.'/'.$name);
         }
 
-        throw new NotFoundHttpException(sprintf('Asset not found: %s', $name));
+        throw new NotFoundHttpException(sprintf('Asset not found: %s.  Checked in %s', $name, $this->assetDir));
     }
 }

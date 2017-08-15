@@ -11,7 +11,6 @@
 
 namespace LastCall\Mannequin\Core;
 
-use Assetic\AssetWriter;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Event\PatternEvents;
 use LastCall\Mannequin\Core\Event\RenderEvent;
@@ -36,8 +35,6 @@ class PatternRenderer
     {
         return $this->enterRender(function ($isRoot) use ($collection, $pattern, $variant) {
             $rendered = new Rendered();
-            $rendered->setCss(['@global_css']);
-            $rendered->setJs(['@global_js']);
             $event = new RenderEvent($collection, $pattern, $variant, $rendered, $isRoot);
             $this->dispatcher->dispatch(PatternEvents::PRE_RENDER, $event);
             $this->engine->render($pattern, $event->getVariables(), $rendered);
@@ -60,13 +57,5 @@ class PatternRenderer
     public function renderSource(PatternInterface $pattern): string
     {
         return $this->engine->renderSource($pattern);
-    }
-
-    public function writeAssets(Rendered $rendered, string $assetDirectory)
-    {
-        $writer = new AssetWriter($assetDirectory);
-        foreach ($rendered->getAssets()->all() as $asset) {
-            $writer->writeAsset($asset);
-        }
     }
 }

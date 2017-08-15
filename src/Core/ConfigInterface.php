@@ -35,4 +35,6 @@ interface ConfigInterface
     public function getGlobalCss(): array;
 
     public function getGlobalJs(): array;
+
+    public function getAssets(): \Traversable;
 }

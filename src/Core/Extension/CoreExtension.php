@@ -11,16 +11,14 @@
 
 namespace LastCall\Mannequin\Core\Extension;
 
-use LastCall\Mannequin\Core\Subscriber\CssJsResolverSubscriber;
+use LastCall\Mannequin\Core\Subscriber\GlobalAssetSubscriber;
 use LastCall\Mannequin\Core\Subscriber\LastChanceNameSubscriber;
-use LastCall\Mannequin\Core\Subscriber\NestedAssetSubscriber;
 use LastCall\Mannequin\Core\Subscriber\VariableResolverSubscriber;
 use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 use LastCall\Mannequin\Core\Rendered;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CoreExtension extends AbstractExtension implements ExpressionFunctionProviderInterface
 {
@@ -37,9 +35,12 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
     {
         $dispatcher->addSubscriber(new YamlFileMetadataSubscriber($this->mannequin->getMetadataParser()));
         $dispatcher->addSubscriber(new LastChanceNameSubscriber());
+        $dispatcher->addSubscriber(new GlobalAssetSubscriber(
+            $this->mannequin->getAssetPackage(),
+            $this->mannequin->getConfig()->getGlobalCss(),
+            $this->mannequin->getConfig()->getGlobalJs()
+        ));
         $dispatcher->addSubscriber(new VariableResolverSubscriber($this->mannequin->getVariableResolver()));
-        $dispatcher->addSubscriber(new CssJsResolverSubscriber($this->mannequin->getAssetFactory(), $this->mannequin->getUrlGenerator()));
-        $dispatcher->addSubscriber(new NestedAssetSubscriber());
     }
 
     private function getPatternExpressionFunction()
@@ -73,19 +74,10 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
     {
         return new ExpressionFunction('asset', function () {
             throw new \ErrorException('Asset expressions cannot be compiled.');
-        }, function ($context, $spec) {
-            $asset = $this->mannequin->getAssetFactory()->createAsset($spec, [], [
-                'output' => 'assets/*',
-            ]);
-            /** @var Rendered $rendered */
-            $rendered = $context['rendered'];
-            $rendered->getAssets()->add($asset);
+        }, function ($context, $path) {
+            $package = $this->mannequin->getAssetPackage();
 
-            return $this->mannequin['url_generator']->generate(
-                'static',
-                ['name' => $asset->getTargetPath()],
-                UrlGeneratorInterface::RELATIVE_PATH
-            );
+            return $package->getUrl($path);
         });
     }
 }

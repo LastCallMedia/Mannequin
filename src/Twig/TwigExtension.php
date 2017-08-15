@@ -16,6 +16,7 @@ namespace LastCall\Mannequin\Twig;
  */
 class TwigExtension extends AbstractTwigExtension
 {
+    private $iterator;
     private $twigRoot;
     private $twigOptions = [];
 

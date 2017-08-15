@@ -11,7 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Tests\Extension;
 
-use Assetic\Factory\AssetFactory;
+use LastCall\Mannequin\Core\Asset\AssetManager;
 use LastCall\Mannequin\Core\Mannequin;
 use LastCall\Mannequin\Core\Cache\NullCacheItemPool;
 use LastCall\Mannequin\Core\ConfigInterface;
@@ -24,6 +24,7 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Asset\PackageInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
@@ -77,6 +78,8 @@ abstract class ExtensionTestCase extends TestCase
     {
         $config = $this->prophesize(ConfigInterface::class);
         $config->getCache()->willReturn($this->getNullCache());
+        $config->getGlobalCss()->willReturn([]);
+        $config->getGlobalJs()->willReturn([]);
 
         return $config->reveal();
     }
@@ -88,7 +91,8 @@ abstract class ExtensionTestCase extends TestCase
         $mannequin->getCache()->willReturn($this->prophesize(CacheItemPoolInterface::class));
         $mannequin->getConfig()->willReturn($config ?? $this->getConfig());
         $mannequin->getVariableResolver()->willReturn(new VariableResolver(new ExpressionLanguage()));
-        $mannequin->getAssetFactory()->willReturn(new AssetFactory(getcwd()));
+        $mannequin->getAssetManager()->willReturn($this->prophesize(AssetManager::class));
+        $mannequin->getAssetPackage()->willReturn($this->prophesize(PackageInterface::class));
         $generator = $this->prophesize(UrlGeneratorInterface::class);
         $mannequin->getUrlGenerator()->willReturn($generator->reveal());
 

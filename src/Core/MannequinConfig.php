@@ -35,6 +35,7 @@ class MannequinConfig extends Container implements ConfigInterface
             },
             'global_css' => [],
             'global_js' => [],
+            'assets' => [],
         ];
         parent::__construct($values);
         $this['extensions'] = function () {
@@ -112,5 +113,24 @@ class MannequinConfig extends Container implements ConfigInterface
         $this['global_js'] = $js;
 
         return $this;
+    }
+
+    public function setAssets($assets)
+    {
+        if (is_array($assets) || !$assets instanceof \Traversable) {
+            throw new \InvalidArgumentException('Assets must be an iterable array or object.');
+        }
+        $this['assets'] = $assets;
+
+        return $this;
+    }
+
+    public function getAssets(): \Traversable
+    {
+        if (is_array($this['assets'])) {
+            return new \ArrayIterator($this['assets']);
+        }
+
+        return $this['assets'];
     }
 }

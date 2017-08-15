@@ -11,8 +11,6 @@
 
 namespace LastCall\Mannequin\Core;
 
-use Assetic\Asset\AssetCollection;
-
 final class Rendered
 {
     private $markup = '';
@@ -21,13 +19,10 @@ final class Rendered
 
     private $js = [];
 
-    private $assets = [];
-
     public function __construct(array $styles = [], array $scripts = [])
     {
         $this->setCss($styles);
         $this->setJs($scripts);
-        $this->assets = new AssetCollection();
     }
 
     public function getMarkup(): string
@@ -73,10 +68,5 @@ final class Rendered
     public function __toString()
     {
         return $this->markup;
-    }
-
-    public function getAssets(): AssetCollection
-    {
-        return $this->assets;
     }
 }
