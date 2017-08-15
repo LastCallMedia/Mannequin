@@ -2,7 +2,7 @@
 @import "../base";
 
 .Card {
-  border: 1px dashed #7E92A5;
+  border: 1px dashed $dashed-border-color;
   padding: 20px;
 
   &:hover {

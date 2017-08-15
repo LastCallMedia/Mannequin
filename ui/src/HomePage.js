@@ -2,16 +2,14 @@
 import React from 'react';
 import './HomePage.css';
 import {connect} from 'react-redux';
-import logo from './svg/manny_wave.svg';
+// import logo from './svg/manny_wave.svg';
+import Branding from './components/Branding';
 import {getQuicklinks} from './selectors';
 import Card from './components/Card';
 
 const HomePage = ({quickLinks}) => (
     <main className="MannequinHome">
-        <div className="branding">
-            <img src={logo} alt="Mannequin" className="logo" />
-            <h1>Mannequin <small>Pattern Library</small></h1>
-        </div>
+        <Branding/>
         {quickLinks.length > 0 &&
         <div className="quicklinks grid-container">
             <h4>Quick Links</h4>

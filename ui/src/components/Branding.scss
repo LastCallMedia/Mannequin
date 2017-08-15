@@ -1,0 +1,65 @@
+
+@import "../base";
+
+@mixin branding-layout($logo_h, $logo_w, $h1_font-size, $h1_line_height, $divider_margin) {
+  .logo {
+    height: rem-calc($logo_h);
+    width: rem-calc($logo_w);
+    margin-top: rem-calc(($h1_line_height - $logo_h) / 2);
+    margin-bottom: rem-calc(($h1_line_height - $logo_h) / 2);
+  }
+  h1 {
+    font-size: rem-calc($h1_font-size);
+    line-height: rem-calc($h1_line_height);
+  }
+  .logo + h1:before {
+    height: rem-calc($logo_h);
+    margin: 0 rem-calc($divider_margin);
+  }
+}
+
+.Branding {
+  @include xy-grid-container();
+
+  h1 {
+    font-family: $impact-font-family;
+    font-weight: 700;
+    margin-bottom: 0;
+    text-transform: uppercase;
+  }
+  .logo + h1:before {
+    content: "";
+    border-left: 1px dashed $dashed-border-color;
+    width: 1px;
+    display:inline-block;
+    vertical-align: middle;
+  }
+  @include branding-layout(39, 40, 30, 35, 15);
+  @include breakpoint(large) {
+    @include branding-layout(61, 63, 73, 84, 40);
+  }
+  h3 {
+    margin-top: rem-calc(12);
+    display:block;
+    font-size: rem-calc(12);
+    color: inherit;
+    font-weight: 300;
+    letter-spacing: 5px;
+    text-align:center;
+    text-transform: uppercase;
+    span {
+      background-color: #1B2126;
+    }
+    margin: rem-calc(30) rem-calc(44) 0;
+    @include breakpoint(large) {
+      margin-top: rem-calc(10);
+    }
+  }
+  .top {
+    display: flex;
+    justify-content: center;
+    .logo, h1 {
+      flex: 0 0 auto;
+    }
+  }
+}

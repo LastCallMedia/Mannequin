@@ -7,36 +7,13 @@
 .MannequinHome {
   background: #181D22;
   color: white; }
-  .MannequinHome h1, .MannequinHome h2, .MannequinHome h3, .MannequinHome h4 {
-    text-transform: uppercase; }
-  .MannequinHome .branding {
-    margin: 6.25rem 0;
-    text-align: center; }
-    .MannequinHome .branding .logo {
-      width: 3.5rem; }
-    .MannequinHome .branding h1 {
-      font-family: "Gilroy", "Gill Sans";
-      font-size: 2.5rem;
-      line-height: 2.875rem;
-      font-weight: 700; }
-      .MannequinHome .branding h1 small {
-        margin-top: 0.75rem;
-        display: block;
-        font-size: 0.75rem;
-        color: inherit;
-        font-weight: 700;
-        letter-spacing: 1px; }
-    @media print, screen and (min-width: 64em) {
-      .MannequinHome .branding .logo {
-        width: 7.75rem; }
-      .MannequinHome .branding h1 {
-        font-size: 7rem;
-        line-height: 1; }
-        .MannequinHome .branding h1 small {
-          margin-top: 0; } }
+  .MannequinHome .Branding {
+    margin-top: 8%;
+    margin-bottom: 10%; }
   .MannequinHome .quicklinks h4 {
+    text-transform: uppercase;
     text-align: center;
-    margin-bottom: 2.25rem;
+    margin-bottom: 1.8125rem;
     font-family: "Gilroy", "Gill Sans";
     font-weight: bold;
     font-size: 0.5625rem; }
