@@ -99,11 +99,14 @@
 .MenuList {
   list-style:none;
   margin: 0;
+  @include menu-base;
   display: block;
 }
 .MenuItem {
   display: block;
   border-top: 1px solid #2A2A2A;
+  width: 100%;
+
   > a {
     display: block;
     font-size: rem-calc(14);
@@ -132,11 +135,11 @@
     }
   }
   &.collapsible {
-    > a:after {
+    > a:before {
       content: "-";
       float:right;
     }
-    &.collapsed > a:after {
+    &.collapsed > a:before {
       content: "+";
     }
   }

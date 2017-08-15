@@ -1,6 +1,6 @@
 /**
  * Foundation for Sites by ZURB
- * Version 6.4.1
+ * Version 6.4.2
  * foundation.zurb.com
  * Licensed under MIT Open Source
  */
@@ -18,10 +18,28 @@
   background: #181D22;
   color: white; }
   .MannequinTopBar .inner {
+    padding-right: 0.625rem;
+    padding-left: 0.625rem;
     max-width: 75rem;
     margin: 0 auto;
     display: flex;
     flex-flow: row wrap; }
+    @media print, screen and (min-width: 40em) {
+      .MannequinTopBar .inner {
+        padding-right: 0.9375rem;
+        padding-left: 0.9375rem; } }
+    @media print, screen and (min-width: 64em) {
+      .MannequinTopBar .inner {
+        padding-right: 0.9375rem;
+        padding-left: 0.9375rem; } }
+    @media screen and (min-width: 75em) {
+      .MannequinTopBar .inner {
+        padding-right: 0.9375rem;
+        padding-left: 0.9375rem; } }
+    @media screen and (min-width: 90em) {
+      .MannequinTopBar .inner {
+        padding-right: 0.9375rem;
+        padding-left: 0.9375rem; } }
     .MannequinTopBar .inner > .logo, .MannequinTopBar .inner > .opener {
       flex: 0 0 auto;
       width: auto;
@@ -102,11 +120,33 @@
 .MenuList {
   list-style: none;
   margin: 0;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
   display: block; }
+  [data-whatinput='mouse'] .MenuList li {
+    outline: 0; }
+  .MenuList a,
+  .MenuList .button {
+    line-height: 1;
+    text-decoration: none;
+    display: block;
+    padding: 0.7rem 1rem; }
+  .MenuList input,
+  .MenuList select,
+  .MenuList a,
+  .MenuList button {
+    margin-bottom: 0; }
+  .MenuList input {
+    display: inline-block; }
 
 .MenuItem {
   display: block;
-  border-top: 1px solid #2A2A2A; }
+  border-top: 1px solid #2A2A2A;
+  width: 100%; }
   .MenuItem > a {
     display: block;
     font-size: 0.875rem;
@@ -124,10 +164,10 @@
   .MenuItem.l3 > a {
     color: #AFAFAF;
     padding-left: 3.75rem; }
-  .MenuItem.collapsible > a:after {
+  .MenuItem.collapsible > a:before {
     content: "-";
     float: right; }
-  .MenuItem.collapsible.collapsed > a:after {
+  .MenuItem.collapsible.collapsed > a:before {
     content: "+"; }
 
 .MenuItem.collapsible.collapsed .MenuList {

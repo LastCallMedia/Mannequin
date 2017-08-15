@@ -95,7 +95,7 @@ function filterPatterns(searchString, patterns) {
 
 function MainMenu({tree, settings = {}}) {
   return (
-    <ul className={`MenuList menu ${settings.className}`}>
+    <ul className={`MenuList ${settings.className}`}>
       {Object.keys(tree).map(k => <MainMenuItem key={k} leaf={tree[k]} className={settings.itemClassName} childSettings={settings.children} onNavigate={settings.onNavigate} />)}
     </ul>
   )

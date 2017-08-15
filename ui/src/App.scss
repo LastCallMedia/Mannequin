@@ -1,7 +1,11 @@
 
 @import "base";
 
-@include foundation-everything();
+@include foundation-global-styles;
+@include foundation-typography;
+@include foundation-forms;
+@include foundation-button;
+@include foundation-menu-icon;
 
 .App {
   height: 100vh;
@@ -57,6 +61,7 @@
     }
     .NavDrawer {
       @include xy-cell(3/12, $gutter-output: false, $gutter-type: none);
+      min-width: 25%;
       transform: translate(0, 0);
       transition: transform .5s ease, visibility 0s linear .5s;
     }
