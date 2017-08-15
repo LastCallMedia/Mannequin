@@ -2,26 +2,43 @@
 @import "../base";
 
 .Card {
-  text-align:center;
+  border: 1px dashed #7E92A5;
+  padding: 20px;
+
+  &:hover {
+    border-color: transparent;
+    background-color: #4A90E2;
+
+    h6 {
+      color: white;
+    }
+  }
   a {
     color: white;
     display:block;
-    border-bottom: 8px solid;
-    border-bottom-right-radius: 2px;
-    border-bottom-left-radius: 2px;
 
-    &:hover {
-      border-bottom-color: #5CBB8A;;
-    }
+  }
+  h6 {
+    font-size:rem-calc(9);
+    line-height: rem-calc(11);
+    color: #556371;
+    margin-top: rem-calc(8);
+    font-weight: bold;
+  }
+  h5 {
+    font-size: rem-calc(18);
+    line-height: rem-calc(22);
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 0;
   }
 }
 
 .CardGrid {
   @include xy-grid();
-  justify-content: center;
 
   .Card {
-    @include xy-cell($gutter-position: right left bottom);
+    @include xy-cell($gutter-position: right left bottom top);
 
     @include breakpoint(medium) {
       @include xy-cell(2/4);

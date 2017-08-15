@@ -46,11 +46,10 @@
   .quicklinks {
     h4 {
       text-align: center;
-      margin-bottom: rem-calc(48);
+      margin-bottom: rem-calc(36);
       font-family: $impact-font-family;
-      font-weight: 300;
+      font-weight: bold;
       font-size: rem-calc(9);
-      letter-spacing: 5px;
     }
   }
 }

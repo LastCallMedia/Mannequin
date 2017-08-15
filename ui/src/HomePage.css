@@ -36,8 +36,7 @@
           margin-top: 0; } }
   .MannequinHome .quicklinks h4 {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 2.25rem;
     font-family: "Gilroy", "Gill Sans";
-    font-weight: 300;
-    font-size: 0.5625rem;
-    letter-spacing: 5px; }
+    font-weight: bold;
+    font-size: 0.5625rem; }

@@ -5,20 +5,32 @@
  * Licensed under MIT Open Source
  */
 .Card {
-  text-align: center; }
+  border: 1px dashed #7E92A5;
+  padding: 20px; }
+  .Card:hover {
+    border-color: transparent;
+    background-color: #4A90E2; }
+    .Card:hover h6 {
+      color: white; }
   .Card a {
     color: white;
-    display: block;
-    border-bottom: 8px solid;
-    border-bottom-right-radius: 2px;
-    border-bottom-left-radius: 2px; }
-    .Card a:hover {
-      border-bottom-color: #5CBB8A; }
+    display: block; }
+  .Card h6 {
+    font-size: 0.5625rem;
+    line-height: 0.6875rem;
+    color: #556371;
+    margin-top: 0.5rem;
+    font-weight: bold; }
+  .Card h5 {
+    font-size: 1.125rem;
+    line-height: 1.375rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 0; }
 
 .CardGrid {
   display: flex;
-  flex-flow: row wrap;
-  justify-content: center; }
+  flex-flow: row wrap; }
   .CardGrid .Card {
     flex: 0 0 auto;
     min-height: 0px;
@@ -26,7 +38,8 @@
     width: calc(100% - 1.25rem);
     margin-right: 0.625rem;
     margin-left: 0.625rem;
-    margin-bottom: 0.625rem; }
+    margin-bottom: 0.625rem;
+    margin-top: 0.625rem; }
     @media print, screen and (min-width: 40em) {
       .CardGrid .Card {
         width: calc(50% - 1.875rem);
