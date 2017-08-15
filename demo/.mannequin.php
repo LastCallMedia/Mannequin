@@ -20,6 +20,10 @@ $twigFinder = Finder::create()
     ->in(__DIR__.'/templates')
     ->name('*.twig');
 
+$assetFinder = Finder::create()
+    ->files()
+    ->in(__DIR__.'/css')
+
 /**
  * Create the TwigExtension object.
  */
@@ -46,5 +50,6 @@ $htmlExtension = new HtmlExtension([
 return MannequinConfig::create()
     ->setGlobalJs(['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/js/foundation.min.js'])
     ->setGlobalCss(['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/css/foundation.css'])
+    ->setAssets($assetFinder)
     ->addExtension($htmlExtension)
     ->addExtension($twigExtension);
