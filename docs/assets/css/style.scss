@@ -24,15 +24,17 @@ a:hover{
 }
 
 .maintained{
-  	height: 12px;
+  	height: 39px;
     color: #97A6B5;
     font-family: Helvetica;
     font-size: 10px;
     font-weight: 300;
     letter-spacing: 1px;
     line-height: 12px;
+    padding-left: 15px;
     text-transform: uppercase;
-
+    display: inline-block;
+    top:0;
 }
 
 
@@ -48,6 +50,18 @@ a:hover{
     line-height: 12px;
     text-transform: uppercase;
     display: inline-block;
+}
+
+.about-title{
+  width:579px;
+  color: #FFFFFF;
+  font-size: 30px;
+  font-weight: 100;
+  letter-spacing: 2px;
+  line-height: 47px;
+  font-family: "Gill Sans" ;
+  margin-bottom:30px;
+  text-transform: uppercase;
 }
 
 .sub-title{
@@ -80,6 +94,7 @@ a:hover{
   color: white;
   height: 61px;
   width:auto;
+  padding: 0px 40px 0px 40px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.6px;
@@ -128,7 +143,7 @@ a:hover{
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.6px;
-  position:relative
+  position:relative;
 }
 
 .button3:hover{
@@ -136,6 +151,7 @@ a:hover{
   border-color:$buttonblue;
   border-style: solid;
   color: white;
+  h4{color:white;}
 }
 
 h1{
