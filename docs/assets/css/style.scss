@@ -2,5 +2,187 @@
 ---
 
 @import "{{ site.theme }}";
+$darkblue: #181D22;
+$buttonblue: #4A90E2;
+$buttonoutlineblue: #7E92A5;
 
 // Additional SCSS goes here.
+
+body{
+  background-color: $darkblue;
+  color: white ;
+  padding: 0px;
+  margin: 0px;
+}
+
+a{
+  color: white;
+}
+
+a:hover{
+  color: white;
+}
+
+.maintained{
+  	height: 12px;
+    color: #97A6B5;
+    font-family: Helvetica;
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    line-height: 12px;
+    text-transform: uppercase;
+
+}
+
+
+.mannequin{
+    height: 80px;
+    display: -webkit-flex;
+    display: flex;
+    vertical-align: middle;
+    color: white;
+    font-family: Gill sans;
+    font-size: 73px;
+    font-weight: bolder;
+    line-height: 12px;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.sub-title{
+  height: 29px;
+  width: 442px;
+  color: #FFFFFF;
+  font-family: "Gill Sans";
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}
+
+.step-background{
+  height: auto;
+  width: 672px;
+  background-color: #1B2126;
+  padding: 25px 0px 5px 0px;
+  margin-bottom: 40px;
+}
+
+.hero-area{
+  padding: 192px 0px 192px 0px;
+}
+
+.button1{
+  border: 1px dashed;
+  background-color: transparent;
+  border-color:$buttonoutlineblue;
+  color: white;
+  height: 61px;
+  width:auto;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  outline: none;
+}
+
+.button1:hover{
+  background-color: $buttonblue;
+  border-color:$buttonblue;
+  border-style: solid;
+}
+
+.button2{
+  border: 1px dashed $buttonoutlineblue;
+  background-color: transparent;
+  color: white;
+  height: 180px;
+  text-align: left;
+  padding: 20px;
+  width: calc(19%);
+  margin: 0px 10px 0px 10px;
+  display: inline-block;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  position:relative
+}
+
+.button2:hover{
+  background-color: $buttonblue;
+  border-color:$buttonblue;
+  border-style: solid;
+  color: white;
+}
+
+.button3{
+  border: 1px dashed $buttonoutlineblue;
+  background-color: transparent;
+  color: white;
+  height: 180px;
+  text-align: left;
+  padding: 20px;
+  width: calc(25%);
+  margin: 0px 10px 0px 10px;
+  display: inline-block;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  position:relative
+}
+
+.button3:hover{
+  background-color: $buttonblue;
+  border-color:$buttonblue;
+  border-style: solid;
+  color: white;
+}
+
+h1{
+  font-family: gill sans;
+  font-size: 42px;
+  font-weight:bolder;
+  letter-spacing: 0.3px;
+  margin-top: 9px;
+  color: white;
+}
+
+h2{
+    width: inherit;
+    color: #FFFFFF;
+    font-family: "Gill Sans";
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 36px;
+    text-align: center;
+}
+
+h3{
+    width: 579px;
+    color: #7E92A5;
+    font-family: Helvetica;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 24px;
+    text-align: center;
+}
+
+h4{
+    	color: #7E92A5;
+      font-family: Helvetica;
+      font-size: 12px;
+      font-weight: 300;
+      line-height: 19px;
+      width: 220px;
+      margin: 0px;
+}
+
+.newsection{
+  margin-bottom: 100px;
+}
+
+hr{
+  border-top: 1px dashed $buttonoutlineblue;
+  background-color: $darkblue;
+  width: 309px;
+}

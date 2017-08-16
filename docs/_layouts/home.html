@@ -13,37 +13,114 @@
     <![endif]-->
 </head>
 <body>
+  <!-- <img src="ui/public/logo.png"> -->
+  <div style="padding: 17px 0px 17px 0px">
+    <div class="maintained"> Maintained by Last Call Media </div>
+  </div>
 <div class="wrapper">
-    <header>
-        <h1>{{ site.title | default: site.github.repository_name }}</h1>
-        <p>{{ site.description | default: site.github.project_tagline }}</p>
 
-        {% if site.github.is_project_page %}
-        <p class="view"><a href="{{ site.github.repository_url }}">View the Project on GitHub <small>{{ github_name }}</small></a></p>
-        {% endif %}
+  <!-- Hero Area -->
+  <div class="hero-area">
 
-        {% if site.github.is_user_page %}
-        <p class="view"><a href="{{ site.github.owner_url }}">View My GitHub Profile</a></p>
-        {% endif %}
+    <div class=" display:inline-block">
+      <div class="mannequin">Mannequin</div>
+      <div class="background-color:#1B2126; height:50px; margin-top: 10px;">
+        <div class="sub-title">A component theming tool for the web</div>
+      </div>
+    </div>
 
-        {% if site.show_downloads %}
-        <ul>
-            <li><a href="{{ site.github.zip_url }}">Download <strong>ZIP File</strong></a></li>
-            <li><a href="{{ site.github.tar_url }}">Download <strong>TAR Ball</strong></a></li>
-            <li><a href="{{ site.github.repository_url }}">View On <strong>GitHub</strong></a></li>
-        </ul>
-        {% endif %}
-    </header>
-    <section>
+    <!-- Buttons -->
+    <div class="width:100px; display:inline-block">
+      <button class = "button1">Get it on github</button>
+      <button class = "button1">Documentaton</button>
+      <button class = "button1">View Demo</button>
+    </div>
 
-        {{ content }}
+  </div>
 
-    </section>
+    <!-- About Product -->
+  <div style="margin: 80px 0px 180px 0px;">
+    <div style="color: #FFFFFF;	font-family: Helvetica;	font-size: 18px;	font-weight: bold;	line-height: 30px; text-transform:uppercase">
+      Note
+    </div>
+    <div style="width:579px; color: #FFFFFF;		font-size: 30px;	font-weight: 100;	letter-spacing: 2px;	line-height: 47px; 	font-family: "Gill Sans"; margin-bottom:30px">
+      Mannequin is a component based theming tool for the web.
+    </div>
+    <img src="assets/images/laptop_illo.png" style="width:448px; height:311px; ">
+    <button class = "button1">Explore</button>
+  </div>
+  <center>
+  <hr>
+    <!-- Get Started-->
+
+      <div class="newsection">
+      <img src="assets/images/figure_wave.png" style="width:132px;height:128px; margin-top:70.5px">
+      <h1>Get Started</h1>
+
+      <!-- Step 1-->
+      <div style="margin-top:80px">
+        <h2 style="height:auto;">
+          1.
+        </h2>
+        <div class="step-background">
+          <h2 style="text-transform:uppercase; width:511px">
+            Choose the extension you would like to use and install it.
+          </h2>
+          <h3 style="text-transform:uppercase">
+            While we would eventually like to provide support for all major frameworks and CMS systems, these are the extensions that are currently available.
+          </h3>
+        </div>
+        <div style="margin-top: 65px">
+          <div class = "button3"><a style="position: absolute; bottom: 15px;"><div>HTML Extension</div><h4>Display static HTML files as Mannequin patterns.</h4></a></div>
+          <div class = "button3"><a style="position: absolute; bottom: 15px;"><div>Twig Extension</div><h4>Display Twig templates as Mannequin patterns.</h4></a></div>
+          <div class = "button3"><a style="position: absolute; bottom: 15px;"><div>Drupal Extension</div><h4>Display Drupal 8 Twig templates as Mannequin patterns.</h4></a></div>
+        </div>
+      </div>
+
+      <!-- Step 2-->
+      <div>
+          <h2 style="text-transform:uppercase">2.</h2>
+          <div class="step-background" style="width:338px;">
+         <h2 style="text-transform:uppercase">Configure</h2>
+       </div>
+        <button class = "button1">Create  a Mannequin.php file </button>
+      </div>
+
+
+
+    <!-- Step 3-->
+    <div>
+      <h2 style="text-transform:uppercase">
+        3.
+      </h2>
+      <div class="step-background" style="width:791px" >
+       <h2 style="text-transform:uppercase; width:791px ">Start a live development server using vendor/bin/mannequin server.</h2>
+     </div>
+    </div>
+    </div>
+  </div>
+  </center>
+
+
+  <!-- Further Reading-->
+  <center>
+  <div>
+    <hr>
+    <h1>Further Reading</h1>
+     <div style="margin: 77px 0px 77px 0px">
+       <div class = "button2"><a style="position: absolute; bottom: 15px;">Configuration</a></div>
+       <div class = "button2"><a style="position: absolute; bottom: 15px;">Patterns</a></div>
+       <div class = "button2"><a style="position: absolute; bottom: 15px;">Extensions</a></div>
+       <div class = "button2"><a style="position: absolute; bottom: 15px;">Troubleshooting</a></div>
+   </div>
+  </div>
+
+  <hr style="width:100vw;">
+  <center> <button class = "button1">Get it on github</button> </center>
+</center>
+
     <footer>
-        {% if site.github.is_project_page %}
-        <p>This project is maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
-        {% endif %}
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+
     </footer>
 </div>
 <script src="{{ '/assets/js/scale.fix.js' | relative_url }}"></script>
