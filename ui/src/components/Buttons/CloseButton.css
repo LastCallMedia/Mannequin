@@ -9,8 +9,10 @@
   border: 1px solid #ECEAEA;
   border-radius: 2em;
   color: black;
-  width: 1em;
   text-align: center;
-  font-size: 1.875rem;
-  line-height: 1.875rem;
-  text-decoration: none; }
+  padding: 0.375rem;
+  text-decoration: none;
+  display: flex;
+  cursor: pointer; }
+  .CloseButton .Close {
+    width: 1.125rem; }

@@ -6,9 +6,13 @@
   border: 1px solid #ECEAEA;
   border-radius: 2em;
   color: black;
-  width: 1em;
   text-align:center;
-  font-size: rem-calc(30);
-  line-height: rem-calc(30);
+  padding: rem-calc(6);
   text-decoration: none;
+  display:flex;
+  cursor: pointer;
+
+  .Close {
+    width: rem-calc(18);
+  }
 }
