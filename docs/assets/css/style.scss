@@ -106,11 +106,13 @@ a:hover{
   outline: none;
   margin-right: 10px;
   margin-bottom: 10px;
+  padding-left:40px;
   transition-property: background-color border-color border-style box-shadow;
   transition-duration: 0.15s;
   transition-timing-function: ease-in-out;
   box-shadow: none;
   display: block;
+  text-align: left;
 }
 
 .button1:hover{
