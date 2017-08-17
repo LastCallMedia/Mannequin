@@ -31,7 +31,8 @@ a:hover{
     font-weight: 300;
     letter-spacing: 1px;
     line-height: 12px;
-    padding-left: 15px;
+    padding-left: 80px;
+    padding-top: 15px;
     text-transform: uppercase;
     display: inline-block;
     top:0;
@@ -40,6 +41,8 @@ a:hover{
 
 .mannequin{
     height: 80px;
+    margin-left: 41.5px;
+    padding-top: 10px;
     display: -webkit-flex;
     display: flex;
     vertical-align: middle;
@@ -84,7 +87,7 @@ a:hover{
 }
 
 .hero-area{
-  padding: 192px 0px 192px 0px;
+  padding: 192px 0px 80px 0px;
 }
 
 .button1{
@@ -93,18 +96,100 @@ a:hover{
   border-color:$buttonoutlineblue;
   color: white;
   height: 61px;
-  width:auto;
-  padding: 0px 40px 0px 40px;
-  font-weight: 600;
+  width: 240px;
+  text-align: center;
+  padding: 0px;
+  font-weight: 500;
+  font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.6px;
   outline: none;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  transition-property: background-color border-color border-style box-shadow;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-in-out;
+  box-shadow: none;
+  display: block;
 }
 
 .button1:hover{
   background-color: $buttonblue;
   border-color:$buttonblue;
   border-style: solid;
+  box-shadow: 0 9px 5px 0 rgba(0, 0, 0, 0.15)
+}
+
+/* ---------------------------------------------- /*
+ * Mouse animate icon
+/* ---------------------------------------------- */
+.mouse-icon {
+  border: 2px solid #fff;
+  border-radius: 16px;
+  height: 40px;
+  width: 24px;
+  display: block;
+  z-index: 10;
+  opacity: 0.7;
+}
+.mouse-icon .wheel {
+  -webkit-animation-name: drop;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-delay: 0s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-play-state: running;
+  -webkit-animation-name: drop;
+          animation-name: drop;
+  -webkit-animation-duration: 1s;
+          animation-duration: 1s;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  -webkit-animation-delay: 0s;
+          animation-delay: 0s;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-play-state: running;
+          animation-play-state: running;
+}
+.mouse-icon .wheel {
+  position: relative;
+  border-radius: 10px;
+  background: #fff;
+  width: 2px;
+  color: white;
+  height: 6px;
+  top: 4px;
+  margin-left: auto;
+  margin-right: auto;
+}
+@-webkit-keyframes drop {
+  0% {
+    top: 5px;
+    opacity: 0;
+  }
+  30% {
+    top: 10px;
+    opacity: 1;
+  }
+  100% {
+    top: 25px;
+    opacity: 0;
+  }
+}
+@keyframes drop {
+  0% {
+    top: 5px;
+    opacity: 0;
+  }
+  30% {
+    top: 10px;
+    opacity: 1;
+  }
+  100% {
+    top: 25px;
+    opacity: 0;
+  }
 }
 
 .button2{
@@ -120,7 +205,10 @@ a:hover{
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.6px;
-  position:relative
+  position:relative;
+  transition-property: background-color border-color border-style color;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-in-out;
 }
 
 .button2:hover{
@@ -144,6 +232,9 @@ a:hover{
   text-transform: uppercase;
   letter-spacing: 0.6px;
   position:relative;
+  transition-property: background-color border-color border-style color;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-in-out;
 }
 
 .button3:hover{
@@ -159,7 +250,7 @@ h1{
   font-size: 42px;
   font-weight:bolder;
   letter-spacing: 0.3px;
-  margin-top: 9px;
+  margin-top: 70px;
   color: white;
 }
 
