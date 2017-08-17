@@ -9,7 +9,8 @@ import {fetchPatterns, toggleDrawer} from './actions';
 import './App.css';
 import 'what-input';
 
-import {TopBar, NavDrawer} from './NavBar';
+import TopBar from './components/TopBar';
+import NavDrawer from './components/NavDrawer';
 import HomePage from './HomePage';
 import PatternPage from './PatternPage';
 import PropTypes from 'prop-types';

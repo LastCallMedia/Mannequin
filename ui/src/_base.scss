@@ -31,3 +31,15 @@ $grid-margin-gutters: (
   background: rgba(0, 0, 0, .3);
   z-index: 1;
 }
+
+%toggle-button {
+  font-size: rem-calc(10);
+  line-height: rem-calc(12);
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+  cursor: pointer;
+  > i, > svg.Icon {
+    margin-left: rem-calc(17);
+  }
+}
