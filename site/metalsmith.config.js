@@ -19,6 +19,7 @@ metalsmith.use(layouts({
     engine: 'handlebars',
     directory: './src/layouts',
     default: 'default.html',
+    partials: './src/layouts/partials',
     pattern: ['*.html'],
 }))
 
