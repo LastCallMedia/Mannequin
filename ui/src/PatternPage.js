@@ -11,6 +11,8 @@ import VariantSelector from './components/VariantSelector';
 import PatternProblems from './components/PatternProblems';
 import PatternTopBar from './components/PatternTopBar';
 import {OpenWindowButton, ViewInfoButton, CloseButton} from './components/Buttons/';
+import CssTransition from 'react-transition-group/CSSTransition';
+import TransitionGroup from 'react-transition-group/TransitionGroup';
 
 import './PatternPage.css';
 
@@ -47,13 +49,7 @@ const PatternInnerPage = ({pattern, variant, showingInfo, match, toggleInfo, bas
             <li><ViewInfoButton onClick={toggleInfo} /></li>
         </ul>
     );
-    var info;
-    if(pattern) {
-        info = <PatternInfo className={showingInfo ? 'showing' : 'hiding'} pattern={pattern} variant={variant} used={used} controls={<CloseButton onClick={toggleInfo} />} />
-    }
-    else {
-        info = null;
-    }
+
     return (
         <main id="PatternInnerPage" className="PatternInnerPage no-scroll">
             <PatternTopBar actions={actions} selector={selector} title={pattern ? pattern.name : 'Loading...'} />
@@ -73,7 +69,13 @@ const PatternInnerPage = ({pattern, variant, showingInfo, match, toggleInfo, bas
                 })}
                 <Route component={VariantNotFound} />
             </Switch>
-            {info}
+            <TransitionGroup>
+                {(pattern && showingInfo) &&
+                    <CssTransition key="info" timeout={1000} classNames="slideup">
+                        <PatternInfo className={'showing'} pattern={pattern} variant={variant} used={used} controls={<CloseButton onClick={toggleInfo} />} />
+                    </CssTransition>
+                }
+            </TransitionGroup>
         </main>
     )
 }

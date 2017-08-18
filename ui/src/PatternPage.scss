@@ -19,14 +19,22 @@
     bottom: 0;
     width: 100%;
     max-height: 75%;
-    transform: translateY(0);
-    transition: transform .5s ease;
-
-
-    &.hiding {
-      transform: translateY(100%);
-      visibility: hidden;
-      transition: transform .5s ease, visibility 0s linear .5s;
-    }
   }
+}
+
+.slideup-enter {
+  //height: 0;
+  transform: translateY(100%);
+}
+.slideup-enter.slideup-enter-active {
+  //height: 40%;
+  transform:translateY(0);
+  transition: transform .5s ease;
+}
+.slideup-exit {
+  transform:translateY(0);
+}
+.slideup-exit.slideup-exit-active {
+  transform: translateY(100%);
+  transition: transform .5s ease;
 }
