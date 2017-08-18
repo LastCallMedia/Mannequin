@@ -14,7 +14,8 @@
 </head>
 <body>
   <!-- <img src="ui/public/logo.png"> -->
-  <div style="padding: 17px 0px 17px 0px">
+  <img src="assets/images/logo.png" style="width:39px; display:inline-block; position:fixed; margin-left:15px">
+  <div style="height:39px">
     <div class="maintained"> Maintained by Last Call Media </div>
   </div>
 <div class="wrapper">
@@ -23,6 +24,8 @@
   <div class="hero-area">
 
     <div class=" display:inline-block">
+      <img src="assets/images/figure_wave.png" style="width:63px;height:61px; ">
+      <div style="border-left:1px dashed #7E92A5;height:66px; display:inline-block; margin-left:44.5px"></div>
       <div class="mannequin">Mannequin</div>
       <div class="background-color:#1B2126; height:50px; margin-top: 10px;">
         <div class="sub-title">A component theming tool for the web</div>
@@ -30,24 +33,29 @@
     </div>
 
     <!-- Buttons -->
-    <div class="width:100px; display:inline-block">
-      <button class = "button1">Get it on github</button>
+    <div class="width:100px;">
+      <button class = "button1"><img src="assets/images/github.png" style="width:18px; height:auto; display:inline-block; margin-right:10px">Get it on github</button>
       <button class = "button1">Documentaton</button>
-      <button class = "button1">View Demo</button>
+      <button class = "button1" style="background-color:#4A90E2; border: none;">View Demo</button>
     </div>
-
   </div>
+  <center>
+    <div class="mouse-icon"><div class="wheel"></div></div>
+  </center>
 
     <!-- About Product -->
-  <div style="margin: 80px 0px 180px 0px;">
+  <div style="margin: 150px 0px 120px 0px; width:73%; overflow:hidden; display:inline-block">
     <div style="color: #FFFFFF;	font-family: Helvetica;	font-size: 18px;	font-weight: bold;	line-height: 30px; text-transform:uppercase">
       Note
     </div>
-    <div style="width:579px; color: #FFFFFF;		font-size: 30px;	font-weight: 100;	letter-spacing: 2px;	line-height: 47px; 	font-family: "Gill Sans"; margin-bottom:30px">
+    <div class="about-title">
       Mannequin is a component based theming tool for the web.
     </div>
-    <img src="assets/images/laptop_illo.png" style="width:448px; height:311px; ">
+
     <button class = "button1">Explore</button>
+  </div>
+  <div style=" width: 448px;display:inline-block;padding-top:100px; position: absolute">
+    <img src="assets/images/laptop_illo.png" style="width:448px; height:311px; ">
   </div>
   <center>
   <hr>
@@ -71,9 +79,30 @@
           </h3>
         </div>
         <div style="margin-top: 65px">
-          <div class = "button3"><a style="position: absolute; bottom: 15px;"><div>HTML Extension</div><h4>Display static HTML files as Mannequin patterns.</h4></a></div>
-          <div class = "button3"><a style="position: absolute; bottom: 15px;"><div>Twig Extension</div><h4>Display Twig templates as Mannequin patterns.</h4></a></div>
-          <div class = "button3"><a style="position: absolute; bottom: 15px;"><div>Drupal Extension</div><h4>Display Drupal 8 Twig templates as Mannequin patterns.</h4></a></div>
+
+          <!-- HTML -->
+          <div class = "button3">
+            <a style="position: absolute; bottom: 15px;" href="https://github.com/LastCallMedia/Mannequin-Html">
+              <img src="assets/images/html.png" style="width:56px; height:76px; padding-bottom:21px ">
+              <div>HTML Extension</div><h4>Display static HTML files as Mannequin patterns.</h4>
+            </a>
+          </div>
+
+          <!-- Twig -->
+          <div class = "button3">
+            <a style="position: absolute; bottom: 15px;" href="https://github.com/LastCallMedia/Mannequin-Twig">
+              <img src="assets/images/twig.png" style="width:60px; height:85px; padding-bottom:21px ">
+              <div>Twig Extension</div><h4>Display Twig templates as Mannequin patterns.</h4>
+            </a>
+          </div>
+
+          <!-- Drupal-->
+          <div class = "button3">
+            <a style="position: absolute; bottom: 15px;" href="https://github.com/LastCallMedia/Mannequin-Drupal">
+              <img src="assets/images/drupal.png" style="width:160px; height:43px; padding-bottom:21px ">
+              <div>Drupal Extension</div><h4>Display Drupal 8 Twig templates as Mannequin patterns.</h4>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -81,9 +110,11 @@
       <div>
           <h2 style="text-transform:uppercase">2.</h2>
           <div class="step-background" style="width:338px;">
-         <h2 style="text-transform:uppercase">Configure</h2>
-       </div>
-        <button class = "button1">Create  a Mannequin.php file </button>
+            <h2 style="text-transform:uppercase">Configure</h2>
+          </div>
+          <button class = "button1">
+            <a href="https://mannequin.io/configuration.html">Create  a Mannequin.php file </a>
+          </button>
       </div>
 
 
