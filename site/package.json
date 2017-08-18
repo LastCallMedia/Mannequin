@@ -30,7 +30,7 @@
   },
   "scripts": {
     "build": "cross-env babel-node build.js",
-    "start": "cross-env babel-node start.js"
+    "start": "cross-env DEBUG=metalsmith* babel-node start.js"
   },
   "babel": {
     "presets": [
