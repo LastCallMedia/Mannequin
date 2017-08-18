@@ -1,4 +1,4 @@
 
-body {
-  background: red;
-}
+@import "~foundation-sites/scss/foundation";
+
+@include foundation-everything();

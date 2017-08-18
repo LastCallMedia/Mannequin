@@ -10,7 +10,9 @@
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.5",
     "extract-text-webpack-plugin": "^2.0.0",
+    "foundation-sites": "^6.4.3",
     "handlebars": "^4.0.10",
+    "jquery": "^3.2.1",
     "metalsmith": "^2.3.0",
     "metalsmith-ignore": "^0.1.2",
     "metalsmith-layouts": "^1.8.1",
@@ -27,10 +29,8 @@
     "browser-sync": "^2.18.13"
   },
   "scripts": {
-    "serve": "cross-env babel-node src/scripts/serve.js",
     "build": "cross-env babel-node build.js",
-    "watch": "nodemon --exec \"npm run build\"",
-    "start": "npm-run-all --parallel watch serve"
+    "start": "cross-env babel-node start.js"
   },
   "babel": {
     "presets": [
