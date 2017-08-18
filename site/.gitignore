@@ -3,3 +3,4 @@
 /cache
 yarn.lock
 yarn-error.log
+npm-debug.log
