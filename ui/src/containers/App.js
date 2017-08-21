@@ -5,15 +5,15 @@ import {
 } from 'react-router-dom';
 
 import {connect} from 'react-redux';
-import {fetchPatterns, toggleDrawer} from './actions';
+import {fetchPatterns, toggleDrawer} from '../actions';
 import './App.css';
 import 'what-input';
 
-import TopBar from './components/TopBar';
-import NavDrawer from './components/NavDrawer';
-import HomePage from './HomePage';
-import PatternPage from './PatternPage';
-import VariantPage from './VariantPage';
+import TopBar from '../components/TopBar';
+import NavDrawer from '../components/NavDrawer';
+import HomePage from '../containers/HomePage';
+import PatternPage from '../containers/PatternPage';
+import VariantPage from '../containers/VariantPage';
 import PropTypes from 'prop-types';
 
 export class App extends Component {

@@ -33,15 +33,6 @@ export const getUsed = createSelector(
     }
 )
 
-export const getPatternUsedPatterns = (pattern, patterns) => {
-    return pattern ? pattern.used.map(id => (
-        patterns.filter(p => p.id === id).pop()
-    )) : [];
-}
-
-
-
-
 export const getQuicklinks = createSelector(
     [getPatternsFromState, getQuickLinksFromState],
     (patterns, ids) => {

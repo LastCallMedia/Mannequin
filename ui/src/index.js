@@ -6,7 +6,7 @@ import {Provider} from 'react-redux';
 import {loadState, saveState} from './storage';
 
 import thunk from 'redux-thunk';
-import App from './App';
+import App from './containers/App';
 import reducers from './reducers';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
