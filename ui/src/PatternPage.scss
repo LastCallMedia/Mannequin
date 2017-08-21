@@ -22,19 +22,3 @@
   }
 }
 
-.slideup-enter {
-  //height: 0;
-  transform: translateY(100%);
-}
-.slideup-enter.slideup-enter-active {
-  //height: 40%;
-  transform:translateY(0);
-  transition: transform .5s ease;
-}
-.slideup-exit {
-  transform:translateY(0);
-}
-.slideup-exit.slideup-exit-active {
-  transform: translateY(100%);
-  transition: transform .5s ease;
-}

@@ -11,7 +11,7 @@ import VariantSelector from './components/VariantSelector';
 import PatternProblems from './components/PatternProblems';
 import PatternTopBar from './components/PatternTopBar';
 import {OpenWindowButton, ViewInfoButton, CloseButton} from './components/Buttons/';
-import CssTransition from 'react-transition-group/CSSTransition';
+import {SlideInFromBottom} from './components/Transitions';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 
 import './PatternPage.css';
@@ -71,9 +71,9 @@ const PatternInnerPage = ({pattern, variant, showingInfo, match, toggleInfo, bas
             </Switch>
             <TransitionGroup>
                 {(pattern && showingInfo) &&
-                    <CssTransition key="info" timeout={1000} classNames="slideup">
+                    <SlideInFromBottom key="info">
                         <PatternInfo className={'showing'} pattern={pattern} variant={variant} used={used} controls={<CloseButton onClick={toggleInfo} />} />
-                    </CssTransition>
+                    </SlideInFromBottom>
                 }
             </TransitionGroup>
         </main>
