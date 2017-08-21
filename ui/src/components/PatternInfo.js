@@ -17,6 +17,11 @@ const PatternInfo  = ({pattern, variant, used, className, controls}) => {
         </div>
     )
 }
+PatternInfo.propTypes = {
+    pattern: PropTypes.shape({}),
+    variant: PropTypes.shape({}),
+    used: PropTypes.array,
+}
 
 export default PatternInfo;
 

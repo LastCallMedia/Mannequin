@@ -1,0 +1,24 @@
+@import "base";
+
+.VariantFoundPage {
+  @include xy-grid($direction: vertical, $wrap: false);
+  position: relative;
+  overflow: hidden !important;
+
+  .PatternTopBar {
+    @include xy-cell(shrink, $vertical: true, $gutter-output: false);
+  }
+  .RenderFrame {
+    @include xy-cell(auto, $vertical: true, $gutter-output: false);
+  }
+  .Content {
+    @include xy-cell(shrink, $vertical: true, $gutter-output: true);
+  }
+  .PatternInfo {
+    position:absolute;
+    bottom: 0;
+    width: 100%;
+    max-height: 75%;
+  }
+}
+

@@ -13,6 +13,7 @@ import TopBar from './components/TopBar';
 import NavDrawer from './components/NavDrawer';
 import HomePage from './HomePage';
 import PatternPage from './PatternPage';
+import VariantPage from './VariantPage';
 import PropTypes from 'prop-types';
 
 export class App extends Component {
@@ -28,7 +29,8 @@ export class App extends Component {
             <div className="main-frame">
               <TopBar toggleNav={toggleDrawer} />
               <Route path="/" exact component={HomePage} />
-              <Route path={'/pattern/:pattern'} component={PatternPage} />
+              <Route path={'/pattern/:pattern'} exact component={PatternPage} />
+              <Route path={'/pattern/:pattern/variant/:vid'} component={VariantPage} />
             </div>
             <NavDrawer patterns={patterns} open={drawer} toggleNav={toggleDrawer} />
           </div>

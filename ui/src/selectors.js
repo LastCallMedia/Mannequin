@@ -8,7 +8,7 @@ import {createSelector} from 'reselect';
 const getPatternsFromState = state => state.patterns;
 const getQuickLinksFromState = state => state.quickLinks;
 const getSelectedPatternId = (state, ownProps) => ownProps.match.params.pattern;
-const getSelectedVariantId = (state, ownProps) => ownProps.match.params.variant;
+const getSelectedVariantId = (state, ownProps) => ownProps.match.params.vid;
 export const getVariantFromPattern = (pattern, variantId) => (
     pattern ? pattern.variants.filter(s => s.id === variantId).pop() : undefined
 );
