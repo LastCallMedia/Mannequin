@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Menu from './Menu';
 import cx from 'classnames';
-import {CloseArrow, Search as SearchIcon} from '../Icon';
+import {CloseArrow, Search as SearchIcon} from './Icons';
 import './NavDrawer.css';
 
 export class NavDrawer extends Component {

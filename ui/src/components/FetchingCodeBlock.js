@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import CodeBlock from './CodeBlock';
 import Callout from './Callout';
-import {Loading} from '../Icon';
+import {Loading} from './Icons';
 import PropTypes from 'prop-types';
 import './FetchingCodeBlock.css';
 

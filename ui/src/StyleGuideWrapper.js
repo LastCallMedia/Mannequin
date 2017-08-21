@@ -1,7 +1,7 @@
 
 import React, {Component} from 'react';
 import {StaticRouter} from 'react-router-dom';
-import './App.css';
+import './containers/App.css';
 
 export default class Wrapper extends Component {
     render() {

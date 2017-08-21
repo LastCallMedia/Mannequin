@@ -1,7 +1,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Close} from '../../Icon';
+import {Close} from '../Icons';
 import cx from 'classnames';
 import './CloseButton.css';
 
