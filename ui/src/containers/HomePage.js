@@ -1,41 +1,44 @@
-
 import React from 'react';
 import './HomePage.css';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import Branding from '../components/Branding';
-import {getQuicklinks} from '../selectors';
+import { getQuicklinks } from '../selectors';
 import Card from '../components/Card';
 import PropTypes from 'prop-types';
 
-const HomePage = ({quickLinks}) => (
-    <main className="MannequinHome">
-        <Branding/>
-        {quickLinks.length > 0 &&
-        <div className="quicklinks grid-container">
-            <h4>Quick Links</h4>
-            <div className="CardGrid">
-                {quickLinks.map(pattern => (
-                    <Card key={pattern.id} title={pattern.name} subtitle={pattern.metadata['group']} to={`pattern/${pattern.id}`} />
-                ))}
-            </div>
+const HomePage = ({ quickLinks }) =>
+  <main className="MannequinHome">
+    <Branding />
+    {quickLinks.length > 0 &&
+      <div className="quicklinks grid-container">
+        <h4>Quick Links</h4>
+        <div className="CardGrid">
+          {quickLinks.map(pattern =>
+            <Card
+              key={pattern.id}
+              title={pattern.name}
+              subtitle={pattern.metadata['group']}
+              to={`pattern/${pattern.id}`}
+            />
+          )}
         </div>
-        }
-    </main>
-)
+      </div>}
+  </main>;
 
 HomePage.propTypes = {
-    quickLinks: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        metadata: PropTypes.isObject
-    }))
-}
+  quickLinks: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      metadata: PropTypes.isObject
+    })
+  )
+};
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     quickLinks: getQuicklinks(state)
-  }
-}
+  };
+};
 
-
-export default connect(mapStateToProps)(HomePage)
+export default connect(mapStateToProps)(HomePage);

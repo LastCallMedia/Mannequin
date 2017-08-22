@@ -1,17 +1,16 @@
-
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 
 const patterns = (state = [], action) => {
-  switch(action.type) {
+  switch (action.type) {
     case 'PATTERNS_FETCH_SUCCESS':
       return action.patterns;
     default:
       return state;
   }
-}
+};
 
 const error = (state = false, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case 'PATTERNS_FETCH_SUCCESS':
       return false;
     case 'PATTERNS_FETCH_ERROR':
@@ -19,10 +18,10 @@ const error = (state = false, action) => {
     default:
       return state;
   }
-}
+};
 
 const loading = (state = 'complete', action) => {
-  switch(action.type) {
+  switch (action.type) {
     case 'PATTERNS_FETCH_LOADING':
       return 'loading';
     case 'PATTERNS_FETCH_SUCCESS':
@@ -30,24 +29,24 @@ const loading = (state = 'complete', action) => {
     default:
       return state;
   }
-}
+};
 
 const drawer = (state = false, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case 'DRAWER_TOGGLE':
       return !state;
     default:
       return state;
   }
-}
+};
 
 const quickLinks = (state = [], action) => {
-  switch(action.type) {
+  switch (action.type) {
     case 'PATTERN_VIEW':
       const pid = action.pattern.id;
       const idx = state.indexOf(pid);
       let newState = state.slice(0);
-      if(-1 !== idx) {
+      if (-1 !== idx) {
         // Pop the item out of the array.
         newState.splice(idx, 1);
       }
@@ -56,16 +55,16 @@ const quickLinks = (state = [], action) => {
     default:
       return state;
   }
-}
+};
 
 const info = (state = false, action) => {
-  switch(action.type) {
-      case 'INFO_TOGGLE':
-        return !state;
-      default:
-        return state;
+  switch (action.type) {
+    case 'INFO_TOGGLE':
+      return !state;
+    default:
+      return state;
   }
-}
+};
 
 export default combineReducers({
   patterns,

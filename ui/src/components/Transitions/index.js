@@ -1,6 +1,3 @@
-
 import SlideInFromBottom from './SlideInFromBottom';
 
-export {
-    SlideInFromBottom,
-};
+export { SlideInFromBottom };

@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import {
-  HashRouter as Router,
-  Route
-} from 'react-router-dom';
+import { HashRouter as Router, Route } from 'react-router-dom';
 
-import {connect} from 'react-redux';
-import {fetchPatterns, toggleDrawer} from '../actions';
+import { connect } from 'react-redux';
+import { fetchPatterns, toggleDrawer } from '../actions';
 import './App.css';
 import 'what-input';
 
@@ -21,7 +18,7 @@ export class App extends Component {
     this.props.refreshPatterns();
   }
   render() {
-    let {patterns, drawer, toggleDrawer} = this.props;
+    let { patterns, drawer, toggleDrawer } = this.props;
     return (
       <Router>
         <div className={`App ${drawer ? 'drawer-open' : 'drawer-closed'}`}>
@@ -30,9 +27,16 @@ export class App extends Component {
               <TopBar toggleNav={toggleDrawer} />
               <Route path="/" exact component={HomePage} />
               <Route path={'/pattern/:pattern'} exact component={PatternPage} />
-              <Route path={'/pattern/:pattern/variant/:vid'} component={VariantPage} />
+              <Route
+                path={'/pattern/:pattern/variant/:vid'}
+                component={VariantPage}
+              />
             </div>
-            <NavDrawer patterns={patterns} open={drawer} toggleNav={toggleDrawer} />
+            <NavDrawer
+              patterns={patterns}
+              open={drawer}
+              toggleNav={toggleDrawer}
+            />
           </div>
         </div>
       </Router>
@@ -43,30 +47,29 @@ App.propTypes = {
   patterns: PropTypes.arrayOf(PropTypes.object),
   refreshPatterns: PropTypes.func.isRequired,
   toggleDrawer: PropTypes.func.isRequired
-}
+};
 App.defaultProps = {
   patterns: [],
   refreshPatterns: () => {},
-  toggleDrawer: () => {},
-}
+  toggleDrawer: () => {}
+};
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     patterns: state.patterns,
-    drawer: state.drawer,
-  }
-}
+    drawer: state.drawer
+  };
+};
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     refreshPatterns: () => {
-      dispatch(fetchPatterns())
+      dispatch(fetchPatterns());
     },
     toggleDrawer: () => {
-      dispatch(toggleDrawer())
+      dispatch(toggleDrawer());
     }
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-
