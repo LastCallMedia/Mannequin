@@ -1,6 +1,6 @@
 {
   "name": "lastcall-mannequin-ui",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "license": "MIT",
   "author": "Rob Bayliss <rob@lastcallmedia.com>",
   "devDependencies": {
@@ -38,7 +38,6 @@
     "analyze": "source-map-explorer build/static/js/main.*",
     "styleguide-server": "styleguidist server",
     "styleguide": "npm-run-all -p watch-css styleguide-server",
-
     "prettier-fix": "prettier --single-quote --write \"src/**/*.{js,jsx}\"",
     "prettier-check": "prettier --single-quote -l \"src/**/*.{js,jsx}\""
   },
