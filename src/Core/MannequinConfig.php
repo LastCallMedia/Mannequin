@@ -96,7 +96,7 @@ class MannequinConfig extends Container implements ConfigInterface
         return $this['global_css'];
     }
 
-    public function setGlobalCss(array $styles)
+    public function setGlobalCss(array $styles): MannequinConfig
     {
         $this['global_css'] = $styles;
 
@@ -108,14 +108,14 @@ class MannequinConfig extends Container implements ConfigInterface
         return $this['global_js'];
     }
 
-    public function setGlobalJs(array $js)
+    public function setGlobalJs(array $js): MannequinConfig
     {
         $this['global_js'] = $js;
 
         return $this;
     }
 
-    public function setAssets($assets)
+    public function setAssets($assets): MannequinConfig
     {
         if (is_array($assets) || !$assets instanceof \Traversable) {
             throw new \InvalidArgumentException('Assets must be an iterable array or object.');
