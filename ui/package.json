@@ -8,6 +8,7 @@
     "foundation-sites": "^6.4.0",
     "node-sass-chokidar": "^0.0.1",
     "npm-run-all": "^4.0.2",
+    "prettier": "^1.5.3",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
@@ -26,6 +27,7 @@
     "what-input": "^4.3.0"
   },
   "scripts": {
+    "check": "npm-run-all prettier-check",
     "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
     "start-js": "react-scripts start",
@@ -35,7 +37,10 @@
     "eject": "react-scripts eject",
     "analyze": "source-map-explorer build/static/js/main.*",
     "styleguide-server": "styleguidist server",
-    "styleguide": "npm-run-all -p watch-css styleguide-server"
+    "styleguide": "npm-run-all -p watch-css styleguide-server",
+
+    "prettier-fix": "prettier --single-quote --write \"src/**/*.{js,jsx}\"",
+    "prettier-check": "prettier --single-quote -l \"src/**/*.{js,jsx}\""
   },
   "homepage": ".",
   "files": [
