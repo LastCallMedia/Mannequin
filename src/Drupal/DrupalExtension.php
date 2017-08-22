@@ -31,12 +31,10 @@ class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctio
     public function __construct(array $config = [])
     {
         $this->iterator = $config['finder'] ?: new \ArrayIterator([]);
-        if (isset($config['drupal_root'])) {
-            $this->drupalRoot = $config['drupal_root'];
-        }
+        $this->drupalRoot = $config['drupal_root'] ?? getcwd();
         if (!is_dir($this->drupalRoot) || !file_exists($this->drupalRoot.'/autoload.php')) {
             throw new \InvalidArgumentException(
-                sprintf('Invalid Drupal Root: %s', $this->drupalRoot)
+                sprintf('Unable to detect Drupal installation in %s', $this->drupalRoot)
             );
         }
     }
