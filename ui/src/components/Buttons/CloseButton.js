@@ -6,7 +6,7 @@ import cx from 'classnames';
 import './CloseButton.css';
 
 const CloseButton = ({className, ...rest}) => (
-    <button className={cx('CloseButton', className)} {...rest}><Close/></button>
+    <button className={cx('CloseButton', className)} {...rest}><Close color="black" /></button>
 )
 
 CloseButton.propTypes = {

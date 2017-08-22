@@ -39,6 +39,8 @@
   }
   .NavDrawer {
     @include xy-cell(.5, $gutter-output: false, $gutter-type: none);
+    position: relative;
+    z-index: 5;
     visibility: hidden;
     transition: visibility 0s linear .5s;
   }

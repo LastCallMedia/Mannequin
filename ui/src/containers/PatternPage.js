@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import {getPattern} from '../selectors';
 import Callout from '../components/Callout';
 import PatternProblems from '../components/PatternProblems';
+import PropTypes from 'prop-types';
 
 const PatternPage = ({pattern}) => {
     if(!pattern) {
@@ -23,6 +24,15 @@ const PatternPage = ({pattern}) => {
         )
     }
     return <Redirect to={`/pattern/${pattern.id}/variant/${pattern.variants[0].id}`}/>
+}
+
+PatternPage.propType = {
+    pattern: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        variants: PropTypes.arrayOf(PropTypes.shape({
+            id: PropTypes.string.isRequired
+        }))
+    })
 }
 
 

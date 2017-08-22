@@ -1393,6 +1393,8 @@ a.button:hover, a.button:focus {
         overflow-y: hidden; }
   .App .NavDrawer {
     width: 50%;
+    position: relative;
+    z-index: 5;
     visibility: hidden;
     transition: visibility 0s linear .5s; }
   .App.drawer-open .app-inner {

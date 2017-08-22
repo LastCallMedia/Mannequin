@@ -11,6 +11,7 @@ import {OpenWindowButton, ViewInfoButton, CloseButton} from '../components/Butto
 import {SlideInFromBottom} from '../components/Transitions';
 import {toggleInfo, patternView} from '../actions';
 import {getPattern, getVariant, getUsed} from '../selectors';
+import PropTypes from 'prop-types';
 import './VariantPage.css'
 
 const VariantPage = ({pattern, variant, ...rest}) => {
@@ -32,6 +33,13 @@ const VariantPage = ({pattern, variant, ...rest}) => {
     return <VariantFoundPage pattern={pattern} variant={variant} {...rest} />
 }
 
+VariantPage.propTypes = {
+    pattern: PropTypes.shape({
+        problems: PropTypes.arrayOf(PropTypes.string)
+    }),
+    variant: PropTypes.object,
+}
+
 class VariantFoundPage extends Component {
     componentDidMount() {
         this.props.patternView(this.props.pattern);
@@ -42,7 +50,7 @@ class VariantFoundPage extends Component {
         }
     }
     render() {
-        const {pattern, variant, showingInfo} = this.props;
+        const {pattern, variant, showingInfo, toggleInfo} = this.props;
         const {problems, name} = pattern;
         const actions = [
             <OpenWindowButton href={variant.rendered} />,

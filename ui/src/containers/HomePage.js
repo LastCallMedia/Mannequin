@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import Branding from '../components/Branding';
 import {getQuicklinks} from '../selectors';
 import Card from '../components/Card';
+import PropTypes from 'prop-types';
 
 const HomePage = ({quickLinks}) => (
     <main className="MannequinHome">
@@ -21,6 +22,14 @@ const HomePage = ({quickLinks}) => (
         }
     </main>
 )
+
+HomePage.propTypes = {
+    quickLinks: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        metadata: PropTypes.isObject
+    }))
+}
 
 const mapStateToProps = (state) => {
   return {
