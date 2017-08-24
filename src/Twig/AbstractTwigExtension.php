@@ -14,6 +14,7 @@ namespace LastCall\Mannequin\Twig;
 use LastCall\Mannequin\Core\Extension\AbstractExtension;
 use LastCall\Mannequin\Core\Iterator\MappingCallbackIterator;
 use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
+use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use LastCall\Mannequin\Twig\Subscriber\InlineTwigYamlMetadataSubscriber;
@@ -25,7 +26,7 @@ abstract class AbstractTwigExtension extends AbstractExtension
     {
         return [
             new TwigDiscovery(
-                $this->getTwig()->getLoader(), $this->getTemplateNameIterator()
+                $this->getDriver()->getTwig()->getLoader(), $this->getTemplateNameIterator()
             ),
         ];
     }
@@ -33,7 +34,7 @@ abstract class AbstractTwigExtension extends AbstractExtension
     public function getEngines(): array
     {
         return [
-            new TwigEngine($this->getTwig()),
+            new TwigEngine($this->getDriver()->getTwig()),
         ];
     }
 
@@ -58,8 +59,9 @@ abstract class AbstractTwigExtension extends AbstractExtension
 
     protected function getTemplateNameMapper()
     {
-        $mapper = new TemplateNameMapper($this->getTwigRoot());
-        foreach ($this->getNamespaces() as $namespace => $paths) {
+        $driver = $this->getDriver();
+        $mapper = new TemplateNameMapper($driver->getTwigRoot());
+        foreach ($driver->getNamespaces() as $namespace => $paths) {
             $mapper->addNamespace($namespace, $paths);
         }
 
@@ -69,18 +71,12 @@ abstract class AbstractTwigExtension extends AbstractExtension
     protected function getInspector()
     {
         return new TwigInspectorCacheDecorator(
-            new TwigInspector($this->getTwig()),
+            new TwigInspector($this->getDriver()->getTwig()),
             $this->mannequin->getCache()
         );
     }
 
-    abstract protected function getNamespaces(): array;
+    abstract protected function getDriver(): TwigDriverInterface;
 
-    abstract protected function getIterator();
-
-    abstract protected function getTwig(): \Twig_Environment;
-
-    abstract protected function getLoader(): \Twig_LoaderInterface;
-
-    abstract protected function getTwigRoot(): string;
+    abstract protected function getIterator(): \Traversable;
 }
