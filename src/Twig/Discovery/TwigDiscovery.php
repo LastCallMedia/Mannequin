@@ -15,6 +15,7 @@ use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Discovery\IdEncoder;
 use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 
 /**
@@ -25,13 +26,13 @@ class TwigDiscovery implements DiscoveryInterface
 {
     use IdEncoder;
 
-    private $loader;
-
     private $names;
 
-    public function __construct(\Twig_LoaderInterface $loader, $names)
+    private $driver;
+
+    public function __construct(TwigDriverInterface $driver, $names)
     {
-        $this->loader = $loader;
+        $this->driver = $driver;
         if (!is_array($names) && !$names instanceof \Traversable) {
             throw new \InvalidArgumentException(
                 '$names must be an array or a \Traversable object.'
@@ -45,16 +46,16 @@ class TwigDiscovery implements DiscoveryInterface
      */
     public function discover(): PatternCollection
     {
+        $twig = $this->driver->getTwig();
         $patterns = [];
         foreach ($this->names as $names) {
             try {
                 $aliases = (array) $names;
                 $name = reset($aliases);
-                $source = $this->loader->getSourceContext($name);
                 $pattern = new TwigPattern(
                     $this->encodeId($name),
                     $aliases,
-                    $source
+                    $twig->load($name)->getSourceContext()
                 );
                 $pattern->setName($name);
                 $patterns[] = $pattern;

@@ -11,24 +11,27 @@
 
 namespace LastCall\Mannequin\Twig\Tests;
 
+use LastCall\Mannequin\Twig\Driver\PreloadedTwigDriver;
 use LastCall\Mannequin\Twig\TwigInspector;
 use PHPUnit\Framework\TestCase;
 
 class TwigInspectorTest extends TestCase
 {
-    private function getTwig()
+    private function getDriver()
     {
         $loader = new \Twig_Loader_Array([
             'hasdata' => '{%block patterninfo%}foodata{%endblock%}foocontent',
             'nodata' => 'foocontent',
         ]);
 
-        return new \Twig_Environment($loader);
+        $twig = new \Twig_Environment($loader);
+
+        return new PreloadedTwigDriver($twig);
     }
 
     public function testInspectPatternDataReturnsFalseOnNoPatternData()
     {
-        $inspector = new TwigInspector($this->getTwig());
+        $inspector = new TwigInspector($this->getDriver());
         $source = new \Twig_Source('', 'nodata', 'nodata');
         $this->assertFalse($inspector->inspectPatternData($source));
     }
@@ -36,9 +39,50 @@ class TwigInspectorTest extends TestCase
     public function testInspectPatternData()
     {
         $source = new \Twig_Source('', 'hasdata', 'nodata');
-        $twig = $this->getTwig();
+        $twig = $this->getDriver();
         $inspector = new TwigInspector($twig);
         $this->assertEquals('foodata', $inspector->inspectPatternData($source));
+    }
+
+    public function getInspectLinkedTests()
+    {
+        return [
+            ["{%extends 'myparent' %}", ['myparent']],
+            ["{% include 'myparent' %}", ['myparent']],
+            [
+                "{% embed 'myembedded' %}{%block content %}test{% endblock %}{% endembed %}",
+                ['myembedded'],
+            ],
+            [
+                "{%block main%}{%embed 'myembedded'%}{%endembed%}{%endblock%}",
+                ['myembedded'],
+            ],
+            [
+                "{%extends 'myparent' %}{%block main%}{%embed 'myembedded'%}{%endembed%}{%endblock%}",
+                ['myembedded', 'myparent'],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider getInspectLinkedTests
+     */
+    public function testInspectLinked($twigSrc, array $expectedUsed)
+    {
+        $loader = new \Twig_Loader_Array(
+            [
+                'mytemplate' => $twigSrc,
+                'myparent' => '',
+                'myembedded' => '{%block content%}{%endblock%}',
+            ]
+        );
+        $twig = new \Twig_Environment($loader);
+        $driver = new PreloadedTwigDriver($twig);
+        $inspector = new TwigInspector($driver);
+        $used = $inspector->inspectLinked(
+            new \Twig_Source($twigSrc, 'mytemplate', '')
+        );
+        $this->assertEquals($expectedUsed, $used);
     }
 
     /**
@@ -48,7 +92,7 @@ class TwigInspectorTest extends TestCase
     public function testInspectPatternDataThrowParsingError()
     {
         $source = new \Twig_Source('', 'nonexistent', 'nodata');
-        $twig = $this->getTwig();
+        $twig = $this->getDriver();
         $inspector = new TwigInspector($twig);
         $inspector->inspectPatternData($source);
     }
@@ -57,10 +101,10 @@ class TwigInspectorTest extends TestCase
      * @expectedException \LastCall\Mannequin\Core\Exception\TemplateParsingException
      * @expectedExceptionMessage Twig error thrown during inspection of nonexistent:
      */
-    public function testInspectLinkedThrowParsingError()
+    public function testInspectLinkedThrowsParsingError()
     {
         $source = new \Twig_Source('{% if foo %}', 'nonexistent', 'nodata');
-        $twig = $this->getTwig();
+        $twig = $this->getDriver();
         $inspector = new TwigInspector($twig);
         $inspector->inspectLinked($source);
     }

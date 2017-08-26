@@ -14,6 +14,7 @@ namespace LastCall\Mannequin\Twig\Tests\Discovery;
 use LastCall\Mannequin\Core\Discovery\IdEncoder;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
+use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 use PHPUnit\Framework\TestCase;
 
@@ -23,18 +24,52 @@ class TwigDiscoveryTest extends TestCase
 
     const FIXTURES_DIR = __DIR__.'/../Resources';
 
+    private function getTwig()
+    {
+        $loader = new \Twig_Loader_Array([
+            'form-input.twig' => 'I am twig code',
+        ]);
+
+        return new \Twig_Environment($loader, [
+            'cache' => false,
+            'auto_reload' => true,
+        ]);
+    }
+
+    private function getDriver(\Twig_Environment $twigEnvironment)
+    {
+        $driver = $this->prophesize(TwigDriverInterface::class);
+        $driver->getTwig()->willReturn($twigEnvironment);
+
+        return $driver->reveal();
+    }
+
     public function testReturnsCollectionOnEmpty()
     {
-        $loader = $this->prophesize(\Twig_LoaderInterface::class);
-        $discovery = new TwigDiscovery($loader->reveal(), []);
+        $driver = $this->getDriver($this->getTwig());
+        $discovery = new TwigDiscovery($driver, []);
         $collection = $discovery->discover();
         $this->assertInstanceOf(PatternCollection::class, $collection);
         $this->assertCount(0, $collection);
     }
 
-    public function testDiscoversPattern()
+    public function testDiscoversPatternCollection()
     {
-        $pattern = $this->discoverFixtureCollection()->get(
+        $driver = $this->getDriver($this->getTwig());
+        $discovery = new TwigDiscovery($driver, ['form-input.twig']);
+        $collection = $discovery->discover();
+        $this->assertInstanceOf(PatternCollection::class, $collection);
+        $this->assertCount(1, $collection);
+
+        return $collection;
+    }
+
+    /**
+     * @depends testDiscoversPatternCollection
+     */
+    public function testDiscoversPattern(PatternCollection $collection)
+    {
+        $pattern = $collection->get(
             $this->encodeId('form-input.twig')
         );
         $this->assertInstanceOf(TwigPattern::class, $pattern);
@@ -74,33 +109,20 @@ class TwigDiscoveryTest extends TestCase
      */
     public function testSetsSource(TwigPattern $pattern)
     {
-        $this->assertInstanceOf(\Twig_Source::class, $pattern->getSource());
         $source = $pattern->getSource();
+        $this->assertInstanceOf(\Twig_Source::class, $source);
         $this->assertEquals('form-input.twig', $source->getName());
-        $this->assertEquals(
-            realpath(self::FIXTURES_DIR.'/form-input.twig'),
-            $source->getPath()
-        );
-        $this->assertContains('<input', $source->getCode());
-    }
-
-    private function discoverFixtureCollection()
-    {
-        $loader = new \Twig_Loader_Filesystem(self::FIXTURES_DIR);
-        $discoverer = new TwigDiscovery($loader, [['form-input.twig']]);
-
-        return $discoverer->discover();
     }
 
     /**
      * @expectedException \LastCall\Mannequin\Core\Exception\UnsupportedPatternException
      * @expectedExceptionMessage Unable to load some-nonexistent-file.twig
      */
-    public function testThrowsExceptionOnNonLoadableFiles()
+    public function testThrowsExceptionOnNonLoadableTemplates()
     {
-        $loader = new \Twig_Loader_Filesystem(self::FIXTURES_DIR);
+        $driver = $this->getDriver($this->getTwig());
         $discoverer = new TwigDiscovery(
-            $loader,
+            $driver,
             [['some-nonexistent-file.twig']]
         );
         $discoverer->discover();

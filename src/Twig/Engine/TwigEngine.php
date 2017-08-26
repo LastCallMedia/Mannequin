@@ -15,23 +15,24 @@ use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Rendered;
+use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 
 class TwigEngine implements EngineInterface
 {
-    private $twig;
+    private $driver;
 
     public function __construct(
-        \Twig_Environment $twig
+        TwigDriverInterface $driver
     ) {
-        $this->twig = $twig;
+        $this->driver = $driver;
     }
 
     public function render(PatternInterface $pattern, array $variables = [], Rendered $rendered)
     {
         if ($this->supports($pattern)) {
             $rendered->setMarkup(
-                $this->twig->render(
+                $this->driver->getTwig()->render(
                     $pattern->getSource()->getName(),
                     $this->wrapRendered($variables)
                 )

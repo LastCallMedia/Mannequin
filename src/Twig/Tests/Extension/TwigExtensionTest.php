@@ -16,6 +16,7 @@ use LastCall\Mannequin\Core\Iterator\MappingCallbackIterator;
 use LastCall\Mannequin\Core\MannequinConfig;
 use LastCall\Mannequin\Core\Tests\Extension\ExtensionTestCase;
 use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
+use LastCall\Mannequin\Twig\Driver\SimpleTwigDriver;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
 use LastCall\Mannequin\Twig\Subscriber\InlineTwigYamlMetadataSubscriber;
 use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
@@ -48,10 +49,11 @@ class TwigExtensionTest extends ExtensionTestCase
     public function testTwigDiscoveryGetsMappingIterator()
     {
         $root = getcwd();
-        $loader = new \Twig_Loader_Filesystem([$root], $root);
+        $driver = new SimpleTwigDriver($root);
+        $driver->getTwig();
         $inner = new \ArrayIterator([]);
         $outer = new MappingCallbackIterator($inner, new TemplateNameMapper($root));
-        $discovery = new TwigDiscovery($loader, $outer);
+        $discovery = new TwigDiscovery($driver, $outer);
         $extension = new TwigExtension();
         $this->assertEquals([$discovery], $extension->getDiscoverers());
     }
@@ -60,9 +62,10 @@ class TwigExtensionTest extends ExtensionTestCase
     {
         $iterator = new \ArrayIterator(['foo']);
         $root = getcwd();
-        $loader = new \Twig_Loader_Filesystem([$root], $root);
+        $driver = new SimpleTwigDriver($root);
+        $driver->getTwig();
         $outer = new MappingCallbackIterator($iterator, new TemplateNameMapper($root));
-        $discovery = new TwigDiscovery($loader, $outer);
+        $discovery = new TwigDiscovery($driver, $outer);
         $extension = new TwigExtension(['finder' => $iterator]);
         $this->assertEquals([$discovery], $extension->getDiscoverers());
     }
@@ -73,9 +76,8 @@ class TwigExtensionTest extends ExtensionTestCase
             'cache' => sys_get_temp_dir(),
             'auto_reload' => false,
         ];
-        $loader = new \Twig_Loader_Filesystem([getcwd()], getcwd());
-        $twig = new \Twig_Environment($loader, $options);
-        $engine = new TwigEngine($twig);
+        $driver = new SimpleTwigDriver(getcwd(), $options);
+        $engine = new TwigEngine($driver);
         $extension = new TwigExtension(['twig_options' => $options]);
         $extension->register($this->getMannequin());
         $this->assertEquals([$engine], $extension->getEngines());
@@ -83,9 +85,8 @@ class TwigExtensionTest extends ExtensionTestCase
 
     public function testPassesStylesAndScriptsToEngine()
     {
-        $loader = new \Twig_Loader_Filesystem([getcwd()], getcwd());
-        $twig = new \Twig_Environment($loader);
-        $engine = new TwigEngine($twig, ['foo'], ['bar']);
+        $driver = new SimpleTwigDriver(getcwd());
+        $engine = new TwigEngine($driver, ['foo'], ['bar']);
         $extension = new TwigExtension();
         $config = MannequinConfig::create([
             'styles' => ['foo'],

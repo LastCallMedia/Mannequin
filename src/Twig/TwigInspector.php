@@ -12,20 +12,22 @@
 namespace LastCall\Mannequin\Twig;
 
 use LastCall\Mannequin\Core\Exception\TemplateParsingException;
+use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
 
 class TwigInspector implements TwigInspectorInterface
 {
-    private $twig;
+    private $driver;
 
-    public function __construct(\Twig_Environment $twig)
+    public function __construct(TwigDriverInterface $driver)
     {
-        $this->twig = $twig;
+        $this->driver = $driver;
     }
 
     public function inspectLinked(\Twig_Source $source): array
     {
+        $twig = $this->driver->getTwig();
         try {
-            $parsed = $this->twig->parse($this->twig->tokenize($source));
+            $parsed = $twig->parse($twig->tokenize($source));
             $includes = self::walkNodes($parsed, \Twig_Node_Include::class);
             $embeds = self::walkEmbeds($parsed);
             $parents = self::getParents($parsed);
@@ -102,8 +104,9 @@ class TwigInspector implements TwigInspectorInterface
      */
     public function inspectPatternData(\Twig_Source $source)
     {
+        $twig = $this->driver->getTwig();
         try {
-            $template = $this->twig->load($source->getName());
+            $template = $twig->load($source->getName());
             if ($template->hasBlock('patterninfo')) {
                 return $template->renderBlock('patterninfo');
             }

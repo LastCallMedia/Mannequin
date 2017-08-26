@@ -15,6 +15,7 @@ use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Rendered;
 use LastCall\Mannequin\Core\Tests\Engine\RendererTestCase;
+use LastCall\Mannequin\Twig\Driver\PreloadedTwigDriver;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 
@@ -22,30 +23,32 @@ class TwigRendererTest extends RendererTestCase
 {
     public function getRenderer(): EngineInterface
     {
-        return new TwigEngine(
-            $this->getTwig(),
-            ['foo'],
-            ['bar']
-        );
+        $driver = $this->getDriver();
+
+        return new TwigEngine($driver, ['foo'], ['bar']);
     }
 
-    private function getTwig()
+    private function getDriver()
     {
-        $loader = new \Twig_Loader_Filesystem([__DIR__.'/../Resources/']);
+        $loader = new \Twig_Loader_Array([
+            'test' => 'This is {{"html"}}',
+        ]);
         $twig = new \Twig_Environment($loader);
 
-        return $twig;
+        return new PreloadedTwigDriver($twig);
     }
 
     public function testWrapsRendered()
     {
         $twig = $this->prophesize(\Twig_Environment::class);
-        $twig->render('form-input.twig', ['foo' => new \Twig_Markup('bar', 'UTF-8')])
+        $twig->render('test', ['foo' => new \Twig_Markup('bar', 'UTF-8')])
             ->willReturn('rendered')
             ->shouldBeCalled();
 
+        $driver = new PreloadedTwigDriver($twig->reveal());
+
         $pattern = $this->getSupportedPattern();
-        $renderer = new TwigEngine($twig->reveal(), ['foostyle'], ['fooscript']);
+        $renderer = new TwigEngine($driver, ['foostyle'], ['fooscript']);
         $rendered = new Rendered(['@pattern_css'], ['@pattern_js']);
         $rendered->setMarkup('bar');
 
@@ -55,8 +58,9 @@ class TwigRendererTest extends RendererTestCase
 
     public function getSupportedPattern(): PatternInterface
     {
-        $src = new \Twig_Source('', 'form-input.twig', 'form-input.twig');
+        $driver = $this->getDriver();
+        $template = $driver->getTwig()->load('test');
 
-        return new TwigPattern('supported', [], $src);
+        return new TwigPattern('supported', [], $template->getSourceContext());
     }
 }
