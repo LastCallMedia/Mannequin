@@ -11,7 +11,20 @@
 
 namespace LastCall\Mannequin\Core\Pattern;
 
+/**
+ * Denotes a pattern that may be sourced from a file.
+ *
+ * NB: This does not necessarily mean that the template comes from a file,
+ * just that it is of a type that may.  One example of this is Twig patterns,
+ * which often come from a file, but may also come from Twig_Loader_Array.
+ */
 interface TemplateFilePatternInterface extends PatternInterface
 {
-    public function getFile(): \SplFileInfo;
+
+    /**
+     * Get the path to the source template.
+     *
+     * @return false|\SplFileInfo
+     */
+    public function getFile();
 }

@@ -30,8 +30,14 @@ class TwigPattern extends AbstractPattern implements TemplateFilePatternInterfac
         return $this->source;
     }
 
-    public function getFile(): \SplFileInfo
+    /**
+     * {@inheritdoc}
+     */
+    public function getFile()
     {
+        if('' === $this->source->getPath()) {
+            return false;
+        }
         return new \SplFileInfo($this->source->getPath());
     }
 

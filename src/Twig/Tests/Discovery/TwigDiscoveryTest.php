@@ -107,6 +107,13 @@ class TwigDiscoveryTest extends TestCase
     /**
      * @depends testDiscoversPattern
      */
+    public function testSetsFilename(TwigPattern $pattern) {
+        $this->assertFalse($pattern->getFile());
+    }
+
+    /**
+     * @depends testDiscoversPattern
+     */
     public function testSetsSource(TwigPattern $pattern)
     {
         $source = $pattern->getSource();

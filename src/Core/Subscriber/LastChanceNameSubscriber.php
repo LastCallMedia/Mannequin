@@ -30,18 +30,19 @@ class LastChanceNameSubscriber implements EventSubscriberInterface
         $pattern = $event->getPattern();
         if (empty($pattern->getName())) {
             if ($pattern instanceof TemplateFilePatternInterface) {
-                $file = $pattern->getFile();
-                $name = explode('.', $file->getBasename())[0];
-                $name = ucfirst(
-                    strtr(
-                        trim($name, '-_.'),
-                        [
-                            '-' => ' ',
-                            '_' => ' ',
-                        ]
-                    )
-                );
-                $pattern->setName($name);
+                if($file = $pattern->getFile()) {
+                    $name = explode('.', $file->getBasename())[0];
+                    $name = ucfirst(
+                        strtr(
+                            trim($name, '-_.'),
+                            [
+                                '-' => ' ',
+                                '_' => ' ',
+                            ]
+                        )
+                    );
+                    $pattern->setName($name);
+                }
             } else {
                 $pattern->setName($pattern->getId());
             }
