@@ -20,7 +20,7 @@ use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 
 /**
  * This class converts an iterable object of template names into TwigPattern
- * objects by using the Twig Loader.
+ * objects by using the Twig driver.
  */
 class TwigDiscovery implements DiscoveryInterface
 {
