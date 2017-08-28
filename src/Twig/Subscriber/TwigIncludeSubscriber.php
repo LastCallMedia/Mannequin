@@ -40,7 +40,7 @@ class TwigIncludeSubscriber implements EventSubscriberInterface
         $collection = $event->getCollection();
 
         if ($pattern instanceof TwigPattern) {
-            $included = $this->inspector->inspectLinked($pattern->getSource());
+            $included = $this->inspector->inspectLinked($pattern->getTwig(), $pattern->getSource());
             foreach ($included as $name) {
                 if ($collection->has($name)) {
                     $pattern->addUsedPattern($collection->get($name));

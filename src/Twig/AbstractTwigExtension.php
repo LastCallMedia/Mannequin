@@ -34,7 +34,7 @@ abstract class AbstractTwigExtension extends AbstractExtension
     public function getEngines(): array
     {
         return [
-            new TwigEngine($this->getDriver()),
+            new TwigEngine(),
         ];
     }
 
@@ -71,7 +71,7 @@ abstract class AbstractTwigExtension extends AbstractExtension
     protected function getInspector()
     {
         return new TwigInspectorCacheDecorator(
-            new TwigInspector($this->getDriver()),
+            new TwigInspector(),
             $this->mannequin->getCache()
         );
     }

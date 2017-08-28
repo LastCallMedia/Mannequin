@@ -29,19 +29,31 @@ class TwigInspectorTest extends TestCase
         return new PreloadedTwigDriver($twig);
     }
 
+    private function getTwig($templates)
+    {
+        return new \Twig_Environment(new \Twig_Loader_Array($templates));
+    }
+
     public function testInspectPatternDataReturnsFalseOnNoPatternData()
     {
-        $inspector = new TwigInspector($this->getDriver());
-        $source = new \Twig_Source('', 'nodata', 'nodata');
-        $this->assertFalse($inspector->inspectPatternData($source));
+        $twig = $this->getTwig([
+            'nodata' => 'foocontent',
+        ]);
+        $inspector = new TwigInspector();
+        $data = $inspector->inspectPatternData(
+            $twig, $twig->load('nodata')->getSourceContext()
+        );
+        $this->assertFalse($data);
     }
 
     public function testInspectPatternData()
     {
-        $source = new \Twig_Source('', 'hasdata', 'nodata');
-        $twig = $this->getDriver();
-        $inspector = new TwigInspector($twig);
-        $this->assertEquals('foodata', $inspector->inspectPatternData($source));
+        $twig = $this->getTwig([
+            'hasdata' => '{%block patterninfo%}foodata{%endblock%}foocontent',
+        ]);
+        $inspector = new TwigInspector();
+        $data = $inspector->inspectPatternData($twig, $twig->load('hasdata')->getSourceContext());
+        $this->assertEquals('foodata', $data);
     }
 
     public function getInspectLinkedTests()
@@ -69,17 +81,14 @@ class TwigInspectorTest extends TestCase
      */
     public function testInspectLinked($twigSrc, array $expectedUsed)
     {
-        $loader = new \Twig_Loader_Array(
-            [
-                'mytemplate' => $twigSrc,
-                'myparent' => '',
-                'myembedded' => '{%block content%}{%endblock%}',
-            ]
-        );
-        $twig = new \Twig_Environment($loader);
-        $driver = new PreloadedTwigDriver($twig);
-        $inspector = new TwigInspector($driver);
+        $twig = $this->getTwig([
+            'mytemplate' => $twigSrc,
+            'myparent' => '',
+            'myembedded' => '{%block content%}{%endblock%}',
+        ]);
+        $inspector = new TwigInspector();
         $used = $inspector->inspectLinked(
+            $twig,
             new \Twig_Source($twigSrc, 'mytemplate', '')
         );
         $this->assertEquals($expectedUsed, $used);
@@ -92,9 +101,10 @@ class TwigInspectorTest extends TestCase
     public function testInspectPatternDataThrowParsingError()
     {
         $source = new \Twig_Source('', 'nonexistent', 'nodata');
-        $twig = $this->getDriver();
-        $inspector = new TwigInspector($twig);
-        $inspector->inspectPatternData($source);
+        $loader = new \Twig_Loader_Array([]);
+        $twig = new \Twig_Environment($loader);
+        $inspector = new TwigInspector();
+        $inspector->inspectPatternData($twig, $source);
     }
 
     /**
@@ -104,8 +114,8 @@ class TwigInspectorTest extends TestCase
     public function testInspectLinkedThrowsParsingError()
     {
         $source = new \Twig_Source('{% if foo %}', 'nonexistent', 'nodata');
-        $twig = $this->getDriver();
+        $twig = new \Twig_Environment(new \Twig_Loader_Array([]));
         $inspector = new TwigInspector($twig);
-        $inspector->inspectLinked($source);
+        $inspector->inspectLinked($twig, $source);
     }
 }

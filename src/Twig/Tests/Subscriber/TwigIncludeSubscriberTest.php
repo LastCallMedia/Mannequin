@@ -24,23 +24,26 @@ class TwigIncludeSubscriberTest extends TestCase
 
     public function testRunsDetection()
     {
-        $twigSrc = new \Twig_Source('', '', '');
-
-        $inspector = $this->prophesize(TwigInspector::class);
-        $inspector->inspectLinked($twigSrc)
-            ->willReturn(['bar'])
-            ->shouldBeCalled();
+        $twig = $this->prophesize(\Twig_Environment::class);
+        $p1 = $this->prophesize(TwigPattern::class);
+        $p2 = $this->prophesize(TwigPattern::class);
+        $source = $this->prophesize(\Twig_Source::class);
+        $p1->getTwig()->willReturn($twig);
+        $p1->getSource()->willReturn($source);
 
         $collection = $this->prophesize(PatternCollection::class);
         $collection->has('bar')
-            ->willReturn(true)
-            ->shouldBeCalled();
+            ->willReturn(true);
         $collection->get('bar')
-            ->willReturn(new TwigPattern('bar', [], $twigSrc))
+            ->willReturn($p2);
+
+        $inspector = $this->prophesize(TwigInspector::class);
+        $inspector->inspectLinked($twig, $source)
+            ->willReturn(['bar'])
             ->shouldBeCalled();
 
-        $pattern = new TwigPattern('foo', [], new \Twig_Source('', '', ''));
+        $p1->addUsedPattern($p2)->shouldBeCalled();
         $subscriber = new TwigIncludeSubscriber($inspector->reveal());
-        $this->dispatchDiscover($subscriber, $pattern, $collection->reveal());
+        $this->dispatchDiscover($subscriber, $p1->reveal(), $collection->reveal());
     }
 }

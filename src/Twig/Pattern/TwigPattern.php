@@ -17,12 +17,18 @@ use LastCall\Mannequin\Core\Pattern\TemplateFilePatternInterface;
 class TwigPattern extends AbstractPattern implements TemplateFilePatternInterface
 {
     private $source;
+    private $twig;
 
-    public function __construct($id, array $aliases = [], \Twig_Source $source)
+    public function __construct($id, array $aliases = [], \Twig_Source $source, \Twig_Environment $twig)
     {
         parent::__construct($id, $aliases);
-        $this->aliases = $aliases;
         $this->source = $source;
+        $this->twig = $twig;
+    }
+
+    public function getTwig(): \Twig_Environment
+    {
+        return $this->twig;
     }
 
     public function getSource()
@@ -35,9 +41,10 @@ class TwigPattern extends AbstractPattern implements TemplateFilePatternInterfac
      */
     public function getFile()
     {
-        if('' === $this->source->getPath()) {
+        if ('' === $this->source->getPath()) {
             return false;
         }
+
         return new \SplFileInfo($this->source->getPath());
     }
 

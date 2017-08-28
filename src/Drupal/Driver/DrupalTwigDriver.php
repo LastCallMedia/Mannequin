@@ -63,25 +63,18 @@ class DrupalTwigDriver extends SimpleTwigDriver
     {
         $this->boot();
 
-        $discovery = new MannequinExtensionDiscovery($this->drupalRoot, false);
-        $namespaces = [];
-        foreach ($discovery->scan('module') as $key => $extension) {
-            $dir = sprintf('%s/templates', $extension->getPath());
-            if (is_dir(sprintf('%s/%s', $this->drupalRoot, $dir))) {
-                $namespaces[$key] = [$dir];
-            }
-        }
-        foreach ($discovery->scan('theme') as $key => $extension) {
-            $dir = sprintf('%s/templates', $extension->getPath());
-            if (is_dir(sprintf('%s/%s', $this->drupalRoot, $dir))) {
-                $namespaces[$key] = [$dir];
-            }
-        }
-
         $loader = new \Twig_Loader_Filesystem([$this->drupalRoot], $this->drupalRoot);
-        foreach ($namespaces as $namespace => $paths) {
-            foreach ($paths as $path) {
-                $loader->addPath($path, $namespace);
+        $discovery = new MannequinExtensionDiscovery($this->drupalRoot, false);
+        foreach ($discovery->scan('module', false) as $key => $extension) {
+            $dir = sprintf('%s/templates', $extension->getPath());
+            if (is_dir(sprintf('%s/%s', $this->drupalRoot, $dir))) {
+                $loader->addPath($key, $dir);
+            }
+        }
+        foreach ($discovery->scan('theme', false) as $key => $extension) {
+            $dir = sprintf('%s/templates', $extension->getPath());
+            if (is_dir(sprintf('%s/%s', $this->drupalRoot, $dir))) {
+                $loader->addPath($key, $dir);
             }
         }
 

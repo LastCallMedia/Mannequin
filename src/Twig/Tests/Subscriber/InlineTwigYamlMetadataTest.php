@@ -31,13 +31,14 @@ class InlineTwigYamlMetadataTest extends TestCase
     public function testCallsInspector()
     {
         $inspector = $this->prophesize(TwigInspectorInterface::class);
+        $twig = $this->prophesize(\Twig_Environment::class);
 
         $parser = $this->prophesize(YamlMetadataParser::class);
         $source = new \Twig_Source('', 'test', 'test');
-        $pattern = new TwigPattern('foo', [], $source);
+        $pattern = new TwigPattern('foo', [], $source, $twig->reveal());
 
         $inspector
-            ->inspectPatternData($source)
+            ->inspectPatternData($twig, $source)
             ->shouldBeCalled()
             ->willReturn(false);
 
@@ -47,13 +48,14 @@ class InlineTwigYamlMetadataTest extends TestCase
     public function testCallsParser()
     {
         $inspector = $this->prophesize(TwigInspectorInterface::class);
+        $twig = $this->prophesize(\Twig_Environment::class);
 
         $parser = $this->prophesize(YamlMetadataParser::class);
         $source = new \Twig_Source('', 'test', 'test');
-        $pattern = new TwigPattern('foo', [], $source);
+        $pattern = new TwigPattern('foo', [], $source, $twig->reveal());
 
         $inspector
-            ->inspectPatternData($source)
+            ->inspectPatternData($twig, $source)
             ->shouldBeCalled()
             ->willReturn('abc');
 

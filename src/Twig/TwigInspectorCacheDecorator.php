@@ -33,13 +33,13 @@ class TwigInspectorCacheDecorator implements TwigInspectorInterface
     /**
      * {@inheritdoc}
      */
-    public function inspectLinked(\Twig_Source $source): array
+    public function inspectLinked(\Twig_Environment $twig, \Twig_Source $source): array
     {
         $item = $this->cache->getItem($this->getCid($source, 'linked'));
         if ($item->isHit()) {
             return $item->get();
         }
-        $linked = $this->decorated->inspectLinked($source);
+        $linked = $this->decorated->inspectLinked($twig, $source);
         $item->set($linked);
         $this->cache->save($item);
 
@@ -54,13 +54,13 @@ class TwigInspectorCacheDecorator implements TwigInspectorInterface
     /**
      * {@inheritdoc}
      */
-    public function inspectPatternData(\Twig_Source $source)
+    public function inspectPatternData(\Twig_Environment $twig, \Twig_Source $source)
     {
         $item = $this->cache->getItem($this->getCid($source, 'patterndata'));
         if ($item->isHit()) {
             return $item->get();
         }
-        $data = $this->decorated->inspectPatternData($source);
+        $data = $this->decorated->inspectPatternData($twig, $source);
         $item->set($data);
         $this->cache->save($item);
 

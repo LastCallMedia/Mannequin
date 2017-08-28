@@ -19,9 +19,10 @@ class TwigPatternTest extends PatternTestCase
 {
     public function getPattern(): PatternInterface
     {
+        $twig = $this->prophesize(\Twig_Environment::class);
         $src = new \Twig_Source('', 'test', self::TEMPLATE_FILE);
 
-        return new TwigPattern(self::PATTERN_ID, self::PATTERN_ALIASES, $src);
+        return new TwigPattern(self::PATTERN_ID, self::PATTERN_ALIASES, $src, $twig->reveal());
     }
 
     public function testRawFormat()

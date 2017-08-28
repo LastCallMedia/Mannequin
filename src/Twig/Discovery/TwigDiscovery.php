@@ -55,7 +55,8 @@ class TwigDiscovery implements DiscoveryInterface
                 $pattern = new TwigPattern(
                     $this->encodeId($name),
                     $aliases,
-                    $twig->load($name)->getSourceContext()
+                    $twig->load($name)->getSourceContext(),
+                    $twig
                 );
                 $pattern->setName($name);
                 $patterns[] = $pattern;

@@ -13,12 +13,12 @@ namespace LastCall\Mannequin\Twig;
 
 interface TwigInspectorInterface
 {
-    public function inspectLinked(\Twig_Source $source): array;
+    public function inspectLinked(\Twig_Environment $twig, \Twig_Source $source): array;
 
     /**
      * @param \Twig_Source $source
      *
      * @return string|false
      */
-    public function inspectPatternData(\Twig_Source $source);
+    public function inspectPatternData(\Twig_Environment $twig, \Twig_Source $source);
 }

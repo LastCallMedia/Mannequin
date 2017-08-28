@@ -21,15 +21,17 @@ class TwigInspectorCacheDecoratorTest extends TestCase
 {
     public function testReturnsLinkedFromCache()
     {
-        $source = new \Twig_Source('foo', '', '');
+        $source = $this->prophesize(\Twig_Source::class);
+        $twig = $this->prophesize(\Twig_Environment::class);
+
         $inspector = $this->prophesize(TwigInspectorInterface::class);
-        $inspector->inspectLinked($source)->shouldNotBeCalled();
+        $inspector->inspectLinked($twig, $source)->shouldNotBeCalled();
 
         $item = $this->prophesize(CacheItemInterface::class);
         $item->isHit()->willReturn(true);
         $item->get()->willReturn(['bar']);
         $cache = $this->prophesize(CacheItemPoolInterface::class);
-        $cache->getItem('linked.acbd18db4cc2f85cedef654fccc4a4d8')->willReturn(
+        $cache->getItem('linked.d41d8cd98f00b204e9800998ecf8427e')->willReturn(
             $item
         );
 
@@ -37,14 +39,16 @@ class TwigInspectorCacheDecoratorTest extends TestCase
             $inspector->reveal(),
             $cache->reveal()
         );
-        $this->assertEquals(['bar'], $inspector->inspectLinked($source));
+        $this->assertEquals(['bar'], $inspector->inspectLinked($twig->reveal(), $source->reveal()));
     }
 
     public function testFetchesLinkedFromDecoratedWhenCacheMiss()
     {
-        $source = new \Twig_Source('foo', '', '');
+        $source = $this->prophesize(\Twig_Source::class);
+        $twig = $this->prophesize(\Twig_Environment::class);
+
         $inspector = $this->prophesize(TwigInspectorInterface::class);
-        $inspector->inspectLinked($source)
+        $inspector->inspectLinked($twig, $source)
             ->willReturn(['bar'])
             ->shouldBeCalled();
 
@@ -57,7 +61,7 @@ class TwigInspectorCacheDecoratorTest extends TestCase
         );
 
         $cache = $this->prophesize(CacheItemPoolInterface::class);
-        $cache->getItem('linked.acbd18db4cc2f85cedef654fccc4a4d8')->willReturn(
+        $cache->getItem('linked.d41d8cd98f00b204e9800998ecf8427e')->willReturn(
             $item
         );
         $cache->save($item)->shouldBeCalled();
@@ -66,6 +70,6 @@ class TwigInspectorCacheDecoratorTest extends TestCase
             $inspector->reveal(),
             $cache->reveal()
         );
-        $this->assertEquals(['bar'], $inspector->inspectLinked($source));
+        $this->assertEquals(['bar'], $inspector->inspectLinked($twig->reveal(), $source->reveal()));
     }
 }

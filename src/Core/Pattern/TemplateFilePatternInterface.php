@@ -20,7 +20,6 @@ namespace LastCall\Mannequin\Core\Pattern;
  */
 interface TemplateFilePatternInterface extends PatternInterface
 {
-
     /**
      * Get the path to the source template.
      *
