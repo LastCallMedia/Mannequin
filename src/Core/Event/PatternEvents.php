@@ -14,4 +14,6 @@ namespace LastCall\Mannequin\Core\Event;
 class PatternEvents
 {
     const DISCOVER = 'pattern.discover';
+    const PRE_RENDER = 'pattern.pre_render';
+    const POST_RENDER = 'pattern.post_render';
 }

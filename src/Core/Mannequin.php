@@ -11,6 +11,8 @@
 
 namespace LastCall\Mannequin\Core;
 
+use LastCall\Mannequin\Core\Asset\AssetManager;
+use LastCall\Mannequin\Core\Asset\RequestContextContext;
 use LastCall\Mannequin\Core\Console\Application as ConsoleApplication;
 use LastCall\Mannequin\Core\Console\Command\DebugCommand;
 use LastCall\Mannequin\Core\Console\Command\RenderCommand;
@@ -28,9 +30,13 @@ use Psr\Log\NullLogger;
 use Silex\Application;
 use Silex\EventListener\LogListener;
 use Silex\Provider\ServiceControllerServiceProvider;
+use Symfony\Component\Asset\PackageInterface;
+use Symfony\Component\Asset\PathPackage;
+use Symfony\Component\Asset\VersionStrategy\StaticVersionStrategy;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class Mannequin extends Application
 {
@@ -56,9 +62,9 @@ class Mannequin extends Application
                         $this['manifest.builder'],
                         $this['discovery'],
                         $this['config']->getUi(),
-                        $this['engine'],
-                        $this['variable.resolver'],
-                        $this['config']->getAssetMappings()
+                        $this['url_generator'],
+                        $this['renderer'],
+                        $this['asset.manager']
                     ),
                     new ServerCommand(
                         'server',
@@ -125,6 +131,25 @@ class Mannequin extends Application
             return new ChainDiscovery($discoverers, $this['dispatcher'], $this['logger']);
         };
 
+        $this['asset.package'] = function () {
+            return new PathPackage(
+                'assets',
+                new StaticVersionStrategy(time()),
+                new RequestContextContext($this['request_context'])
+            );
+        };
+
+        $this['asset.manager'] = function () {
+            return new AssetManager(
+                $this->getConfig()->getAssets(),
+                dirname($this['config_file']),
+                'assets'
+            );
+        };
+        $this['build_cache'] = function () {
+            return sys_get_temp_dir().'/mannequin-'.md5($this['config_file']);
+        };
+
         $this['variable.resolver'] = function () {
             $expressionLanguage = new ExpressionLanguage();
             foreach ($this->getExtensions() as $extension) {
@@ -138,10 +163,16 @@ class Mannequin extends Application
         $this['metadata_parser'] = function () {
             return new YamlMetadataParser();
         };
+        $this['renderer'] = function () {
+            return new PatternRenderer(
+                $this['engine'],
+                $this['dispatcher']
+            );
+        };
 
         $this->register(new ServiceControllerServiceProvider());
         $this['controller.ui'] = function () {
-            return new UiController($this['config']->getUi(), $this['config']->getAssetMappings());
+            return new UiController($this['config']->getUi(), $this['build_cache']);
         };
         $this['controller.manifest'] = function () {
             return new ManifestController(
@@ -154,9 +185,10 @@ class Mannequin extends Application
 
             return new RenderController(
                 $collection,
-                $this['engine'],
+                $this['renderer'],
                 $this['config']->getUi(),
-                $this['variable.resolver']
+                $this['asset.manager'],
+                $this['build_cache']
             );
         };
 
@@ -197,6 +229,31 @@ class Mannequin extends Application
     public function getMetadataParser(): YamlMetadataParser
     {
         return $this['metadata_parser'];
+    }
+
+    public function getVariableResolver(): VariableResolver
+    {
+        return $this['variable.resolver'];
+    }
+
+    public function getAssetPackage(): PackageInterface
+    {
+        return $this['asset.package'];
+    }
+
+    public function getAssetManager(): AssetManager
+    {
+        return $this['asset.manager'];
+    }
+
+    public function getUrlGenerator(): UrlGeneratorInterface
+    {
+        return $this['url_generator'];
+    }
+
+    public function getRenderer(): PatternRenderer
+    {
+        return $this['renderer'];
     }
 
     public function getConsole(): ConsoleApplication

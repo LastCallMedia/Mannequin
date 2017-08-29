@@ -1,0 +1,19 @@
+
+@import "../../base";
+
+.CloseButton {
+  background: white;
+  border: 1px solid #ECEAEA;
+  border-radius: 2em;
+  color: black;
+  text-align:center;
+  padding: rem-calc(6);
+  text-decoration: none;
+  display:flex;
+  cursor: pointer;
+
+  .Close {
+    width: rem-calc(18);
+
+  }
+}

@@ -6,10 +6,14 @@ Mannequin is configured for each project by creating a .mannequin.php file in th
 
 ```php
 use LastCall\Mannequin\Core\MannequinConfig;
-$config = MannequinConfig::create([
-  'styles' => [/* URLs for stylesheets that will be available to every pattern*/]
-  'scripts' => [/* URLs for javascripts that will be available to every pattern*/]
-]);
+
+$config = MannequinConfig::create()
+    ->setGlobalCss([
+      /* URLs or file paths for CSS */
+    ])
+    ->setGlobalJs([
+      /* URLs or file paths for JS */
+    );
 
 return $config;
 ```
@@ -22,12 +26,10 @@ use LastCall\Mannequin\Html\HtmlExtension;
 
 $html = new HtmlExtension([/* HTML extension configuration goes here... */);
 
-$config = MannequinConfig::create([
-  'styles' => [/* URLs for stylesheets that will be available to every pattern*/]
-  'scripts' => [/* URLs for javascripts that will be available to every pattern*/]
-]);
-
-$config->addExtension($html);
+$config = MannequinConfig::create()
+    ->setGlobalCss([/* ... */])
+    ->setGlobalJs([/* ... */]);
+    ->addExtension($html);
 
 return $config;
 ```

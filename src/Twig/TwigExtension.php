@@ -11,19 +11,20 @@
 
 namespace LastCall\Mannequin\Twig;
 
+use LastCall\Mannequin\Twig\Driver\SimpleTwigDriver;
+use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
+
 /**
  * Provides Twig template discovery and rendering.
  */
 class TwigExtension extends AbstractTwigExtension
 {
-    private $twigRoot;
-    private $twigOptions = [];
+    private $iterator;
+    private $driver;
 
     public function __construct(array $config = [])
     {
         $this->iterator = $config['finder'] ?: new \ArrayIterator([]);
-        $this->twigOptions = $config['twig_options'] ?: [];
-        $this->twigRoot = $config['twig_root'] ?: getcwd();
 
         if (!$this->iterator instanceof \Traversable) {
             throw new \InvalidArgumentException(
@@ -31,45 +32,19 @@ class TwigExtension extends AbstractTwigExtension
             );
         }
 
-        if (!is_dir($this->twigRoot)) {
-            throw new \InvalidArgumentException(
-                sprintf('Invalid twig root %s', $this->twigRoot)
-            );
-        }
+        $this->driver = new SimpleTwigDriver(
+            $config['twig_root'] ?? getcwd(),
+            $config['twig_options'] ?? []
+        );
     }
 
-    protected function getNamespaces(): array
-    {
-        $namespaces = [];
-        $loader = $this->getLoader();
-        if ($loader instanceof \Twig_Loader_Filesystem) {
-            foreach ($loader->getNamespaces() as $namespace) {
-                $namespaces[$namespace] = $loader->getPaths($namespace);
-            }
-        }
-
-        return $namespaces;
-    }
-
-    protected function getIterator()
+    protected function getIterator(): \Traversable
     {
         return $this->iterator;
     }
 
-    protected function getTwig(): \Twig_Environment
+    protected function getDriver(): TwigDriverInterface
     {
-        return new \Twig_Environment($this->getLoader(), $this->twigOptions);
-    }
-
-    protected function getTwigRoot(): string
-    {
-        return $this->twigRoot;
-    }
-
-    protected function getLoader(): \Twig_LoaderInterface
-    {
-        $root = $this->twigRoot;
-
-        return new \Twig_Loader_Filesystem([$root], $root);
+        return $this->driver;
     }
 }

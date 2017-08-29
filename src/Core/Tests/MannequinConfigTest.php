@@ -50,41 +50,30 @@ class MannequinConfigTest extends TestCase
         $this->assertEquals($cache, $config->getCache());
     }
 
-    public function testHasDefaultStyles()
+    public function testHasDefaultGlobalCss()
     {
         $config = new MannequinConfig();
-        $this->assertEquals([], $config->getStyles());
+        $this->assertEquals([], $config->getGlobalCss());
     }
 
-    public function testCanOverrideStyles()
-    {
-        $config = new MannequinConfig(['styles' => ['foo']]);
-        $this->assertEquals(['foo'], $config->getStyles());
-    }
-
-    public function testHasDefaultScripts()
+    public function testCanOverrideGlobalCss()
     {
         $config = new MannequinConfig();
-        $this->assertEquals([], $config->getScripts());
+        $config->setGlobalCss(['foo']);
+        $this->assertEquals(['foo'], $config->getGlobalCss());
     }
 
-    public function testCanOverrideScripts()
-    {
-        $config = new MannequinConfig(['scripts' => ['foo']]);
-        $this->assertEquals(['foo'], $config->getScripts());
-    }
-
-    public function testHasDefaultAssetMapping()
+    public function testHasDefaultGlobalJs()
     {
         $config = new MannequinConfig();
-        $this->assertEquals([], $config->getAssetMappings());
+        $this->assertEquals([], $config->getGlobalJs());
     }
 
-    public function testCanAddAssetMappings()
+    public function testCanOverrideGlobalJs()
     {
         $config = new MannequinConfig();
-        $config->addAssetMapping('foo', __DIR__);
-        $this->assertEquals(['foo' => __DIR__], $config->getAssetMappings());
+        $config->setGlobalJs(['foo']);
+        $this->assertEquals(['foo'], $config->getGlobalJs());
     }
 
     public function testHasDefaultUi()

@@ -21,52 +21,36 @@ class TwigEngine implements EngineInterface
 {
     private $twig;
 
-    private $styles = [];
-
-    private $scripts = [];
-
     public function __construct(
-        \Twig_Environment $twig,
-        array $styles = [],
-        array $scripts = []
+        \Twig_Environment $twig
     ) {
         $this->twig = $twig;
-        $this->styles = $styles;
-        $this->scripts = $scripts;
     }
 
-    public function render(PatternInterface $pattern, array $variables = []): Rendered
+    public function render(PatternInterface $pattern, array $variables = [], Rendered $rendered)
     {
         if ($this->supports($pattern)) {
-            $styles = $this->styles;
-            $scripts = $this->scripts;
-            $rendered = new Rendered();
-
             $rendered->setMarkup(
                 $this->twig->render(
                     $pattern->getSource()->getName(),
-                    $this->wrapRendered($variables, $styles, $scripts)
+                    $this->wrapRendered($variables)
                 )
             );
-            $rendered->setStyles($styles);
-            $rendered->setScripts($scripts);
 
-            return $rendered;
+            return;
         }
-        throw new UnsupportedPatternException('Unsupported pattern.');
+        throw new UnsupportedPatternException(sprintf('Unsupported pattern: %s', $pattern->getId()));
     }
 
-    private function wrapRendered(array $variables, &$styles, &$scripts)
+    private function wrapRendered(array $variables)
     {
         $wrapped = [];
         foreach ($variables as $key => $value) {
             if ($value instanceof Rendered) {
                 $wrapped[$key] = new \Twig_Markup($value, 'UTF-8');
-                $styles = array_merge($styles, $value->getStyles());
-                $scripts = array_merge($scripts, $value->getScripts());
             } else {
                 $wrapped[$key] = is_array($value)
-                    ? $this->wrapRendered($value, $styles, $scripts)
+                    ? $this->wrapRendered($value)
                     : $value;
             }
         }

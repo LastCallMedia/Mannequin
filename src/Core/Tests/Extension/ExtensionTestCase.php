@@ -11,19 +11,24 @@
 
 namespace LastCall\Mannequin\Core\Tests\Extension;
 
+use LastCall\Mannequin\Core\Asset\AssetManager;
 use LastCall\Mannequin\Core\Mannequin;
 use LastCall\Mannequin\Core\Cache\NullCacheItemPool;
 use LastCall\Mannequin\Core\ConfigInterface;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
+use LastCall\Mannequin\Core\Variable\VariableResolver;
 use LastCall\Mannequin\Core\YamlMetadataParser;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Asset\PackageInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 abstract class ExtensionTestCase extends TestCase
 {
@@ -73,8 +78,8 @@ abstract class ExtensionTestCase extends TestCase
     {
         $config = $this->prophesize(ConfigInterface::class);
         $config->getCache()->willReturn($this->getNullCache());
-        $config->getStyles()->willReturn([]);
-        $config->getScripts()->willReturn([]);
+        $config->getGlobalCss()->willReturn([]);
+        $config->getGlobalJs()->willReturn([]);
 
         return $config->reveal();
     }
@@ -85,6 +90,11 @@ abstract class ExtensionTestCase extends TestCase
         $mannequin->getMetadataParser()->willReturn(new YamlMetadataParser());
         $mannequin->getCache()->willReturn($this->prophesize(CacheItemPoolInterface::class));
         $mannequin->getConfig()->willReturn($config ?? $this->getConfig());
+        $mannequin->getVariableResolver()->willReturn(new VariableResolver(new ExpressionLanguage()));
+        $mannequin->getAssetManager()->willReturn($this->prophesize(AssetManager::class));
+        $mannequin->getAssetPackage()->willReturn($this->prophesize(PackageInterface::class));
+        $generator = $this->prophesize(UrlGeneratorInterface::class);
+        $mannequin->getUrlGenerator()->willReturn($generator->reveal());
 
         return $mannequin->reveal();
     }

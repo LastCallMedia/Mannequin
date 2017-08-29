@@ -30,13 +30,6 @@ class HtmlRendererTest extends RendererTestCase
 
     public function getRenderer(): EngineInterface
     {
-        return new HtmlEngine(['foo'], ['bar']);
-    }
-
-    public function testRender()
-    {
-        $rendered = parent::testRender();
-        $this->assertEquals(['foo'], $rendered->getStyles());
-        $this->assertEquals(['bar'], $rendered->getScripts());
+        return new HtmlEngine();
     }
 }

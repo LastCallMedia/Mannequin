@@ -11,34 +11,27 @@
 
 namespace LastCall\Mannequin\Drupal;
 
-use Drupal\Core\DrupalKernel;
-use Drupal\Core\Site\Settings;
 use Drupal\Core\Template\Attribute;
+use LastCall\Mannequin\Drupal\Driver\DrupalTwigDriver;
 use LastCall\Mannequin\Twig\AbstractTwigExtension;
+use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Provides Drupal Twig template discovery and rendering.
  */
 class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctionProviderInterface
 {
-    private $drupal;
     private $iterator;
-    private $drupalRoot;
+    private $driver;
 
     public function __construct(array $config = [])
     {
         $this->iterator = $config['finder'] ?: new \ArrayIterator([]);
-        if (isset($config['drupal_root'])) {
-            $this->drupalRoot = $config['drupal_root'];
-        }
-        if (!is_dir($this->drupalRoot) || !file_exists($this->drupalRoot.'/autoload.php')) {
-            throw new \InvalidArgumentException(
-                sprintf('Invalid Drupal Root: %s', $this->drupalRoot)
-            );
-        }
+        $this->driver = new DrupalTwigDriver(
+            $config['drupal_root'] ?? getcwd()
+        );
     }
 
     public function getFunctions()
@@ -52,82 +45,13 @@ class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctio
         return [$attributes];
     }
 
-    protected function getIterator()
+    protected function getIterator(): \Traversable
     {
         return $this->iterator;
     }
 
-    protected function getTwig(): \Twig_Environment
+    protected function getDriver(): TwigDriverInterface
     {
-        return $this->getDrupal()->get('twig');
-    }
-
-    protected function getLoader(): \Twig_LoaderInterface
-    {
-        return $this->getDrupal()->get('twig.loader.filesystem');
-    }
-
-    protected function getGlobs(): array
-    {
-        return $this->globs;
-    }
-
-    protected function getTwigRoot(): string
-    {
-        return $this->drupalRoot;
-    }
-
-    protected function getNamespaces(): array
-    {
-        $namespaces = [];
-        $loader = $this->getLoader();
-        if ($loader instanceof \Twig_Loader_Filesystem) {
-            foreach ($loader->getNamespaces() as $namespace) {
-                $namespaces[$namespace] = $loader->getPaths($namespace);
-            }
-        }
-
-        return $namespaces;
-    }
-
-    private function getDrupal()
-    {
-        if (!$this->drupal) {
-            $this->drupal = $this->bootDrupal();
-        }
-
-        return $this->drupal;
-    }
-
-    private function bootDrupal()
-    {
-        $drupal_root = $this->drupalRoot;
-        chdir($drupal_root);
-        $autoloader = require $drupal_root.'/autoload.php';
-        require_once $drupal_root.'/core/includes/bootstrap.inc';
-
-        $request = Request::create(
-            '/',
-            'GET',
-            [],
-            [],
-            [],
-            ['SCRIPT_NAME' => $drupal_root.'/index.php']
-        );
-        $kernel = DrupalKernel::createFromRequest(
-            $request,
-            $autoloader,
-            'prod',
-            false
-        );
-        Settings::initialize(
-            $drupal_root,
-            DrupalKernel::findSitePath($request),
-            $autoloader
-        );
-        $kernel->boot();
-        $kernel->preHandle($request);
-
-        return $kernel->getContainer();
+        return $this->driver;
     }
 }

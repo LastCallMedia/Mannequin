@@ -1,0 +1,17 @@
+@import "../base";
+
+.FetchingCodeBlock {
+  position: relative;
+  &.loading:before {
+    content:"";
+    @include overlay-cover;
+  }
+  .LoadingIcon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -16px;
+    margin-right: 16px;
+    z-index:1;
+  }
+}

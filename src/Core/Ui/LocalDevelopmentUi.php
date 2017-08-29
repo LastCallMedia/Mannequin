@@ -14,6 +14,7 @@ namespace LastCall\Mannequin\Core\Ui;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\GoneHttpException;
 
 /**
  * Local Development UI.

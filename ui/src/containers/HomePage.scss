@@ -1,0 +1,23 @@
+
+@import "base";
+
+.MannequinHome {
+  background: $dark-bg;
+  color: white;
+
+  .Branding {
+    margin-top: 8%;
+    margin-bottom: 10%;
+  }
+  .quicklinks {
+    h4 {
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: rem-calc(29);
+      font-family: $impact-font-family;
+      font-weight: bold;
+      font-size: rem-calc(9);
+    }
+  }
+}
+

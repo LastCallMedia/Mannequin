@@ -18,7 +18,7 @@ interface EngineInterface
 {
     public function supports(PatternInterface $pattern): bool;
 
-    public function render(PatternInterface $pattern, array $values = []): Rendered;
+    public function render(PatternInterface $pattern, array $values = [], Rendered $rendered);
 
     public function renderSource(PatternInterface $pattern): string;
 }

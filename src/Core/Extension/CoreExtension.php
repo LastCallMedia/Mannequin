@@ -11,7 +11,9 @@
 
 namespace LastCall\Mannequin\Core\Extension;
 
+use LastCall\Mannequin\Core\Subscriber\GlobalAssetSubscriber;
 use LastCall\Mannequin\Core\Subscriber\LastChanceNameSubscriber;
+use LastCall\Mannequin\Core\Subscriber\VariableResolverSubscriber;
 use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
@@ -25,6 +27,7 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
         return [
             $this->getPatternExpressionFunction(),
             $this->getMarkupExpressionFunction(),
+            $this->getAssetExpressionFunction(),
         ];
     }
 
@@ -32,6 +35,12 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
     {
         $dispatcher->addSubscriber(new YamlFileMetadataSubscriber($this->mannequin->getMetadataParser()));
         $dispatcher->addSubscriber(new LastChanceNameSubscriber());
+        $dispatcher->addSubscriber(new GlobalAssetSubscriber(
+            $this->mannequin->getAssetPackage(),
+            $this->mannequin->getConfig()->getGlobalCss(),
+            $this->mannequin->getConfig()->getGlobalJs()
+        ));
+        $dispatcher->addSubscriber(new VariableResolverSubscriber($this->mannequin->getVariableResolver()));
     }
 
     private function getPatternExpressionFunction()
@@ -41,16 +50,11 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
         }, function ($context, $pid) {
             /** @var \LastCall\Mannequin\Core\Pattern\PatternCollection $collection */
             $collection = $context['collection'];
-            /** @var \LastCall\Mannequin\Core\Engine\EngineInterface $engine */
-            $engine = $context['engine'];
-            /** @var \LastCall\Mannequin\Core\Variable\VariableResolver $resolver */
-            $resolver = $context['resolver'];
-
             $pattern = $collection->get($pid);
             $variant = reset($pattern->getVariants());
-            $resolved = $resolver->resolve($variant->getVariables(), $context);
+            $renderer = $this->mannequin->getRenderer();
 
-            return $engine->render($pattern, $resolved);
+            return $renderer->render($collection, $pattern, $variant);
         });
     }
 
@@ -63,6 +67,17 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
             $rendered->setMarkup($markup);
 
             return $rendered;
+        });
+    }
+
+    private function getAssetExpressionFunction()
+    {
+        return new ExpressionFunction('asset', function () {
+            throw new \ErrorException('Asset expressions cannot be compiled.');
+        }, function ($context, $path) {
+            $package = $this->mannequin->getAssetPackage();
+
+            return $package->getUrl($path);
         });
     }
 }

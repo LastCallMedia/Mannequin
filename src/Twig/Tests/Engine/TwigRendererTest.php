@@ -37,13 +37,6 @@ class TwigRendererTest extends RendererTestCase
         return $twig;
     }
 
-    public function testRender()
-    {
-        $rendered = parent::testRender();
-        $this->assertEquals(['foo'], $rendered->getStyles());
-        $this->assertEquals(['bar'], $rendered->getScripts());
-    }
-
     public function testWrapsRendered()
     {
         $twig = $this->prophesize(\Twig_Environment::class);
@@ -53,26 +46,11 @@ class TwigRendererTest extends RendererTestCase
 
         $pattern = $this->getSupportedPattern();
         $renderer = new TwigEngine($twig->reveal(), ['foostyle'], ['fooscript']);
-        $rendered = new Rendered(['barstyle'], ['barscript']);
+        $rendered = new Rendered(['@pattern_css'], ['@pattern_js']);
         $rendered->setMarkup('bar');
 
-        return $renderer->render($pattern, ['foo' => $rendered]);
-    }
-
-    /**
-     * @depends testWrapsRendered
-     */
-    public function testAggregatesStyles(Rendered $rendered)
-    {
-        $this->assertEquals(['foostyle', 'barstyle'], $rendered->getStyles());
-    }
-
-    /**
-     * @depends testWrapsRendered
-     */
-    public function testAggregatesScripts(Rendered $rendered)
-    {
-        $this->assertEquals(['fooscript', 'barscript'], $rendered->getScripts());
+        $output = new Rendered();
+        $renderer->render($pattern, ['foo' => $rendered], $output);
     }
 
     public function getSupportedPattern(): PatternInterface

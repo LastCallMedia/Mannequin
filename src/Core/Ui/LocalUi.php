@@ -74,27 +74,24 @@ EOD;
         return sprintf(
             self::TEMPLATE,
             $this->mapAssets(
-                $rendered->getScripts(),
+                $rendered->getJs(),
                 '<script type="text/javascript" src="%s"></script>'
             ),
             $this->mapAssets(
-                $rendered->getStyles(),
+                $rendered->getCss(),
                 '<link rel="stylesheet" href="%s" />'
             ),
             $rendered->getMarkup()
         );
     }
 
-    private function mapAssets(array $assets, $pattern)
+    private function mapAssets($assets, $pattern)
     {
-        return implode(
-            "\n",
-            array_map(
-                function ($asset) use ($pattern) {
-                    return sprintf($pattern, $asset);
-                },
-                $assets
-            )
-        );
+        $tags = [];
+        foreach ($assets as $asset) {
+            $tags[] = sprintf($pattern, $asset);
+        }
+
+        return implode("\n", $tags);
     }
 }

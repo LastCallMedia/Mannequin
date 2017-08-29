@@ -12,55 +12,50 @@
     > .info, > .code {
       @include xy-cell(full);
       @include breakpoint(medium) {
-        @include xy-cell(auto);
+        @include xy-cell(auto, $gutter-position: left right top bottom);
       }
     }
     .controls {
       position: absolute;
       top: 16px;
       right: 16px;
-      z-index: 1;
+      z-index: 2;
     }
   }
-  &, label, a {
+  .info {
     color: white;
+    a {color: inherit;}
+    h3 {
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: rem-calc(18);
+      line-height: rem-calc(22);
+    }
+    h4 {
+      font-size: rem-calc(10);
+      line-height: rem-calc(30);
+      font-weight: bold;
+      color: #767676;
+    }
+    p {
+      font-size: rem-calc(14);
+      line-height: rem-calc(30);
+    }
   }
-  h3 {
-    text-transform: uppercase;
-    font-size: rem-calc(18);
-    line-height: rem-calc(22);
-    margin: 15px 0;
-    font-weight: bold;
-  }
-  label {
-    font-size: rem-calc(10);
-    line-height: rem-calc(30);
-    font-weight: bold;
-    color: #767676;
-  }
-  a {
-    font-size: rem-calc(14);
-    line-height: rem-calc(17);
-    text-decoration: underline;
-  }
-  p {
-    font-size: rem-calc(14);
-    line-height: rem-calc(30);
+  .code {
+    position: relative;
+    .button-group {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+    }
+    .button {
+      margin-bottom: 0;
+      &.active {
+
+      }
+    }
   }
 }
 
-.CodeFrame {
-  position: relative;
-  min-height: 100%;
-  .button-group {
-    position:absolute;
-    bottom: 1rem;
-    right: 1rem;
-    margin-bottom: 0;
-  }
-  pre {
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-}
 

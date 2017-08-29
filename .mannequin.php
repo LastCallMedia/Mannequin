@@ -15,6 +15,10 @@ $twigFinder = Finder::create()
     ->name('*.twig')
     ->in(__DIR__.'/demo/templates');
 
+$assetFinder = Finder::create()
+    ->files()
+    ->in(__DIR__.'/demo/css');
+
 $twig = new TwigExtension([
     'finder' => $twigFinder,
     'twig_root' => __DIR__.'/demo/templates',
@@ -23,12 +27,14 @@ $html = new HtmlExtension([
   'finder' => $htmlFinder,
 ]);
 
+
 $config = MannequinConfig::create([
   'ui' => new \LastCall\Mannequin\Core\Ui\LocalUi(__DIR__.'/ui/build'),
-  'styles' => ['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/css/foundation.min.css'],
-  'scripts' => ['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/js/foundation.min.js'],
 ])
-  ->addExtension($html)
-  ->addExtension($twig);
+    ->setGlobalJs(['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/js/foundation.min.js'])
+    ->setGlobalCss(['demo/css/style.css'])
+    ->setAssets($assetFinder)
+    ->addExtension($html)
+    ->addExtension($twig);
 
 return $config;

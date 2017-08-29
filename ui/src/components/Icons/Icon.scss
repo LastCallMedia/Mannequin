@@ -1,0 +1,51 @@
+
+@import "../../base";
+
+svg.Icon {
+  width: 1em;
+  stroke: white;
+  fill: white;
+}
+
+svg.OpenNew {
+  path {
+    stroke: #181D22;
+  }
+}
+svg.Search {
+  stroke: none;
+}
+
+.LoadingIcon {
+  display: block;
+  font-size: 0;
+  color: #fff;
+  &, & > div {
+    position: relative;
+    box-sizing: border-box;
+  }
+  > div {
+    display: inline-block;
+    float: none;
+    border: 4px solid currentColor;
+    width: rem-calc(32);
+    height: rem-calc(32);
+    background: transparent;
+    border-radius: 100%;
+    opacity: 0;
+    animation: ball-scale-ripple 1s 0s infinite cubic-bezier(.21, .53, .56, .8);
+  }
+}
+
+@keyframes ball-scale-ripple {
+  0% {
+    opacity: 1;
+    transform: scale(.1);
+  }
+  70% {
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+  }
+}

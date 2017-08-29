@@ -13,7 +13,9 @@ namespace LastCall\Mannequin\Core\Tests\Extension;
 
 use LastCall\Mannequin\Core\Extension\CoreExtension;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
+use LastCall\Mannequin\Core\Subscriber\GlobalAssetSubscriber;
 use LastCall\Mannequin\Core\Subscriber\LastChanceNameSubscriber;
+use LastCall\Mannequin\Core\Subscriber\VariableResolverSubscriber;
 use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -34,6 +36,14 @@ class CoreExtensionTest extends ExtensionTestCase
         )->shouldBeCalled();
         $dispatcher->addSubscriber(
             Argument::type(LastChanceNameSubscriber::class)
+        )->shouldBeCalled();
+
+        $dispatcher->addSubscriber(
+            Argument::type(VariableResolverSubscriber::class)
+        )->shouldBeCalled();
+
+        $dispatcher->addSubscriber(
+            Argument::type(GlobalAssetSubscriber::class)
         )->shouldBeCalled();
 
         return $dispatcher;

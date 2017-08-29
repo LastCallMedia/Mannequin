@@ -1,0 +1,58 @@
+
+@import "../base";
+
+.NavDrawer {
+  background-color: $dark-bg;
+  border-top: 1px solid #2A2A2A;
+  border-left: 1px solid #2A2A2A;
+  border-bottom: 1px solid #2A2A2A;
+  @include xy-grid(vertical);
+  > .drawer-toggle {
+    @include xy-cell(shrink, $gutter-position: right left top bottom, $gutter-type: padding);
+    @extend %toggle-button;
+    text-align: right;
+    line-height: rem-calc(24);
+    > i {
+      font-size: rem-calc(24);
+      vertical-align: middle;
+    }
+  }
+  > .SearchForm {
+    @include xy-cell(shrink, $gutter-position: right left bottom, $vertical: true);
+    @include breakpoint(xxlarge) {
+      @include xy-cell(shrink, $gutter-position: right left bottom top, $vertical: true);
+    }
+  }
+  > .MenuList {
+    @include xy-cell(auto, $gutter-output: false, $gutter-type: none, $vertical: true);
+    overflow:auto;
+  }
+}
+
+.SearchForm {
+  position: relative;
+  input {
+    border-radius: 2px;
+    border: none;
+    background-color: #21262B;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 14px;
+    padding: 10px 13px;
+    height: auto;
+    margin-bottom: 0;
+    border-radius: 0;
+
+    &:focus {
+      background-color: #21262B;
+    }
+  }
+  .Icon {
+    position: absolute;
+    top: 50%;
+    right: rem-calc(15);
+    font-size: rem-calc(13);
+    margin-top: -.5em;
+  }
+}

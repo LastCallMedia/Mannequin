@@ -19,26 +19,18 @@ use LastCall\Mannequin\Html\Pattern\HtmlPattern;
 
 class HtmlEngine implements EngineInterface
 {
-    private $styles;
-    private $scripts;
-
-    public function __construct(array $styles = [], array $scripts = [])
+    public function __construct()
     {
-        $this->styles = $styles;
-        $this->scripts = $scripts;
     }
 
-    public function render(PatternInterface $pattern, array $values = []): Rendered
+    public function render(PatternInterface $pattern, array $values = [], Rendered $rendered)
     {
         if ($this->supports($pattern)) {
-            $rendered = new Rendered();
             $rendered->setMarkup(
                 file_get_contents($pattern->getFile()->getPathname())
             );
-            $rendered->setStyles($this->styles);
-            $rendered->setScripts($this->scripts);
 
-            return $rendered;
+            return;
         }
         throw new UnsupportedPatternException('Unsupported Pattern.');
     }

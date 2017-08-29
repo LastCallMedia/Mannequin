@@ -11,13 +11,13 @@
 
 namespace LastCall\Mannequin\Core\Ui\Controller;
 
-use LastCall\Mannequin\Core\Engine\EngineInterface;
+use LastCall\Mannequin\Core\Asset\AssetManager;
 use LastCall\Mannequin\Core\Exception\PatternNotFoundException;
 use LastCall\Mannequin\Core\Exception\VariantNotFoundException;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\PatternRenderer;
 use LastCall\Mannequin\Core\Ui\UiInterface;
-use LastCall\Mannequin\Core\Variable\VariableResolver;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -25,42 +25,44 @@ class RenderController
 {
     private $collection;
 
-    private $engine;
+    private $renderer;
 
     private $ui;
 
+    private $assetDir;
+
+    private $assetManager;
+
     public function __construct(
         PatternCollection $collection,
-        EngineInterface $engine,
+        PatternRenderer $renderer,
         UiInterface $ui,
-        VariableResolver $resolver
+        AssetManager $assetManager,
+        string $assetDir
     ) {
         $this->collection = $collection;
-        $this->engine = $engine;
+        $this->renderer = $renderer;
         $this->ui = $ui;
-        $this->resolver = $resolver;
+        $this->assetManager = $assetManager;
+        $this->assetDir = $assetDir;
     }
 
     public function renderAction($pattern, $variant)
     {
         $rendered = $this->renderPattern($pattern, $variant);
+        $this->assetManager->write($this->assetDir);
 
-        return new Response($this->ui->decorateRendered($rendered));
+        return new Response($this->ui->decorateRendered(
+            $rendered
+        ));
     }
 
     private function renderPattern($pattern, $variant)
     {
         $pattern = $this->getPattern($pattern);
         $variant = $this->getPatternVariant($pattern, $variant);
-        $resolved = $this->resolver->resolve($variant->getVariables(), [
-            'collection' => $this->collection,
-            'resolver' => $this->resolver,
-            'engine' => $this->engine,
-            'pattern' => $pattern,
-            'variant' => $variant,
-        ]);
 
-        return $this->engine->render($pattern, $resolved);
+        return $this->renderer->render($this->collection, $pattern, $variant);
     }
 
     public function renderRawAction($pattern, $variant)
@@ -73,9 +75,8 @@ class RenderController
     public function renderSourceAction($pattern)
     {
         $pattern = $this->getPattern($pattern);
-        $markup = $this->engine->renderSource($pattern);
 
-        return new Response($markup);
+        return new Response($this->renderer->renderSource($pattern));
     }
 
     private function getPattern($patternId)
