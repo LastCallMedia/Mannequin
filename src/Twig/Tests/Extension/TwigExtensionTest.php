@@ -49,12 +49,13 @@ class TwigExtensionTest extends ExtensionTestCase
     public function testTwigDiscoveryGetsMappingIterator()
     {
         $root = getcwd();
-        $driver = new SimpleTwigDriver($root);
+        $driver = new SimpleTwigDriver($root, ['cache' => '/tmp/mannequin-test']);
         $driver->getTwig();
         $inner = new \ArrayIterator([]);
         $outer = new MappingCallbackIterator($inner, new TemplateNameMapper($root));
         $discovery = new TwigDiscovery($driver, $outer);
         $extension = new TwigExtension();
+        $extension->register($this->getMannequin());
         $this->assertEquals([$discovery], $extension->getDiscoverers());
     }
 
@@ -62,11 +63,12 @@ class TwigExtensionTest extends ExtensionTestCase
     {
         $iterator = new \ArrayIterator(['foo']);
         $root = getcwd();
-        $driver = new SimpleTwigDriver($root);
+        $driver = new SimpleTwigDriver($root, ['cache' => '/tmp/mannequin-test']);
         $driver->getTwig();
         $outer = new MappingCallbackIterator($iterator, new TemplateNameMapper($root));
         $discovery = new TwigDiscovery($driver, $outer);
         $extension = new TwigExtension(['finder' => $iterator]);
+        $extension->register($this->getMannequin());
         $this->assertEquals([$discovery], $extension->getDiscoverers());
     }
 

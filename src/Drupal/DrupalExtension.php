@@ -12,6 +12,7 @@
 namespace LastCall\Mannequin\Drupal;
 
 use Drupal\Core\Template\Attribute;
+use LastCall\Mannequin\Core\Mannequin;
 use LastCall\Mannequin\Drupal\Driver\DrupalTwigDriver;
 use LastCall\Mannequin\Twig\AbstractTwigExtension;
 use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
@@ -24,14 +25,20 @@ use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctionProviderInterface
 {
     private $iterator;
+    private $drupalRoot;
+    private $twigOptions;
     private $driver;
 
     public function __construct(array $config = [])
     {
         $this->iterator = $config['finder'] ?: new \ArrayIterator([]);
-        $this->driver = new DrupalTwigDriver(
-            $config['drupal_root'] ?? getcwd()
-        );
+        $this->drupalRoot = $config['drupal_root'] ?? getcwd();
+        $this->twigOptions = $config['twig_options'] ?? [];
+    }
+
+    public function register(Mannequin $mannequin)
+    {
+        $this->driver->setCache($mannequin->getCache());
     }
 
     public function getFunctions()
@@ -52,6 +59,17 @@ class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctio
 
     protected function getDriver(): TwigDriverInterface
     {
+        if (!$this->driver) {
+            if (!isset($this->twigOptions['cache'])) {
+                $this->twigOptions['cache'] = $this->mannequin->getCacheDir();
+            }
+            $this->driver = new DrupalTwigDriver(
+                $this->drupalRoot,
+                $this->twigOptions,
+                $this->mannequin->getCache()
+            );
+        }
+
         return $this->driver;
     }
 }

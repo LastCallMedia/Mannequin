@@ -86,6 +86,9 @@ class Mannequin extends Application
         $this['log.listener'] = function () {
             return new LogListener($this['logger']);
         };
+        $this['cache_dir'] = function () {
+            return sprintf('%s/mannequin/%s', sys_get_temp_dir(), md5(getcwd()));
+        };
 
         $this['config'] = function () {
             $filename = $this['config_file'];
@@ -144,7 +147,7 @@ class Mannequin extends Application
             );
         };
         $this['build_cache'] = function () {
-            return sys_get_temp_dir().'/mannequin-'.md5($this['config_file']);
+            return sprintf('%s/build', $this['cache_dir']);
         };
 
         $this['variable.resolver'] = function () {
@@ -269,6 +272,11 @@ class Mannequin extends Application
     public function getCache(): CacheItemPoolInterface
     {
         return $this['config']->getCache();
+    }
+
+    public function getCacheDir(): string
+    {
+        return $this['cache_dir'];
     }
 
     /**

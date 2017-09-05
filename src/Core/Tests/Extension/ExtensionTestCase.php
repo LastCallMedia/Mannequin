@@ -95,6 +95,7 @@ abstract class ExtensionTestCase extends TestCase
         $mannequin->getAssetPackage()->willReturn($this->prophesize(PackageInterface::class));
         $generator = $this->prophesize(UrlGeneratorInterface::class);
         $mannequin->getUrlGenerator()->willReturn($generator->reveal());
+        $mannequin->getCacheDir()->willReturn(sys_get_temp_dir().'/mannequin-test');
 
         return $mannequin->reveal();
     }

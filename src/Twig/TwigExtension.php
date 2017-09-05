@@ -20,6 +20,8 @@ use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
 class TwigExtension extends AbstractTwigExtension
 {
     private $iterator;
+    private $twigRoot;
+    private $twigOptions;
     private $driver;
 
     public function __construct(array $config = [])
@@ -31,11 +33,8 @@ class TwigExtension extends AbstractTwigExtension
                 sprintf('Invalid finder passed to TwigExtension.  Finder must be an instance of \Traversable')
             );
         }
-
-        $this->driver = new SimpleTwigDriver(
-            $config['twig_root'] ?? getcwd(),
-            $config['twig_options'] ?? []
-        );
+        $this->twigRoot = $config['twig_root'] ?? getcwd();
+        $this->twigOptions = $config['twig_options'] ?? [];
     }
 
     protected function getIterator(): \Traversable
@@ -45,6 +44,16 @@ class TwigExtension extends AbstractTwigExtension
 
     protected function getDriver(): TwigDriverInterface
     {
+        if (!$this->driver) {
+            if (!isset($this->twigOptions['cache'])) {
+                $this->twigOptions['cache'] = $this->mannequin->getCacheDir();
+            }
+            $this->driver = new SimpleTwigDriver(
+                $this->twigRoot,
+                $this->twigOptions
+            );
+        }
+
         return $this->driver;
     }
 }

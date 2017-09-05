@@ -13,6 +13,7 @@ namespace LastCall\Mannequin\Twig;
 
 use LastCall\Mannequin\Core\Extension\AbstractExtension;
 use LastCall\Mannequin\Core\Iterator\MappingCallbackIterator;
+use LastCall\Mannequin\Core\Mannequin;
 use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
 use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
