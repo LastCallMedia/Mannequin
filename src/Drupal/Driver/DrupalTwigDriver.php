@@ -16,7 +16,6 @@ use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\Core\Template\TwigExtension;
 use Drupal\Core\Theme\ThemeManagerInterface;
-use LastCall\Mannequin\Core\Cache\NullCacheItemPool;
 use LastCall\Mannequin\Drupal\Drupal\MannequinDateFormatter;
 use LastCall\Mannequin\Drupal\Drupal\MannequinExtensionDiscovery;
 use LastCall\Mannequin\Drupal\Drupal\MannequinRenderer;
@@ -24,6 +23,7 @@ use LastCall\Mannequin\Drupal\Drupal\MannequinThemeManager;
 use LastCall\Mannequin\Drupal\Drupal\MannequinUrlGenerator;
 use LastCall\Mannequin\Twig\Driver\SimpleTwigDriver;
 use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Cache\Adapter\NullAdapter;
 
 class DrupalTwigDriver extends SimpleTwigDriver
 {
@@ -42,7 +42,7 @@ class DrupalTwigDriver extends SimpleTwigDriver
         }
         $this->drupalRoot = $drupalRoot;
         $this->twigOptions = $twigOptions;
-        $this->cache = $cache ?: new NullCacheItemPool();
+        $this->cache = $cache ?: new NullAdapter();
     }
 
     public function getTwigRoot(): string

@@ -33,6 +33,7 @@ use Silex\Provider\ServiceControllerServiceProvider;
 use Symfony\Component\Asset\PackageInterface;
 use Symfony\Component\Asset\PathPackage;
 use Symfony\Component\Asset\VersionStrategy\StaticVersionStrategy;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
@@ -88,6 +89,9 @@ class Mannequin extends Application
         };
         $this['cache_dir'] = function () {
             return sprintf('%s/mannequin/%s', sys_get_temp_dir(), md5(getcwd()));
+        };
+        $this['cache'] = function () {
+            return new FilesystemAdapter('', 0, $this['cache_dir']);
         };
 
         $this['config'] = function () {
@@ -271,7 +275,7 @@ class Mannequin extends Application
 
     public function getCache(): CacheItemPoolInterface
     {
-        return $this['config']->getCache();
+        return $this['cache'];
     }
 
     public function getCacheDir(): string

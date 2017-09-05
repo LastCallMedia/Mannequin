@@ -11,23 +11,18 @@
 
 namespace LastCall\Mannequin\Core;
 
-use LastCall\Mannequin\Core\Cache\NullCacheItemPool;
 use LastCall\Mannequin\Core\Extension\CoreExtension;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Ui\RemoteUi;
 use LastCall\Mannequin\Core\Ui\UiInterface;
 use Pimple\Container;
-use Psr\Cache\CacheItemPoolInterface;
 
 class MannequinConfig extends Container implements ConfigInterface
 {
     public function __construct(array $values = [])
     {
         $values += [
-            'cache' => function () {
-                return new NullCacheItemPool();
-            },
             'ui' => function () {
                 $composer = json_decode(file_get_contents(__DIR__.'/composer.json'), true);
 
@@ -79,11 +74,6 @@ class MannequinConfig extends Container implements ConfigInterface
     public function getCollection(): PatternCollection
     {
         return $this['collection'];
-    }
-
-    public function getCache(): CacheItemPoolInterface
-    {
-        return $this['cache'];
     }
 
     public function getUi(): UiInterface

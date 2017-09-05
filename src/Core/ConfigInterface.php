@@ -14,7 +14,6 @@ namespace LastCall\Mannequin\Core;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Ui\UiInterface;
-use Psr\Cache\CacheItemPoolInterface;
 
 interface ConfigInterface
 {
@@ -27,8 +26,6 @@ interface ConfigInterface
      * @return ExtensionInterface[]
      */
     public function getExtensions(): array;
-
-    public function getCache(): CacheItemPoolInterface;
 
     public function getUi(): UiInterface;
 

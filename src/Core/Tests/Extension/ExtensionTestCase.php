@@ -13,7 +13,6 @@ namespace LastCall\Mannequin\Core\Tests\Extension;
 
 use LastCall\Mannequin\Core\Asset\AssetManager;
 use LastCall\Mannequin\Core\Mannequin;
-use LastCall\Mannequin\Core\Cache\NullCacheItemPool;
 use LastCall\Mannequin\Core\ConfigInterface;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
@@ -32,11 +31,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 abstract class ExtensionTestCase extends TestCase
 {
-    protected function getNullCache()
-    {
-        return new NullCacheItemPool();
-    }
-
     public function testSubscribe()
     {
         $extension = $this->getExtension();
@@ -77,7 +71,6 @@ abstract class ExtensionTestCase extends TestCase
     public function getConfig(): ConfigInterface
     {
         $config = $this->prophesize(ConfigInterface::class);
-        $config->getCache()->willReturn($this->getNullCache());
         $config->getGlobalCss()->willReturn([]);
         $config->getGlobalJs()->willReturn([]);
 
