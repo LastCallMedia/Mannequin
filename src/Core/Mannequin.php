@@ -103,9 +103,6 @@ class Mannequin extends Application
                     sprintf('Config was not returned from %s.  Did you forget to add a return statement?', $filename)
                 );
             }
-            foreach ($config->getExtensions() as $extension) {
-                $extension->register($this);
-            }
 
             return $config;
         };
@@ -219,6 +216,9 @@ class Mannequin extends Application
         MimeTypeGuesser::getInstance()->register(
             new ExtensionMimeTypeGuesser()
         );
+        foreach ($this->getExtensions() as $extension) {
+            $extension->register($this);
+        }
         foreach ($this->getExtensions() as $extension) {
             $extension->subscribe($this['dispatcher']);
         }
