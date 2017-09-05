@@ -74,13 +74,13 @@ class DrupalTwigDriver extends SimpleTwigDriver
         foreach ($discovery->scan('module', false) as $key => $extension) {
             $dir = sprintf('%s/templates', $extension->getPath());
             if (is_dir(sprintf('%s/%s', $this->drupalRoot, $dir))) {
-                $loader->addPath($key, $dir);
+                $loader->addPath($dir, $key);
             }
         }
         foreach ($discovery->scan('theme', false) as $key => $extension) {
             $dir = sprintf('%s/templates', $extension->getPath());
             if (is_dir(sprintf('%s/%s', $this->drupalRoot, $dir))) {
-                $loader->addPath($key, $dir);
+                $loader->addPath($dir, $key);
             }
         }
 
