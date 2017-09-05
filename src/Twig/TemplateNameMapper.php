@@ -33,35 +33,43 @@ class TemplateNameMapper
 
     public function addNamespace($namespace, $paths)
     {
-        // Destroy the lookup map.  It will be recreated.
-        $this->_map = null;
+        // Destroy the lookup map and cache.  It will be recreated.
+        $this->_map = $this->_cache = null;
         $this->namespaces[$namespace] = [];
         foreach ((array) $paths as $path) {
             $this->namespaces[$namespace][] = rtrim($path, '/\\');
         }
     }
 
+    /**
+     * Lookup the possible twig names that correspond with a given filename.
+     *
+     * This method is performance-sensitive, so we static cache results.
+     *
+     * @param $filename
+     *
+     * @return mixed
+     */
     public function getTemplateNamesForFilename($filename)
     {
-        $map = $this->getMap();
-        $matching = array_filter(array_keys($map), function ($path) use ($filename) {
-            if (strpos($filename, $path) !== false) {
-                return true;
-            }
+        if(!isset($this->_cache[$filename])) {
+            $map = $this->getMap();
+            $matching = array_filter(array_keys($map), function ($path) use ($filename) {
+                return strpos($filename, $path) === 0;
+            });
 
-            return false;
-        });
-        $matches = [];
-        foreach ($matching as $matchingPath) {
-            $namespace = $map[$matchingPath];
-            if ($namespace === self::MAIN_NAMESPACE) {
-                $matches[] = ltrim(substr($filename, strlen($matchingPath)), '/\\');
-            } else {
-                $matches[] = $namespace.substr($filename, strlen($matchingPath));
+            $this->_cache[$filename] = [];
+            foreach ($matching as $matchingPath) {
+                $namespace = $map[$matchingPath];
+                if ($namespace === self::MAIN_NAMESPACE) {
+                    $this->_cache[$filename][] = ltrim(substr($filename, strlen($matchingPath)), '/\\');
+                } else {
+                    $this->_cache[$filename][] = $namespace.substr($filename, strlen($matchingPath));
+                }
             }
         }
 
-        return $matches;
+        return $this->_cache[$filename];
     }
 
     public function __invoke($templateNameOrFilename)
