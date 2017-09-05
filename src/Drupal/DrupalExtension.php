@@ -36,11 +36,6 @@ class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctio
         $this->twigOptions = $config['twig_options'] ?? [];
     }
 
-    public function register(Mannequin $mannequin)
-    {
-        $this->driver->setCache($mannequin->getCache());
-    }
-
     public function getFunctions()
     {
         $attributes = new ExpressionFunction('attributes', function ($args) {
