@@ -52,7 +52,7 @@ class TemplateNameMapper
      */
     public function getTemplateNamesForFilename($filename)
     {
-        if(!isset($this->_cache[$filename])) {
+        if (!isset($this->_cache[$filename])) {
             $map = $this->getMap();
             $matching = array_filter(array_keys($map), function ($path) use ($filename) {
                 return strpos($filename, $path) === 0;
