@@ -21,7 +21,7 @@ class FetchingCodeBlock extends Component {
   fetch() {
     this.setState({ loading: true });
     this.props
-      .fetch(this.props.src)
+      .fetch(this.props.src, {credentials: 'same-origin'})
       .then(code => this.setState({ code, loading: false, error: null }))
       .catch(error => this.setState({ error, loading: false, code: '' }));
   }

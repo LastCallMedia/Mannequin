@@ -1,7 +1,7 @@
 export function fetchPatterns() {
   return dispatch => {
     dispatch({ type: 'PATTERNS_FETCH_LOADING' });
-    fetch('manifest.json')
+    fetch('manifest.json', {credentials: 'same-origin'})
       .then(res => res.json())
       .then(res => dispatch(updatePatterns(res)))
       .catch(err => dispatch(errorPatterns(err)));
