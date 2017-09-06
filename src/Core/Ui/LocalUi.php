@@ -43,10 +43,10 @@ EOD;
 
     public function files(): array
     {
-        $manifest = file_get_contents($this->uiPath('asset-manifest.json'));
+        $manifest = file_get_contents($this->uiPath('build/asset-manifest.json'));
         $files = [];
         foreach (json_decode($manifest, true) as $file) {
-            $files[$file] = $this->uiPath($file);
+            $files[$file] = $this->uiPath('build/' . $file);
         }
         $files['index.html'] = $this->uiPath('build/index.html');
         $files['favicon.ico'] = $this->uiPath('build/favicon.ico');
