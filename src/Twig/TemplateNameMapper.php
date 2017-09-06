@@ -58,12 +58,13 @@ class TemplateNameMapper
         });
 
         $templateNames = [];
-        foreach($matching as $match) {
+        foreach ($matching as $match) {
             $namespace = $map[$match];
             $templateNames[] = $namespace === self::MAIN_NAMESPACE
                 ? ltrim(substr($filename, strlen($match)), '/\\')
                 : $namespace.substr($filename, strlen($match));
         }
+
         return $templateNames;
     }
 
