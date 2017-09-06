@@ -54,19 +54,19 @@ EOD;
         return $files;
     }
 
-    private function uiPath($relativePath = '')
+    protected function uiPath($relativePath = '')
     {
         return rtrim(sprintf('%s/%s', $this->uiPath, $relativePath), '/');
     }
 
     public function isUiFile(string $path): bool
     {
-        return file_exists($this->uiPath($path));
+        return file_exists($this->uiPath('build/'.ltrim($path, '/')));
     }
 
     public function getUiFileResponse(string $path, Request $request): Response
     {
-        return new BinaryFileResponse($this->uiPath($path));
+        return new BinaryFileResponse($this->uiPath('build/'.ltrim($path, '/')));
     }
 
     public function decorateRendered(Rendered $rendered): string

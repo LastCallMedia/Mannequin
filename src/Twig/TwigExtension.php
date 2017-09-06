@@ -46,7 +46,7 @@ class TwigExtension extends AbstractTwigExtension
     {
         if (!$this->driver) {
             if (!isset($this->twigOptions['cache'])) {
-                $this->twigOptions['cache'] = $this->mannequin->getCacheDir();
+                $this->twigOptions['cache'] = $this->mannequin->getCacheDir().'/twig';
             }
             $this->driver = new SimpleTwigDriver(
                 $this->twigRoot,

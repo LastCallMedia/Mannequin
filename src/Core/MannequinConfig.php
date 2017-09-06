@@ -26,7 +26,7 @@ class MannequinConfig extends Container implements ConfigInterface
             'ui' => function () {
                 $composer = json_decode(file_get_contents(__DIR__.'/composer.json'), true);
 
-                return new RemoteUi(sys_get_temp_dir().'/mannequin-ui', $composer['extra']['uiVersion']);
+                return new RemoteUi($composer['extra']['uiVersion']);
             },
             'global_css' => [],
             'global_js' => [],

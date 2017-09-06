@@ -13,6 +13,7 @@ namespace LastCall\Mannequin\Core;
 
 use LastCall\Mannequin\Core\Asset\AssetManager;
 use LastCall\Mannequin\Core\Asset\RequestContextContext;
+use LastCall\Mannequin\Core\Common\DirectoryCachingInterface;
 use LastCall\Mannequin\Core\Console\Application as ConsoleApplication;
 use LastCall\Mannequin\Core\Console\Command\DebugCommand;
 use LastCall\Mannequin\Core\Console\Command\RenderCommand;
@@ -62,7 +63,7 @@ class Mannequin extends Application
                         'render',
                         $this['manifest.builder'],
                         $this['discovery'],
-                        $this['config']->getUi(),
+                        $this['ui'],
                         $this['url_generator'],
                         $this['renderer'],
                         $this['asset.manager']
@@ -91,7 +92,7 @@ class Mannequin extends Application
             return sprintf('%s/mannequin/%s', sys_get_temp_dir(), md5(getcwd()));
         };
         $this['cache'] = function () {
-            return new FilesystemAdapter('', 0, $this['cache_dir']);
+            return new FilesystemAdapter('', 0, $this['cache_dir'].'/cache');
         };
 
         $this['config'] = function () {
@@ -117,6 +118,14 @@ class Mannequin extends Application
             $this->flush();
 
             return new ManifestBuilder($this['url_generator']);
+        };
+        $this['ui'] = function () {
+            $ui = $this['config']->getUi();
+            if ($ui instanceof DirectoryCachingInterface) {
+                $ui->setCacheDir($this->getCacheDir().'/ui');
+            }
+
+            return $ui;
         };
         $this['engine'] = function () {
             $engines = [];
@@ -176,7 +185,7 @@ class Mannequin extends Application
 
         $this->register(new ServiceControllerServiceProvider());
         $this['controller.ui'] = function () {
-            return new UiController($this['config']->getUi(), $this['build_cache']);
+            return new UiController($this['ui'], $this['build_cache']);
         };
         $this['controller.manifest'] = function () {
             return new ManifestController(
@@ -190,7 +199,7 @@ class Mannequin extends Application
             return new RenderController(
                 $collection,
                 $this['renderer'],
-                $this['config']->getUi(),
+                $this['ui'],
                 $this['asset.manager'],
                 $this['build_cache']
             );
