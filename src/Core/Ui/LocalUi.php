@@ -48,8 +48,8 @@ EOD;
         foreach (json_decode($manifest, true) as $file) {
             $files[$file] = $this->uiPath($file);
         }
-        $files['index.html'] = $this->uiPath('index.html');
-        $files['favicon.ico'] = $this->uiPath('favicon.ico');
+        $files['index.html'] = $this->uiPath('build/index.html');
+        $files['favicon.ico'] = $this->uiPath('build/favicon.ico');
 
         return $files;
     }
