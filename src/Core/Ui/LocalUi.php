@@ -46,7 +46,7 @@ EOD;
         $manifest = file_get_contents($this->uiPath('build/asset-manifest.json'));
         $files = [];
         foreach (json_decode($manifest, true) as $file) {
-            $files[$file] = $this->uiPath('build/' . $file);
+            $files[$file] = $this->uiPath('build/'.$file);
         }
         $files['index.html'] = $this->uiPath('build/index.html');
         $files['favicon.ico'] = $this->uiPath('build/favicon.ico');
