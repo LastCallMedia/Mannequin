@@ -44,7 +44,7 @@ class TemplateNameMapper
     /**
      * Lookup the possible twig names that correspond with a given filename.
      *
-     * This method is performance-sensitive, so we static cache results.
+     * This method is performance-sensitive.
      *
      * @param $filename
      *
@@ -52,24 +52,19 @@ class TemplateNameMapper
      */
     public function getTemplateNamesForFilename($filename)
     {
-        if (!isset($this->_cache[$filename])) {
-            $map = $this->getMap();
-            $matching = array_filter(array_keys($map), function ($path) use ($filename) {
-                return strpos($filename, $path) === 0;
-            });
+        $map = $this->getMap();
+        $matching = array_filter(array_keys($map), function ($path) use ($filename) {
+            return $filename[0] === $path[0] && strpos($filename, $path) === 0;
+        });
 
-            $this->_cache[$filename] = [];
-            foreach ($matching as $matchingPath) {
-                $namespace = $map[$matchingPath];
-                if ($namespace === self::MAIN_NAMESPACE) {
-                    $this->_cache[$filename][] = ltrim(substr($filename, strlen($matchingPath)), '/\\');
-                } else {
-                    $this->_cache[$filename][] = $namespace.substr($filename, strlen($matchingPath));
-                }
-            }
+        $templateNames = [];
+        foreach($matching as $match) {
+            $namespace = $map[$match];
+            $templateNames[] = $namespace === self::MAIN_NAMESPACE
+                ? ltrim(substr($filename, strlen($match)), '/\\')
+                : $namespace.substr($filename, strlen($match));
         }
-
-        return $this->_cache[$filename];
+        return $templateNames;
     }
 
     public function __invoke($templateNameOrFilename)
