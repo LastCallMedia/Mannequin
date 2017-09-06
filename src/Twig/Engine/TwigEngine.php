@@ -58,8 +58,9 @@ class TwigEngine implements EngineInterface
 
     public function renderSource(PatternInterface $pattern): string
     {
+        /** @var TwigPattern $pattern */
         if ($this->supports($pattern)) {
-            return $pattern->getSource()->getCode();
+            return twig_source($pattern->getTwig(), $pattern->getSource()->getName());
         }
         throw new UnsupportedPatternException('Unsupported pattern.');
     }
