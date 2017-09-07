@@ -13,10 +13,20 @@ To work on this project, you need:
 
 In development, there are two servers that need to be started to see your changes immediately:
 
-- (from the /ui directory) `npm run start`
-- (from the root directory) `core/bin/cli --ui-server=http://localhost:3000`
+From the /ui directory, run: `npm run start`
+In .mannequin.php, use the LocalDevelopmentUI as follows:
+```php
+use LastCall\Mannequin\Core\MannequinConfig;
+use LastCall\Mannequin\Core\Ui\LocalDevelopmentUi;
 
-Once these are up and running, you should be able to visit http://localhost:8000 in your browser, and see changes to both PHP and React code as you reload the page.
+$config = MannequinConfig::create([
+  // This will cause the PHP server to use the development UI
+  // instead of the downloaded one:
+  'ui' => new LocalDevelopmentUi('http://10.0.0.1:3000')
+])
+...
+```
+Finally, run: `src/Core/bin/mannequin server *:8000`.  Once these are up and running, you should be able to visit http://localhost:8000 in your browser, and see changes to both PHP and React code as you reload the page.
 
 Deployment/Packaging
 --------------------
