@@ -14,9 +14,9 @@ namespace LastCall\Mannequin\Drupal\Driver;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
-use Drupal\Core\Template\TwigExtension;
 use Drupal\Core\Theme\ThemeManagerInterface;
 use LastCall\Mannequin\Drupal\Drupal\MannequinDateFormatter;
+use LastCall\Mannequin\Drupal\Drupal\MannequinDrupalTwigExtension;
 use LastCall\Mannequin\Drupal\Drupal\MannequinExtensionDiscovery;
 use LastCall\Mannequin\Drupal\Drupal\MannequinRenderer;
 use LastCall\Mannequin\Drupal\Drupal\MannequinThemeManager;
@@ -54,7 +54,7 @@ class DrupalTwigDriver extends SimpleTwigDriver
     {
         $this->boot();
         $twig = new \Twig_Environment($this->createLoader(), $this->twigOptions);
-        $extension = new TwigExtension(
+        $extension = new MannequinDrupalTwigExtension(
             $this->getRenderer(),
             $this->getGenerator(),
             $this->getThemeManager(),
