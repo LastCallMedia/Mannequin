@@ -36,12 +36,15 @@ class TwigInspectorCacheDecorator implements TwigInspectorInterface
     public function inspectLinked(\Twig_Environment $twig, \Twig_Source $source): array
     {
         $item = $this->cache->getItem($this->getCid($source, 'linked'));
-        if (!$item->isHit()) {
-            $item->set($this->decorated->inspectLinked($twig, $source));
+        if (!$item->isHit() || !$twig->isTemplateFresh($source->getName(), $item->get()['mtime'])) {
+            $item->set([
+                'data' => $this->decorated->inspectLinked($twig, $source),
+                'mtime' => time(),
+            ]);
             $this->cache->save($item);
         }
 
-        return $item->get();
+        return $item->get()['data'];
     }
 
     private function getCid(\Twig_Source $source, string $prefix)
@@ -55,11 +58,14 @@ class TwigInspectorCacheDecorator implements TwigInspectorInterface
     public function inspectPatternData(\Twig_Environment $twig, \Twig_Source $source)
     {
         $item = $this->cache->getItem($this->getCid($source, 'patterndata'));
-        if (!$item->isHit()) {
-            $item->set($this->decorated->inspectPatternData($twig, $source));
+        if (!$item->isHit() || !$twig->isTemplateFresh($source->getName(), $item->get()['mtime'])) {
+            $item->set([
+                'data' => $this->decorated->inspectPatternData($twig, $source),
+                'mtime' => time(),
+            ]);
             $this->cache->save($item);
         }
 
-        return $item->get();
+        return $item->get()['data'];
     }
 }

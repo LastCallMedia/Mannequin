@@ -14,62 +14,100 @@ namespace LastCall\Mannequin\Twig\Tests;
 use LastCall\Mannequin\Twig\TwigInspectorCacheDecorator;
 use LastCall\Mannequin\Twig\TwigInspectorInterface;
 use PHPUnit\Framework\TestCase;
-use Psr\Cache\CacheItemInterface;
-use Psr\Cache\CacheItemPoolInterface;
+use Prophecy\Argument;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 class TwigInspectorCacheDecoratorTest extends TestCase
 {
-    public function testReturnsLinkedFromCache()
+    public function testInspectLinkedCalledOnceIfTemplateIsFresh()
     {
-        $source = $this->prophesize(\Twig_Source::class);
-        $twig = $this->prophesize(\Twig_Environment::class);
-
         $inspector = $this->prophesize(TwigInspectorInterface::class);
-        $inspector->inspectLinked($twig, $source)->shouldNotBeCalled();
+        $cache = new ArrayAdapter();
+        $source = new \Twig_Source('', 'foo', 'bar');
+        $twigMock = $this->prophesize(\Twig_Environment::class);
 
-        $item = $this->prophesize(CacheItemInterface::class);
-        $item->isHit()->willReturn(true);
-        $item->get()->willReturn(['bar']);
-        $cache = $this->prophesize(CacheItemPoolInterface::class);
-        $cache->getItem('linked.d41d8cd98f00b204e9800998ecf8427e')->willReturn(
-            $item
-        );
+        $twigMock->isTemplateFresh('foo', Argument::type('int'))
+            ->willReturn(true);
 
-        $inspector = new TwigInspectorCacheDecorator(
+        $inspector->inspectLinked($twigMock, $source)
+            ->willReturn(['bar'])
+            ->shouldBeCalledTimes(1);
+
+        $decorator = new TwigInspectorCacheDecorator(
             $inspector->reveal(),
-            $cache->reveal()
+            $cache
         );
-        $this->assertEquals(['bar'], $inspector->inspectLinked($twig->reveal(), $source->reveal()));
+        $twig = $twigMock->reveal();
+        $this->assertEquals(['bar'], $decorator->inspectLinked($twig, $source));
+        $this->assertEquals(['bar'], $decorator->inspectLinked($twig, $source));
     }
 
-    public function testFetchesLinkedFromDecoratedWhenCacheMiss()
+    public function testInspectLinkedCalledAgainIfTemplateIsStale()
     {
-        $source = $this->prophesize(\Twig_Source::class);
-        $twig = $this->prophesize(\Twig_Environment::class);
-
         $inspector = $this->prophesize(TwigInspectorInterface::class);
-        $inspector->inspectLinked($twig, $source)
+        $cache = new ArrayAdapter();
+        $source = new \Twig_Source('', 'foo', 'bar');
+        $twigMock = $this->prophesize(\Twig_Environment::class);
+
+        $twigMock->isTemplateFresh('foo', Argument::type('int'))
+            ->willReturn(false);
+
+        $inspector->inspectLinked($twigMock, $source)
             ->willReturn(['bar'])
-            ->shouldBeCalled();
+            ->shouldBeCalledTimes(2);
 
-        $item = $this->prophesize(CacheItemInterface::class);
-        $item->isHit()->willReturn(false);
-        $item->set(['bar'])->will(
-            function ($args) {
-                $this->get()->willReturn($args[0]);
-            }
-        );
-
-        $cache = $this->prophesize(CacheItemPoolInterface::class);
-        $cache->getItem('linked.d41d8cd98f00b204e9800998ecf8427e')->willReturn(
-            $item
-        );
-        $cache->save($item)->shouldBeCalled();
-
-        $inspector = new TwigInspectorCacheDecorator(
+        $decorator = new TwigInspectorCacheDecorator(
             $inspector->reveal(),
-            $cache->reveal()
+            $cache
         );
-        $this->assertEquals(['bar'], $inspector->inspectLinked($twig->reveal(), $source->reveal()));
+        $twig = $twigMock->reveal();
+        $this->assertEquals(['bar'], $decorator->inspectLinked($twig, $source));
+        $this->assertEquals(['bar'], $decorator->inspectLinked($twig, $source));
+    }
+
+    public function testInspectPatternDataCalledOnceIfTemplateIsFresh()
+    {
+        $inspector = $this->prophesize(TwigInspectorInterface::class);
+        $cache = new ArrayAdapter();
+        $source = new \Twig_Source('', 'foo', 'bar');
+        $twigMock = $this->prophesize(\Twig_Environment::class);
+
+        $twigMock->isTemplateFresh('foo', Argument::type('int'))
+            ->willReturn(true);
+
+        $inspector->inspectPatternData($twigMock, $source)
+            ->willReturn(['bar'])
+            ->shouldBeCalledTimes(1);
+
+        $decorator = new TwigInspectorCacheDecorator(
+            $inspector->reveal(),
+            $cache
+        );
+        $twig = $twigMock->reveal();
+        $this->assertEquals(['bar'], $decorator->inspectPatternData($twig, $source));
+        $this->assertEquals(['bar'], $decorator->inspectPatternData($twig, $source));
+    }
+
+    public function testInspectPatternDataCalledAgainIfTemplateIsStale()
+    {
+        $inspector = $this->prophesize(TwigInspectorInterface::class);
+        $cache = new ArrayAdapter();
+        $source = new \Twig_Source('', 'foo', 'bar');
+        $twigMock = $this->prophesize(\Twig_Environment::class);
+
+        $twigMock->isTemplateFresh('foo', Argument::type('int'))
+            ->willReturn(false);
+
+        $inspector->inspectPatternData($twigMock, $source)
+            ->willReturn(['bar'])
+            ->shouldBeCalledTimes(2);
+
+        $decorator = new TwigInspectorCacheDecorator(
+            $inspector->reveal(),
+            $cache
+        );
+        $twig = $twigMock->reveal();
+        $this->assertEquals(['bar'], $decorator->inspectPatternData($twig, $source));
+        $this->assertEquals(['bar'], $decorator->inspectPatternData($twig, $source));
     }
 }
