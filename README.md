@@ -20,9 +20,7 @@ use LastCall\Mannequin\Core\MannequinConfig;
 use LastCall\Mannequin\Core\Ui\LocalDevelopmentUi;
 
 $config = MannequinConfig::create([
-  // This will cause the PHP server to use the development UI
-  // instead of the downloaded one:
-  'ui' => new LocalDevelopmentUi('http://10.0.0.1:3000')
+  'ui' => new LocalDevelopmentUi('http://127.0.0.1:3000')
 ])
 ...
 ```
