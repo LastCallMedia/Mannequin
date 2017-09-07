@@ -21,14 +21,15 @@ class MannequinDrupalTwigExtension extends TwigExtension
     public function getFilters()
     {
         $filters = parent::getFilters();
+        /** @var \Twig_SimpleFilter $filter */
         foreach ($filters as $i => $filter) {
             if ($filter instanceof \Twig_SimpleFilter) {
                 switch ($filter->getName()) {
                     case 't':
-                    case 'trans':
-                        // Replace the t filter with our own.
-                        $filters[$i] = new \Twig_SimpleFilter($filter->getName(), [$this, 'trans'], ['is_safe' => ['html']]);
+                        $filters[$i] = new \Twig_SimpleFilter('t', [$this, 'trans'], ['is_safe' => ['html']]);
                         break;
+                    case 'without':
+                        $filters[$i] = new \Twig_SimpleFilter('without', [$this, 'without']);
                 }
             }
         }
@@ -41,5 +42,23 @@ class MannequinDrupalTwigExtension extends TwigExtension
         $translation = new TranslationManager(new LanguageDefault([]));
 
         return new TranslatableMarkup($string, $args, $options, $translation);
+    }
+
+    public function without($element)
+    {
+        if ($element instanceof \ArrayAccess) {
+            $filtered_element = clone $element;
+        } else {
+            $filtered_element = $element;
+        }
+        $args = func_get_args();
+        unset($args[0]);
+        foreach ($args as $arg) {
+            if (isset($filtered_element[$arg])) {
+                unset($filtered_element[$arg]);
+            }
+        }
+
+        return $filtered_element;
     }
 }
