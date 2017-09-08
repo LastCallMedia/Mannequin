@@ -16,7 +16,7 @@ trait UsesTestDrupalRoot
     protected static function requireDrupalClasses()
     {
         if (!class_exists('\Drupal')) {
-            self::markTestSkipped('Drupal classes do not exist.');
+            throw new \RuntimeException('Drupal classes do not exist');
         }
     }
 
@@ -24,7 +24,7 @@ trait UsesTestDrupalRoot
     {
         $root = getenv('DRUPAL_ROOT');
         if (!$root) {
-            self::markTestSkipped('No Drupal root given');
+            throw new \RuntimeException('No Drupal root given');
         }
         if (!is_dir($root)) {
             throw new \RuntimeException(sprintf('Drupal root %s does not exist', $root));
@@ -35,6 +35,4 @@ trait UsesTestDrupalRoot
 
         return $root;
     }
-
-    abstract public static function markTestSkipped($message = '');
 }

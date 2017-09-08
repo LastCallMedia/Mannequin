@@ -36,7 +36,7 @@ jobs:
       - restore_cache:
           key: composer-v2-{{ checksum "composer.json" }}
       - run: |
-          composer require drupal/drupal:8.4.0-rc1 --no-update
+          composer require drupal/core:8.4.0-rc1 --no-update
           composer install
           mkdir -p /phpunit
           DRUPAL_ROOT=vendor/drupal vendor/bin/phpunit --testsuite=Drupal --log-junit=/phpunit/drupal.xml
