@@ -14,6 +14,7 @@
 
     <php>
         <env name="DRUPAL_ROOT" value="vendor/drupal" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak_vendors" />
     </php>
 
     <filter>
