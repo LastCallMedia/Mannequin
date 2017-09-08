@@ -11,6 +11,7 @@
 
 namespace LastCall\Mannequin\Drupal\Drupal;
 
+use Drupal\Component\Datetime\DateTimePlus;
 use Drupal\Core\Datetime\DateFormatterInterface;
 
 /**
@@ -25,7 +26,16 @@ class MannequinDateFormatter implements DateFormatterInterface
         $timezone = null,
         $langcode = null
     ) {
-        throw new \Exception('Method not yet implemented');
+        switch ($type) {
+            case 'custom':
+                $format = $format;
+                break;
+            default:
+                $format = 'D, m/d/Y - H:i';
+        }
+        $timezone = new \DateTimeZone('UTC');
+
+        return DateTimePlus::createFromTimestamp($timestamp, $timezone)->format($format);
     }
 
     public function formatInterval(
@@ -33,7 +43,7 @@ class MannequinDateFormatter implements DateFormatterInterface
         $granularity = 2,
         $langcode = null
     ) {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 
     public function getSampleDateFormats(
@@ -41,21 +51,21 @@ class MannequinDateFormatter implements DateFormatterInterface
         $timestamp = null,
         $timezone = null
     ) {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 
     public function formatTimeDiffUntil($timestamp, $options = [])
     {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 
     public function formatTimeDiffSince($timestamp, $options = [])
     {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 
     public function formatDiff($from, $to, $options = [])
     {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 }

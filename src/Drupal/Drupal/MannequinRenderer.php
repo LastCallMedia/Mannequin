@@ -21,43 +21,43 @@ class MannequinRenderer implements RendererInterface
 {
     public function renderRoot(&$elements)
     {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 
     public function renderPlain(&$elements)
     {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 
     public function renderPlaceholder($placeholder, array $elements)
     {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 
     public function render(&$elements, $is_root_call = false)
     {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 
     public function hasRenderContext()
     {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 
     public function executeInRenderContext(
         RenderContext $context,
         callable $callable
     ) {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 
     public function mergeBubbleableMetadata(array $a, array $b)
     {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 
     public function addCacheableDependency(array &$elements, $dependency)
     {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 }

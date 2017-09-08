@@ -24,7 +24,7 @@ class MannequinUrlGenerator implements UrlGeneratorInterface
      */
     public function setContext(RequestContext $context)
     {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 
     /**
@@ -32,7 +32,7 @@ class MannequinUrlGenerator implements UrlGeneratorInterface
      */
     public function getContext()
     {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 
     /**
@@ -40,7 +40,7 @@ class MannequinUrlGenerator implements UrlGeneratorInterface
      */
     public function getPathFromRoute($name, $parameters = [])
     {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 
     /**
@@ -64,7 +64,7 @@ class MannequinUrlGenerator implements UrlGeneratorInterface
      */
     public function supports($name)
     {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 
     /**
@@ -72,6 +72,6 @@ class MannequinUrlGenerator implements UrlGeneratorInterface
      */
     public function getRouteDebugMessage($name, array $parameters = [])
     {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 }

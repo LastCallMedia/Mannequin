@@ -21,32 +21,32 @@ class MannequinThemeManager implements ThemeManagerInterface
 {
     public function render($hook, array $variables)
     {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 
     public function getActiveTheme()
     {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 
     public function hasActiveTheme()
     {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 
     public function resetActiveTheme()
     {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 
     public function setActiveTheme(ActiveTheme $active_theme)
     {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 
     public function alter($type, &$data, &$context1 = null, &$context2 = null)
     {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 
     public function alterForTheme(
@@ -56,6 +56,6 @@ class MannequinThemeManager implements ThemeManagerInterface
         &$context1 = null,
         &$context2 = null
     ) {
-        throw new \Exception('Method not yet implemented');
+        throw new \Exception(__CLASS__.'::'.__METHOD__.' not yet implemented');
     }
 }

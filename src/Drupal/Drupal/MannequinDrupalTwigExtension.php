@@ -29,7 +29,8 @@ class MannequinDrupalTwigExtension extends TwigExtension
             if ($filter instanceof \Twig_SimpleFilter) {
                 switch ($filter->getName()) {
                     case 't':
-                        $filters[$i] = new \Twig_SimpleFilter('t', [$this, 'translate'], ['is_safe' => ['html']]);
+                    case 'trans':
+                        $filters[$i] = new \Twig_SimpleFilter($filter->getName(), [$this, 'translate'], ['is_safe' => ['html']]);
                         break;
                     case 'without':
                         $filters[$i] = new \Twig_SimpleFilter('without', [$this, 'without']);
@@ -38,6 +39,48 @@ class MannequinDrupalTwigExtension extends TwigExtension
         }
 
         return $filters;
+    }
+
+    public function getFunctions()
+    {
+        $functions = parent::getFunctions();
+        foreach ($functions as $i => $function) {
+            if ($function instanceof \Twig_SimpleFunction) {
+                switch ($function->getName()) {
+                    case 'file_url':
+                        $functions[$i] = new \Twig_SimpleFunction('file_url', [$this, 'fileUrl']);
+                }
+            }
+        }
+
+        return $functions;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUrl($name, $parameters = [], $options = [])
+    {
+        // Overrides the getUrl method to return a string instead of a render array.
+        $url = $this->urlGenerator->generateFromRoute($name, $parameters, $options);
+
+        return (string) $url;
+    }
+
+    /**
+     * Build a file uri.
+     */
+    public function fileUrl($uri)
+    {
+        return $uri;
+    }
+
+    /**
+     * Attach a library.
+     */
+    public function attachLibrary($library)
+    {
+        // Does nothing, yet.
     }
 
     /**
