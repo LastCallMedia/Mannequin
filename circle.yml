@@ -123,6 +123,8 @@ workflows:
           filters:
             branches:
               only: master
+            tags:
+              only: /.*/
       - deploy_demo:
           requires: [build_demo]
           filters:
