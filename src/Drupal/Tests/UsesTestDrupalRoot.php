@@ -13,13 +13,28 @@ namespace LastCall\Mannequin\Drupal\Tests;
 
 trait UsesTestDrupalRoot
 {
+    protected static function requireDrupalClasses()
+    {
+        if (!class_exists('\Drupal')) {
+            self::markTestSkipped('Drupal classes do not exist.');
+        }
+    }
+
     protected static function getDrupalRoot()
     {
         $root = getenv('DRUPAL_ROOT');
-        if ($root && !file_exists(sprintf('%s/autoload.php'))) {
+        if (!$root) {
+            self::markTestSkipped('No Drupal root given');
+        }
+        if (!is_dir($root)) {
+            throw new \RuntimeException(sprintf('Drupal root %s does not exist', $root));
+        }
+        if ($root && !file_exists(sprintf('%s/core/includes/bootstrap.inc', $root))) {
             throw new \Exception(sprintf('Unable to detect Drupal root in %s', $root));
         }
 
         return $root;
     }
+
+    abstract public static function markTestSkipped($message = '');
 }

@@ -37,7 +37,7 @@ class DrupalTwigDriver extends SimpleTwigDriver
         if (!is_dir($drupalRoot)) {
             throw new \InvalidArgumentException(sprintf('Drupal root %s does not exist', $drupalRoot));
         }
-        if (!file_exists(sprintf('%s/autoload.php', $drupalRoot))) {
+        if (!file_exists(sprintf('%s/core/includes/bootstrap.inc', $drupalRoot))) {
             throw new \InvalidArgumentException(sprintf('Directory %s does not look like a Drupal installation', $drupalRoot));
         }
         $this->drupalRoot = $drupalRoot;
@@ -69,7 +69,7 @@ class DrupalTwigDriver extends SimpleTwigDriver
     {
         $this->boot();
 
-        $loader = new \Twig_Loader_Filesystem([$this->drupalRoot], $this->drupalRoot);
+        $loader = new \Twig_Loader_Filesystem(['./'], $this->drupalRoot);
         $discovery = new MannequinExtensionDiscovery($this->drupalRoot, $this->cache);
         foreach ($discovery->scan('module', false) as $key => $extension) {
             $dir = sprintf('%s/templates', $extension->getPath());
@@ -91,7 +91,6 @@ class DrupalTwigDriver extends SimpleTwigDriver
     {
         if (!$this->booted) {
             $this->booted = true;
-            require sprintf('%s/autoload.php', $this->drupalRoot);
             require_once sprintf('%s/core/includes/bootstrap.inc', $this->drupalRoot);
         }
     }

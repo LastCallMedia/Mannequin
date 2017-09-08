@@ -15,31 +15,53 @@ use LastCall\Mannequin\Drupal\Driver\DrupalTwigDriver;
 use LastCall\Mannequin\Drupal\Tests\UsesTestDrupalRoot;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * This test is very slow because of the extension scanning.
+ *
+ * We share the driver between methods to avoid re-scanning wherever possible.
+ */
 class BareDrupalDriverTest extends TestCase
 {
     use UsesTestDrupalRoot;
 
-    private $root;
-
-    public function setUp()
+    public static function setUpBeforeClass()
     {
-        if (!$root = self::getDrupalRoot()) {
-            $this->markTestSkipped('No Drupal root given.');
-        }
-        $this->root = $root;
+        self::requireDrupalClasses();
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage a
+     */
+    public function testCreationWithInvalidDrupalRootFails()
+    {
+        new DrupalTwigDriver(__DIR__);
     }
 
     public function testGetTwig()
     {
-        $driver = new DrupalTwigDriver($this->root);
+        $driver = new DrupalTwigDriver($this->getDrupalRoot());
         $twig = $driver->getTwig();
         $this->assertInstanceOf(\Twig_Environment::class, $twig);
+
+        return $driver;
     }
 
-    public function testGetLoader()
+    /**
+     * @depends testGetTwig
+     */
+    public function testGetTwigRoot(DrupalTwigDriver $driver)
     {
-        $driver = new DrupalTwigDriver($this->root);
-        $loader = $driver->getTwigLoader();
-        $this->assertInstanceOf(\Twig_LoaderInterface::class, $loader);
+        $this->assertEquals($this->getDrupalRoot(), $driver->getTwigRoot());
+    }
+
+    /**
+     * @depends testGetTwig
+     */
+    public function testGetNamespaces(DrupalTwigDriver $driver)
+    {
+        $namespaces = $driver->getNamespaces();
+        $this->assertEquals(['.'], $namespaces['__main__']);
+        $this->assertEquals(['core/modules/system/templates'], $namespaces['system']);
     }
 }

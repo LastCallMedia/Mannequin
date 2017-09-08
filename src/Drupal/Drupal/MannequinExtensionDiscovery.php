@@ -13,6 +13,7 @@ namespace LastCall\Mannequin\Drupal\Drupal;
 
 use Drupal\Core\Extension\ExtensionDiscovery;
 use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Cache\Adapter\NullAdapter;
 
 /**
  * Modifies ExtensionDiscovery to avoid DB-backed function calls, and heavily
@@ -20,10 +21,10 @@ use Psr\Cache\CacheItemPoolInterface;
  */
 class MannequinExtensionDiscovery extends ExtensionDiscovery
 {
-    public function __construct($root, CacheItemPoolInterface $cache, $profile_directories = null, $site_path = null)
+    public function __construct($root, CacheItemPoolInterface $cache = null, $profile_directories = null, $site_path = null)
     {
         parent::__construct($root, false, $profile_directories, $site_path);
-        $this->cache = $cache;
+        $this->cache = $cache ?: new NullAdapter();
     }
 
     public function setProfileDirectoriesFromSettings()
