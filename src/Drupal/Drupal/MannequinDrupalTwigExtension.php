@@ -18,6 +18,10 @@ use Drupal\Core\Template\TwigExtension;
 
 class MannequinDrupalTwigExtension extends TwigExtension
 {
+
+    /**
+     * {@inheritdoc}
+     */
     public function getFilters()
     {
         $filters = parent::getFilters();
@@ -26,7 +30,7 @@ class MannequinDrupalTwigExtension extends TwigExtension
             if ($filter instanceof \Twig_SimpleFilter) {
                 switch ($filter->getName()) {
                     case 't':
-                        $filters[$i] = new \Twig_SimpleFilter('t', [$this, 'trans'], ['is_safe' => ['html']]);
+                        $filters[$i] = new \Twig_SimpleFilter('t', [$this, 'translate'], ['is_safe' => ['html']]);
                         break;
                     case 'without':
                         $filters[$i] = new \Twig_SimpleFilter('without', [$this, 'without']);
@@ -37,13 +41,30 @@ class MannequinDrupalTwigExtension extends TwigExtension
         return $filters;
     }
 
-    public function trans($string, array $args = [], array $options = [])
+    /**
+     * Mock of the t() function that does no translation.
+     *
+     * @param $string
+     * @param array $args
+     * @param array $options
+     *
+     * @return \Drupal\Core\StringTranslation\TranslatableMarkup
+     */
+    public function translate($string, array $args = [], array $options = [])
     {
         $translation = new TranslationManager(new LanguageDefault([]));
 
         return new TranslatableMarkup($string, $args, $options, $translation);
     }
 
+    /**
+     * This is a carbon copy of the drupal Twig without filter.
+     *
+     *
+     * @param $element
+     *
+     * @return \ArrayAccess
+     */
     public function without($element)
     {
         if ($element instanceof \ArrayAccess) {
