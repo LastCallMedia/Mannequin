@@ -19,43 +19,57 @@ use Symfony\Component\Routing\RequestContext;
  */
 class MannequinUrlGenerator implements UrlGeneratorInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function setContext(RequestContext $context)
     {
         throw new \Exception('Method not yet implemented');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getContext()
     {
         throw new \Exception('Method not yet implemented');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getPathFromRoute($name, $parameters = [])
     {
         throw new \Exception('Method not yet implemented');
     }
 
-    public function generateFromRoute(
-        $name,
-        $parameters = [],
-        $options = [],
-        $collect_bubbleable_metadata = false
-    ) {
-        throw new \Exception('Method not yet implemented');
+    /**
+     * {@inheritdoc}
+     */
+    public function generateFromRoute($name, $parameters = [], $options = [], $collect_bubbleable_metadata = false)
+    {
+        return '#';
     }
 
-    public function generate(
-        $name,
-        $parameters = [],
-        $referenceType = self::ABSOLUTE_PATH
-    ) {
-        throw new \Exception('Method not yet implemented');
+    /**
+     * {@inheritdoc}
+     */
+    public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH)
+    {
+        return '#';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function supports($name)
     {
         throw new \Exception('Method not yet implemented');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getRouteDebugMessage($name, array $parameters = [])
     {
         throw new \Exception('Method not yet implemented');
