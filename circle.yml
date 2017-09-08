@@ -7,11 +7,11 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: composer-v2-{{ checksum "composer.json" }}
+          key: composer-v3-{{ checksum "composer.json" }}
       - run: composer install
       - save_cache:
-          key: composer-v2-{{ checksum "composer.json" }}
-          paths: [vendor]
+          key: composer-v3-{{ checksum "composer.json" }}
+          paths: [vendor, composer.lock]
       - run: |
           COMMIT_RANGE=`echo $CIRCLE_COMPARE_URL | cut -d/ -f7`
           IFS=$'\n'; COMMIT_SCA_FILES=($(git diff --name-only --diff-filter=ACMRTUXB "${COMMIT_RANGE}")); unset IFS
@@ -35,11 +35,11 @@ jobs:
       - checkout
       - run: composer require drupal/core:8.4.0-rc1 --no-update
       - restore_cache:
-          key: composer-v2-{{ checksum "composer.json" }}
+          key: composer-v3-{{ checksum "composer.json" }}
       - run: composer install
       - save_cache:
-          key: composer-v2-{{ checksum "composer.json" }}
-          paths: [vendor]
+          key: composer-v3-{{ checksum "composer.json" }}
+          paths: [vendor, composer.lock]
       - run: |
           mkdir -p /phpunit
           DRUPAL_ROOT=vendor/drupal vendor/bin/phpunit --testsuite=Drupal --log-junit=/phpunit/drupal.xml
@@ -73,11 +73,8 @@ jobs:
       - attach_workspace:
           at: /srv/ui
       - restore_cache:
-          key: composer-v2-{{ checksum "composer.json" }}
+          key: composer-v3-{{ checksum "composer.json" }}
       - run: composer install
-      - save_cache:
-          key: composer-v2-{{ checksum "composer.json" }}
-          paths: [vendor]
       - run: src/Core/bin/mannequin render
       - persist_to_workspace:
           root: /srv
