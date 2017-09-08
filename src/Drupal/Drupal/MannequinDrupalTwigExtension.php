@@ -18,7 +18,6 @@ use Drupal\Core\Template\TwigExtension;
 
 class MannequinDrupalTwigExtension extends TwigExtension
 {
-
     /**
      * {@inheritdoc}
      */
