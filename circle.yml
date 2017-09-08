@@ -27,6 +27,22 @@ jobs:
       - store_test_results:
           path: /phpunit
 
+  test_drupal:
+    working_directory: /srv
+    docker:
+      - image: lastcallmedia/php:7.0-dev
+    steps:
+      - checkout
+      - restore_cache:
+          key: composer-v2-{{ checksum "composer.json" }}
+      - run: |
+          composer require drupal/drupal:8.4.0-rc1 --no-update
+          composer install
+          mkdir -p /phpunit
+          DRUPAL_ROOT=vendor/drupal vendor/bin/phpunit --log-junit=/phpunit/drupal.xml
+      - store_test_results:
+          path: /phpunit
+
   test_ui:
     working_directory: /srv
     docker:
@@ -113,11 +129,12 @@ workflows:
   test_and_deploy:
     jobs:
       - test_php
+      - test_drupal
       - test_ui
       - build_demo:
           requires: [test_ui]
       - deploy_split:
-          requires: [test_php]
+          requires: [test_php, test_drupal]
       - deploy_ui:
           requires: [test_ui]
           filters:
