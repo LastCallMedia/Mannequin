@@ -39,7 +39,7 @@ jobs:
           composer require drupal/drupal:8.4.0-rc1 --no-update
           composer install
           mkdir -p /phpunit
-          DRUPAL_ROOT=vendor/drupal vendor/bin/phpunit --log-junit=/phpunit/drupal.xml
+          DRUPAL_ROOT=vendor/drupal vendor/bin/phpunit --testsuite=Drupal --log-junit=/phpunit/drupal.xml
       - store_test_results:
           path: /phpunit
 
