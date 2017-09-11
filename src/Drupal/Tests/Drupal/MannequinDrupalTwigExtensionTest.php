@@ -29,10 +29,14 @@ class MannequinDrupalTwigExtensionTest extends TestCase
             ["{{'translated' | trans }}", 'translated'],
             ["{{'translated' | t }}", 'translated'],
             ["{{'<foo' | placeholder}}", '<em class="placeholder">&lt;foo</em>'],
+            ["{{'<foo' | drupal_escape}}", '&lt;foo'],
             ["{{ ['foo', 'bar']| safe_join(', ') }}", 'foo, bar'],
             ["{{ {foo: 'bar', baz: 'bar'} | without('baz') | json_encode }}", htmlentities(json_encode(['foo' => 'bar']))],
             ["{{ 'foo\"' | clean_class }}", 'foo'],
             ["{{ 'foo\"' | clean_id }}", 'foo'],
+            ['{{1 | render}}', '1'],
+            ["{{'foo' | render}}", 'foo'],
+            // @todo: Test coverage for render obj
             ['{{ 999999999 | format_date }}', 'Sun, 09/09/2001 - 01:46'],
         ];
     }
@@ -48,7 +52,18 @@ class MannequinDrupalTwigExtensionTest extends TestCase
     public function getFunctionTests()
     {
         return [
+            ['{{render_var(1)}}', '1'],
+            ['{{render_var("foo")}}', 'foo'],
+            // @todo: Test coverage for render obj
+            ["{{url('foo')}}", '#'],
             ["{{path('foo')}}", '#'],
+            ["{{link('Foo', 'base:/#')}}", '<a href="#">Foo</a>'],
+            ["{{link('Foo', 'base:/#', {class: ['foo']})}}", '<a class="foo" href="#">Foo</a>'],
+            ["{{file_url('foo')}}", 'foo'],
+            ["{{attach_library('system/foo')}}", ''],
+            ['{{active_theme_path}}', ''],
+            ['{{active_theme}}', ''],
+            ["{{create_attribute({foo: 'bar'})}}", ' foo="bar"'],
         ];
     }
 
@@ -58,71 +73,6 @@ class MannequinDrupalTwigExtensionTest extends TestCase
     public function testFunction($input, $expectedOutput)
     {
         $this->assertRenderedEquals($input, $expectedOutput);
-    }
-
-    public function testPath()
-    {
-        $this->assertRenderedEquals(
-            "{{path('foo')}}",
-            '#'
-        );
-    }
-
-    public function testUrl()
-    {
-        $this->assertRenderedEquals(
-            "{{url('foo')}}",
-            '#'
-        );
-    }
-
-    public function testFileUrl()
-    {
-        $this->assertRenderedEquals(
-            "{{file_url('foo')}}",
-            'foo'
-        );
-    }
-
-    public function testAttachLibrary()
-    {
-        $this->assertRenderedEquals(
-            "{{attach_library('system/foo')}}",
-            ''
-        );
-    }
-
-    public function testActiveThemePath()
-    {
-        $this->assertRenderedEquals(
-            '{{active_theme_path}}',
-            ''
-        );
-    }
-
-    public function testActiveTheme()
-    {
-        $this->assertRenderedEquals(
-            '{{active_theme}}',
-            ''
-        );
-    }
-
-    public function testCreateAttribute()
-    {
-        $this->assertRenderedEquals(
-            "{{create_attribute({foo: 'bar'})}}",
-            ' foo="bar"'
-        );
-    }
-
-    public function testLink()
-    {
-        $this->markTestSkipped('Rendering not yet implemented');
-        $this->assertRenderedEquals(
-            "{{link('Foo', 'base:/#')}}",
-            'base:/#'
-        );
     }
 
     public function assertRenderedEquals($template, $expected)

@@ -14,6 +14,7 @@ namespace LastCall\Mannequin\Drupal\Drupal;
 use Drupal\Core\Language\LanguageDefault;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\StringTranslation\TranslationManager;
+use Drupal\Core\Template\Attribute;
 use Drupal\Core\Template\TwigExtension;
 
 class MannequinDrupalTwigExtension extends TwigExtension
@@ -49,6 +50,12 @@ class MannequinDrupalTwigExtension extends TwigExtension
                 switch ($function->getName()) {
                     case 'file_url':
                         $functions[$i] = new \Twig_SimpleFunction('file_url', [$this, 'fileUrl']);
+                        break;
+                    case 'link':
+                        $functions[$i] = new \Twig_SimpleFunction('link', [$this, 'getMannequinLink'], [
+                            'needs_environment' => true,
+                            'is_safe' => ['html'],
+                        ]);
                 }
             }
         }
@@ -61,10 +68,7 @@ class MannequinDrupalTwigExtension extends TwigExtension
      */
     public function getUrl($name, $parameters = [], $options = [])
     {
-        // Overrides the getUrl method to return a string instead of a render array.
-        $url = $this->urlGenerator->generateFromRoute($name, $parameters, $options);
-
-        return (string) $url;
+        return '#';
     }
 
     /**
@@ -75,12 +79,27 @@ class MannequinDrupalTwigExtension extends TwigExtension
         return $uri;
     }
 
+    public function getMannequinLink(\Twig_Environment $twig, $text, $url, $attributes = [])
+    {
+        if (!$attributes instanceof Attribute) {
+            $attributes = new Attribute($attributes);
+        }
+        $attributes['href'] = '#';
+
+        return $twig
+            ->createTemplate('<a{{attributes}}>{{text}}</a>')
+            ->render([
+                'attributes' => $attributes,
+                'text' => $text,
+            ]);
+    }
+
     /**
      * Attach a library.
      */
     public function attachLibrary($library)
     {
-        // Does nothing, yet.
+        // Does nothing.
     }
 
     /**
