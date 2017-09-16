@@ -56,4 +56,17 @@ class TwigIncludeSubscriberTest extends TestCase
         $this->dispatchDiscover($subscriber, $p1, $collection);
         $this->assertEquals([], $p1->getUsedPatterns());
     }
+
+    /**
+     * @expectedException \LastCall\Mannequin\Core\Exception\TemplateParsingException
+     * @expectedExceptionMessage Twig error thrown during usage checking of no_exist
+     */
+    public function testHandlesTwigException()
+    {
+        $twig = $this->getTwig();
+        $source = new \Twig_Source('', 'no_exist', '');
+        $pattern = new TwigPattern('', [], $source, $twig);
+        $subscriber = new TwigIncludeSubscriber();
+        $this->dispatchDiscover($subscriber, $pattern);
+    }
 }

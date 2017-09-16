@@ -14,6 +14,7 @@ namespace LastCall\Mannequin\Twig\Subscriber;
 use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
 use LastCall\Mannequin\Core\Event\PatternEvents;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
+use LastCall\Mannequin\Core\Exception\TemplateParsingException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -26,6 +27,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class TwigIncludeSubscriber implements EventSubscriberInterface
 {
+    const BLOCK_NAME = '_collected_usage';
+
     public static function getSubscribedEvents()
     {
         return [
@@ -36,17 +39,25 @@ class TwigIncludeSubscriber implements EventSubscriberInterface
     public function detect(PatternDiscoveryEvent $event)
     {
         $pattern = $event->getPattern();
-        $collection = $event->getCollection();
 
         if ($pattern instanceof TwigPattern) {
-            $template = $pattern->getTwig()->load($pattern->getSource()->getName());
-            if ($template->hasBlock('_collected_usage')) {
-                $used = json_decode($template->renderBlock('_collected_usage'));
-                foreach ($used as $name) {
-                    if ($collection->has($name)) {
-                        $pattern->addUsedPattern($collection->get($name));
+            try {
+                $template = $pattern->getTwig()->load($pattern->getSource()->getName());
+                if ($template->hasBlock(self::BLOCK_NAME)) {
+                    $collection = $event->getCollection();
+                    $used = json_decode($template->renderBlock(self::BLOCK_NAME));
+                    foreach ($used as $name) {
+                        if ($collection->has($name)) {
+                            $pattern->addUsedPattern($collection->get($name));
+                        }
                     }
                 }
+            } catch (\Twig_Error $e) {
+                $message = sprintf('Twig error thrown during usage checking of %s: %s',
+                    $pattern->getSource()->getName(),
+                    $e->getMessage()
+                );
+                throw new TemplateParsingException($message, $e->getCode(), $e);
             }
         }
     }

@@ -11,30 +11,31 @@
 
 namespace LastCall\Mannequin\Twig\Subscriber;
 
+use LastCall\Mannequin\Core\Exception\TemplateParsingException;
 use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
-use LastCall\Mannequin\Core\YamlMetadataParser;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
-use LastCall\Mannequin\Twig\TwigInspectorInterface;
 
 class InlineTwigYamlMetadataSubscriber extends YamlFileMetadataSubscriber
 {
-    private $inspector;
-
-    public function __construct(
-        TwigInspectorInterface $inspector,
-        YamlMetadataParser $parser = null
-    ) {
-        $this->inspector = $inspector;
-        parent::__construct($parser);
-    }
+    const BLOCK_NAME = 'patterninfo';
 
     protected function getMetadataForPattern(PatternInterface $pattern)
     {
         if ($pattern instanceof TwigPattern) {
-            $yaml = $this->inspector->inspectPatternData($pattern->getTwig(), $pattern->getSource());
-            if (false !== $yaml) {
-                return $this->parseYaml($yaml, $pattern->getSource()->getPath());
+            try {
+                $template = $pattern->getTwig()->load($pattern->getSource()->getName());
+                if ($template->hasBlock(self::BLOCK_NAME)) {
+                    $yaml = $template->renderBlock(self::BLOCK_NAME);
+
+                    return $this->parseYaml($yaml, $pattern->getSource()->getName());
+                }
+            } catch (\Twig_Error $e) {
+                $message = sprintf('Twig error thrown during patterninfo generation of %s: %s',
+                    $pattern->getSource()->getName(),
+                    $e->getMessage()
+                );
+                throw new TemplateParsingException($message, $e->getCode(), $e);
             }
         }
     }

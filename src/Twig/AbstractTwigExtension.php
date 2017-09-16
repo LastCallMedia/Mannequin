@@ -41,9 +41,8 @@ abstract class AbstractTwigExtension extends AbstractExtension
 
     public function subscribe(EventDispatcherInterface $dispatcher)
     {
-        $inspector = $this->getInspector();
         $dispatcher->addSubscriber(
-            new InlineTwigYamlMetadataSubscriber($inspector)
+            new InlineTwigYamlMetadataSubscriber($this->mannequin->getMetadataParser())
         );
         $dispatcher->addSubscriber(
             new TwigIncludeSubscriber()
@@ -67,14 +66,6 @@ abstract class AbstractTwigExtension extends AbstractExtension
         }
 
         return $mapper;
-    }
-
-    protected function getInspector()
-    {
-        return new TwigInspectorCacheDecorator(
-            new TwigInspector(),
-            $this->mannequin->getCache()
-        );
     }
 
     abstract protected function getDriver(): TwigDriverInterface;
