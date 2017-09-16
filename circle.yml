@@ -53,11 +53,11 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: package-v2-{{ checksum "ui/package.json" }}
+          key: package-v3-{{ checksum "ui/package.json" }}
       - run: cd ui && yarn install
       - save_cache:
-          key: package-v2-{{ checksum "ui/package.json" }}
-          paths: [ui/node_modules]
+          key: package-v3-{{ checksum "ui/package.json" }}
+          paths: [ui/node_modules, ui/yarn.lock]
       - run: cd ui && yarn run build
       - run: cd ui && yarn run test
       - persist_to_workspace:
