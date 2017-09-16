@@ -22,6 +22,9 @@ $assetFinder = Finder::create()
 $twig = new TwigExtension([
     'finder' => $twigFinder,
     'twig_root' => __DIR__.'/demo/templates',
+    'twig_options' => [
+        'auto_reload' => TRUE
+    ]
 ]);
 $html = new HtmlExtension([
   'finder' => $htmlFinder,
