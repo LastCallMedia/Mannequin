@@ -14,6 +14,14 @@ namespace LastCall\Mannequin\Twig\Twig;
 use Twig_Environment;
 use Twig_NodeInterface;
 
+/**
+ * Collects data about external template usage via include, embed, and extend
+ * tags.
+ *
+ * This class JSON encodes any static references to external templates into the
+ * _collected_usage block.  This block is then cached with the template and is
+ * parseable further down the chain.
+ */
 class TwigUsageCollectorVisitor implements \Twig_NodeVisitorInterface
 {
     private $collected = [];
