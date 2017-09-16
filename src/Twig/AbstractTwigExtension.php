@@ -46,7 +46,7 @@ abstract class AbstractTwigExtension extends AbstractExtension
             new InlineTwigYamlMetadataSubscriber($inspector)
         );
         $dispatcher->addSubscriber(
-            new TwigIncludeSubscriber($inspector)
+            new TwigIncludeSubscriber()
         );
     }
 

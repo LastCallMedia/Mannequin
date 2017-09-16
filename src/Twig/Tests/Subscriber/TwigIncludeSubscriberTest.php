@@ -12,38 +12,48 @@
 namespace LastCall\Mannequin\Twig\Tests\Subscriber;
 
 use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Core\Tests\Stubs\TestPattern;
 use LastCall\Mannequin\Core\Tests\Subscriber\DiscoverySubscriberTestTrait;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
-use LastCall\Mannequin\Twig\TwigInspector;
 use PHPUnit\Framework\TestCase;
 
 class TwigIncludeSubscriberTest extends TestCase
 {
     use DiscoverySubscriberTestTrait;
 
-    public function testRunsDetection()
+    public function getTwig()
     {
-        $twig = $this->prophesize(\Twig_Environment::class);
-        $p1 = $this->prophesize(TwigPattern::class);
-        $p2 = $this->prophesize(TwigPattern::class);
-        $source = $this->prophesize(\Twig_Source::class);
-        $p1->getTwig()->willReturn($twig);
-        $p1->getSource()->willReturn($source);
+        $loader = new \Twig_Loader_Array([
+            'p1' => '{% block _collected_usage %}["foo"]{%endblock%}',
+        ]);
+        $twig = new \Twig_Environment($loader);
 
-        $collection = $this->prophesize(PatternCollection::class);
-        $collection->has('bar')
-            ->willReturn(true);
-        $collection->get('bar')
-            ->willReturn($p2);
+        return $twig;
+    }
 
-        $inspector = $this->prophesize(TwigInspector::class);
-        $inspector->inspectLinked($twig, $source)
-            ->willReturn(['bar'])
-            ->shouldBeCalled();
+    public function testDiscoversUsageOfValidPatterns()
+    {
+        $twig = $this->getTwig();
+        $source = $twig->load('p1')->getSourceContext();
+        $p1 = new TwigPattern('p1', [], $source, $twig);
+        $foo = new TestPattern('foo');
+        $subscriber = new TwigIncludeSubscriber();
 
-        $p1->addUsedPattern($p2)->shouldBeCalled();
-        $subscriber = new TwigIncludeSubscriber($inspector->reveal());
-        $this->dispatchDiscover($subscriber, $p1->reveal(), $collection->reveal());
+        $collection = new PatternCollection([$foo]);
+        $this->dispatchDiscover($subscriber, $p1, $collection);
+        $this->assertEquals([$foo], $p1->getUsedPatterns());
+    }
+
+    public function testIgnoresUsageOfUnknownPatterns()
+    {
+        $twig = $this->getTwig();
+        $source = $twig->load('p1')->getSourceContext();
+        $p1 = new TwigPattern('p1', [], $source, $twig);
+        $subscriber = new TwigIncludeSubscriber();
+
+        $collection = new PatternCollection([]);
+        $this->dispatchDiscover($subscriber, $p1, $collection);
+        $this->assertEquals([], $p1->getUsedPatterns());
     }
 }

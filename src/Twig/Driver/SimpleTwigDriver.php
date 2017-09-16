@@ -11,6 +11,8 @@
 
 namespace LastCall\Mannequin\Twig\Driver;
 
+use LastCall\Mannequin\Twig\Twig\TwigUsageCollectorVisitor;
+
 class SimpleTwigDriver implements TwigDriverInterface
 {
     private $twigRoot;
@@ -36,7 +38,10 @@ class SimpleTwigDriver implements TwigDriverInterface
     {
         $loader = new \Twig_Loader_Filesystem($this->twigRoot);
 
-        return new \Twig_Environment($loader, $this->twigOptions);
+        $twig = new \Twig_Environment($loader, $this->twigOptions);
+        $twig->addNodeVisitor(new TwigUsageCollectorVisitor());
+
+        return $twig;
     }
 
     public function getNamespaces(): array

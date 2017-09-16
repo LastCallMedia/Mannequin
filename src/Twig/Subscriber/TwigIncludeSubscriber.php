@@ -14,19 +14,18 @@ namespace LastCall\Mannequin\Twig\Subscriber;
 use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
 use LastCall\Mannequin\Core\Event\PatternEvents;
 use LastCall\Mannequin\Twig\Pattern\TwigPattern;
-use LastCall\Mannequin\Twig\TwigInspectorInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * This subscriber enriches pattern data with usage information.
+ *
+ * Usage information is stored in a JSON encoded array in the _collected_usage
+ * block. To automatically build this block, use the TwigUsageCollectorVisitor.
+ *
+ * @see \LastCall\Mannequin\Twig\Twig\TwigUsageCollectorVisitor
+ */
 class TwigIncludeSubscriber implements EventSubscriberInterface
 {
-    private $inspector;
-
-    public function __construct(
-        TwigInspectorInterface $inspector
-    ) {
-        $this->inspector = $inspector;
-    }
-
     public static function getSubscribedEvents()
     {
         return [
@@ -40,10 +39,13 @@ class TwigIncludeSubscriber implements EventSubscriberInterface
         $collection = $event->getCollection();
 
         if ($pattern instanceof TwigPattern) {
-            $included = $this->inspector->inspectLinked($pattern->getTwig(), $pattern->getSource());
-            foreach ($included as $name) {
-                if ($collection->has($name)) {
-                    $pattern->addUsedPattern($collection->get($name));
+            $template = $pattern->getTwig()->load($pattern->getSource()->getName());
+            if ($template->hasBlock('_collected_usage')) {
+                $used = json_decode($template->renderBlock('_collected_usage'));
+                foreach ($used as $name) {
+                    if ($collection->has($name)) {
+                        $pattern->addUsedPattern($collection->get($name));
+                    }
                 }
             }
         }
