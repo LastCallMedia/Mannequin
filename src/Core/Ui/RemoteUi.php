@@ -13,6 +13,7 @@ namespace LastCall\Mannequin\Core\Ui;
 
 use Alchemy\Zippy\Zippy;
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use LastCall\Mannequin\Core\Common\DirectoryCachingInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -27,12 +28,15 @@ class RemoteUi extends LocalUi implements DirectoryCachingInterface
     private $fetched = null;
     private $cacheDir;
     private $uiVersion;
+    private $client;
+    private $filesystem;
 
-    public function __construct($uiVersion = 'latest')
+    public function __construct($uiVersion = 'latest', ClientInterface $client = null, Zippy $zippy = null)
     {
         $this->uiVersion = $uiVersion;
         $this->filesystem = new Filesystem();
-        $this->client = new Client();
+        $this->client = $client ?? new Client();
+        $this->zippy = $zippy ?? Zippy::load();
     }
 
     public function isUiFile(string $path): bool
@@ -60,7 +64,12 @@ class RemoteUi extends LocalUi implements DirectoryCachingInterface
             throw new \RuntimeException('Cache directory has not been set.');
         }
 
-        return rtrim(sprintf('%s/package/%s', $this->cacheDir, $relativePath), '/');
+        return rtrim(sprintf('%s/package/%s', $this->versionDir(), $relativePath), '/');
+    }
+
+    private function versionDir()
+    {
+        return sprintf('%s/%s', $this->cacheDir, $this->uiVersion);
     }
 
     private function checkFetched()
@@ -70,7 +79,7 @@ class RemoteUi extends LocalUi implements DirectoryCachingInterface
             if (!$this->fetched) {
                 $url = $this->getFetchUrl();
                 if ($tmpFile = $this->fetch($url)) {
-                    $this->fetched = $this->extract($tmpFile, $this->cacheDir);
+                    $this->fetched = $this->extract($tmpFile, $this->versionDir());
                 }
             }
             if (!$this->fetched) {
@@ -112,7 +121,7 @@ class RemoteUi extends LocalUi implements DirectoryCachingInterface
     private function extract($tmpFile, $destination)
     {
         $this->filesystem->mkdir($destination);
-        $archive = Zippy::load()->open($tmpFile);
+        $archive = $this->zippy->open($tmpFile);
         $archive->extract($destination);
 
         return true;

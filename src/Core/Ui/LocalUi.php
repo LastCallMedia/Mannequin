@@ -50,6 +50,7 @@ EOD;
         }
         $files['index.html'] = $this->uiPath('build/index.html');
         $files['favicon.ico'] = $this->uiPath('build/favicon.ico');
+        $files['asset-manifest.json'] = $this->uiPath('build/asset-manifest.json');
 
         return $files;
     }
