@@ -54,7 +54,7 @@ class VariantFoundPage extends Component {
     }
   }
   render() {
-    const { pattern, variant, showingInfo, toggleInfo } = this.props;
+    const { pattern, variant, showingInfo, toggleInfo, used } = this.props;
     const { problems, name } = pattern;
     const actions = [
       <OpenWindowButton href={variant.rendered} />,
@@ -72,6 +72,7 @@ class VariantFoundPage extends Component {
               <PatternInfo
                 pattern={pattern}
                 variant={variant}
+                used={used}
                 controls={<CloseButton onClick={toggleInfo} />}
               />
             </SlideInFromBottom>}

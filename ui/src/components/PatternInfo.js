@@ -44,7 +44,7 @@ const PatternInfoInfo = ({ pattern, variant, used }) => {
       {used.length > 0 &&
         <PatternInfoSection title="Used">
           {used.map(p =>
-            <Link to={`/pattern/${p.id}`}>
+            <Link key={p.id} to={`/pattern/${p.id}`}>
               {p.name}
             </Link>
           )}
