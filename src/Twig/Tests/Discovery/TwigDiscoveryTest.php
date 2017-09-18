@@ -11,11 +11,11 @@
 
 namespace LastCall\Mannequin\Twig\Tests\Discovery;
 
+use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Discovery\IdEncoder;
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
 use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
-use LastCall\Mannequin\Twig\Pattern\TwigPattern;
+use LastCall\Mannequin\Twig\Component\TwigComponent;
 use PHPUnit\Framework\TestCase;
 
 class TwigDiscoveryTest extends TestCase
@@ -49,7 +49,7 @@ class TwigDiscoveryTest extends TestCase
         $driver = $this->getDriver($this->getTwig());
         $discovery = new TwigDiscovery($driver, []);
         $collection = $discovery->discover();
-        $this->assertInstanceOf(PatternCollection::class, $collection);
+        $this->assertInstanceOf(ComponentCollection::class, $collection);
         $this->assertCount(0, $collection);
     }
 
@@ -58,7 +58,7 @@ class TwigDiscoveryTest extends TestCase
         $driver = $this->getDriver($this->getTwig());
         $discovery = new TwigDiscovery($driver, ['form-input.twig']);
         $collection = $discovery->discover();
-        $this->assertInstanceOf(PatternCollection::class, $collection);
+        $this->assertInstanceOf(ComponentCollection::class, $collection);
         $this->assertCount(1, $collection);
 
         return $collection;
@@ -67,12 +67,12 @@ class TwigDiscoveryTest extends TestCase
     /**
      * @depends testDiscoversPatternCollection
      */
-    public function testDiscoversPattern(PatternCollection $collection)
+    public function testDiscoversPattern(ComponentCollection $collection)
     {
         $pattern = $collection->get(
             $this->encodeId('form-input.twig')
         );
-        $this->assertInstanceOf(TwigPattern::class, $pattern);
+        $this->assertInstanceOf(TwigComponent::class, $pattern);
 
         return $pattern;
     }
@@ -80,7 +80,7 @@ class TwigDiscoveryTest extends TestCase
     /**
      * @depends testDiscoversPattern
      */
-    public function testSetsId(TwigPattern $pattern)
+    public function testSetsId(TwigComponent $pattern)
     {
         $this->assertEquals(
             $this->encodeId('form-input.twig'),
@@ -91,7 +91,7 @@ class TwigDiscoveryTest extends TestCase
     /**
      * @depends testDiscoversPattern
      */
-    public function testSetsName(TwigPattern $pattern)
+    public function testSetsName(TwigComponent $pattern)
     {
         $this->assertEquals('form-input.twig', $pattern->getName());
     }
@@ -99,7 +99,7 @@ class TwigDiscoveryTest extends TestCase
     /**
      * @depends testDiscoversPattern
      */
-    public function testSetsAliases(TwigPattern $pattern)
+    public function testSetsAliases(TwigComponent $pattern)
     {
         $this->assertEquals(['form-input.twig'], $pattern->getAliases());
     }
@@ -107,7 +107,7 @@ class TwigDiscoveryTest extends TestCase
     /**
      * @depends testDiscoversPattern
      */
-    public function testSetsFilename(TwigPattern $pattern)
+    public function testSetsFilename(TwigComponent $pattern)
     {
         $this->assertFalse($pattern->getFile());
     }
@@ -115,7 +115,7 @@ class TwigDiscoveryTest extends TestCase
     /**
      * @depends testDiscoversPattern
      */
-    public function testSetsSource(TwigPattern $pattern)
+    public function testSetsSource(TwigComponent $pattern)
     {
         $source = $pattern->getSource();
         $this->assertInstanceOf(\Twig_Source::class, $source);

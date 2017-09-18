@@ -11,17 +11,17 @@
 
 namespace LastCall\Mannequin\Html\Tests\Engine;
 
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Tests\Engine\RendererTestCase;
+use LastCall\Mannequin\Html\Component\HtmlComponent;
 use LastCall\Mannequin\Html\Engine\HtmlEngine;
-use LastCall\Mannequin\Html\Pattern\HtmlPattern;
 
 class HtmlRendererTest extends RendererTestCase
 {
-    public function getSupportedPattern(): PatternInterface
+    public function getSupportedPattern(): ComponentInterface
     {
-        return new HtmlPattern(
+        return new HtmlComponent(
             'foo',
             [],
             new \SplFileInfo(__DIR__.'/../Resources/button.html')

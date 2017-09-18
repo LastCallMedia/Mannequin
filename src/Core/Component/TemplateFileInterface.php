@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace LastCall\Mannequin\Core\Pattern;
+namespace LastCall\Mannequin\Core\Component;
 
 /**
  * Denotes a pattern that may be sourced from a file.
@@ -18,7 +18,7 @@ namespace LastCall\Mannequin\Core\Pattern;
  * just that it is of a type that may.  One example of this is Twig patterns,
  * which often come from a file, but may also come from Twig_Loader_Array.
  */
-interface TemplateFilePatternInterface extends PatternInterface
+interface TemplateFileInterface extends ComponentInterface
 {
     /**
      * Get the path to the source template.

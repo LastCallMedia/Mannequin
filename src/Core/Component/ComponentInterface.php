@@ -9,11 +9,11 @@
  * with this source code in the file LICENSE.
  */
 
-namespace LastCall\Mannequin\Core\Pattern;
+namespace LastCall\Mannequin\Core\Component;
 
 use LastCall\Mannequin\Core\Variable\VariableSet;
 
-interface PatternInterface
+interface ComponentInterface
 {
     /**
      * Get the unique identifier for the pattern.
@@ -41,9 +41,9 @@ interface PatternInterface
      *
      * @param string $name
      *
-     * @return \LastCall\Mannequin\Core\Pattern\PatternInterface
+     * @return \LastCall\Mannequin\Core\Pattern\ComponentInterface
      */
-    public function setName(string $name): PatternInterface;
+    public function setName(string $name): ComponentInterface;
 
     /**
      * Get all the tags on the pattern.
@@ -70,12 +70,12 @@ interface PatternInterface
      *
      * @return mixed
      */
-    public function addMetadata(string $name, $value): PatternInterface;
+    public function addMetadata(string $name, $value): ComponentInterface;
 
-    public function createVariant($id, $name, VariableSet $variables = null, array $metadata = []): PatternVariant;
+    public function createVariant($id, $name, VariableSet $variables = null, array $metadata = []): Sample;
 
     /**
-     * @return \LastCall\Mannequin\Core\Pattern\PatternVariant[]
+     * @return \LastCall\Mannequin\Core\Component\Sample[]
      */
     public function getVariants(): array;
 
@@ -93,34 +93,34 @@ interface PatternInterface
      *
      * @param string $name
      *
-     * @return \LastCall\Mannequin\Core\Pattern\PatternVariant
+     * @return \LastCall\Mannequin\Core\Component\Sample
      */
-    public function getVariant(string $name): PatternVariant;
+    public function getVariant(string $name): Sample;
 
     /**
      * Add a pattern that this pattern uses in the course of rendering.
      *
-     * @param \LastCall\Mannequin\Core\Pattern\PatternInterface $pattern
+     * @param \LastCall\Mannequin\Core\Pattern\ComponentInterface $pattern
      *
-     * @return \LastCall\Mannequin\Core\Pattern\PatternInterface
+     * @return \LastCall\Mannequin\Core\Pattern\ComponentInterface
      */
-    public function addUsedPattern(PatternInterface $pattern): PatternInterface;
+    public function addUsedComponent(ComponentInterface $pattern): ComponentInterface;
 
     /**
      * Get all of the patterns that this pattern "uses".
      *
      * @return array
      */
-    public function getUsedPatterns(): array;
+    public function getUsedComponents(): array;
 
     /**
      * Note a problem during the discovery process for this pattern.
      *
      * @param string $problem
      *
-     * @return \LastCall\Mannequin\Core\Pattern\PatternInterface
+     * @return \LastCall\Mannequin\Core\Pattern\ComponentInterface
      */
-    public function addProblem(string $problem): PatternInterface;
+    public function addProblem(string $problem): ComponentInterface;
 
     /**
      * Get an array of all problems with this pattern.

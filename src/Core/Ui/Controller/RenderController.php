@@ -12,10 +12,10 @@
 namespace LastCall\Mannequin\Core\Ui\Controller;
 
 use LastCall\Mannequin\Core\Asset\AssetManager;
+use LastCall\Mannequin\Core\Component\ComponentCollection;
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Exception\PatternNotFoundException;
 use LastCall\Mannequin\Core\Exception\VariantNotFoundException;
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\PatternRenderer;
 use LastCall\Mannequin\Core\Ui\UiInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,7 +34,7 @@ class RenderController
     private $assetManager;
 
     public function __construct(
-        PatternCollection $collection,
+        ComponentCollection $collection,
         PatternRenderer $renderer,
         UiInterface $ui,
         AssetManager $assetManager,
@@ -88,7 +88,7 @@ class RenderController
         }
     }
 
-    private function getPatternVariant(PatternInterface $pattern, $variantId)
+    private function getPatternVariant(ComponentInterface $pattern, $variantId)
     {
         try {
             return $pattern->getVariant($variantId);

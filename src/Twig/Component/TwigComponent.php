@@ -9,12 +9,12 @@
  * with this source code in the file LICENSE.
  */
 
-namespace LastCall\Mannequin\Twig\Pattern;
+namespace LastCall\Mannequin\Twig\Component;
 
-use LastCall\Mannequin\Core\Pattern\AbstractPattern;
-use LastCall\Mannequin\Core\Pattern\TemplateFilePatternInterface;
+use LastCall\Mannequin\Core\Component\AbstractComponent;
+use LastCall\Mannequin\Core\Component\TemplateFileInterface;
 
-class TwigPattern extends AbstractPattern implements TemplateFilePatternInterface
+class TwigComponent extends AbstractComponent implements TemplateFileInterface
 {
     private $source;
     private $twig;

@@ -9,20 +9,20 @@
  * with this source code in the file LICENSE.
  */
 
-namespace LastCall\Mannequin\Twig\Tests\Pattern;
+namespace LastCall\Mannequin\Twig\Tests\Component;
 
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
-use LastCall\Mannequin\Core\Tests\Pattern\PatternTestCase;
-use LastCall\Mannequin\Twig\Pattern\TwigPattern;
+use LastCall\Mannequin\Core\Component\ComponentInterface;
+use LastCall\Mannequin\Core\Tests\Component\ComponentTestCase;
+use LastCall\Mannequin\Twig\Component\TwigComponent;
 
-class TwigPatternTest extends PatternTestCase
+class TwigComponentTest extends ComponentTestCase
 {
-    public function getPattern(): PatternInterface
+    public function getPattern(): ComponentInterface
     {
         $twig = $this->prophesize(\Twig_Environment::class);
         $src = new \Twig_Source('', 'test', self::TEMPLATE_FILE);
 
-        return new TwigPattern(self::PATTERN_ID, self::PATTERN_ALIASES, $src, $twig->reveal());
+        return new TwigComponent(self::PATTERN_ID, self::PATTERN_ALIASES, $src, $twig->reveal());
     }
 
     public function testRawFormat()

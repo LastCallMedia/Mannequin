@@ -9,12 +9,12 @@
  * with this source code in the file LICENSE.
  */
 
-namespace LastCall\Mannequin\Core\Pattern;
+namespace LastCall\Mannequin\Core\Component;
 
 use LastCall\Mannequin\Core\Exception\VariantNotFoundException;
 use LastCall\Mannequin\Core\Variable\VariableSet;
 
-abstract class AbstractPattern implements PatternInterface
+abstract class AbstractComponent implements ComponentInterface
 {
     protected $id;
 
@@ -64,7 +64,7 @@ abstract class AbstractPattern implements PatternInterface
     /**
      * {@inheritdoc}
      */
-    public function setName(string $name): PatternInterface
+    public function setName(string $name): ComponentInterface
     {
         $this->name = $name;
 
@@ -90,7 +90,7 @@ abstract class AbstractPattern implements PatternInterface
     /**
      * {@inheritdoc}
      */
-    public function addMetadata(string $name, $value): PatternInterface
+    public function addMetadata(string $name, $value): ComponentInterface
     {
         $this->tags[$name] = $value;
 
@@ -100,9 +100,9 @@ abstract class AbstractPattern implements PatternInterface
     /**
      * {@inheritdoc}
      */
-    public function createVariant($id, $name, VariableSet $variables = null, array $tags = []): PatternVariant
+    public function createVariant($id, $name, VariableSet $variables = null, array $tags = []): Sample
     {
-        return $this->variants[$id] = new PatternVariant($id, $name, $variables, $tags);
+        return $this->variants[$id] = new Sample($id, $name, $variables, $tags);
     }
 
     /**
@@ -124,7 +124,7 @@ abstract class AbstractPattern implements PatternInterface
     /**
      * {@inheritdoc}
      */
-    public function getVariant(string $name): PatternVariant
+    public function getVariant(string $name): Sample
     {
         if (!isset($this->variants[$name])) {
             throw new VariantNotFoundException(sprintf('Variant %s not found', $name));
@@ -136,7 +136,7 @@ abstract class AbstractPattern implements PatternInterface
     /**
      * {@inheritdoc}
      */
-    public function addUsedPattern(PatternInterface $pattern): PatternInterface
+    public function addUsedComponent(ComponentInterface $pattern): ComponentInterface
     {
         $this->used[] = $pattern;
 
@@ -146,7 +146,7 @@ abstract class AbstractPattern implements PatternInterface
     /**
      * {@inheritdoc}
      */
-    public function getUsedPatterns(): array
+    public function getUsedComponents(): array
     {
         return $this->used;
     }
@@ -154,7 +154,7 @@ abstract class AbstractPattern implements PatternInterface
     /**
      * {@inheritdoc}
      */
-    public function addProblem(string $problem): PatternInterface
+    public function addProblem(string $problem): ComponentInterface
     {
         $this->problems[] = $problem;
 

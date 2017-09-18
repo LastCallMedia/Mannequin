@@ -11,10 +11,10 @@
 
 namespace LastCall\Mannequin\Core\Discovery;
 
+use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
 use LastCall\Mannequin\Core\Event\PatternEvents;
 use LastCall\Mannequin\Core\Exception\TemplateParsingException;
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -52,7 +52,7 @@ class ChainDiscovery implements DiscoveryInterface
         $this->logger = $logger;
     }
 
-    public function discover(): PatternCollection
+    public function discover(): ComponentCollection
     {
         $patterns = [];
         foreach ($this->discoverers as $discoverer) {
@@ -60,7 +60,7 @@ class ChainDiscovery implements DiscoveryInterface
                 $patterns[] = $pattern;
             }
         }
-        $collection = new PatternCollection($patterns);
+        $collection = new ComponentCollection($patterns);
         foreach ($collection as $pattern) {
             try {
                 $this->dispatcher->dispatch(

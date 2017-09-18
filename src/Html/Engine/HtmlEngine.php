@@ -11,11 +11,11 @@
 
 namespace LastCall\Mannequin\Html\Engine;
 
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Rendered;
-use LastCall\Mannequin\Html\Pattern\HtmlPattern;
+use LastCall\Mannequin\Html\Component\HtmlComponent;
 
 class HtmlEngine implements EngineInterface
 {
@@ -23,7 +23,7 @@ class HtmlEngine implements EngineInterface
     {
     }
 
-    public function render(PatternInterface $pattern, array $values = [], Rendered $rendered)
+    public function render(ComponentInterface $pattern, array $values = [], Rendered $rendered)
     {
         if ($this->supports($pattern)) {
             $rendered->setMarkup(
@@ -35,12 +35,12 @@ class HtmlEngine implements EngineInterface
         throw new UnsupportedPatternException('Unsupported Pattern.');
     }
 
-    public function supports(PatternInterface $pattern): bool
+    public function supports(ComponentInterface $pattern): bool
     {
-        return $pattern instanceof HtmlPattern;
+        return $pattern instanceof HtmlComponent;
     }
 
-    public function renderSource(PatternInterface $pattern): string
+    public function renderSource(ComponentInterface $pattern): string
     {
         if ($this->supports($pattern)) {
             return file_get_contents($pattern->getFile()->getPathname());

@@ -11,10 +11,10 @@
 
 namespace LastCall\Mannequin\Core\Subscriber;
 
+use LastCall\Mannequin\Core\Component\ComponentInterface;
+use LastCall\Mannequin\Core\Component\TemplateFileInterface;
 use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
 use LastCall\Mannequin\Core\Event\PatternEvents;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
-use LastCall\Mannequin\Core\Pattern\TemplateFilePatternInterface;
 use LastCall\Mannequin\Core\Variable\VariableSet;
 use LastCall\Mannequin\Core\YamlMetadataParser;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -60,9 +60,9 @@ class YamlFileMetadataSubscriber implements EventSubscriberInterface
         }
     }
 
-    protected function getMetadataForPattern(PatternInterface $pattern)
+    protected function getMetadataForPattern(ComponentInterface $pattern)
     {
-        if ($pattern instanceof TemplateFilePatternInterface) {
+        if ($pattern instanceof TemplateFileInterface) {
             if ($file = $pattern->getFile()) {
                 $yamlFile = $this->getYamlFileForPatternFile($pattern->getFile());
                 if (file_exists($yamlFile)) {

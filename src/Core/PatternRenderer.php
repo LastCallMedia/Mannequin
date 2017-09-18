@@ -11,12 +11,12 @@
 
 namespace LastCall\Mannequin\Core;
 
+use LastCall\Mannequin\Core\Component\ComponentCollection;
+use LastCall\Mannequin\Core\Component\ComponentInterface;
+use LastCall\Mannequin\Core\Component\Sample;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Event\PatternEvents;
 use LastCall\Mannequin\Core\Event\RenderEvent;
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
-use LastCall\Mannequin\Core\Pattern\PatternVariant;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class PatternRenderer
@@ -31,7 +31,7 @@ class PatternRenderer
         $this->dispatcher = $dispatcher;
     }
 
-    public function render(PatternCollection $collection, PatternInterface $pattern, PatternVariant $variant): Rendered
+    public function render(ComponentCollection $collection, ComponentInterface $pattern, Sample $variant): Rendered
     {
         return $this->enterRender(function ($isRoot) use ($collection, $pattern, $variant) {
             $rendered = new Rendered();
@@ -54,7 +54,7 @@ class PatternRenderer
         return $return;
     }
 
-    public function renderSource(PatternInterface $pattern): string
+    public function renderSource(ComponentInterface $pattern): string
     {
         return $this->engine->renderSource($pattern);
     }

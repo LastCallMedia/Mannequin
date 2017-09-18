@@ -9,12 +9,12 @@
  * with this source code in the file LICENSE.
  */
 
-namespace LastCall\Mannequin\Html\Pattern;
+namespace LastCall\Mannequin\Html\Component;
 
-use LastCall\Mannequin\Core\Pattern\AbstractPattern;
-use LastCall\Mannequin\Core\Pattern\TemplateFilePatternInterface;
+use LastCall\Mannequin\Core\Component\AbstractComponent;
+use LastCall\Mannequin\Core\Component\TemplateFileInterface;
 
-class HtmlPattern extends AbstractPattern implements TemplateFilePatternInterface
+class HtmlComponent extends AbstractComponent implements TemplateFileInterface
 {
     private $fileInfo;
 

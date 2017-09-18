@@ -11,8 +11,8 @@
 
 namespace LastCall\Mannequin\Core\Engine;
 
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Rendered;
 
 class DelegatingEngine implements EngineInterface
@@ -31,12 +31,12 @@ class DelegatingEngine implements EngineInterface
         $this->renderers = $renderers;
     }
 
-    public function supports(PatternInterface $pattern): bool
+    public function supports(ComponentInterface $pattern): bool
     {
         return (bool) $this->findRendererFor($pattern, false);
     }
 
-    private function findRendererFor(PatternInterface $pattern, $require = true)
+    private function findRendererFor(ComponentInterface $pattern, $require = true)
     {
         foreach ($this->renderers as $renderer) {
             if ($renderer->supports($pattern)) {
@@ -52,12 +52,12 @@ class DelegatingEngine implements EngineInterface
         return false;
     }
 
-    public function render(PatternInterface $pattern, array $variables = [], Rendered $rendered)
+    public function render(ComponentInterface $pattern, array $variables = [], Rendered $rendered)
     {
         return $this->findRendererFor($pattern)->render($pattern, $variables, $rendered);
     }
 
-    public function renderSource(PatternInterface $pattern): string
+    public function renderSource(ComponentInterface $pattern): string
     {
         return $this->findRendererFor($pattern)->renderSource($pattern);
     }

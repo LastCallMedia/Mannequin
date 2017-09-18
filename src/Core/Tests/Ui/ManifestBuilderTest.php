@@ -11,7 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Tests\Ui;
 
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Tests\Stubs\TestFilePattern;
 use LastCall\Mannequin\Core\Ui\ManifestBuilder;
 use LastCall\Mannequin\Core\Variable\VariableSet;
@@ -44,10 +44,10 @@ class ManifestBuilderTest extends TestCase
         $pattern->setName('Pattern 1');
         $pattern->addMetadata('foo', 'bar');
         $pattern->createVariant('foo', 'Foo', new VariableSet(), ['foo' => 'bar']);
-        $pattern->addUsedPattern($pattern);
+        $pattern->addUsedComponent($pattern);
         $pattern->addProblem('foo problem');
 
-        $collection = new PatternCollection([$pattern]);
+        $collection = new ComponentCollection([$pattern]);
         $builder = new ManifestBuilder($this->getGenerator());
         $manifest = $builder->generate($collection);
         $this->assertInternalType('array', $manifest);

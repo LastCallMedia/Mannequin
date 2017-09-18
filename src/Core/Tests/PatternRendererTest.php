@@ -11,10 +11,10 @@
 
 namespace LastCall\Mannequin\Core\Tests;
 
+use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Event\PatternEvents;
 use LastCall\Mannequin\Core\Event\RenderEvent;
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\PatternRenderer;
 use LastCall\Mannequin\Core\Rendered;
 use LastCall\Mannequin\Core\Tests\Stubs\TestFilePattern;
@@ -46,12 +46,12 @@ class PatternRendererTest extends TestCase
             ->shouldBeCalled();
         $renderer = new PatternRenderer($engine->reveal(), $dispatcher->reveal());
 
-        $renderer->render(new PatternCollection(), $pattern, $variant);
+        $renderer->render(new ComponentCollection(), $pattern, $variant);
     }
 
     public function testSetsIsRoot()
     {
-        $collection = new PatternCollection();
+        $collection = new ComponentCollection();
         $pattern = new TestFilePattern('foo', [], new \SplFileInfo(__FILE__));
         $variant = $pattern->createVariant('foo', 'Foo');
 

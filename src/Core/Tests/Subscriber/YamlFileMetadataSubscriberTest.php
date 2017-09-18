@@ -11,8 +11,8 @@
 
 namespace LastCall\Mannequin\Core\Tests\Subscriber;
 
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
-use LastCall\Mannequin\Core\Pattern\PatternVariant;
+use LastCall\Mannequin\Core\Component\ComponentInterface;
+use LastCall\Mannequin\Core\Component\Sample;
 use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
 use LastCall\Mannequin\Core\Tests\Stubs\TestFilePattern;
 use LastCall\Mannequin\Core\Tests\YamlParserProphecyTrait;
@@ -86,7 +86,7 @@ class YamlFileMetadataSubscriberTest extends TestCase
     public function testAddsVariant(TestFilePattern $pattern)
     {
         $this->assertTrue($pattern->hasVariant('additional'));
-        $expectedVariant = new PatternVariant(
+        $expectedVariant = new Sample(
             'additional',
             'Additional',
             new VariableSet(['var1' => new Variable('simple', 'foo')])
@@ -125,7 +125,7 @@ class YamlFileMetadataSubscriberTest extends TestCase
     /**
      * @depends testParsesOverrideMetadata
      */
-    public function testOverridesTags(PatternInterface $pattern)
+    public function testOverridesTags(ComponentInterface $pattern)
     {
         $this->assertArraySubset([
             'foo' => 'baz',
@@ -135,9 +135,9 @@ class YamlFileMetadataSubscriberTest extends TestCase
     /**
      * @depends testParsesOverrideMetadata
      */
-    public function testOverridesDefaultVariant(PatternInterface $pattern)
+    public function testOverridesDefaultVariant(ComponentInterface $pattern)
     {
-        $expectedVariant = new PatternVariant(
+        $expectedVariant = new Sample(
             'default',
             'Overridden',
             new VariableSet(['var1' => new Variable('simple', 'foo')])

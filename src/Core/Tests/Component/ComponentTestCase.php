@@ -9,14 +9,13 @@
  * with this source code in the file LICENSE.
  */
 
-namespace LastCall\Mannequin\Core\Tests\Pattern;
+namespace LastCall\Mannequin\Core\Tests\Component;
 
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
-use LastCall\Mannequin\Core\Pattern\PatternVariant;
-use LastCall\Mannequin\Core\Pattern\TemplateFilePatternInterface;
+use LastCall\Mannequin\Core\Component\Sample;
+use LastCall\Mannequin\Core\Component\TemplateFileInterface;
 use PHPUnit\Framework\TestCase;
 
-abstract class PatternTestCase extends TestCase
+abstract class ComponentTestCase extends TestCase
 {
     const PATTERN_ID = 'foo';
 
@@ -29,7 +28,7 @@ abstract class PatternTestCase extends TestCase
         $this->assertEquals(static::PATTERN_ID, $this->getPattern()->getId());
     }
 
-    abstract public function getPattern(): PatternInterface;
+    abstract public function getPattern(): \LastCall\Mannequin\Core\Component\ComponentInterface;
 
     public function testGetAliases()
     {
@@ -62,19 +61,19 @@ abstract class PatternTestCase extends TestCase
         $pattern = $this->getPattern();
         $pattern->createVariant('default', 'Default');
         $this->assertEquals([
-            'default' => new PatternVariant('default', 'Default'),
+            'default' => new \LastCall\Mannequin\Core\Component\Sample('default', 'Default'),
         ], $pattern->getVariants());
 
         $pattern->createVariant('default', 'Overridden');
         $this->assertEquals([
-            'default' => new PatternVariant('default', 'Overridden'),
+            'default' => new Sample('default', 'Overridden'),
         ], $pattern->getVariants());
     }
 
     public function testGetFile()
     {
         $pattern = $this->getPattern();
-        if ($pattern instanceof TemplateFilePatternInterface) {
+        if ($pattern instanceof TemplateFileInterface) {
             $this->assertInstanceOf(\SplFileInfo::class, $pattern->getFile());
             $this->assertEquals(
                 self::TEMPLATE_FILE,

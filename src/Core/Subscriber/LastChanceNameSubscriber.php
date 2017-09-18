@@ -11,9 +11,9 @@
 
 namespace LastCall\Mannequin\Core\Subscriber;
 
+use LastCall\Mannequin\Core\Component\TemplateFileInterface;
 use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
 use LastCall\Mannequin\Core\Event\PatternEvents;
-use LastCall\Mannequin\Core\Pattern\TemplateFilePatternInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class LastChanceNameSubscriber implements EventSubscriberInterface
@@ -29,7 +29,7 @@ class LastChanceNameSubscriber implements EventSubscriberInterface
     {
         $pattern = $event->getPattern();
         if (empty($pattern->getName())) {
-            if ($pattern instanceof TemplateFilePatternInterface) {
+            if ($pattern instanceof TemplateFileInterface) {
                 if ($file = $pattern->getFile()) {
                     $name = explode('.', $file->getBasename())[0];
                     $name = ucfirst(

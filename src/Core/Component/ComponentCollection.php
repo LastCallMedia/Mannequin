@@ -9,16 +9,16 @@
  * with this source code in the file LICENSE.
  */
 
-namespace LastCall\Mannequin\Core\Pattern;
+namespace LastCall\Mannequin\Core\Component;
 
-class PatternCollection implements \Iterator, \Countable
+class ComponentCollection implements \Iterator, \Countable
 {
     const ROOT_COLLECTION = '__root__';
 
     private $id = self::ROOT_COLLECTION;
 
     /**
-     * @var \LastCall\Mannequin\Core\Pattern\PatternInterface[]
+     * @var \LastCall\Mannequin\Core\Component\ComponentInterface[]
      */
     private $patterns = [];
 
@@ -40,7 +40,7 @@ class PatternCollection implements \Iterator, \Countable
         $this->id = $id;
 
         foreach ($patterns as $pattern) {
-            if (!$pattern instanceof PatternInterface) {
+            if (!$pattern instanceof ComponentInterface) {
                 throw new \RuntimeException(
                     'Pattern must be an instance of PatternInterface.'
                 );
@@ -134,7 +134,7 @@ class PatternCollection implements \Iterator, \Countable
     }
 
     /**
-     * @return \LastCall\Mannequin\Core\Pattern\PatternCollection|null
+     * @return \LastCall\Mannequin\Core\Pattern\ComponentCollection|null
      */
     public function getParent()
     {
@@ -142,14 +142,14 @@ class PatternCollection implements \Iterator, \Countable
     }
 
     /**
-     * @return \LastCall\Mannequin\Core\Pattern\PatternInterface[]
+     * @return \LastCall\Mannequin\Core\Component\ComponentInterface[]
      */
     public function getPatterns()
     {
         return array_values($this->patterns);
     }
 
-    private function setParent(PatternCollection $parent)
+    private function setParent(ComponentCollection $parent)
     {
         $this->parent = $parent;
     }
@@ -168,7 +168,7 @@ class PatternCollection implements \Iterator, \Countable
         }
     }
 
-    public function merge(PatternCollection $merging)
+    public function merge(ComponentCollection $merging)
     {
         $overlapping = array_intersect(
             array_keys($this->patterns),

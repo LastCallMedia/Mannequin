@@ -11,15 +11,15 @@
 
 namespace LastCall\Mannequin\Twig\Engine;
 
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Rendered;
-use LastCall\Mannequin\Twig\Pattern\TwigPattern;
+use LastCall\Mannequin\Twig\Component\TwigComponent;
 
 class TwigEngine implements EngineInterface
 {
-    public function render(PatternInterface $pattern, array $variables = [], Rendered $rendered)
+    public function render(ComponentInterface $pattern, array $variables = [], Rendered $rendered)
     {
         if ($this->supports($pattern)) {
             $twig = $pattern->getTwig();
@@ -51,14 +51,14 @@ class TwigEngine implements EngineInterface
         return $wrapped;
     }
 
-    public function supports(PatternInterface $pattern): bool
+    public function supports(ComponentInterface $pattern): bool
     {
-        return $pattern instanceof TwigPattern;
+        return $pattern instanceof TwigComponent;
     }
 
-    public function renderSource(PatternInterface $pattern): string
+    public function renderSource(ComponentInterface $pattern): string
     {
-        /** @var TwigPattern $pattern */
+        /** @var TwigComponent $pattern */
         if ($this->supports($pattern)) {
             return twig_source($pattern->getTwig(), $pattern->getSource()->getName());
         }

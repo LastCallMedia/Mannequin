@@ -11,9 +11,9 @@
 
 namespace LastCall\Mannequin\Core\Tests\Engine;
 
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Engine\DelegatingEngine;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Rendered;
 use Prophecy\Argument;
 
@@ -22,13 +22,13 @@ class DelegatingRendererTest extends RendererTestCase
     public function getRenderer(): EngineInterface
     {
         $subrenderer = $this->prophesize(EngineInterface::class);
-        $subrenderer->supports(Argument::type(PatternInterface::class))->will(
+        $subrenderer->supports(Argument::type(ComponentInterface::class))->will(
             function ($args) {
                 return $args[0]->getId() === 'supported';
             }
         );
         $subrenderer->render(
-            Argument::type(PatternInterface::class),
+            Argument::type(ComponentInterface::class),
             Argument::type('array'),
             Argument::type(Rendered::class)
         )->will(
@@ -40,7 +40,7 @@ class DelegatingRendererTest extends RendererTestCase
                 return $rendered;
             }
         );
-        $subrenderer->renderSource(Argument::type(PatternInterface::class))
+        $subrenderer->renderSource(Argument::type(ComponentInterface::class))
             ->willReturn('Test source');
 
         return new DelegatingEngine(
@@ -48,7 +48,7 @@ class DelegatingRendererTest extends RendererTestCase
         );
     }
 
-    public function getSupportedPattern(): PatternInterface
+    public function getSupportedPattern(): ComponentInterface
     {
         return $this->createPattern('supported')->reveal();
     }

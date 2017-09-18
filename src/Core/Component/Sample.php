@@ -9,11 +9,11 @@
  * with this source code in the file LICENSE.
  */
 
-namespace LastCall\Mannequin\Core\Pattern;
+namespace LastCall\Mannequin\Core\Component;
 
 use LastCall\Mannequin\Core\Variable\VariableSet;
 
-class PatternVariant
+class Sample
 {
     private $id;
     private $name;

@@ -11,8 +11,8 @@
 
 namespace LastCall\Mannequin\Core\Tests\Engine;
 
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Rendered;
 use PHPUnit\Framework\TestCase;
 
@@ -30,16 +30,16 @@ abstract class RendererTestCase extends TestCase
 
     abstract public function getRenderer(): EngineInterface;
 
-    abstract public function getSupportedPattern(): PatternInterface;
+    abstract public function getSupportedPattern(): ComponentInterface;
 
-    protected function getUnsupportedPattern(): PatternInterface
+    protected function getUnsupportedPattern(): ComponentInterface
     {
         return $this->createPattern('unsupported')->reveal();
     }
 
     protected function createPattern($id)
     {
-        $pattern = $this->prophesize(PatternInterface::class);
+        $pattern = $this->prophesize(ComponentInterface::class);
         $pattern->getId()->willReturn($id);
 
         return $pattern;

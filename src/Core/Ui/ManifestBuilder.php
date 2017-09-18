@@ -11,8 +11,8 @@
 
 namespace LastCall\Mannequin\Core\Ui;
 
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Component\ComponentCollection;
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ManifestBuilder
@@ -24,7 +24,7 @@ class ManifestBuilder
         $this->generator = $generator;
     }
 
-    public function generate(PatternCollection $collection)
+    public function generate(ComponentCollection $collection)
     {
         $manifest = ['patterns' => []];
         $generator = $this->generator;
@@ -49,7 +49,7 @@ class ManifestBuilder
         return $manifest;
     }
 
-    private function generateVariants(PatternInterface $pattern)
+    private function generateVariants(ComponentInterface $pattern)
     {
         $variants = [];
         $generator = $this->generator;
@@ -74,13 +74,13 @@ class ManifestBuilder
         return $variants;
     }
 
-    private function generateUsed(PatternInterface $pattern)
+    private function generateUsed(ComponentInterface $pattern)
     {
         return array_map(
-            function (PatternInterface $used) {
+            function (ComponentInterface $used) {
                 return $used->getId();
             },
-            $pattern->getUsedPatterns()
+            $pattern->getUsedComponents()
         );
     }
 }

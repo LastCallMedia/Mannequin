@@ -11,10 +11,10 @@
 
 namespace LastCall\Mannequin\Core\Tests\Stubs;
 
-use LastCall\Mannequin\Core\Pattern\AbstractPattern;
-use LastCall\Mannequin\Core\Pattern\TemplateFilePatternInterface;
+use LastCall\Mannequin\Core\Component\AbstractComponent;
+use LastCall\Mannequin\Core\Component\TemplateFileInterface;
 
-class TestFilePattern extends AbstractPattern implements TemplateFilePatternInterface
+class TestFilePattern extends AbstractComponent implements TemplateFileInterface
 {
     private $file;
 

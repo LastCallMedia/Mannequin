@@ -11,9 +11,9 @@
 
 namespace LastCall\Mannequin\Core\Event;
 
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
-use LastCall\Mannequin\Core\Pattern\PatternVariant;
+use LastCall\Mannequin\Core\Component\ComponentCollection;
+use LastCall\Mannequin\Core\Component\ComponentInterface;
+use LastCall\Mannequin\Core\Component\Sample;
 use LastCall\Mannequin\Core\Rendered;
 use Symfony\Component\EventDispatcher\Event;
 
@@ -26,7 +26,7 @@ class RenderEvent extends Event
     private $variables = [];
     private $isRoot;
 
-    public function __construct(PatternCollection $collection, PatternInterface $pattern, PatternVariant $variant, Rendered $rendered, $isRoot = true)
+    public function __construct(ComponentCollection $collection, ComponentInterface $pattern, Sample $variant, Rendered $rendered, $isRoot = true)
     {
         $this->collection = $collection;
         $this->pattern = $pattern;
@@ -35,17 +35,17 @@ class RenderEvent extends Event
         $this->isRoot = $isRoot;
     }
 
-    public function getCollection(): PatternCollection
+    public function getCollection(): ComponentCollection
     {
         return $this->collection;
     }
 
-    public function getPattern(): PatternInterface
+    public function getPattern(): ComponentInterface
     {
         return $this->pattern;
     }
 
-    public function getVariant(): PatternVariant
+    public function getVariant(): Sample
     {
         return $this->variant;
     }

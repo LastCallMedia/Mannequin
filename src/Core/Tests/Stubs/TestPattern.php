@@ -11,8 +11,8 @@
 
 namespace LastCall\Mannequin\Core\Tests\Stubs;
 
-use LastCall\Mannequin\Core\Pattern\AbstractPattern;
+use LastCall\Mannequin\Core\Component\AbstractComponent;
 
-class TestPattern extends AbstractPattern
+class TestPattern extends AbstractComponent
 {
 }

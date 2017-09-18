@@ -9,17 +9,17 @@
  * with this source code in the file LICENSE.
  */
 
-namespace LastCall\Mannequin\Html\Tests\Pattern;
+namespace LastCall\Mannequin\Html\Tests\Component;
 
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
-use LastCall\Mannequin\Core\Tests\Pattern\PatternTestCase;
-use LastCall\Mannequin\Html\Pattern\HtmlPattern;
+use LastCall\Mannequin\Core\Component\ComponentInterface;
+use LastCall\Mannequin\Core\Tests\Component\ComponentTestCase;
+use LastCall\Mannequin\Html\Component\HtmlComponent;
 
-class HtmlPatternTest extends PatternTestCase
+class HtmlComponentTest extends ComponentTestCase
 {
-    public function getPattern(): PatternInterface
+    public function getPattern(): ComponentInterface
     {
-        return new HtmlPattern(
+        return new HtmlComponent(
             self::PATTERN_ID,
             self::PATTERN_ALIASES,
             new \SplFileInfo(self::TEMPLATE_FILE)

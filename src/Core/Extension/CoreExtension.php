@@ -11,6 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Extension;
 
+use LastCall\Mannequin\Core\Rendered;
 use LastCall\Mannequin\Core\Subscriber\GlobalAssetSubscriber;
 use LastCall\Mannequin\Core\Subscriber\LastChanceNameSubscriber;
 use LastCall\Mannequin\Core\Subscriber\VariableResolverSubscriber;
@@ -18,7 +19,6 @@ use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
-use LastCall\Mannequin\Core\Rendered;
 
 class CoreExtension extends AbstractExtension implements ExpressionFunctionProviderInterface
 {
@@ -48,7 +48,7 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
         return new ExpressionFunction('pattern', function ($arguments, $pid) {
             throw new \ErrorException('Pattern expressions cannot yet be compiled.');
         }, function ($context, $pid) {
-            /** @var \LastCall\Mannequin\Core\Pattern\PatternCollection $collection */
+            /** @var \LastCall\Mannequin\Core\Component\ComponentCollection $collection */
             $collection = $context['collection'];
             $pattern = $collection->get($pid);
             $variant = reset($pattern->getVariants());

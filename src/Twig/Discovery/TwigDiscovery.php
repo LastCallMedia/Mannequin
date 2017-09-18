@@ -11,12 +11,12 @@
 
 namespace LastCall\Mannequin\Twig\Discovery;
 
+use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Discovery\IdEncoder;
 use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
-use LastCall\Mannequin\Twig\Pattern\TwigPattern;
+use LastCall\Mannequin\Twig\Component\TwigComponent;
 
 /**
  * This class converts an iterable object of template names into TwigPattern
@@ -44,7 +44,7 @@ class TwigDiscovery implements DiscoveryInterface
     /**
      * {@inheritdoc}
      */
-    public function discover(): PatternCollection
+    public function discover(): ComponentCollection
     {
         $twig = $this->driver->getTwig();
         $patterns = [];
@@ -52,7 +52,7 @@ class TwigDiscovery implements DiscoveryInterface
             try {
                 $aliases = (array) $names;
                 $name = reset($aliases);
-                $pattern = new TwigPattern(
+                $pattern = new TwigComponent(
                     $this->encodeId($name),
                     $aliases,
                     $twig->load($name)->getSourceContext(),
@@ -67,6 +67,6 @@ class TwigDiscovery implements DiscoveryInterface
             }
         }
 
-        return new PatternCollection($patterns);
+        return new ComponentCollection($patterns);
     }
 }

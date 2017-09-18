@@ -11,14 +11,14 @@
 
 namespace LastCall\Mannequin\Core\Tests\Discovery;
 
+use LastCall\Mannequin\Core\Component\ComponentCollection;
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Discovery\ExplicitDiscovery;
 use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
 use LastCall\Mannequin\Core\Event\PatternEvents;
 use LastCall\Mannequin\Core\Exception\TemplateParsingException;
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Psr\Log\LoggerInterface;
@@ -57,10 +57,10 @@ class ChainDiscoveryTest extends TestCase
         $pattern2 = $this->getMockPattern('pattern2')->reveal();
 
         $discoverer1 = new ExplicitDiscovery(
-            new PatternCollection([$pattern1])
+            new ComponentCollection([$pattern1])
         );
         $discoverer2 = new ExplicitDiscovery(
-            new PatternCollection([$pattern2])
+            new ComponentCollection([$pattern2])
         );
 
         $chain = new ChainDiscovery(
@@ -106,7 +106,7 @@ class ChainDiscoveryTest extends TestCase
 
     private function getMockPattern($name, array $aliases = [])
     {
-        $pattern = $this->prophesize(PatternInterface::class);
+        $pattern = $this->prophesize(ComponentInterface::class);
         $pattern->getId()->willReturn($name);
         $pattern->getName()->willReturn($name);
         $pattern->getAliases()->willReturn($aliases);
@@ -133,7 +133,7 @@ class ChainDiscoveryTest extends TestCase
             $patterns = [$patterns];
         }
         $discoverer1 = new ExplicitDiscovery(
-            new PatternCollection($patterns)
+            new ComponentCollection($patterns)
         );
         $chain = new ChainDiscovery([$discoverer1], $dispatcher, $logger);
 

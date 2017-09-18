@@ -11,18 +11,18 @@
 
 namespace LastCall\Mannequin\Twig\Subscriber;
 
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Exception\TemplateParsingException;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
-use LastCall\Mannequin\Twig\Pattern\TwigPattern;
+use LastCall\Mannequin\Twig\Component\TwigComponent;
 
 class InlineTwigYamlMetadataSubscriber extends YamlFileMetadataSubscriber
 {
     const BLOCK_NAME = 'patterninfo';
 
-    protected function getMetadataForPattern(PatternInterface $pattern)
+    protected function getMetadataForPattern(ComponentInterface $pattern)
     {
-        if ($pattern instanceof TwigPattern) {
+        if ($pattern instanceof TwigComponent) {
             try {
                 $template = $pattern->getTwig()->load($pattern->getSource()->getName());
                 if ($template->hasBlock(self::BLOCK_NAME)) {

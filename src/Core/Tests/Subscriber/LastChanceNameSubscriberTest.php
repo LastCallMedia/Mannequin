@@ -11,8 +11,8 @@
 
 namespace LastCall\Mannequin\Core\Tests\Subscriber;
 
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
-use LastCall\Mannequin\Core\Pattern\TemplateFilePatternInterface;
+use LastCall\Mannequin\Core\Component\ComponentInterface;
+use LastCall\Mannequin\Core\Component\TemplateFileInterface;
 use LastCall\Mannequin\Core\Subscriber\LastChanceNameSubscriber;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -37,7 +37,7 @@ class LastChanceNameSubscriberTest extends TestCase
      */
     public function testCreatesNameFromFileName($filename, $expectedName)
     {
-        $pattern = $this->prophesize(TemplateFilePatternInterface::class);
+        $pattern = $this->prophesize(TemplateFileInterface::class);
         $pattern->getName()->willReturn('');
         $pattern->setName($expectedName)->shouldBeCalled();
         $pattern->getFile()->willReturn(new \SplFileInfo($filename));
@@ -50,7 +50,7 @@ class LastChanceNameSubscriberTest extends TestCase
     public function testFallsBackToId()
     {
         $subscriber = new LastChanceNameSubscriber();
-        $pattern = $this->prophesize(PatternInterface::class);
+        $pattern = $this->prophesize(ComponentInterface::class);
         $pattern->getName()->willReturn('');
         $pattern->getId()->willReturn('foo');
         $pattern->setName('foo')->shouldBeCalled();
@@ -59,7 +59,7 @@ class LastChanceNameSubscriberTest extends TestCase
 
     public function testDoesNotOverrideName()
     {
-        $pattern = $this->prophesize(PatternInterface::class);
+        $pattern = $this->prophesize(ComponentInterface::class);
         $pattern->getName()->willReturn('foobar');
         $pattern->setName(Argument::type('string'))->shouldNotBeCalled();
         $this->dispatchDiscover(

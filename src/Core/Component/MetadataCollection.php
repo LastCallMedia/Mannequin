@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace LastCall\Mannequin\Core\Pattern;
+namespace LastCall\Mannequin\Core\Component;
 
 class MetadataCollection extends \ArrayObject
 {

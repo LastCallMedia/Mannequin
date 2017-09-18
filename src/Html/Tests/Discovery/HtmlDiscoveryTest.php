@@ -11,10 +11,10 @@
 
 namespace LastCall\Mannequin\Html\Tests\Discovery;
 
+use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Discovery\IdEncoder;
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Html\Component\HtmlComponent;
 use LastCall\Mannequin\Html\Discovery\HtmlDiscovery;
-use LastCall\Mannequin\Html\Pattern\HtmlPattern;
 use PHPUnit\Framework\TestCase;
 
 class HtmlDiscoveryTest extends TestCase
@@ -36,7 +36,7 @@ class HtmlDiscoveryTest extends TestCase
         $pattern = $this->discoverFixtureCollection()->get(
             $this->encodeId($id)
         );
-        $this->assertInstanceOf(HtmlPattern::class, $pattern);
+        $this->assertInstanceOf(HtmlComponent::class, $pattern);
 
         return $pattern;
     }
@@ -44,7 +44,7 @@ class HtmlDiscoveryTest extends TestCase
     /**
      * @depends testDiscoversPattern
      */
-    public function testSetsId(HtmlPattern $pattern)
+    public function testSetsId(HtmlComponent $pattern)
     {
         $id = __DIR__.'/../Resources/button.html';
         $this->assertEquals($this->encodeId($id), $pattern->getId());
@@ -53,7 +53,7 @@ class HtmlDiscoveryTest extends TestCase
     /**
      * @depends testDiscoversPattern
      */
-    public function testHasDefaultTags(HtmlPattern $pattern)
+    public function testHasDefaultTags(HtmlComponent $pattern)
     {
         $this->assertArraySubset([
             'group' => 'Unknown',
@@ -64,7 +64,7 @@ class HtmlDiscoveryTest extends TestCase
     /**
      * @depends testDiscoversPattern
      */
-    public function testSetsName(HtmlPattern $pattern)
+    public function testSetsName(HtmlComponent $pattern)
     {
         $name = __DIR__.'/../Resources/button.html';
         $this->assertEquals($name, $pattern->getName());
@@ -73,7 +73,7 @@ class HtmlDiscoveryTest extends TestCase
     /**
      * @depends testDiscoversPattern
      */
-    public function testSetsFile(HtmlPattern $pattern)
+    public function testSetsFile(HtmlComponent $pattern)
     {
         $file = __DIR__.'/../Resources/button.html';
         $this->assertEquals($file, $pattern->getFile()->getPathname());
@@ -82,7 +82,7 @@ class HtmlDiscoveryTest extends TestCase
     /**
      * @depends testDiscoversPattern
      */
-    public function testSetsAliases(HtmlPattern $pattern)
+    public function testSetsAliases(HtmlComponent $pattern)
     {
         $file = __DIR__.'/../Resources/button.html';
         $this->assertEquals([$file], $pattern->getAliases());
@@ -92,7 +92,7 @@ class HtmlDiscoveryTest extends TestCase
     {
         $discovery = new HtmlDiscovery([]);
         $collection = $discovery->discover();
-        $this->assertInstanceOf(PatternCollection::class, $collection);
+        $this->assertInstanceOf(ComponentCollection::class, $collection);
         $this->assertCount(0, $collection);
     }
 }

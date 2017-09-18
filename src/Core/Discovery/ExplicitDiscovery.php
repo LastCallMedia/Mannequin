@@ -11,18 +11,18 @@
 
 namespace LastCall\Mannequin\Core\Discovery;
 
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Core\Component\ComponentCollection;
 
 class ExplicitDiscovery implements DiscoveryInterface
 {
     private $patternCollection;
 
-    public function __construct(PatternCollection $collection)
+    public function __construct(ComponentCollection $collection)
     {
         $this->patternCollection = $collection;
     }
 
-    public function discover(): PatternCollection
+    public function discover(): ComponentCollection
     {
         return $this->patternCollection;
     }

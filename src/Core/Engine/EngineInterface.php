@@ -11,14 +11,14 @@
 
 namespace LastCall\Mannequin\Core\Engine;
 
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Rendered;
 
 interface EngineInterface
 {
-    public function supports(PatternInterface $pattern): bool;
+    public function supports(ComponentInterface $pattern): bool;
 
-    public function render(PatternInterface $pattern, array $values = [], Rendered $rendered);
+    public function render(ComponentInterface $pattern, array $values = [], Rendered $rendered);
 
-    public function renderSource(PatternInterface $pattern): string;
+    public function renderSource(ComponentInterface $pattern): string;
 }

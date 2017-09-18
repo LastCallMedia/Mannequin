@@ -13,8 +13,8 @@ namespace LastCall\Mannequin\Twig\Subscriber;
 
 use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
 use LastCall\Mannequin\Core\Event\PatternEvents;
-use LastCall\Mannequin\Twig\Pattern\TwigPattern;
 use LastCall\Mannequin\Core\Exception\TemplateParsingException;
+use LastCall\Mannequin\Twig\Component\TwigComponent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -40,7 +40,7 @@ class TwigIncludeSubscriber implements EventSubscriberInterface
     {
         $pattern = $event->getPattern();
 
-        if ($pattern instanceof TwigPattern) {
+        if ($pattern instanceof TwigComponent) {
             try {
                 $template = $pattern->getTwig()->load($pattern->getSource()->getName());
                 if ($template->hasBlock(self::BLOCK_NAME)) {
@@ -48,7 +48,7 @@ class TwigIncludeSubscriber implements EventSubscriberInterface
                     $used = json_decode($template->renderBlock(self::BLOCK_NAME));
                     foreach ($used as $name) {
                         if ($collection->has($name)) {
-                            $pattern->addUsedPattern($collection->get($name));
+                            $pattern->addUsedComponent($collection->get($name));
                         }
                     }
                 }
