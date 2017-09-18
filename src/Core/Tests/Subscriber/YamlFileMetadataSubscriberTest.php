@@ -43,7 +43,7 @@ class YamlFileMetadataSubscriberTest extends TestCase
             [
                 'name' => 'Foo',
                 'tags' => ['foo' => 'bar'],
-                'variants' => [
+                'samples' => [
                     'additional' => [
                         'name' => 'Additional',
                         'variables' => new VariableSet([
@@ -83,15 +83,15 @@ class YamlFileMetadataSubscriberTest extends TestCase
     /**
      * @depends testParsesMetadata
      */
-    public function testAddsVariant(TestFileComponent $component)
+    public function testAddsSample(TestFileComponent $component)
     {
-        $this->assertTrue($component->hasVariant('additional'));
-        $expectedVariant = new Sample(
+        $this->assertTrue($component->hasSample('additional'));
+        $expectedSample = new Sample(
             'additional',
             'Additional',
             new VariableSet(['var1' => new Variable('simple', 'foo')])
         );
-        $this->assertEquals($expectedVariant, $component->getVariant('additional'));
+        $this->assertEquals($expectedSample, $component->getSample('additional'));
     }
 
     public function testParsesOverrideMetadata()
@@ -100,7 +100,7 @@ class YamlFileMetadataSubscriberTest extends TestCase
             [
                 'name' => 'Foo',
                 'tags' => ['foo' => 'baz'],
-                'variants' => [
+                'samples' => [
                     'default' => [
                         'name' => 'Overridden',
                         'variables' => new VariableSet([
@@ -135,13 +135,13 @@ class YamlFileMetadataSubscriberTest extends TestCase
     /**
      * @depends testParsesOverrideMetadata
      */
-    public function testOverridesDefaultVariant(ComponentInterface $component)
+    public function testOverridesDefaultSample(ComponentInterface $component)
     {
-        $expectedVariant = new Sample(
+        $expectedSample = new Sample(
             'default',
             'Overridden',
             new VariableSet(['var1' => new Variable('simple', 'foo')])
         );
-        $this->assertEquals($expectedVariant, $component->getVariant('default'));
+        $this->assertEquals($expectedSample, $component->getSample('default'));
     }
 }

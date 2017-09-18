@@ -36,7 +36,7 @@ class YamlMetadataParserTest extends TestCase
         $this->assertEquals('', $parsed['description']);
         $this->assertEquals([], $parsed['tags']);
         $this->assertNull($parsed['definition']);
-        $this->assertEquals([], $parsed['variants']);
+        $this->assertEquals([], $parsed['samples']);
     }
 
     public function testParsesTags()
@@ -45,40 +45,40 @@ class YamlMetadataParserTest extends TestCase
         $this->assertEquals(['foo' => 'bar'], $parsed['tags']);
     }
 
-    public function testParsesVariants()
+    public function testParsesSamples()
     {
         $parsed = (new YamlMetadataParser())->parse(
-            'variants:
+            'samples:
                     foo: {bar: baz, _baz: bar}
                     bar: {_name: Barz}'
         );
-        $this->assertInternalType('array', $parsed['variants']['foo']);
+        $this->assertInternalType('array', $parsed['samples']['foo']);
 
         return $parsed;
     }
 
     /**
-     * @depends testParsesVariants
+     * @depends testParsesSamples
      */
-    public function testParsesVariantTags($metadata)
+    public function testParsesSampleMetadata($metadata)
     {
-        $this->assertEquals(['baz' => 'bar'], $metadata['variants']['foo']['tags']);
+        $this->assertEquals(['baz' => 'bar'], $metadata['samples']['foo']['tags']);
     }
 
     /**
-     * @depends testParsesVariants
+     * @depends testParsesSamples
      */
-    public function testParsesVariantNameFromTags($metadata)
+    public function testParsesSampleNameFromTags($metadata)
     {
-        $this->assertEquals('Barz', $metadata['variants']['bar']['name']);
+        $this->assertEquals('Barz', $metadata['samples']['bar']['name']);
     }
 
     /**
-     * @depends testParsesVariants
+     * @depends testParsesSamples
      */
-    public function testRemovesVariantNameFromTags($metadata)
+    public function testRemovesSampleNameFromTags($metadata)
     {
-        $this->assertArrayNotHasKey('name', $metadata['variants']['bar']['tags']);
+        $this->assertArrayNotHasKey('name', $metadata['samples']['bar']['tags']);
     }
 
     public function getInvalidMetadataTests()
@@ -102,9 +102,9 @@ class YamlMetadataParserTest extends TestCase
                 new TemplateParsingException('name must be a string in foo'),
             ],
             [
-                'variants: ""',
+                'samples: ""',
                 'foo',
-                new TemplateParsingException('variants must be an array in foo'),
+                new TemplateParsingException('samples must be an array in foo'),
             ],
         ];
     }

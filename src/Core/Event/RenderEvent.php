@@ -21,16 +21,16 @@ class RenderEvent extends Event
 {
     private $collection;
     private $component;
-    private $variant;
+    private $sample;
     private $rendered;
     private $variables = [];
     private $isRoot;
 
-    public function __construct(ComponentCollection $collection, ComponentInterface $component, Sample $variant, Rendered $rendered, $isRoot = true)
+    public function __construct(ComponentCollection $collection, ComponentInterface $component, Sample $sample, Rendered $rendered, $isRoot = true)
     {
         $this->collection = $collection;
         $this->component = $component;
-        $this->variant = $variant;
+        $this->sample = $sample;
         $this->rendered = $rendered;
         $this->isRoot = $isRoot;
     }
@@ -45,9 +45,9 @@ class RenderEvent extends Event
         return $this->component;
     }
 
-    public function getVariant(): Sample
+    public function getSample(): Sample
     {
-        return $this->variant;
+        return $this->sample;
     }
 
     public function getVariables(): array

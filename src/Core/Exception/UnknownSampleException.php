@@ -11,6 +11,6 @@
 
 namespace LastCall\Mannequin\Core\Exception;
 
-class VariantNotFoundException extends \RuntimeException
+class UnknownSampleException extends \RuntimeException
 {
 }

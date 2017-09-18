@@ -208,7 +208,7 @@ class Mannequin extends Application
         $this->get('/manifest.json', 'controller.manifest:getManifestAction')
             ->bind('manifest');
         $this->get(
-            '/m-render/{component}/{variant}.html',
+            '/m-render/{component}/{sample}.html',
             'controller.render:renderAction'
         )->bind('component_render');
         $this->get(
@@ -216,7 +216,7 @@ class Mannequin extends Application
             'controller.render:renderSourceAction'
         )->bind('component_render_source_raw');
         $this->get(
-            '/m-source/html/{component}/{variant}.txt',
+            '/m-source/html/{component}/{sample}.txt',
             'controller.render:renderRawAction'
         )->bind('component_render_raw');
         $this->match('/{name}', 'controller.ui:staticAction')

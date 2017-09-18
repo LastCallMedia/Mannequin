@@ -90,10 +90,10 @@ class RenderCommand extends Command
                         $this->urlGenerator->generate('component_render_source_raw', ['component' => $component->getId()]),
                         $renderer->renderSource($component)
                     );
-                    foreach ($component->getVariants() as $variant) {
-                        $args = ['component' => $component->getId(), 'variant' => $variant->getId()];
+                    foreach ($component->getSamples() as $sample) {
+                        $args = ['component' => $component->getId(), 'sample' => $sample->getId()];
                         $urlGenerator->getContext()->setPathInfo($urlGenerator->generate('component_render', $args));
-                        $rendered = $renderer->render($collection, $component, $variant);
+                        $rendered = $renderer->render($collection, $component, $sample);
                         $writer->raw(
                             $urlGenerator->generate('component_render', $args),
                             $this->ui->decorateRendered($rendered)

@@ -11,7 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Component;
 
-use LastCall\Mannequin\Core\Exception\VariantNotFoundException;
+use LastCall\Mannequin\Core\Exception\UnknownSampleException;
 use LastCall\Mannequin\Core\Variable\VariableSet;
 
 abstract class AbstractComponent implements ComponentInterface
@@ -24,7 +24,7 @@ abstract class AbstractComponent implements ComponentInterface
 
     private $tags = [];
 
-    private $variants = [];
+    private $samples = [];
 
     private $used = [];
 
@@ -100,37 +100,37 @@ abstract class AbstractComponent implements ComponentInterface
     /**
      * {@inheritdoc}
      */
-    public function createVariant($id, $name, VariableSet $variables = null, array $tags = []): Sample
+    public function createSample($id, $name, VariableSet $variables = null, array $tags = []): Sample
     {
-        return $this->variants[$id] = new Sample($id, $name, $variables, $tags);
+        return $this->samples[$id] = new Sample($id, $name, $variables, $tags);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getVariants(): array
+    public function getSamples(): array
     {
-        return $this->variants;
+        return $this->samples;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function hasVariant(string $name): bool
+    public function hasSample(string $name): bool
     {
-        return isset($this->variants[$name]);
+        return isset($this->samples[$name]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getVariant(string $name): Sample
+    public function getSample(string $name): Sample
     {
-        if (!isset($this->variants[$name])) {
-            throw new VariantNotFoundException(sprintf('Variant %s not found', $name));
+        if (!isset($this->samples[$name])) {
+            throw new UnknownSampleException(sprintf('Sample %s not found', $name));
         }
 
-        return $this->variants[$name];
+        return $this->samples[$name];
     }
 
     /**

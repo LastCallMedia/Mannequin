@@ -31,11 +31,11 @@ class ComponentRenderer
         $this->dispatcher = $dispatcher;
     }
 
-    public function render(ComponentCollection $collection, ComponentInterface $component, Sample $variant): Rendered
+    public function render(ComponentCollection $collection, ComponentInterface $component, Sample $sample): Rendered
     {
-        return $this->enterRender(function ($isRoot) use ($collection, $component, $variant) {
+        return $this->enterRender(function ($isRoot) use ($collection, $component, $sample) {
             $rendered = new Rendered();
-            $event = new RenderEvent($collection, $component, $variant, $rendered, $isRoot);
+            $event = new RenderEvent($collection, $component, $sample, $rendered, $isRoot);
             $this->dispatcher->dispatch(ComponentEvents::PRE_RENDER, $event);
             $this->engine->render($component, $event->getVariables(), $rendered);
             $this->dispatcher->dispatch(ComponentEvents::POST_RENDER, $event);

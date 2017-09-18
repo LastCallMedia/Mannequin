@@ -51,10 +51,10 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
             /** @var \LastCall\Mannequin\Core\Component\ComponentCollection $collection */
             $collection = $context['collection'];
             $component = $collection->get($pid);
-            $variant = reset($component->getVariants());
+            $sample = reset($component->getSamples());
             $renderer = $this->mannequin->getRenderer();
 
-            return $renderer->render($collection, $component, $variant);
+            return $renderer->render($collection, $component, $sample);
         });
     }
 

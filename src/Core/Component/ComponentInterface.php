@@ -72,30 +72,30 @@ interface ComponentInterface
      */
     public function addMetadata(string $name, $value): ComponentInterface;
 
-    public function createVariant($id, $name, VariableSet $variables = null, array $metadata = []): Sample;
+    public function createSample($id, $name, VariableSet $variables = null, array $metadata = []): Sample;
 
     /**
      * @return \LastCall\Mannequin\Core\Component\Sample[]
      */
-    public function getVariants(): array;
+    public function getSamples(): array;
 
     /**
-     * Check whether the component has a named variant.
+     * Check whether the component has a named sample.
      *
      * @param string $name
      *
      * @return bool
      */
-    public function hasVariant(string $name): bool;
+    public function hasSample(string $name): bool;
 
     /**
-     * Get a variant.
+     * Get a sample.
      *
      * @param string $name
      *
      * @return \LastCall\Mannequin\Core\Component\Sample
      */
-    public function getVariant(string $name): Sample;
+    public function getSample(string $name): Sample;
 
     /**
      * Add a component that this component uses in the course of rendering.

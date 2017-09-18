@@ -47,15 +47,15 @@ class YamlFileMetadataSubscriber implements EventSubscriberInterface
                     $component->addMetadata($k, $v);
                 }
             }
-            if (!empty($metadata['variants'])) {
-                foreach ($metadata['variants'] as $vidx => $setDef) {
+            if (!empty($metadata['samples'])) {
+                foreach ($metadata['samples'] as $vidx => $setDef) {
                     $name = $setDef['name'] ?? $vidx;
                     $tags = $setDef['tags'] ?? [];
                     $variables = $setDef['variables'] ?? new VariableSet();
-                    $component->createVariant($vidx, $name, $variables, $tags);
+                    $component->createSample($vidx, $name, $variables, $tags);
                 }
             } else {
-                $component->createVariant('default', 'Default', new VariableSet(), []);
+                $component->createSample('default', 'Default', new VariableSet(), []);
             }
         }
     }

@@ -34,12 +34,12 @@ class VariableResolverSubscriber implements EventSubscriberInterface
 
     public function resolveVariables(RenderEvent $event)
     {
-        $variant = $event->getVariant();
+        $sample = $event->getSample();
 
-        $variables = $this->resolver->resolve($variant->getVariables(), [
+        $variables = $this->resolver->resolve($sample->getVariables(), [
             'collection' => $event->getCollection(),
             'component' => $event->getComponent(),
-            'variant' => $variant,
+            'sample' => $sample,
             'rendered' => $event->getRendered(),
         ]);
 

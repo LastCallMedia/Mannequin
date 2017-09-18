@@ -43,7 +43,7 @@ class ManifestBuilderTest extends TestCase
         $component = new TestFileComponent('p1', ['p1-alias'], new File(__FILE__));
         $component->setName('Component 1');
         $component->addMetadata('foo', 'bar');
-        $component->createVariant('foo', 'Foo', new VariableSet(), ['foo' => 'bar']);
+        $component->createSample('foo', 'Foo', new VariableSet(), ['foo' => 'bar']);
         $component->addUsedComponent($component);
         $component->addProblem('foo problem');
 
@@ -123,51 +123,51 @@ class ManifestBuilderTest extends TestCase
      */
     public function testComponentSamples($componentManifest)
     {
-        $this->assertInternalType('array', $componentManifest['variants']);
-        $this->assertCount(1, $componentManifest['variants']);
+        $this->assertInternalType('array', $componentManifest['samples']);
+        $this->assertCount(1, $componentManifest['samples']);
 
-        return reset($componentManifest['variants']);
+        return reset($componentManifest['samples']);
     }
 
     /**
      * @depends testComponentSamples
      */
-    public function testSetsIdOnSample($variantManifest)
+    public function testSetsIdOnSample($sampleManifest)
     {
-        $this->assertEquals('foo', $variantManifest['id']);
+        $this->assertEquals('foo', $sampleManifest['id']);
     }
 
     /**
      * @depends testComponentSamples
      */
-    public function testSetsNameOnSample($variantManifest)
+    public function testSetsNameOnSample($sampleManifest)
     {
-        $this->assertEquals('Foo', $variantManifest['name']);
+        $this->assertEquals('Foo', $sampleManifest['name']);
     }
 
     /**
      * @depends testComponentSamples
      */
-    public function testSetsSourceOnSample($variantManifest)
+    public function testSetsSourceOnSample($sampleManifest)
     {
-        $this->assertEquals('/component_render_raw/component:p1/variant:foo', $variantManifest['source']);
+        $this->assertEquals('/component_render_raw/component:p1/sample:foo', $sampleManifest['source']);
     }
 
     /**
      * @depends testComponentSamples
      */
-    public function testSetsRenderedOnSample($variantManifest)
+    public function testSetsRenderedOnSample($sampleManifest)
     {
-        $this->assertEquals('/component_render/component:p1/variant:foo', $variantManifest['rendered']);
+        $this->assertEquals('/component_render/component:p1/sample:foo', $sampleManifest['rendered']);
     }
 
     /**
      * @depends testComponentSamples
      */
-    public function testSetsMetadataOnSample($variantManifest)
+    public function testSetsMetadataOnSample($sampleManifest)
     {
         $this->assertArraySubset([
             'foo' => 'bar',
-        ], $variantManifest['metadata']);
+        ], $sampleManifest['metadata']);
     }
 }

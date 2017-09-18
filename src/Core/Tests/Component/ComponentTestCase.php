@@ -57,18 +57,18 @@ abstract class ComponentTestCase extends TestCase
         $this->assertTrue($component->hasMetadata('foo', 'baz'));
     }
 
-    public function testVariants()
+    public function testSamples()
     {
         $component = $this->getComponent();
-        $component->createVariant('default', 'Default');
+        $component->createSample('default', 'Default');
         $this->assertEquals([
             'default' => new \LastCall\Mannequin\Core\Component\Sample('default', 'Default'),
-        ], $component->getVariants());
+        ], $component->getSamples());
 
-        $component->createVariant('default', 'Overridden');
+        $component->createSample('default', 'Overridden');
         $this->assertEquals([
             'default' => new Sample('default', 'Overridden'),
-        ], $component->getVariants());
+        ], $component->getSamples());
     }
 
     public function testGetFile()

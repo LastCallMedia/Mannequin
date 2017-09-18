@@ -30,7 +30,7 @@ class ComponentRendererTest extends TestCase
             return $arg instanceof RenderEvent && $arg->isRoot();
         });
         $component = new TestFileComponent('foo', [], new \SplFileInfo(__FILE__));
-        $variant = $component->createVariant('foo', 'Foo');
+        $sample = $component->createSample('foo', 'Foo');
 
         $dispatcher = $this->prophesize(EventDispatcherInterface::class);
         $dispatcher
@@ -46,26 +46,26 @@ class ComponentRendererTest extends TestCase
             ->shouldBeCalled();
         $renderer = new ComponentRenderer($engine->reveal(), $dispatcher->reveal());
 
-        $renderer->render(new ComponentCollection(), $component, $variant);
+        $renderer->render(new ComponentCollection(), $component, $sample);
     }
 
     public function testSetsIsRoot()
     {
         $collection = new ComponentCollection();
         $component = new TestFileComponent('foo', [], new \SplFileInfo(__FILE__));
-        $variant = $component->createVariant('foo', 'Foo');
+        $sample = $component->createSample('foo', 'Foo');
 
-        $firstEventProphecy = Argument::that(function ($arg) use (&$renderer, $component, $variant) {
+        $firstEventProphecy = Argument::that(function ($arg) use (&$renderer, $component, $sample) {
             return $arg instanceof RenderEvent && $arg->isRoot();
         });
-        $secondEventProphecy = Argument::that(function ($arg) use (&$renderer, $component, $variant) {
+        $secondEventProphecy = Argument::that(function ($arg) use (&$renderer, $component, $sample) {
             return $arg instanceof RenderEvent && !$arg->isRoot();
         });
         $dispatcher = $this->prophesize(EventDispatcherInterface::class);
         $dispatcher
             ->dispatch(ComponentEvents::PRE_RENDER, $firstEventProphecy)
-            ->will(function () use (&$renderer, $collection, $component, $variant) {
-                $renderer->render($collection, $component, $variant);
+            ->will(function () use (&$renderer, $collection, $component, $sample) {
+                $renderer->render($collection, $component, $sample);
             })
             ->shouldBeCalledTimes(1);
         $dispatcher
@@ -84,6 +84,6 @@ class ComponentRendererTest extends TestCase
             ->render($component, [], Argument::type(Rendered::class))
             ->shouldBeCalled();
         $renderer = new ComponentRenderer($engine->reveal(), $dispatcher->reveal());
-        $renderer->render($collection, $component, $variant);
+        $renderer->render($collection, $component, $sample);
     }
 }

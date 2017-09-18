@@ -40,7 +40,7 @@ class ManifestBuilder
                     UrlGeneratorInterface::RELATIVE_PATH
                 ),
                 'metadata' => $component->getMetadata(),
-                'variants' => $this->generateVariants($component),
+                'samples' => $this->generateSamples($component),
                 'used' => $this->generateUsed($component),
                 'aliases' => $component->getAliases(),
             ];
@@ -49,29 +49,29 @@ class ManifestBuilder
         return $manifest;
     }
 
-    private function generateVariants(ComponentInterface $component)
+    private function generateSamples(ComponentInterface $component)
     {
-        $variants = [];
+        $samples = [];
         $generator = $this->generator;
-        foreach ($component->getVariants() as $id => $variant) {
-            $variants[] = [
-                'id' => $variant->getId(),
-                'name' => $variant->getName(),
-                'metadata' => $variant->getMetadata(),
+        foreach ($component->getSamples() as $id => $sample) {
+            $samples[] = [
+                'id' => $sample->getId(),
+                'name' => $sample->getName(),
+                'metadata' => $sample->getMetadata(),
                 'source' => $generator->generate(
                     'component_render_raw',
-                    ['component' => $component->getId(), 'variant' => $id],
+                    ['component' => $component->getId(), 'sample' => $id],
                     UrlGeneratorInterface::RELATIVE_PATH
                 ),
                 'rendered' => $generator->generate(
                     'component_render',
-                    ['component' => $component->getId(), 'variant' => $id],
+                    ['component' => $component->getId(), 'sample' => $id],
                     UrlGeneratorInterface::RELATIVE_PATH
                 ),
             ];
         }
 
-        return $variants;
+        return $samples;
     }
 
     private function generateUsed(ComponentInterface $component)

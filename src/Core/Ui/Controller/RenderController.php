@@ -15,7 +15,7 @@ use LastCall\Mannequin\Core\Asset\AssetManager;
 use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Exception\UnknownComponentException;
-use LastCall\Mannequin\Core\Exception\VariantNotFoundException;
+use LastCall\Mannequin\Core\Exception\UnknownSampleException;
 use LastCall\Mannequin\Core\ComponentRenderer;
 use LastCall\Mannequin\Core\Ui\UiInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -91,8 +91,8 @@ class RenderController
     private function getComponentSample(ComponentInterface $component, $sampleId)
     {
         try {
-            return $component->getVariant($sampleId);
-        } catch (VariantNotFoundException $e) {
+            return $component->getSample($sampleId);
+        } catch (UnknownSampleException $e) {
             throw new NotFoundHttpException($e->getMessage(), $e);
         }
     }
