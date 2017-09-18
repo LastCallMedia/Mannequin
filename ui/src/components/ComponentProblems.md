@@ -1,6 +1,6 @@
-PatternProblems example:
+ComponentProblems example:
 ```js
-<PatternProblems problems={[
+<ComponentProblems problems={[
     'The ship is on fire.',
     'The captain went overboard.'
 ]} />

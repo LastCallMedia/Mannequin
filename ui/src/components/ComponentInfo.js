@@ -3,74 +3,75 @@ import { Link } from 'react-router-dom';
 import FetchingCodeBlock from './FetchingCodeBlock';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import './PatternInfo.css';
+import './ComponentInfo.css';
 
-const PatternInfo = ({ pattern, variant, used, className, controls }) => {
+const ComponentInfo = ({ component, sample, used, className, controls }) => {
   return (
-    <div className={cx('PatternInfo', className)}>
+    <div className={cx('ComponentInfo', className)}>
       <div className="inner">
         <div className="controls">
           {controls}
         </div>
-        <PatternInfoInfo
+        <ComponentInfoInfo
           className="info"
-          pattern={pattern}
+          component={component}
           used={used}
-          variant={variant}
+          sample={sample}
         />
-        <PatternInfoCode className="code" pattern={pattern} variant={variant} />
+        <ComponentInfoCode className="code" component={component} sample={sample} />
       </div>
     </div>
   );
 };
-PatternInfo.propTypes = {
-  pattern: PropTypes.shape({}),
-  variant: PropTypes.shape({}),
+ComponentInfo.propTypes = {
+  component: PropTypes.shape({}),
+  sample: PropTypes.shape({}),
   used: PropTypes.array
 };
 
-export default PatternInfo;
+export default ComponentInfo;
 
-const PatternInfoInfo = ({ pattern, variant, used }) => {
+const ComponentInfoInfo = ({ component, sample, used }) => {
   return (
     <div className="info">
-      <h3 className="pattern-name">
-        {pattern.name}
+      <h3 className="component-name">
+        {component.name}
       </h3>
-      {pattern.metadata.description &&
-        <PatternInfoSection title="Description">
-          {pattern.metadata.description}
-        </PatternInfoSection>}
+      {component.metadata.description &&
+        <ComponentInfoSection title="Description">
+          {component.metadata.description}
+        </ComponentInfoSection>}
       {used.length > 0 &&
-        <PatternInfoSection title="Used">
+        <ComponentInfoSection title="Used">
           {used.map(p =>
-            <Link key={p.id} to={`/pattern/${p.id}`}>
+            <Link key={p.id} to={`/component/${p.id}`}>
               {p.name}
             </Link>
           )}
-        </PatternInfoSection>}
+        </ComponentInfoSection>}
     </div>
   );
 };
-PatternInfoInfo.propTypes = {
+ComponentInfoInfo.propTypes = {
   used: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string
     })
   ),
-  pattern: PropTypes.shape({
+  sample: PropTypes.shape({}),
+  component: PropTypes.shape({
     name: PropTypes.string.isRequired,
     metadata: PropTypes.shape({
       description: PropTypes.string
     })
   }).isRequired
 };
-PatternInfoInfo.defaultProps = {
+ComponentInfoInfo.defaultProps = {
   used: []
 };
 
-const PatternInfoSection = ({ title, children }) =>
+const ComponentInfoSection = ({ title, children }) =>
   <section>
     <h4>
       {title}
@@ -79,12 +80,12 @@ const PatternInfoSection = ({ title, children }) =>
       {children}
     </p>
   </section>;
-PatternInfoSection.propTypes = {
+ComponentInfoSection.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired
 };
 
-class PatternInfoCode extends Component {
+class ComponentInfoCode extends Component {
   constructor(props) {
     super(props);
     this.state = { language: null, src: null };
@@ -95,21 +96,21 @@ class PatternInfoCode extends Component {
   }
   componentDidUpdate(prevProps) {
     if (
-      prevProps.variant !== this.props.variant ||
-      prevProps.pattern !== this.props.pattern
+      prevProps.sample !== this.props.sample ||
+      prevProps.component !== this.props.component
     ) {
       this.resetSource();
     }
   }
   resetSource() {
     let state = { language: null, src: null };
-    const { variant, pattern } = this.props;
-    if (variant) {
+    const { sample, component } = this.props;
+    if (sample) {
       state.language = 'html';
-      state.src = variant.source;
-    } else if (pattern) {
-      state.language = pattern.metadata.source_format;
-      state.src = pattern.source;
+      state.src = sample.source;
+    } else if (component) {
+      state.language = component.metadata.source_format;
+      state.src = component.source;
     }
     this.setState(state);
   }
@@ -121,33 +122,33 @@ class PatternInfoCode extends Component {
   }
   render() {
     const { src, language } = this.state;
-    const { variant, pattern } = this.props;
+    const { sample, component } = this.props;
 
     return (
       <div className="code">
         {src && <FetchingCodeBlock src={src} language={language} />}
         <div className="button-group">
-          {variant &&
+          {sample &&
             <a
               className={cx(
                 'button',
-                src === variant.source ? 'primary' : 'secondary'
+                src === sample.source ? 'primary' : 'secondary'
               )}
               onClick={this.switchMode}
-              data-src={variant.source}
+              data-src={sample.source}
               data-language={'html'}
             >
               HTML
             </a>}
-          {pattern &&
+          {component &&
             <a
               className={cx(
                 'button',
-                src === pattern.source ? 'primary' : 'secondary'
+                src === component.source ? 'primary' : 'secondary'
               )}
               onClick={this.switchMode}
-              data-src={pattern.source}
-              data-language={pattern.metadata.source_format}
+              data-src={component.source}
+              data-language={component.metadata.source_format}
             >
               Raw
             </a>}
@@ -156,11 +157,11 @@ class PatternInfoCode extends Component {
     );
   }
 }
-PatternInfoCode.propTypes = {
-  variant: PropTypes.shape({
+ComponentInfoCode.propTypes = {
+  sample: PropTypes.shape({
     source: PropTypes.string.isRequired
   }),
-  pattern: PropTypes.shape({
+  component: PropTypes.shape({
     source: PropTypes.string.isRequired,
     metadata: PropTypes.shape({
       source_format: PropTypes.string

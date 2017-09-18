@@ -13,12 +13,12 @@ const HomePage = ({ quickLinks }) =>
       <div className="quicklinks grid-container">
         <h4>Quick Links</h4>
         <div className="CardGrid">
-          {quickLinks.map(pattern =>
+          {quickLinks.map(component =>
             <Card
-              key={pattern.id}
-              title={pattern.name}
-              subtitle={pattern.metadata['group']}
-              to={`pattern/${pattern.id}`}
+              key={component.id}
+              title={component.name}
+              subtitle={component.metadata['group']}
+              to={`component/${component.id}`}
             />
           )}
         </div>

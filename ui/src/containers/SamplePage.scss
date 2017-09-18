@@ -1,20 +1,20 @@
-
 @import "base";
 
-.PatternInnerPage {
+.SampleFoundPage {
   @include xy-grid($direction: vertical, $wrap: false);
   position: relative;
+  overflow: hidden !important;
 
-  .PatternTopBar {
+  .ComponentTopBar {
     @include xy-cell(shrink, $vertical: true, $gutter-output: false);
   }
   .RenderFrame {
-    @include xy-cell($vertical: true, $gutter-output: false);
+    @include xy-cell(auto, $vertical: true, $gutter-output: false);
   }
   .Content {
     @include xy-cell(shrink, $vertical: true, $gutter-output: true);
   }
-  .PatternInfo {
+  .ComponentInfo {
     position:absolute;
     bottom: 0;
     width: 100%;

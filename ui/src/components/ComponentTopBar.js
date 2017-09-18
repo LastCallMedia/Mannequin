@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './PatternTopBar.css';
+import './ComponentTopBar.css';
 
-const PatternTopBar = ({ title, selector, actions }) => {
+const ComponentTopBar = ({ title, selector, actions }) => {
   return (
-    <div className="PatternTopBar">
+    <div className="ComponentTopBar">
       <div className="inner">
         <h4 className="name">
           {title}
         </h4>
-        <div className="variant">
+        <div className="component">
           {selector}
         </div>
         <ul className="actions">
@@ -23,15 +23,15 @@ const PatternTopBar = ({ title, selector, actions }) => {
     </div>
   );
 };
-PatternTopBar.propTypes = {
+ComponentTopBar.propTypes = {
   title: PropTypes.string,
   selector: PropTypes.node,
   actions: PropTypes.arrayOf(PropTypes.element)
 };
-PatternTopBar.defaultProps = {
+ComponentTopBar.defaultProps = {
   title: '',
   selector: [],
   actions: []
 };
 
-export default PatternTopBar;
+export default ComponentTopBar;

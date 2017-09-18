@@ -2,11 +2,11 @@ import React from 'react';
 import Callout from './Callout';
 import PropTypes from 'prop-types';
 
-const PatternProblems = ({ problems }) => {
+const ComponentProblems = ({ problems }) => {
   return (
     <Callout
       type="alert"
-      title="There were problems found with this pattern!"
+      title="There were problems found with this component!"
       content={
         <ul>
           {problems.map((p, i) =>
@@ -20,10 +20,10 @@ const PatternProblems = ({ problems }) => {
   );
 };
 
-PatternProblems.propTypes = {
+ComponentProblems.propTypes = {
   problems: PropTypes.arrayOf(PropTypes.node)
 };
-PatternProblems.defaultProps = {
+ComponentProblems.defaultProps = {
   problems: []
 };
-export default PatternProblems;
+export default ComponentProblems;

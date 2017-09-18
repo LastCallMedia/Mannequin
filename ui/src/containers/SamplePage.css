@@ -4,23 +4,23 @@
  * foundation.zurb.com
  * Licensed under MIT Open Source
  */
-.VariantFoundPage {
+.SampleFoundPage {
   display: flex;
   flex-flow: column nowrap;
   position: relative;
   overflow: hidden !important; }
-  .VariantFoundPage .PatternTopBar {
+  .SampleFoundPage .ComponentTopBar {
     flex: 0 0 auto;
     height: auto; }
-  .VariantFoundPage .RenderFrame {
+  .SampleFoundPage .RenderFrame {
     flex: 1 1 0px;
     height: auto; }
-  .VariantFoundPage .Content {
+  .SampleFoundPage .Content {
     flex: 0 0 auto;
     height: auto;
     margin-right: 0.625rem;
     margin-left: 0.625rem; }
-  .VariantFoundPage .PatternInfo {
+  .SampleFoundPage .ComponentInfo {
     position: absolute;
     bottom: 0;
     width: 100%;
