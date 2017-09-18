@@ -11,10 +11,10 @@
 
 namespace LastCall\Mannequin\Html\Discovery;
 
+use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Discovery\IdEncoder;
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
-use LastCall\Mannequin\Html\Pattern\HtmlPattern;
+use LastCall\Mannequin\Html\Component\HtmlComponent;
 
 class HtmlDiscovery implements DiscoveryInterface
 {
@@ -35,9 +35,9 @@ class HtmlDiscovery implements DiscoveryInterface
         $this->files = $files;
     }
 
-    public function discover(): PatternCollection
+    public function discover(): ComponentCollection
     {
-        $patterns = [];
+        $components = [];
         foreach ($this->files as $filenames) {
             // @todo: Clean this up and make it consistent with TwigDiscovery.
             if (!is_array($filenames)) {
@@ -51,15 +51,15 @@ class HtmlDiscovery implements DiscoveryInterface
             );
 
             $id = reset($filenames);
-            $pattern = new HtmlPattern(
+            $component = new HtmlComponent(
                 $this->encodeId($id),
                 $filenames,
                 new \SplFileInfo($id)
             );
-            $pattern->setName($id);
-            $patterns[] = $pattern;
+            $component->setName($id);
+            $components[] = $component;
         }
 
-        return new PatternCollection($patterns);
+        return new ComponentCollection($components);
     }
 }

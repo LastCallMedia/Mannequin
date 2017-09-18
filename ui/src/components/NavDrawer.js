@@ -19,9 +19,9 @@ export class NavDrawer extends Component {
     this.props.toggleNav();
   }
   render() {
-    const { className, toggleNav, patterns } = this.props;
+    const { className, toggleNav, components } = this.props;
     const { filter } = this.state;
-    const tree = buildTree(filterPatterns(filter, patterns));
+    const tree = buildTree(filterComponents(filter, components));
     const menuSettings = {
       collapsible: false,
       className: 'l1',
@@ -61,7 +61,7 @@ export class NavDrawer extends Component {
 }
 
 NavDrawer.propTypes = {
-  patterns: PropTypes.arrayOf(
+  components: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.name
@@ -71,18 +71,18 @@ NavDrawer.propTypes = {
   className: PropTypes.string
 };
 NavDrawer.defaultProps = {
-  patterns: []
+  components: []
 };
 
 export default NavDrawer;
 
-function buildTree(patterns) {
-  // Build a flat object of all groups as arrays of patterns.
-  const flat = patterns.reduce((tree, p) => {
-    const group = p.metadata.group || 'Unknown';
+function buildTree(components) {
+  // Build a flat object of all groups as arrays of components.
+  const flat = components.reduce((tree, c) => {
+    const group = c.metadata.group || 'Unknown';
     const item = {
-      name: p.name,
-      to: `/pattern/${p.id}`
+      name: c.name,
+      to: `/component/${c.id}`
     };
     if (tree[group]) {
       tree[group].push(item);
@@ -110,14 +110,14 @@ function buildTree(patterns) {
   }, []);
 }
 
-function filterPatterns(searchString, patterns) {
-  if (searchString.length < 1) return patterns;
+function filterComponents(searchString, components) {
+  if (searchString.length < 1) return components;
   const _searchString = searchString.toLowerCase();
-  return patterns.filter(pattern => {
+  return components.filter(component => {
     return (
-      pattern.name.toLowerCase().indexOf(_searchString) !== -1 ||
-      (pattern.metadata['group'] &&
-        pattern.metadata['group'].toLowerCase().indexOf(_searchString) !== -1)
+      component.name.toLowerCase().indexOf(_searchString) !== -1 ||
+      (component.metadata['group'] &&
+        component.metadata['group'].toLowerCase().indexOf(_searchString) !== -1)
     );
   });
 }

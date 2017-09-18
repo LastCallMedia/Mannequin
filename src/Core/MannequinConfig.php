@@ -11,9 +11,9 @@
 
 namespace LastCall\Mannequin\Core;
 
+use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Extension\CoreExtension;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Ui\RemoteUi;
 use LastCall\Mannequin\Core\Ui\UiInterface;
 use Pimple\Container;
@@ -69,9 +69,9 @@ class MannequinConfig extends Container implements ConfigInterface
     }
 
     /**
-     * @return PatternCollection
+     * @return \LastCall\Mannequin\Core\Component\ComponentCollection
      */
-    public function getCollection(): PatternCollection
+    public function getCollection(): ComponentCollection
     {
         return $this['collection'];
     }

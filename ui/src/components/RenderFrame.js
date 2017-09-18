@@ -6,7 +6,7 @@ const RenderFrame = ({ src }) => {
   return (
     <iframe
       className="RenderFrame"
-      title="Rendered Pattern"
+      title="Rendered Component"
       frameBorder="0"
       src={src}
     />

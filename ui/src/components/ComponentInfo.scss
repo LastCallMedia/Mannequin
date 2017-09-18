@@ -1,0 +1,61 @@
+
+@import "../base";
+
+.ComponentInfo {
+  overflow-y: auto;
+  .inner {
+    background: $dark-bg;
+    @include xy-grid-container();
+    @include xy-grid();
+    position: relative;
+
+    > .info, > .code {
+      @include xy-cell(full);
+      @include breakpoint(medium) {
+        @include xy-cell(auto, $gutter-position: left right top bottom);
+      }
+    }
+    .controls {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 2;
+    }
+  }
+  .info {
+    color: white;
+    a {color: inherit;}
+    h3 {
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: rem-calc(18);
+      line-height: rem-calc(22);
+    }
+    h4 {
+      font-size: rem-calc(10);
+      line-height: rem-calc(30);
+      font-weight: bold;
+      color: #767676;
+    }
+    p {
+      font-size: rem-calc(14);
+      line-height: rem-calc(30);
+    }
+  }
+  .code {
+    position: relative;
+    .button-group {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+    }
+    .button {
+      margin-bottom: 0;
+      &.active {
+
+      }
+    }
+  }
+}
+
+

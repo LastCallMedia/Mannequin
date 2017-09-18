@@ -5,38 +5,40 @@ import { createSelector } from 'reselect';
  */
 
 // Simple selectors - only pull data out of state.
-const getPatternsFromState = state => state.patterns;
+const getComponentsFromState = state => state.components;
 const getQuickLinksFromState = state => state.quickLinks;
-const getSelectedPatternId = (state, ownProps) => ownProps.match.params.pattern;
-const getSelectedVariantId = (state, ownProps) => ownProps.match.params.vid;
-export const getVariantFromPattern = (pattern, variantId) =>
-  pattern ? pattern.variants.filter(s => s.id === variantId).pop() : undefined;
+const getSelectedComponentId = (state, ownProps) => ownProps.match.params.component;
+const getSelectedSampleId = (state, ownProps) => ownProps.match.params.sid;
+export const getSampleFromComponent = (component, sampleId) => {
+    return component ? component.samples.filter(s => s.id === sampleId).pop() : undefined;
+}
+
 
 // More complex selectors that do manipulation or filtering of data.
-export const getPattern = createSelector(
-  [getPatternsFromState, getSelectedPatternId],
-  (patterns, patternId) => {
-    return patterns.filter(p => p.id === patternId).pop();
+export const getComponent = createSelector(
+  [getComponentsFromState, getSelectedComponentId],
+  (components, componentId) => {
+    return components.filter(p => p.id === componentId).pop();
   }
 );
-export const getVariant = createSelector(
-  [getPattern, getSelectedVariantId],
-  getVariantFromPattern
+export const getSample = createSelector(
+  [getComponent, getSelectedSampleId],
+  getSampleFromComponent
 );
 export const getUsed = createSelector(
-  [getPatternsFromState, getPattern],
-  (patterns, pattern) => {
-    return pattern
-      ? pattern.used.map(id => patterns.filter(p => p.id === id).pop())
+  [getComponentsFromState, getComponent],
+  (components, component) => {
+    return component
+      ? component.used.map(id => components.filter(p => p.id === id).pop())
       : [];
   }
 );
 
 export const getQuicklinks = createSelector(
-  [getPatternsFromState, getQuickLinksFromState],
-  (patterns, ids) => {
-    var quickLinks = patterns
-      .filter(pattern => -1 !== ids.indexOf(pattern.id))
+  [getComponentsFromState, getQuickLinksFromState],
+  (components, ids) => {
+    var quickLinks = components
+      .filter(component => -1 !== ids.indexOf(component.id))
       .sort((p1, p2) => ids.indexOf(p1.id) - ids.indexOf(p2.id));
 
     return quickLinks;

@@ -11,11 +11,11 @@
 
 namespace LastCall\Mannequin\Twig\Tests\Discovery;
 
+use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Discovery\IdEncoder;
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
 use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
-use LastCall\Mannequin\Twig\Pattern\TwigPattern;
+use LastCall\Mannequin\Twig\Component\TwigComponent;
 use PHPUnit\Framework\TestCase;
 
 class TwigDiscoveryTest extends TestCase
@@ -49,81 +49,81 @@ class TwigDiscoveryTest extends TestCase
         $driver = $this->getDriver($this->getTwig());
         $discovery = new TwigDiscovery($driver, []);
         $collection = $discovery->discover();
-        $this->assertInstanceOf(PatternCollection::class, $collection);
+        $this->assertInstanceOf(ComponentCollection::class, $collection);
         $this->assertCount(0, $collection);
     }
 
-    public function testDiscoversPatternCollection()
+    public function testDiscoversCollection()
     {
         $driver = $this->getDriver($this->getTwig());
         $discovery = new TwigDiscovery($driver, ['form-input.twig']);
         $collection = $discovery->discover();
-        $this->assertInstanceOf(PatternCollection::class, $collection);
+        $this->assertInstanceOf(ComponentCollection::class, $collection);
         $this->assertCount(1, $collection);
 
         return $collection;
     }
 
     /**
-     * @depends testDiscoversPatternCollection
+     * @depends testDiscoversCollection
      */
-    public function testDiscoversPattern(PatternCollection $collection)
+    public function testDiscoversComponent(ComponentCollection $collection)
     {
-        $pattern = $collection->get(
+        $component = $collection->get(
             $this->encodeId('form-input.twig')
         );
-        $this->assertInstanceOf(TwigPattern::class, $pattern);
+        $this->assertInstanceOf(TwigComponent::class, $component);
 
-        return $pattern;
+        return $component;
     }
 
     /**
-     * @depends testDiscoversPattern
+     * @depends testDiscoversComponent
      */
-    public function testSetsId(TwigPattern $pattern)
+    public function testSetsId(TwigComponent $component)
     {
         $this->assertEquals(
             $this->encodeId('form-input.twig'),
-            $pattern->getId()
+            $component->getId()
         );
     }
 
     /**
-     * @depends testDiscoversPattern
+     * @depends testDiscoversComponent
      */
-    public function testSetsName(TwigPattern $pattern)
+    public function testSetsName(TwigComponent $component)
     {
-        $this->assertEquals('form-input.twig', $pattern->getName());
+        $this->assertEquals('form-input.twig', $component->getName());
     }
 
     /**
-     * @depends testDiscoversPattern
+     * @depends testDiscoversComponent
      */
-    public function testSetsAliases(TwigPattern $pattern)
+    public function testSetsAliases(TwigComponent $component)
     {
-        $this->assertEquals(['form-input.twig'], $pattern->getAliases());
+        $this->assertEquals(['form-input.twig'], $component->getAliases());
     }
 
     /**
-     * @depends testDiscoversPattern
+     * @depends testDiscoversComponent
      */
-    public function testSetsFilename(TwigPattern $pattern)
+    public function testSetsFilename(TwigComponent $component)
     {
-        $this->assertFalse($pattern->getFile());
+        $this->assertFalse($component->getFile());
     }
 
     /**
-     * @depends testDiscoversPattern
+     * @depends testDiscoversComponent
      */
-    public function testSetsSource(TwigPattern $pattern)
+    public function testSetsSource(TwigComponent $component)
     {
-        $source = $pattern->getSource();
+        $source = $component->getSource();
         $this->assertInstanceOf(\Twig_Source::class, $source);
         $this->assertEquals('form-input.twig', $source->getName());
     }
 
     /**
-     * @expectedException \LastCall\Mannequin\Core\Exception\UnsupportedPatternException
+     * @expectedException \LastCall\Mannequin\Core\Exception\UnsupportedComponentException
      * @expectedExceptionMessage Unable to load some-nonexistent-file.twig
      */
     public function testThrowsExceptionOnNonLoadableTemplates()

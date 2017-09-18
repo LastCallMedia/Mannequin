@@ -29,9 +29,9 @@ class MannequinTest extends TestCase
         /** @var \Symfony\Component\Routing\RouteCollection $routes */
         $routes = $application['routes'];
         $this->assertEquals('controller.manifest:getManifestAction', $routes->get('manifest')->getDefault('_controller'));
-        $this->assertEquals('controller.render:renderAction', $routes->get('pattern_render')->getDefault('_controller'));
-        $this->assertEquals('controller.render:renderSourceAction', $routes->get('pattern_render_source_raw')->getDefault('_controller'));
-        $this->assertEquals('controller.render:renderRawAction', $routes->get('pattern_render_raw')->getDefault('_controller'));
+        $this->assertEquals('controller.render:renderAction', $routes->get('component_render')->getDefault('_controller'));
+        $this->assertEquals('controller.render:renderSourceAction', $routes->get('component_render_source_raw')->getDefault('_controller'));
+        $this->assertEquals('controller.render:renderRawAction', $routes->get('component_render_raw')->getDefault('_controller'));
         $this->assertEquals('controller.ui:staticAction', $routes->get('static')->getDefault('_controller'));
     }
 

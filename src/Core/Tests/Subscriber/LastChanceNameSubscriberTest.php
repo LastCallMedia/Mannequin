@@ -11,8 +11,8 @@
 
 namespace LastCall\Mannequin\Core\Tests\Subscriber;
 
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
-use LastCall\Mannequin\Core\Pattern\TemplateFilePatternInterface;
+use LastCall\Mannequin\Core\Component\ComponentInterface;
+use LastCall\Mannequin\Core\Component\TemplateFileInterface;
 use LastCall\Mannequin\Core\Subscriber\LastChanceNameSubscriber;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -37,34 +37,34 @@ class LastChanceNameSubscriberTest extends TestCase
      */
     public function testCreatesNameFromFileName($filename, $expectedName)
     {
-        $pattern = $this->prophesize(TemplateFilePatternInterface::class);
-        $pattern->getName()->willReturn('');
-        $pattern->setName($expectedName)->shouldBeCalled();
-        $pattern->getFile()->willReturn(new \SplFileInfo($filename));
+        $component = $this->prophesize(TemplateFileInterface::class);
+        $component->getName()->willReturn('');
+        $component->setName($expectedName)->shouldBeCalled();
+        $component->getFile()->willReturn(new \SplFileInfo($filename));
         $this->dispatchDiscover(
             new LastChanceNameSubscriber(),
-            $pattern->reveal()
+            $component->reveal()
         );
     }
 
     public function testFallsBackToId()
     {
         $subscriber = new LastChanceNameSubscriber();
-        $pattern = $this->prophesize(PatternInterface::class);
-        $pattern->getName()->willReturn('');
-        $pattern->getId()->willReturn('foo');
-        $pattern->setName('foo')->shouldBeCalled();
-        $this->dispatchDiscover($subscriber, $pattern->reveal());
+        $component = $this->prophesize(ComponentInterface::class);
+        $component->getName()->willReturn('');
+        $component->getId()->willReturn('foo');
+        $component->setName('foo')->shouldBeCalled();
+        $this->dispatchDiscover($subscriber, $component->reveal());
     }
 
     public function testDoesNotOverrideName()
     {
-        $pattern = $this->prophesize(PatternInterface::class);
-        $pattern->getName()->willReturn('foobar');
-        $pattern->setName(Argument::type('string'))->shouldNotBeCalled();
+        $component = $this->prophesize(ComponentInterface::class);
+        $component->getName()->willReturn('foobar');
+        $component->setName(Argument::type('string'))->shouldNotBeCalled();
         $this->dispatchDiscover(
             new LastChanceNameSubscriber(),
-            $pattern->reveal()
+            $component->reveal()
         );
     }
 }

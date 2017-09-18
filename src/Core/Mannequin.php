@@ -177,7 +177,7 @@ class Mannequin extends Application
             return new YamlMetadataParser();
         };
         $this['renderer'] = function () {
-            return new PatternRenderer(
+            return new ComponentRenderer(
                 $this['engine'],
                 $this['dispatcher']
             );
@@ -208,17 +208,17 @@ class Mannequin extends Application
         $this->get('/manifest.json', 'controller.manifest:getManifestAction')
             ->bind('manifest');
         $this->get(
-            '/m-render/{pattern}/{variant}.html',
+            '/m-render/{component}/{sample}.html',
             'controller.render:renderAction'
-        )->bind('pattern_render');
+        )->bind('component_render');
         $this->get(
-            '/m-source/raw/{pattern}.txt',
+            '/m-source/raw/{component}.txt',
             'controller.render:renderSourceAction'
-        )->bind('pattern_render_source_raw');
+        )->bind('component_render_source_raw');
         $this->get(
-            '/m-source/html/{pattern}/{variant}.txt',
+            '/m-source/html/{component}/{sample}.txt',
             'controller.render:renderRawAction'
-        )->bind('pattern_render_raw');
+        )->bind('component_render_raw');
         $this->match('/{name}', 'controller.ui:staticAction')
             ->bind('static')
             ->value('name', 'index.html')
@@ -267,7 +267,7 @@ class Mannequin extends Application
         return $this['url_generator'];
     }
 
-    public function getRenderer(): PatternRenderer
+    public function getRenderer(): ComponentRenderer
     {
         return $this['renderer'];
     }

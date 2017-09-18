@@ -7,7 +7,7 @@ Contains the Twig extension for [Mannequin](https://github.com/LastCallMedia/Man
 
 When would I use this?
 -----------------------
-When you want to display Twig templates as Mannequin patterns.
+When you want to display Twig templates as Mannequin components.
 
 Installing
 ----------
@@ -47,5 +47,5 @@ The TwigExtension has the following configuration options:
 
 | name | Description |
 | ---- | ----------- |
-| finder | A Symfony Finder object that lists the files you would like to use as patterns.  Optionally, any iterator containing Twig template names can be passed. |
+| finder | A Symfony Finder object that lists the files you would like to use as components.  Optionally, any iterator containing Twig template names can be passed. |
 | twig_root | The root path to your Twig templates. |

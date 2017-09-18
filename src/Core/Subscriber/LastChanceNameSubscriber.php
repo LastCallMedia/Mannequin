@@ -11,9 +11,9 @@
 
 namespace LastCall\Mannequin\Core\Subscriber;
 
-use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
-use LastCall\Mannequin\Core\Event\PatternEvents;
-use LastCall\Mannequin\Core\Pattern\TemplateFilePatternInterface;
+use LastCall\Mannequin\Core\Component\TemplateFileInterface;
+use LastCall\Mannequin\Core\Event\ComponentDiscoveryEvent;
+use LastCall\Mannequin\Core\Event\ComponentEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class LastChanceNameSubscriber implements EventSubscriberInterface
@@ -21,16 +21,16 @@ class LastChanceNameSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            PatternEvents::DISCOVER => ['setPatternName', -100],
+            ComponentEvents::DISCOVER => ['setComponentName', -100],
         ];
     }
 
-    public function setPatternName(PatternDiscoveryEvent $event)
+    public function setComponentName(ComponentDiscoveryEvent $event)
     {
-        $pattern = $event->getPattern();
-        if (empty($pattern->getName())) {
-            if ($pattern instanceof TemplateFilePatternInterface) {
-                if ($file = $pattern->getFile()) {
+        $component = $event->getComponent();
+        if (empty($component->getName())) {
+            if ($component instanceof TemplateFileInterface) {
+                if ($file = $component->getFile()) {
                     $name = explode('.', $file->getBasename())[0];
                     $name = ucfirst(
                         strtr(
@@ -41,10 +41,10 @@ class LastChanceNameSubscriber implements EventSubscriberInterface
                             ]
                         )
                     );
-                    $pattern->setName($name);
+                    $component->setName($name);
                 }
             } else {
-                $pattern->setName($pattern->getId());
+                $component->setName($component->getId());
             }
         }
     }
