@@ -12,7 +12,7 @@
 namespace LastCall\Mannequin\Core\Engine;
 
 use LastCall\Mannequin\Core\Component\ComponentInterface;
-use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
+use LastCall\Mannequin\Core\Exception\UnsupportedComponentException;
 use LastCall\Mannequin\Core\Rendered;
 
 class DelegatingEngine implements EngineInterface
@@ -31,34 +31,34 @@ class DelegatingEngine implements EngineInterface
         $this->renderers = $renderers;
     }
 
-    public function supports(ComponentInterface $pattern): bool
+    public function supports(ComponentInterface $component): bool
     {
-        return (bool) $this->findRendererFor($pattern, false);
+        return (bool) $this->findRendererFor($component, false);
     }
 
-    private function findRendererFor(ComponentInterface $pattern, $require = true)
+    private function findRendererFor(ComponentInterface $component, $require = true)
     {
         foreach ($this->renderers as $renderer) {
-            if ($renderer->supports($pattern)) {
+            if ($renderer->supports($component)) {
                 return $renderer;
             }
         }
         if ($require) {
-            throw new UnsupportedPatternException(
-                sprintf('Unable to find a renderer for %s', get_class($pattern))
+            throw new UnsupportedComponentException(
+                sprintf('Unable to find a renderer for %s', get_class($component))
             );
         }
 
         return false;
     }
 
-    public function render(ComponentInterface $pattern, array $variables = [], Rendered $rendered)
+    public function render(ComponentInterface $component, array $variables = [], Rendered $rendered)
     {
-        return $this->findRendererFor($pattern)->render($pattern, $variables, $rendered);
+        return $this->findRendererFor($component)->render($component, $variables, $rendered);
     }
 
-    public function renderSource(ComponentInterface $pattern): string
+    public function renderSource(ComponentInterface $component): string
     {
-        return $this->findRendererFor($pattern)->renderSource($pattern);
+        return $this->findRendererFor($component)->renderSource($component);
     }
 }

@@ -12,7 +12,7 @@
 namespace LastCall\Mannequin\Twig\Tests\Subscriber;
 
 use LastCall\Mannequin\Core\Component\ComponentCollection;
-use LastCall\Mannequin\Core\Tests\Stubs\TestPattern;
+use LastCall\Mannequin\Core\Tests\Stubs\TestComponent;
 use LastCall\Mannequin\Core\Tests\Subscriber\DiscoverySubscriberTestTrait;
 use LastCall\Mannequin\Twig\Component\TwigComponent;
 use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
@@ -32,12 +32,12 @@ class TwigIncludeSubscriberTest extends TestCase
         return $twig;
     }
 
-    public function testDiscoversUsageOfValidPatterns()
+    public function testDiscoversUsageOfValidComponents()
     {
         $twig = $this->getTwig();
         $source = $twig->load('p1')->getSourceContext();
         $p1 = new TwigComponent('p1', [], $source, $twig);
-        $foo = new TestPattern('foo');
+        $foo = new TestComponent('foo');
         $subscriber = new TwigIncludeSubscriber();
 
         $collection = new ComponentCollection([$foo]);
@@ -45,7 +45,7 @@ class TwigIncludeSubscriberTest extends TestCase
         $this->assertEquals([$foo], $p1->getUsedComponents());
     }
 
-    public function testIgnoresUsageOfUnknownPatterns()
+    public function testIgnoresUsageOfUnknownComponents()
     {
         $twig = $this->getTwig();
         $source = $twig->load('p1')->getSourceContext();
@@ -65,8 +65,8 @@ class TwigIncludeSubscriberTest extends TestCase
     {
         $twig = $this->getTwig();
         $source = new \Twig_Source('', 'no_exist', '');
-        $pattern = new TwigComponent('', [], $source, $twig);
+        $component = new TwigComponent('', [], $source, $twig);
         $subscriber = new TwigIncludeSubscriber();
-        $this->dispatchDiscover($subscriber, $pattern);
+        $this->dispatchDiscover($subscriber, $component);
     }
 }

@@ -20,44 +20,44 @@ class ComponentCollection implements \Iterator, \Countable
     /**
      * @var \LastCall\Mannequin\Core\Component\ComponentInterface[]
      */
-    private $patterns = [];
+    private $components = [];
 
     private $aliases = [];
 
     private $parent;
 
     /**
-     * PatternCollection constructor.
+     * Constructor.
      *
-     * @param array  $patterns
+     * @param array  $components
      * @param string $id
      * @param string $name
      */
     public function __construct(
-        array $patterns = [],
+        array $components = [],
         string $id = self::ROOT_COLLECTION
     ) {
         $this->id = $id;
 
-        foreach ($patterns as $pattern) {
-            if (!$pattern instanceof ComponentInterface) {
+        foreach ($components as $component) {
+            if (!$component instanceof ComponentInterface) {
                 throw new \RuntimeException(
-                    'Pattern must be an instance of PatternInterface.'
+                    'Component must be an instance of ' . ComponentInterface::class
                 );
             }
-            $patternId = $pattern->getId();
-            if (isset($this->patterns[$patternId])) {
+            $componentId = $component->getId();
+            if (isset($this->components[$componentId])) {
                 throw new \RuntimeException(
-                    sprintf('Duplicate pattern detected: %s', $patternId)
+                    sprintf('Duplicate component detected: %s', $componentId)
                 );
             }
-            $this->patterns[$patternId] = $pattern;
+            $this->components[$componentId] = $component;
 
-            foreach ($pattern->getAliases() as $alias) {
-                if (isset($this->patterns[$alias])) {
+            foreach ($component->getAliases() as $alias) {
+                if (isset($this->components[$alias])) {
                     throw new \RuntimeException(
                         sprintf(
-                            'Alias %s would cause a duplicate pattern.',
+                            'Alias %s would cause a duplicate component.',
                             $alias
                         )
                     );
@@ -65,12 +65,12 @@ class ComponentCollection implements \Iterator, \Countable
                 if (isset($this->aliases[$alias])) {
                     throw new \RuntimeException(
                         sprintf(
-                            'Alias %s would cause a duplicate pattern.',
+                            'Alias %s would cause a duplicate component.',
                             $alias
                         )
                     );
                 }
-                $this->aliases[$alias] = $patternId;
+                $this->aliases[$alias] = $componentId;
             }
         }
     }
@@ -82,37 +82,37 @@ class ComponentCollection implements \Iterator, \Countable
 
     public function rewind()
     {
-        return reset($this->patterns);
+        return reset($this->components);
     }
 
     public function valid()
     {
-        return key($this->patterns) !== null;
+        return key($this->components) !== null;
     }
 
     public function next()
     {
-        return next($this->patterns);
+        return next($this->components);
     }
 
     public function current()
     {
-        return current($this->patterns);
+        return current($this->components);
     }
 
     public function key()
     {
-        return key($this->patterns);
+        return key($this->components);
     }
 
     public function count()
     {
-        return count($this->patterns);
+        return count($this->components);
     }
 
     public function has(string $id)
     {
-        if (isset($this->patterns[$id])) {
+        if (isset($this->components[$id])) {
             return true;
         }
         if (isset($this->aliases[$id])) {
@@ -124,17 +124,17 @@ class ComponentCollection implements \Iterator, \Countable
 
     public function get(string $id)
     {
-        if (isset($this->patterns[$id])) {
-            return $this->patterns[$id];
+        if (isset($this->components[$id])) {
+            return $this->components[$id];
         }
         if (isset($this->aliases[$id])) {
             return $this->get($this->aliases[$id]);
         }
-        throw new \RuntimeException(sprintf('Unknown pattern %s', $id));
+        throw new \RuntimeException(sprintf('Unknown component %s', $id));
     }
 
     /**
-     * @return \LastCall\Mannequin\Core\Pattern\ComponentCollection|null
+     * @return \LastCall\Mannequin\Core\Component\ComponentCollection|null
      */
     public function getParent()
     {
@@ -144,9 +144,9 @@ class ComponentCollection implements \Iterator, \Countable
     /**
      * @return \LastCall\Mannequin\Core\Component\ComponentInterface[]
      */
-    public function getPatterns()
+    public function getComponents()
     {
-        return array_values($this->patterns);
+        return array_values($this->components);
     }
 
     private function setParent(ComponentCollection $parent)
@@ -154,13 +154,13 @@ class ComponentCollection implements \Iterator, \Countable
         $this->parent = $parent;
     }
 
-    public function withPattern($id)
+    public function withComponent($id)
     {
-        if (isset($this->patterns[$id])) {
+        if (isset($this->components[$id])) {
             $subCollection = new static(
-                [$this->patterns[$id]],
-                sprintf('pattern:%s', $id),
-                'Pattern'
+                [$this->components[$id]],
+                sprintf('component:%s', $id),
+                'Component'
             );
             $subCollection->setParent($this);
 
@@ -171,19 +171,19 @@ class ComponentCollection implements \Iterator, \Countable
     public function merge(ComponentCollection $merging)
     {
         $overlapping = array_intersect(
-            array_keys($this->patterns),
-            array_keys($merging->patterns)
+            array_keys($this->components),
+            array_keys($merging->components)
         );
         if (count($overlapping)) {
             throw new \RuntimeException(
                 sprintf(
-                    'Merging these collections would result in the following duplicate patterns: %s',
+                    'Merging these collections would result in the following duplicate components: %s',
                     implode(', ', $overlapping)
                 )
             );
         }
-        $mergedPatterns = array_merge($this->patterns, $merging->patterns);
-        $merged = new static($mergedPatterns, $this->id);
+        $mergedComponents = array_merge($this->components, $merging->components);
+        $merged = new static($mergedComponents, $this->id);
         if ($this->parent) {
             $merged->setParent($this->parent);
         }

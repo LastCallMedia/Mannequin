@@ -136,9 +136,9 @@ abstract class AbstractComponent implements ComponentInterface
     /**
      * {@inheritdoc}
      */
-    public function addUsedComponent(ComponentInterface $pattern): ComponentInterface
+    public function addUsedComponent(ComponentInterface $component): ComponentInterface
     {
-        $this->used[] = $pattern;
+        $this->used[] = $component;
 
         return $this;
     }

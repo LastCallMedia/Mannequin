@@ -16,13 +16,13 @@ use LastCall\Mannequin\Core\Component\ComponentCollection;
 interface DiscoveryInterface
 {
     /**
-     * Execute discovery of patterns.
+     * Execute discovery of components.
      *
-     * All patterns in the collection MUST have:
+     * All components in the collection MUST have:
      *  - id (suggested default to encoded filename)
      *  - name (suggested default to filename)
      *
-     * @throws \LastCall\Mannequin\Core\Exception\UnsupportedPatternException
+     * @throws \LastCall\Mannequin\Core\Exception\UnsupportedComponentException
      * @throws \LastCall\Mannequin\Core\Exception\TemplateParsingException
      *
      * @return \LastCall\Mannequin\Core\Component\ComponentCollection

@@ -12,8 +12,8 @@
 namespace LastCall\Mannequin\Core\Discovery;
 
 use LastCall\Mannequin\Core\Component\ComponentCollection;
-use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
-use LastCall\Mannequin\Core\Event\PatternEvents;
+use LastCall\Mannequin\Core\Event\ComponentDiscoveryEvent;
+use LastCall\Mannequin\Core\Event\ComponentEvents;
 use LastCall\Mannequin\Core\Exception\TemplateParsingException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -21,8 +21,8 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 /**
  * Chain discovery.
  *
- * Run discovery for multiple discoverers, then execute a pattern discovery
- * event for each pattern that was found.
+ * Run discovery for multiple discoverers, then execute a component discovery
+ * event for each component that was found.
  */
 class ChainDiscovery implements DiscoveryInterface
 {
@@ -54,23 +54,23 @@ class ChainDiscovery implements DiscoveryInterface
 
     public function discover(): ComponentCollection
     {
-        $patterns = [];
+        $components = [];
         foreach ($this->discoverers as $discoverer) {
-            foreach ($discoverer->discover() as $pattern) {
-                $patterns[] = $pattern;
+            foreach ($discoverer->discover() as $component) {
+                $components[] = $component;
             }
         }
-        $collection = new ComponentCollection($patterns);
-        foreach ($collection as $pattern) {
+        $collection = new ComponentCollection($components);
+        foreach ($collection as $component) {
             try {
                 $this->dispatcher->dispatch(
-                    PatternEvents::DISCOVER,
-                    new PatternDiscoveryEvent($pattern, $collection)
+                    ComponentEvents::DISCOVER,
+                    new ComponentDiscoveryEvent($component, $collection)
                 );
             } catch (TemplateParsingException $e) {
-                $pattern->addProblem($e->getMessage());
+                $component->addProblem($e->getMessage());
                 if ($this->logger) {
-                    $message = sprintf('Metadata error for %s. %s', $pattern->getName(), $e->getMessage());
+                    $message = sprintf('Metadata error for %s. %s', $component->getName(), $e->getMessage());
                     $this->logger->error($message, [
                         'exception' => $e,
                     ]);

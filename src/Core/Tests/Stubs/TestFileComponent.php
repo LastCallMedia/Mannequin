@@ -14,7 +14,7 @@ namespace LastCall\Mannequin\Core\Tests\Stubs;
 use LastCall\Mannequin\Core\Component\AbstractComponent;
 use LastCall\Mannequin\Core\Component\TemplateFileInterface;
 
-class TestFilePattern extends AbstractComponent implements TemplateFileInterface
+class TestFileComponent extends AbstractComponent implements TemplateFileInterface
 {
     private $file;
 

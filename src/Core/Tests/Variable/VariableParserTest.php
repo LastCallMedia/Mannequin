@@ -22,10 +22,10 @@ class VariableParserTest extends TestCase
     {
         return [
             ['foo', new Variable('simple', 'foo')],
-            ['pattern("foo")', new Variable('simple', 'pattern("foo")')],
-            ['~pattern("foo")', new Variable('expression', 'pattern("foo")')],
+            ['component("foo")', new Variable('simple', 'component("foo")')],
+            ['~component("foo")', new Variable('expression', 'component("foo")')],
             [['foo' => 'bar'], new VariableSet(['foo' => new Variable('simple', 'bar')])],
-            [['foo' => '~pattern("foo")'], new VariableSet(['foo' => new Variable('expression', 'pattern("foo")')])],
+            [['foo' => '~component("foo")'], new VariableSet(['foo' => new Variable('expression', 'component("foo")')])],
         ];
     }
 

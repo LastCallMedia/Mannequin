@@ -17,11 +17,11 @@ use LastCall\Mannequin\Html\Component\HtmlComponent;
 
 class HtmlComponentTest extends ComponentTestCase
 {
-    public function getPattern(): ComponentInterface
+    public function getComponent(): ComponentInterface
     {
         return new HtmlComponent(
-            self::PATTERN_ID,
-            self::PATTERN_ALIASES,
+            self::COMPONENT_ID,
+            self::COMPONENT_ALIASES,
             new \SplFileInfo(self::TEMPLATE_FILE)
         );
     }

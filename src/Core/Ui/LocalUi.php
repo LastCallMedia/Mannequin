@@ -86,11 +86,11 @@ EOD;
         );
     }
 
-    private function mapAssets($assets, $pattern)
+    private function mapAssets($assets, $component)
     {
         $tags = [];
         foreach ($assets as $asset) {
-            $tags[] = sprintf($pattern, $asset);
+            $tags[] = sprintf($component, $asset);
         }
 
         return implode("\n", $tags);

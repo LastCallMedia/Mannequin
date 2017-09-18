@@ -20,16 +20,16 @@ use Symfony\Component\EventDispatcher\Event;
 class RenderEvent extends Event
 {
     private $collection;
-    private $pattern;
+    private $component;
     private $variant;
     private $rendered;
     private $variables = [];
     private $isRoot;
 
-    public function __construct(ComponentCollection $collection, ComponentInterface $pattern, Sample $variant, Rendered $rendered, $isRoot = true)
+    public function __construct(ComponentCollection $collection, ComponentInterface $component, Sample $variant, Rendered $rendered, $isRoot = true)
     {
         $this->collection = $collection;
-        $this->pattern = $pattern;
+        $this->component = $component;
         $this->variant = $variant;
         $this->rendered = $rendered;
         $this->isRoot = $isRoot;
@@ -40,9 +40,9 @@ class RenderEvent extends Event
         return $this->collection;
     }
 
-    public function getPattern(): ComponentInterface
+    public function getComponent(): ComponentInterface
     {
-        return $this->pattern;
+        return $this->component;
     }
 
     public function getVariant(): Sample

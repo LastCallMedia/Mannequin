@@ -21,36 +21,36 @@ abstract class RendererTestCase extends TestCase
     public function testSupports()
     {
         $this->assertTrue(
-            $this->getRenderer()->supports($this->getSupportedPattern())
+            $this->getRenderer()->supports($this->getSupportedComponent())
         );
         $this->assertFalse(
-            $this->getRenderer()->supports($this->getUnsupportedPattern())
+            $this->getRenderer()->supports($this->getUnsupportedComponent())
         );
     }
 
     abstract public function getRenderer(): EngineInterface;
 
-    abstract public function getSupportedPattern(): ComponentInterface;
+    abstract public function getSupportedComponent(): ComponentInterface;
 
-    protected function getUnsupportedPattern(): ComponentInterface
+    protected function getUnsupportedComponent(): ComponentInterface
     {
-        return $this->createPattern('unsupported')->reveal();
+        return $this->createComponent('unsupported')->reveal();
     }
 
-    protected function createPattern($id)
+    protected function createComponent($id)
     {
-        $pattern = $this->prophesize(ComponentInterface::class);
-        $pattern->getId()->willReturn($id);
+        $component = $this->prophesize(ComponentInterface::class);
+        $component->getId()->willReturn($id);
 
-        return $pattern;
+        return $component;
     }
 
     public function testRender()
     {
-        $pattern = $this->getSupportedPattern();
+        $component = $this->getSupportedComponent();
         $rendered = new Rendered();
         $this->getRenderer()->render(
-            $pattern,
+            $component,
             [],
             $rendered
         );
@@ -60,13 +60,13 @@ abstract class RendererTestCase extends TestCase
     }
 
     /**
-     * @expectedException \LastCall\Mannequin\Core\Exception\UnsupportedPatternException
+     * @expectedException \LastCall\Mannequin\Core\Exception\UnsupportedComponentException
      */
     public function testRenderUnsupported()
     {
-        $pattern = $this->getUnsupportedPattern();
+        $component = $this->getUnsupportedComponent();
         $this->getRenderer()->render(
-            $pattern,
+            $component,
             [],
             new Rendered()
         );
@@ -74,9 +74,9 @@ abstract class RendererTestCase extends TestCase
 
     public function testRenderSource()
     {
-        $pattern = $this->getSupportedPattern();
+        $component = $this->getSupportedComponent();
         $source = $this->getRenderer()->renderSource(
-            $pattern
+            $component
         );
         $this->assertInternalType('string', $source);
 
@@ -84,13 +84,13 @@ abstract class RendererTestCase extends TestCase
     }
 
     /**
-     * @expectedException \LastCall\Mannequin\Core\Exception\UnsupportedPatternException
+     * @expectedException \LastCall\Mannequin\Core\Exception\UnsupportedComponentException
      */
     public function testRenderSourceUnsupported()
     {
-        $pattern = $this->getUnsupportedPattern();
+        $component = $this->getUnsupportedComponent();
         $this->getRenderer()->renderSource(
-            $pattern
+            $component
         );
     }
 }

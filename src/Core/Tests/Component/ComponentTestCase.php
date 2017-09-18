@@ -11,73 +11,74 @@
 
 namespace LastCall\Mannequin\Core\Tests\Component;
 
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Component\Sample;
 use LastCall\Mannequin\Core\Component\TemplateFileInterface;
 use PHPUnit\Framework\TestCase;
 
 abstract class ComponentTestCase extends TestCase
 {
-    const PATTERN_ID = 'foo';
+    const COMPONENT_ID = 'foo';
 
-    const PATTERN_ALIASES = ['bar'];
+    const COMPONENT_ALIASES = ['bar'];
 
     const TEMPLATE_FILE = '/foo/bar/baz';
 
     public function testGetId()
     {
-        $this->assertEquals(static::PATTERN_ID, $this->getPattern()->getId());
+        $this->assertEquals(static::COMPONENT_ID, $this->getComponent()->getId());
     }
 
-    abstract public function getPattern(): \LastCall\Mannequin\Core\Component\ComponentInterface;
+    abstract public function getComponent(): ComponentInterface;
 
     public function testGetAliases()
     {
         $this->assertEquals(
-            static::PATTERN_ALIASES,
-            $this->getPattern()->getAliases()
+            static::COMPONENT_ALIASES,
+            $this->getComponent()->getAliases()
         );
     }
 
     public function testGetSetName()
     {
-        $pattern = $this->getPattern();
-        $this->assertSame($pattern, $pattern->setName('Foobarbaz'));
-        $this->assertEquals('Foobarbaz', $pattern->getName());
+        $component = $this->getComponent();
+        $this->assertSame($component, $component->setName('Foobarbaz'));
+        $this->assertEquals('Foobarbaz', $component->getName());
     }
 
-    public function testPatternTagging()
+    public function testComponentMetadata()
     {
-        $pattern = $this->getPattern();
-        $this->assertEquals($pattern, $pattern->addMetadata('foo', 'bar'));
-        $this->assertArraySubset(['foo' => 'bar'], $pattern->getMetadata());
-        $this->assertTrue($pattern->hasMetadata('foo', 'bar'));
-        $this->assertFalse($pattern->hasMetadata('foo', 'baz'));
-        $pattern->addMetadata('foo', 'baz');
-        $this->assertTrue($pattern->hasMetadata('foo', 'baz'));
+        $component = $this->getComponent();
+        $this->assertEquals($component, $component->addMetadata('foo', 'bar'));
+        $this->assertArraySubset(['foo' => 'bar'], $component->getMetadata());
+        $this->assertTrue($component->hasMetadata('foo', 'bar'));
+        $this->assertFalse($component->hasMetadata('foo', 'baz'));
+        $component->addMetadata('foo', 'baz');
+        $this->assertTrue($component->hasMetadata('foo', 'baz'));
     }
 
     public function testVariants()
     {
-        $pattern = $this->getPattern();
-        $pattern->createVariant('default', 'Default');
+        $component = $this->getComponent();
+        $component->createVariant('default', 'Default');
         $this->assertEquals([
             'default' => new \LastCall\Mannequin\Core\Component\Sample('default', 'Default'),
-        ], $pattern->getVariants());
+        ], $component->getVariants());
 
-        $pattern->createVariant('default', 'Overridden');
+        $component->createVariant('default', 'Overridden');
         $this->assertEquals([
             'default' => new Sample('default', 'Overridden'),
-        ], $pattern->getVariants());
+        ], $component->getVariants());
     }
 
     public function testGetFile()
     {
-        $pattern = $this->getPattern();
-        if ($pattern instanceof TemplateFileInterface) {
-            $this->assertInstanceOf(\SplFileInfo::class, $pattern->getFile());
+        $component = $this->getComponent();
+        if ($component instanceof TemplateFileInterface) {
+            $this->assertInstanceOf(\SplFileInfo::class, $component->getFile());
             $this->assertEquals(
-                self::TEMPLATE_FILE,
-                $pattern->getFile()->getPathname()
+                static::TEMPLATE_FILE,
+                $component->getFile()->getPathname()
             );
         }
     }

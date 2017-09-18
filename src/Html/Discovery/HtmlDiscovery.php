@@ -37,7 +37,7 @@ class HtmlDiscovery implements DiscoveryInterface
 
     public function discover(): ComponentCollection
     {
-        $patterns = [];
+        $components = [];
         foreach ($this->files as $filenames) {
             // @todo: Clean this up and make it consistent with TwigDiscovery.
             if (!is_array($filenames)) {
@@ -51,15 +51,15 @@ class HtmlDiscovery implements DiscoveryInterface
             );
 
             $id = reset($filenames);
-            $pattern = new HtmlComponent(
+            $component = new HtmlComponent(
                 $this->encodeId($id),
                 $filenames,
                 new \SplFileInfo($id)
             );
-            $pattern->setName($id);
-            $patterns[] = $pattern;
+            $component->setName($id);
+            $components[] = $component;
         }
 
-        return new ComponentCollection($patterns);
+        return new ComponentCollection($components);
     }
 }

@@ -11,7 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Subscriber;
 
-use LastCall\Mannequin\Core\Event\PatternEvents;
+use LastCall\Mannequin\Core\Event\ComponentEvents;
 use LastCall\Mannequin\Core\Event\RenderEvent;
 use Symfony\Component\Asset\PackageInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -25,7 +25,7 @@ class GlobalAssetSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            PatternEvents::PRE_RENDER => 'addGlobalAssets',
+            ComponentEvents::PRE_RENDER => 'addGlobalAssets',
         ];
     }
 

@@ -12,10 +12,10 @@
 namespace LastCall\Mannequin\Core\Component;
 
 /**
- * Denotes a pattern that may be sourced from a file.
+ * Denotes a component that may be sourced from a file.
  *
  * NB: This does not necessarily mean that the template comes from a file,
- * just that it is of a type that may.  One example of this is Twig patterns,
+ * just that it is of a type that may.  One example of this is Twig components,
  * which often come from a file, but may also come from Twig_Loader_Array.
  */
 interface TemplateFileInterface extends ComponentInterface

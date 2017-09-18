@@ -13,7 +13,7 @@ namespace LastCall\Mannequin\Core\Console\Command;
 
 use LastCall\Mannequin\Core\Asset\AssetManager;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
-use LastCall\Mannequin\Core\PatternRenderer;
+use LastCall\Mannequin\Core\ComponentRenderer;
 use LastCall\Mannequin\Core\Ui\FileWriter;
 use LastCall\Mannequin\Core\Ui\ManifestBuilder;
 use LastCall\Mannequin\Core\Ui\UiInterface;
@@ -44,7 +44,7 @@ class RenderCommand extends Command
         DiscoveryInterface $discovery,
         UiInterface $ui,
         UrlGeneratorInterface $urlGenerator,
-        PatternRenderer $renderer,
+        ComponentRenderer $renderer,
         AssetManager $assetManager
     ) {
         parent::__construct($name);
@@ -84,28 +84,28 @@ class RenderCommand extends Command
             $writer->raw('manifest.json', json_encode($manifest));
             $rows[] = $this->getSuccessRow('Manifest');
 
-            foreach ($collection as $pattern) {
+            foreach ($collection as $component) {
                 try {
                     $writer->raw(
-                        $this->urlGenerator->generate('pattern_render_source_raw', ['pattern' => $pattern->getId()]),
-                        $renderer->renderSource($pattern)
+                        $this->urlGenerator->generate('component_render_source_raw', ['component' => $component->getId()]),
+                        $renderer->renderSource($component)
                     );
-                    foreach ($pattern->getVariants() as $variant) {
-                        $args = ['pattern' => $pattern->getId(), 'variant' => $variant->getId()];
-                        $urlGenerator->getContext()->setPathInfo($urlGenerator->generate('pattern_render', $args));
-                        $rendered = $renderer->render($collection, $pattern, $variant);
+                    foreach ($component->getVariants() as $variant) {
+                        $args = ['component' => $component->getId(), 'variant' => $variant->getId()];
+                        $urlGenerator->getContext()->setPathInfo($urlGenerator->generate('component_render', $args));
+                        $rendered = $renderer->render($collection, $component, $variant);
                         $writer->raw(
-                            $urlGenerator->generate('pattern_render', $args),
+                            $urlGenerator->generate('component_render', $args),
                             $this->ui->decorateRendered($rendered)
                         );
                         $writer->raw(
-                            $urlGenerator->generate('pattern_render_raw', $args),
+                            $urlGenerator->generate('component_render_raw', $args),
                             $rendered->getMarkup()
                         );
                     }
-                    $rows[] = $this->getSuccessRow($pattern->getName());
+                    $rows[] = $this->getSuccessRow($component->getName());
                 } catch (\Exception $e) {
-                    $rows[] = $this->getErrorRow($pattern->getName(), $e);
+                    $rows[] = $this->getErrorRow($component->getName(), $e);
                 }
             }
             try {

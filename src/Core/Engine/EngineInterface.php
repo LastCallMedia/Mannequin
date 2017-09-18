@@ -16,9 +16,9 @@ use LastCall\Mannequin\Core\Rendered;
 
 interface EngineInterface
 {
-    public function supports(ComponentInterface $pattern): bool;
+    public function supports(ComponentInterface $component): bool;
 
-    public function render(ComponentInterface $pattern, array $values = [], Rendered $rendered);
+    public function render(ComponentInterface $component, array $values = [], Rendered $rendered);
 
-    public function renderSource(ComponentInterface $pattern): string;
+    public function renderSource(ComponentInterface $component): string;
 }

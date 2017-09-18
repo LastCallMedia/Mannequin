@@ -1,9 +1,9 @@
-{% if _pattern %}{% block patterninfo %}
+{% if _component %}{% block componentinfo %}
 name: Subscribe form
 _description: A newsletter signup form
 _group: Molecule>Form
 variables:
-    button: pattern
+    button: component
 {% endblock %}{% endif %}
 <form>
     {% include 'form-input.twig' with {

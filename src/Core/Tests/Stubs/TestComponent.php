@@ -9,8 +9,10 @@
  * with this source code in the file LICENSE.
  */
 
-namespace LastCall\Mannequin\Core\Exception;
+namespace LastCall\Mannequin\Core\Tests\Stubs;
 
-class UnsupportedPatternException extends \InvalidArgumentException
+use LastCall\Mannequin\Core\Component\AbstractComponent;
+
+class TestComponent extends AbstractComponent
 {
 }

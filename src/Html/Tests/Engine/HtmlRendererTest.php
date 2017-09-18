@@ -19,7 +19,7 @@ use LastCall\Mannequin\Html\Engine\HtmlEngine;
 
 class HtmlRendererTest extends RendererTestCase
 {
-    public function getSupportedPattern(): ComponentInterface
+    public function getSupportedComponent(): ComponentInterface
     {
         return new HtmlComponent(
             'foo',

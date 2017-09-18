@@ -13,8 +13,8 @@ namespace LastCall\Mannequin\Core\Tests\Subscriber;
 
 use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Component\ComponentInterface;
-use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
-use LastCall\Mannequin\Core\Event\PatternEvents;
+use LastCall\Mannequin\Core\Event\ComponentDiscoveryEvent;
+use LastCall\Mannequin\Core\Event\ComponentEvents;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -22,16 +22,16 @@ trait DiscoverySubscriberTestTrait
 {
     protected function dispatchDiscover(
         EventSubscriberInterface $subscriber,
-        ComponentInterface $pattern,
+        ComponentInterface $component,
         ComponentCollection $collection = null
-    ): PatternDiscoveryEvent {
+    ): ComponentDiscoveryEvent {
         $dispatcher = new EventDispatcher();
         $dispatcher->addSubscriber($subscriber);
         $collection = $collection ?: new ComponentCollection();
 
         return $dispatcher->dispatch(
-            PatternEvents::DISCOVER,
-            new PatternDiscoveryEvent($pattern, $collection)
+            ComponentEvents::DISCOVER,
+            new ComponentDiscoveryEvent($component, $collection)
         );
     }
 }

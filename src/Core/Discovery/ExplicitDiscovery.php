@@ -15,15 +15,15 @@ use LastCall\Mannequin\Core\Component\ComponentCollection;
 
 class ExplicitDiscovery implements DiscoveryInterface
 {
-    private $patternCollection;
+    private $collection;
 
     public function __construct(ComponentCollection $collection)
     {
-        $this->patternCollection = $collection;
+        $this->collection = $collection;
     }
 
     public function discover(): ComponentCollection
     {
-        return $this->patternCollection;
+        return $this->collection;
     }
 }

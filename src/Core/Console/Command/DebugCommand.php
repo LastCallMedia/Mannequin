@@ -33,16 +33,16 @@ class DebugCommand extends Command
 
     public function configure()
     {
-        $this->setDescription('Display information on patterns and variable types');
+        $this->setDescription('Display information on components and variable types');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
 
-        $io->block('Patterns');
+        $io->block('Components');
         $manifest = $this->builder->generate($this->discovery->discover());
-        $yaml = Yaml::dump($manifest['patterns'], 5);
+        $yaml = Yaml::dump($manifest['components'], 5);
         $output->write($yaml);
     }
 }

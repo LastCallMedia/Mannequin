@@ -18,7 +18,7 @@ use LastCall\Mannequin\Twig\Component\TwigComponent;
 use LastCall\Mannequin\Twig\Subscriber\InlineTwigYamlMetadataSubscriber;
 use PHPUnit\Framework\TestCase;
 
-class InlineTwigYamlMetadataTest extends TestCase
+class InlineTwigYamlMetadataSubscriberTest extends TestCase
 {
     use DiscoverySubscriberTestTrait;
     use YamlParserProphecyTrait;
@@ -26,46 +26,46 @@ class InlineTwigYamlMetadataTest extends TestCase
     private function getTwig()
     {
         $loader = new \Twig_Loader_Array([
-            'with_info' => '{%block patterninfo %}myinfo{%endblock%}',
+            'with_info' => '{%block componentinfo %}myinfo{%endblock%}',
             'no_info' => '',
         ]);
 
         return new \Twig_Environment($loader);
     }
 
-    public function testReadsPatternInfoBlock()
+    public function testReadsComponentInfoBlock()
     {
         $parser = $this->prophesize(YamlMetadataParser::class);
         $parser->parse('myinfo', 'with_info')->shouldBeCalled();
         $twig = $this->getTwig();
         $source = $twig->getLoader()->getSourceContext('with_info');
-        $pattern = new TwigComponent('', [], $source, $twig);
+        $component = new TwigComponent('', [], $source, $twig);
         $subscriber = new InlineTwigYamlMetadataSubscriber($parser->reveal());
-        $this->dispatchDiscover($subscriber, $pattern);
+        $this->dispatchDiscover($subscriber, $component);
     }
 
-    public function testIgnoresPatternsWithNoInfoBlock()
+    public function testIgnoresComponentsWithNoInfoBlock()
     {
         $parser = $this->prophesize(YamlMetadataParser::class);
         $parser->parse()->shouldNotBeCalled();
         $twig = $this->getTwig();
         $source = $twig->getLoader()->getSourceContext('no_info');
-        $pattern = new TwigComponent('', [], $source, $twig);
+        $component = new TwigComponent('', [], $source, $twig);
         $subscriber = new InlineTwigYamlMetadataSubscriber($parser->reveal());
-        $this->dispatchDiscover($subscriber, $pattern);
+        $this->dispatchDiscover($subscriber, $component);
     }
 
     /**
      * @expectedException \LastCall\Mannequin\Core\Exception\TemplateParsingException
-     * @expectedExceptionMessage Twig error thrown during patterninfo generation of no_exist
+     * @expectedExceptionMessage Twig error thrown during componentinfo generation of no_exist
      */
     public function testHandlesTwigException()
     {
         $twig = $this->getTwig();
         $parser = $this->prophesize(YamlMetadataParser::class);
         $source = new \Twig_Source('', 'no_exist', '');
-        $pattern = new TwigComponent('', [], $source, $twig);
+        $component = new TwigComponent('', [], $source, $twig);
         $subscriber = new InlineTwigYamlMetadataSubscriber($parser->reveal());
-        $this->dispatchDiscover($subscriber, $pattern);
+        $this->dispatchDiscover($subscriber, $component);
     }
 }

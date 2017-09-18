@@ -48,8 +48,8 @@ class DelegatingRendererTest extends RendererTestCase
         );
     }
 
-    public function getSupportedPattern(): ComponentInterface
+    public function getSupportedComponent(): ComponentInterface
     {
-        return $this->createPattern('supported')->reveal();
+        return $this->createComponent('supported')->reveal();
     }
 }

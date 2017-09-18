@@ -26,46 +26,46 @@ class ManifestBuilder
 
     public function generate(ComponentCollection $collection)
     {
-        $manifest = ['patterns' => []];
+        $manifest = ['components' => []];
         $generator = $this->generator;
-        foreach ($collection as $pattern) {
-            $id = $pattern->getId();
-            $manifest['patterns'][] = [
+        foreach ($collection as $component) {
+            $id = $component->getId();
+            $manifest['components'][] = [
                 'id' => $id,
-                'name' => $pattern->getName(),
-                'problems' => $pattern->getProblems(),
+                'name' => $component->getName(),
+                'problems' => $component->getProblems(),
                 'source' => $generator->generate(
-                    'pattern_render_source_raw',
-                    ['pattern' => $id],
+                    'component_render_source_raw',
+                    ['component' => $id],
                     UrlGeneratorInterface::RELATIVE_PATH
                 ),
-                'metadata' => $pattern->getMetadata(),
-                'variants' => $this->generateVariants($pattern),
-                'used' => $this->generateUsed($pattern),
-                'aliases' => $pattern->getAliases(),
+                'metadata' => $component->getMetadata(),
+                'variants' => $this->generateVariants($component),
+                'used' => $this->generateUsed($component),
+                'aliases' => $component->getAliases(),
             ];
         }
 
         return $manifest;
     }
 
-    private function generateVariants(ComponentInterface $pattern)
+    private function generateVariants(ComponentInterface $component)
     {
         $variants = [];
         $generator = $this->generator;
-        foreach ($pattern->getVariants() as $id => $variant) {
+        foreach ($component->getVariants() as $id => $variant) {
             $variants[] = [
                 'id' => $variant->getId(),
                 'name' => $variant->getName(),
                 'metadata' => $variant->getMetadata(),
                 'source' => $generator->generate(
-                    'pattern_render_raw',
-                    ['pattern' => $pattern->getId(), 'variant' => $id],
+                    'component_render_raw',
+                    ['component' => $component->getId(), 'variant' => $id],
                     UrlGeneratorInterface::RELATIVE_PATH
                 ),
                 'rendered' => $generator->generate(
-                    'pattern_render',
-                    ['pattern' => $pattern->getId(), 'variant' => $id],
+                    'component_render',
+                    ['component' => $component->getId(), 'variant' => $id],
                     UrlGeneratorInterface::RELATIVE_PATH
                 ),
             ];
@@ -74,13 +74,13 @@ class ManifestBuilder
         return $variants;
     }
 
-    private function generateUsed(ComponentInterface $pattern)
+    private function generateUsed(ComponentInterface $component)
     {
         return array_map(
             function (ComponentInterface $used) {
                 return $used->getId();
             },
-            $pattern->getUsedComponents()
+            $component->getUsedComponents()
         );
     }
 }

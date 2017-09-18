@@ -15,22 +15,22 @@ use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Component\ComponentInterface;
 use Symfony\Component\EventDispatcher\Event;
 
-class PatternDiscoveryEvent extends Event
+class ComponentDiscoveryEvent extends Event
 {
-    private $pattern;
+    private $component;
     private $collection;
 
     public function __construct(
-        ComponentInterface $pattern,
+        ComponentInterface $component,
         ComponentCollection $collection
     ) {
-        $this->pattern = $pattern;
+        $this->component = $component;
         $this->collection = $collection;
     }
 
-    public function getPattern(): ComponentInterface
+    public function getComponent(): ComponentInterface
     {
-        return $this->pattern;
+        return $this->component;
     }
 
     public function getCollection(): ComponentCollection

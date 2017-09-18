@@ -43,61 +43,61 @@ class ComponentCollectionTest extends TestCase
 
     public function testIteration()
     {
-        $pattern1 = $this->getPattern('foo', 'bar');
-        $pattern2 = $this->getPattern('bar', 'baz');
+        $component1 = $this->getComponent('foo', 'bar');
+        $component2 = $this->getComponent('bar', 'baz');
 
-        $collection = new \LastCall\Mannequin\Core\Component\ComponentCollection([$pattern1, $pattern2]);
-        $patterns = [];
-        foreach ($collection as $pattern) {
-            $patterns[] = $pattern;
+        $collection = new \LastCall\Mannequin\Core\Component\ComponentCollection([$component1, $component2]);
+        $components = [];
+        foreach ($collection as $component) {
+            $components[] = $component;
         }
-        $this->assertEquals([$pattern1, $pattern2], $patterns);
+        $this->assertEquals([$component1, $component2], $components);
         $collection->rewind();
 
-        $patterns = [];
-        foreach ($collection as $pattern) {
-            $patterns[] = $pattern;
+        $components = [];
+        foreach ($collection as $component) {
+            $components[] = $component;
         }
-        $this->assertEquals([$pattern1, $pattern2], $patterns);
+        $this->assertEquals([$component1, $component2], $components);
     }
 
-    private function getPattern($id, $name, $aliases = [])
+    private function getComponent($id, $name, $aliases = [])
     {
-        $pattern = $this->prophesize(
+        $component = $this->prophesize(
             \LastCall\Mannequin\Core\Component\ComponentInterface::class);
-        $pattern->getId()->willReturn($id);
-        $pattern->getName()->willReturn($name);
-        $pattern->getAliases()->willReturn($aliases);
+        $component->getId()->willReturn($id);
+        $component->getName()->willReturn($name);
+        $component->getAliases()->willReturn($aliases);
 
-        return $pattern->reveal();
+        return $component->reveal();
     }
 
     public function testGet()
     {
-        $pattern = $this->getPattern('foo', 'bar');
-        $collection = new ComponentCollection([$pattern]);
-        $this->assertEquals($pattern, $collection->get('foo'));
+        $component = $this->getComponent('foo', 'bar');
+        $collection = new ComponentCollection([$component]);
+        $this->assertEquals($component, $collection->get('foo'));
     }
 
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage Unknown pattern bar
+     * @expectedExceptionMessage Unknown component bar
      */
     public function testGetInvalid()
     {
-        $pattern = $this->getPattern('foo', 'bar');
-        $collection = new ComponentCollection([$pattern]);
-        $this->assertEquals($pattern, $collection->get('bar'));
+        $component = $this->getComponent('foo', 'bar');
+        $collection = new ComponentCollection([$component]);
+        $this->assertEquals($component, $collection->get('bar'));
     }
 
     public function testGetByAlias()
     {
-        $pattern = $this->getPattern('foo', 'bar', ['baz']);
-        $collection = new ComponentCollection([$pattern]);
-        $this->assertEquals($pattern, $collection->get('baz'));
+        $component = $this->getComponent('foo', 'bar', ['baz']);
+        $collection = new ComponentCollection([$component]);
+        $this->assertEquals($component, $collection->get('baz'));
     }
 
-    public function getInvalidPatterns()
+    public function getInvalidComponents()
     {
         return [
             [['foo']],
@@ -106,33 +106,33 @@ class ComponentCollectionTest extends TestCase
     }
 
     /**
-     * @dataProvider getInvalidPatterns
+     * @dataProvider getInvalidComponents
      * @expectedException \RuntimeException
      */
-    public function testCreateWithInvalidPatterns(array $patterns)
+    public function testCreateWithInvalidComponents(array $components)
     {
-        new ComponentCollection($patterns);
+        new ComponentCollection($components);
     }
 
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage Duplicate pattern detected: foo
+     * @expectedExceptionMessage Duplicate component detected: foo
      */
-    public function testCreateWithDuplicatePatterns()
+    public function testCreateWithDuplicateComponents()
     {
-        $pattern1 = $this->getPattern('foo', 'bar');
-        $pattern2 = $this->getPattern('foo', 'baz');
-        new ComponentCollection([$pattern1, $pattern2]);
+        $component1 = $this->getComponent('foo', 'bar');
+        $component2 = $this->getComponent('foo', 'baz');
+        new ComponentCollection([$component1, $component2]);
     }
 
-    public function testMergeMergesPatterns()
+    public function testMergeMergesComponents()
     {
-        $pattern1 = $this->getPattern('foo', 'bar');
-        $pattern2 = $this->getPattern('bar', 'baz');
-        $collection1 = new ComponentCollection([$pattern1]);
-        $collection2 = new ComponentCollection([$pattern2]);
+        $component1 = $this->getComponent('foo', 'bar');
+        $component2 = $this->getComponent('bar', 'baz');
+        $collection1 = new ComponentCollection([$component1]);
+        $collection2 = new ComponentCollection([$component2]);
         $merged = $collection1->merge($collection2);
-        $this->assertEquals([$pattern1, $pattern2], $merged->getPatterns());
+        $this->assertEquals([$component1, $component2], $merged->getComponents());
     }
 
     public function testMergeKeepsNameAndId()
@@ -146,15 +146,15 @@ class ComponentCollectionTest extends TestCase
     /**
      * @expectedException \RuntimeException
      * @expectedExceptionMessage Merging these collections would result in the
-     *   following duplicate patterns: foo
+     *   following duplicate components: foo
      */
-    public function testMergeMergesSamePatterns()
+    public function testMergeMergesSameComponents()
     {
-        $pattern1 = $this->getPattern('foo', 'bar');
-        $pattern2 = $this->getPattern('foo', 'baz');
-        $collection1 = new ComponentCollection([$pattern1]);
-        $collection2 = new ComponentCollection([$pattern2]);
+        $component1 = $this->getComponent('foo', 'bar');
+        $component2 = $this->getComponent('foo', 'baz');
+        $collection1 = new ComponentCollection([$component1]);
+        $collection2 = new ComponentCollection([$component2]);
         $merged = $collection1->merge($collection2);
-        $this->assertEquals([$pattern1, $pattern2], $merged->getPatterns());
+        $this->assertEquals([$component1, $component2], $merged->getComponents());
     }
 }

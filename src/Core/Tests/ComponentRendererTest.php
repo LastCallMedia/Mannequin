@@ -13,77 +13,77 @@ namespace LastCall\Mannequin\Core\Tests;
 
 use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
-use LastCall\Mannequin\Core\Event\PatternEvents;
+use LastCall\Mannequin\Core\Event\ComponentEvents;
 use LastCall\Mannequin\Core\Event\RenderEvent;
-use LastCall\Mannequin\Core\PatternRenderer;
+use LastCall\Mannequin\Core\ComponentRenderer;
 use LastCall\Mannequin\Core\Rendered;
-use LastCall\Mannequin\Core\Tests\Stubs\TestFilePattern;
+use LastCall\Mannequin\Core\Tests\Stubs\TestFileComponent;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class PatternRendererTest extends TestCase
+class ComponentRendererTest extends TestCase
 {
     public function testDispatchesEvents()
     {
         $eventProphecy = Argument::that(function ($arg) {
             return $arg instanceof RenderEvent && $arg->isRoot();
         });
-        $pattern = new TestFilePattern('foo', [], new \SplFileInfo(__FILE__));
-        $variant = $pattern->createVariant('foo', 'Foo');
+        $component = new TestFileComponent('foo', [], new \SplFileInfo(__FILE__));
+        $variant = $component->createVariant('foo', 'Foo');
 
         $dispatcher = $this->prophesize(EventDispatcherInterface::class);
         $dispatcher
-            ->dispatch(PatternEvents::PRE_RENDER, $eventProphecy)
+            ->dispatch(ComponentEvents::PRE_RENDER, $eventProphecy)
             ->shouldBeCalled();
         $dispatcher
-            ->dispatch(PatternEvents::POST_RENDER, $eventProphecy)
+            ->dispatch(ComponentEvents::POST_RENDER, $eventProphecy)
             ->shouldBeCalled();
 
         $engine = $this->prophesize(EngineInterface::class);
         $engine
-            ->render($pattern, [], Argument::type(Rendered::class))
+            ->render($component, [], Argument::type(Rendered::class))
             ->shouldBeCalled();
-        $renderer = new PatternRenderer($engine->reveal(), $dispatcher->reveal());
+        $renderer = new ComponentRenderer($engine->reveal(), $dispatcher->reveal());
 
-        $renderer->render(new ComponentCollection(), $pattern, $variant);
+        $renderer->render(new ComponentCollection(), $component, $variant);
     }
 
     public function testSetsIsRoot()
     {
         $collection = new ComponentCollection();
-        $pattern = new TestFilePattern('foo', [], new \SplFileInfo(__FILE__));
-        $variant = $pattern->createVariant('foo', 'Foo');
+        $component = new TestFileComponent('foo', [], new \SplFileInfo(__FILE__));
+        $variant = $component->createVariant('foo', 'Foo');
 
-        $firstEventProphecy = Argument::that(function ($arg) use (&$renderer, $pattern, $variant) {
+        $firstEventProphecy = Argument::that(function ($arg) use (&$renderer, $component, $variant) {
             return $arg instanceof RenderEvent && $arg->isRoot();
         });
-        $secondEventProphecy = Argument::that(function ($arg) use (&$renderer, $pattern, $variant) {
+        $secondEventProphecy = Argument::that(function ($arg) use (&$renderer, $component, $variant) {
             return $arg instanceof RenderEvent && !$arg->isRoot();
         });
         $dispatcher = $this->prophesize(EventDispatcherInterface::class);
         $dispatcher
-            ->dispatch(PatternEvents::PRE_RENDER, $firstEventProphecy)
-            ->will(function () use (&$renderer, $collection, $pattern, $variant) {
-                $renderer->render($collection, $pattern, $variant);
+            ->dispatch(ComponentEvents::PRE_RENDER, $firstEventProphecy)
+            ->will(function () use (&$renderer, $collection, $component, $variant) {
+                $renderer->render($collection, $component, $variant);
             })
             ->shouldBeCalledTimes(1);
         $dispatcher
-            ->dispatch(PatternEvents::PRE_RENDER, $secondEventProphecy)
+            ->dispatch(ComponentEvents::PRE_RENDER, $secondEventProphecy)
             ->shouldBeCalledTimes(1);
 
         $dispatcher
-            ->dispatch(PatternEvents::POST_RENDER, $firstEventProphecy)
+            ->dispatch(ComponentEvents::POST_RENDER, $firstEventProphecy)
             ->shouldBeCalledTimes(1);
         $dispatcher
-            ->dispatch(PatternEvents::POST_RENDER, $secondEventProphecy)
+            ->dispatch(ComponentEvents::POST_RENDER, $secondEventProphecy)
             ->shouldBeCalledTimes(1);
 
         $engine = $this->prophesize(EngineInterface::class);
         $engine
-            ->render($pattern, [], Argument::type(Rendered::class))
+            ->render($component, [], Argument::type(Rendered::class))
             ->shouldBeCalled();
-        $renderer = new PatternRenderer($engine->reveal(), $dispatcher->reveal());
-        $renderer->render($collection, $pattern, $variant);
+        $renderer = new ComponentRenderer($engine->reveal(), $dispatcher->reveal());
+        $renderer->render($collection, $component, $variant);
     }
 }

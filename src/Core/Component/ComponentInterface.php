@@ -16,44 +16,44 @@ use LastCall\Mannequin\Core\Variable\VariableSet;
 interface ComponentInterface
 {
     /**
-     * Get the unique identifier for the pattern.
+     * Get the unique identifier for the component.
      *
      * @return string
      */
     public function getId(): string;
 
     /**
-     * Get other unique identifiers this pattern is known by.
+     * Get other unique identifiers this component is known by.
      *
      * @return array
      */
     public function getAliases(): array;
 
     /**
-     * Get the human readable name of the pattern.
+     * Get the human readable name of the component.
      *
      * @return string
      */
     public function getName(): string;
 
     /**
-     * Set the human readable name of the pattern.
+     * Set the human readable name of the component.
      *
      * @param string $name
      *
-     * @return \LastCall\Mannequin\Core\Pattern\ComponentInterface
+     * @return \LastCall\Mannequin\Core\Component\ComponentInterface
      */
     public function setName(string $name): ComponentInterface;
 
     /**
-     * Get all the tags on the pattern.
+     * Get all the tags on the component.
      *
      * @return array
      */
     public function getMetadata(): MetadataCollection;
 
     /**
-     * Check whether the pattern has a given tag.
+     * Check whether the component has a given tag.
      *
      * @param $name
      * @param $value
@@ -63,7 +63,7 @@ interface ComponentInterface
     public function hasMetadata(string $name, $value): bool;
 
     /**
-     * Add a new tag to the pattern.
+     * Add a new tag to the component.
      *
      * @param $name
      * @param $value
@@ -80,7 +80,7 @@ interface ComponentInterface
     public function getVariants(): array;
 
     /**
-     * Check whether the pattern has a named variant.
+     * Check whether the component has a named variant.
      *
      * @param string $name
      *
@@ -98,32 +98,32 @@ interface ComponentInterface
     public function getVariant(string $name): Sample;
 
     /**
-     * Add a pattern that this pattern uses in the course of rendering.
+     * Add a component that this component uses in the course of rendering.
      *
-     * @param \LastCall\Mannequin\Core\Pattern\ComponentInterface $pattern
+     * @param \LastCall\Mannequin\Core\Component\ComponentInterface $component
      *
-     * @return \LastCall\Mannequin\Core\Pattern\ComponentInterface
+     * @return \LastCall\Mannequin\Core\Component\ComponentInterface
      */
-    public function addUsedComponent(ComponentInterface $pattern): ComponentInterface;
+    public function addUsedComponent(ComponentInterface $component): ComponentInterface;
 
     /**
-     * Get all of the patterns that this pattern "uses".
+     * Get all of the components that this component "uses".
      *
      * @return array
      */
     public function getUsedComponents(): array;
 
     /**
-     * Note a problem during the discovery process for this pattern.
+     * Note a problem during the discovery process for this component.
      *
      * @param string $problem
      *
-     * @return \LastCall\Mannequin\Core\Pattern\ComponentInterface
+     * @return \LastCall\Mannequin\Core\Component\ComponentInterface
      */
     public function addProblem(string $problem): ComponentInterface;
 
     /**
-     * Get an array of all problems with this pattern.
+     * Get an array of all problems with this component.
      *
      * @return array
      */

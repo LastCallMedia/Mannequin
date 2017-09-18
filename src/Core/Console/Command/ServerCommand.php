@@ -43,7 +43,7 @@ class ServerCommand extends Command
 
     public function configure()
     {
-        $this->setDescription('Start a web server for live pattern development');
+        $this->setDescription('Start a web server for live component development');
         $this->addArgument(
             'address',
             InputArgument::OPTIONAL,

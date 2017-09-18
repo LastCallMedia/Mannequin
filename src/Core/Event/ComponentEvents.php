@@ -11,9 +11,9 @@
 
 namespace LastCall\Mannequin\Core\Event;
 
-class PatternEvents
+class ComponentEvents
 {
-    const DISCOVER = 'pattern.discover';
-    const PRE_RENDER = 'pattern.pre_render';
-    const POST_RENDER = 'pattern.post_render';
+    const DISCOVER = 'component.discover';
+    const PRE_RENDER = 'component.pre_render';
+    const POST_RENDER = 'component.post_render';
 }

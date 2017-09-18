@@ -53,7 +53,7 @@ class TwigDiscoveryTest extends TestCase
         $this->assertCount(0, $collection);
     }
 
-    public function testDiscoversPatternCollection()
+    public function testDiscoversCollection()
     {
         $driver = $this->getDriver($this->getTwig());
         $discovery = new TwigDiscovery($driver, ['form-input.twig']);
@@ -65,65 +65,65 @@ class TwigDiscoveryTest extends TestCase
     }
 
     /**
-     * @depends testDiscoversPatternCollection
+     * @depends testDiscoversCollection
      */
-    public function testDiscoversPattern(ComponentCollection $collection)
+    public function testDiscoversComponent(ComponentCollection $collection)
     {
-        $pattern = $collection->get(
+        $component = $collection->get(
             $this->encodeId('form-input.twig')
         );
-        $this->assertInstanceOf(TwigComponent::class, $pattern);
+        $this->assertInstanceOf(TwigComponent::class, $component);
 
-        return $pattern;
+        return $component;
     }
 
     /**
-     * @depends testDiscoversPattern
+     * @depends testDiscoversComponent
      */
-    public function testSetsId(TwigComponent $pattern)
+    public function testSetsId(TwigComponent $component)
     {
         $this->assertEquals(
             $this->encodeId('form-input.twig'),
-            $pattern->getId()
+            $component->getId()
         );
     }
 
     /**
-     * @depends testDiscoversPattern
+     * @depends testDiscoversComponent
      */
-    public function testSetsName(TwigComponent $pattern)
+    public function testSetsName(TwigComponent $component)
     {
-        $this->assertEquals('form-input.twig', $pattern->getName());
+        $this->assertEquals('form-input.twig', $component->getName());
     }
 
     /**
-     * @depends testDiscoversPattern
+     * @depends testDiscoversComponent
      */
-    public function testSetsAliases(TwigComponent $pattern)
+    public function testSetsAliases(TwigComponent $component)
     {
-        $this->assertEquals(['form-input.twig'], $pattern->getAliases());
+        $this->assertEquals(['form-input.twig'], $component->getAliases());
     }
 
     /**
-     * @depends testDiscoversPattern
+     * @depends testDiscoversComponent
      */
-    public function testSetsFilename(TwigComponent $pattern)
+    public function testSetsFilename(TwigComponent $component)
     {
-        $this->assertFalse($pattern->getFile());
+        $this->assertFalse($component->getFile());
     }
 
     /**
-     * @depends testDiscoversPattern
+     * @depends testDiscoversComponent
      */
-    public function testSetsSource(TwigComponent $pattern)
+    public function testSetsSource(TwigComponent $component)
     {
-        $source = $pattern->getSource();
+        $source = $component->getSource();
         $this->assertInstanceOf(\Twig_Source::class, $source);
         $this->assertEquals('form-input.twig', $source->getName());
     }
 
     /**
-     * @expectedException \LastCall\Mannequin\Core\Exception\UnsupportedPatternException
+     * @expectedException \LastCall\Mannequin\Core\Exception\UnsupportedComponentException
      * @expectedExceptionMessage Unable to load some-nonexistent-file.twig
      */
     public function testThrowsExceptionOnNonLoadableTemplates()

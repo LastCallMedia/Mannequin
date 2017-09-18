@@ -11,7 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Subscriber;
 
-use LastCall\Mannequin\Core\Event\PatternEvents;
+use LastCall\Mannequin\Core\Event\ComponentEvents;
 use LastCall\Mannequin\Core\Event\RenderEvent;
 use LastCall\Mannequin\Core\Variable\VariableResolver;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -23,7 +23,7 @@ class VariableResolverSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            PatternEvents::PRE_RENDER => 'resolveVariables',
+            ComponentEvents::PRE_RENDER => 'resolveVariables',
         ];
     }
 
@@ -38,7 +38,7 @@ class VariableResolverSubscriber implements EventSubscriberInterface
 
         $variables = $this->resolver->resolve($variant->getVariables(), [
             'collection' => $event->getCollection(),
-            'pattern' => $event->getPattern(),
+            'component' => $event->getComponent(),
             'variant' => $variant,
             'rendered' => $event->getRendered(),
         ]);

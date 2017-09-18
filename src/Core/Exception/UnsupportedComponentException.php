@@ -11,6 +11,6 @@
 
 namespace LastCall\Mannequin\Core\Exception;
 
-class PatternNotFoundException extends \RuntimeException
+class UnsupportedComponentException extends \InvalidArgumentException
 {
 }

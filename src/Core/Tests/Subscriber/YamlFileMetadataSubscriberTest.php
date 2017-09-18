@@ -14,7 +14,7 @@ namespace LastCall\Mannequin\Core\Tests\Subscriber;
 use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Component\Sample;
 use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
-use LastCall\Mannequin\Core\Tests\Stubs\TestFilePattern;
+use LastCall\Mannequin\Core\Tests\Stubs\TestFileComponent;
 use LastCall\Mannequin\Core\Tests\YamlParserProphecyTrait;
 use LastCall\Mannequin\Core\Variable\Variable;
 use LastCall\Mannequin\Core\Variable\VariableSet;
@@ -54,44 +54,44 @@ class YamlFileMetadataSubscriberTest extends TestCase
             ],
             $this->yamlFile
         );
-        $pattern = new TestFilePattern('foo', [], new \SplFileInfo($this->templateFile));
+        $component = new TestFileComponent('foo', [], new \SplFileInfo($this->templateFile));
         $event = $this->dispatchDiscover(
             new YamlFileMetadataSubscriber($parser->reveal()),
-            $pattern
+            $component
         );
-        $this->assertInstanceOf(TestFilePattern::class, $event->getPattern());
+        $this->assertInstanceOf(TestFileComponent::class, $event->getComponent());
 
-        return $event->getPattern();
+        return $event->getComponent();
     }
 
     /**
      * @depends testParsesMetadata
      */
-    public function testSetsPatternName(TestFilePattern $pattern)
+    public function testSetsComponentName(TestFileComponent $component)
     {
-        $this->assertEquals('Foo', $pattern->getName());
+        $this->assertEquals('Foo', $component->getName());
     }
 
     /**
      * @depends testParsesMetadata
      */
-    public function testSetsPatternTags(TestFilePattern $pattern)
+    public function testSetsComponentTags(TestFileComponent $component)
     {
-        $this->assertArraySubset(['foo' => 'bar'], $pattern->getMetadata());
+        $this->assertArraySubset(['foo' => 'bar'], $component->getMetadata());
     }
 
     /**
      * @depends testParsesMetadata
      */
-    public function testAddsVariant(TestFilePattern $pattern)
+    public function testAddsVariant(TestFileComponent $component)
     {
-        $this->assertTrue($pattern->hasVariant('additional'));
+        $this->assertTrue($component->hasVariant('additional'));
         $expectedVariant = new Sample(
             'additional',
             'Additional',
             new VariableSet(['var1' => new Variable('simple', 'foo')])
         );
-        $this->assertEquals($expectedVariant, $pattern->getVariant('additional'));
+        $this->assertEquals($expectedVariant, $component->getVariant('additional'));
     }
 
     public function testParsesOverrideMetadata()
@@ -111,37 +111,37 @@ class YamlFileMetadataSubscriberTest extends TestCase
             ],
             $this->yamlFile
         );
-        $pattern = new TestFilePattern('foo', [], new \SplFileInfo($this->templateFile));
-        $pattern->addMetadata('foo', 'bar');
+        $component = new TestFileComponent('foo', [], new \SplFileInfo($this->templateFile));
+        $component->addMetadata('foo', 'bar');
         $event = $this->dispatchDiscover(
             new YamlFileMetadataSubscriber($parser->reveal()),
-            $pattern
+            $component
         );
-        $this->assertInstanceOf(TestFilePattern::class, $event->getPattern());
+        $this->assertInstanceOf(TestFileComponent::class, $event->getComponent());
 
-        return $event->getPattern();
+        return $event->getComponent();
     }
 
     /**
      * @depends testParsesOverrideMetadata
      */
-    public function testOverridesTags(ComponentInterface $pattern)
+    public function testOverridesTags(ComponentInterface $component)
     {
         $this->assertArraySubset([
             'foo' => 'baz',
-        ], $pattern->getMetadata());
+        ], $component->getMetadata());
     }
 
     /**
      * @depends testParsesOverrideMetadata
      */
-    public function testOverridesDefaultVariant(ComponentInterface $pattern)
+    public function testOverridesDefaultVariant(ComponentInterface $component)
     {
         $expectedVariant = new Sample(
             'default',
             'Overridden',
             new VariableSet(['var1' => new Variable('simple', 'foo')])
         );
-        $this->assertEquals($expectedVariant, $pattern->getVariant('default'));
+        $this->assertEquals($expectedVariant, $component->getVariant('default'));
     }
 }

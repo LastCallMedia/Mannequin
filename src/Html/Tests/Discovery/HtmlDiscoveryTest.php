@@ -30,62 +30,62 @@ class HtmlDiscoveryTest extends TestCase
         return $discoverer->discover();
     }
 
-    public function testDiscoversPattern()
+    public function testDiscoversComponent()
     {
         $id = __DIR__.'/../Resources/button.html';
-        $pattern = $this->discoverFixtureCollection()->get(
+        $component = $this->discoverFixtureCollection()->get(
             $this->encodeId($id)
         );
-        $this->assertInstanceOf(HtmlComponent::class, $pattern);
+        $this->assertInstanceOf(HtmlComponent::class, $component);
 
-        return $pattern;
+        return $component;
     }
 
     /**
-     * @depends testDiscoversPattern
+     * @depends testDiscoversComponent
      */
-    public function testSetsId(HtmlComponent $pattern)
+    public function testSetsId(HtmlComponent $component)
     {
         $id = __DIR__.'/../Resources/button.html';
-        $this->assertEquals($this->encodeId($id), $pattern->getId());
+        $this->assertEquals($this->encodeId($id), $component->getId());
     }
 
     /**
-     * @depends testDiscoversPattern
+     * @depends testDiscoversComponent
      */
-    public function testHasDefaultTags(HtmlComponent $pattern)
+    public function testHasDefaultTags(HtmlComponent $component)
     {
         $this->assertArraySubset([
             'group' => 'Unknown',
             'source_format' => 'html',
-        ], $pattern->getMetadata());
+        ], $component->getMetadata());
     }
 
     /**
-     * @depends testDiscoversPattern
+     * @depends testDiscoversComponent
      */
-    public function testSetsName(HtmlComponent $pattern)
+    public function testSetsName(HtmlComponent $component)
     {
         $name = __DIR__.'/../Resources/button.html';
-        $this->assertEquals($name, $pattern->getName());
+        $this->assertEquals($name, $component->getName());
     }
 
     /**
-     * @depends testDiscoversPattern
+     * @depends testDiscoversComponent
      */
-    public function testSetsFile(HtmlComponent $pattern)
+    public function testSetsFile(HtmlComponent $component)
     {
         $file = __DIR__.'/../Resources/button.html';
-        $this->assertEquals($file, $pattern->getFile()->getPathname());
+        $this->assertEquals($file, $component->getFile()->getPathname());
     }
 
     /**
-     * @depends testDiscoversPattern
+     * @depends testDiscoversComponent
      */
-    public function testSetsAliases(HtmlComponent $pattern)
+    public function testSetsAliases(HtmlComponent $component)
     {
         $file = __DIR__.'/../Resources/button.html';
-        $this->assertEquals([$file], $pattern->getAliases());
+        $this->assertEquals([$file], $component->getAliases());
     }
 
     public function testReturnsCollectionOnEmpty()

@@ -25,7 +25,7 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
     public function getFunctions()
     {
         return [
-            $this->getPatternExpressionFunction(),
+            $this->getComponentExpressionFunction(),
             $this->getMarkupExpressionFunction(),
             $this->getAssetExpressionFunction(),
         ];
@@ -43,18 +43,18 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
         $dispatcher->addSubscriber(new VariableResolverSubscriber($this->mannequin->getVariableResolver()));
     }
 
-    private function getPatternExpressionFunction()
+    private function getComponentExpressionFunction()
     {
-        return new ExpressionFunction('pattern', function ($arguments, $pid) {
-            throw new \ErrorException('Pattern expressions cannot yet be compiled.');
+        return new ExpressionFunction('component', function ($arguments, $pid) {
+            throw new \ErrorException('Component expressions cannot yet be compiled.');
         }, function ($context, $pid) {
             /** @var \LastCall\Mannequin\Core\Component\ComponentCollection $collection */
             $collection = $context['collection'];
-            $pattern = $collection->get($pid);
-            $variant = reset($pattern->getVariants());
+            $component = $collection->get($pid);
+            $variant = reset($component->getVariants());
             $renderer = $this->mannequin->getRenderer();
 
-            return $renderer->render($collection, $pattern, $variant);
+            return $renderer->render($collection, $component, $variant);
         });
     }
 
