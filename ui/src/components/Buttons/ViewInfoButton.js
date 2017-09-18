@@ -4,7 +4,7 @@ import './ViewInfoButton.css';
 
 const ViewInfoButton = props =>
   <button className="ViewInfoButton" {...props}>
-    View Pattern Info
+    View Info
   </button>;
 
 ViewInfoButton.propTypes = {

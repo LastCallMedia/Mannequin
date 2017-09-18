@@ -11,15 +11,15 @@
 
 namespace LastCall\Mannequin\Twig\Discovery;
 
+use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Discovery\IdEncoder;
-use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
+use LastCall\Mannequin\Core\Exception\UnsupportedComponentException;
 use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
-use LastCall\Mannequin\Twig\Pattern\TwigPattern;
+use LastCall\Mannequin\Twig\Component\TwigComponent;
 
 /**
- * This class converts an iterable object of template names into TwigPattern
+ * This class converts an iterable object of template names into TwigComponent
  * objects by using the Twig driver.
  */
 class TwigDiscovery implements DiscoveryInterface
@@ -44,29 +44,29 @@ class TwigDiscovery implements DiscoveryInterface
     /**
      * {@inheritdoc}
      */
-    public function discover(): PatternCollection
+    public function discover(): ComponentCollection
     {
         $twig = $this->driver->getTwig();
-        $patterns = [];
+        $components = [];
         foreach ($this->names as $names) {
             try {
                 $aliases = (array) $names;
                 $name = reset($aliases);
-                $pattern = new TwigPattern(
+                $component = new TwigComponent(
                     $this->encodeId($name),
                     $aliases,
                     $twig->load($name)->getSourceContext(),
                     $twig
                 );
-                $pattern->setName($name);
-                $patterns[] = $pattern;
+                $component->setName($name);
+                $components[] = $component;
             } catch (\Twig_Error_Loader $e) {
-                throw new UnsupportedPatternException(
+                throw new UnsupportedComponentException(
                     sprintf('Unable to load %s', reset($names)), 0, $e
                 );
             }
         }
 
-        return new PatternCollection($patterns);
+        return new ComponentCollection($components);
     }
 }

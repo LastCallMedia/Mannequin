@@ -7,7 +7,7 @@ Contains the Drupal extension for [Mannequin](https://github.com/LastCallMedia/M
 
 When would I use this?
 -----------------------
-When you want to display Drupal 8 Twig templates as Mannequin patterns.
+When you want to display Drupal 8 Twig templates as Mannequin components.
 
 Installing
 ----------

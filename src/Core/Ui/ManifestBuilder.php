@@ -11,8 +11,8 @@
 
 namespace LastCall\Mannequin\Core\Ui;
 
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Component\ComponentCollection;
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ManifestBuilder
@@ -24,63 +24,63 @@ class ManifestBuilder
         $this->generator = $generator;
     }
 
-    public function generate(PatternCollection $collection)
+    public function generate(ComponentCollection $collection)
     {
-        $manifest = ['patterns' => []];
+        $manifest = ['components' => []];
         $generator = $this->generator;
-        foreach ($collection as $pattern) {
-            $id = $pattern->getId();
-            $manifest['patterns'][] = [
+        foreach ($collection as $component) {
+            $id = $component->getId();
+            $manifest['components'][] = [
                 'id' => $id,
-                'name' => $pattern->getName(),
-                'problems' => $pattern->getProblems(),
+                'name' => $component->getName(),
+                'problems' => $component->getProblems(),
                 'source' => $generator->generate(
-                    'pattern_render_source_raw',
-                    ['pattern' => $id],
+                    'component_render_source_raw',
+                    ['component' => $id],
                     UrlGeneratorInterface::RELATIVE_PATH
                 ),
-                'metadata' => $pattern->getMetadata(),
-                'variants' => $this->generateVariants($pattern),
-                'used' => $this->generateUsed($pattern),
-                'aliases' => $pattern->getAliases(),
+                'metadata' => $component->getMetadata(),
+                'samples' => $this->generateSamples($component),
+                'used' => $this->generateUsed($component),
+                'aliases' => $component->getAliases(),
             ];
         }
 
         return $manifest;
     }
 
-    private function generateVariants(PatternInterface $pattern)
+    private function generateSamples(ComponentInterface $component)
     {
-        $variants = [];
+        $samples = [];
         $generator = $this->generator;
-        foreach ($pattern->getVariants() as $id => $variant) {
-            $variants[] = [
-                'id' => $variant->getId(),
-                'name' => $variant->getName(),
-                'metadata' => $variant->getMetadata(),
+        foreach ($component->getSamples() as $id => $sample) {
+            $samples[] = [
+                'id' => $sample->getId(),
+                'name' => $sample->getName(),
+                'metadata' => $sample->getMetadata(),
                 'source' => $generator->generate(
-                    'pattern_render_raw',
-                    ['pattern' => $pattern->getId(), 'variant' => $id],
+                    'component_render_raw',
+                    ['component' => $component->getId(), 'sample' => $id],
                     UrlGeneratorInterface::RELATIVE_PATH
                 ),
                 'rendered' => $generator->generate(
-                    'pattern_render',
-                    ['pattern' => $pattern->getId(), 'variant' => $id],
+                    'component_render',
+                    ['component' => $component->getId(), 'sample' => $id],
                     UrlGeneratorInterface::RELATIVE_PATH
                 ),
             ];
         }
 
-        return $variants;
+        return $samples;
     }
 
-    private function generateUsed(PatternInterface $pattern)
+    private function generateUsed(ComponentInterface $component)
     {
         return array_map(
-            function (PatternInterface $used) {
+            function (ComponentInterface $used) {
                 return $used->getId();
             },
-            $pattern->getUsedPatterns()
+            $component->getUsedComponents()
         );
     }
 }

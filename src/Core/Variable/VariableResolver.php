@@ -16,7 +16,7 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 /**
  * Handles resolving VariableSets and Variables to their native values.
  *
- * This class is only used right before patterns are rendered.
+ * This class is only used right before components are rendered.
  */
 final class VariableResolver
 {

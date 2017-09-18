@@ -11,12 +11,12 @@
 
 namespace LastCall\Mannequin\Twig\Tests\Engine;
 
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Rendered;
 use LastCall\Mannequin\Core\Tests\Engine\RendererTestCase;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
-use LastCall\Mannequin\Twig\Pattern\TwigPattern;
+use LastCall\Mannequin\Twig\Component\TwigComponent;
 
 class TwigRendererTest extends RendererTestCase
 {
@@ -33,23 +33,23 @@ class TwigRendererTest extends RendererTestCase
             ->shouldBeCalled();
 
         $source = new \Twig_Source('', 'wrapped', '');
-        $pattern = new TwigPattern('wrapping', [], $source, $twig->reveal());
+        $component = new TwigComponent('wrapping', [], $source, $twig->reveal());
 
         $engine = new TwigEngine();
-        $rendered = new Rendered(['@pattern_css'], ['@pattern_js']);
+        $rendered = new Rendered();
         $rendered->setMarkup('bar');
 
         $output = new Rendered();
-        $engine->render($pattern, ['foo' => $rendered], $output);
+        $engine->render($component, ['foo' => $rendered], $output);
     }
 
-    public function getSupportedPattern(): PatternInterface
+    public function getSupportedComponent(): ComponentInterface
     {
         $twig = new \Twig_Environment(new \Twig_Loader_Array([
             'test' => 'This is {{"html"}}',
         ]));
         $source = $twig->load('test')->getSourceContext();
 
-        return new TwigPattern('supported', [], $source, $twig);
+        return new TwigComponent('supported', [], $source, $twig);
     }
 }

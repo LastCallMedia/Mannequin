@@ -11,6 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Extension;
 
+use LastCall\Mannequin\Core\Rendered;
 use LastCall\Mannequin\Core\Subscriber\GlobalAssetSubscriber;
 use LastCall\Mannequin\Core\Subscriber\LastChanceNameSubscriber;
 use LastCall\Mannequin\Core\Subscriber\VariableResolverSubscriber;
@@ -18,14 +19,13 @@ use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
-use LastCall\Mannequin\Core\Rendered;
 
 class CoreExtension extends AbstractExtension implements ExpressionFunctionProviderInterface
 {
     public function getFunctions()
     {
         return [
-            $this->getPatternExpressionFunction(),
+            $this->getComponentExpressionFunction(),
             $this->getMarkupExpressionFunction(),
             $this->getAssetExpressionFunction(),
         ];
@@ -43,18 +43,18 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
         $dispatcher->addSubscriber(new VariableResolverSubscriber($this->mannequin->getVariableResolver()));
     }
 
-    private function getPatternExpressionFunction()
+    private function getComponentExpressionFunction()
     {
-        return new ExpressionFunction('pattern', function ($arguments, $pid) {
-            throw new \ErrorException('Pattern expressions cannot yet be compiled.');
+        return new ExpressionFunction('component', function ($arguments, $pid) {
+            throw new \ErrorException('Component expressions cannot yet be compiled.');
         }, function ($context, $pid) {
-            /** @var \LastCall\Mannequin\Core\Pattern\PatternCollection $collection */
+            /** @var \LastCall\Mannequin\Core\Component\ComponentCollection $collection */
             $collection = $context['collection'];
-            $pattern = $collection->get($pid);
-            $variant = reset($pattern->getVariants());
+            $component = $collection->get($pid);
+            $sample = reset($component->getSamples());
             $renderer = $this->mannequin->getRenderer();
 
-            return $renderer->render($collection, $pattern, $variant);
+            return $renderer->render($collection, $component, $sample);
         });
     }
 

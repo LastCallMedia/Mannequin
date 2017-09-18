@@ -52,34 +52,34 @@ class YamlMetadataParser
         $metadata += [
             'name' => '',
             'tags' => [],
-            'variants' => [],
+            'samples' => [],
         ];
 
         return [
             'name' => $this->extractName($metadata, $exceptionIdentifier),
             'tags' => $this->extractTags($metadata),
-            'variants' => $this->extractVariants($metadata, $exceptionIdentifier),
+            'samples' => $this->extractSamples($metadata, $exceptionIdentifier),
         ];
     }
 
-    private function extractVariants(array $metadata, $exceptionIdentifier)
+    private function extractSamples(array $metadata, $exceptionIdentifier)
     {
-        $metadata += ['variants' => []];
-        if (!is_array($metadata['variants'])) {
+        $metadata += ['samples' => []];
+        if (!is_array($metadata['samples'])) {
             throw new TemplateParsingException(
                 sprintf(
-                    'variants must be an array in %s',
+                    'samples must be an array in %s',
                     $exceptionIdentifier
                 )
             );
         }
 
-        $variants = [];
-        foreach ($metadata['variants'] as $key => $definition) {
+        $samples = [];
+        foreach ($metadata['samples'] as $key => $definition) {
             if (!is_array($definition)) {
                 throw new TemplateParsingException(
                     sprintf(
-                        'variant %s must be an array in %s',
+                        'sample %s must be an array in %s',
                         $key,
                         $exceptionIdentifier
                     )
@@ -92,14 +92,14 @@ class YamlMetadataParser
                 $name = $tags['name'];
                 unset($tags['name']);
             }
-            $variants[$key] = [
+            $samples[$key] = [
                 'name' => $name,
                 'tags' => $tags,
                 'variables' => $this->variableParser->parse($definition),
             ];
         }
 
-        return $variants;
+        return $samples;
     }
 
     private function extractName(array $metadata, $exceptionIdentifier)

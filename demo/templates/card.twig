@@ -1,19 +1,16 @@
-{% if _pattern %}{% block patterninfo %}
+{% if _component %}{% block componentinfo %}
 name: Card
 _group: Containers
 _description: A flexible container for featuring a piece of content, typically as a link to an extended view of that content.
-variables:
-    # This is where we declare the TYPES of the variables that are used
-    # in this template.
-    title: string
-    img_src: string
-variants:
+samples:
     # This is where we define variants.  Variants are sets of values used
     # for the variables in the template.
     Concise:
         _description: This is an example of a card with a short headline.
         title: Lorem Ipsum
         img_src: //placehold.it/240x240.jpg
+        button:
+            text: Testing
     Verbose:
         _description: This is an example of a card with a long headline.
         title: Lorem ipsum dolor sit amet, consectetur adipiscing elit
@@ -22,4 +19,10 @@ variants:
 <article class="Card">
     <img src="{{ img_src }}" />
     <h3>{{ title }}</h3>
+    {% if button %}
+        {% include 'button.twig' with {
+            text: button.text,
+            modifier: button.modifier
+        } %}
+    {% endif %}
 </article>

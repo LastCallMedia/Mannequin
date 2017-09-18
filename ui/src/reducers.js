@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-const patterns = (state = [], action) => {
+const components = (state = [], action) => {
   switch (action.type) {
-    case 'PATTERNS_FETCH_SUCCESS':
-      return action.patterns;
+    case 'COMPONENTS_FETCH_SUCCESS':
+      return action.components;
     default:
       return state;
   }
@@ -11,9 +11,9 @@ const patterns = (state = [], action) => {
 
 const error = (state = false, action) => {
   switch (action.type) {
-    case 'PATTERNS_FETCH_SUCCESS':
+    case 'COMPONENTS_FETCH_SUCCESS':
       return false;
-    case 'PATTERNS_FETCH_ERROR':
+    case 'COMPONENTS_FETCH_ERROR':
       return action.error;
     default:
       return state;
@@ -22,9 +22,9 @@ const error = (state = false, action) => {
 
 const loading = (state = 'complete', action) => {
   switch (action.type) {
-    case 'PATTERNS_FETCH_LOADING':
+    case 'COMPONENTS_FETCH_LOADING':
       return 'loading';
-    case 'PATTERNS_FETCH_SUCCESS':
+    case 'COMPONENTS_FETCH_SUCCESS':
       return 'complete';
     default:
       return state;
@@ -42,15 +42,15 @@ const drawer = (state = false, action) => {
 
 const quickLinks = (state = [], action) => {
   switch (action.type) {
-    case 'PATTERN_VIEW':
-      const pid = action.pattern.id;
-      const idx = state.indexOf(pid);
+    case 'COMPONENT_VIEW':
+      const cid = action.component.id;
+      const idx = state.indexOf(cid);
       let newState = state.slice(0);
       if (-1 !== idx) {
         // Pop the item out of the array.
         newState.splice(idx, 1);
       }
-      newState.unshift(pid);
+      newState.unshift(cid);
       return newState.slice(0, 5);
     default:
       return state;
@@ -67,7 +67,7 @@ const info = (state = false, action) => {
 };
 
 export default combineReducers({
-  patterns,
+  components,
   loading,
   error,
   drawer,

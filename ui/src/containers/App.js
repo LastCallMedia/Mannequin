@@ -2,23 +2,23 @@ import React, { Component } from 'react';
 import { HashRouter as Router, Route } from 'react-router-dom';
 
 import { connect } from 'react-redux';
-import { fetchPatterns, toggleDrawer } from '../actions';
+import { fetchComponents, toggleDrawer } from '../actions';
 import './App.css';
 import 'what-input';
 
 import TopBar from '../components/TopBar';
 import NavDrawer from '../components/NavDrawer';
 import HomePage from '../containers/HomePage';
-import PatternPage from '../containers/PatternPage';
-import VariantPage from '../containers/VariantPage';
+import ComponentPage from '../containers/ComponentPage';
+import SamplePage from '../containers/SamplePage';
 import PropTypes from 'prop-types';
 
 export class App extends Component {
   componentDidMount() {
-    this.props.refreshPatterns();
+    this.props.refreshComponents();
   }
   render() {
-    let { patterns, drawer, toggleDrawer } = this.props;
+    let { components, drawer, toggleDrawer } = this.props;
     return (
       <Router>
         <div className={`App ${drawer ? 'drawer-open' : 'drawer-closed'}`}>
@@ -26,14 +26,14 @@ export class App extends Component {
             <div className="main-frame">
               <TopBar toggleNav={toggleDrawer} />
               <Route path="/" exact component={HomePage} />
-              <Route path={'/pattern/:pattern'} exact component={PatternPage} />
+              <Route path={'/component/:component'} exact component={ComponentPage} />
               <Route
-                path={'/pattern/:pattern/variant/:vid'}
-                component={VariantPage}
+                path={'/component/:component/sample/:sid'}
+                component={SamplePage}
               />
             </div>
             <NavDrawer
-              patterns={patterns}
+              components={components}
               open={drawer}
               toggleNav={toggleDrawer}
             />
@@ -44,27 +44,27 @@ export class App extends Component {
   }
 }
 App.propTypes = {
-  patterns: PropTypes.arrayOf(PropTypes.object),
-  refreshPatterns: PropTypes.func.isRequired,
+  components: PropTypes.arrayOf(PropTypes.object),
+  refreshComponents: PropTypes.func.isRequired,
   toggleDrawer: PropTypes.func.isRequired
 };
 App.defaultProps = {
-  patterns: [],
-  refreshPatterns: () => {},
+  components: [],
+  refreshComponents: () => {},
   toggleDrawer: () => {}
 };
 
 const mapStateToProps = state => {
   return {
-    patterns: state.patterns,
+    components: state.components,
     drawer: state.drawer
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    refreshPatterns: () => {
-      dispatch(fetchPatterns());
+    refreshComponents: () => {
+      dispatch(fetchComponents());
     },
     toggleDrawer: () => {
       dispatch(toggleDrawer());

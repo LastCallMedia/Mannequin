@@ -11,14 +11,14 @@
 
 namespace LastCall\Mannequin\Core\Tests\Discovery;
 
+use LastCall\Mannequin\Core\Component\ComponentCollection;
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Discovery\ExplicitDiscovery;
-use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
-use LastCall\Mannequin\Core\Event\PatternEvents;
+use LastCall\Mannequin\Core\Event\ComponentDiscoveryEvent;
+use LastCall\Mannequin\Core\Event\ComponentEvents;
 use LastCall\Mannequin\Core\Exception\TemplateParsingException;
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Psr\Log\LoggerInterface;
@@ -53,14 +53,14 @@ class ChainDiscoveryTest extends TestCase
 
     public function testMergesCollection()
     {
-        $pattern1 = $this->getMockPattern('pattern1')->reveal();
-        $pattern2 = $this->getMockPattern('pattern2')->reveal();
+        $component1 = $this->getMockComponent('component1')->reveal();
+        $component2 = $this->getMockComponent('component2')->reveal();
 
         $discoverer1 = new ExplicitDiscovery(
-            new PatternCollection([$pattern1])
+            new ComponentCollection([$component1])
         );
         $discoverer2 = new ExplicitDiscovery(
-            new PatternCollection([$pattern2])
+            new ComponentCollection([$component2])
         );
 
         $chain = new ChainDiscovery(
@@ -68,72 +68,72 @@ class ChainDiscoveryTest extends TestCase
             new EventDispatcher()
         );
         $merged = $chain->discover();
-        $this->assertEquals([$pattern1, $pattern2], $merged->getPatterns());
+        $this->assertEquals([$component1, $component2], $merged->getComponents());
     }
 
     public function testDispatchesEvent()
     {
-        $pattern1 = $this->getMockPattern('pattern1')->reveal();
+        $component1 = $this->getMockComponent('component1')->reveal();
 
         $dispatcher = $this->prophesize(EventDispatcher::class);
         $dispatcher->dispatch(
-            PatternEvents::DISCOVER,
-            Argument::type(PatternDiscoveryEvent::class)
+            ComponentEvents::DISCOVER,
+            Argument::type(ComponentDiscoveryEvent::class)
         )
             ->shouldBeCalled();
 
-        $this->executeDiscovery($pattern1, $dispatcher->reveal());
+        $this->executeDiscovery($component1, $dispatcher->reveal());
     }
 
     public function testAddsProblemForParsingException()
     {
-        $pattern = $this->getMockPattern('pattern1');
-        $pattern->addProblem('foo')->shouldBeCalled();
+        $component = $this->getMockComponent('component1');
+        $component->addProblem('foo')->shouldBeCalled();
         $dispatcher = $this->getExceptionDispatcher();
-        $this->executeDiscovery($pattern->reveal(), $dispatcher->reveal());
+        $this->executeDiscovery($component->reveal(), $dispatcher->reveal());
     }
 
     public function testLogsParsingException()
     {
-        $pattern = $this->getMockPattern('pattern1');
-        $pattern->addProblem('foo')->shouldBeCalled();
+        $component = $this->getMockComponent('component1');
+        $component->addProblem('foo')->shouldBeCalled();
         $dispatcher = $this->getExceptionDispatcher();
         $logger = $this->prophesize(LoggerInterface::class);
-        $logger->error('Metadata error for pattern1. foo', Argument::type('array'))->shouldBeCalled();
+        $logger->error('Metadata error for component1. foo', Argument::type('array'))->shouldBeCalled();
 
-        $this->executeDiscovery($pattern->reveal(), $dispatcher->reveal(), $logger->reveal());
+        $this->executeDiscovery($component->reveal(), $dispatcher->reveal(), $logger->reveal());
     }
 
-    private function getMockPattern($name, array $aliases = [])
+    private function getMockComponent($name, array $aliases = [])
     {
-        $pattern = $this->prophesize(PatternInterface::class);
-        $pattern->getId()->willReturn($name);
-        $pattern->getName()->willReturn($name);
-        $pattern->getAliases()->willReturn($aliases);
-        $pattern->addProblem(Argument::type('string'))->willReturn($pattern);
+        $component = $this->prophesize(ComponentInterface::class);
+        $component->getId()->willReturn($name);
+        $component->getName()->willReturn($name);
+        $component->getAliases()->willReturn($aliases);
+        $component->addProblem(Argument::type('string'))->willReturn($component);
 
-        return $pattern;
+        return $component;
     }
 
     private function getExceptionDispatcher()
     {
         $dispatcher = $this->prophesize(EventDispatcherInterface::class);
         $dispatcher->dispatch(
-            PatternEvents::DISCOVER,
-            Argument::type(PatternDiscoveryEvent::class)
+            ComponentEvents::DISCOVER,
+            Argument::type(ComponentDiscoveryEvent::class)
         )
             ->willThrow(new TemplateParsingException('foo'));
 
         return $dispatcher;
     }
 
-    private function executeDiscovery($patterns, EventDispatcherInterface $dispatcher, LoggerInterface $logger = null)
+    private function executeDiscovery($components, EventDispatcherInterface $dispatcher, LoggerInterface $logger = null)
     {
-        if (!is_array($patterns)) {
-            $patterns = [$patterns];
+        if (!is_array($components)) {
+            $components = [$components];
         }
         $discoverer1 = new ExplicitDiscovery(
-            new PatternCollection($patterns)
+            new ComponentCollection($components)
         );
         $chain = new ChainDiscovery([$discoverer1], $dispatcher, $logger);
 

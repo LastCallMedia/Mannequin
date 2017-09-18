@@ -11,14 +11,14 @@
 
 namespace LastCall\Mannequin\Twig\Subscriber;
 
-use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
-use LastCall\Mannequin\Core\Event\PatternEvents;
-use LastCall\Mannequin\Twig\Pattern\TwigPattern;
+use LastCall\Mannequin\Core\Event\ComponentDiscoveryEvent;
+use LastCall\Mannequin\Core\Event\ComponentEvents;
 use LastCall\Mannequin\Core\Exception\TemplateParsingException;
+use LastCall\Mannequin\Twig\Component\TwigComponent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * This subscriber enriches pattern data with usage information.
+ * This subscriber enriches component data with usage information.
  *
  * Usage information is stored in a JSON encoded array in the _collected_usage
  * block. To automatically build this block, use the TwigUsageCollectorVisitor.
@@ -32,29 +32,29 @@ class TwigIncludeSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            PatternEvents::DISCOVER => 'detect',
+            ComponentEvents::DISCOVER => 'detect',
         ];
     }
 
-    public function detect(PatternDiscoveryEvent $event)
+    public function detect(ComponentDiscoveryEvent $event)
     {
-        $pattern = $event->getPattern();
+        $component = $event->getComponent();
 
-        if ($pattern instanceof TwigPattern) {
+        if ($component instanceof TwigComponent) {
             try {
-                $template = $pattern->getTwig()->load($pattern->getSource()->getName());
+                $template = $component->getTwig()->load($component->getSource()->getName());
                 if ($template->hasBlock(self::BLOCK_NAME)) {
                     $collection = $event->getCollection();
                     $used = json_decode($template->renderBlock(self::BLOCK_NAME));
                     foreach ($used as $name) {
                         if ($collection->has($name)) {
-                            $pattern->addUsedPattern($collection->get($name));
+                            $component->addUsedComponent($collection->get($name));
                         }
                     }
                 }
             } catch (\Twig_Error $e) {
                 $message = sprintf('Twig error thrown during usage checking of %s: %s',
-                    $pattern->getSource()->getName(),
+                    $component->getSource()->getName(),
                     $e->getMessage()
                 );
                 throw new TemplateParsingException($message, $e->getCode(), $e);

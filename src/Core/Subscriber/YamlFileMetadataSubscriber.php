@@ -11,10 +11,10 @@
 
 namespace LastCall\Mannequin\Core\Subscriber;
 
-use LastCall\Mannequin\Core\Event\PatternDiscoveryEvent;
-use LastCall\Mannequin\Core\Event\PatternEvents;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
-use LastCall\Mannequin\Core\Pattern\TemplateFilePatternInterface;
+use LastCall\Mannequin\Core\Component\ComponentInterface;
+use LastCall\Mannequin\Core\Component\TemplateFileInterface;
+use LastCall\Mannequin\Core\Event\ComponentDiscoveryEvent;
+use LastCall\Mannequin\Core\Event\ComponentEvents;
 use LastCall\Mannequin\Core\Variable\VariableSet;
 use LastCall\Mannequin\Core\YamlMetadataParser;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -31,40 +31,40 @@ class YamlFileMetadataSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            PatternEvents::DISCOVER => 'addYamlMetadata',
+            ComponentEvents::DISCOVER => 'addYamlMetadata',
         ];
     }
 
-    public function addYamlMetadata(PatternDiscoveryEvent $event)
+    public function addYamlMetadata(ComponentDiscoveryEvent $event)
     {
-        $pattern = $event->getPattern();
-        if ($metadata = $this->getMetadataForPattern($pattern)) {
+        $component = $event->getComponent();
+        if ($metadata = $this->getMetadataForComponent($component)) {
             if (!empty($metadata['name'])) {
-                $pattern->setName($metadata['name']);
+                $component->setName($metadata['name']);
             }
             if (!empty($metadata['tags'])) {
                 foreach ($metadata['tags'] as $k => $v) {
-                    $pattern->addMetadata($k, $v);
+                    $component->addMetadata($k, $v);
                 }
             }
-            if (!empty($metadata['variants'])) {
-                foreach ($metadata['variants'] as $vidx => $setDef) {
+            if (!empty($metadata['samples'])) {
+                foreach ($metadata['samples'] as $vidx => $setDef) {
                     $name = $setDef['name'] ?? $vidx;
                     $tags = $setDef['tags'] ?? [];
                     $variables = $setDef['variables'] ?? new VariableSet();
-                    $pattern->createVariant($vidx, $name, $variables, $tags);
+                    $component->createSample($vidx, $name, $variables, $tags);
                 }
             } else {
-                $pattern->createVariant('default', 'Default', new VariableSet(), []);
+                $component->createSample('default', 'Default', new VariableSet(), []);
             }
         }
     }
 
-    protected function getMetadataForPattern(PatternInterface $pattern)
+    protected function getMetadataForComponent(ComponentInterface $component)
     {
-        if ($pattern instanceof TemplateFilePatternInterface) {
-            if ($file = $pattern->getFile()) {
-                $yamlFile = $this->getYamlFileForPatternFile($pattern->getFile());
+        if ($component instanceof TemplateFileInterface) {
+            if ($file = $component->getFile()) {
+                $yamlFile = $this->getYamlFileForComponentFile($component->getFile());
                 if (file_exists($yamlFile)) {
                     return $this->parseYaml(file_get_contents($yamlFile), $yamlFile);
                 }
@@ -79,11 +79,11 @@ class YamlFileMetadataSubscriber implements EventSubscriberInterface
         return $this->parser->parse($yamlString, $exceptionIdentifier);
     }
 
-    private function getYamlFileForPatternFile(\SplFileInfo $patternFile)
+    private function getYamlFileForComponentFile(\SplFileInfo $componentFile)
     {
-        $path = $patternFile->getPath();
-        $basename = $patternFile->getBasename(
-                '.'.$patternFile->getExtension()
+        $path = $componentFile->getPath();
+        $basename = $componentFile->getBasename(
+                '.'.$componentFile->getExtension()
             ).'.yml';
 
         return sprintf('%s%s%s', $path, DIRECTORY_SEPARATOR, $basename);

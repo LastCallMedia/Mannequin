@@ -11,28 +11,28 @@
 
 namespace LastCall\Mannequin\Twig\Subscriber;
 
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Exception\TemplateParsingException;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
-use LastCall\Mannequin\Twig\Pattern\TwigPattern;
+use LastCall\Mannequin\Twig\Component\TwigComponent;
 
 class InlineTwigYamlMetadataSubscriber extends YamlFileMetadataSubscriber
 {
-    const BLOCK_NAME = 'patterninfo';
+    const BLOCK_NAME = 'componentinfo';
 
-    protected function getMetadataForPattern(PatternInterface $pattern)
+    protected function getMetadataForComponent(ComponentInterface $component)
     {
-        if ($pattern instanceof TwigPattern) {
+        if ($component instanceof TwigComponent) {
             try {
-                $template = $pattern->getTwig()->load($pattern->getSource()->getName());
+                $template = $component->getTwig()->load($component->getSource()->getName());
                 if ($template->hasBlock(self::BLOCK_NAME)) {
                     $yaml = $template->renderBlock(self::BLOCK_NAME);
 
-                    return $this->parseYaml($yaml, $pattern->getSource()->getName());
+                    return $this->parseYaml($yaml, $component->getSource()->getName());
                 }
             } catch (\Twig_Error $e) {
-                $message = sprintf('Twig error thrown during patterninfo generation of %s: %s',
-                    $pattern->getSource()->getName(),
+                $message = sprintf('Twig error thrown during componentinfo generation of %s: %s',
+                    $component->getSource()->getName(),
                     $e->getMessage()
                 );
                 throw new TemplateParsingException($message, $e->getCode(), $e);
