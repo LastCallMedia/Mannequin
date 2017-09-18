@@ -42,7 +42,7 @@ class ComponentCollection implements \Iterator, \Countable
         foreach ($components as $component) {
             if (!$component instanceof ComponentInterface) {
                 throw new \RuntimeException(
-                    'Component must be an instance of ' . ComponentInterface::class
+                    'Component must be an instance of '.ComponentInterface::class
                 );
             }
             $componentId = $component->getId();
