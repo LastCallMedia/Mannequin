@@ -11,6 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Tests\Extension;
 
+use LastCall\Mannequin\Core\Engine\BrokenEngine;
 use LastCall\Mannequin\Core\Extension\CoreExtension;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Subscriber\GlobalAssetSubscriber;
@@ -26,6 +27,13 @@ class CoreExtensionTest extends ExtensionTestCase
     public function getExtension(): ExtensionInterface
     {
         return new CoreExtension();
+    }
+
+    public function testGetEngines()
+    {
+        $engines = parent::testGetEngines();
+        $this->assertCount(1, $engines);
+        $this->assertInstanceOf(BrokenEngine::class, reset($engines));
     }
 
     protected function getDispatcherProphecy(): ObjectProphecy

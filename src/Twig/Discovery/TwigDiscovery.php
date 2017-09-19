@@ -11,6 +11,7 @@
 
 namespace LastCall\Mannequin\Twig\Discovery;
 
+use LastCall\Mannequin\Core\Component\BrokenComponent;
 use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Discovery\IdEncoder;
@@ -49,22 +50,28 @@ class TwigDiscovery implements DiscoveryInterface
         $twig = $this->driver->getTwig();
         $components = [];
         foreach ($this->names as $names) {
+            $aliases = (array) $names;
+            $name = reset($aliases);
             try {
-                $aliases = (array) $names;
-                $name = reset($aliases);
                 $component = new TwigComponent(
                     $this->encodeId($name),
                     $aliases,
                     $twig->load($name)->getSourceContext(),
                     $twig
                 );
-                $component->setName($name);
-                $components[] = $component;
             } catch (\Twig_Error_Loader $e) {
                 throw new UnsupportedComponentException(
                     sprintf('Unable to load %s', reset($names)), 0, $e
                 );
+            } catch (\Twig_Error $e) {
+                $component = new BrokenComponent(
+                    $this->encodeId($name),
+                    $aliases
+                );
+                $component->addProblem($e->getMessage());
             }
+            $component->setName($name);
+            $components[] = $component;
         }
 
         return new ComponentCollection($components);

@@ -11,6 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Extension;
 
+use LastCall\Mannequin\Core\Engine\BrokenEngine;
 use LastCall\Mannequin\Core\Rendered;
 use LastCall\Mannequin\Core\Subscriber\GlobalAssetSubscriber;
 use LastCall\Mannequin\Core\Subscriber\LastChanceNameSubscriber;
@@ -28,6 +29,13 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
             $this->getComponentExpressionFunction(),
             $this->getMarkupExpressionFunction(),
             $this->getAssetExpressionFunction(),
+        ];
+    }
+
+    public function getEngines(): array
+    {
+        return [
+            new BrokenEngine(),
         ];
     }
 

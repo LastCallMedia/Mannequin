@@ -40,7 +40,7 @@ abstract class ExtensionTestCase extends TestCase
         );
     }
 
-    public function testGetRenderers()
+    public function testGetEngines()
     {
         $extension = $this->getExtension();
         $extension->register($this->getMannequin());

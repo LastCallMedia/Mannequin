@@ -11,7 +11,9 @@
 
 namespace LastCall\Mannequin\Twig\Tests\Discovery;
 
+use LastCall\Mannequin\Core\Component\BrokenComponent;
 use LastCall\Mannequin\Core\Component\ComponentCollection;
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Discovery\IdEncoder;
 use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
 use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
@@ -28,6 +30,7 @@ class TwigDiscoveryTest extends TestCase
     {
         $loader = new \Twig_Loader_Array([
             'form-input.twig' => 'I am twig code',
+            'broken' => '{% }}',
         ]);
 
         return new \Twig_Environment($loader, [
@@ -134,5 +137,26 @@ class TwigDiscoveryTest extends TestCase
             [['some-nonexistent-file.twig']]
         );
         $discoverer->discover();
+    }
+
+    public function testLoadsBrokenComponent()
+    {
+        $driver = $this->getDriver($this->getTwig());
+        $discoverer = new TwigDiscovery(
+            $driver,
+            [['broken']]
+        );
+        $component = $discoverer->discover()->get($this->encodeId('broken'));
+        $this->assertInstanceOf(BrokenComponent::class, $component);
+
+        return $component;
+    }
+
+    /**
+     * @depends testLoadsBrokenComponent
+     */
+    public function testBrokenComponentListsProblems(ComponentInterface $component)
+    {
+        $this->assertCount(1, $component->getProblems());
     }
 }
