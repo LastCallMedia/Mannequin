@@ -1,3 +1,8 @@
+// @todo: Let's move all homepage specific styling into this block,
+// which only targets the <main>.
+.Homepage {
+  margin-bottom: rem-calc(70);
+}
 .home {
   background-color: $darkblue;
   color: $white;
@@ -194,23 +199,3 @@
 
 
 
-.lcm-logo {
-  width:39px;
-  //display:inline-block;
-  position:fixed;
-  //margin-left:15px
-}
-.maintained{
-  height: 39px;
-  color: #97A6B5;
-  //font-family: Helvetica;
-  font-size: 10px;
-  font-weight: 300;
-  letter-spacing: 1px;
-  line-height: 12px;
-  padding-left: 80px;
-  padding-top: 15px;
-  text-transform: uppercase;
-  display: inline-block;
-  top:0;
-}

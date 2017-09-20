@@ -2,6 +2,11 @@ body {
   overflow-x: hidden;
 }
 
+// Code blocks.
+pre code {
+  display:block;
+  margin-bottom: $paragraph-margin-bottom;
+}
 
 .button.dashing {
   @include button($background: transparent, $background-hover: $buttonblue);
@@ -22,4 +27,3 @@ body {
     box-shadow: 0 9px 5px 0 rgba(0, 0, 0, 0.15)
   }
 }
-

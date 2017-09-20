@@ -2,20 +2,14 @@
 title: Mannequin
 layout: home.html
 ---
-
-<header>
-  <div class="top-bar">
-    <img class="lcm-logo" src="img/logo.png" alt="lcm logo">
-    <div class="maintained"> Maintained by Last Call Media</div>
-  </div>
-</header>
-
-<main class="content">
+<main class="Homepage">
   <div class="HomepageHero">
     <!-- This is a static version of the branding template from the UI. -->
     <div class="Branding large">
       <div class="top">
-        <img src="img/figure_wave.png" class="logo" alt="Mannequin Logo" />
+        <svg id="svg-header-logo" class="logo">
+          <use xlink:href="#Manny_Wave" />
+        </svg>
         <h1 class="name">Mannequin</h1>
       </div>
       <h3 class="slogan">
@@ -126,12 +120,3 @@ layout: home.html
     </ul>
   </div>
 </main>
-<footer class="page-footer">
-  <div class="Branding">
-    <div class="top">
-      <img src="img/figure_wave.png" class="logo" alt="Mannequin Logo" />
-      <h4 class="name">Mannequin</h4>
-    </div>
-  </div>
-  <button class="button dashing">Get it on github</button>
-</footer>

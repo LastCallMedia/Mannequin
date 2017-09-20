@@ -25,9 +25,13 @@
   .name {
     font-family: $impact-font-family;
     font-weight: 700;
-    margin-bottom: rem-calc(12);
     text-transform: uppercase;
     color: white;
+    margin-bottom: 0;
+  }
+  .logo {
+    stroke: white;
+    fill: white;
   }
   .logo + .name:before {
     content: "";
@@ -39,6 +43,7 @@
 
   .slogan {
     display:block;
+    margin-top: rem-calc(12);
     font-size: rem-calc(12);
     color: inherit;
     font-weight: 300;
@@ -59,12 +64,16 @@
   @include branding-layout(51, 31, 20);
   // Variations:
   &.dark {
+    .logo {
+      stroke: black;
+      fill: black;
+    }
     .name {
       color:black;
     }
   }
   &.tiny {
-    //@include branding-layout()
+    @include branding-layout(28, 24, 10);
   }
   &.large {
     @include breakpoint(large) {
