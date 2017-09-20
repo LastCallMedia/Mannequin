@@ -2,8 +2,15 @@
 <html>
 {{> head }}
 
-<body>
-    {{{ contents }}}
+<body class="page">
+    {{> topbar}}
+    <main class="Page">
+        <h1 class="title">{{{ title }}}</h1>
+        <div class="content">
+            {{{ contents }}}
+        </div>
+    </main>
+    {{> footer }}
     {{> foot }}
 </body>
 </html>

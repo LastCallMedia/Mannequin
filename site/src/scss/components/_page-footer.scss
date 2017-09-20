@@ -1,0 +1,14 @@
+
+.page-footer {
+  border-top: 1px dashed $blue-gray;
+  padding: rem-calc(75 0);
+  text-align:center;
+  background: $darkblue;
+
+  .Branding {
+    margin-bottom: rem-calc(78);
+    .top {
+      justify-content: center;
+    }
+  }
+}

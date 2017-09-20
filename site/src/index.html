@@ -2,156 +2,121 @@
 title: Mannequin
 layout: home.html
 ---
-<img src="img/logo.png" style="width:39px; display:inline-block; position:fixed; margin-left:15px">
-<div style="height:39px">
-    <div class="maintained"> Maintained by Last Call Media</div>
-</div>
-<div class="wrapper">
-
-    <!-- Hero Area -->
-    <div class="hero-area">
-
-        <div class=" display:inline-block">
-            <img src="img/figure_wave.png" style="width:63px;height:61px; ">
-            <div style="border-left:1px dashed #7e92a5;height:66px; display:inline-block; margin-left:44.5px"></div>
-            <div class="mannequin">Mannequin</div>
-            <div class="background-color:#1B2126; height:50px; margin-top: 10px;">
-                <div class="sub-title">A component theming tool for the web</div>
-            </div>
-        </div>
-
-        <!-- Buttons -->
-        <div class="width:100px;">
-            <button class="button1"><img src="img/github.png"
-                                         style="width:18px; height:auto; display:inline-block; margin-right:10px">Get it
-                on github
-            </button>
-            <button class="button1">Documentaton</button>
-            <button class="button1" style="background-color:#4a90e2; border: none;">View Demo</button>
-        </div>
+<main class="Homepage">
+  <div class="HomepageHero">
+    <!-- This is a static version of the branding template from the UI. -->
+    <div class="Branding large">
+      <div class="top">
+        <svg id="svg-header-logo" class="logo">
+          <use xlink:href="#Manny_Wave" />
+        </svg>
+        <h1 class="name">Mannequin</h1>
+      </div>
+      <h3 class="slogan">
+        <span>A Component Theming Tool for the Web</span>
+      </h3>
     </div>
-    <center>
-        <div class="mouse-icon">
-            <div class="wheel"></div>
-        </div>
-    </center>
+    <ul class="links">
+      <li><a href="https://github.com/LastCallMedia/Mannequin" class="button dashing expanded">Get it on github</a></li>
+      <li><a href="/style.html" class="button dashing expanded">Documentation</a></li>
+      <li><a href="https://demo.mannequin.io" class="button dashing expanded">View Demo</a></li>
+    </ul>
+  </div>
 
-    <!-- About Product -->
-    <div style="margin: 150px 0px 120px 0px; width:73%; overflow:hidden; display:inline-block">
-        <div style="color: #fff;	font-family: Helvetica;	font-size: 18px;	font-weight: bold;	line-height: 30px; text-transform:uppercase">
-            Note
-        </div>
-        <div class="about-title">
-            Mannequin is a component based theming tool for the web.
-        </div>
-
-        <button class="button1">Explore</button>
+  <div>
+    <div class="mouse-icon">
+      <div class="wheel"></div>
     </div>
-    <div style=" width: 448px;display:inline-block;padding-top:100px; position: absolute">
-        <img src="img/laptop_illo.png" style="width:448px; height:311px; ">
+  </div>
+
+  <!-- About Product -->
+  <div class="grid-x">
+    <div class="about-product cell medium-6">
+      <h3>Note</h3>
+      <div class="about-title">Mannequin is a component based theming tool for the web.</div>
+
+      <button class="button1">Explore</button>
     </div>
-    <center>
-        <hr>
-        <!-- Get Started-->
-
-        <div class="newsection">
-            <img src="img/figure_wave.png" style="width:132px;height:128px; margin-top:70.5px">
-            <h1>Get Started</h1>
-
-            <!-- Step 1-->
-            <div style="margin-top:80px">
-                <h2 style="height:auto;">
-                    1.
-                </h2>
-                <div class="step-background">
-                    <h2 style="text-transform:uppercase; width:511px">
-                        Choose the extension you would like to use and install it.
-                    </h2>
-                    <h3 style="text-transform:uppercase">
-                        While we would eventually like to provide support for all major frameworks and CMS systems,
-                        these are the extensions that are currently available.
-                    </h3>
-                </div>
-                <div style="margin-top: 65px">
-
-                    <!-- HTML -->
-                    <div class="button3">
-                        <a style="position: absolute; bottom: 15px;"
-                           href="https://github.com/LastCallMedia/Mannequin-Html">
-                            <img src="img/html.png" style="width:56px; height:76px; padding-bottom:21px ">
-                            <div>HTML Extension</div>
-                            <h4>Display static HTML files as Mannequin patterns.</h4>
-                        </a>
-                    </div>
-
-                    <!-- Twig -->
-                    <div class="button3">
-                        <a style="position: absolute; bottom: 15px;"
-                           href="https://github.com/LastCallMedia/Mannequin-Twig">
-                            <img src="img/twig.png" style="width:60px; height:85px; padding-bottom:21px ">
-                            <div>Twig Extension</div>
-                            <h4>Display Twig templates as Mannequin patterns.</h4>
-                        </a>
-                    </div>
-
-                    <!-- Drupal-->
-                    <div class="button3">
-                        <a style="position: absolute; bottom: 15px;"
-                           href="https://github.com/LastCallMedia/Mannequin-Drupal">
-                            <img src="img/drupal.png" style="width:160px; height:43px; padding-bottom:21px ">
-                            <div>Drupal Extension</div>
-                            <h4>Display Drupal 8 Twig templates as Mannequin patterns.</h4>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Step 2-->
-            <div>
-                <h2 style="text-transform:uppercase">2.</h2>
-                <div class="step-background" style="width:338px;">
-                    <h2 style="text-transform:uppercase">Configure</h2>
-                </div>
-                <button class="button1">
-                    <a href="https://mannequin.io/configuration.html">Create a Mannequin.php file </a>
-                </button>
-            </div>
-
-
-            <!-- Step 3-->
-            <div>
-                <h2 style="text-transform:uppercase">
-                    3.
-                </h2>
-                <div class="step-background" style="width:791px">
-                    <h2 style="text-transform:uppercase; width:791px ">Start a live development server using
-                        vendor/bin/mannequin server.</h2>
-                </div>
-            </div>
-        </div>
-    </center>
-</div>
-
-
-<!-- Further Reading-->
-<center>
-    <div>
-        <hr>
-        <h1>Further Reading</h1>
-        <div style="margin: 77px 0px 77px 0px">
-            <div class="button2"><a style="position: absolute; bottom: 15px;">Configuration</a></div>
-            <div class="button2"><a style="position: absolute; bottom: 15px;">Patterns</a></div>
-            <div class="button2"><a style="position: absolute; bottom: 15px;">Extensions</a></div>
-            <div class="button2"><a style="position: absolute; bottom: 15px;">Troubleshooting</a></div>
-        </div>
+    <div class="laptop-img medium-6">
+      <img src="img/laptop_illo.png">
     </div>
+  </div>
 
-    <hr style="width:100vw;">
-    <center>
-        <button class="button1">Get it on github</button>
-    </center>
-</center>
+  <hr>
+  <!-- Get Started-->
+  <div class="grid-x">
+    <div class="get-started steps cell medium-10 center">
+      <img src="img/figure_wave.png">
+      <h2>Get Started</h2>
 
-<footer>
+      <!-- Step 1-->
+      <div class="step step-1">
+        <div class="step-headline">
+          <h3><span class="step-number">1.</span><span class="step-description">Choose the extension you would like to use and install it.</span></h3>
+          <div>
+            While we would eventually like to provide support for all major frameworks and CMS systems,
+            these are the extensions that are currently available.
+          </div>
+        </div>
 
-</footer>
+        <div>
+          <!-- HTML -->
+          <div class="button3">
+            <a href="https://github.com/LastCallMedia/Mannequin-Html">
+              <img src="img/html.png">
+              <div>HTML Extension</div>
+              <div>Display static HTML files as Mannequin patterns.</div>
+            </a>
+          </div>
+
+          <!-- Twig -->
+          <div class="button3">
+            <a href="https://github.com/LastCallMedia/Mannequin-Twig">
+              <img src="img/twig.png">
+              <div>Twig Extension</div>
+              <div>Display Twig templates as Mannequin patterns.</div>
+            </a>
+          </div>
+
+          <!-- Drupal-->
+          <div class="button3">
+            <a href="https://github.com/LastCallMedia/Mannequin-Drupal">
+              <img src="img/drupal.png">
+              <div>Drupal Extension</div>
+              <h4>Display Drupal 8 Twig templates as Mannequin patterns.</h4>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2-->
+      <div class="step step-2">
+        <div class="step-headline">
+          <h3><span class="step-number">2.</span><span class="step-description"></span>Configure</h3>
+        </div>
+        <a class="button1" href="https://mannequin.io/configuration.html">Create a Mannequin.php file </a>
+      </div>
+
+
+      <!-- Step 3-->
+      <div class="step step-3">
+        <div class="step-headline">
+          <h3><span class="step-number">3.</span>Start a live development server using vendor/bin/mannequin server.<span class="step-description"></span></h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Further Reading-->
+  <div class="further-reading">
+    <h2>Further Reading</h2>
+    <ul class="links">
+      <li><a href="#">Configuration</a></li>
+      <li><a href="#">Patterns</a></li>
+      <li><a href="#">Extensions</a></li>
+      <li><a href="#">Troubleshooting</a></li>
+    </ul>
+  </div>
+</main>

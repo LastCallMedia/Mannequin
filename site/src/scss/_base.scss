@@ -1,0 +1,29 @@
+body {
+  overflow-x: hidden;
+}
+
+// Code blocks.
+pre code {
+  display:block;
+  margin-bottom: $paragraph-margin-bottom;
+}
+
+.button.dashing {
+  @include button($background: transparent, $background-hover: $buttonblue);
+  border: 1px dashed $blue-gray;
+  text-transform: uppercase;
+
+  transition-property: background-color, border-color, border-style, box-shadow;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-in-out;
+  line-height: 1;
+  font-size: rem-calc(10);
+  font-weight: bold;
+  padding: rem-calc(20) rem-calc(64);
+
+  &:hover {
+    border-style: solid;
+    border-color:$buttonblue;
+    box-shadow: 0 9px 5px 0 rgba(0, 0, 0, 0.15)
+  }
+}

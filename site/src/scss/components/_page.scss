@@ -1,0 +1,26 @@
+.Page {
+  @include xy-grid-container($grid-container *(2/3));
+  margin-top: rem-calc(50);
+  margin-bottom: rem-calc(70);
+
+  .title {
+    font-size: rem-calc(53);
+    line-height: rem-calc(61);
+    padding-bottom: rem-calc(22);
+    margin-bottom: rem-calc(60);
+    position: relative;
+    font-weight: bold;
+    &:after {
+      width: rem-calc(70);
+      height: 1px;
+      content:"";
+      border-bottom: 1px dashed $blue-gray;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+  }
+  .content {
+    font-size: rem-calc(18);
+  }
+}

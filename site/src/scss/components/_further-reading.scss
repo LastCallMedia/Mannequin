@@ -1,0 +1,48 @@
+
+.further-reading {
+  h2 {
+    font-size: rem-calc(42);
+    line-height: rem-calc(51);
+    margin-bottom: rem-calc(80);
+  }
+  ul.links {
+    list-style: none;
+    margin: 0;
+    @include xy-grid();
+    @include xy-grid-layout(1, 'li', true, $gutter-type: padding, $gutter-position: left right top bottom);
+    li {
+      a {
+        display: block;
+        border: 1px dashed $blue-gray;
+        text-align: left;
+        padding: rem-calc(18) rem-calc(26);
+        color: white;
+        font-size: rem-calc(18);
+        font-weight: bold;
+        letter-spacing: rem-calc(1);
+        line-height: rem-calc(22);
+
+        &:hover {
+          background-color: $buttonblue;
+          border-color: $buttonblue;
+          border-style: solid;
+        }
+      }
+    }
+  }
+  // BP Adjustments
+  @include breakpoint(medium) {
+    ul.links {
+      @include xy-grid-layout(2, 'li', true, $gutter-type: padding, $gutter-position: left right top bottom);
+      li a {
+        padding-top: rem-calc(183);
+      }
+    }
+  }
+  @include breakpoint(large) {
+    ul.links {
+      @include xy-grid-layout(4, 'li', true, $gutter-type: padding, $gutter-position: left right top bottom);
+    }
+
+  }
+}
