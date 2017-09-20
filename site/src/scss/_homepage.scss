@@ -7,6 +7,63 @@
   }
 }
 
+@import "components/branding";
+@import "components/homepage-hero";
+
+
+.button.dashing {
+  @include button($background: transparent, $background-hover: $buttonblue);
+  border: 1px dashed $blue-gray;
+  text-transform: uppercase;
+
+  transition-property: background-color, border-color, border-style, box-shadow;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-in-out;
+  line-height: 1;
+  font-size: rem-calc(10);
+  font-weight: bold;
+  padding: rem-calc(20) rem-calc(64);
+
+  &:hover {
+    border-style: solid;
+    border-color:$buttonblue;
+    box-shadow: 0 9px 5px 0 rgba(0, 0, 0, 0.15)
+  }
+
+//  border: 1px dashed;
+//  background-color: transparent;
+//  border-color:$blue-gray;
+//  color: white;
+//  height: 61px;
+//  min-width: 240px;
+//  max-width: 291px;
+//  text-align: center;
+//  padding: 0;
+//  font-weight: 500;
+//  font-size: 10px;
+//  text-transform: uppercase;
+//  letter-spacing: 0.6px;
+//  outline: none;
+//  margin-right: 10px;
+//  margin-bottom: 10px;
+//  padding-left:40px;
+//  transition-property: background-color, border-color, border-style, box-shadow;
+//  transition-duration: 0.15s;
+//  transition-timing-function: ease-in-out;
+//  box-shadow: none;
+//  display: block;
+//  text-align: left;
+//}
+//
+//.button1:hover{
+//  background-color: $buttonblue;
+//  border-color:$buttonblue;
+//  border-style: solid;
+//  box-shadow: 0 9px 5px 0 rgba(0, 0, 0, 0.15)
+//}
+
+}
+
 .lcm-logo {
   width:39px;
   //display:inline-block;
@@ -94,14 +151,10 @@
   margin-bottom: 40px;
 }
 
-//.hero-area{
-//  padding: 192px 0px 80px 0px;
-//}
-
 .button1{
   border: 1px dashed;
   background-color: transparent;
-  border-color:$blue-grey;
+  border-color:$blue-gray;
   color: white;
   height: 61px;
   min-width: 240px;
@@ -205,7 +258,7 @@
 }
 
 .button2{
-  border: 1px dashed $blue-grey;
+  border: 1px dashed $blue-gray;
   background-color: transparent;
   color: white;
   height: 180px;
@@ -231,7 +284,7 @@
 }
 
 .button3{
-  border: 1px dashed $blue-grey;
+  border: 1px dashed $blue-gray;
   background-color: transparent;
   color: white;
   height: 180px;
@@ -294,7 +347,7 @@ h4{
 }
 
 hr{
-  border-top: 1px dashed $blue-grey;
+  border-top: 1px dashed $blue-gray;
   background-color: $darkblue;
   width: 309px;
 }
