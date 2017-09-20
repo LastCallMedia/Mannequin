@@ -5,6 +5,10 @@
     background-color: $darkblue;
     padding: 0;
   }
+  .HomepageHero {
+    max-width: xy-cell-size(9);
+    margin: 0 auto;
+  }
 }
 
 @import "components/branding";

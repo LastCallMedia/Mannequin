@@ -42,19 +42,17 @@
     color: inherit;
     font-weight: 300;
     letter-spacing: 5px;
-    text-align:center;
     text-transform: uppercase;
     span {
       background-color: #1B2126;
     }
-    margin: rem-calc(30) rem-calc(44) 0;
+    margin: rem-calc(30) 0 0;
     @include breakpoint(large) {
       margin-top: rem-calc(10);
     }
   }
   .top {
     display: flex;
-    justify-content: center;
     .logo, h1 {
       flex: 0 0 auto;
     }
