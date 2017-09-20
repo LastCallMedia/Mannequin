@@ -7,7 +7,7 @@ Contains the HTML extension for [Mannequin](https://github.com/LastCallMedia/Man
 
 When would I use this?
 -----------------------
-When you want to display static HTML files as Mannequin patterns.
+When you want to display static HTML files as Mannequin components.
 
 Installing
 ----------

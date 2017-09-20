@@ -11,14 +11,15 @@
 
 namespace LastCall\Mannequin\Core\Variable;
 
+use LastCall\Mannequin\Core\Mannequin;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 /**
  * Handles resolving VariableSets and Variables to their native values.
  *
- * This class is only used right before patterns are rendered.
+ * This class is only used right before components are rendered.
  */
-final class VariableResolver
+class VariableResolver
 {
     public function __construct(ExpressionLanguage $expressionLanguage)
     {

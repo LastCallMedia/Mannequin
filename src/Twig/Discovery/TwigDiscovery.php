@@ -11,27 +11,29 @@
 
 namespace LastCall\Mannequin\Twig\Discovery;
 
+use LastCall\Mannequin\Core\Component\BrokenComponent;
+use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Discovery\IdEncoder;
-use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
-use LastCall\Mannequin\Twig\Pattern\TwigPattern;
+use LastCall\Mannequin\Core\Exception\UnsupportedComponentException;
+use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
+use LastCall\Mannequin\Twig\Component\TwigComponent;
 
 /**
- * This class converts an iterable object of template names into TwigPattern
- * objects by using the Twig Loader.
+ * This class converts an iterable object of template names into TwigComponent
+ * objects by using the Twig driver.
  */
 class TwigDiscovery implements DiscoveryInterface
 {
     use IdEncoder;
 
-    private $loader;
-
     private $names;
 
-    public function __construct(\Twig_LoaderInterface $loader, $names)
+    private $driver;
+
+    public function __construct(TwigDriverInterface $driver, $names)
     {
-        $this->loader = $loader;
+        $this->driver = $driver;
         if (!is_array($names) && !$names instanceof \Traversable) {
             throw new \InvalidArgumentException(
                 '$names must be an array or a \Traversable object.'
@@ -43,28 +45,35 @@ class TwigDiscovery implements DiscoveryInterface
     /**
      * {@inheritdoc}
      */
-    public function discover(): PatternCollection
+    public function discover(): ComponentCollection
     {
-        $patterns = [];
+        $twig = $this->driver->getTwig();
+        $components = [];
         foreach ($this->names as $names) {
+            $aliases = (array) $names;
+            $name = reset($aliases);
             try {
-                $aliases = (array) $names;
-                $name = reset($aliases);
-                $source = $this->loader->getSourceContext($name);
-                $pattern = new TwigPattern(
+                $component = new TwigComponent(
                     $this->encodeId($name),
                     $aliases,
-                    $source
+                    $twig->load($name)->getSourceContext(),
+                    $twig
                 );
-                $pattern->setName($name);
-                $patterns[] = $pattern;
             } catch (\Twig_Error_Loader $e) {
-                throw new UnsupportedPatternException(
+                throw new UnsupportedComponentException(
                     sprintf('Unable to load %s', reset($names)), 0, $e
                 );
+            } catch (\Twig_Error $e) {
+                $component = new BrokenComponent(
+                    $this->encodeId($name),
+                    $aliases
+                );
+                $component->addProblem($e->getMessage());
             }
+            $component->setName($name);
+            $components[] = $component;
         }
 
-        return new PatternCollection($patterns);
+        return new ComponentCollection($components);
     }
 }

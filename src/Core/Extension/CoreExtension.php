@@ -11,23 +11,30 @@
 
 namespace LastCall\Mannequin\Core\Extension;
 
+use LastCall\Mannequin\Core\Engine\BrokenEngine;
+use LastCall\Mannequin\Core\ExpressionLanguage\CoreExpressionLanguageProvider;
 use LastCall\Mannequin\Core\Subscriber\GlobalAssetSubscriber;
 use LastCall\Mannequin\Core\Subscriber\LastChanceNameSubscriber;
 use LastCall\Mannequin\Core\Subscriber\VariableResolverSubscriber;
 use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
-use LastCall\Mannequin\Core\Rendered;
 
 class CoreExtension extends AbstractExtension implements ExpressionFunctionProviderInterface
 {
     public function getFunctions()
     {
+        // This is kind of a weird way to provide functions, but it lets us keep
+        // those functions elsewhere so they can be tested.
+        $provider = new CoreExpressionLanguageProvider();
+
+        return $provider->getFunctions();
+    }
+
+    public function getEngines(): array
+    {
         return [
-            $this->getPatternExpressionFunction(),
-            $this->getMarkupExpressionFunction(),
-            $this->getAssetExpressionFunction(),
+            new BrokenEngine(),
         ];
     }
 
@@ -40,44 +47,6 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
             $this->mannequin->getConfig()->getGlobalCss(),
             $this->mannequin->getConfig()->getGlobalJs()
         ));
-        $dispatcher->addSubscriber(new VariableResolverSubscriber($this->mannequin->getVariableResolver()));
-    }
-
-    private function getPatternExpressionFunction()
-    {
-        return new ExpressionFunction('pattern', function ($arguments, $pid) {
-            throw new \ErrorException('Pattern expressions cannot yet be compiled.');
-        }, function ($context, $pid) {
-            /** @var \LastCall\Mannequin\Core\Pattern\PatternCollection $collection */
-            $collection = $context['collection'];
-            $pattern = $collection->get($pid);
-            $variant = reset($pattern->getVariants());
-            $renderer = $this->mannequin->getRenderer();
-
-            return $renderer->render($collection, $pattern, $variant);
-        });
-    }
-
-    private function getMarkupExpressionFunction()
-    {
-        return new ExpressionFunction('markup', function () {
-            throw new \ErrorException('Markup expressions cannot be compiled.');
-        }, function ($args, $markup) {
-            $rendered = new Rendered();
-            $rendered->setMarkup($markup);
-
-            return $rendered;
-        });
-    }
-
-    private function getAssetExpressionFunction()
-    {
-        return new ExpressionFunction('asset', function () {
-            throw new \ErrorException('Asset expressions cannot be compiled.');
-        }, function ($context, $path) {
-            $package = $this->mannequin->getAssetPackage();
-
-            return $package->getUrl($path);
-        });
+        $dispatcher->addSubscriber(new VariableResolverSubscriber($this->mannequin->getVariableResolver(), $this->mannequin));
     }
 }

@@ -22,6 +22,9 @@ $assetFinder = Finder::create()
 $twig = new TwigExtension([
     'finder' => $twigFinder,
     'twig_root' => __DIR__.'/demo/templates',
+    'twig_options' => [
+        'auto_reload' => TRUE
+    ]
 ]);
 $html = new HtmlExtension([
   'finder' => $htmlFinder,
@@ -29,7 +32,7 @@ $html = new HtmlExtension([
 
 
 $config = MannequinConfig::create([
-  'ui' => new \LastCall\Mannequin\Core\Ui\LocalUi(__DIR__.'/ui/build'),
+  'ui' => new \LastCall\Mannequin\Core\Ui\LocalUi(__DIR__.'/ui'),
 ])
     ->setGlobalJs(['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/js/foundation.min.js'])
     ->setGlobalCss(['demo/css/style.css'])

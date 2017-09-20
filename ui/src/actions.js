@@ -1,23 +1,23 @@
-export function fetchPatterns() {
+export function fetchComponents() {
   return dispatch => {
-    dispatch({ type: 'PATTERNS_FETCH_LOADING' });
-    fetch('manifest.json')
+    dispatch({ type: 'COMPONENTS_FETCH_LOADING' });
+    fetch('manifest.json', {credentials: 'same-origin'})
       .then(res => res.json())
-      .then(res => dispatch(updatePatterns(res)))
-      .catch(err => dispatch(errorPatterns(err)));
+      .then(res => dispatch(updateComponents(res)))
+      .catch(err => dispatch(errorComponents(err)));
   };
 }
 
-function updatePatterns(response) {
+function updateComponents(response) {
   return {
-    type: 'PATTERNS_FETCH_SUCCESS',
-    patterns: response.patterns
+    type: 'COMPONENTS_FETCH_SUCCESS',
+    components: response.components
   };
 }
 
-function errorPatterns(err) {
+function errorComponents(err) {
   return {
-    type: 'PATTERNS_FETCH_ERROR',
+    type: 'COMPONENTS_FETCH_ERROR',
     error: err
   };
 }
@@ -28,10 +28,10 @@ export function toggleDrawer() {
   };
 }
 
-export function patternView(pattern) {
+export function componentView(component) {
   return {
-    type: 'PATTERN_VIEW',
-    pattern: pattern
+    type: 'COMPONENT_VIEW',
+    component
   };
 }
 

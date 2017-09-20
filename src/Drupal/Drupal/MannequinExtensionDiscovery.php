@@ -12,14 +12,35 @@
 namespace LastCall\Mannequin\Drupal\Drupal;
 
 use Drupal\Core\Extension\ExtensionDiscovery;
+use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Cache\Adapter\NullAdapter;
 
 /**
- * Modifies ExtensionDiscovery to avoid DB-backed function calls.
+ * Modifies ExtensionDiscovery to avoid DB-backed function calls, and heavily
+ * cache extension data.
  */
 class MannequinExtensionDiscovery extends ExtensionDiscovery
 {
+    public function __construct($root, CacheItemPoolInterface $cache = null, $profile_directories = null, $site_path = null)
+    {
+        parent::__construct($root, false, $profile_directories, $site_path);
+        $this->cache = $cache ?: new NullAdapter();
+    }
+
     public function setProfileDirectoriesFromSettings()
     {
         return $this;
+    }
+
+    public function scan($type, $include_tests = null)
+    {
+        $cid = sprintf('mannequin-drupal-extension-discovery.%s.%s', $type, $include_tests);
+        $item = $this->cache->getItem($cid);
+        if (!$item->isHit()) {
+            $item->set(parent::scan($type, $include_tests));
+            $this->cache->save($item);
+        }
+
+        return $item->get();
     }
 }

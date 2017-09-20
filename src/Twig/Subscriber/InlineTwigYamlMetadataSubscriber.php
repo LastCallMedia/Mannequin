@@ -11,30 +11,31 @@
 
 namespace LastCall\Mannequin\Twig\Subscriber;
 
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Component\ComponentInterface;
+use LastCall\Mannequin\Core\Exception\TemplateParsingException;
 use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
-use LastCall\Mannequin\Core\YamlMetadataParser;
-use LastCall\Mannequin\Twig\Pattern\TwigPattern;
-use LastCall\Mannequin\Twig\TwigInspectorInterface;
+use LastCall\Mannequin\Twig\Component\TwigComponent;
 
 class InlineTwigYamlMetadataSubscriber extends YamlFileMetadataSubscriber
 {
-    private $inspector;
+    const BLOCK_NAME = 'componentinfo';
 
-    public function __construct(
-        TwigInspectorInterface $inspector,
-        YamlMetadataParser $parser = null
-    ) {
-        $this->inspector = $inspector;
-        parent::__construct($parser);
-    }
-
-    protected function getMetadataForPattern(PatternInterface $pattern)
+    protected function getMetadataForComponent(ComponentInterface $component)
     {
-        if ($pattern instanceof TwigPattern) {
-            $yaml = $this->inspector->inspectPatternData($pattern->getSource());
-            if (false !== $yaml) {
-                return $this->parseYaml($yaml, $pattern->getSource()->getPath());
+        if ($component instanceof TwigComponent) {
+            try {
+                $template = $component->getTwig()->load($component->getSource()->getName());
+                if ($template->hasBlock(self::BLOCK_NAME)) {
+                    $yaml = $template->renderBlock(self::BLOCK_NAME);
+
+                    return $this->parseYaml($yaml, $component->getSource()->getName());
+                }
+            } catch (\Twig_Error $e) {
+                $message = sprintf('Twig error thrown during componentinfo generation of %s: %s',
+                    $component->getSource()->getName(),
+                    $e->getMessage()
+                );
+                throw new TemplateParsingException($message, $e->getCode(), $e);
             }
         }
     }

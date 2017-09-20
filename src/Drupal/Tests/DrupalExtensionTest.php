@@ -14,6 +14,10 @@ namespace LastCall\Mannequin\Drupal\Tests;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Tests\Extension\ExtensionTestCase;
 use LastCall\Mannequin\Drupal\DrupalExtension;
+use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class DrupalExtensionTest extends ExtensionTestCase
 {
@@ -21,26 +25,18 @@ class DrupalExtensionTest extends ExtensionTestCase
 
     public static function setUpBeforeClass()
     {
-        if (!$root = self::getDrupalRoot()) {
-            self::markTestSkipped('Drupal root not given.');
-        }
-        if (!file_exists(self::getDrupalRoot().'/sites/default/settings.php')) {
-            copy(self::getDrupalRoot().'/sites/default/default.settings.php', self::getDrupalRoot().'/sites/default/settings.php');
-        }
+        self::requireDrupalClasses();
     }
 
-    public function setUp()
+    protected function getDispatcherProphecy(): ObjectProphecy
     {
-        $this->markTestSkipped('Drupal tests are still in progress.');
-    }
+        // For right now, we don't really test subscribers, because the Drupal
+        // extension just uses the TwigExtension's subscribers.
+        $dispatcher = $this->prophesize(EventDispatcherInterface::class);
+        $dispatcher->addSubscriber(Argument::type(EventSubscriberInterface::class))
+            ->shouldBeCalled();
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unable to detect Drupal installation in
-     */
-    public function testCreationWithInvalidDrupalRootFails()
-    {
-        new DrupalExtension();
+        return $dispatcher;
     }
 
     public function getExtension(): ExtensionInterface

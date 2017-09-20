@@ -33,35 +33,39 @@ class TemplateNameMapper
 
     public function addNamespace($namespace, $paths)
     {
-        // Destroy the lookup map.  It will be recreated.
-        $this->_map = null;
+        // Destroy the lookup map and cache.  It will be recreated.
+        $this->_map = $this->_cache = null;
         $this->namespaces[$namespace] = [];
         foreach ((array) $paths as $path) {
             $this->namespaces[$namespace][] = rtrim($path, '/\\');
         }
     }
 
+    /**
+     * Lookup the possible twig names that correspond with a given filename.
+     *
+     * This method is performance-sensitive.
+     *
+     * @param $filename
+     *
+     * @return mixed
+     */
     public function getTemplateNamesForFilename($filename)
     {
         $map = $this->getMap();
         $matching = array_filter(array_keys($map), function ($path) use ($filename) {
-            if (strpos($filename, $path) !== false) {
-                return true;
-            }
-
-            return false;
+            return $filename[0] === $path[0] && strpos($filename, $path) === 0;
         });
-        $matches = [];
-        foreach ($matching as $matchingPath) {
-            $namespace = $map[$matchingPath];
-            if ($namespace === self::MAIN_NAMESPACE) {
-                $matches[] = ltrim(substr($filename, strlen($matchingPath)), '/\\');
-            } else {
-                $matches[] = $namespace.substr($filename, strlen($matchingPath));
-            }
+
+        $templateNames = [];
+        foreach ($matching as $match) {
+            $namespace = $map[$match];
+            $templateNames[] = $namespace === self::MAIN_NAMESPACE
+                ? ltrim(substr($filename, strlen($match)), '/\\')
+                : '@'.$namespace.substr($filename, strlen($match));
         }
 
-        return $matches;
+        return $templateNames;
     }
 
     public function __invoke($templateNameOrFilename)

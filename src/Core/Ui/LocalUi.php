@@ -43,30 +43,31 @@ EOD;
 
     public function files(): array
     {
-        $manifest = file_get_contents($this->uiPath('asset-manifest.json'));
+        $manifest = file_get_contents($this->uiPath('build/asset-manifest.json'));
         $files = [];
         foreach (json_decode($manifest, true) as $file) {
-            $files[$file] = $this->uiPath($file);
+            $files[$file] = $this->uiPath('build/'.$file);
         }
-        $files['index.html'] = $this->uiPath('index.html');
-        $files['favicon.ico'] = $this->uiPath('favicon.ico');
+        $files['index.html'] = $this->uiPath('build/index.html');
+        $files['favicon.ico'] = $this->uiPath('build/favicon.ico');
+        $files['asset-manifest.json'] = $this->uiPath('build/asset-manifest.json');
 
         return $files;
     }
 
-    private function uiPath($relativePath = '')
+    protected function uiPath($relativePath = '')
     {
         return rtrim(sprintf('%s/%s', $this->uiPath, $relativePath), '/');
     }
 
     public function isUiFile(string $path): bool
     {
-        return file_exists($this->uiPath($path));
+        return file_exists($this->uiPath('build/'.ltrim($path, '/')));
     }
 
     public function getUiFileResponse(string $path, Request $request): Response
     {
-        return new BinaryFileResponse($this->uiPath($path));
+        return new BinaryFileResponse($this->uiPath('build/'.ltrim($path, '/')));
     }
 
     public function decorateRendered(Rendered $rendered): string
@@ -85,11 +86,11 @@ EOD;
         );
     }
 
-    private function mapAssets($assets, $pattern)
+    private function mapAssets($assets, $component)
     {
         $tags = [];
         foreach ($assets as $asset) {
-            $tags[] = sprintf($pattern, $asset);
+            $tags[] = sprintf($component, $asset);
         }
 
         return implode("\n", $tags);

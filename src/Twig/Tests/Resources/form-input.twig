@@ -1,4 +1,4 @@
-{% if _pattern %}{% block patterninfo %}
+{% if _component %}{% block componentinfo %}
 name: Form Input
 _group: Atom>Form
 _description: An input element of any type.
@@ -7,8 +7,8 @@ variables:
     # in this template.
     element_label: string
     input_type: string
-variants:
-    # This is where we define variants.  Variants are sets of values used
+samples:
+    # This is where we define samples.  Samples are sets of values used
     # for the variables in the template.
     Text:
         element_label: This is a textfield.

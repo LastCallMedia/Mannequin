@@ -11,10 +11,13 @@
 
 namespace LastCall\Mannequin\Twig\Tests\Discovery;
 
+use LastCall\Mannequin\Core\Component\BrokenComponent;
+use LastCall\Mannequin\Core\Component\ComponentCollection;
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Discovery\IdEncoder;
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
-use LastCall\Mannequin\Twig\Pattern\TwigPattern;
+use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
+use LastCall\Mannequin\Twig\Component\TwigComponent;
 use PHPUnit\Framework\TestCase;
 
 class TwigDiscoveryTest extends TestCase
@@ -23,86 +26,137 @@ class TwigDiscoveryTest extends TestCase
 
     const FIXTURES_DIR = __DIR__.'/../Resources';
 
+    private function getTwig()
+    {
+        $loader = new \Twig_Loader_Array([
+            'form-input.twig' => 'I am twig code',
+            'broken' => '{% }}',
+        ]);
+
+        return new \Twig_Environment($loader, [
+            'cache' => false,
+            'auto_reload' => true,
+        ]);
+    }
+
+    private function getDriver(\Twig_Environment $twigEnvironment)
+    {
+        $driver = $this->prophesize(TwigDriverInterface::class);
+        $driver->getTwig()->willReturn($twigEnvironment);
+
+        return $driver->reveal();
+    }
+
     public function testReturnsCollectionOnEmpty()
     {
-        $loader = $this->prophesize(\Twig_LoaderInterface::class);
-        $discovery = new TwigDiscovery($loader->reveal(), []);
+        $driver = $this->getDriver($this->getTwig());
+        $discovery = new TwigDiscovery($driver, []);
         $collection = $discovery->discover();
-        $this->assertInstanceOf(PatternCollection::class, $collection);
+        $this->assertInstanceOf(ComponentCollection::class, $collection);
         $this->assertCount(0, $collection);
     }
 
-    public function testDiscoversPattern()
+    public function testDiscoversCollection()
     {
-        $pattern = $this->discoverFixtureCollection()->get(
-            $this->encodeId('form-input.twig')
-        );
-        $this->assertInstanceOf(TwigPattern::class, $pattern);
+        $driver = $this->getDriver($this->getTwig());
+        $discovery = new TwigDiscovery($driver, ['form-input.twig']);
+        $collection = $discovery->discover();
+        $this->assertInstanceOf(ComponentCollection::class, $collection);
+        $this->assertCount(1, $collection);
 
-        return $pattern;
+        return $collection;
     }
 
     /**
-     * @depends testDiscoversPattern
+     * @depends testDiscoversCollection
      */
-    public function testSetsId(TwigPattern $pattern)
+    public function testDiscoversComponent(ComponentCollection $collection)
+    {
+        $component = $collection->get(
+            $this->encodeId('form-input.twig')
+        );
+        $this->assertInstanceOf(TwigComponent::class, $component);
+
+        return $component;
+    }
+
+    /**
+     * @depends testDiscoversComponent
+     */
+    public function testSetsId(TwigComponent $component)
     {
         $this->assertEquals(
             $this->encodeId('form-input.twig'),
-            $pattern->getId()
+            $component->getId()
         );
     }
 
     /**
-     * @depends testDiscoversPattern
+     * @depends testDiscoversComponent
      */
-    public function testSetsName(TwigPattern $pattern)
+    public function testSetsName(TwigComponent $component)
     {
-        $this->assertEquals('form-input.twig', $pattern->getName());
+        $this->assertEquals('form-input.twig', $component->getName());
     }
 
     /**
-     * @depends testDiscoversPattern
+     * @depends testDiscoversComponent
      */
-    public function testSetsAliases(TwigPattern $pattern)
+    public function testSetsAliases(TwigComponent $component)
     {
-        $this->assertEquals(['form-input.twig'], $pattern->getAliases());
+        $this->assertEquals(['form-input.twig'], $component->getAliases());
     }
 
     /**
-     * @depends testDiscoversPattern
+     * @depends testDiscoversComponent
      */
-    public function testSetsSource(TwigPattern $pattern)
+    public function testSetsFilename(TwigComponent $component)
     {
-        $this->assertInstanceOf(\Twig_Source::class, $pattern->getSource());
-        $source = $pattern->getSource();
+        $this->assertFalse($component->getFile());
+    }
+
+    /**
+     * @depends testDiscoversComponent
+     */
+    public function testSetsSource(TwigComponent $component)
+    {
+        $source = $component->getSource();
+        $this->assertInstanceOf(\Twig_Source::class, $source);
         $this->assertEquals('form-input.twig', $source->getName());
-        $this->assertEquals(
-            realpath(self::FIXTURES_DIR.'/form-input.twig'),
-            $source->getPath()
-        );
-        $this->assertContains('<input', $source->getCode());
-    }
-
-    private function discoverFixtureCollection()
-    {
-        $loader = new \Twig_Loader_Filesystem(self::FIXTURES_DIR);
-        $discoverer = new TwigDiscovery($loader, [['form-input.twig']]);
-
-        return $discoverer->discover();
     }
 
     /**
-     * @expectedException \LastCall\Mannequin\Core\Exception\UnsupportedPatternException
+     * @expectedException \LastCall\Mannequin\Core\Exception\UnsupportedComponentException
      * @expectedExceptionMessage Unable to load some-nonexistent-file.twig
      */
-    public function testThrowsExceptionOnNonLoadableFiles()
+    public function testThrowsExceptionOnNonLoadableTemplates()
     {
-        $loader = new \Twig_Loader_Filesystem(self::FIXTURES_DIR);
+        $driver = $this->getDriver($this->getTwig());
         $discoverer = new TwigDiscovery(
-            $loader,
+            $driver,
             [['some-nonexistent-file.twig']]
         );
         $discoverer->discover();
+    }
+
+    public function testLoadsBrokenComponent()
+    {
+        $driver = $this->getDriver($this->getTwig());
+        $discoverer = new TwigDiscovery(
+            $driver,
+            [['broken']]
+        );
+        $component = $discoverer->discover()->get($this->encodeId('broken'));
+        $this->assertInstanceOf(BrokenComponent::class, $component);
+
+        return $component;
+    }
+
+    /**
+     * @depends testLoadsBrokenComponent
+     */
+    public function testBrokenComponentListsProblems(ComponentInterface $component)
+    {
+        $this->assertCount(1, $component->getProblems());
     }
 }

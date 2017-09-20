@@ -11,35 +11,28 @@
 
 namespace LastCall\Mannequin\Twig\Engine;
 
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
-use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Exception\UnsupportedComponentException;
 use LastCall\Mannequin\Core\Rendered;
-use LastCall\Mannequin\Twig\Pattern\TwigPattern;
+use LastCall\Mannequin\Twig\Component\TwigComponent;
 
 class TwigEngine implements EngineInterface
 {
-    private $twig;
-
-    public function __construct(
-        \Twig_Environment $twig
-    ) {
-        $this->twig = $twig;
-    }
-
-    public function render(PatternInterface $pattern, array $variables = [], Rendered $rendered)
+    public function render(ComponentInterface $component, array $variables = [], Rendered $rendered)
     {
-        if ($this->supports($pattern)) {
+        if ($this->supports($component)) {
+            $twig = $component->getTwig();
             $rendered->setMarkup(
-                $this->twig->render(
-                    $pattern->getSource()->getName(),
+                $twig->render(
+                    $component->getSource()->getName(),
                     $this->wrapRendered($variables)
                 )
             );
 
             return;
         }
-        throw new UnsupportedPatternException(sprintf('Unsupported pattern: %s', $pattern->getId()));
+        throw new UnsupportedComponentException(sprintf('Unsupported component: %s', $component->getId()));
     }
 
     private function wrapRendered(array $variables)
@@ -58,16 +51,17 @@ class TwigEngine implements EngineInterface
         return $wrapped;
     }
 
-    public function supports(PatternInterface $pattern): bool
+    public function supports(ComponentInterface $component): bool
     {
-        return $pattern instanceof TwigPattern;
+        return $component instanceof TwigComponent;
     }
 
-    public function renderSource(PatternInterface $pattern): string
+    public function renderSource(ComponentInterface $component): string
     {
-        if ($this->supports($pattern)) {
-            return $pattern->getSource()->getCode();
+        /** @var TwigComponent $component */
+        if ($this->supports($component)) {
+            return twig_source($component->getTwig(), $component->getSource()->getName());
         }
-        throw new UnsupportedPatternException('Unsupported pattern.');
+        throw new UnsupportedComponentException('Unsupported component.');
     }
 }

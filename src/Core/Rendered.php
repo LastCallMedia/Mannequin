@@ -33,6 +33,8 @@ final class Rendered
     public function setMarkup(string $markup)
     {
         $this->markup = $markup;
+
+        return $this;
     }
 
     public function addCss(array $css)
@@ -48,6 +50,8 @@ final class Rendered
     public function setCss(array $css)
     {
         $this->css = $css;
+
+        return $this;
     }
 
     public function addJs(array $js)
@@ -63,6 +67,8 @@ final class Rendered
     public function setJs(array $js)
     {
         $this->js = $js;
+
+        return $this;
     }
 
     public function __toString()

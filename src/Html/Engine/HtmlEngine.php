@@ -11,11 +11,11 @@
 
 namespace LastCall\Mannequin\Html\Engine;
 
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
-use LastCall\Mannequin\Core\Exception\UnsupportedPatternException;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
+use LastCall\Mannequin\Core\Exception\UnsupportedComponentException;
 use LastCall\Mannequin\Core\Rendered;
-use LastCall\Mannequin\Html\Pattern\HtmlPattern;
+use LastCall\Mannequin\Html\Component\HtmlComponent;
 
 class HtmlEngine implements EngineInterface
 {
@@ -23,28 +23,28 @@ class HtmlEngine implements EngineInterface
     {
     }
 
-    public function render(PatternInterface $pattern, array $values = [], Rendered $rendered)
+    public function render(ComponentInterface $component, array $values = [], Rendered $rendered)
     {
-        if ($this->supports($pattern)) {
+        if ($this->supports($component)) {
             $rendered->setMarkup(
-                file_get_contents($pattern->getFile()->getPathname())
+                file_get_contents($component->getFile()->getPathname())
             );
 
             return;
         }
-        throw new UnsupportedPatternException('Unsupported Pattern.');
+        throw new UnsupportedComponentException('Unsupported component.');
     }
 
-    public function supports(PatternInterface $pattern): bool
+    public function supports(ComponentInterface $component): bool
     {
-        return $pattern instanceof HtmlPattern;
+        return $component instanceof HtmlComponent;
     }
 
-    public function renderSource(PatternInterface $pattern): string
+    public function renderSource(ComponentInterface $component): string
     {
-        if ($this->supports($pattern)) {
-            return file_get_contents($pattern->getFile()->getPathname());
+        if ($this->supports($component)) {
+            return file_get_contents($component->getFile()->getPathname());
         }
-        throw new UnsupportedPatternException('Unsupported pattern.');
+        throw new UnsupportedComponentException('Unsupported component.');
     }
 }

@@ -11,36 +11,62 @@
 
 namespace LastCall\Mannequin\Twig\Tests\Subscriber;
 
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
-use LastCall\Mannequin\Core\Tests\Subscriber\DiscoverySubscriberTestTrait;
-use LastCall\Mannequin\Twig\Pattern\TwigPattern;
+use LastCall\Mannequin\Core\Component\ComponentCollection;
+use LastCall\Mannequin\Core\Tests\Stubs\TestComponent;
+use LastCall\Mannequin\Core\Tests\Subscriber\ComponentSubscriberTestTrait;
+use LastCall\Mannequin\Twig\Component\TwigComponent;
 use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
-use LastCall\Mannequin\Twig\TwigInspector;
 use PHPUnit\Framework\TestCase;
 
 class TwigIncludeSubscriberTest extends TestCase
 {
-    use DiscoverySubscriberTestTrait;
+    use ComponentSubscriberTestTrait;
 
-    public function testRunsDetection()
+    public function getTwig()
     {
-        $twigSrc = new \Twig_Source('', '', '');
+        $loader = new \Twig_Loader_Array([
+            'p1' => '{% block _collected_usage %}["foo"]{%endblock%}',
+        ]);
+        $twig = new \Twig_Environment($loader);
 
-        $inspector = $this->prophesize(TwigInspector::class);
-        $inspector->inspectLinked($twigSrc)
-            ->willReturn(['bar'])
-            ->shouldBeCalled();
+        return $twig;
+    }
 
-        $collection = $this->prophesize(PatternCollection::class);
-        $collection->has('bar')
-            ->willReturn(true)
-            ->shouldBeCalled();
-        $collection->get('bar')
-            ->willReturn(new TwigPattern('bar', [], $twigSrc))
-            ->shouldBeCalled();
+    public function testDiscoversUsageOfValidComponents()
+    {
+        $twig = $this->getTwig();
+        $source = $twig->load('p1')->getSourceContext();
+        $p1 = new TwigComponent('p1', [], $source, $twig);
+        $foo = new TestComponent('foo');
+        $subscriber = new TwigIncludeSubscriber();
 
-        $pattern = new TwigPattern('foo', [], new \Twig_Source('', '', ''));
-        $subscriber = new TwigIncludeSubscriber($inspector->reveal());
-        $this->dispatchDiscover($subscriber, $pattern, $collection->reveal());
+        $collection = new ComponentCollection([$foo]);
+        $this->dispatchDiscover($subscriber, $p1, $collection);
+        $this->assertEquals([$foo], $p1->getUsedComponents());
+    }
+
+    public function testIgnoresUsageOfUnknownComponents()
+    {
+        $twig = $this->getTwig();
+        $source = $twig->load('p1')->getSourceContext();
+        $p1 = new TwigComponent('p1', [], $source, $twig);
+        $subscriber = new TwigIncludeSubscriber();
+
+        $collection = new ComponentCollection([]);
+        $this->dispatchDiscover($subscriber, $p1, $collection);
+        $this->assertEquals([], $p1->getUsedComponents());
+    }
+
+    /**
+     * @expectedException \LastCall\Mannequin\Core\Exception\TemplateParsingException
+     * @expectedExceptionMessage Twig error thrown during usage checking of no_exist
+     */
+    public function testHandlesTwigException()
+    {
+        $twig = $this->getTwig();
+        $source = new \Twig_Source('', 'no_exist', '');
+        $component = new TwigComponent('', [], $source, $twig);
+        $subscriber = new TwigIncludeSubscriber();
+        $this->dispatchDiscover($subscriber, $component);
     }
 }

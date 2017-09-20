@@ -11,6 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Tests\Variable;
 
+use LastCall\Mannequin\Core\Mannequin;
 use LastCall\Mannequin\Core\Variable\Variable;
 use LastCall\Mannequin\Core\Variable\VariableResolver;
 use PHPUnit\Framework\TestCase;
@@ -35,5 +36,17 @@ class VariableResolverTest extends TestCase
         $resolver = new VariableResolver($el);
         $output = $resolver->resolve($input);
         $this->assertEquals($expected, $output);
+    }
+
+    public function testPassesContext()
+    {
+        $el = $this->prophesize(ExpressionLanguage::class);
+        $el
+            ->evaluate('foo', ['foo' => 'bar'])
+            ->shouldBeCalled();
+        $resolver = new VariableResolver($el->reveal());
+        $resolver->resolve(new Variable('expression', 'foo'), [
+            'foo' => 'bar',
+        ]);
     }
 }

@@ -13,7 +13,6 @@ namespace LastCall\Mannequin\Core\Tests\Extension;
 
 use LastCall\Mannequin\Core\Asset\AssetManager;
 use LastCall\Mannequin\Core\Mannequin;
-use LastCall\Mannequin\Core\Cache\NullCacheItemPool;
 use LastCall\Mannequin\Core\ConfigInterface;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
@@ -23,20 +22,14 @@ use LastCall\Mannequin\Core\YamlMetadataParser;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
-use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Asset\PackageInterface;
+use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 abstract class ExtensionTestCase extends TestCase
 {
-    protected function getNullCache()
-    {
-        return new NullCacheItemPool();
-    }
-
     public function testSubscribe()
     {
         $extension = $this->getExtension();
@@ -46,7 +39,7 @@ abstract class ExtensionTestCase extends TestCase
         );
     }
 
-    public function testGetRenderers()
+    public function testGetEngines()
     {
         $extension = $this->getExtension();
         $extension->register($this->getMannequin());
@@ -77,7 +70,6 @@ abstract class ExtensionTestCase extends TestCase
     public function getConfig(): ConfigInterface
     {
         $config = $this->prophesize(ConfigInterface::class);
-        $config->getCache()->willReturn($this->getNullCache());
         $config->getGlobalCss()->willReturn([]);
         $config->getGlobalJs()->willReturn([]);
 
@@ -88,13 +80,14 @@ abstract class ExtensionTestCase extends TestCase
     {
         $mannequin = $this->prophesize(Mannequin::class);
         $mannequin->getMetadataParser()->willReturn(new YamlMetadataParser());
-        $mannequin->getCache()->willReturn($this->prophesize(CacheItemPoolInterface::class));
+        $mannequin->getCache()->willReturn(new NullAdapter());
         $mannequin->getConfig()->willReturn($config ?? $this->getConfig());
-        $mannequin->getVariableResolver()->willReturn(new VariableResolver(new ExpressionLanguage()));
+        $mannequin->getVariableResolver()->willReturn($this->prophesize(VariableResolver::class));
         $mannequin->getAssetManager()->willReturn($this->prophesize(AssetManager::class));
         $mannequin->getAssetPackage()->willReturn($this->prophesize(PackageInterface::class));
         $generator = $this->prophesize(UrlGeneratorInterface::class);
         $mannequin->getUrlGenerator()->willReturn($generator->reveal());
+        $mannequin->getCacheDir()->willReturn(sys_get_temp_dir().'/mannequin-test');
 
         return $mannequin->reveal();
     }

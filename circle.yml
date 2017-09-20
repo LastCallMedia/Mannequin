@@ -7,11 +7,11 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: composer-v2-{{ checksum "composer.json" }}
+          key: composer-v3-{{ checksum "composer.json" }}
       - run: composer install
       - save_cache:
-          key: composer-v2-{{ checksum "composer.json" }}
-          paths: [vendor]
+          key: composer-v3-{{ checksum "composer.json" }}
+          paths: [vendor, composer.lock]
       - run: |
           COMMIT_RANGE=`echo $CIRCLE_COMPARE_URL | cut -d/ -f7`
           IFS=$'\n'; COMMIT_SCA_FILES=($(git diff --name-only --diff-filter=ACMRTUXB "${COMMIT_RANGE}")); unset IFS
@@ -27,6 +27,25 @@ jobs:
       - store_test_results:
           path: /phpunit
 
+  test_drupal:
+    working_directory: /srv
+    docker:
+      - image: lastcallmedia/php:7.0-dev
+    steps:
+      - checkout
+      - run: composer require drupal/core:8.4.0-rc1 --no-update
+      - restore_cache:
+          key: composer-v3-{{ checksum "composer.json" }}
+      - run: composer install
+      - save_cache:
+          key: composer-v3-{{ checksum "composer.json" }}
+          paths: [vendor, composer.lock]
+      - run: |
+          mkdir -p /phpunit
+          DRUPAL_ROOT=vendor/drupal vendor/bin/phpunit --testsuite=Drupal --log-junit=/phpunit/drupal.xml
+      - store_test_results:
+          path: /phpunit
+
   test_ui:
     working_directory: /srv
     docker:
@@ -34,13 +53,13 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: package-v2-{{ checksum "ui/package.json" }}
-      - run: cd ui && npm install
+          key: package-v3-{{ checksum "ui/package.json" }}
+      - run: cd ui && yarn install
       - save_cache:
-          key: package-v2-{{ checksum "ui/package.json" }}
-          paths: [ui/node_modules]
-      - run: cd ui && npm run build
-      - run: cd ui && npm run test
+          key: package-v3-{{ checksum "ui/package.json" }}
+          paths: [ui/node_modules, ui/yarn.lock]
+      - run: cd ui && yarn run build
+      - run: cd ui && yarn run test
       - persist_to_workspace:
           root: /srv/ui
           paths:
@@ -54,11 +73,8 @@ jobs:
       - attach_workspace:
           at: /srv/ui
       - restore_cache:
-          key: composer-v2-{{ checksum "composer.json" }}
+          key: composer-v3-{{ checksum "composer.json" }}
       - run: composer install
-      - save_cache:
-          key: composer-v2-{{ checksum "composer.json" }}
-          paths: [vendor]
       - run: src/Core/bin/mannequin render
       - persist_to_workspace:
           root: /srv
@@ -91,11 +107,11 @@ jobs:
           cd ui
           package=$(cat package.json | jq -r .name)
           version=$(cat package.json | jq -r .version)
-          if [ -z "$(npm info ${package}@${version} 2> /dev/null)" ]; then
-            echo "Running npm publish on ${package}@${version}"
-            npm publish
+          if [ -z "$(yarn info ${package}@${version} 2> /dev/null)" ]; then
+            echo "Running yarn publish on ${package}@${version}"
+            yarn publish
           else
-            echo "Skipping npm publish"
+            echo "Skipping yarn publish"
           fi
 
   deploy_demo:
@@ -113,16 +129,19 @@ workflows:
   test_and_deploy:
     jobs:
       - test_php
+      - test_drupal
       - test_ui
       - build_demo:
           requires: [test_ui]
       - deploy_split:
-          requires: [test_php]
+          requires: [test_php, test_drupal]
       - deploy_ui:
           requires: [test_ui]
           filters:
             branches:
               only: master
+            tags:
+              only: /.*/
       - deploy_demo:
           requires: [build_demo]
           filters:

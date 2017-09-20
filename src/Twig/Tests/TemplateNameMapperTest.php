@@ -52,7 +52,7 @@ class TemplateNameMapperTest extends TestCase
     public function testMatchesInNamespacedPath()
     {
         $mapper = new TemplateNameMapper(__DIR__.'/foo');
-        $mapper->addNamespace('@test', __DIR__);
+        $mapper->addNamespace('test', __DIR__);
         $name = $mapper->getTemplateNamesForFilename(__FILE__);
         $this->assertEquals(['@test/'.basename(__FILE__)], $name);
     }
@@ -60,7 +60,7 @@ class TemplateNameMapperTest extends TestCase
     public function testMatchesInMultipleNamespaces()
     {
         $mapper = new TemplateNameMapper(dirname(__DIR__));
-        $mapper->addNamespace('@test', __DIR__);
+        $mapper->addNamespace('test', __DIR__);
         $names = $mapper->getTemplateNamesForFilename(__FILE__);
         $this->assertEquals([
             basename(__DIR__).'/'.basename(__FILE__),

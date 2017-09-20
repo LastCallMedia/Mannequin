@@ -11,27 +11,22 @@
 
 namespace LastCall\Mannequin\Core;
 
-use LastCall\Mannequin\Core\Cache\NullCacheItemPool;
+use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Extension\CoreExtension;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
 use LastCall\Mannequin\Core\Ui\RemoteUi;
 use LastCall\Mannequin\Core\Ui\UiInterface;
 use Pimple\Container;
-use Psr\Cache\CacheItemPoolInterface;
 
 class MannequinConfig extends Container implements ConfigInterface
 {
     public function __construct(array $values = [])
     {
         $values += [
-            'cache' => function () {
-                return new NullCacheItemPool();
-            },
             'ui' => function () {
                 $composer = json_decode(file_get_contents(__DIR__.'/composer.json'), true);
 
-                return new RemoteUi(sys_get_temp_dir().'/mannequin-ui', $composer['extra']['uiVersion']);
+                return new RemoteUi($composer['extra']['uiVersion']);
             },
             'global_css' => [],
             'global_js' => [],
@@ -74,16 +69,11 @@ class MannequinConfig extends Container implements ConfigInterface
     }
 
     /**
-     * @return PatternCollection
+     * @return \LastCall\Mannequin\Core\Component\ComponentCollection
      */
-    public function getCollection(): PatternCollection
+    public function getCollection(): ComponentCollection
     {
         return $this['collection'];
-    }
-
-    public function getCache(): CacheItemPoolInterface
-    {
-        return $this['cache'];
     }
 
     public function getUi(): UiInterface

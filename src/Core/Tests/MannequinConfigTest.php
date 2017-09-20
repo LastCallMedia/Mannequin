@@ -11,12 +11,10 @@
 
 namespace LastCall\Mannequin\Core\Tests;
 
-use LastCall\Mannequin\Core\Cache\NullCacheItemPool;
 use LastCall\Mannequin\Core\MannequinConfig;
 use LastCall\Mannequin\Core\Extension\CoreExtension;
 use LastCall\Mannequin\Core\Ui\UiInterface;
 use PHPUnit\Framework\TestCase;
-use Psr\Cache\CacheItemPoolInterface;
 
 class MannequinConfigTest extends TestCase
 {
@@ -32,22 +30,6 @@ class MannequinConfigTest extends TestCase
         $extensions = $config->getExtensions();
         $this->assertCount(1, $extensions);
         $this->assertInstanceOf(CoreExtension::class, reset($extensions));
-    }
-
-    public function testHasDefaultCache()
-    {
-        $config = new MannequinConfig();
-        $this->assertEquals(
-            new NullCacheItemPool(),
-            $config->getCache()
-        );
-    }
-
-    public function testCacheCanBeOverridden()
-    {
-        $cache = $this->prophesize(CacheItemPoolInterface::class)->reveal();
-        $config = new MannequinConfig(['cache' => $cache]);
-        $this->assertEquals($cache, $config->getCache());
     }
 
     public function testHasDefaultGlobalCss()

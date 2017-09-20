@@ -1,0 +1,78 @@
+/**
+ * Foundation for Sites by ZURB
+ * Version 6.4.3
+ * foundation.zurb.com
+ * Licensed under MIT Open Source
+ */
+.ComponentInfo {
+  overflow-y: auto; }
+  .ComponentInfo .inner {
+    background: #181D22;
+    padding-right: 0.625rem;
+    padding-left: 0.625rem;
+    max-width: 75rem;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: row wrap;
+    position: relative; }
+    @media print, screen and (min-width: 40em) {
+      .ComponentInfo .inner {
+        padding-right: 0.9375rem;
+        padding-left: 0.9375rem; } }
+    @media print, screen and (min-width: 64em) {
+      .ComponentInfo .inner {
+        padding-right: 0.9375rem;
+        padding-left: 0.9375rem; } }
+    @media screen and (min-width: 75em) {
+      .ComponentInfo .inner {
+        padding-right: 0.9375rem;
+        padding-left: 0.9375rem; } }
+    @media screen and (min-width: 90em) {
+      .ComponentInfo .inner {
+        padding-right: 0.9375rem;
+        padding-left: 0.9375rem; } }
+    .ComponentInfo .inner > .info, .ComponentInfo .inner > .code {
+      flex: 0 0 auto;
+      min-height: 0px;
+      min-width: 0px;
+      width: calc(100% - 1.25rem);
+      margin-right: 0.625rem;
+      margin-left: 0.625rem; }
+      @media print, screen and (min-width: 40em) {
+        .ComponentInfo .inner > .info, .ComponentInfo .inner > .code {
+          flex: 1 1 0px;
+          width: auto;
+          margin-left: 0.9375rem;
+          margin-right: 0.9375rem;
+          margin-top: 0.9375rem;
+          margin-bottom: 0.9375rem; } }
+    .ComponentInfo .inner .controls {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 2; }
+  .ComponentInfo .info {
+    color: white; }
+    .ComponentInfo .info a {
+      color: inherit; }
+    .ComponentInfo .info h3 {
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 1.125rem;
+      line-height: 1.375rem; }
+    .ComponentInfo .info h4 {
+      font-size: 0.625rem;
+      line-height: 1.875rem;
+      font-weight: bold;
+      color: #767676; }
+    .ComponentInfo .info p {
+      font-size: 0.875rem;
+      line-height: 1.875rem; }
+  .ComponentInfo .code {
+    position: relative; }
+    .ComponentInfo .code .button-group {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem; }
+    .ComponentInfo .code .button {
+      margin-bottom: 0; }

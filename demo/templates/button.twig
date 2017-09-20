@@ -1,15 +1,8 @@
-{% if _pattern %}{% block patterninfo %}
+{% if _component %}{% block componentinfo %}
 name: Button
 _group: Controls
 _description: An HTML Button
-variables:
-    # This is where we declare the TYPES of the variables that are used
-    # in this template.
-    text: string
-    modifier: string
-    disabled: boolean
-    clear: boolean
-variants:
+samples:
     # This is where we define variants.  Variants are sets of values used
     # for the variables in the template.
     Primary:

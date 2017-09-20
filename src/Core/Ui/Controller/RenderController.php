@@ -12,11 +12,11 @@
 namespace LastCall\Mannequin\Core\Ui\Controller;
 
 use LastCall\Mannequin\Core\Asset\AssetManager;
-use LastCall\Mannequin\Core\Exception\PatternNotFoundException;
-use LastCall\Mannequin\Core\Exception\VariantNotFoundException;
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
-use LastCall\Mannequin\Core\PatternRenderer;
+use LastCall\Mannequin\Core\Component\ComponentCollection;
+use LastCall\Mannequin\Core\Component\ComponentInterface;
+use LastCall\Mannequin\Core\Exception\UnknownComponentException;
+use LastCall\Mannequin\Core\Exception\UnknownSampleException;
+use LastCall\Mannequin\Core\ComponentRenderer;
 use LastCall\Mannequin\Core\Ui\UiInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -34,8 +34,8 @@ class RenderController
     private $assetManager;
 
     public function __construct(
-        PatternCollection $collection,
-        PatternRenderer $renderer,
+        ComponentCollection $collection,
+        ComponentRenderer $renderer,
         UiInterface $ui,
         AssetManager $assetManager,
         string $assetDir
@@ -47,9 +47,9 @@ class RenderController
         $this->assetDir = $assetDir;
     }
 
-    public function renderAction($pattern, $variant)
+    public function renderAction($component, $sample)
     {
-        $rendered = $this->renderPattern($pattern, $variant);
+        $rendered = $this->renderComponent($component, $sample);
         $this->assetManager->write($this->assetDir);
 
         return new Response($this->ui->decorateRendered(
@@ -57,42 +57,42 @@ class RenderController
         ));
     }
 
-    private function renderPattern($pattern, $variant)
+    private function renderComponent($component, $sample)
     {
-        $pattern = $this->getPattern($pattern);
-        $variant = $this->getPatternVariant($pattern, $variant);
+        $component = $this->getComponent($component);
+        $sample = $this->getComponentSample($component, $sample);
 
-        return $this->renderer->render($this->collection, $pattern, $variant);
+        return $this->renderer->render($this->collection, $component, $sample);
     }
 
-    public function renderRawAction($pattern, $variant)
+    public function renderRawAction($component, $sample)
     {
-        $rendered = $this->renderPattern($pattern, $variant);
+        $rendered = $this->renderComponent($component, $sample);
 
         return new Response($rendered->getMarkup());
     }
 
-    public function renderSourceAction($pattern)
+    public function renderSourceAction($component)
     {
-        $pattern = $this->getPattern($pattern);
+        $component = $this->getComponent($component);
 
-        return new Response($this->renderer->renderSource($pattern));
+        return new Response($this->renderer->renderSource($component));
     }
 
-    private function getPattern($patternId)
+    private function getComponent($componentId)
     {
         try {
-            return $this->collection->get($patternId);
-        } catch (PatternNotFoundException $e) {
+            return $this->collection->get($componentId);
+        } catch (UnknownComponentException $e) {
             throw new NotFoundHttpException($e->getMessage(), $e);
         }
     }
 
-    private function getPatternVariant(PatternInterface $pattern, $variantId)
+    private function getComponentSample(ComponentInterface $component, $sampleId)
     {
         try {
-            return $pattern->getVariant($variantId);
-        } catch (VariantNotFoundException $e) {
+            return $component->getSample($sampleId);
+        } catch (UnknownSampleException $e) {
             throw new NotFoundHttpException($e->getMessage(), $e);
         }
     }

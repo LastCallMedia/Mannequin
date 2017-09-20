@@ -11,8 +11,8 @@
 
 namespace LastCall\Mannequin\Core\Tests\Ui;
 
-use LastCall\Mannequin\Core\Pattern\PatternCollection;
-use LastCall\Mannequin\Core\Tests\Stubs\TestFilePattern;
+use LastCall\Mannequin\Core\Component\ComponentCollection;
+use LastCall\Mannequin\Core\Tests\Stubs\TestFileComponent;
 use LastCall\Mannequin\Core\Ui\ManifestBuilder;
 use LastCall\Mannequin\Core\Variable\VariableSet;
 use PHPUnit\Framework\TestCase;
@@ -40,14 +40,14 @@ class ManifestBuilderTest extends TestCase
 
     public function testGeneratesManifest()
     {
-        $pattern = new TestFilePattern('p1', ['p1-alias'], new File(__FILE__));
-        $pattern->setName('Pattern 1');
-        $pattern->addMetadata('foo', 'bar');
-        $pattern->createVariant('foo', 'Foo', new VariableSet(), ['foo' => 'bar']);
-        $pattern->addUsedPattern($pattern);
-        $pattern->addProblem('foo problem');
+        $component = new TestFileComponent('p1', ['p1-alias'], new File(__FILE__));
+        $component->setName('Component 1');
+        $component->addMetadata('foo', 'bar');
+        $component->createSample('foo', 'Foo', new VariableSet(), ['foo' => 'bar']);
+        $component->addUsedComponent($component);
+        $component->addProblem('foo problem');
 
-        $collection = new PatternCollection([$pattern]);
+        $collection = new ComponentCollection([$component]);
         $builder = new ManifestBuilder($this->getGenerator());
         $manifest = $builder->generate($collection);
         $this->assertInternalType('array', $manifest);
@@ -58,116 +58,116 @@ class ManifestBuilderTest extends TestCase
     /**
      * @depends testGeneratesManifest
      */
-    public function testManifestPattern($manifest)
+    public function testManifestComponent($manifest)
     {
-        $this->assertTrue(isset($manifest['patterns']));
-        $this->assertCount(1, $manifest['patterns']);
+        $this->assertTrue(isset($manifest['components']));
+        $this->assertCount(1, $manifest['components']);
 
-        return reset($manifest['patterns']);
+        return reset($manifest['components']);
     }
 
     /**
-     * @depends testManifestPattern
+     * @depends testManifestComponent
      */
-    public function testSetsNameOnPattern($patternManifest)
+    public function testSetsNameOnComponent($componentManifest)
     {
-        $this->assertEquals('Pattern 1', $patternManifest['name']);
+        $this->assertEquals('Component 1', $componentManifest['name']);
     }
 
     /**
-     * @depends testManifestPattern
+     * @depends testManifestComponent
      */
-    public function testSetsIdOnPattern($patternManifest)
+    public function testSetsIdOnComponent($componentManifest)
     {
-        $this->assertEquals('p1', $patternManifest['id']);
+        $this->assertEquals('p1', $componentManifest['id']);
     }
 
     /**
-     * @depends testManifestPattern
+     * @depends testManifestComponent
      */
-    public function testSetsAliasesOnPattern($patternManifest)
+    public function testSetsAliasesOnComponent($componentManifest)
     {
-        $this->assertEquals('Pattern 1', $patternManifest['name']);
+        $this->assertEquals(['p1-alias'], $componentManifest['aliases']);
     }
 
     /**
-     * @depends testManifestPattern
+     * @depends testManifestComponent
      */
-    public function testSetsMetadataOnPattern($patternManifest)
+    public function testSetsMetadataOnComponent($componentManifest)
     {
-        // Avoid checking equality, since the pattern may have other metadata
+        // Avoid checking equality, since the component may have other metadata
         // we don't care about.
         $this->assertArraySubset([
             'foo' => 'bar',
-        ], $patternManifest['metadata']);
+        ], $componentManifest['metadata']);
     }
 
     /**
-     * @depends testManifestPattern
+     * @depends testManifestComponent
      */
-    public function testSetsSourceOnPattern($patternManifest)
+    public function testSetsSourceOnComponent($componentManifest)
     {
-        $this->assertEquals('/pattern_render_source_raw/pattern:p1', $patternManifest['source']);
+        $this->assertEquals('/component_render_source_raw/component:p1', $componentManifest['source']);
     }
 
     /**
-     * @depends testManifestPattern
+     * @depends testManifestComponent
      */
-    public function testSetsProblemsOnPattern($patternManifest)
+    public function testSetsProblemsOnComponent($componentManifest)
     {
-        $this->assertEquals(['foo problem'], $patternManifest['problems']);
+        $this->assertEquals(['foo problem'], $componentManifest['problems']);
     }
 
     /**
-     * @depends testManifestPattern
+     * @depends testManifestComponent
      */
-    public function testPatternVariants($patternManifest)
+    public function testComponentSamples($componentManifest)
     {
-        $this->assertInternalType('array', $patternManifest['variants']);
-        $this->assertCount(1, $patternManifest['variants']);
+        $this->assertInternalType('array', $componentManifest['samples']);
+        $this->assertCount(1, $componentManifest['samples']);
 
-        return reset($patternManifest['variants']);
+        return reset($componentManifest['samples']);
     }
 
     /**
-     * @depends testPatternVariants
+     * @depends testComponentSamples
      */
-    public function testSetsIdOnVariant($variantManifest)
+    public function testSetsIdOnSample($sampleManifest)
     {
-        $this->assertEquals('foo', $variantManifest['id']);
+        $this->assertEquals('foo', $sampleManifest['id']);
     }
 
     /**
-     * @depends testPatternVariants
+     * @depends testComponentSamples
      */
-    public function testSetsNameOnVariant($variantManifest)
+    public function testSetsNameOnSample($sampleManifest)
     {
-        $this->assertEquals('Foo', $variantManifest['name']);
+        $this->assertEquals('Foo', $sampleManifest['name']);
     }
 
     /**
-     * @depends testPatternVariants
+     * @depends testComponentSamples
      */
-    public function testSetsSourceOnVariant($variantManifest)
+    public function testSetsSourceOnSample($sampleManifest)
     {
-        $this->assertEquals('/pattern_render_raw/pattern:p1/variant:foo', $variantManifest['source']);
+        $this->assertEquals('/component_render_raw/component:p1/sample:foo', $sampleManifest['source']);
     }
 
     /**
-     * @depends testPatternVariants
+     * @depends testComponentSamples
      */
-    public function testSetsRenderedOnVariant($variantManifest)
+    public function testSetsRenderedOnSample($sampleManifest)
     {
-        $this->assertEquals('/pattern_render/pattern:p1/variant:foo', $variantManifest['rendered']);
+        $this->assertEquals('/component_render/component:p1/sample:foo', $sampleManifest['rendered']);
     }
 
     /**
-     * @depends testPatternVariants
+     * @depends testComponentSamples
      */
-    public function testSetsMetadataOnVariant($variantManifest)
+    public function testSetsMetadataOnSample($sampleManifest)
     {
         $this->assertArraySubset([
             'foo' => 'bar',
-        ], $variantManifest['metadata']);
+        ], $sampleManifest['metadata']);
     }
 }

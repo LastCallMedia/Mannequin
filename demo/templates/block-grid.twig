@@ -1,19 +1,19 @@
-{% if _pattern %}{% block patterninfo %}
+{% if _component %}{% block componentinfo %}
 name: Block Grid
 _group: Containers
 _description: A container that displays many items in a grid layout.
-variants:
+samples:
     # This is where we define variants.  Variants are sets of values used
     # for the variables in the template.
     default:
         _description: This is a pattern that uses another pattern.
         cells:
-            - ~pattern('card.twig')
-            - ~pattern('card.twig')
-            - ~pattern('card.twig')
-            - ~pattern('card.twig')
-            - ~pattern('card.twig')
-            - ~pattern('card.twig')
+            - ~sample('card.twig#Concise')
+            - ~sample('card.twig#Concise')
+            - ~sample('card.twig#Concise')
+            - ~sample('card.twig#Concise')
+            - ~sample('card.twig#Concise')
+            - ~sample('card.twig#Concise')
 {% endblock %}{% endif %}
 <div class="grid-x grid-padding-x small-up-3">
     {% for cell in cells %}

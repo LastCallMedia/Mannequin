@@ -17,14 +17,14 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 interface ExtensionInterface
 {
     /**
-     * Get the pattern discoverers provided by this extension.
+     * Get the component discoverers provided by this extension.
      *
      * @return \LastCall\Mannequin\Core\Discovery\DiscoveryInterface[]
      */
     public function getDiscoverers(): array;
 
     /**
-     * Get the pattern renderers provided by this extension.
+     * Get the component renderers provided by this extension.
      *
      * @return \LastCall\Mannequin\Core\Engine\EngineInterface[]
      */

@@ -13,6 +13,7 @@ namespace LastCall\Mannequin\Core;
 
 use LastCall\Mannequin\Core\Asset\AssetManager;
 use LastCall\Mannequin\Core\Asset\RequestContextContext;
+use LastCall\Mannequin\Core\Common\DirectoryCachingInterface;
 use LastCall\Mannequin\Core\Console\Application as ConsoleApplication;
 use LastCall\Mannequin\Core\Console\Command\DebugCommand;
 use LastCall\Mannequin\Core\Console\Command\RenderCommand;
@@ -33,6 +34,7 @@ use Silex\Provider\ServiceControllerServiceProvider;
 use Symfony\Component\Asset\PackageInterface;
 use Symfony\Component\Asset\PathPackage;
 use Symfony\Component\Asset\VersionStrategy\StaticVersionStrategy;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
@@ -61,7 +63,7 @@ class Mannequin extends Application
                         'render',
                         $this['manifest.builder'],
                         $this['discovery'],
-                        $this['config']->getUi(),
+                        $this['ui'],
                         $this['url_generator'],
                         $this['renderer'],
                         $this['asset.manager']
@@ -86,6 +88,12 @@ class Mannequin extends Application
         $this['log.listener'] = function () {
             return new LogListener($this['logger']);
         };
+        $this['cache_dir'] = function () {
+            return sprintf('%s/mannequin/%s', sys_get_temp_dir(), md5(getcwd()));
+        };
+        $this['cache'] = function () {
+            return new FilesystemAdapter('', 0, $this['cache_dir'].'/cache');
+        };
 
         $this['config'] = function () {
             $filename = $this['config_file'];
@@ -103,9 +111,6 @@ class Mannequin extends Application
                     sprintf('Config was not returned from %s.  Did you forget to add a return statement?', $filename)
                 );
             }
-            foreach ($config->getExtensions() as $extension) {
-                $extension->register($this);
-            }
 
             return $config;
         };
@@ -113,6 +118,14 @@ class Mannequin extends Application
             $this->flush();
 
             return new ManifestBuilder($this['url_generator']);
+        };
+        $this['ui'] = function () {
+            $ui = $this['config']->getUi();
+            if ($ui instanceof DirectoryCachingInterface) {
+                $ui->setCacheDir($this->getCacheDir().'/ui');
+            }
+
+            return $ui;
         };
         $this['engine'] = function () {
             $engines = [];
@@ -147,7 +160,7 @@ class Mannequin extends Application
             );
         };
         $this['build_cache'] = function () {
-            return sys_get_temp_dir().'/mannequin-'.md5($this['config_file']);
+            return sprintf('%s/build', $this['cache_dir']);
         };
 
         $this['variable.resolver'] = function () {
@@ -158,13 +171,13 @@ class Mannequin extends Application
                 }
             }
 
-            return new VariableResolver($expressionLanguage);
+            return new VariableResolver($expressionLanguage, $this);
         };
         $this['metadata_parser'] = function () {
             return new YamlMetadataParser();
         };
         $this['renderer'] = function () {
-            return new PatternRenderer(
+            return new ComponentRenderer(
                 $this['engine'],
                 $this['dispatcher']
             );
@@ -172,7 +185,7 @@ class Mannequin extends Application
 
         $this->register(new ServiceControllerServiceProvider());
         $this['controller.ui'] = function () {
-            return new UiController($this['config']->getUi(), $this['build_cache']);
+            return new UiController($this['ui'], $this['build_cache']);
         };
         $this['controller.manifest'] = function () {
             return new ManifestController(
@@ -186,7 +199,7 @@ class Mannequin extends Application
             return new RenderController(
                 $collection,
                 $this['renderer'],
-                $this['config']->getUi(),
+                $this['ui'],
                 $this['asset.manager'],
                 $this['build_cache']
             );
@@ -195,17 +208,17 @@ class Mannequin extends Application
         $this->get('/manifest.json', 'controller.manifest:getManifestAction')
             ->bind('manifest');
         $this->get(
-            '/m-render/{pattern}/{variant}.html',
+            '/m-render/{component}/{sample}.html',
             'controller.render:renderAction'
-        )->bind('pattern_render');
+        )->bind('component_render');
         $this->get(
-            '/m-source/raw/{pattern}.txt',
+            '/m-source/raw/{component}.txt',
             'controller.render:renderSourceAction'
-        )->bind('pattern_render_source_raw');
+        )->bind('component_render_source_raw');
         $this->get(
-            '/m-source/html/{pattern}/{variant}.txt',
+            '/m-source/html/{component}/{sample}.txt',
             'controller.render:renderRawAction'
-        )->bind('pattern_render_raw');
+        )->bind('component_render_raw');
         $this->match('/{name}', 'controller.ui:staticAction')
             ->bind('static')
             ->value('name', 'index.html')
@@ -219,6 +232,9 @@ class Mannequin extends Application
         MimeTypeGuesser::getInstance()->register(
             new ExtensionMimeTypeGuesser()
         );
+        foreach ($this->getExtensions() as $extension) {
+            $extension->register($this);
+        }
         foreach ($this->getExtensions() as $extension) {
             $extension->subscribe($this['dispatcher']);
         }
@@ -251,7 +267,7 @@ class Mannequin extends Application
         return $this['url_generator'];
     }
 
-    public function getRenderer(): PatternRenderer
+    public function getRenderer(): ComponentRenderer
     {
         return $this['renderer'];
     }
@@ -268,7 +284,12 @@ class Mannequin extends Application
 
     public function getCache(): CacheItemPoolInterface
     {
-        return $this['config']->getCache();
+        return $this['cache'];
+    }
+
+    public function getCacheDir(): string
+    {
+        return $this['cache_dir'];
     }
 
     /**

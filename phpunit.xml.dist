@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit colors="true" bootstrap="vendor/autoload.php">
+<phpunit colors="true" bootstrap="vendor/autoload.php" defaultTestSuite="Core">
     <testsuites>
-        <testsuite name="Mannequin Test Suite">
-            <directory>./src/*/Tests</directory>
+        <testsuite name="Core">
+            <directory>src/Core/Tests</directory>
+            <directory>src/Html/Tests</directory>
+            <directory>src/Twig/Tests</directory>
+        </testsuite>
+        <testsuite name="Drupal">
+            <directory>./src/Drupal/Tests</directory>
         </testsuite>
     </testsuites>
+
+    <php>
+        <env name="DRUPAL_ROOT" value="vendor/drupal" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak_vendors" />
+    </php>
 
     <filter>
         <whitelist>

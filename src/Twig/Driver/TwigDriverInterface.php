@@ -17,5 +17,10 @@ interface TwigDriverInterface
 
     public function getNamespaces(): array;
 
+    /**
+     * @todo: Should this method exist?
+     *
+     * @return string
+     */
     public function getTwigRoot(): string;
 }

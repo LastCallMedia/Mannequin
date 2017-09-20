@@ -13,6 +13,7 @@ namespace LastCall\Mannequin\Twig;
 
 use LastCall\Mannequin\Core\Extension\AbstractExtension;
 use LastCall\Mannequin\Core\Iterator\MappingCallbackIterator;
+use LastCall\Mannequin\Core\Mannequin;
 use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
 use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
@@ -26,7 +27,7 @@ abstract class AbstractTwigExtension extends AbstractExtension
     {
         return [
             new TwigDiscovery(
-                $this->getDriver()->getTwig()->getLoader(), $this->getTemplateNameIterator()
+                $this->getDriver(), $this->getTemplateNameIterator()
             ),
         ];
     }
@@ -34,18 +35,17 @@ abstract class AbstractTwigExtension extends AbstractExtension
     public function getEngines(): array
     {
         return [
-            new TwigEngine($this->getDriver()->getTwig()),
+            new TwigEngine(),
         ];
     }
 
     public function subscribe(EventDispatcherInterface $dispatcher)
     {
-        $inspector = $this->getInspector();
         $dispatcher->addSubscriber(
-            new InlineTwigYamlMetadataSubscriber($inspector)
+            new InlineTwigYamlMetadataSubscriber($this->mannequin->getMetadataParser())
         );
         $dispatcher->addSubscriber(
-            new TwigIncludeSubscriber($inspector)
+            new TwigIncludeSubscriber()
         );
     }
 
@@ -66,14 +66,6 @@ abstract class AbstractTwigExtension extends AbstractExtension
         }
 
         return $mapper;
-    }
-
-    protected function getInspector()
-    {
-        return new TwigInspectorCacheDecorator(
-            new TwigInspector($this->getDriver()->getTwig()),
-            $this->mannequin->getCache()
-        );
     }
 
     abstract protected function getDriver(): TwigDriverInterface;

@@ -11,52 +11,45 @@
 
 namespace LastCall\Mannequin\Twig\Tests\Engine;
 
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
-use LastCall\Mannequin\Core\Pattern\PatternInterface;
 use LastCall\Mannequin\Core\Rendered;
 use LastCall\Mannequin\Core\Tests\Engine\RendererTestCase;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
-use LastCall\Mannequin\Twig\Pattern\TwigPattern;
+use LastCall\Mannequin\Twig\Component\TwigComponent;
 
 class TwigRendererTest extends RendererTestCase
 {
     public function getRenderer(): EngineInterface
     {
-        return new TwigEngine(
-            $this->getTwig(),
-            ['foo'],
-            ['bar']
-        );
-    }
-
-    private function getTwig()
-    {
-        $loader = new \Twig_Loader_Filesystem([__DIR__.'/../Resources/']);
-        $twig = new \Twig_Environment($loader);
-
-        return $twig;
+        return new TwigEngine();
     }
 
     public function testWrapsRendered()
     {
         $twig = $this->prophesize(\Twig_Environment::class);
-        $twig->render('form-input.twig', ['foo' => new \Twig_Markup('bar', 'UTF-8')])
+        $twig->render('wrapped', ['foo' => new \Twig_Markup('bar', 'UTF-8')])
             ->willReturn('rendered')
             ->shouldBeCalled();
 
-        $pattern = $this->getSupportedPattern();
-        $renderer = new TwigEngine($twig->reveal(), ['foostyle'], ['fooscript']);
-        $rendered = new Rendered(['@pattern_css'], ['@pattern_js']);
+        $source = new \Twig_Source('', 'wrapped', '');
+        $component = new TwigComponent('wrapping', [], $source, $twig->reveal());
+
+        $engine = new TwigEngine();
+        $rendered = new Rendered();
         $rendered->setMarkup('bar');
 
         $output = new Rendered();
-        $renderer->render($pattern, ['foo' => $rendered], $output);
+        $engine->render($component, ['foo' => $rendered], $output);
     }
 
-    public function getSupportedPattern(): PatternInterface
+    public function getSupportedComponent(): ComponentInterface
     {
-        $src = new \Twig_Source('', 'form-input.twig', 'form-input.twig');
+        $twig = new \Twig_Environment(new \Twig_Loader_Array([
+            'test' => 'This is {{"html"}}',
+        ]));
+        $source = $twig->load('test')->getSourceContext();
 
-        return new TwigPattern('supported', [], $src);
+        return new TwigComponent('supported', [], $source, $twig);
     }
 }
