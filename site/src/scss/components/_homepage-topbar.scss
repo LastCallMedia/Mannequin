@@ -1,21 +1,27 @@
 
+.HomepageTopBar {
+  .logo {
+    width:39px;
+    position:fixed;
+  }
+  .maintained {
+    color: #97A6B5;
+    font-size: rem-calc(10);
+    line-height: rem-calc(12);
+
+    font-weight: 300;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: inline-block;
+    padding: rem-calc(14) 0 rem-calc(14) rem-calc(39 +17);
+  }
+}
 .lcm-logo {
-  width:39px;
+
   //display:inline-block;
-  position:fixed;
+
   //margin-left:15px
 }
 .maintained{
-  height: 39px;
-  color: #97A6B5;
-  //font-family: Helvetica;
-  font-size: 10px;
-  font-weight: 300;
-  letter-spacing: 1px;
-  line-height: 12px;
-  padding-left: 80px;
-  padding-top: 15px;
-  text-transform: uppercase;
-  display: inline-block;
-  top:0;
+
 }

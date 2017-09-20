@@ -28,6 +28,10 @@
     text-transform: uppercase;
     color: white;
     margin-bottom: 0;
+
+    a {
+      color: inherit;
+    }
   }
   .logo {
     stroke: white;
@@ -65,11 +69,11 @@
   // Variations:
   &.dark {
     .logo {
-      stroke: black;
-      fill: black;
+      stroke: $black;
+      fill: $black;
     }
     .name {
-      color:black;
+      color: $black;
     }
   }
   &.tiny {
