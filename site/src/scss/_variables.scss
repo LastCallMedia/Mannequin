@@ -1,10 +1,22 @@
+//Site colors
+$white: #FFF;
+$black: #080808;
+$almost-black: #1B2126;
 $darkblue: #181D22;
+$blue-grey: #7E92A5;
+$light-gray: #97A6B5;
 $buttonblue: #4A90E2;
-$buttonoutlineblue: #7E92A5;
 
 
-$body-background: $darkblue;
-$body-font-color: white;
+$body-background: $white;
+$body-font-color: $black;
 
-$anchor-color: white;
-$anchor-color-hover: white;
+//$anchor-color: white;
+//$anchor-color-hover: white;
+
+//Site fonts
+$header-font-family: gill sans, sans-seriff;
+$body-font-family: helvetica, sans-seriff;
+
+$grid-container: 1280px;
+$grid-container-padding: 0;
