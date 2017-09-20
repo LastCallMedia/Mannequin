@@ -19,7 +19,7 @@ use Prophecy\Argument;
 
 class LastChanceNameSubscriberTest extends TestCase
 {
-    use DiscoverySubscriberTestTrait;
+    use ComponentSubscriberTestTrait;
 
     public function getFilenameTests()
     {

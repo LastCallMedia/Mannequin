@@ -47,6 +47,6 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
             $this->mannequin->getConfig()->getGlobalCss(),
             $this->mannequin->getConfig()->getGlobalJs()
         ));
-        $dispatcher->addSubscriber(new VariableResolverSubscriber($this->mannequin->getVariableResolver()));
+        $dispatcher->addSubscriber(new VariableResolverSubscriber($this->mannequin->getVariableResolver(), $this->mannequin));
     }
 }

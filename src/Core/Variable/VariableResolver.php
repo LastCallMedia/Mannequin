@@ -21,10 +21,9 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
  */
 class VariableResolver
 {
-    public function __construct(ExpressionLanguage $expressionLanguage, Mannequin $mannequin)
+    public function __construct(ExpressionLanguage $expressionLanguage)
     {
         $this->expressionLanguage = $expressionLanguage;
-        $this->mannequin = $mannequin;
     }
 
     public function resolve($variable, array $context = [])
@@ -49,9 +48,7 @@ class VariableResolver
     private function resolveVariable(Variable $variable, array $context)
     {
         if ($variable->getType() === 'expression') {
-            return $this->expressionLanguage->evaluate($variable->getValue(), $context + [
-                'mannequin' => $this->mannequin,
-            ]);
+            return $this->expressionLanguage->evaluate($variable->getValue(), $context);
         } else {
             return $variable->getValue();
         }

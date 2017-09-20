@@ -11,7 +11,7 @@
 
 namespace LastCall\Mannequin\Twig\Tests\Subscriber;
 
-use LastCall\Mannequin\Core\Tests\Subscriber\DiscoverySubscriberTestTrait;
+use LastCall\Mannequin\Core\Tests\Subscriber\ComponentSubscriberTestTrait;
 use LastCall\Mannequin\Core\Tests\YamlParserProphecyTrait;
 use LastCall\Mannequin\Core\YamlMetadataParser;
 use LastCall\Mannequin\Twig\Component\TwigComponent;
@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 
 class InlineTwigYamlMetadataSubscriberTest extends TestCase
 {
-    use DiscoverySubscriberTestTrait;
+    use ComponentSubscriberTestTrait;
     use YamlParserProphecyTrait;
 
     private function getTwig()

@@ -13,14 +13,14 @@ namespace LastCall\Mannequin\Twig\Tests\Subscriber;
 
 use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Tests\Stubs\TestComponent;
-use LastCall\Mannequin\Core\Tests\Subscriber\DiscoverySubscriberTestTrait;
+use LastCall\Mannequin\Core\Tests\Subscriber\ComponentSubscriberTestTrait;
 use LastCall\Mannequin\Twig\Component\TwigComponent;
 use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
 use PHPUnit\Framework\TestCase;
 
 class TwigIncludeSubscriberTest extends TestCase
 {
-    use DiscoverySubscriberTestTrait;
+    use ComponentSubscriberTestTrait;
 
     public function getTwig()
     {

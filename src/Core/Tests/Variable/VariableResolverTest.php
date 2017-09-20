@@ -15,7 +15,6 @@ use LastCall\Mannequin\Core\Mannequin;
 use LastCall\Mannequin\Core\Variable\Variable;
 use LastCall\Mannequin\Core\Variable\VariableResolver;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 class VariableResolverTest extends TestCase
@@ -34,20 +33,20 @@ class VariableResolverTest extends TestCase
     public function testResolve($input, $expected)
     {
         $el = new ExpressionLanguage();
-        $mannequin = $this->prophesize(Mannequin::class);
-        $resolver = new VariableResolver($el, $mannequin->reveal());
+        $resolver = new VariableResolver($el);
         $output = $resolver->resolve($input);
         $this->assertEquals($expected, $output);
     }
 
-    public function testResolverAddsMannequinToContext()
+    public function testPassesContext()
     {
         $el = $this->prophesize(ExpressionLanguage::class);
-        $mannequin = $this->prophesize(Mannequin::class);
         $el
-            ->evaluate('foo', Argument::withEntry('mannequin', $mannequin))
+            ->evaluate('foo', ['foo' => 'bar'])
             ->shouldBeCalled();
-        $resolver = new VariableResolver($el->reveal(), $mannequin->reveal());
-        $resolver->resolve(new Variable('expression', 'foo'));
+        $resolver = new VariableResolver($el->reveal());
+        $resolver->resolve(new Variable('expression', 'foo'), [
+            'foo' => 'bar',
+        ]);
     }
 }

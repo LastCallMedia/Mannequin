@@ -23,7 +23,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class YamlFileMetadataSubscriberTest extends TestCase
 {
-    use DiscoverySubscriberTestTrait;
+    use ComponentSubscriberTestTrait;
     use YamlParserProphecyTrait;
 
     private $templateFile;
