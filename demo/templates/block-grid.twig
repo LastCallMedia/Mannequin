@@ -8,12 +8,12 @@ samples:
     default:
         _description: This is a pattern that uses another pattern.
         cells:
-            - ~component('card.twig')
-            - ~component('card.twig')
-            - ~component('card.twig')
-            - ~component('card.twig')
-            - ~component('card.twig')
-            - ~component('card.twig')
+            - ~sample('card.twig#Concise')
+            - ~sample('card.twig#Concise')
+            - ~sample('card.twig#Concise')
+            - ~sample('card.twig#Concise')
+            - ~sample('card.twig#Concise')
+            - ~sample('card.twig#Concise')
 {% endblock %}{% endif %}
 <div class="grid-x grid-padding-x small-up-3">
     {% for cell in cells %}

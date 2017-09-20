@@ -26,7 +26,6 @@ use Symfony\Component\Asset\PackageInterface;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 abstract class ExtensionTestCase extends TestCase
@@ -83,7 +82,7 @@ abstract class ExtensionTestCase extends TestCase
         $mannequin->getMetadataParser()->willReturn(new YamlMetadataParser());
         $mannequin->getCache()->willReturn(new NullAdapter());
         $mannequin->getConfig()->willReturn($config ?? $this->getConfig());
-        $mannequin->getVariableResolver()->willReturn(new VariableResolver(new ExpressionLanguage()));
+        $mannequin->getVariableResolver()->willReturn($this->prophesize(VariableResolver::class));
         $mannequin->getAssetManager()->willReturn($this->prophesize(AssetManager::class));
         $mannequin->getAssetPackage()->willReturn($this->prophesize(PackageInterface::class));
         $generator = $this->prophesize(UrlGeneratorInterface::class);

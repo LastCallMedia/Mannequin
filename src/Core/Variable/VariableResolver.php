@@ -11,6 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Variable;
 
+use LastCall\Mannequin\Core\Mannequin;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 /**
@@ -18,11 +19,12 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
  *
  * This class is only used right before components are rendered.
  */
-final class VariableResolver
+class VariableResolver
 {
-    public function __construct(ExpressionLanguage $expressionLanguage)
+    public function __construct(ExpressionLanguage $expressionLanguage, Mannequin $mannequin)
     {
         $this->expressionLanguage = $expressionLanguage;
+        $this->mannequin = $mannequin;
     }
 
     public function resolve($variable, array $context = [])
@@ -47,7 +49,9 @@ final class VariableResolver
     private function resolveVariable(Variable $variable, array $context)
     {
         if ($variable->getType() === 'expression') {
-            return $this->expressionLanguage->evaluate($variable->getValue(), $context);
+            return $this->expressionLanguage->evaluate($variable->getValue(), $context + [
+                'mannequin' => $this->mannequin,
+            ]);
         } else {
             return $variable->getValue();
         }

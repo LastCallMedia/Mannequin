@@ -12,24 +12,23 @@
 namespace LastCall\Mannequin\Core\Extension;
 
 use LastCall\Mannequin\Core\Engine\BrokenEngine;
-use LastCall\Mannequin\Core\Rendered;
+use LastCall\Mannequin\Core\ExpressionLanguage\CoreExpressionLanguageProvider;
 use LastCall\Mannequin\Core\Subscriber\GlobalAssetSubscriber;
 use LastCall\Mannequin\Core\Subscriber\LastChanceNameSubscriber;
 use LastCall\Mannequin\Core\Subscriber\VariableResolverSubscriber;
 use LastCall\Mannequin\Core\Subscriber\YamlFileMetadataSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 
 class CoreExtension extends AbstractExtension implements ExpressionFunctionProviderInterface
 {
     public function getFunctions()
     {
-        return [
-            $this->getComponentExpressionFunction(),
-            $this->getMarkupExpressionFunction(),
-            $this->getAssetExpressionFunction(),
-        ];
+        // This is kind of a weird way to provide functions, but it lets us keep
+        // those functions elsewhere so they can be tested.
+        $provider = new CoreExpressionLanguageProvider();
+
+        return $provider->getFunctions();
     }
 
     public function getEngines(): array
@@ -49,43 +48,5 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
             $this->mannequin->getConfig()->getGlobalJs()
         ));
         $dispatcher->addSubscriber(new VariableResolverSubscriber($this->mannequin->getVariableResolver()));
-    }
-
-    private function getComponentExpressionFunction()
-    {
-        return new ExpressionFunction('component', function ($arguments, $pid) {
-            throw new \ErrorException('Component expressions cannot yet be compiled.');
-        }, function ($context, $pid) {
-            /** @var \LastCall\Mannequin\Core\Component\ComponentCollection $collection */
-            $collection = $context['collection'];
-            $component = $collection->get($pid);
-            $sample = reset($component->getSamples());
-            $renderer = $this->mannequin->getRenderer();
-
-            return $renderer->render($collection, $component, $sample);
-        });
-    }
-
-    private function getMarkupExpressionFunction()
-    {
-        return new ExpressionFunction('markup', function () {
-            throw new \ErrorException('Markup expressions cannot be compiled.');
-        }, function ($args, $markup) {
-            $rendered = new Rendered();
-            $rendered->setMarkup($markup);
-
-            return $rendered;
-        });
-    }
-
-    private function getAssetExpressionFunction()
-    {
-        return new ExpressionFunction('asset', function () {
-            throw new \ErrorException('Asset expressions cannot be compiled.');
-        }, function ($context, $path) {
-            $package = $this->mannequin->getAssetPackage();
-
-            return $package->getUrl($path);
-        });
     }
 }

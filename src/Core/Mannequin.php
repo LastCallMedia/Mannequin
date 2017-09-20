@@ -171,7 +171,7 @@ class Mannequin extends Application
                 }
             }
 
-            return new VariableResolver($expressionLanguage);
+            return new VariableResolver($expressionLanguage, $this);
         };
         $this['metadata_parser'] = function () {
             return new YamlMetadataParser();
