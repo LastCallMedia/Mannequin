@@ -6,14 +6,21 @@
     padding: 0;
   }
   .HomepageHero {
-    max-width: xy-cell-size(9);
     margin: 0 auto;
+    @include breakpoint(large) {
+      max-width: xy-cell-size(9);
+
+    }
+  }
+  .further-reading {
+    margin-bottom: rem-calc(70);
   }
 }
 
 @import "components/branding";
 @import "components/homepage-hero";
-
+@import "components/further-reading";
+@import "components/page-footer";
 
 .button.dashing {
   @include button($background: transparent, $background-hover: $buttonblue);
@@ -298,13 +305,13 @@ h3{
 }
 
 h4{
-  color: #7E92A5;
+  //color: #7E92A5;
   //font-family: Helvetica;
-  font-size: 12px;
-  font-weight: 300;
-  line-height: 19px;
-  width: 220px;
-  margin: 0px;
+  //font-size: 12px;
+  //font-weight: 300;
+  //line-height: 19px;
+  //width: 220px;
+  //margin: 0px;
 }
 
 .get-started {

@@ -13,20 +13,20 @@ layout: home.html
 <main class="content">
   <div class="HomepageHero">
     <!-- This is a static version of the branding template from the UI. -->
-    <div class="Branding">
+    <div class="Branding large">
       <div class="top">
         <img src="img/figure_wave.png" class="logo" alt="Mannequin Logo" />
-        <h1>Mannequin</h1>
+        <h1 class="name">Mannequin</h1>
       </div>
-      <h3>
+      <h3 class="slogan">
         <span>A Component Theming Tool for the Web</span>
       </h3>
     </div>
-    <div class="links grid-x grid-margin-x">
-      <div class="cell medium-4"><a href="#" class="button dashing expanded">Get it on github</a></div>
-      <div class="cell medium-4"><a href="#" class="button dashing expanded">Documentation</a></div>
-      <div class="cell medium-4"><a href="#" class="button dashing expanded">View Demo</a></div>
-    </div>
+    <ul class="links">
+      <li><a href="#" class="button dashing expanded">Get it on github</a></li>
+      <li><a href="#" class="button dashing expanded">Documentation</a></li>
+      <li><a href="#" class="button dashing expanded">View Demo</a></li>
+    </ul>
   </div>
 
   <div>
@@ -117,19 +117,21 @@ layout: home.html
 
   <!-- Further Reading-->
   <div class="further-reading">
-    <hr>
     <h2>Further Reading</h2>
-    <div>
-      <a class="button2" href="#">Configuration</a>
-      <a class="button2" href="#">Patterns</a>
-      <a class="button2" href="#">Extensions</a>
-      <a class="button2" href="#">Troubleshooting</a>
-    </div>
-
-    <hr style="width:100vw;">
-    <div>
-      <button class="button1">Get it on github</button>
-    </div>
+    <ul class="links">
+      <li><a href="#">Configuration</a></li>
+      <li><a href="#">Patterns</a></li>
+      <li><a href="#">Extensions</a></li>
+      <li><a href="#">Troubleshooting</a></li>
+    </ul>
   </div>
 </main>
-<footer></footer>
+<footer class="page-footer">
+  <div class="Branding">
+    <div class="top">
+      <img src="img/figure_wave.png" class="logo" alt="Mannequin Logo" />
+      <h4 class="name">Mannequin</h4>
+    </div>
+  </div>
+  <button class="button dashing">Get it on github</button>
+</footer>

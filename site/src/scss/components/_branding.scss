@@ -1,15 +1,19 @@
-@mixin branding-layout($logo_h, $logo_w, $h1_font-size, $h1_line_height, $divider_margin) {
+// This mixin calculates the ratios of the logo, name, and slogan
+@mixin branding-layout($logo_h, $name_font_size, $divider_margin) {
+  $logo_ratio : 63/61;
+  $logo_w: $logo_h * $logo_ratio;
+  $name_line_height: $name_font_size * 1.15;
   .logo {
     height: rem-calc($logo_h);
     width: rem-calc($logo_w);
-    margin-top: rem-calc(($h1_line_height - $logo_h) / 2);
-    margin-bottom: rem-calc(($h1_line_height - $logo_h) / 2);
+    margin-top: rem-calc(($name_line_height - $logo_h) / 2);
+    margin-bottom: rem-calc(($name_line_height - $logo_h) / 2);
   }
-  h1 {
-    font-size: rem-calc($h1_font-size);
-    line-height: rem-calc($h1_line_height);
+  .name {
+    font-size: rem-calc($name_font_size);
+    line-height: rem-calc($name_line_height);
   }
-  .logo + h1:before {
+  .logo + .name:before {
     height: rem-calc($logo_h);
     margin: 0 rem-calc($divider_margin);
   }
@@ -18,25 +22,22 @@
 .Branding {
   @include xy-grid-container();
 
-  h1 {
+  .name {
     font-family: $impact-font-family;
     font-weight: 700;
-    margin-bottom: 0;
+    margin-bottom: rem-calc(12);
     text-transform: uppercase;
+    color: white;
   }
-  .logo + h1:before {
+  .logo + .name:before {
     content: "";
     border-left: 1px dashed $blue-gray;
     width: 1px;
     display:inline-block;
     vertical-align: middle;
   }
-  @include branding-layout(39, 40, 30, 35, 15);
-  @include breakpoint(large) {
-    @include branding-layout(61, 63, 73, 84, 40);
-  }
-  h3 {
-    margin-top: rem-calc(12);
+
+  .slogan {
     display:block;
     font-size: rem-calc(12);
     color: inherit;
@@ -46,15 +47,18 @@
     span {
       background-color: #1B2126;
     }
-    margin: rem-calc(30) 0 0;
-    @include breakpoint(large) {
-      margin-top: rem-calc(10);
-    }
   }
   .top {
     display: flex;
     .logo, h1 {
       flex: 0 0 auto;
+    }
+  }
+
+  @include branding-layout(51, 31, 20);
+  @include breakpoint(large) {
+    &.large {
+      @include branding-layout(61, 73, 40);
     }
   }
 }
