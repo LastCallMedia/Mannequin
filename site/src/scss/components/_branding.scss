@@ -55,9 +55,19 @@
     }
   }
 
+
   @include branding-layout(51, 31, 20);
-  @include breakpoint(large) {
-    &.large {
+  // Variations:
+  &.dark {
+    .name {
+      color:black;
+    }
+  }
+  &.tiny {
+    //@include branding-layout()
+  }
+  &.large {
+    @include breakpoint(large) {
       @include branding-layout(61, 73, 40);
     }
   }
