@@ -12,6 +12,7 @@ let metalsmith = Metalsmith(__dirname);
 
 metalsmith.source('./src');
 metalsmith.destination('./dist');
+metalsmith.ignore(['scss', 'layouts']);
 metalsmith.use(ignore(['scss/*', 'js/*', 'layouts/*']));
 metalsmith.use(markdown({gfm: true}));
 metalsmith.use(webpack('webpack.config.js', ['./src/js/**', './src/scss/**']));
@@ -21,7 +22,7 @@ metalsmith.use(layouts({
     default: 'default.html',
     partials: './src/layouts/partials',
     pattern: ['*.html'],
-}))
+}));
 
 
 
