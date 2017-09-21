@@ -1,201 +1,214 @@
-// @todo: Let's move all homepage specific styling into this block,
-// which only targets the <main>.
-.Homepage {
-  margin-bottom: rem-calc(70);
-}
-.home {
+body.home {
   background-color: $darkblue;
   color: $white;
-  .top-bar {
-    background-color: $darkblue;
-    padding: 0;
-  }
+}
+
+.Homepage {
+  margin-bottom: rem-calc(70);
+
   .HomepageHero {
     margin: 0 auto;
     @include breakpoint(large) {
       max-width: xy-cell-size(9);
-
     }
   }
-  .further-reading {
+
+  .AboutProductPane {
+    margin-bottom: rem-calc(90);
+  }
+  .GetStartedPane {
+    margin-bottom: rem-calc(90);
+  }
+  .FurtherReadingPane {
     margin-bottom: rem-calc(70);
   }
-
-  // @todo: All of these rules should either be moved into components or nuked.
-  // h2/h3/h4 should be styled by components, not overridden per page.
-  h1 {
-    //font-size: rem-calc(42);
-    letter-spacing: 0.3px;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-  h2{
-    width: inherit;
-    color: #FFFFFF;
-    //font-family: "Gill Sans";
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 36px;
-    text-align: center;
-  }
-
-  h3{
-    //width: 579px;
-    //color: #7E92A5;
-    //font-family: Helvetica;
-    //font-size: 12px;
-    //font-weight: 300;
-    //line-height: 24px;
-    //text-align: center;
-  }
-
-  h4{
-    //color: #7E92A5;
-    //font-family: Helvetica;
-    //font-size: 12px;
-    //font-weight: 300;
-    //line-height: 19px;
-    //width: 220px;
-    //margin: 0px;
-  }
-
-  .about-title{
-    width:579px;
-    color: #FFFFFF;
-    font-size: 30px;
-    font-weight: 100;
-    letter-spacing: 2px;
-    line-height: 47px;
-    //font-family: "Gill Sans" ;
-    margin-bottom:30px;
-    text-transform: uppercase;
-  }
-
-  .sub-title{
-    height: 29px;
-    width: 442px;
-    color: #FFFFFF;
-    //font-family: "Gill Sans";
-    font-size: 12px;
-    font-weight: 300;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-  }
-
-  .step-headline {
-    height: auto;
-    width: 672px;
-    background-color: #1B2126;
-    padding: 25px 0px 5px 0px;
-    margin-bottom: 40px;
-  }
-
-  .button1{
-    border: 1px dashed;
-    background-color: transparent;
-    border-color:$blue-gray;
-    color: white;
-    height: 61px;
-    min-width: 240px;
-    max-width: 291px;
-    text-align: center;
-    padding: 0;
-    font-weight: 500;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    outline: none;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    padding-left:40px;
-    transition-property: background-color, border-color, border-style, box-shadow;
-    transition-duration: 0.15s;
-    transition-timing-function: ease-in-out;
-    box-shadow: none;
-    display: block;
-    text-align: left;
-  }
-
-  .button1:hover{
-    background-color: $buttonblue;
-    border-color:$buttonblue;
-    border-style: solid;
-    box-shadow: 0 9px 5px 0 rgba(0, 0, 0, 0.15)
-  }
-
-
-  .button2{
-    border: 1px dashed $blue-gray;
-    background-color: transparent;
-    color: white;
-    height: 180px;
-    text-align: left;
-    padding: 20px;
-    width: calc(19%);
-    margin: 0px 10px 0px 10px;
-    display: inline-block;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    position:relative;
-    transition-property: background-color, border-color, border-style, color;
-    transition-duration: 0.15s;
-    transition-timing-function: ease-in-out;
-  }
-
-  .button2:hover{
-    background-color: $buttonblue;
-    border-color:$buttonblue;
-    border-style: solid;
-    color: white;
-  }
-
-  .button3{
-    border: 1px dashed $blue-gray;
-    background-color: transparent;
-    color: white;
-    height: 180px;
-    text-align: left;
-    padding: 20px;
-    width: calc(25%);
-    margin: 0px 10px 0px 10px;
-    display: inline-block;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    position:relative;
-    transition-property: background-color, border-color, border-style, color;
-    transition-duration: 0.15s;
-    transition-timing-function: ease-in-out;
-  }
-
-  .button3:hover{
-    background-color: $buttonblue;
-    border-color:$buttonblue;
-    border-style: solid;
-    color: white;
-    h4{color:white;}
-  }
-
-  .get-started {
-    margin-bottom: 100px;
-  }
-  hr{
+  .GetStartedPane + .FurtherReadingPane:before, .AboutProductPane + .GetStartedPane:before {
+    width: rem-calc(309);
+    height: 1px;
     border-top: 1px dashed $blue-gray;
-    background-color: $darkblue;
-    width: 309px;
+    content: "";
+    display: block;
+    margin: 0 auto;
+    margin-bottom: rem-calc(90);
   }
-
-  .laptop-img {
-    overflow: hidden;
-
-    img {
-      max-height: 390px;
-      width: auto;
-      margin-left: 100px;
-    }
+}
+.AboutProductPane {
+  .inner {
+    @include xy-grid-container();
+    @include xy-grid();
+  }
+  .note, .shot {
+    @include xy-cell($size: auto);
+  }
+  .shot {
+    display: none;
+  }
+  @include breakpoint(medium) {
+    .shot {display: block}
+    .note {margin-top: rem-calc(93);}
+  }
+  .shot {
+    background: url(../img/laptop_illo.png);
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-size: 105%;
+    min-height: rem-calc(500);
+  }
+  p {
+    font-family: $header-font-family;
+    font-size: rem-calc(30);
+    letter-spacing: 2px;
+    line-height: rem-calc(47);
+    text-transform: uppercase;
+    font-weight: 300;
   }
 }
 
+.FurtherReadingPane {
+  h2 {
+    font-size: rem-calc(42);
+    line-height: rem-calc(51);
+    margin-bottom: rem-calc(80);
+    text-align: center;
+    font-weight: bold;
+  }
+  ul.links {
+    list-style: none;
+    margin: 0;
+    @include xy-grid();
+    @include xy-grid-layout(1, 'li', true, $gutter-type: padding, $gutter-position: left right top bottom);
+    li {
+      a {
+        display: block;
+        border: 1px dashed $blue-gray;
+        text-align: left;
+        padding: rem-calc(18) rem-calc(26);
+        color: white;
+        font-size: rem-calc(18);
+        font-weight: bold;
+        letter-spacing: rem-calc(1);
+        line-height: rem-calc(22);
 
+        &:hover {
+          background-color: $buttonblue;
+          border-color: $buttonblue;
+          border-style: solid;
+        }
+      }
+    }
+  }
+  // BP Adjustments
+  @include breakpoint(medium) {
+    ul.links {
+      @include xy-grid-layout(2, 'li', true, $gutter-type: padding, $gutter-position: left right top bottom);
+      li a {
+        padding-top: rem-calc(183);
+      }
+    }
+  }
+  @include breakpoint(large) {
+    ul.links {
+      @include xy-grid-layout(4, 'li', true, $gutter-type: padding, $gutter-position: left right top bottom);
+    }
 
+  }
+}
+
+.GetStartedPane {
+  text-align:center;
+  .logo {
+    stroke: white;
+    fill: white;
+  }
+  h2 {
+    font-size: rem-calc(44);
+    line-height: rem-calc(54);
+    font-weight: bold;
+    margin-bottom: rem-calc(96);
+  }
+  %step + %step {
+    margin-top: rem-calc(96);
+  }
+}
+
+%step {
+  .intro {
+    background-color: #1B2126;
+    padding: rem-calc(30) rem-calc(50);
+    margin: 0 auto;
+    h3 {
+      font-size: rem-calc(24);
+      font-weight: bold;
+      line-height: rem-calc(36);
+      text-transform: uppercase;
+      span {
+        display: block;
+        font-size: rem-calc(31);
+      }
+    }
+  }
+  p {
+    font-size: rem-calc(12);
+    line-height: rem-calc(24);
+    font-weight: 300;
+    color: $blue-gray;
+    text-transform: uppercase;
+    margin-bottom: 0;
+  }
+  .intro + .content {
+    margin-top: rem-calc(40);
+  }
+}
+
+.ChooseExtensionStep {
+  @extend %step;
+  .intro { max-width: rem-calc(600); }
+  ul.content {
+    list-style:none;
+    margin: 0;
+    @include xy-grid();
+    @include xy-grid-layout(1, 'li', $gutter-output: true, $gutter-position: left right top bottom);
+    @include breakpoint(medium) {
+      @include xy-grid-layout(3, 'li', $gutter-output: true, $gutter-position: left right top bottom);
+    }
+
+    a {
+      text-align: left;
+      color: $white;
+      border: 1px dashed $blue-gray;
+      display: block;
+      padding: rem-calc(38) rem-calc(90) rem-calc(16) rem-calc(20);
+
+      &:hover {
+        border:1px solid $buttonblue;
+        background: $buttonblue;
+
+        p {
+          color: $white;
+        }
+      }
+      h4 {
+        text-transform: uppercase;
+        font-size: rem-calc(18);
+        line-height: rem-calc(23);
+        font-weight: bold;
+        margin-bottom: rem-calc(5);
+      }
+      .img-container {
+        min-height: rem-calc(86);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        margin-bottom: rem-calc(38);
+      }
+    }
+  }
+}
+.ConfigureStep {
+  @extend %step;
+  .intro { max-width: rem-calc(300); }
+}
+.RunStep {
+  @extend %step;
+  .intro { max-width: rem-calc(670); }
+}

@@ -30,87 +30,63 @@ layout: home.html
   </div>
 
   <!-- About Product -->
-  <div class="grid-x">
-    <div class="about-product cell medium-6">
-      <h3>Note</h3>
-      <div class="about-title">Mannequin is a component based theming tool for the web.</div>
-
-      <button class="button1">Explore</button>
-    </div>
-    <div class="laptop-img medium-6">
-      <img src="img/laptop_illo.png">
+  <div class="AboutProductPane">
+    <div class="inner">
+      <div class="note">
+        <p>Mannequin is a component based theming tool for the web.</p>
+        <a class="button dashing">Explore</a>
+      </div>
+      <div class="shot"></div>
     </div>
   </div>
 
-  <hr>
   <!-- Get Started-->
-  <div class="grid-x">
-    <div class="get-started steps cell medium-10 center">
-      <img src="img/figure_wave.png">
-      <h2>Get Started</h2>
+  <div class="GetStartedPane">
+    <svg id="svg-header-logo" class="logo">
+      <use xlink:href="#Manny_Wave" />
+    </svg>
+    <h2>Get Started</h2>
 
-      <!-- Step 1-->
-      <div class="step step-1">
-        <div class="step-headline">
-          <h3><span class="step-number">1.</span><span class="step-description">Choose the extension you would like to use and install it.</span></h3>
-          <div>
-            While we would eventually like to provide support for all major frameworks and CMS systems,
-            these are the extensions that are currently available.
-          </div>
-        </div>
-
-        <div>
-          <!-- HTML -->
-          <div class="button3">
-            <a href="https://github.com/LastCallMedia/Mannequin-Html">
-              <img src="img/html.png">
-              <div>HTML Extension</div>
-              <div>Display static HTML files as Mannequin patterns.</div>
-            </a>
-          </div>
-
-          <!-- Twig -->
-          <div class="button3">
-            <a href="https://github.com/LastCallMedia/Mannequin-Twig">
-              <img src="img/twig.png">
-              <div>Twig Extension</div>
-              <div>Display Twig templates as Mannequin patterns.</div>
-            </a>
-          </div>
-
-          <!-- Drupal-->
-          <div class="button3">
-            <a href="https://github.com/LastCallMedia/Mannequin-Drupal">
-              <img src="img/drupal.png">
-              <div>Drupal Extension</div>
-              <h4>Display Drupal 8 Twig templates as Mannequin patterns.</h4>
-            </a>
-          </div>
-        </div>
+    <div class="ChooseExtensionStep Step">
+      <div class="intro">
+        <h3><span>1. </span>Choose the extension you would like to use and install it.</h3>
+        <p>While we would eventually like to provide support for all major frameworks and CMS systems,
+          these are the extensions that are currently available.</p>
       </div>
+      <ul class="content">
+        <li><a href="#">
+          <div class="img-container"><img src="img/html.png" alt="HTML 5 Logo" height="76" width="54" /></div>
+          <h4>HTML Extension</h4>
+          <p>Display Static HTML files as Mannequin Components.</p>
+        </a></li>
+        <li><a href="#">
+          <div class="img-container"><img src="img/twig.png" alt="Twig Logo" height="85" width="60" /></div>
+          <h4>Twig Extension</h4>
+          <p>Display Twig Templates as Mannequin Components.</p>
+        </a></li>
+        <li><a href="#">
+          <div class="img-container"><img src="img/drupal.png" align="Drupal Logo" height="43" width="160" /></div>
+          <h4>Drupal Extension</h4>
+          <p>Display Drupal 8 Twig Templates as Mannequin Components.</p>
+        </a></li>
+      </ul>
 
-      <!-- Step 2-->
-      <div class="step step-2">
-        <div class="step-headline">
-          <h3><span class="step-number">2.</span><span class="step-description"></span>Configure</h3>
-        </div>
-        <a class="button1" href="https://mannequin.io/configuration.html">Create a Mannequin.php file </a>
+    </div>
+    <div class="ConfigureStep Step">
+      <div class="intro">
+        <h3><span>2. </span>Configure</h3>
       </div>
-
-
-      <!-- Step 3-->
-      <div class="step step-3">
-        <div class="step-headline">
-          <h3><span class="step-number">3.</span>Start a live development server using vendor/bin/mannequin server.<span class="step-description"></span></h3>
-        </div>
+      <div class="content"><a class="button dashing">Create a .mannequin.php file</a></div>
+    </div>
+    <div class="RunStep Step">
+      <div class="intro">
+        <h3><span>3.</span>Start a live development server using vendor/bin/mannequin server.</h3>
       </div>
     </div>
   </div>
-
-
 
   <!-- Further Reading-->
-  <div class="further-reading">
+  <div class="FurtherReadingPane">
     <h2>Further Reading</h2>
     <ul class="links">
       <li><a href="#">Configuration</a></li>
