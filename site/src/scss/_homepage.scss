@@ -7,10 +7,13 @@ body.home {
   margin-bottom: rem-calc(70);
 
   .HomepageHero {
-    margin: 0 auto;
+    margin: 0 auto rem-calc(90);
     @include breakpoint(large) {
       max-width: xy-cell-size(9);
     }
+  }
+  .HomepageHero + .mouse-icon {
+    margin-bottom: rem-calc(90);
   }
 
   .AboutProductPane {
@@ -37,7 +40,7 @@ body.home {
  * Everything that follows is a component that only exists on the homepage.
  */
 .HomepageHero {
-  padding: rem-calc(200) 0;
+  padding: rem-calc(200) 0 0;
   .Branding {
     margin-bottom: rem-calc(20);
     @include grid-column-gutter();
