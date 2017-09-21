@@ -1,0 +1,17 @@
+<header class="TopBar">
+    <div class="Branding dark tiny">
+        <div class="top">
+            <a href="/" class="logo">
+                <svg id="svg-header-logo" class="logo">
+                    <use xlink:href="#Manny_Wave" />
+                </svg>
+            </a>
+            <h2 class="name"><a href="/">Mannequin</a></h2>
+        </div>
+    </div>
+    <ul class="menu">
+        {% for link in collections.Menu %}
+            <li><a href="{{ link.path }}">{{ link.title }}</a></li>
+        {% endfor %}
+    </ul>
+</header>
