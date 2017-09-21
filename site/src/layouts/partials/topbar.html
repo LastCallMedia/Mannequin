@@ -5,4 +5,9 @@
             <h2 class="name"><a href="/">Mannequin</a></h2>
         </div>
     </div>
+    <ul class="menu">
+        {{#each collections.Menu}}
+            <li><a href="{{this.path}}">{{this.title}}</a></li>
+        {{/each}}
+    </ul>
 </header>

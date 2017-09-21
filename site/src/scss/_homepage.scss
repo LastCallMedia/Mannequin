@@ -41,11 +41,20 @@ body.home {
   }
 }
 
+%bubble-container {
+  position: relative;
+  .Bubble {
+    position: absolute;
+  }
+}
+
 /**
  * Everything that follows is a component that only exists on the homepage.
  */
 .HomepageHero {
   padding: rem-calc(200) 0 0;
+  @extend %bubble-container;
+  .Bubble {left: -10%;}
   .Branding {
     margin-bottom: rem-calc(20);
     @include grid-column-gutter();

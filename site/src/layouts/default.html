@@ -6,6 +6,20 @@
     {{> topbar}}
     <main class="Page">
         <h1 class="title">{{{ title }}}</h1>
+        <aside class="sidebar">
+            {{#if collection}}
+            {{#isnt collection 'Menu'}}
+            <h4>In this section</h4>
+            <ul class="menu">
+                {{#each (lookup collections collection) as |link| }}
+                <li class="{{#is link.path ../path}}active{{/is}}">
+                    <a href="{{link.path}}">{{link.title}}</a>
+                </li>
+                {{/each}}
+            </ul>
+            {{/isnt}}
+            {{/if}}
+        </aside>
         <div class="content">
             {{{ contents }}}
         </div>
