@@ -3,6 +3,11 @@ body.home {
   color: $white;
 }
 
+/**
+ * This is where we configure how the individually styled components are displayed
+ * on the homepage.  Don't use this for styling those components, only for adjustments
+ * that are necessary in how they interact with each other.
+ */
 .Homepage {
   margin-bottom: rem-calc(70);
 
