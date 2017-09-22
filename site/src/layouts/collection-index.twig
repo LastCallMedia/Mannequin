@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+{% include 'partials/head.twig' %}
+
+<body class="page">
+{% include 'partials/topbar.twig' %}
+<main class="Page">
+    <h1 class="title">{{ title }}</h1>
+    <div class="content">
+        {{ contents }}
+
+        <ul class="CollectionIndex">
+            {% for link in metadata.collections[indexFor] %}
+            <li class="item">
+                <a href="/{{ link.path }}">
+                    <h4>{{ link.title }}</h4>
+                    <p>{{ link.description }}</p>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</main>
+{% include 'partials/footer.twig' %}
+{% include 'partials/foot.twig' %}
+</body>
+</html>

@@ -1,5 +1,7 @@
 ---
 title: Components
+collection: Documentation
+description: All about components.
 ---
 A pattern is a bit of code that generates HTML markup.  Most commonly, Mannequin patterns are template files living in your codebase.  Templates become patterns in Mannequin when:
 

@@ -1,5 +1,7 @@
 ---
 title: Configuration
+description: Setting up your project.
+collection: Documentation
 ---
 Mannequin is configured for each project by creating a .mannequin.php file in the project root.  This file must return a `LastCall\Mannequin\Core\MannequinConfig` object.
 

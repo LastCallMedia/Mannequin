@@ -6,23 +6,35 @@
 {% include 'partials/topbar.twig' %}
 <main class="Page">
     <h1 class="title">{{ title }}</h1>
-    <aside class="sidebar">
-        {#{#}{#if collection}}#}
-        {#{#}{#isnt collection 'Menu'}}#}
-        {#<h4>In this section</h4>#}
-        {#<ul class="menu">#}
-            {#{#}{#each (lookup collections collection) as |link| }}#}
-            {#<li class="{#}{#is link.path ../path}}active{{/is}}">#}
-                {#<a href="{{link.path}}">{{link.title}}</a>#}
-            {#</li>#}
-            {#{{/each}}#}
-        {#</ul>#}
-        {#{{/isnt}}#}
-        {#{{/if}}#}
-    </aside>
-    <div class="content">
+    <div class="content" id="content">
         {{ contents }}
     </div>
+    {% if collection and collection != 'Menu' %}
+        <aside class="Sidebar" data-sticky-container>
+            <div class="sticky" data-sticky data-margin-top="0" data-anchor="content">
+                <h3>{{ collection }}</h3>
+                <ul class="menu vertical">
+                    {% for link in metadata.collections[collection] %}
+                        {% if link.path == path %}
+                            <li class="active">
+                                <a href="/{{ link.path }}">{{ link.title }}</a>
+                                {% if headings %}
+                                    <ul class="menu">
+                                        {% for heading in headings %}
+                                            <li><a href="#{{ heading.id }}">{{ heading.text }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        {% else %}
+                            <li><a href="/{{ link.path }}">{{ link.title }}</a></li>
+                        {% endif %}
+
+                    {% endfor %}
+                </ul>
+            </div>
+        </aside>
+    {% endif %}
 </main>
 {% include 'partials/footer.twig' %}
 {% include 'partials/foot.twig' %}

@@ -1,7 +1,5 @@
 
 import $ from 'jquery';
-import foundation from 'foundation-sites';
+import 'foundation-sites/js/entries/foundation';
 
-$(document).ready(() => {
-    $(document).foundation();
-});
+$(document).foundation();

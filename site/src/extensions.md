@@ -1,6 +1,7 @@
 ---
 title: Extensions
 collection: Menu
+view: collection-index.twig
+indexFor: Extensions
 ---
-Test
-
+The following extensions are available.

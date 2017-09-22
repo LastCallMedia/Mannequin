@@ -1,5 +1,6 @@
 ---
 title: Drupal
+description: Display Drupal Twig templates as Mannequin components.
 collection: Extensions
 ---
-Test
+Information about the Drupal extension.
