@@ -4,4 +4,4 @@ collection: Menu
 view: collection-index.twig
 indexFor: Extensions
 ---
-The following extensions are available.
+Find information about extensions below.
