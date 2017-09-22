@@ -52,3 +52,7 @@ The `DrupalExtension` accepts the following configuration options:
 | finder | A [Symfony Finder](https://symfony.com/doc/current/components/finder.html) object that will search for the Twig template files you want to use as components. |
 | drupal_root | An absolute path to the base directory containing your Drupal installation.  This will be used to create a Twig filesystem loader internally. |
 | twig_options | An associative array of [options to pass to Twig](https://twig.symfony.com/api/2.x/Twig_Environment.html#method___construct).  Defaults to using a `cache` property of the Mannequin cache directory. |
+
+## Component Metadata
+
+The `DrupalExtension` is able to read component metadata out of a special block directly in the Twig file.  See [Components](/docs/components) for more info.
