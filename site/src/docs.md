@@ -4,4 +4,13 @@ collection: Menu
 view: collection-index.twig
 indexFor: Documentation
 ---
-Browse our documentation.
+## Glossary
+
+### Component
+A component is...
+
+### Sample
+
+### Expression
+
+## Pages

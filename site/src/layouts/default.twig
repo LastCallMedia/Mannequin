@@ -1,3 +1,4 @@
+{% import 'partials/navigation.twig' as nav %}
 <!doctype html>
 <html>
 {% include 'partials/head.twig' %}
@@ -9,29 +10,15 @@
     <div class="content" id="content">
         {{ contents }}
     </div>
-    {% if collection and collection != 'Menu' %}
+    {% if (collection and collection != 'Menu') or headings %}
         <aside class="Sidebar" data-sticky-container>
             <div class="sticky" data-sticky data-margin-top="0" data-anchor="content">
-                <h3>{{ collection }}</h3>
-                <ul class="menu vertical">
-                    {% for link in metadata.collections[collection] %}
-                        {% if link.path == path %}
-                            <li class="active">
-                                <a href="/{{ link.path }}">{{ link.title }}</a>
-                                {% if headings %}
-                                    <ul class="menu">
-                                        {% for heading in headings %}
-                                            <li><a href="#{{ heading.id }}">{{ heading.text }}</a></li>
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
-                            </li>
-                        {% else %}
-                            <li><a href="/{{ link.path }}">{{ link.title }}</a></li>
-                        {% endif %}
-
-                    {% endfor %}
-                </ul>
+                <h3>{{ collection ? collection : 'Navigation' }}</h3>
+                {% if collection and collection != 'Menu' %}
+                    {{ nav.collection_menu(metadata.collections[collection]) }}
+                {% elseif headings %}
+                    {{ nav.heading_menu(headings) }}
+                {% endif %}
             </div>
         </aside>
     {% endif %}

@@ -1,3 +1,4 @@
+{% import 'partials/navigation.twig' as nav %}
 <!doctype html>
 <html>
 {% include 'partials/head.twig' %}
@@ -6,9 +7,8 @@
 {% include 'partials/topbar.twig' %}
 <main class="Page">
     <h1 class="title">{{ title }}</h1>
-    <div class="content">
+    <div class="content" id="content">
         {{ contents }}
-
         <ul class="CollectionIndex">
             {% for link in metadata.collections[indexFor] %}
             <li class="item">
@@ -20,6 +20,14 @@
             {% endfor %}
         </ul>
     </div>
+    {% if headings %}
+    <aside class="Sidebar" data-sticky-container>
+        <div class="sticky" data-sticky data-margin-top="0" data-anchor="content">
+            <h3>Navigation</h3>
+            {{ nav.heading_menu(headings, false) }}
+        </div>
+    </aside>
+    {% endif %}
 </main>
 {% include 'partials/footer.twig' %}
 {% include 'partials/foot.twig' %}

@@ -29,7 +29,7 @@ metalsmith.use((files, metalsmith, done) => {
     done();
 })
 metalsmith.use(markdown({gfm: true}));
-metalsmith.use(headings());
+metalsmith.use(headings({selectors: ['h2', 'h3']}));
 metalsmith.use(collections());
 metalsmith.use(permalinks({
     relative: false
