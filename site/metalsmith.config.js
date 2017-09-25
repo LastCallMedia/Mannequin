@@ -37,7 +37,7 @@ metalsmith.use((files, metalsmith, done) => {
     const root = metalsmith.directory();
     // Build a map of original filenames (.md) to current filenames (.html).
     const map = Object.keys(files).reduce((m, file) => {
-        m[files[file].originalPath] = files[file].path;
+        m[files[file].originalPath] = files[file].path || file;
         return m;
     }, {});
     match(Object.keys(files), '**/*.html').forEach(file => {
