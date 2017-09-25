@@ -37,10 +37,12 @@ module.exports = {
                 })
             },
             {
-                test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.svg$/],
+                test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.svg$/, /\.(ttf|eot|woff|woff2)$/],
                 loader: 'url-loader',
                 options: {
-                    name: '../img/[name].[hash:8].[ext]'
+                    limit: 10000,
+                    name: '../img/[name].[hash:8].[ext]',
+                    fallback: 'file-loader'
                 }
             }
         ]

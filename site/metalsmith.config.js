@@ -19,8 +19,8 @@ metalsmith.metadata({
     google_analytics: process.env.GOOGLE_ANALYTICS || null
 });
 
-metalsmith.use(webpack('webpack.config.js', ['js/**/*.es6.js', 'scss/**']));
-metalsmith.use(ignore(['**/*.scss', '**/*.es6.js'])); // Remove webpack files so they don't end up in dist.
+metalsmith.use(webpack('webpack.config.js', ['js/**/*.es6.js', 'scss/**', 'fonts/**']));
+metalsmith.use(ignore(['**/*.scss', '**/*.es6.js', 'fonts/**'])); // Remove webpack files so they don't end up in dist.
 // Add a default layout to all markdown files.
 metalsmith.use((files, metalsmith, done) => {
     Object.keys(files).forEach(file => {
