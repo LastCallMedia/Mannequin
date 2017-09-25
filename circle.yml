@@ -85,7 +85,7 @@ jobs:
 
   build_site:
     working_directory: /srv
-    docker: { image: "node:6"}
+    docker: [image: "node:6"]
     steps:
       - checkout
       - restore_cache: { key: 'site-package-v3-{{ checksum "site/package.json" }}' }
