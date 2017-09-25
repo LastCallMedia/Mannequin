@@ -15,6 +15,9 @@ let metalsmith = Metalsmith(__dirname);
 metalsmith.ignore(['layouts']); // Ignore entire layouts directory.
 metalsmith.source('./src');
 metalsmith.destination('./dist');
+metalsmith.metadata({
+    google_analytics: process.env.GOOGLE_ANALYTICS || null
+});
 
 metalsmith.use(webpack('webpack.config.js', ['js/**/*.es6.js', 'scss/**']));
 metalsmith.use(ignore(['**/*.scss', '**/*.es6.js'])); // Remove webpack files so they don't end up in dist.
