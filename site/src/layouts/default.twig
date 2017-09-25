@@ -15,7 +15,7 @@
             <div class="sticky" data-sticky data-margin-top="0" data-anchor="content">
                 <h3>{{ collection ? collection : 'Navigation' }}</h3>
                 {% if collection and collection != 'Menu' %}
-                    {{ nav.collection_menu(metadata.collections[collection]) }}
+                    {{ nav.collection_menu(metadata.collections[collection], headings, path) }}
                 {% elseif headings %}
                     {{ nav.heading_menu(headings) }}
                 {% endif %}

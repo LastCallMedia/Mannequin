@@ -12,11 +12,11 @@
         {% endfor %}
     </ul>
 {% endmacro %}
-{% macro collection_menu(collection, headings) %}
+{% macro collection_menu(collection, headings, current_path) %}
     {% import _self as nav %}
     <ul class="menu vertical">
         {% for link in collection %}
-            {% if link.path == path %}
+            {% if link.path == current_path %}
                 <li class="active">
                     <a href="/{{ link.path }}">{{ link.title }}</a>
                     {% if headings %}{{ nav.heading_menu(headings, true) }}{% endif %}
