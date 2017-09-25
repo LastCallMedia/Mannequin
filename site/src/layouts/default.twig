@@ -13,11 +13,11 @@
     {% if (collection and collection != 'Menu') or headings %}
         <aside class="Sidebar" data-sticky-container>
             <div class="sticky" data-sticky data-margin-top="0" data-anchor="content">
-                <h3>{{ collection ? collection : 'Navigation' }}</h3>
+                <h3>{{ collection and collection != 'Menu' ? collection : 'Navigation' }}</h3>
                 {% if collection and collection != 'Menu' %}
                     {{ nav.collection_menu(metadata.collections[collection], headings, path) }}
-                {% elseif headings %}
-                    {{ nav.heading_menu(headings) }}
+                {% elseif headings.length > 0 %}
+                    {{ nav.heading_menu(headings, false) }}
                 {% endif %}
             </div>
         </aside>
