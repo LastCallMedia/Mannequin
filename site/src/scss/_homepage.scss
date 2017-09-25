@@ -70,6 +70,13 @@ body.home {
     @include breakpoint(large) {
       @include xy-grid-layout(3, li);
     }
+    a {
+      &.github:before {
+        content: '\f056';
+        font-family: $fontello;
+        @extend %fontello;
+      }
+    }
   }
 }
 
