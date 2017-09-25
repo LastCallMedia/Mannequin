@@ -10,11 +10,12 @@ import headings from 'metalsmith-headings';
 
 let metalsmith = Metalsmith(__dirname);
 
-
+metalsmith.ignore(['layouts']); // Ignore entire layouts directory.
 metalsmith.source('./src');
 metalsmith.destination('./dist');
-metalsmith.ignore(['scss', 'layouts']);
-metalsmith.use(ignore(['scss/*', 'js/*', 'layouts/*']));
+
+metalsmith.use(webpack('webpack.config.js', ['js/**/*.es6.js', 'scss/**']));
+metalsmith.use(ignore(['**/*.scss', '**/*.es6.js'])); // Remove webpack files so they don't end up in dist.
 // Add a default layout to all markdown files.
 metalsmith.use((files, metalsmith, done) => {
     Object.keys(files).forEach(file => {
@@ -22,8 +23,6 @@ metalsmith.use((files, metalsmith, done) => {
             if(!files[file].view) {
                 files[file].view = 'default.twig';
             }
-        } else {
-            // files[file].permalink = false;
         }
     });
     done();
@@ -34,7 +33,6 @@ metalsmith.use(collections());
 metalsmith.use(permalinks({
     relative: false
 }));
-metalsmith.use(webpack('webpack.config.js', ['./src/js/**', './src/scss/**']));
 metalsmith.use(twig({
     directory: './src/layouts',
     pattern: ['**/*.html'],
