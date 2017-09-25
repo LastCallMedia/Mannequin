@@ -96,7 +96,7 @@ jobs:
       - save_cache:
           key: site-package-v3-{{ checksum "site/package.json"
           paths: [site/node_modules, site/yarn.lock]
-      - store_artifacts: { path: /srv/site/build }
+      - store_artifacts: { path: /srv/site/dist }
 
 
   deploy_split:
