@@ -37,7 +37,7 @@ module.exports = {
                 })
             },
             {
-                test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+                test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.svg$/],
                 loader: 'url-loader',
                 options: {
                     name: '../img/[name].[hash:8].[ext]'
