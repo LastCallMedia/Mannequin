@@ -90,11 +90,11 @@ jobs:
       - checkout
       - restore_cache: { key: 'site-package-v3-{{ checksum "site/package.json" }}' }
       - run: |
-          cd ui
+          cd site
           yarn install
           yarn build
       - save_cache:
-          key: site-package-v3-{{ checksum "site/package.json"
+          key: site-package-v3-{{ checksum "site/package.json" }}
           paths: [site/node_modules, site/yarn.lock]
       - store_artifacts: { path: /srv/site/dist }
 
