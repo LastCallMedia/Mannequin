@@ -83,6 +83,22 @@ jobs:
       - store_artifacts:
           path: /srv/mannequin
 
+  build_site:
+    working_directory: /srv
+    docker: { image: node: 6}
+    steps:
+      - checkout
+      - restore_cache: { key: site-package-v3-{{ checksum "site/package.json" }} }
+      - run: |
+          cd ui
+          yarn install
+          yarn build
+      - save_cache:
+          key: site-package-v3-{{ checksum "site/package.json"
+          paths: [site/node_modules, site/yarn.lock]
+      - store_artifacts: { path: /srv/site/build }
+
+
   deploy_split:
     working_directory: /srv
     docker:
@@ -131,6 +147,7 @@ workflows:
       - test_php
       - test_drupal
       - test_ui
+      - build_site
       - build_demo:
           requires: [test_ui]
       - deploy_split:
