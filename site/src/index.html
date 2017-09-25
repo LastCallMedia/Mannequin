@@ -7,7 +7,7 @@ view: home.twig
     <!-- This is a static version of the branding template from the UI. -->
     <div class="Branding large">
       <div class="top">
-        <svg id="svg-header-logo" class="logo">
+        <svg class="logo">
           <use xlink:href="#Manny_Wave" />
         </svg>
         <h1 class="name">Mannequin</h1>
@@ -19,8 +19,8 @@ view: home.twig
     <b class="Bubble Blurry"></b>
     <ul class="links">
       <li><a href="https://github.com/LastCallMedia/Mannequin" class="button dashing github expanded">Get it on github</a></li>
-      <li><a href="/docs" class="button dashing documentation expanded">Documentation</a></li>
-      <li><a href="https://demo.mannequin.io" class="button demo dashing expanded">View Demo</a></li>
+      <li><a href="docs.md" class="button dashing documentation expanded">Documentation</a></li>
+      <li><a href="https://demo.mannequin.io" class="button dashing demo expanded">View Demo</a></li>
     </ul>
   </div>
 
@@ -32,8 +32,8 @@ view: home.twig
   <div class="AboutProductPane">
     <div class="inner">
       <div class="note">
-        <p>Mannequin is a component based theming tool for the web.</p>
-        <a class="button dashing">Explore</a>
+        <p>Mannequin bridges the gap between design and development by previewing and rendering templates without a full development environment.</p>
+        <a href="about.md" class="button dashing">Explore</a>
       </div>
       <div class="shot"></div>
     </div>
@@ -53,17 +53,17 @@ view: home.twig
           these are the extensions that are currently available.</p>
       </div>
       <ul class="content">
-        <li><a href="#">
+        <li><a href="extensions/html.md">
           <div class="img-container"><img src="img/html.png" alt="HTML 5 Logo" height="76" width="54" /></div>
           <h4>HTML Extension</h4>
           <p>Display Static HTML files as Mannequin Components.</p>
         </a></li>
-        <li><a href="#">
+        <li><a href="extensions/twig.md">
           <div class="img-container"><img src="img/twig.png" alt="Twig Logo" height="85" width="60" /></div>
           <h4>Twig Extension</h4>
           <p>Display Twig Templates as Mannequin Components.</p>
         </a></li>
-        <li><a href="#">
+        <li><a href="extensions/drupal.md">
           <div class="img-container"><img src="img/drupal.png" align="Drupal Logo" height="43" width="160" /></div>
           <h4>Drupal Extension</h4>
           <p>Display Drupal 8 Twig Templates as Mannequin Components.</p>
@@ -75,7 +75,7 @@ view: home.twig
       <div class="intro">
         <h3><span>2. </span>Configure</h3>
       </div>
-      <div class="content"><a class="button dashing">Create a .mannequin.php file</a></div>
+      <div class="content"><a href="docs/configuration.md" class="button dashing">Create a .mannequin.php file</a></div>
     </div>
     <div class="RunStep Step">
       <div class="intro">
@@ -88,10 +88,10 @@ view: home.twig
   <div class="FurtherReadingPane">
     <h2>Further Reading</h2>
     <ul class="links">
-      <li><a href="/configuration.html">Configuration</a></li>
-      <li><a href="/components.html">Components</a></li>
-      <li><a href="/extensions.html">Extensions</a></li>
-      <li><a href="/troubleshooting.html">Troubleshooting</a></li>
+      <li><a href="docs/configuration.md">Configuration</a></li>
+      <li><a href="docs/components.md">Components</a></li>
+      <li><a href="extensions.md">Extensions</a></li>
+      <li><a href="docs/troubleshooting.md">Troubleshooting</a></li>
     </ul>
   </div>
 </main>

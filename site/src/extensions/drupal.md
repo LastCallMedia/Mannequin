@@ -5,7 +5,7 @@ collection: Extensions
 ---
 The Drupal extension allows you to reference Drupal 8 Twig templates as Mannequin components.  You would use this extension if you want to develop your components outside the context of Drupal.  For example, this would allow themers to begin implementing designs without requiring Content Types, Views, or even a functioning Drupal site.
 
-This extension shares DNA with the [TwigExtension](/extensions/twig), but it configures Twig with additional Drupal specific behavior, such as:
+This extension shares DNA with the [TwigExtension](../extensions/twig.md), but it configures Twig with additional Drupal specific behavior, such as:
 
 * Loading of templates by namespace (@mytheme/mytemplate.htmltwig)
 * Drupal twig extensions:
@@ -55,4 +55,4 @@ The `DrupalExtension` accepts the following configuration options:
 
 ## Component Metadata
 
-The `DrupalExtension` is able to read component metadata out of a special block directly in the Twig file.  See [Components](/docs/components) for more info.
+The `DrupalExtension` is able to read component metadata out of a special block directly in the Twig file.  See [Components](../docs/components.md) for more info.

@@ -3,7 +3,7 @@ title: Expressions
 description: Learn about sample variable expressions
 collection: Documentation
 ---
-As described in [Components](/docs/components), Sample variables can use more complex values by using Expressions.  Any value that is prefixed by `~` is treated as an expression.  In the following example, the "text" variable uses the `rendered` function to mark some HTML as safe so it is not escaped during rendering:
+As described in [Components](../docs/components.md), Sample variables can use more complex values by using Expressions.  Any value that is prefixed by `~` is treated as an expression.  In the following example, the "text" variable uses the `rendered` function to mark some HTML as safe so it is not escaped during rendering:
  
 ```yaml
 # button.yml
