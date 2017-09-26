@@ -2,40 +2,53 @@
 import Metalsmith from 'metalsmith';
 import markdown from 'metalsmith-markdown';
 import webpack from 'metalsmith-webpack-2';
+import sass from 'metalsmith-sass';
 import ignore from 'metalsmith-ignore';
 import collections from 'metalsmith-collections';
 import twig from 'metalsmith-twig';
 import headings from 'metalsmith-headings';
+import postcss from 'metalsmith-postcss';
 import cheerio from 'cheerio';
 import match from 'multimatch';
 import path from 'path';
+import tildeImporter from 'node-sass-tilde-importer';
 
 let metalsmith = Metalsmith(__dirname);
 
-metalsmith.ignore(['layouts']); // Ignore entire layouts directory.
+metalsmith.ignore([ '**.twig']); // Ignore all Twig templates.
 metalsmith.source('./src');
 metalsmith.destination('./dist');
 metalsmith.metadata({
-    google_analytics: process.env.GOOGLE_ANALYTICS || null
+    google_analytics: process.env.GOOGLE_ANALYTICS || null,
+    cache_buster: Math.floor(Date.now() / 1000)
 });
 
-metalsmith.use(webpack('webpack.config.js', ['js/**/*.es6.js', 'scss/**', 'fonts/**']));
-metalsmith.use(ignore(['**/*.scss', '**/*.es6.js', 'fonts/**'])); // Remove webpack files so they don't end up in dist.
 // Add a default layout to all markdown files.
 metalsmith.use((files, metalsmith, done) => {
     Object.keys(files).forEach(file => {
-        if(file.match(/\.md$/)) {
-            if(!files[file].view) {
-                files[file].view = 'default.twig';
-            }
+        if(file.match(/\.md$/) && !files[file].view) {
+            files[file].view = 'default.twig';
         }
         files[file].originalPath = files[file].path || file;
     });
     done();
-})
+});
+metalsmith.use(webpack('webpack.config.js', ['js/**.es6.js']));
+metalsmith.use(ignore(['js/main.es6.js']));
+metalsmith.use(sass({
+    outputDir: 'css/',
+    importer: tildeImporter,
+    sourceMap: true,
+    sourceMapContents: true
+}));
+metalsmith.use(postcss({
+    plugins: { 'autoprefixer': {} },
+    map: {inline: false}
+}));
 metalsmith.use(markdown({gfm: true}));
 // Converts .md references in links to .html ones.
 // This allows us to write GH compatible markdown files that will resolve properly on the site as well.
+// @todo: Move into external file.
 metalsmith.use((files, metalsmith, done) => {
     const root = metalsmith.directory();
     // Build a map of original filenames (.md) to current filenames (.html).
@@ -70,8 +83,5 @@ metalsmith.use(twig({
     directory: './src/layouts',
     pattern: ['**/*.html'],
 }));
-
-
-
 
 module.exports = metalsmith;

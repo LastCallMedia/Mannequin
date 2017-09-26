@@ -1,50 +1,26 @@
 
 var path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-
-const extractSass = new ExtractTextPlugin({
-    filename: '../css/[name].[contenthash].css',
-});
+const webpack = require('webpack');
 
 module.exports = {
     bail: true,
     entry: {
-        app: path.resolve('src', 'js', 'main.es6.js'),
-        style: path.resolve('src', 'scss', 'main.scss')
+        app: path.resolve('src', 'js', 'main.es6.js')
     },
     output: {
         path: path.resolve(__dirname, 'dist', 'js'),
         filename: '[name].[chunkhash].js',
     },
-    plugins: [extractSass],
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin()
+    ],
     module: {
         rules: [
             {
                 test: /\.js$/,
-                include: [],
-                exclude: [/node_modules/],
-                loader: 'babel-loader'
+                exclude: /node_modules\/(?!(foundation-sites)\/).*/,
+                loader: 'babel-loader',
             },
-            {
-                test: /\.scss$/,
-                use: extractSass.extract({
-                    use: [
-                        {loader: 'css-loader'},
-                        {loader: 'postcss-loader'},
-                        {loader: 'sass-loader'}
-                    ],
-                    fallback: 'style-loader'
-                })
-            },
-            {
-                test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.svg$/, /\.(ttf|eot|woff|woff2)$/],
-                loader: 'url-loader',
-                options: {
-                    limit: 10000,
-                    name: '../img/[name].[hash:8].[ext]',
-                    fallback: 'file-loader'
-                }
-            }
         ]
     }
 };
