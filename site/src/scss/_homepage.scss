@@ -70,13 +70,6 @@ body.home {
     @include breakpoint(large) {
       @include xy-grid-layout(3, li);
     }
-    a {
-      &.github:before {
-        content: '\f056';
-        font-family: $fontello;
-        @extend %fontello;
-      }
-    }
   }
 }
 
@@ -254,7 +247,12 @@ body.home {
 }
 .ConfigureStep {
   @extend %step;
-  .intro { max-width: rem-calc(300); }
+  .intro { max-width: rem-calc(338); }
+  .button.dashing {
+    @include breakpoint(large) {
+      min-width: rem-calc(326);
+    }
+  }
 }
 .RunStep {
   @extend %step;
