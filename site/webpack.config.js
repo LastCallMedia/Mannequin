@@ -1,5 +1,6 @@
 
 var path = require('path');
+const webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const extractSass = new ExtractTextPlugin({
@@ -16,14 +17,16 @@ module.exports = {
         path: path.resolve(__dirname, 'dist', 'js'),
         filename: '[name].[chunkhash].js',
     },
-    plugins: [extractSass],
+    plugins: [
+        extractSass,
+        new webpack.optimize.UglifyJsPlugin()
+    ],
     module: {
         rules: [
             {
                 test: /\.js$/,
-                include: [],
-                exclude: [/node_modules/],
-                loader: 'babel-loader'
+                exclude: /node_modules\/(?!(foundation-sites)\/).*/,
+                loader: 'babel-loader',
             },
             {
                 test: /\.scss$/,
@@ -31,7 +34,9 @@ module.exports = {
                     use: [
                         {loader: 'css-loader'},
                         {loader: 'postcss-loader'},
-                        {loader: 'sass-loader'}
+                        {loader: 'sass-loader', options: {
+                            outputStyle: 'compressed'
+                        }}
                     ],
                     fallback: 'style-loader'
                 })
