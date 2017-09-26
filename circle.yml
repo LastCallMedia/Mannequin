@@ -170,4 +170,4 @@ workflows:
           requires: [build_demo, build_site]
           filters:
             branches:
-              only: [master, site_dev]
+              only: [master]
