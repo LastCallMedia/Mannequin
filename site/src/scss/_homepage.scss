@@ -247,7 +247,12 @@ body.home {
 }
 .ConfigureStep {
   @extend %step;
-  .intro { max-width: rem-calc(300); }
+  .intro { max-width: rem-calc(338); }
+  .content{
+    max-width: rem-calc(326);
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 .RunStep {
   @extend %step;
