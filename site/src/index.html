@@ -1,0 +1,97 @@
+---
+title: Mannequin
+view: home.twig
+---
+<main class="Homepage">
+  <div class="HomepageHero">
+    <!-- This is a static version of the branding template from the UI. -->
+    <div class="Branding large">
+      <div class="top">
+        <svg class="logo">
+          <use xlink:href="#Manny_Wave" />
+        </svg>
+        <h1 class="name">Mannequin</h1>
+      </div>
+      <h3 class="slogan">
+        <span>A Component Theming Tool for the Web</span>
+      </h3>
+    </div>
+    <b class="Bubble Blurry"></b>
+    <ul class="links">
+      <li><a href="https://github.com/LastCallMedia/Mannequin" class="button dashing expanded">Get it on github</a></li>
+      <li><a href="docs.md" class="button dashing expanded">Documentation</a></li>
+      <li><a href="https://demo.mannequin.io" class="button dashing expanded">View Demo</a></li>
+    </ul>
+  </div>
+
+  <div class="mouse-icon">
+    <div class="wheel"></div>
+  </div>
+
+  <!-- About Product -->
+  <div class="AboutProductPane">
+    <div class="inner">
+      <div class="note">
+        <p>Mannequin bridges the gap between design and development by previewing and rendering templates without a full development environment.</p>
+        <a href="about.md" class="button dashing">Explore</a>
+      </div>
+      <div class="shot"></div>
+    </div>
+  </div>
+
+  <!-- Get Started-->
+  <div class="GetStartedPane">
+    <svg id="svg-header-logo" class="logo">
+      <use xlink:href="#Manny_Wave" />
+    </svg>
+    <h2>Get Started</h2>
+
+    <div class="ChooseExtensionStep Step">
+      <div class="intro">
+        <h3><span>1. </span>Choose the extension you would like to use and install it.</h3>
+        <p>While we would eventually like to provide support for all major frameworks and CMS systems,
+          these are the extensions that are currently available.</p>
+      </div>
+      <ul class="content">
+        <li><a href="extensions/html.md">
+          <div class="img-container"><img src="img/html.png" alt="HTML 5 Logo" height="76" width="54" /></div>
+          <h4>HTML Extension</h4>
+          <p>Display Static HTML files as Mannequin Components.</p>
+        </a></li>
+        <li><a href="extensions/twig.md">
+          <div class="img-container"><img src="img/twig.png" alt="Twig Logo" height="85" width="60" /></div>
+          <h4>Twig Extension</h4>
+          <p>Display Twig Templates as Mannequin Components.</p>
+        </a></li>
+        <li><a href="extensions/drupal.md">
+          <div class="img-container"><img src="img/drupal.png" align="Drupal Logo" height="43" width="160" /></div>
+          <h4>Drupal Extension</h4>
+          <p>Display Drupal 8 Twig Templates as Mannequin Components.</p>
+        </a></li>
+      </ul>
+
+    </div>
+    <div class="ConfigureStep Step">
+      <div class="intro">
+        <h3><span>2. </span>Configure</h3>
+      </div>
+      <div class="content"><a href="docs/configuration.md" class="button dashing">Create a .mannequin.php file</a></div>
+    </div>
+    <div class="RunStep Step">
+      <div class="intro">
+        <h3><span>3.</span>Start a live development server using vendor/bin/mannequin server.</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- Further Reading-->
+  <div class="FurtherReadingPane">
+    <h2>Further Reading</h2>
+    <ul class="links">
+      <li><a href="docs/configuration.md">Configuration</a></li>
+      <li><a href="docs/components.md">Components</a></li>
+      <li><a href="extensions.md">Extensions</a></li>
+      <li><a href="docs/troubleshooting.md">Troubleshooting</a></li>
+    </ul>
+  </div>
+</main>

@@ -1,0 +1,29 @@
+{% import 'partials/navigation.twig' as nav %}
+<!doctype html>
+<html>
+{% include 'partials/head.twig' %}
+
+<body class="page">
+{% include 'partials/topbar.twig' %}
+<main class="Page">
+    <h1 class="title">{{ title }}</h1>
+    <div class="content" id="content">
+        {{ contents }}
+    </div>
+    {% if (collection and collection != 'Menu') or headings %}
+        <aside class="Sidebar" data-sticky-container>
+            <div class="sticky" data-sticky data-margin-top="0" data-anchor="content">
+                <h3>{{ collection and collection != 'Menu' ? collection : 'Navigation' }}</h3>
+                {% if collection and collection != 'Menu' %}
+                    {{ nav.collection_menu(metadata.collections[collection], headings, path) }}
+                {% elseif headings.length > 0 %}
+                    {{ nav.heading_menu(headings, false) }}
+                {% endif %}
+            </div>
+        </aside>
+    {% endif %}
+</main>
+{% include 'partials/footer.twig' %}
+{% include 'partials/foot.twig' %}
+</body>
+</html>

@@ -1,0 +1,49 @@
+{
+  "name": "site",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "autoprefixer": "^7.1.4",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "cheerio": "^1.0.0-rc.2",
+    "cross-env": "^5.0.5",
+    "extract-text-webpack-plugin": "^2.0.0",
+    "foundation-sites": "^6.4.3",
+    "jquery": "^3.2.1",
+    "metalsmith": "^2.3.0",
+    "metalsmith-collections": "^0.9.0",
+    "metalsmith-headings": "^0.2.0",
+    "metalsmith-ignore": "^0.1.2",
+    "metalsmith-markdown": "^0.2.1",
+    "metalsmith-postcss": "^4.1.1",
+    "metalsmith-sass": "^1.4.0",
+    "metalsmith-twig": "^1.0.4",
+    "metalsmith-webpack-2": "^1.0.4",
+    "multimatch": "^2.1.0",
+    "node-sass": "^4.5.3",
+    "node-sass-tilde-importer": "^1.0.0",
+    "nodemon": "^1.11.0",
+    "npm-run-all": "^4.0.2",
+    "postcss-loader": "^2.0.6",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.18.2",
+    "url-loader": "^0.5.9",
+    "webpack": "^2.5.1"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.18.13"
+  },
+  "scripts": {
+    "build": "cross-env babel-node build.js",
+    "start": "cross-env DEBUG=metalsmith* babel-node start.js"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  }
+}

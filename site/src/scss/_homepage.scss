@@ -1,0 +1,255 @@
+body.home {
+  background-color: $darkblue;
+  color: $white;
+}
+
+/**
+ * This is where we configure how the individually styled components are displayed
+ * on the homepage.  Don't use this for styling those components, only for adjustments
+ * that are necessary in how they interact with each other.
+ */
+.Homepage {
+  margin-bottom: rem-calc(70);
+
+  .HomepageHero {
+    margin: 0 auto rem-calc(90);
+    @include breakpoint(large) {
+      max-width: xy-cell-size(9);
+    }
+  }
+  .HomepageHero + .mouse-icon {
+    margin-bottom: rem-calc(90);
+  }
+
+  .AboutProductPane {
+    margin-bottom: rem-calc(90);
+  }
+  .GetStartedPane {
+    margin-bottom: rem-calc(90);
+  }
+  .FurtherReadingPane {
+    margin-bottom: rem-calc(70);
+  }
+  .GetStartedPane + .FurtherReadingPane:before, .AboutProductPane + .GetStartedPane:before {
+    width: rem-calc(309);
+    height: 1px;
+    border-top: 1px dashed $blue-gray;
+    content: "";
+    display: block;
+    margin: 0 auto;
+    margin-bottom: rem-calc(90);
+  }
+}
+
+%bubble-container {
+  position: relative;
+  .Bubble {
+    position: absolute;
+  }
+}
+
+/**
+ * Everything that follows is a component that only exists on the homepage.
+ */
+.HomepageHero {
+  padding: rem-calc(200) 0 0;
+  @extend %bubble-container;
+  .Bubble {left: -10%;}
+  .Branding {
+    margin-bottom: rem-calc(20);
+    @include grid-column-gutter();
+  }
+  ul.links {
+    list-style:none;
+    margin: 0;
+    @include xy-grid();
+    @include xy-grid-layout(1, li);
+    @include breakpoint(medium) {
+      @include xy-grid-layout(2, li);
+    }
+    @include breakpoint(large) {
+      @include xy-grid-layout(3, li);
+    }
+  }
+}
+
+.AboutProductPane {
+  .inner {
+    @include xy-grid-container();
+    @include xy-grid();
+  }
+  .note, .shot {
+    @include xy-cell($size: auto);
+  }
+  .shot {
+    display: none;
+  }
+  @include breakpoint(medium) {
+    .shot {display: block}
+    .note {margin-top: rem-calc(93);}
+  }
+  .shot {
+    background: url(../img/laptop_illo.svg);
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-size: 105%;
+    min-height: rem-calc(500);
+  }
+  p {
+    font-family: $header-font-family;
+    font-size: rem-calc(30);
+    letter-spacing: 2px;
+    line-height: rem-calc(47);
+    text-transform: uppercase;
+    font-weight: 300;
+  }
+}
+
+.FurtherReadingPane {
+  h2 {
+    font-size: rem-calc(42);
+    line-height: rem-calc(51);
+    margin-bottom: rem-calc(80);
+    text-align: center;
+    font-weight: bold;
+  }
+  ul.links {
+    list-style: none;
+    margin: 0;
+    @include xy-grid();
+    @include xy-grid-layout(1, 'li', true, $gutter-type: padding, $gutter-position: left right top bottom);
+    li {
+      a {
+        display: block;
+        border: 1px dashed $blue-gray;
+        text-align: left;
+        padding: rem-calc(18) rem-calc(26);
+        color: white;
+        font-size: rem-calc(18);
+        font-weight: bold;
+        letter-spacing: rem-calc(1);
+        line-height: rem-calc(22);
+
+        &:hover {
+          background-color: $buttonblue;
+          border-color: $buttonblue;
+          border-style: solid;
+        }
+      }
+    }
+  }
+  // BP Adjustments
+  @include breakpoint(medium) {
+    ul.links {
+      @include xy-grid-layout(2, 'li', true, $gutter-type: padding, $gutter-position: left right top bottom);
+      li a {
+        padding-top: rem-calc(183);
+      }
+    }
+  }
+  @include breakpoint(large) {
+    ul.links {
+      @include xy-grid-layout(4, 'li', true, $gutter-type: padding, $gutter-position: left right top bottom);
+    }
+
+  }
+}
+
+.GetStartedPane {
+  text-align:center;
+  .logo {
+    stroke: white;
+    fill: white;
+  }
+  h2 {
+    font-size: rem-calc(44);
+    line-height: rem-calc(54);
+    font-weight: bold;
+    margin-bottom: rem-calc(96);
+  }
+  %step + %step {
+    margin-top: rem-calc(96);
+  }
+}
+
+%step {
+  .intro {
+    background-color: #1B2126;
+    padding: rem-calc(30) rem-calc(50);
+    margin: 0 auto;
+    h3 {
+      font-size: rem-calc(24);
+      font-weight: bold;
+      line-height: rem-calc(36);
+      text-transform: uppercase;
+      span {
+        display: block;
+        font-size: rem-calc(31);
+      }
+    }
+  }
+  p {
+    font-size: rem-calc(12);
+    line-height: rem-calc(24);
+    font-weight: 300;
+    color: $blue-gray;
+    text-transform: uppercase;
+    margin-bottom: 0;
+  }
+  .intro + .content {
+    margin-top: rem-calc(40);
+  }
+}
+
+.ChooseExtensionStep {
+  @extend %step;
+  .intro { max-width: rem-calc(600); }
+  ul.content {
+    list-style:none;
+    margin: 0;
+    @include xy-grid();
+    @include xy-grid-layout(1, 'li', $gutter-output: true, $gutter-position: left right top bottom);
+    @include breakpoint(medium) {
+      @include xy-grid-layout(3, 'li', $gutter-output: true, $gutter-position: left right top bottom);
+    }
+
+    a {
+      text-align: left;
+      color: $white;
+      border: 1px dashed $blue-gray;
+      display: block;
+      padding: rem-calc(38) rem-calc(90) rem-calc(16) rem-calc(20);
+
+      &:hover {
+        border:1px solid $buttonblue;
+        background: $buttonblue;
+
+        p {
+          color: $white;
+        }
+      }
+      h4 {
+        text-transform: uppercase;
+        font-size: rem-calc(18);
+        line-height: rem-calc(23);
+        font-weight: bold;
+        margin-bottom: rem-calc(5);
+      }
+      .img-container {
+        min-height: rem-calc(86);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        margin-bottom: rem-calc(38);
+      }
+    }
+  }
+}
+.ConfigureStep {
+  @extend %step;
+  .intro { max-width: rem-calc(300); }
+}
+.RunStep {
+  @extend %step;
+  .intro { max-width: rem-calc(670); }
+}

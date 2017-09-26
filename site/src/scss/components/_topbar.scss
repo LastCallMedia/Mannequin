@@ -1,0 +1,25 @@
+.TopBar {
+  border-bottom: 1px solid #EDEDED;
+  .inner {
+    @include xy-grid-container();
+    @include xy-grid();
+  }
+  .Branding {
+    @include xy-cell(auto);
+    margin: rem-calc(13) auto;
+  }
+  .menu {
+    @include xy-cell(auto);
+    justify-content: flex-end;;
+    a {
+      $lh: 20;
+      color: $black;
+      text-transform: uppercase;
+      font-size: rem-calc(14);
+      line-height: rem-calc($lh);
+      padding-top: rem-calc((55 - $lh) / 2);
+      padding-bottom: rem-calc((55 - $lh) / 2);
+      font-weight: bold;
+    }
+  }
+}

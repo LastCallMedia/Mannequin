@@ -1,0 +1,43 @@
+
+.Bubble {
+  height: rem-calc(30);
+  width: rem-calc(30);
+  @include breakpoint(large) {
+    height: rem-calc(50);
+    width: rem-calc(50);
+  }
+
+  border: 4px solid white;
+  border-radius: 50%;
+  display:block;
+
+  animation-name: floating;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+
+
+  &.Large {
+    height: rem-calc(50);
+    width: rem-calc(50);
+    @include breakpoint(large) {
+      height: rem-calc(80);
+      width: rem-calc(80);
+    }
+  }
+  &.Blurry {
+    filter: blur(3px);
+  }
+}
+
+@keyframes floating {
+  from {
+    transform: translate(0, 0px);
+  }
+  65% {
+    transform: translate(0, 15px);
+  }
+  to {
+    transform: translate(0, -0px);
+  }
+}

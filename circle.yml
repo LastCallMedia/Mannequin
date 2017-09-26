@@ -83,6 +83,25 @@ jobs:
       - store_artifacts:
           path: /srv/mannequin
 
+  build_site:
+    working_directory: /srv
+    docker: [image: "node:6"]
+    steps:
+      - checkout
+      - restore_cache: { key: 'site-package-v3-{{ checksum "site/package.json" }}' }
+      - run: |
+          cd site
+          yarn install
+          yarn build
+      - save_cache:
+          key: site-package-v3-{{ checksum "site/package.json" }}
+          paths: [site/node_modules, site/yarn.lock]
+      - store_artifacts: { path: /srv/site/dist }
+      - persist_to_workspace:
+          root: /srv/site
+          paths:
+            - dist
+
   deploy_split:
     working_directory: /srv
     docker:
@@ -114,7 +133,7 @@ jobs:
             echo "Skipping yarn publish"
           fi
 
-  deploy_demo:
+  deploy_site:
     working_directory: /srv
     docker:
       - image: cgswong/aws:aws
@@ -122,7 +141,11 @@ jobs:
       - checkout
       - attach_workspace:
           at: /srv
-      - run: aws s3 sync mannequin s3://demo.mannequin.io --delete
+      - attach_workspace:
+          at: /srv/site
+      - run: |
+          aws s3 sync mannequin s3://demo.mannequin.io --delete
+          aws s3 sync site/dist s3://mannequin.io --delete
 
 workflows:
   version: 2
@@ -131,6 +154,7 @@ workflows:
       - test_php
       - test_drupal
       - test_ui
+      - build_site
       - build_demo:
           requires: [test_ui]
       - deploy_split:
@@ -142,8 +166,8 @@ workflows:
               only: master
             tags:
               only: /.*/
-      - deploy_demo:
-          requires: [build_demo]
+      - deploy_site:
+          requires: [build_demo, build_site]
           filters:
             branches:
-              only: master
+              only: [master]
