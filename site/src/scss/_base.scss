@@ -12,8 +12,7 @@ pre code {
   @include button($background: transparent, $background-hover: $buttonblue);
   border: 1px dashed $blue-gray;
   text-transform: uppercase;
-  position: relative;
-
+  max-width: rem-calc(321px);
   transition-property: background-color, border-color, border-style, box-shadow;
   transition-duration: 0.15s;
   transition-timing-function: ease-in-out;
