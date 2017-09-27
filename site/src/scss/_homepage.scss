@@ -126,10 +126,8 @@
     text-transform: uppercase;
     font-weight: 300;
   }
-  .inner {
-    @extend %bubble-container;
-    .bubble1 {left: 52%; bottom: 0;}
-  }
+  @extend %bubble-container;
+  .bubble1 {left: 52%; bottom: 0;}
 }
 
 .FurtherReadingPane {

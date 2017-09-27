@@ -1,0 +1,6 @@
+// This file is included from partials outside of the
+// current directory.  It only initializes Foundation
+// and any mixins we have declared.  Do not write CSS
+// here.
+@import "variables";
+@import "~foundation-sites/scss/foundation";

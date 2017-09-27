@@ -1,7 +1,9 @@
 
+@import "../scss/init";
+
 .HomepageTopBar {
   .logo {
-    width:39px;
+    width:rem-calc(39);
     position:fixed;
   }
   .maintained {
@@ -15,13 +17,4 @@
     display: inline-block;
     padding: rem-calc(14) 0 rem-calc(14) rem-calc(39 +17);
   }
-}
-.lcm-logo {
-
-  //display:inline-block;
-
-  //margin-left:15px
-}
-.maintained{
-
 }

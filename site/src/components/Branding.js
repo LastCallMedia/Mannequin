@@ -1,6 +1,7 @@
 import React from 'react'
 import Logo from '!svg-react-loader?name=Logo!../img/Logo.svg'
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import './Branding.scss';
 
 export default function Branding({tiny = false, dark = false, large = false,slogan = false}) {
   return (

@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Plx from 'react-plx';
 import cx from 'classnames';
+import "./Bubble.scss";
 
 export default function Bubble({size = 30, thickness = 1, duration = 3, blur = false, className = ''}) {
     const bubbleClass = cx({

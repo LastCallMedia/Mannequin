@@ -1,5 +1,6 @@
 import React from 'react'
 import Branding from './Branding'
+import './Footer.scss';
 
 export default function Footer() {
   return (

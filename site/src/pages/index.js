@@ -4,6 +4,7 @@ import TopBar from '../components/HomeTopBar'
 import Footer from '../components/Footer'
 import Branding from '../components/Branding'
 import Bubble, {BubbleLayer, BubbleCluster} from '../components/Bubble';
+import MouseIcon from '../components/MouseIcon';
 import DrupalLogo from '../img/drupal.png';
 import TwigLogo from '../img/twig.png';
 import HtmlLogo from '../img/html.png';
@@ -70,14 +71,6 @@ function HomepageHero() {
             </BubbleLayer>
         </div>
     )
-}
-
-function MouseIcon() {
-  return (
-      <div className="mouse-icon">
-        <div className="wheel"></div>
-      </div>
-  )
 }
 
 function AboutProductPane() {

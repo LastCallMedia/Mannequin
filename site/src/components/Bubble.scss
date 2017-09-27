@@ -1,4 +1,6 @@
 
+@import "../scss/init";
+
 .Bubble {
   height: rem-calc(28);
   width: rem-calc(28);
@@ -43,7 +45,7 @@
   }
 }
 
-.BubbleLayer {
+div.BubbleLayer {
   position: absolute;
   top: 0;
   left: 0;

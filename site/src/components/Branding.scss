@@ -1,3 +1,6 @@
+
+@import "../scss/init";
+
 // This mixin calculates the ratios of the logo, name, and slogan
 @mixin branding-layout($logo_h, $name_font_size, $divider_margin) {
   $logo_ratio : 63/61;
