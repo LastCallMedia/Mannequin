@@ -1,5 +1,6 @@
 
 .HomepageTopBar {
+  @include xy-grid-container();
   .logo {
     width:39px;
     position:fixed;

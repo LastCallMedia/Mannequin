@@ -13,10 +13,8 @@ body.home {
 
   .HomepageHero {
     margin: 0 auto rem-calc(90);
-    @include breakpoint(large) {
-      max-width: xy-cell-size(9);
-    }
   }
+
   .HomepageHero + .mouse-icon {
     margin-bottom: rem-calc(90);
   }
@@ -52,6 +50,18 @@ body.home {
  * Everything that follows is a component that only exists on the homepage.
  */
 .HomepageHero {
+  @include xy-grid-container();
+  .inner {
+    @include breakpoint(large) {
+      max-width: xy-cell-size(9);
+    }
+    margin: 0 auto;
+    @include breakpoint(large){
+      margin-left: xy-cell-size(1);
+    }
+
+
+  }
   padding: rem-calc(200) 0 0;
   @extend %bubble-container;
   .Bubble {left: -10%;}
@@ -156,6 +166,7 @@ body.home {
 }
 
 .GetStartedPane {
+  @include xy-grid-container();
   text-align:center;
   .logo {
     stroke: white;
@@ -202,6 +213,7 @@ body.home {
 }
 
 .ChooseExtensionStep {
+  @include xy-grid-container();
   @extend %step;
   .intro { max-width: rem-calc(600); }
   ul.content {
@@ -257,4 +269,8 @@ body.home {
 .RunStep {
   @extend %step;
   .intro { max-width: rem-calc(670); }
+}
+
+.FurtherReadingPane {
+  @include xy-grid-container();
 }
