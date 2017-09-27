@@ -100,7 +100,7 @@ jobs:
       - persist_to_workspace:
           root: /srv/site
           paths:
-            - dist
+            - public
 
   deploy_split:
     working_directory: /srv
@@ -145,7 +145,7 @@ jobs:
           at: /srv/site
       - run: |
           aws s3 sync mannequin s3://demo.mannequin.io --delete
-          aws s3 sync site/dist s3://mannequin.io --delete
+          aws s3 sync site/public s3://mannequin.io --delete
 
 workflows:
   version: 2
