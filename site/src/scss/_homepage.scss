@@ -1,6 +1,11 @@
-div.HomeWrapper {
+.HomeWrapper {
   background-color: $darkblue;
   color: $white;
+
+  .HomepageTopBar {
+    position: relative;
+    z-index: 3;
+  }
 }
 
 /**
@@ -43,6 +48,14 @@ div.HomeWrapper {
 
 %bubble-container {
   position: relative;
+  > * {
+    position: relative;
+    z-index: 1;
+
+  }
+  .BubbleLayer {
+    z-index: 0;
+  }
   .Bubble {
     position: absolute;
   }
