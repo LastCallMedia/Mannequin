@@ -1,13 +1,9 @@
 
 .Bubble {
-  height: rem-calc(30);
-  width: rem-calc(30);
-  @include breakpoint(large) {
-    height: rem-calc(50);
-    width: rem-calc(50);
-  }
+  height: rem-calc(28);
+  width: rem-calc(28);
 
-  border: 4px solid white;
+  border: 2px solid white;
   border-radius: 50%;
   display:block;
 
@@ -16,16 +12,7 @@
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
 
-
-  &.Large {
-    height: rem-calc(50);
-    width: rem-calc(50);
-    @include breakpoint(large) {
-      height: rem-calc(80);
-      width: rem-calc(80);
-    }
-  }
-  &.Blurry {
+  &.blurry {
     filter: blur(3px);
   }
 }
@@ -40,4 +27,27 @@
   to {
     transform: translate(0, -0px);
   }
+}
+
+.BubbleCluster {
+  animation-name: floating;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+
+  .Bubble {
+    animation: none;
+    + .Bubble {
+      margin-top: -1px;
+    }
+  }
+}
+
+.BubbleLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
 }

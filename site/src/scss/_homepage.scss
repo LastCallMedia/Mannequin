@@ -46,6 +46,12 @@ div.HomeWrapper {
   .Bubble {
     position: absolute;
   }
+  .BubbleCluster {
+    position: absolute;
+    .Bubble {
+      position: relative;
+    }
+  }
 }
 
 /**
@@ -53,8 +59,6 @@ div.HomeWrapper {
  */
 .HomepageHero {
   padding: rem-calc(200) 0 0;
-  @extend %bubble-container;
-  .Bubble {left: -10%;}
   .Branding {
     margin-bottom: rem-calc(20);
     @include grid-column-gutter();
@@ -71,6 +75,12 @@ div.HomeWrapper {
       @include xy-grid-layout(3, li);
     }
   }
+  @extend %bubble-container;
+  .bubble1 {left: -10%; bottom: 0;}
+  .cluster1 {top: rem-calc(12); left: rem-calc(180); }
+  .bubble2 {top: rem-calc(54); left: 50%; }
+  .bubble3 {top: rem-calc(87); left: 75%; }
+  .bubble4 {bottom: rem-calc(-73); right: 20%; }
 }
 
 .AboutProductPane {
@@ -102,6 +112,10 @@ div.HomeWrapper {
     line-height: rem-calc(47);
     text-transform: uppercase;
     font-weight: 300;
+  }
+  .inner {
+    @extend %bubble-container;
+    .bubble1 {left: 52%; bottom: 0;}
   }
 }
 

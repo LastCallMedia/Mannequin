@@ -6,6 +6,7 @@
   "author": "Last Call Media Developers <developers@lastcallmedia.com>",
   "dependencies": {
     "autoprefixer": "^7.1.4",
+    "classnames": "^2.2.5",
     "foundation-sites": "^6.4.3",
     "gatsby": "^1.9.42",
     "gatsby-link": "^1.6.15",

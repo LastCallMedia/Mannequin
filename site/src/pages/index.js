@@ -3,6 +3,7 @@ import Link from 'gatsby-link'
 import TopBar from '../components/HomeTopBar'
 import Footer from '../components/Footer'
 import Branding from '../components/Branding'
+import Bubble, {BubbleLayer, BubbleCluster} from '../components/Bubble';
 import DrupalLogo from '../img/drupal.png';
 import TwigLogo from '../img/twig.png';
 import HtmlLogo from '../img/html.png';
@@ -57,6 +58,16 @@ function HomepageHero() {
               </a>
             </li>
           </ul>
+            <BubbleLayer>
+                <Bubble size={40} thickness={4} blur duration={5} className="bubble1" />
+                <BubbleCluster className="cluster1" duration={8}>
+                    <Bubble size={5} thickness={2} />
+                    <Bubble size={9} thickness={2} />
+                </BubbleCluster>
+                <Bubble size={18} thickness={2} className="bubble2" />
+                <Bubble size={29} thickness={3} duration={4} blur className="bubble3" />
+                <Bubble size={8} thickness={2} className="bubble4" />
+            </BubbleLayer>
         </div>
     )
 }
@@ -78,6 +89,9 @@ function AboutProductPane() {
             <a href="about.md" className="button dashing-icon"><i className="icon icon-right"></i><span className="text">Explore</span></a>
           </div>
           <div className="shot"></div>
+            <BubbleLayer>
+                <Bubble size={30} thickness={3} className="bubble1"/>
+            </BubbleLayer>
         </div>
       </div>
   )
