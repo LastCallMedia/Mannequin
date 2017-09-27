@@ -15,6 +15,7 @@
     "gatsby-remark-autolink-headers": "^1.4.7",
     "gatsby-source-filesystem": "^1.5.1",
     "gatsby-transformer-remark": "^1.7.12",
+    "react-plx": "^0.1.20",
     "svg-react-loader": "^0.4.5",
     "unist-util-select": "^1.5.0"
   },
