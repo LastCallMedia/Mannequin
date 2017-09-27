@@ -10,7 +10,7 @@ const HomePage = ({ quickLinks }) =>
   <main className="MannequinHome">
     <Branding />
     {quickLinks.length > 0 &&
-      <div className="quicklinks grid-container">
+      <div className="quicklinks">
         <h4>Quick Links</h4>
         <div className="CardGrid">
           {quickLinks.map(component =>
