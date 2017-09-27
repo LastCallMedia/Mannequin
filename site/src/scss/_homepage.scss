@@ -1,4 +1,4 @@
-body.home {
+div.HomeWrapper {
   background-color: $darkblue;
   color: $white;
 }
@@ -171,6 +171,7 @@ body.home {
   .logo {
     stroke: white;
     fill: white;
+    width: rem-calc(155);
   }
   h2 {
     font-size: rem-calc(44);
