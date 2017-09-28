@@ -2,6 +2,7 @@
 @import "../scss/init";
 
 .HomepageTopBar {
+  @include xy-grid-container();
   .logo {
     width:rem-calc(39);
     position:fixed;
