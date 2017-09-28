@@ -3,7 +3,7 @@ import Link from 'gatsby-link'
 import TopBar from '../components/HomeTopBar'
 import Footer from '../components/Footer'
 import Branding from '../components/Branding'
-import Bubble, {BubbleLayer, BubbleCluster} from '../components/Bubble';
+import Bubble, {BubbleLayer, BubbleCluster, BubbleLayerBoundary} from '../components/Bubble';
 import MouseIcon from '../components/MouseIcon';
 import DrupalLogo from '../img/drupal.png';
 import TwigLogo from '../img/twig.png';
@@ -28,10 +28,9 @@ export default function IndexPage() {
 
 function HomepageHero() {
   return (
-    <div className="HomepageHero">
+    <BubbleLayerBoundary className="HomepageHero">
       <div className="inner">
         <Branding large slogan />
-        {/* @todo: Bring in bubbles */}
         <ul className="links">
           <li>
             <a
@@ -58,33 +57,35 @@ function HomepageHero() {
           </li>
         </ul>
       </div>
-      <BubbleLayer>
-        <Bubble size={40} thickness={4} blur duration={5} className="bubble1" />
-        <BubbleCluster className="cluster1" duration={8}>
+      <BubbleLayer travel={100}>
+          <Bubble size={40} thickness={4} duration={5} blur={3} left='0' bottom="0" />
+          <Bubble size={29} thickness={3} duration={4} blur={3} top="87px" right="25%" />
+      </BubbleLayer>
+      <BubbleLayer travel={50}>
+        <BubbleCluster duration={8} left="180px" top="12px">
           <Bubble size={5} thickness={2} />
           <Bubble size={9} thickness={2} />
         </BubbleCluster>
-        <Bubble size={18} thickness={2} className="bubble2" />
-        <Bubble size={29} thickness={3} duration={4} blur className="bubble3" />
-        <Bubble size={8} thickness={2} className="bubble4" />
+        <Bubble size={18} thickness={2} duration={8} left="50%" top="54px" />
+        <Bubble size={8} thickness={2} duration={3} right="20%" bottom="-73px" />
       </BubbleLayer>
-    </div>
+    </BubbleLayerBoundary>
   )
 }
 
 function AboutProductPane() {
   return (
     <div className="AboutProductPane">
-      <div className="inner">
+      <BubbleLayerBoundary className="inner">
         <div className="note">
           <p>Mannequin bridges the gap between design and development by previewing and rendering templates without a full development environment.</p>
           <a href="about.md" className="button dashing-icon"><i className="icon icon-right"></i><span className="text">Explore</span></a>
         </div>
         <div className="shot"></div>
         <BubbleLayer>
-          <Bubble size={30} thickness={3} className="bubble1"/>
+          <Bubble size={30} thickness={3} left="52%" bottom="0" />
         </BubbleLayer>
-      </div>
+      </BubbleLayerBoundary>
     </div>
   )
 }

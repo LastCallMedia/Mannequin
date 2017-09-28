@@ -98,12 +98,6 @@
       @include xy-grid-layout(3, li);
     }
   }
-  @extend %bubble-container;
-  .bubble1 {left: -10%; bottom: 0;}
-  .cluster1 {top: rem-calc(12); left: rem-calc(180); }
-  .bubble2 {top: rem-calc(54); left: 50%; }
-  .bubble3 {top: rem-calc(87); left: 75%; }
-  .bubble4 {bottom: rem-calc(-73); right: 20%; }
 }
 
 .AboutProductPane {
@@ -136,8 +130,6 @@
     text-transform: uppercase;
     font-weight: 300;
   }
-  @extend %bubble-container;
-  .bubble1 {left: 52%; bottom: 0;}
 }
 
 .FurtherReadingPane {
