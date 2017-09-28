@@ -1,0 +1,55 @@
+
+@import "../scss/init";
+
+.Bubble {
+  height: rem-calc(28);
+  width: rem-calc(28);
+
+  border: 2px solid white;
+  border-radius: 50%;
+  display:block;
+
+  animation-name: floating;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+
+  &.blurry {
+    filter: blur(3px);
+  }
+}
+
+@keyframes floating {
+  from {
+    transform: translate(0, 0px);
+  }
+  65% {
+    transform: translate(0, 15px);
+  }
+  to {
+    transform: translate(0, -0px);
+  }
+}
+
+.BubbleCluster {
+  animation-name: floating;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+
+  .Bubble {
+    animation: none;
+    + .Bubble {
+      margin-top: -1px;
+    }
+  }
+}
+
+div.BubbleLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}

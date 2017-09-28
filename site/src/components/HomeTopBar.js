@@ -1,5 +1,6 @@
 import React from 'react'
 import LcmLogo from '../img/lcm-logo.png';
+import './HomeTopBar.scss';
 
 export default function HomeTopBar() {
   return (

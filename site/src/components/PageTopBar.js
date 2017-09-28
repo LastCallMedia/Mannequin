@@ -1,6 +1,7 @@
 import React from 'react'
 import Branding from './Branding'
-import Link from 'gatsby-link'
+import Link from 'gatsby-link';
+import './PageTopBar.scss';
 
 export default function PageTopBar() {
   return (
