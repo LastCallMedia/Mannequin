@@ -25,8 +25,14 @@ class YamlMetadataParserTest extends TestCase
 
     public function testParsesDescription()
     {
-        $parsed = (new YamlMetadataParser())->parse('_description: foo');
+        $parsed = (new YamlMetadataParser())->parse('description: foo');
         $this->assertArraySubset(['description' => 'foo'], $parsed['tags']);
+    }
+
+    public function testParsesGroup()
+    {
+        $parsed = (new YamlMetadataParser())->parse('group: foo');
+        $this->assertArraySubset(['group' => 'foo'], $parsed['tags']);
     }
 
     public function testDefaults()

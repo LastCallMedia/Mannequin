@@ -39,10 +39,10 @@ class YamlMetadataParser
             );
         }
 
-        return $this->processMetadata($yaml, $exceptionIdentifier);
+        return $this->process($yaml, $exceptionIdentifier);
     }
 
-    private function processMetadata($metadata, $exceptionIdentifier)
+    private function process($metadata, $exceptionIdentifier)
     {
         if (!is_array($metadata)) {
             throw new TemplateParsingException(
@@ -57,7 +57,7 @@ class YamlMetadataParser
 
         return [
             'name' => $this->extractName($metadata, $exceptionIdentifier),
-            'tags' => $this->extractTags($metadata),
+            'tags' => $this->extractMetadata($metadata, ['description', 'group']),
             'samples' => $this->extractSamples($metadata, $exceptionIdentifier),
         ];
     }
@@ -85,7 +85,7 @@ class YamlMetadataParser
                     )
                 );
             }
-            $tags = $this->extractTags($definition, true);
+            $tags = $this->extractMetadata($definition, [],true);
 
             $name = $key;
             if (isset($tags['name'])) {
@@ -117,8 +117,9 @@ class YamlMetadataParser
         return $metadata['name'];
     }
 
-    public function extractTags(array &$metadata, $remove = false)
+    public function extractMetadata(array &$metadata, array $extraKeys = [], $remove = false)
     {
+        $extras = array_flip($extraKeys);
         $tags = [];
         foreach ($metadata as $k => $v) {
             if (strpos($k, '_') === 0) {
@@ -126,6 +127,9 @@ class YamlMetadataParser
                 if ($remove) {
                     unset($metadata[$k]);
                 }
+            }
+            elseif(isset($extras[$k])) {
+                $tags[$k] = $v;
             }
         }
 
