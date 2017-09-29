@@ -43,8 +43,8 @@ class MannequinTest extends TestCase
         ]);
         $console = $application->getConsole();
         $this->assertInstanceOf(ConsoleApplication::class, $console);
-        $this->assertInstanceOf(SnapshotCommand::class, $console->get('render'));
-        $this->assertInstanceOf(StartCommand::class, $console->get('server'));
+        $this->assertInstanceOf(SnapshotCommand::class, $console->get('snapshot'));
+        $this->assertInstanceOf(StartCommand::class, $console->get('start'));
     }
 
     public function testHasManifestController()
