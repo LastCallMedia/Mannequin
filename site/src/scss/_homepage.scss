@@ -44,27 +44,6 @@
   }
 }
 
-%bubble-container {
-  position: relative;
-  > * {
-    position: relative;
-    z-index: 1;
-
-  }
-  .BubbleLayer {
-    z-index: 0;
-  }
-  .Bubble {
-    position: absolute;
-  }
-  .BubbleCluster {
-    position: absolute;
-    .Bubble {
-      position: relative;
-    }
-  }
-}
-
 /**
  * Everything that follows is a component that only exists on the homepage.
  */
