@@ -13,8 +13,8 @@ namespace LastCall\Mannequin\Core\Tests;
 
 use LastCall\Mannequin\Core\Mannequin;
 use LastCall\Mannequin\Core\Console\Application as ConsoleApplication;
-use LastCall\Mannequin\Core\Console\Command\RenderCommand;
-use LastCall\Mannequin\Core\Console\Command\ServerCommand;
+use LastCall\Mannequin\Core\Console\Command\SnapshotCommand;
+use LastCall\Mannequin\Core\Console\Command\StartCommand;
 use LastCall\Mannequin\Core\Ui\Controller\ManifestController;
 use LastCall\Mannequin\Core\Ui\Controller\RenderController;
 use LastCall\Mannequin\Core\Ui\Controller\UiController;
@@ -43,8 +43,8 @@ class MannequinTest extends TestCase
         ]);
         $console = $application->getConsole();
         $this->assertInstanceOf(ConsoleApplication::class, $console);
-        $this->assertInstanceOf(RenderCommand::class, $console->get('render'));
-        $this->assertInstanceOf(ServerCommand::class, $console->get('server'));
+        $this->assertInstanceOf(SnapshotCommand::class, $console->get('render'));
+        $this->assertInstanceOf(StartCommand::class, $console->get('server'));
     }
 
     public function testHasManifestController()
