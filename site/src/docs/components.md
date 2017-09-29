@@ -14,15 +14,15 @@ Here is an example metadata block that describes a HTML component called "button
 ```yaml
 # button.yml
 name: Button # what the component is called in the Mannequin UI.
-_description: An HTML Button # A long text description of this component.
+description: An HTML Button # A long text description of this component.
 ```
 
 ## Group
-Components can be grouped for display in the Mannequin UI using the `_group` property.  Here is an example:
+Components can be grouped for display in the Mannequin UI using the `group` property.  Here is an example:
 ```yaml
 # button.yml
 ...
-_group: Controls # Where to group it in the Mannequin UI.
+group: Controls # Where to group it in the Mannequin UI.
 ```
 When grouping, you can specify nested groups using the `>` character.  For example, you might use `Containers>Hero` if you have several Hero unit components that are similar.  In the UI, this would display a "Containers" menu item, with a child of "Hero" that has your templates below it. 
 
@@ -82,7 +82,7 @@ Some extensions allow you to store component metadata inside of the template fil
 # button.twig
 {% if false %}{%block componentinfo %}
 name: Button
-_description: An HTML Button
+description: An HTML Button
 samples:
   Primary:
     text: Primary
