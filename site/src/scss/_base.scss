@@ -63,10 +63,4 @@ pre code {
   }
 }
 
-ul {
-  li {
-    code {
-      line-height: 2.5rem;
-    }
-  }
-}
+ul li code { line-height: 2.5rem; }
