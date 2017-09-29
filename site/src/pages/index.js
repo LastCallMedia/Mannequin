@@ -78,6 +78,7 @@ function AboutProductPane() {
     <div className="AboutProductPane">
       <BubbleLayerBoundary className="inner">
         <div className="note">
+          <h2>Introduction</h2>
           <p>Mannequin bridges the gap between design and development by rendering templates in an isolated environment.</p>
           <Link to="/about" className="button dashing-icon"><i className="icon icon-right"></i><span className="text">Explore</span></Link>
         </div>
