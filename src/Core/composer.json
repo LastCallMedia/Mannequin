@@ -42,6 +42,6 @@
         "branch-alias": {
             "dev-master": "0.99-dev"
         },
-        "uiVersion": "1.0.0-beta1"
+        "uiVersion": "1.0.0-rc1"
     }
 }
