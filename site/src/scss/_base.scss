@@ -28,18 +28,7 @@ pre code {
   }
 }
 
-.blue {
-  background: $buttonblue;
-  text-transform: uppercase;
-  max-width: rem-calc(321px);
-  line-height: 1;
-  font-size: rem-calc(10);
-  font-weight: bold;
-  padding: rem-calc(16) rem-calc(64);
-  &:hover {
-    background: $buttonblue;
-  }
-}
+
 
 .button {
   // Button variants:
@@ -58,6 +47,18 @@ pre code {
     .text {
       @include xy-cell(auto, $gutter-output: false);
       line-height: rem-calc(22);
+    }
+  }
+  &.blue {
+    background: $buttonblue;
+    text-transform: uppercase;
+    max-width: rem-calc(321px);
+    line-height: rem-calc(20);
+    font-size: rem-calc(10);
+    font-weight: bold;
+    padding: rem-calc(21) rem-calc(64);
+    &:hover {
+      background: $buttonblue;
     }
   }
 }
