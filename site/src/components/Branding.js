@@ -10,15 +10,12 @@ export default function Branding({tiny = false, dark = false, large = false,slog
         ? ' large'
         : ''}`}
     >
-      <div className="top">
-        <Logo className="logo" />
-        <h4 className="name">Mannequin</h4>
+      <Logo className="logo" />
+      <span className="separator"></span>
+      <div className="right">
+        <h2 className="name">Mannequin</h2>
+          {slogan && <h4 className="slogan">A Component Theming Tool for the Web</h4>}
       </div>
-      {slogan && (
-        <h3 className="slogan">
-          <span>A Component Theming Tool for the Web</span>
-        </h3>
-      )}
     </div>
   )
 }
