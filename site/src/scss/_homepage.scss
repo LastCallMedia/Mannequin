@@ -44,6 +44,27 @@
   }
 }
 
+%bubble-container {
+  position: relative;
+  > * {
+    position: relative;
+    z-index: 1;
+
+  }
+  .BubbleLayer {
+    z-index: 0;
+  }
+  .Bubble {
+    position: absolute;
+  }
+  .BubbleCluster {
+    position: absolute;
+    .Bubble {
+      position: relative;
+    }
+  }
+}
+
 /**
  * Everything that follows is a component that only exists on the homepage.
  */
@@ -216,11 +237,12 @@
   .intro { max-width: rem-calc(600); }
   ul.content {
     list-style:none;
-    margin: 0;
+    margin: auto;
+    max-width: xy-cell-size(9);
     @include xy-grid();
     @include xy-grid-layout(1, 'li', $gutter-output: true, $gutter-position: left right top bottom);
     @include breakpoint(medium) {
-      @include xy-grid-layout(3, 'li', $gutter-output: true, $gutter-position: left right top bottom);
+      @include xy-grid-layout(3, 'li', $gutter-output: false, $gutter-position: top bottom);
     }
 
     a {
