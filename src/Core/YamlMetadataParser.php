@@ -85,7 +85,7 @@ class YamlMetadataParser
                     )
                 );
             }
-            $tags = $this->extractMetadata($definition, [],true);
+            $tags = $this->extractMetadata($definition, [], true);
 
             $name = $key;
             if (isset($tags['name'])) {
@@ -127,8 +127,7 @@ class YamlMetadataParser
                 if ($remove) {
                     unset($metadata[$k]);
                 }
-            }
-            elseif(isset($extras[$k])) {
+            } elseif (isset($extras[$k])) {
                 $tags[$k] = $v;
             }
         }
