@@ -28,7 +28,7 @@ pre code {
   }
 }
 
-%blue {
+.blue {
   background: $buttonblue;
   text-transform: uppercase;
   max-width: rem-calc(321px);
@@ -60,8 +60,5 @@ pre code {
       @include xy-cell(auto, $gutter-output: false);
       line-height: rem-calc(22);
     }
-  }
-  &.blue {
-    @extend %blue;
   }
 }
