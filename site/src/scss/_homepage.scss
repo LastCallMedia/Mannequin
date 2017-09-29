@@ -92,7 +92,7 @@
   }
   @include breakpoint(medium) {
     .shot {display: block}
-    .note {margin-top: rem-calc(93);}
+    .note { margin-top: rem-calc(93); }
   }
   .shot {
     background: url(../img/laptop_illo.svg);
