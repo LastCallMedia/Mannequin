@@ -101,12 +101,18 @@
     background-size: 105%;
     min-height: rem-calc(500);
   }
-  p {
-    font-family: $header-font-family;
-    font-size: rem-calc(30);
-    letter-spacing: 2px;
-    line-height: rem-calc(47);
+  h2 {
+    color: $darkgray;
     text-transform: uppercase;
+    font-family: $body-font-family;
+    font-size: rem-calc(18);
+    font-weight: bold;
+  }
+  p {
+    font-family: $body-font-family;
+    font-size: rem-calc(18);
+    letter-spacing: 1px;
+    line-height: rem-calc(47);
     font-weight: 300;
   }
 }
