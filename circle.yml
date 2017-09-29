@@ -75,7 +75,7 @@ jobs:
       - restore_cache:
           key: composer-v3-{{ checksum "composer.json" }}
       - run: composer install
-      - run: src/Core/bin/mannequin render
+      - run: src/Core/bin/mannequin snapshot
       - persist_to_workspace:
           root: /srv
           paths:

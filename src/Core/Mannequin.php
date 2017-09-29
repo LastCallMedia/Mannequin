@@ -16,8 +16,8 @@ use LastCall\Mannequin\Core\Asset\RequestContextContext;
 use LastCall\Mannequin\Core\Common\DirectoryCachingInterface;
 use LastCall\Mannequin\Core\Console\Application as ConsoleApplication;
 use LastCall\Mannequin\Core\Console\Command\DebugCommand;
-use LastCall\Mannequin\Core\Console\Command\RenderCommand;
-use LastCall\Mannequin\Core\Console\Command\ServerCommand;
+use LastCall\Mannequin\Core\Console\Command\SnapshotCommand;
+use LastCall\Mannequin\Core\Console\Command\StartCommand;
 use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
 use LastCall\Mannequin\Core\Engine\DelegatingEngine;
 use LastCall\Mannequin\Core\MimeType\ExtensionMimeTypeGuesser;
@@ -59,8 +59,8 @@ class Mannequin extends Application
             $app->setDispatcher($this['dispatcher']);
             $app->addCommands(
                 [
-                    new RenderCommand(
-                        'render',
+                    new SnapshotCommand(
+                        'snapshot',
                         $this['manifest.builder'],
                         $this['discovery'],
                         $this['ui'],
@@ -68,8 +68,8 @@ class Mannequin extends Application
                         $this['renderer'],
                         $this['asset.manager']
                     ),
-                    new ServerCommand(
-                        'server',
+                    new StartCommand(
+                        'start',
                         $this['config_file'],
                         $this['autoload_path'],
                         $this['debug']

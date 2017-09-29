@@ -33,7 +33,7 @@ class DebugCommand extends Command
 
     public function configure()
     {
-        $this->setDescription('Display information on components and variable types');
+        $this->setDescription('Display information on components');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
