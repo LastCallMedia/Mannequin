@@ -238,11 +238,12 @@
   ul.content {
     list-style:none;
     margin: auto;
-    max-width: xy-cell-size(9);
-    @include xy-grid();
-    @include xy-grid-layout(1, 'li', $gutter-output: true, $gutter-position: left right top bottom);
-    @include breakpoint(medium) {
-      @include xy-grid-layout(3, 'li', $gutter-output: true, $gutter-position: left right top bottom);
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    li {
+      max-width: rem-calc(312);
+      @include xy-gutters($gutter-position: right left top bottom);
     }
 
     a {
@@ -250,7 +251,7 @@
       color: $white;
       border: 1px dashed $blue-gray;
       display: block;
-      padding: rem-calc(38) 4rem rem-calc(16) rem-calc(20);
+      padding: rem-calc(38) rem-calc(30) rem-calc(16) rem-calc(20);
 
       &:hover {
         border:1px solid $buttonblue;
