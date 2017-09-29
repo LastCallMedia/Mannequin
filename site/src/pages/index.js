@@ -50,7 +50,7 @@ function HomepageHero() {
           <li>
             <a
               href="https://demo.mannequin.io"
-              className="button dashing-icon expanded"
+              className="button blue expanded"
             >
               <span className="text">View Demo</span>
             </a>
