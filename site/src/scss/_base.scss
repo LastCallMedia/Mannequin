@@ -6,6 +6,7 @@ body {
 pre code {
   display:block;
   margin-bottom: $paragraph-margin-bottom;
+  padding: rem-calc(5);
 }
 
 %dashing-button {
@@ -61,5 +62,3 @@ pre code {
     }
   }
 }
-
-ul li code { line-height: 2.5rem; }
