@@ -35,7 +35,6 @@ pre code {
   }
   &.dashing-icon {
     @extend %dashing-button;
-    padding: rem-calc(10) rem-calc(64);
     @include xy-grid();
     .icon {
       @include xy-cell(shrink, $gutter-output: false, $gutter-position: right);
