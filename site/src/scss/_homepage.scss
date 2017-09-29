@@ -242,7 +242,7 @@
     @include xy-grid();
     @include xy-grid-layout(1, 'li', $gutter-output: true, $gutter-position: left right top bottom);
     @include breakpoint(medium) {
-      @include xy-grid-layout(3, 'li', $gutter-output: false, $gutter-position: top bottom);
+      @include xy-grid-layout(3, 'li', $gutter-output: true, $gutter-position: left right top bottom);
     }
 
     a {
@@ -250,7 +250,7 @@
       color: $white;
       border: 1px dashed $blue-gray;
       display: block;
-      padding: rem-calc(38) rem-calc(90) rem-calc(16) rem-calc(20);
+      padding: rem-calc(38) 4rem rem-calc(16) rem-calc(20);
 
       &:hover {
         border:1px solid $buttonblue;
