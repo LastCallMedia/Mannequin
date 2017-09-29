@@ -3,12 +3,12 @@
 
 .HomepageTopBar {
   @include xy-grid-container();
-  a.logo-link {
-    margin-left: rem-calc(15);
-  }
-  .logo {
-    width:rem-calc(39);
+  a.logo {
     position:fixed;
+    @include xy-gutters();
+    img {
+      width:rem-calc(39);
+    }
   }
   .maintained {
     color: #97A6B5;
@@ -19,6 +19,10 @@
     letter-spacing: 1px;
     text-transform: uppercase;
     display: inline-block;
-    padding: rem-calc(14) 0 rem-calc(14) rem-calc(39 +17);
+    padding: rem-calc(14) 0;
+    // Add a left-margin equal to the .logo width + .logo left and right gutters.
+    @include -zf-breakpoint-value(auto, $grid-margin-gutters) {
+      margin-left: rem-calc($-zf-bp-value + 39);
+    }
   }
 }
