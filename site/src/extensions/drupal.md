@@ -9,10 +9,15 @@ This extension shares DNA with the [TwigExtension](../extensions/twig.md), but i
 
 * Loading of templates by namespace (@mytheme/mytemplate.htmltwig)
 * Drupal twig extensions:
+
   * Dummy `t` and `trans`, and `format_date` filters
+  
   * Dummy `url`, `path`, `file_link` render` functions
+  
   * `link` and `file_url`, and `create_attribute` functions
+  
   * `placeholder`, `drupal_escape`, `safe_join`, `without`, `clean_class`, `clean_id` filters
+  
 * Additional expressions to use in Sample declarations:
   * `attributes` - Creates an attribute object.
 
