@@ -5,7 +5,7 @@ import './HomeTopBar.scss';
 export default function HomeTopBar() {
   return (
     <div className="HomepageTopBar">
-      <a href="https://lastcallmedia.com" title="Visit Last Call Media">
+      <a className="logo-link" href="https://lastcallmedia.com" title="Visit Last Call Media">
         <img
           className="logo"
           src={LcmLogo}

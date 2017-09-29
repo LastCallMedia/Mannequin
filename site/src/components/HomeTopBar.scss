@@ -3,6 +3,9 @@
 
 .HomepageTopBar {
   @include xy-grid-container();
+  a.logo-link {
+    margin-left: rem-calc(15);
+  }
   .logo {
     width:rem-calc(39);
     position:fixed;
