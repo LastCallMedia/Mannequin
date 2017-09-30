@@ -1,0 +1,110 @@
+#!/usr/bin/env php
+<?php
+
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Process\Process;
+
+require_once __DIR__.'/../vendor/autoload.php';
+
+$input = new ArgvInput();
+
+$dryRun = $input->hasParameterOption(['--dry-run']);
+if($input->hasParameterOption(['--help', '-h'], false)) {
+    exit(PHP_EOL.'Usage: php release.php 1.0.0'.PHP_EOL.PHP_EOL);
+}
+
+if(!$tag = $input->getFirstArgument()) {
+    exit(PHP_EOL.'Tag must be given as first argument.'. PHP_EOL.PHP_EOL);
+}
+
+// Check the validity of the tag.
+if(!preg_match('/(v?)\d+\.\d+\.\d+(-(alpha|beta|rc)\d+)?/', $tag)) {
+    exit(sprintf(PHP_EOL.'Invalid tag %s'.PHP_EOL.PHP_EOL, $tag));
+}
+
+// Check that the tag doesn't already exist.
+$esc_tag = escapeshellarg($tag);
+$process = new Process(sprintf('git rev-parse %s', $esc_tag));
+if(0 === $process->run()) {
+    exit(sprintf(PHP_EOL.'Tag %s already exists.'.PHP_EOL.PHP_EOL, $tag));
+}
+
+// Check that there are no local modifications to our affected files.
+$affected_files = glob(__DIR__.'/../src/*/composer.json');
+$affected_files[] = 'ui/package.json';
+try {
+    run_command(sprintf('git diff-index --quiet HEAD -- %s', implode(' ', $affected_files)), $dryRun);
+}
+catch(\RuntimeException $e) {
+    exit(PHP_EOL.'Uncommitted changes detected to affected package files.'.PHP_EOL.PHP_EOL);
+}
+
+// Check that we're on the master branch.
+if(!$dryRun && 'master' !== trim(run_command('git rev-parse --abbrev-ref HEAD', $dryRun))) {
+    exit(PHP_EOL.'Must be on the master branch'.PHP_EOL.PHP_EOL);
+}
+
+// Check for upstream changes.
+run_command('git fetch', $dryRun);
+if(!empty(run_command('git log HEAD..origin/master --oneline', $dryRun))) {
+    exit(PHP_EOL.'Upstream changes detected'.PHP_EOL.PHP_EOL);
+}
+
+list($major, $minor) = explode('.', $tag);
+
+// Ok, clear to proceed.  Update packages:
+foreach(glob(__DIR__.'/../src/*/composer.json') as $package) {
+    $contents = json_read($package);
+    if(isset($contents->extra->uiVersion)) {
+        $contents->extra->uiVersion = $tag;
+    }
+    foreach($contents->require as $k => $v) {
+        if(strpos($k,'lastcall/mannequin') === 0) {
+            $contents->require->{$k} = sprintf('~%d.%d', $major, $minor);
+        }
+    }
+    $contents->extra->{'branch-alias'}->{'dev-master'} = sprintf('%s.%s-dev', $major, $minor);
+    json_write($package, $contents);
+}
+
+// Tag UI:
+$contents = json_read(__DIR__.'/../ui/package.json');
+$contents->version = $tag;
+json_write(__DIR__.'/../ui/package.json', $contents, 2);
+
+if(!$input->hasParameterOption(['--no-commit', '-n'])) {
+    run_command(sprintf('git add %s', implode(' ', $affected_files)), $dryRun);
+    run_command(sprintf('git commit -m "Tagging for %s release"', $esc_tag), $dryRun);
+
+    $tag_cmd = sprintf('git tag %s', $esc_tag);
+    if($input->hasParameterOption(['--message', '-m'])) {
+        $tag_cmd.= sprintf('-m %s', escapeshellarg($input->getParameterOption(['--message', '-m'])));
+    }
+    run_command($tag_cmd, $dryRun);
+}
+
+
+
+function json_read($filename) {
+    return json_decode(file_get_contents($filename));
+}
+
+function json_write($filename, $obj) {
+    $contents = json_encode($obj, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES).PHP_EOL;
+    file_put_contents($filename, $contents);
+}
+
+function run_command($cli, $dryRun) {
+    if(!$dryRun) {
+        $process = new Process($cli);
+        $process->run();
+        if(!$process->isSuccessful()) {
+            throw new RuntimeException(sprintf('Failed while running %s', $cli));
+        }
+        return $process->getOutput();
+    }
+    else {
+        file_put_contents('php://stdout', PHP_EOL.sprintf('Executing %s', $cli).PHP_EOL);
+    }
+
+}
