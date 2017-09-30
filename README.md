@@ -1,7 +1,7 @@
-Patterns
+Mannequin
 ========
 
-A library for generating a style guide from templates. [View a demo](https://demo.mannequin.io), or [read the docs](https://mannequin.io).
+A component theming tool for the web. [View a demo](https://demo.mannequin.io), or [read the docs](https://mannequin.io).
 
 Development
 -----------
@@ -13,7 +13,7 @@ To work on this project, you need:
 
 In development, there are two servers that need to be started to see your changes immediately:
 
-* From the /ui directory, run: `npm run start`.  This will start the front end server running on port 3000.
+* From the /ui directory, run: `yarn start`.  This will start the front end server running on port 3000.
 * Next, in .mannequin.php, use the LocalDevelopmentUI as follows:
   ```php
   use LastCall\Mannequin\Core\MannequinConfig;
@@ -24,7 +24,7 @@ In development, there are two servers that need to be started to see your change
   ])
   ...
   ```
-* Finally, run: `src/Core/bin/mannequin server *:8000`.  This will start the backend server, and you should be able to visit http://localhost:8000 in your browser, and see changes to both PHP and React code as you reload the page.
+* Finally, run: `src/Core/bin/mannequin start *:8000`.  This will start the backend server, and you should be able to visit http://localhost:8000 in your browser, and see changes to both PHP and React code as you reload the page.
 
 Deployment/Packaging
 --------------------
