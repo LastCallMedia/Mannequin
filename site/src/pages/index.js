@@ -130,7 +130,7 @@ function GettingStartedPane() {
       </div>
       <div className="RunStep Step">
         <div className="intro">
-          <h3><span>3.</span>Start a live development server using vendor/bin/mannequin server.</h3>
+          <h3><span>3.</span>Start a live development server using vendor/bin/mannequin start.</h3>
         </div>
       </div>
     </div>
