@@ -13,18 +13,39 @@ namespace LastCall\Mannequin\Core\Iterator;
 
 use Symfony\Component\Finder\SplFileInfo;
 
+/**
+ * Invokable class to convert absolute paths to relative SplFileInfo objects.
+ */
 class RelativePathMapper
 {
+    private $root;
+
+    public function __construct(string $root)
+    {
+        $this->root = $root;
+    }
+
     public function __invoke($filename)
     {
-        if ($filename instanceof SplFileInfo) {
-            return [
-                $filename->getPathname(),
-                $filename->getRelativePathname(),
-            ];
+        if (strpos($filename, $this->root) !== 0) {
+            throw new \InvalidArgumentException(sprintf(
+                'Unable to determine relative path for %s.  It is outside of %s.',
+                $filename,
+                $this->root
+            ));
         }
-        throw new \InvalidArgumentException(
-            'RelativePathMapper can only accept Finder SplFileInfo instances.'
+
+        $relativePathName = ltrim(substr($filename, strlen($this->root)), '/\\');
+        if ('.' === $relativePath = dirname($relativePathName)) {
+            $relativePath = '';
+        } else {
+            $relativePath .= DIRECTORY_SEPARATOR;
+        }
+
+        return new SplFileInfo(
+            $filename,
+            $relativePath,
+            $relativePathName
         );
     }
 }

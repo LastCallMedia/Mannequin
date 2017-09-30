@@ -15,6 +15,7 @@ use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Discovery\IdEncoder;
 use LastCall\Mannequin\Html\Component\HtmlComponent;
+use Symfony\Component\Finder\SplFileInfo;
 
 class HtmlDiscovery implements DiscoveryInterface
 {
@@ -27,36 +28,32 @@ class HtmlDiscovery implements DiscoveryInterface
      *
      * @param \Traversable|array $files
      */
-    public function __construct($files)
+    public function __construct(\Traversable $files)
     {
-        if (!is_array($files) && !$files instanceof \Traversable) {
-            throw new \InvalidArgumentException('$files must be an array, or \Traversable.');
-        }
         $this->files = $files;
     }
 
     public function discover(): ComponentCollection
     {
         $components = [];
-        foreach ($this->files as $filenames) {
-            // @todo: Clean this up and make it consistent with TwigDiscovery.
-            if (!is_array($filenames)) {
-                $filenames = [$filenames];
+        foreach ($this->files as $file) {
+            if ($file instanceof SplFileInfo) {
+                $name = $file->getRelativePathname();
+                $fileInfo = $file;
+            } elseif ($file instanceof \SplFileInfo) {
+                $name = $file->getPathname();
+                $fileInfo = $file;
+            } else {
+                $name = (string) $file;
+                $fileInfo = new \SplFileInfo($name);
             }
-            $filenames = array_map(
-                function ($filename) {
-                    return (string) $filename;
-                },
-                $filenames
-            );
 
-            $id = reset($filenames);
             $component = new HtmlComponent(
-                $this->encodeId($id),
-                $filenames,
-                new \SplFileInfo($id)
+                $this->encodeId($name),
+                [$name],
+                $fileInfo
             );
-            $component->setName($id);
+            $component->setName($name);
             $components[] = $component;
         }
 

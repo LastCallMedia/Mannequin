@@ -22,15 +22,28 @@ use LastCall\Mannequin\Html\Engine\HtmlEngine;
  */
 class HtmlExtension extends AbstractExtension
 {
-    private $finder;
+    private $files;
+    private $root;
 
     public function __construct(array $values = [])
     {
-        if (isset($values['finder'])) {
-            $this->finder = $values['finder'];
+        $files = $values['files'] ?? [];
+        if (is_array($files)) {
+            $files = new \ArrayIterator($files);
+        }
+        $this->files = $files;
+        if (!$this->files instanceof \Traversable) {
+            throw new \InvalidArgumentException("HtmlExtension 'files' option must be set to an iterable object.");
+        }
+        $this->root = $values['root'] ?? getcwd();
+        if (!$this->root || !is_dir($this->root)) {
+            throw new \InvalidArgumentException("HtmlExtension 'root' option must be set to a valid directory.");
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getDiscoverers(): array
     {
         return [
@@ -38,6 +51,9 @@ class HtmlExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getEngines(): array
     {
         return [
@@ -48,8 +64,8 @@ class HtmlExtension extends AbstractExtension
     private function getIterator()
     {
         return new MappingCallbackIterator(
-            $this->finder,
-            new RelativePathMapper()
+            $this->files,
+            new RelativePathMapper($this->root)
         );
     }
 }

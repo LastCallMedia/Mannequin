@@ -27,7 +27,8 @@ $twig = new TwigExtension([
     ]
 ]);
 $html = new HtmlExtension([
-  'finder' => $htmlFinder,
+    'files' => $htmlFinder,
+    'root' => __DIR__,
 ]);
 
 

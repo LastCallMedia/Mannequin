@@ -16,6 +16,7 @@ use LastCall\Mannequin\Core\Discovery\IdEncoder;
 use LastCall\Mannequin\Html\Component\HtmlComponent;
 use LastCall\Mannequin\Html\Discovery\HtmlDiscovery;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Finder\SplFileInfo;
 
 class HtmlDiscoveryTest extends TestCase
 {
@@ -23,9 +24,9 @@ class HtmlDiscoveryTest extends TestCase
 
     private function discoverFixtureCollection()
     {
-        $discoverer = new HtmlDiscovery([
+        $discoverer = new HtmlDiscovery(new \ArrayIterator([
             __DIR__.'/../Resources/button.html',
-        ]);
+        ]));
 
         return $discoverer->discover();
     }
@@ -88,9 +89,64 @@ class HtmlDiscoveryTest extends TestCase
         $this->assertEquals([$file], $component->getAliases());
     }
 
+    public function testAcceptsSplFileInfo()
+    {
+        $discovery = new HtmlDiscovery(new \ArrayIterator([
+            new SplFileInfo('/foo/bar/baz', 'bar', 'bar/baz'),
+            new \SplFileInfo('/baz/bar/foo'),
+        ]));
+        $collection = $discovery->discover();
+        $this->assertInstanceOf(ComponentCollection::class, $collection);
+        $this->assertCount(2, $collection);
+
+        return $collection;
+    }
+
+    /**
+     * @depends testAcceptsSplFileInfo
+     */
+    public function testUsesRelativePathFromRelativeSplFileInfo(ComponentCollection $collection)
+    {
+        $this->assertTrue($collection->has($this->encodeId('bar/baz')));
+
+        return $collection->get($this->encodeId('bar/baz'));
+    }
+
+    /**
+     * @depends testUsesRelativePathFromRelativeSplFileInfo
+     */
+    public function testSetsSplFileInfoFromRelativeSplFileInfo(HtmlComponent $component)
+    {
+        $this->assertEquals(
+            new SplFileInfo('/foo/bar/baz', 'bar', 'bar/baz'),
+            $component->getFile()
+        );
+    }
+
+    /**
+     * @depends testAcceptsSplFileInfo
+     */
+    public function testSetsAbsoluteIdFromAbsoluteSplFileInfo(ComponentCollection $collection)
+    {
+        $this->assertTrue($collection->has($this->encodeId('/baz/bar/foo')));
+
+        return $collection->get($this->encodeId('/baz/bar/foo'));
+    }
+
+    /**
+     * @depends testSetsAbsoluteIdFromAbsoluteSplFileInfo
+     */
+    public function testSetsSplFileInfoFromSplFileInfo(HtmlComponent $component)
+    {
+        $this->assertEquals(
+            new \SplFileInfo('/baz/bar/foo'),
+            $component->getFile()
+        );
+    }
+
     public function testReturnsCollectionOnEmpty()
     {
-        $discovery = new HtmlDiscovery([]);
+        $discovery = new HtmlDiscovery(new \ArrayIterator([]));
         $collection = $discovery->discover();
         $this->assertInstanceOf(ComponentCollection::class, $collection);
         $this->assertCount(0, $collection);

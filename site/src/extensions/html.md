@@ -29,7 +29,8 @@ $htmlFinder = Finder::create()
     ->name('*.html');
     
 $htmlExtension = new HtmlExtension([
-    'finder' => $htmlFinder
+    'files' => $htmlFinder,
+    'root' => __DIR__
 ]);
 
 return MannequinConfig::create()
@@ -38,4 +39,9 @@ return MannequinConfig::create()
 
 ## Configuration
 
-The `HTMLExtension` only accepts one configuration option, which is a [Symfony Finder](https://symfony.com/doc/current/components/finder.html) object that will search for the HTML files you want to use as components.
+The `HTMLExtension` only accepts the following configuration options:
+
+| Key | Description |
+| --- | ----------- |
+| files | An array, or traversable containing absolute paths to component .html files. |
+| root  | An absolute path, below which all templates exist.  Used to convert absolute component file paths into relative paths. |

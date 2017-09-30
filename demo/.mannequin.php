@@ -41,7 +41,8 @@ $htmlFinder = Finder::create()
     ->name('*.html');
 
 $htmlExtension = new HtmlExtension([
-    'finder' => $htmlFinder
+    'files' => $htmlFinder,
+    'root' => __DIR__.'/static'
 ]);
 
 /**
