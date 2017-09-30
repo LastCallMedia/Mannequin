@@ -1,7 +1,7 @@
 Mannequin
 ========
 
-A component theming tool for the web. [View a demo](https://demo.mannequin.io), or [read the docs](https://mannequin.io).
+Welcome to the main repository for [Mannequin](https://mannequin.io), a component theming tool for the web.  If you're looking for information on getting started, check [the documentation](https://mannequin.io).  If you're looking for a specific extension, check the [extensions](https://mannequin.io/extensions) page.  Otherwise, this repository is primarily used for development purposes, or for [reporting bugs](https://github.com/LastCallMedia/Mannequin/issues/new).
 
 Development
 -----------
