@@ -39,6 +39,17 @@ class DrupalExtensionTest extends ExtensionTestCase
         return $dispatcher;
     }
 
+    public function testGetFunctions()
+    {
+        $functions = parent::testGetFunctions();
+        $names = array_map(function ($fn) {
+            return $fn->getName();
+        }, $functions);
+        $this->assertEquals([
+            'attributes',
+        ], $names);
+    }
+
     public function getExtension(): ExtensionInterface
     {
         return new DrupalExtension([

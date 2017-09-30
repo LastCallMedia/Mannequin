@@ -36,6 +36,19 @@ class CoreExtensionTest extends ExtensionTestCase
         $this->assertInstanceOf(BrokenEngine::class, reset($engines));
     }
 
+    public function testGetFunctions()
+    {
+        $functions = parent::testGetFunctions();
+        $names = array_map(function ($fn) {
+            return $fn->getName();
+        }, $functions);
+        $this->assertEquals([
+            'rendered',
+            'asset',
+            'sample',
+        ], $names);
+    }
+
     protected function getDispatcherProphecy(): ObjectProphecy
     {
         $dispatcher = $this->prophesize(EventDispatcherInterface::class);

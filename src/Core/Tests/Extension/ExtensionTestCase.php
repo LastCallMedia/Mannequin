@@ -26,6 +26,8 @@ use Symfony\Component\Asset\PackageInterface;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\ExpressionLanguage\ExpressionFunction;
+use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 abstract class ExtensionTestCase extends TestCase
@@ -63,6 +65,27 @@ abstract class ExtensionTestCase extends TestCase
         );
 
         return $discoverers;
+    }
+
+    /**
+     * @return \Symfony\Component\ExpressionLanguage\ExpressionFunction[]|null
+     */
+    public function testGetFunctions()
+    {
+        $extension = $this->getExtension();
+        if ($extension instanceof ExpressionFunctionProviderInterface) {
+            $extension->register($this->getMannequin());
+            $functions = $extension->getFunctions();
+            $this->assertContainsOnlyInstancesOf(
+                ExpressionFunction::class,
+                $functions
+            );
+
+            return $functions;
+        } else {
+            // Pass this test. No assertions needed.
+            $this->addToAssertionCount(1);
+        }
     }
 
     abstract public function getExtension(): ExtensionInterface;
