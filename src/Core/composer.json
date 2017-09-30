@@ -40,8 +40,8 @@
     ],
     "extra": {
         "branch-alias": {
-            "dev-master": "0.99-dev"
+            "dev-master": "1.0-dev"
         },
-        "uiVersion": "1.0.0-rc1"
+        "uiVersion": "1.0.0-rc2"
     }
 }

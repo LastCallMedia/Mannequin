@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": ">7.0",
-        "lastcall/mannequin-core": "~0.1",
+        "lastcall/mannequin-core": "~1.0",
         "symfony/finder": "^2.7 ||^3.0",
         "twig/twig": "^1.3.0",
         "psr/cache": "~1.0"
@@ -29,7 +29,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.99-dev"
+            "dev-master": "1.0-dev"
         }
     }
 }
