@@ -78,7 +78,7 @@ if(!$input->hasParameterOption(['--no-commit', '-n'])) {
 
     $tag_cmd = sprintf('git tag %s', $esc_tag);
     if($input->hasParameterOption(['--message', '-m'])) {
-        $tag_cmd.= sprintf('-m %s', escapeshellarg($input->getParameterOption(['--message', '-m'])));
+        $tag_cmd.= sprintf(' -m %s', escapeshellarg($input->getParameterOption(['--message', '-m'])));
     }
     run_command($tag_cmd, $dryRun);
 }
