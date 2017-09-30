@@ -41,7 +41,7 @@
         "prettier-fix": "prettier --single-quote --write \"src/**/*.{js,jsx}\"",
         "prettier-check": "prettier --single-quote -l \"src/**/*.{js,jsx}\""
     },
-    "homepage": ".",
+    "homepage": "https://mannequin.io",
     "files": [
         "build/*"
     ],
