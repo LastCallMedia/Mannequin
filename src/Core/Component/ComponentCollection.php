@@ -87,7 +87,7 @@ class ComponentCollection implements \Iterator, \Countable
 
     public function valid()
     {
-        return key($this->components) !== null;
+        return null !== key($this->components);
     }
 
     public function next()

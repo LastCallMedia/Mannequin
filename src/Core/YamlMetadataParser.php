@@ -122,7 +122,7 @@ class YamlMetadataParser
         $extras = array_flip($extraKeys);
         $tags = [];
         foreach ($metadata as $k => $v) {
-            if (strpos($k, '_') === 0) {
+            if (0 === strpos($k, '_')) {
                 $tags[substr($k, 1)] = $v;
                 if ($remove) {
                     unset($metadata[$k]);

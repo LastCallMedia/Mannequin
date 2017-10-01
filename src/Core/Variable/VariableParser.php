@@ -47,7 +47,7 @@ final class VariableParser
 
     private function parseValue($value)
     {
-        if (is_string($value) && strpos($value, '~') === 0) {
+        if (is_string($value) && 0 === strpos($value, '~')) {
             return new Variable('expression', substr($value, 1));
         }
 

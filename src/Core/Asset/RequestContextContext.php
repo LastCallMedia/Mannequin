@@ -34,6 +34,6 @@ class RequestContextContext implements ContextInterface
 
     public function isSecure()
     {
-        return $this->context->getScheme() === 'https';
+        return 'https' === $this->context->getScheme();
     }
 }

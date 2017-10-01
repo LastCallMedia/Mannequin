@@ -27,7 +27,7 @@ class RelativePathMapper
 
     public function __invoke($filename)
     {
-        if (strpos($filename, $this->root) !== 0) {
+        if (0 !== strpos($filename, $this->root)) {
             throw new \InvalidArgumentException(sprintf(
                 'Unable to determine relative path for %s.  It is outside of %s.',
                 $filename,

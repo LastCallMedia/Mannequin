@@ -60,7 +60,7 @@ class LocalDevelopmentUi extends LocalUi
         if (!empty($parts['query'])) {
             $uri .= sprintf('?%s', $parts['query']);
         }
-        if ($path === 'index.html') {
+        if ('index.html' === $path) {
             // The index cannot be served with a redirect.
             $ctx = stream_context_create([
                 'http' => ['timeout' => 5],

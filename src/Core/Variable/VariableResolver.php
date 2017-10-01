@@ -47,7 +47,7 @@ class VariableResolver
 
     private function resolveVariable(Variable $variable, array $context)
     {
-        if ($variable->getType() === 'expression') {
+        if ('expression' === $variable->getType()) {
             return $this->expressionLanguage->evaluate($variable->getValue(), $context);
         } else {
             return $variable->getValue();

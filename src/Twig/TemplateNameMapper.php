@@ -54,13 +54,13 @@ class TemplateNameMapper
     {
         $map = $this->getMap();
         $matching = array_filter(array_keys($map), function ($path) use ($filename) {
-            return $filename[0] === $path[0] && strpos($filename, $path) === 0;
+            return $filename[0] === $path[0] && 0 === strpos($filename, $path);
         });
 
         $templateNames = [];
         foreach ($matching as $match) {
             $namespace = $map[$match];
-            $templateNames[] = $namespace === self::MAIN_NAMESPACE
+            $templateNames[] = self::MAIN_NAMESPACE === $namespace
                 ? ltrim(substr($filename, strlen($match)), '/\\')
                 : '@'.$namespace.substr($filename, strlen($match));
         }
@@ -98,7 +98,7 @@ class TemplateNameMapper
     {
         return strspn($file, '/\\', 0, 1)
             || (strlen($file) > 3 && ctype_alpha($file[0])
-                && substr($file, 1, 1) === ':'
+                && ':' === substr($file, 1, 1)
                 && strspn($file, '/\\', 2, 1)
             )
             || null !== parse_url($file, PHP_URL_SCHEME)

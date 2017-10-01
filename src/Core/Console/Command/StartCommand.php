@@ -85,7 +85,7 @@ class StartCommand extends Command
             $hostname = $address;
             $port = $this->findBestPort($hostname);
         }
-        if ($hostname === '*') {
+        if ('*' === $hostname) {
             $hostname = '0.0.0.0';
         }
         if (!ctype_digit($port)) {

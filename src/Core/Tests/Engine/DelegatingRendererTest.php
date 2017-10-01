@@ -24,7 +24,7 @@ class DelegatingRendererTest extends RendererTestCase
         $subrenderer = $this->prophesize(EngineInterface::class);
         $subrenderer->supports(Argument::type(ComponentInterface::class))->will(
             function ($args) {
-                return $args[0]->getId() === 'supported';
+                return 'supported' === $args[0]->getId();
             }
         );
         $subrenderer->render(
