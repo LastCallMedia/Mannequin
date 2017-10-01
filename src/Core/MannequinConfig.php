@@ -14,7 +14,7 @@ namespace LastCall\Mannequin\Core;
 use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Extension\CoreExtension;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
-use LastCall\Mannequin\Core\Ui\RemoteUi;
+use LastCall\Mannequin\Core\Ui\LocalUi;
 use LastCall\Mannequin\Core\Ui\UiInterface;
 use Pimple\Container;
 
@@ -23,10 +23,18 @@ class MannequinConfig extends Container implements ConfigInterface
     public function __construct(array $values = [])
     {
         $values += [
+            'ui_path' => __DIR__.'/ui-files',
             'ui' => function () {
-                $composer = json_decode(file_get_contents(__DIR__.'/composer.json'), true);
+                if (!is_dir($this['ui_path'])) {
+                    $composer = json_decode(file_get_contents(__DIR__.'/composer.json'));
+                    throw new \RuntimeException(sprintf(
+                        'Unable to find UI files.  This usually happens automatically, but didn\'t, for some reason.  Please download them from %s and place them at %s, and file a bug report.',
+                       $composer->extra->{'extra-files'}->ui->url,
+                        $this['ui_path']
+                    ));
+                }
 
-                return new RemoteUi($composer['extra']['uiVersion']);
+                return new LocalUi($this['ui_path']);
             },
             'global_css' => [],
             'global_js' => [],

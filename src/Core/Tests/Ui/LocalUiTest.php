@@ -26,12 +26,10 @@ class LocalUiTest extends TestCase
     public function setUp()
     {
         $this->fs = vfsStream::setup('root', null, [
-            'build' => [
-                'index.html' => 'Index',
-                'static' => [
-                    'css' => [
-                        'main.css' => 'CSS',
-                    ],
+            'index.html' => 'Index',
+            'static' => [
+                'css' => [
+                    'main.css' => 'CSS',
                 ],
             ],
         ]);
@@ -63,7 +61,7 @@ class LocalUiTest extends TestCase
     {
         $ui = new LocalUi($this->fs->url());
         $this->assertEquals(
-            new BinaryFileResponse($this->fs->getChild('build/index.html')->url()),
+            new BinaryFileResponse($this->fs->getChild('index.html')->url()),
             $ui->getUiFileResponse('index.html', new Request())
         );
     }

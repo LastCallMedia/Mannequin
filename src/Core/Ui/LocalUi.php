@@ -11,8 +11,6 @@
 
 namespace LastCall\Mannequin\Core\Ui;
 
-use LastCall\Mannequin\Core\Iterator\MappingCallbackIterator;
-use LastCall\Mannequin\Core\Iterator\RelativePathMapper;
 use LastCall\Mannequin\Core\Rendered;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -49,10 +47,7 @@ EOD;
      */
     public function files(): \Traversable
     {
-        return new MappingCallbackIterator(
-            Finder::create()->in($this->uiPath('build'))->files(),
-            new RelativePathMapper($this->uiPath('build'))
-        );
+        return Finder::create()->in($this->uiPath())->files();
     }
 
     protected function uiPath($relativePath = '')
@@ -62,12 +57,12 @@ EOD;
 
     public function isUiFile(string $path): bool
     {
-        return file_exists($this->uiPath('build/'.ltrim($path, '/')));
+        return file_exists($this->uiPath(ltrim($path, '/')));
     }
 
     public function getUiFileResponse(string $path, Request $request): Response
     {
-        return new BinaryFileResponse($this->uiPath('build/'.ltrim($path, '/')));
+        return new BinaryFileResponse($this->uiPath(ltrim($path, '/')));
     }
 
     public function decorateRendered(Rendered $rendered): string

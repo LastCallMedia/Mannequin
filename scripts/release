@@ -55,8 +55,8 @@ list($major, $minor) = explode('.', $tag);
 // Ok, clear to proceed.  Update packages:
 foreach(glob(__DIR__.'/../src/*/composer.json') as $package) {
     $contents = json_read($package);
-    if(isset($contents->extra->uiVersion)) {
-        $contents->extra->uiVersion = $tag;
+    if(isset($contents->extra->{'extra-files'})) {
+        $contents->extra->{'extra-files'}->ui->url = sprintf('https://registry.npmjs.org/lastcall-mannequin-ui/-/lastcall-mannequin-ui-%s.tgz', $tag);
     }
     foreach($contents->require as $k => $v) {
         if(strpos($k,'lastcall/mannequin') === 0) {

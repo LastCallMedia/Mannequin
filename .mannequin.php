@@ -33,7 +33,7 @@ $html = new HtmlExtension([
 
 
 $config = MannequinConfig::create([
-  'ui' => new \LastCall\Mannequin\Core\Ui\LocalUi(__DIR__.'/ui'),
+    'ui_path' => __DIR__.'/ui/build',
 ])
     ->setGlobalJs(['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/js/foundation.min.js'])
     ->setGlobalCss(['demo/css/style.css'])

@@ -60,7 +60,7 @@ class MannequinConfigTest extends TestCase
 
     public function testHasDefaultUi()
     {
-        $config = new MannequinConfig();
+        $config = new MannequinConfig(['ui_path' => __DIR__]);
         $this->assertInstanceOf(UiInterface::class, $config->getUi());
     }
 

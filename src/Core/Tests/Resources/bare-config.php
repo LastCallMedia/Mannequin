@@ -11,4 +11,5 @@
 
 return \LastCall\Mannequin\Core\MannequinConfig::create([
     'name' => 'bare-config',
+    'ui_path' => __DIR__,
 ]);

@@ -19,8 +19,6 @@
         "pimple/pimple": "^3.0",
         "symfony/yaml": "^2.7 ||^3.0",
         "psr/cache": "~1.0",
-        "alchemy/zippy": "~0.3",
-        "guzzlehttp/guzzle": "^6.0",
         "symfony/asset": "^2.7 || ^3.0",
         "symfony/cache": "^3.3"
     },
@@ -40,8 +38,14 @@
     ],
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0-dev"
+            "dev-master": "1.0-dev",
+            "dev-composer_download": "2.0-dev"
         },
-        "uiVersion": "1.0.0-rc2"
+        "extra-files": {
+            "ui": {
+                "url": "https://registry.npmjs.org/lastcall-mannequin-ui/-/lastcall-mannequin-ui-1.0.0-rc2.tgz",
+                "path": "ui-files"
+            }
+        }
     }
 }
