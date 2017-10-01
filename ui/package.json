@@ -1,6 +1,6 @@
 {
     "name": "lastcall-mannequin-ui",
-    "version": "1.0.0-rc2",
+    "version": "1.0.0-rc3",
     "license": "MIT",
     "author": "Rob Bayliss <rob@lastcallmedia.com>",
     "devDependencies": {
