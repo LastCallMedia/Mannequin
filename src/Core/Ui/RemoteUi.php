@@ -46,7 +46,7 @@ class RemoteUi extends LocalUi implements DirectoryCachingInterface
         return parent::isUiFile($path);
     }
 
-    public function files(): array
+    public function files(): \Traversable
     {
         $this->checkFetched();
 

@@ -31,7 +31,7 @@ class LocalDevelopmentUi extends LocalUi
         $this->parts = parse_url($url);
     }
 
-    public function files(): array
+    public function files(): \Traversable
     {
         throw new \Exception('Development UI files cannot be listed.');
     }

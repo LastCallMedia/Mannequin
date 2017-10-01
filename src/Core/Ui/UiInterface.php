@@ -17,7 +17,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 interface UiInterface
 {
-    public function files(): array;
+    /**
+     * @return \Symfony\Component\Finder\SplFileInfo[]
+     */
+    public function files(): \Traversable;
 
     public function isUiFile(string $path): bool;
 

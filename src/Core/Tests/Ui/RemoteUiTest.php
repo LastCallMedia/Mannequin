@@ -96,34 +96,24 @@ class RemoteUiTest extends TestCase
     {
         $ui = new RemoteUi('0.0.1', $this->mockClient(), $this->mockZippy());
         $ui->setCacheDir($this->cacheDir);
-        $manifest = $ui->files();
-        foreach (self::$archives['0.0.1.tar.gz'] as $name => $contents) {
-            $absPath = sprintf('%s/0.0.1/%s', $this->cacheDir, $name);
-            $this->assertStringEqualsFile($absPath, $contents);
-            $this->assertContains($absPath, $manifest);
-        }
+        $this->assertTrue($ui->isUiFile('index.html'));
     }
 
     public function testFetchesDistTaggedVersion()
     {
         $ui = new RemoteUi('latest', $this->mockClient(), $this->mockZippy());
         $ui->setCacheDir($this->cacheDir);
-        $manifest = $ui->files();
-        foreach (self::$archives['0.0.1.tar.gz'] as $name => $contents) {
-            $absPath = sprintf('%s/latest/%s', $this->cacheDir, $name);
-            $this->assertStringEqualsFile($absPath, $contents);
-            $this->assertContains($absPath, $manifest);
-        }
+        $this->assertTrue($ui->isUiFile('index.html'));
     }
 
     public function testDoesNotRefetchIfAlreadyFetched()
     {
         $ui = new RemoteUi('latest', $this->mockClient(), $this->mockZippy());
         $ui->setCacheDir($this->cacheDir);
-        $ui->files();
+        $this->assertTrue($ui->isUiFile('index.html'));
         // Dummy assertion to prevent risky test warning.
         // We're really testing for the lack of a Guzzle client
         // exception when the mock queue runs out of responses.
-        $this->assertInternalType('array', $ui->files());
+        $this->assertTrue($ui->isUiFile('index.html'));
     }
 }

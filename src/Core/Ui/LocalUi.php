@@ -11,7 +11,10 @@
 
 namespace LastCall\Mannequin\Core\Ui;
 
+use LastCall\Mannequin\Core\Iterator\MappingCallbackIterator;
+use LastCall\Mannequin\Core\Iterator\RelativePathMapper;
 use LastCall\Mannequin\Core\Rendered;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,18 +44,15 @@ EOD;
         $this->uiPath = $uiPath;
     }
 
-    public function files(): array
+    /**
+     * @return \Symfony\Component\Finder\SplFileInfo[]
+     */
+    public function files(): \Traversable
     {
-        $manifest = file_get_contents($this->uiPath('build/asset-manifest.json'));
-        $files = [];
-        foreach (json_decode($manifest, true) as $file) {
-            $files[$file] = $this->uiPath('build/'.$file);
-        }
-        $files['index.html'] = $this->uiPath('build/index.html');
-        $files['favicon.ico'] = $this->uiPath('build/favicon.ico');
-        $files['asset-manifest.json'] = $this->uiPath('build/asset-manifest.json');
-
-        return $files;
+        return new MappingCallbackIterator(
+            Finder::create()->in($this->uiPath('build'))->files(),
+            new RelativePathMapper($this->uiPath('build'))
+        );
     }
 
     protected function uiPath($relativePath = '')

@@ -115,8 +115,9 @@ class SnapshotCommand extends Command
                 $rows[] = $this->getErrorRow('Assets', $e);
             }
             try {
-                foreach ($ui->files() as $dest => $src) {
-                    $writer->copy($src, $dest);
+                foreach ($ui->files() as $file) {
+                    $writer->copy($file->getPathname(), $file->getRelativePathname());
+//                    $writer->copy($src, $dest);
                 }
                 $rows[] = $this->getSuccessRow('UI');
             } catch (\Exception $e) {
