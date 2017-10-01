@@ -23,14 +23,15 @@ class MannequinConfig extends Container implements ConfigInterface
     public function __construct(array $values = [])
     {
         $values += [
-            'ui_path' => __DIR__.'/ui-files',
+            'ui_download_path' => __DIR__.'/ui-files',
+            'ui_path' => __DIR__.'/ui-files/build',
             'ui' => function () {
                 if (!is_dir($this['ui_path'])) {
                     $composer = json_decode(file_get_contents(__DIR__.'/composer.json'));
                     throw new \RuntimeException(sprintf(
                         'Unable to find UI files.  This usually happens automatically, but didn\'t, for some reason.  Please download them from %s and place them at %s, and file a bug report.',
                        $composer->extra->{'extra-files'}->ui->url,
-                        $this['ui_path']
+                        $this['ui_download_path']
                     ));
                 }
 
