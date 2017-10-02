@@ -1,6 +1,4 @@
-
-@import "variables";
-@import "~foundation-sites/scss/foundation";
+@import "init";
 
 @include foundation-global-styles;
 @include foundation-typography;
@@ -11,7 +9,6 @@
 
 @import "../fonts/fontello/css/fontello.css";
 
-@import "init";
 @import "base";
 @import "homepage";
 
