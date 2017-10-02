@@ -2,7 +2,11 @@
 @import "variables";
 @import "~foundation-sites/scss/foundation";
 
-@include foundation-everything();
+@include foundation-global-styles;
+@include foundation-typography;
+@include foundation-forms;
+@include foundation-button;
+@include foundation-menu;
 
 @import "../fonts/fontello/css/fontello.css";
 
