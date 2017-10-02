@@ -115,7 +115,7 @@ function GettingStartedPane() {
             <p>Display Twig Templates as Mannequin Components.</p>
           </Link></li>
           <li><Link to="/extensions/drupal">
-            <div className="img-container"><img src={DrupalLogo} align="Drupal Logo" height="43" width="160" /></div>
+            <div className="img-container"><img src={DrupalLogo} alt="Drupal Logo" height="43" width="160" /></div>
             <h4>Drupal Extension</h4>
             <p>Display Drupal 8 Twig Templates as Mannequin Components.</p>
           </Link></li>
@@ -130,7 +130,10 @@ function GettingStartedPane() {
       </div>
       <div className="RunStep Step">
         <div className="intro">
-          <h3><span>3.</span>Start a live development server using vendor/bin/mannequin start.</h3>
+          <h3><span>3.</span>Start a live development server</h3>
+        </div>
+        <div className="content">
+            <code>vendor/bin/mannequin start</code>
         </div>
       </div>
     </div>
