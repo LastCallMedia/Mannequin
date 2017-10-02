@@ -1,5 +1,6 @@
 ---
 title: Glossary
+description: Learn about the vocabulary used by Mannequin.
 ---
 ### Component
 A component is an self-contained display unit (a blob of styled HTML). From Mannequin's perspective, a component is a template or static HTML file that has been enriched with metadata describing it to Mannequin.
