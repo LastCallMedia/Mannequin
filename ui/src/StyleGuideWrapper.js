@@ -5,10 +5,6 @@ import './containers/App.css';
 export default class Wrapper extends Component {
   render() {
     const context = {};
-    return (
-      <StaticRouter context={context}>
-        {this.props.children}
-      </StaticRouter>
-    );
+    return <StaticRouter context={context}>{this.props.children}</StaticRouter>;
   }
 }

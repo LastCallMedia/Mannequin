@@ -29,8 +29,9 @@ const SamplePage = ({ component, sample, ...rest }) => {
   if (!sample) {
     return (
       <main>
-        {component.problems.length > 0 &&
-          <ComponentProblems problems={component.problems} />}
+        {component.problems.length > 0 && (
+          <ComponentProblems problems={component.problems} />
+        )}
         <Callout title={'Sample not found'} type={'alert'} />
       </main>
     );
@@ -55,21 +56,35 @@ class SampleFoundPage extends Component {
     }
   }
   render() {
-    const { component, sample, showingInfo, toggleInfo, used, changeSample } = this.props;
+    const {
+      component,
+      sample,
+      showingInfo,
+      toggleInfo,
+      used,
+      changeSample
+    } = this.props;
     const { problems, name } = component;
     const actions = [
       <OpenWindowButton href={sample.rendered} />,
       <ViewInfoButton onClick={toggleInfo} />
     ];
-    const selector = <SampleSelector samples={component.samples} value={sample.id} onChange={changeSample} />
+    const selector = (
+      <SampleSelector
+        samples={component.samples}
+        value={sample.id}
+        onChange={changeSample}
+      />
+    );
     return (
       <main className="SampleFoundPage">
         <ComponentTopBar actions={actions} title={name} selector={selector} />
-        {problems.length > 0 &&
-          <ComponentProblems className="Content" problems={problems} />}
+        {problems.length > 0 && (
+          <ComponentProblems className="Content" problems={problems} />
+        )}
         <RenderFrame src={sample.rendered} />
         <TransitionGroup>
-          {showingInfo &&
+          {showingInfo && (
             <SlideInFromBottom>
               <ComponentInfo
                 component={component}
@@ -77,7 +92,8 @@ class SampleFoundPage extends Component {
                 used={used}
                 controls={<CloseButton onClick={toggleInfo} />}
               />
-            </SlideInFromBottom>}
+            </SlideInFromBottom>
+          )}
         </TransitionGroup>
       </main>
     );
@@ -99,7 +115,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     componentView: component => dispatch(componentView(component)),
     changeSample: sid => {
       const cid = ownProps.match.params.component;
-      ownProps.history.push(`/component/${cid}/sample/${sid}`)
+      ownProps.history.push(`/component/${cid}/sample/${sid}`);
     }
   };
 };

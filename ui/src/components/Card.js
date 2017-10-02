@@ -4,17 +4,14 @@ import PropTypes from 'prop-types';
 
 import './Card.css';
 
-const Card = ({ title, subtitle, to }) =>
+const Card = ({ title, subtitle, to }) => (
   <article className="Card">
     <Link to={to}>
-      <h6>
-        {subtitle}
-      </h6>
-      <h5>
-        {title}
-      </h5>
+      <h6>{subtitle}</h6>
+      <h5>{title}</h5>
     </Link>
-  </article>;
+  </article>
+);
 Card.propTypes = {
   /** Shows the primary name */
   title: PropTypes.string.isRequired,

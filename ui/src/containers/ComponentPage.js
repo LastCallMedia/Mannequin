@@ -17,14 +17,17 @@ const ComponentPage = ({ component }) => {
   if (!component.samples.length) {
     return (
       <main>
-        {component.problems.length > 0 &&
-          <ComponentProblems problems={component.problems} />}
+        {component.problems.length > 0 && (
+          <ComponentProblems problems={component.problems} />
+        )}
         <Callout title={'No samples found.'} type={'alert'} />
       </main>
     );
   }
   return (
-    <Redirect to={`/component/${component.id}/sample/${component.samples[0].id}`} />
+    <Redirect
+      to={`/component/${component.id}/sample/${component.samples[0].id}`}
+    />
   );
 };
 

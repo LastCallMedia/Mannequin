@@ -6,7 +6,7 @@ import './Branding.css';
 /**
  * Homepage branding block.
  */
-const Branding = () =>
+const Branding = () => (
   <div className="Branding">
     <div className="top">
       <img src={logo} className="logo" alt="Mannequin Logo" />
@@ -15,6 +15,7 @@ const Branding = () =>
     <h3>
       <span>A Component Theming Tool for the Web</span>
     </h3>
-  </div>;
+  </div>
+);
 
 export default Branding;

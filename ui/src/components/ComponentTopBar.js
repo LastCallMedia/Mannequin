@@ -6,18 +6,10 @@ const ComponentTopBar = ({ title, selector, actions }) => {
   return (
     <div className="ComponentTopBar">
       <div className="inner">
-        <h4 className="name">
-          {title}
-        </h4>
-        <div className="component">
-          {selector}
-        </div>
+        <h4 className="name">{title}</h4>
+        <div className="component">{selector}</div>
         <ul className="actions">
-          {React.Children.map(actions, (c, i) =>
-            <li key={i}>
-              {c}
-            </li>
-          )}
+          {React.Children.map(actions, (c, i) => <li key={i}>{c}</li>)}
         </ul>
       </div>
     </div>

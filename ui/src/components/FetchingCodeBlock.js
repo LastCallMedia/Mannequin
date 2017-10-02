@@ -33,21 +33,15 @@ class FetchingCodeBlock extends Component {
       <div
         className={loading ? 'FetchingCodeBlock loading' : 'FetchingCodeBlock'}
       >
-        {error &&
+        {error && (
           <Callout
             type="alert"
             title="Error fetching code"
-            content={
-              <p>
-                {error.message}
-              </p>
-            }
-          />}
+            content={<p>{error.message}</p>}
+          />
+        )}
         {loading && <Loading />}
-        {!error &&
-          <CodeBlock language={language}>
-            {code}
-          </CodeBlock>}
+        {!error && <CodeBlock language={language}>{code}</CodeBlock>}
       </div>
     );
   }
@@ -59,7 +53,7 @@ FetchingCodeBlock.propTypes = {
 };
 FetchingCodeBlock.defaultProps = {
   fetch: src =>
-    fetch(src, {credentials: 'same-origin'}).then(res => {
+    fetch(src, { credentials: 'same-origin' }).then(res => {
       if (res.ok) return res.text();
       throw new Error(res.statusText);
     }),

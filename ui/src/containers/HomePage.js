@@ -6,24 +6,26 @@ import { getQuicklinks } from '../selectors';
 import Card from '../components/Card';
 import PropTypes from 'prop-types';
 
-const HomePage = ({ quickLinks }) =>
+const HomePage = ({ quickLinks }) => (
   <main className="MannequinHome">
     <Branding />
-    {quickLinks.length > 0 &&
+    {quickLinks.length > 0 && (
       <div className="quicklinks">
         <h4>Quick Links</h4>
         <div className="CardGrid">
-          {quickLinks.map(component =>
+          {quickLinks.map(component => (
             <Card
               key={component.id}
               title={component.name}
               subtitle={component.metadata['group']}
               to={`component/${component.id}`}
             />
-          )}
+          ))}
         </div>
-      </div>}
-  </main>;
+      </div>
+    )}
+  </main>
+);
 
 HomePage.propTypes = {
   quickLinks: PropTypes.arrayOf(

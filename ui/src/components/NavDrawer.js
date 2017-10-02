@@ -10,7 +10,6 @@ export class NavDrawer extends Component {
     super(props);
     this.state = { filter: '' };
     this.handleFilterChange = this.handleFilterChange.bind(this);
-    this.handleLinkPress = this.handleLinkPress.bind(this);
   }
   handleFilterChange(e) {
     this.setState({ filter: e.target.value });
@@ -26,17 +25,14 @@ export class NavDrawer extends Component {
       collapsible: false,
       className: 'l1',
       itemClassName: 'l1',
-      onNavigate: this.handleLinkPress,
       children: {
         collapsible: true,
         className: 'l2',
         itemClassName: 'l2',
-        onNavigate: this.handleLinkPress,
         children: {
           collapsible: false,
           className: 'l3',
-          itemClassName: 'l3',
-          onNavigate: this.handleLinkPress
+          itemClassName: 'l3'
         }
       }
     };
@@ -93,21 +89,23 @@ function buildTree(components) {
   }, {});
 
   // Now stack the tree.
-  return Object.keys(flat).sort().reduce((arrTree, k) => {
-    const parentNode = k.split('>').reduce((t, part) => {
-      // Find an existing leaf on the tree.
-      let leaf = t.find(item => item.name === part);
-      if (leaf) {
+  return Object.keys(flat)
+    .sort()
+    .reduce((arrTree, k) => {
+      const parentNode = k.split('>').reduce((t, part) => {
+        // Find an existing leaf on the tree.
+        let leaf = t.find(item => item.name === part);
+        if (leaf) {
+          return leaf.children;
+        }
+        // Create a new leaf on this tree.
+        leaf = { name: part, children: [] };
+        t.push(leaf);
         return leaf.children;
-      }
-      // Create a new leaf on this tree.
-      leaf = { name: part, children: [] };
-      t.push(leaf);
-      return leaf.children;
-    }, arrTree);
-    flat[k].forEach(i => parentNode.push(i));
-    return arrTree;
-  }, []);
+      }, arrTree);
+      flat[k].forEach(i => parentNode.push(i));
+      return arrTree;
+    }, []);
 }
 
 function filterComponents(searchString, components) {

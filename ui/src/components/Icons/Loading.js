@@ -1,7 +1,8 @@
 import React from 'react';
 import './Icon.css';
 
-export default () =>
+export default () => (
   <div className="LoadingIcon">
     <div className="ball" />
-  </div>;
+  </div>
+);
