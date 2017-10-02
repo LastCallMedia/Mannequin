@@ -84,23 +84,35 @@
     @include xy-grid-container();
     @include xy-grid();
   }
-  .note, .shot {
-    @include xy-cell($size: auto);
+  .note, .shot-casing {
+    @include xy-cell();
   }
-  .shot {
-    display: none;
+  .shot-casing {
+    display: block;
+    flex: unset;
+    width: 100%;
   }
+
   @include breakpoint(medium) {
-    .shot {display: block}
+    .note, .shot-casing {
+      @include xy-cell($size: auto);
+    }
     .note { margin-top: rem-calc(93); }
   }
   .shot {
     background: url(../img/laptop_illo.svg);
     background-position: left top;
     background-repeat: no-repeat;
-    background-size: 105%;
-    min-height: rem-calc(500);
+    background-size: contain;
+    min-height: rem-calc(389);
+    margin-top: 1rem;
+    @include breakpoint(medium) {
+      width: rem-calc(560px);
+      transform: translateX(rem-calc(65));
+      margin-top: 0;
+    }
   }
+
   h2 {
     color: $darkgray;
     text-transform: uppercase;
