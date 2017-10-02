@@ -1,7 +1,6 @@
 ---
 title: Drupal
 description: Display Drupal Twig templates as Mannequin components.
-collection: Extensions
 ---
 The Drupal extension allows you to reference Drupal 8 Twig templates as Mannequin components.  You would use this extension if you want to develop your components outside the context of Drupal.  For example, this would allow themers to begin implementing designs without requiring Content Types, Views, or even a functioning Drupal site.
 

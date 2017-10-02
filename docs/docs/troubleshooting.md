@@ -1,6 +1,5 @@
 ---
 title: Troubleshooting
-collection: Documentation
 description: Suggested fixes for common issues you may hit.
 ---
 

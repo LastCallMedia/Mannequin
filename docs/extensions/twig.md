@@ -1,7 +1,6 @@
 ---
 title: Twig
 description: Display Twig templates as Mannequin components.
-collection: Extensions
 ---
 The Twig extension allows you to reference Twig templates as Mannequin components.  You would use this extension if you have Twig templates in your application, and you want to theme them outside the context of the application.  For example, by rendering Twig templates using Mannequin, theming no longer requires data models, an application bootstrap, or even a database connection.
 
