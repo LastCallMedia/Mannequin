@@ -31,7 +31,7 @@ export const pageQuery = graphql`
   query ExtensionIndex {
     allMarkdownRemark(
       sort: { order: DESC, fields: [frontmatter___title] }
-      limit: 3
+      limit: 20
       filter: { fields: { slug: { regex: "/extensions/" } } }
     ) {
       edges {
