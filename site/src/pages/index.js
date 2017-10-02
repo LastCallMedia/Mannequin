@@ -92,7 +92,6 @@ function AboutProductPane() {
 }
 
 function GettingStartedPane() {
-  var gettingStartedLink = "button dashing";
   return (
     <div className="GetStartedPane">
       <Manny className="logo" />
@@ -105,17 +104,17 @@ function GettingStartedPane() {
             these are the extensions that are currently available.</p>
         </div>
         <ul className="content">
-          <li><Link to="/extensions/html" className={ gettingStartedLink }>
+          <li><Link to="/extensions/html">
             <div className="img-container"><img src={HtmlLogo} alt="HTML 5 Logo" height="76" width="54" /></div>
             <h4>HTML Extension</h4>
             <p>Display Static HTML files as Mannequin Components.</p>
           </Link></li>
-          <li><Link to="/extensions/twig" className={ gettingStartedLink }>
+          <li><Link to="/extensions/twig">
             <div className="img-container"><img src={TwigLogo} alt="Twig Logo" height="85" width="60" /></div>
             <h4>Twig Extension</h4>
             <p>Display Twig Templates as Mannequin Components.</p>
           </Link></li>
-          <li><Link to="/extensions/drupal" className={ gettingStartedLink }>
+          <li><Link to="/extensions/drupal">
             <div className="img-container"><img src={DrupalLogo} alt="Drupal Logo" height="43" width="160" /></div>
             <h4>Drupal Extension</h4>
             <p>Display Drupal 8 Twig Templates as Mannequin Components.</p>
@@ -142,15 +141,14 @@ function GettingStartedPane() {
 }
 
 function FurtherReadingPane() {
-  var furtherReadingLink = "button dashing";
   return (
     <div className="FurtherReadingPane">
       <h2>Further Reading</h2>
       <ul className="links">
-        <li><Link to="/docs/configuration" className={ furtherReadingLink }>Configuration</Link></li>
-        <li><Link to="/docs/components" className={ furtherReadingLink }>Components</Link></li>
-        <li><Link to="/extensions" className={ furtherReadingLink }>Extensions</Link></li>
-        <li><Link to="/docs/troubleshooting" className={ furtherReadingLink }>Troubleshooting</Link></li>
+        <li><Link to="/docs/configuration">Configuration</Link></li>
+        <li><Link to="/docs/components">Components</Link></li>
+        <li><Link to="/extensions">Extensions</Link></li>
+        <li><Link to="/docs/troubleshooting">Troubleshooting</Link></li>
       </ul>
     </div>
   )

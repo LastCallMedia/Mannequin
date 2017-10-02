@@ -132,7 +132,9 @@
     @include xy-grid-layout(1, 'li', true, $gutter-type: padding, $gutter-position: left right top bottom);
     li {
       a {
+        @include dashing-hoverable;
         display: block;
+        color: $white;
         text-align: left;
         padding: rem-calc(18) rem-calc(26);
         font-size: rem-calc(18);
@@ -230,7 +232,10 @@
     }
 
     a {
+      @include dashing-hoverable;
+      color: $white;
       text-align: left;
+      display: block;
       padding: rem-calc(38) rem-calc(30) rem-calc(16) rem-calc(20);
 
       &:hover {
