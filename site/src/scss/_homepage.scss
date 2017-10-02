@@ -105,9 +105,11 @@
     background-repeat: no-repeat;
     background-size: contain;
     min-height: rem-calc(389);
+    margin-top: 1rem;
     @include breakpoint(medium) {
       width: rem-calc(560px);
       transform: translateX(rem-calc(65));
+      margin-top: 0;
     }
   }
 
