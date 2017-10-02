@@ -54,10 +54,5 @@ exports.onCreateNode = ({node, boundActionCreators, getNode}) => {
 }
 
 const createSlug = (fileNode) => {
-    switch(fileNode.sourceInstanceName) {
-        case 'docs':
-            return `/docs/${fileNode.relativePath.replace(/\.md$/, '')}`;
-        case 'extensions':
-            return `/extensions/${fileNode.relativePath.replace(/\.md$/, '')}`;
-    }
+    return '/' + fileNode.relativePath.replace(/\.md/, '');
 }

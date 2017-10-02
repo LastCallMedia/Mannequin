@@ -1,6 +1,5 @@
 ---
 title: Components
-collection: Documentation
 description: All about components.
 ---
 Templates are files that are used to generate HTML markup.  From Mannequin's perspective, a template becomes a component when:

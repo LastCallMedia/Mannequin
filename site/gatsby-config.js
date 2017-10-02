@@ -16,17 +16,9 @@ module.exports = {
       {
           resolve: `gatsby-source-filesystem`,
           options: {
-              path: `${__dirname}/src/docs`,
-              name: 'docs',
+              path: `${__dirname}/../docs`,
+              name: 'pages',
           },
-      },
-      // @todo: Move extension documentation to README.md for each extension.
-      {
-          resolve: `gatsby-source-filesystem`,
-          options: {
-              path: `${__dirname}/src/extensions`,
-              name: 'extensions',
-          }
       },
       {
           resolve: 'gatsby-transformer-remark',

@@ -1,7 +1,6 @@
 ---
 title: HTML
 description: Display HTML files as Mannequin patterns.
-collection: Extensions
 ---
 The HTML extension allows you to reference static HTML files as Mannequin components.  
 This extension is particularly useful for:
