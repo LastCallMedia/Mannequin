@@ -132,21 +132,15 @@
     @include xy-grid-layout(1, 'li', true, $gutter-type: padding, $gutter-position: left right top bottom);
     li {
       a {
+        @include dashing-hoverable;
         display: block;
-        border: 1px dashed $blue-gray;
+        color: $white;
         text-align: left;
         padding: rem-calc(18) rem-calc(26);
-        color: white;
         font-size: rem-calc(18);
         font-weight: bold;
         letter-spacing: rem-calc(1);
         line-height: rem-calc(22);
-
-        &:hover {
-          background-color: $buttonblue;
-          border-color: $buttonblue;
-          border-style: solid;
-        }
       }
     }
   }
@@ -238,16 +232,13 @@
     }
 
     a {
-      text-align: left;
+      @include dashing-hoverable;
       color: $white;
-      border: 1px dashed $blue-gray;
+      text-align: left;
       display: block;
       padding: rem-calc(38) rem-calc(30) rem-calc(16) rem-calc(20);
 
       &:hover {
-        border:1px solid $buttonblue;
-        background: $buttonblue;
-
         p {
           color: $white;
         }
