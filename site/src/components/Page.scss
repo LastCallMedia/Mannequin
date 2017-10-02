@@ -50,16 +50,10 @@
     @include xy-grid-layout(2, 'li', $gutter-position: left right top bottom);
   }
   li a {
-    border: 1px dashed $blue-gray;
+    @include dashing-hoverable;
     padding: rem-calc(20);
     display: block;
     color: $black;
-
-    &:hover {
-      border: 1px solid $buttonblue;
-      background: $buttonblue;
-    }
-
     h4 {}
     p { margin-bottom: 0; }
   }
