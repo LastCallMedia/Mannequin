@@ -7,12 +7,14 @@ import { createSelector } from 'reselect';
 // Simple selectors - only pull data out of state.
 const getComponentsFromState = state => state.components;
 const getQuickLinksFromState = state => state.quickLinks;
-const getSelectedComponentId = (state, ownProps) => ownProps.match.params.component;
+const getSelectedComponentId = (state, ownProps) =>
+  ownProps.match.params.component;
 const getSelectedSampleId = (state, ownProps) => ownProps.match.params.sid;
 export const getSampleFromComponent = (component, sampleId) => {
-    return component ? component.samples.filter(s => s.id === sampleId).pop() : undefined;
-}
-
+  return component
+    ? component.samples.filter(s => s.id === sampleId).pop()
+    : undefined;
+};
 
 // More complex selectors that do manipulation or filtering of data.
 export const getComponent = createSelector(

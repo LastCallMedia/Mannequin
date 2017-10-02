@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HashRouter as Router, Route } from 'react-router-dom';
+import { HashRouter as Router, Route, withRouter } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { fetchComponents, toggleDrawer } from '../actions';
@@ -26,7 +26,11 @@ export class App extends Component {
             <div className="main-frame">
               <TopBar toggleNav={toggleDrawer} />
               <Route path="/" exact component={HomePage} />
-              <Route path={'/component/:component'} exact component={ComponentPage} />
+              <Route
+                path={'/component/:component'}
+                exact
+                component={ComponentPage}
+              />
               <Route
                 path={'/component/:component/sample/:sid'}
                 component={SamplePage}
@@ -38,6 +42,7 @@ export class App extends Component {
               toggleNav={toggleDrawer}
             />
           </div>
+          {drawer && <DrawerSubscriber action={toggleDrawer} />}
         </div>
       </Router>
     );
@@ -53,6 +58,19 @@ App.defaultProps = {
   refreshComponents: () => {},
   toggleDrawer: () => {}
 };
+
+const DrawerSubscriber = withRouter(
+  class extends Component {
+    componentDidUpdate(prevProps) {
+      if (prevProps.location !== this.props.location) {
+        this.props.action();
+      }
+    }
+    render() {
+      return this.props.children || null;
+    }
+  }
+);
 
 const mapStateToProps = state => {
   return {

@@ -7,15 +7,7 @@ const ComponentProblems = ({ problems }) => {
     <Callout
       type="alert"
       title="There were problems found with this component!"
-      content={
-        <ul>
-          {problems.map((p, i) =>
-            <li key={i}>
-              {p}
-            </li>
-          )}
-        </ul>
-      }
+      content={<ul>{problems.map((p, i) => <li key={i}>{p}</li>)}</ul>}
     />
   );
 };

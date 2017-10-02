@@ -9,13 +9,14 @@ import codeStyle from 'react-syntax-highlighter/dist/styles/foundation';
 registerLanguage('twig', twig);
 registerLanguage('html', xml);
 
-const CodeBlock = ({ language, children }) =>
+const CodeBlock = ({ language, children }) => (
   <SyntaxHighlighter
     style={codeStyle}
     showLineNumbers={true}
     language={language}
   >
     {children}
-  </SyntaxHighlighter>;
+  </SyntaxHighlighter>
+);
 
 export default CodeBlock;

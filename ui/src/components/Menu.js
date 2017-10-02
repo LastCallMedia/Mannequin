@@ -7,15 +7,14 @@ import './Menu.css';
 function Menu({ tree, settings }) {
   return (
     <ul className={`MenuList ${settings.className}`}>
-      {tree.map((child, i) =>
+      {tree.map((child, i) => (
         <MainMenuItem
           key={i}
           leaf={child}
           className={settings.itemClassName}
           childSettings={settings.children}
-          onNavigate={settings.onNavigate}
         />
-      )}
+      ))}
     </ul>
   );
 }
@@ -73,26 +72,29 @@ class MainMenuItem extends Component {
             {leaf.icon}
             {leaf.name}
           </a>
-          {leaf.children &&
+          {leaf.children && (
             <FluidContainer
               height={isCollapsed ? 0 : 'auto'}
               style={{ overflow: 'hidden' }}
             >
               <Menu tree={leaf.children} settings={childSettings} />
-            </FluidContainer>}
+            </FluidContainer>
+          )}
         </li>
       );
     }
 
     return (
       <li className={`MenuItem ${className}`}>
-        {leaf.to &&
-          <Link to={leaf.to} onClick={this.props.onNavigate}>
+        {leaf.to && (
+          <Link to={leaf.to}>
             {leaf.icon}
             {leaf.name}
-          </Link>}
-        {leaf.children &&
-          <Menu tree={leaf.children} settings={childSettings} />}
+          </Link>
+        )}
+        {leaf.children && (
+          <Menu tree={leaf.children} settings={childSettings} />
+        )}
       </li>
     );
   }

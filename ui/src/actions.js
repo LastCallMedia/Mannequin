@@ -1,7 +1,7 @@
 export function fetchComponents() {
   return dispatch => {
     dispatch({ type: 'COMPONENTS_FETCH_LOADING' });
-    fetch('manifest.json', {credentials: 'same-origin'})
+    fetch('manifest.json', { credentials: 'same-origin' })
       .then(res => res.json())
       .then(res => dispatch(updateComponents(res)))
       .catch(err => dispatch(errorComponents(err)));

@@ -3,12 +3,16 @@ import PropTypes from 'prop-types';
 
 const SampleSelector = ({ samples, value, onChange }) => {
   return (
-    <select className="SampleSelector" value={value} onChange={e => onChange(e.target.value)}>
-      {samples.map(sample =>
+    <select
+      className="SampleSelector"
+      value={value}
+      onChange={e => onChange(e.target.value)}
+    >
+      {samples.map(sample => (
         <option key={sample.id} value={sample.id}>
           {sample.name}
         </option>
-      )}
+      ))}
     </select>
   );
 };

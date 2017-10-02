@@ -9,16 +9,18 @@ const ComponentInfo = ({ component, sample, used, className, controls }) => {
   return (
     <div className={cx('ComponentInfo', className)}>
       <div className="inner">
-        <div className="controls">
-          {controls}
-        </div>
+        <div className="controls">{controls}</div>
         <ComponentInfoInfo
           className="info"
           component={component}
           used={used}
           sample={sample}
         />
-        <ComponentInfoCode className="code" component={component} sample={sample} />
+        <ComponentInfoCode
+          className="code"
+          component={component}
+          sample={sample}
+        />
       </div>
     </div>
   );
@@ -34,21 +36,21 @@ export default ComponentInfo;
 const ComponentInfoInfo = ({ component, sample, used }) => {
   return (
     <div className="info">
-      <h3 className="component-name">
-        {component.name}
-      </h3>
-      {component.metadata.description &&
+      <h3 className="component-name">{component.name}</h3>
+      {component.metadata.description && (
         <ComponentInfoSection title="Description">
           {component.metadata.description}
-        </ComponentInfoSection>}
-      {used.length > 0 &&
+        </ComponentInfoSection>
+      )}
+      {used.length > 0 && (
         <ComponentInfoSection title="Used">
-          {used.map(p =>
+          {used.map(p => (
             <Link key={p.id} to={`/component/${p.id}`}>
               {p.name}
             </Link>
-          )}
-        </ComponentInfoSection>}
+          ))}
+        </ComponentInfoSection>
+      )}
     </div>
   );
 };
@@ -71,15 +73,12 @@ ComponentInfoInfo.defaultProps = {
   used: []
 };
 
-const ComponentInfoSection = ({ title, children }) =>
+const ComponentInfoSection = ({ title, children }) => (
   <section>
-    <h4>
-      {title}
-    </h4>
-    <p>
-      {children}
-    </p>
-  </section>;
+    <h4>{title}</h4>
+    <p>{children}</p>
+  </section>
+);
 ComponentInfoSection.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired
@@ -128,7 +127,7 @@ class ComponentInfoCode extends Component {
       <div className="code">
         {src && <FetchingCodeBlock src={src} language={language} />}
         <div className="button-group">
-          {sample &&
+          {sample && (
             <a
               className={cx(
                 'button',
@@ -139,8 +138,9 @@ class ComponentInfoCode extends Component {
               data-language={'html'}
             >
               HTML
-            </a>}
-          {component &&
+            </a>
+          )}
+          {component && (
             <a
               className={cx(
                 'button',
@@ -151,7 +151,8 @@ class ComponentInfoCode extends Component {
               data-language={component.metadata.source_format}
             >
               Raw
-            </a>}
+            </a>
+          )}
         </div>
       </div>
     );
