@@ -13,7 +13,6 @@ namespace LastCall\Mannequin\Core;
 
 use LastCall\Mannequin\Core\Asset\AssetManager;
 use LastCall\Mannequin\Core\Asset\RequestContextContext;
-use LastCall\Mannequin\Core\Common\DirectoryCachingInterface;
 use LastCall\Mannequin\Core\Console\Application as ConsoleApplication;
 use LastCall\Mannequin\Core\Console\Command\DebugCommand;
 use LastCall\Mannequin\Core\Console\Command\SnapshotCommand;
@@ -89,7 +88,7 @@ class Mannequin extends Application
             return new LogListener($this['logger']);
         };
         $this['cache_dir'] = function () {
-            return sprintf('%s/mannequin/%s', sys_get_temp_dir(), md5(getcwd()));
+            return sprintf('%s/mannequin/%s', sys_get_temp_dir(), md5($this['config_file']));
         };
         $this['cache'] = function () {
             return new FilesystemAdapter('', 0, $this['cache_dir'].'/cache');
@@ -120,12 +119,7 @@ class Mannequin extends Application
             return new ManifestBuilder($this['url_generator']);
         };
         $this['ui'] = function () {
-            $ui = $this['config']->getUi();
-            if ($ui instanceof DirectoryCachingInterface) {
-                $ui->setCacheDir($this->getCacheDir().'/ui');
-            }
-
-            return $ui;
+            return $this['config']->getUi();
         };
         $this['engine'] = function () {
             $engines = [];

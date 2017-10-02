@@ -19,6 +19,7 @@ use LastCall\Mannequin\Core\Ui\Controller\ManifestController;
 use LastCall\Mannequin\Core\Ui\Controller\RenderController;
 use LastCall\Mannequin\Core\Ui\Controller\UiController;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 class MannequinTest extends TestCase
 {
@@ -101,5 +102,24 @@ class MannequinTest extends TestCase
             'config_file' => __DIR__.'/Resources/nonreturning-config.php',
         ]);
         $application['config'];
+    }
+
+    public function testHasCacheDirectory()
+    {
+        $application = new Mannequin([
+            'config_file' => 'foo',
+        ]);
+        $this->assertEquals(sys_get_temp_dir().'/mannequin/'.md5('foo'), $application->getCacheDir());
+    }
+
+    public function testHasCache()
+    {
+        $application = new Mannequin([
+            'config_file' => 'foo',
+        ]);
+        $this->assertEquals(
+            new FilesystemAdapter('', 0, $application->getCacheDir().'/cache'),
+            $application->getCache()
+        );
     }
 }
