@@ -9,10 +9,11 @@
   }
   .Branding {
     @include xy-cell(auto);
-    margin: rem-calc(13) auto;
+    margin-top: rem-calc(13);
+    margin-bottom: rem-calc(13);
   }
   .menu {
-    @include xy-cell(auto);
+    @include xy-cell(auto, $gutter-output: false);
     justify-content: flex-end;;
     a {
       $lh: 20;
@@ -20,8 +21,7 @@
       text-transform: uppercase;
       font-size: rem-calc(14);
       line-height: rem-calc($lh);
-      padding-top: rem-calc((55 - $lh) / 2);
-      padding-bottom: rem-calc((55 - $lh) / 2);
+      padding: rem-calc((55-$lh) / 2) rem-calc(12);
       font-weight: bold;
     }
   }
