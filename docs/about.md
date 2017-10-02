@@ -10,7 +10,7 @@ As a tool, Mannequin's goal is to help you focus on markup and styling for one c
 
 ### Our Influences
 
-We would be remiss if we didn't mention the excellent Pattern Lab as our primary influence. As an introduction to atomic theming, Pattern Lab is great, but we found that it fell a little short when it came to integrating with the templates we were actually using in our applications. As a result, we created this tool for internal use, and decided to open source it.
+We would be remiss if we didn't mention the excellent [Pattern Lab](http://patternlab.io/) as our primary influence. As an introduction to atomic theming, Pattern Lab is great, but we found that it fell a little short when it came to integrating with the templates we were actually using in our applications. As a result, we created this tool for internal use, and decided to open source it.
 
 ### Next Steps
 
