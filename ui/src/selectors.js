@@ -46,3 +46,13 @@ export const getQuicklinks = createSelector(
     return quickLinks;
   }
 );
+
+export const getStoredState = createSelector(
+  [getComponentsFromState, getQuickLinksFromState],
+  (components, quickLinks) => {
+    return {
+      components,
+      quickLinks
+    };
+  }
+);
