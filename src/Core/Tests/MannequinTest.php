@@ -29,11 +29,12 @@ class MannequinTest extends TestCase
         $application->flush();
         /** @var \Symfony\Component\Routing\RouteCollection $routes */
         $routes = $application['routes'];
+        $this->assertEquals('controller.static:indexAction', $routes->get('index')->getDefault('_controller'));
         $this->assertEquals('controller.manifest:getManifestAction', $routes->get('manifest')->getDefault('_controller'));
         $this->assertEquals('controller.render:renderAction', $routes->get('component_render')->getDefault('_controller'));
         $this->assertEquals('controller.render:renderSourceAction', $routes->get('component_render_source_raw')->getDefault('_controller'));
         $this->assertEquals('controller.render:renderRawAction', $routes->get('component_render_raw')->getDefault('_controller'));
-        $this->assertEquals('controller.ui:staticAction', $routes->get('static')->getDefault('_controller'));
+        $this->assertEquals('controller.static:staticAction', $routes->get('static')->getDefault('_controller'));
     }
 
     public function testHasConsole()
@@ -64,12 +65,12 @@ class MannequinTest extends TestCase
         $this->assertInstanceOf(RenderController::class, $application['controller.render']);
     }
 
-    public function testHasUiController()
+    public function testHasStaticController()
     {
         $application = new Mannequin([
             'config_file' => __DIR__.'/Resources/bare-config.php',
         ]);
-        $this->assertInstanceOf(StaticFileController::class, $application['controller.ui']);
+        $this->assertInstanceOf(StaticFileController::class, $application['controller.static']);
     }
 
     public function testResolvesConfig()
