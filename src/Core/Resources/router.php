@@ -17,11 +17,13 @@ if (getenv('MANNEQUIN_AUTOLOAD')) {
     require_once getenv('MANNEQUIN_AUTOLOAD');
 }
 
-// @todo: This improves performance of serving assets by letting PHP resolve the
-// asset path directly, but it comes at the cost of possibly having our internal
-// paths hijacked by local files.  Evaluate post 1.0.0 whether it's worth it.
+// Cue PHP to serve static files if they exist, as long as they don't match
+// one of our protected patterns.  As much as we'd love to control each request,
+// this can slow down the development server by an order of magnitude.
 if (is_file($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$_SERVER['SCRIPT_NAME'])) {
-    return false;
+    if (!preg_match('@^/(index.html$|favicon.ico$|static/|m-)@', $_SERVER['SCRIPT_NAME'])) {
+        return false;
+    }
 }
 
 // Override SCRIPT_FILENAME, which can come in as the URL requested, if the URL
