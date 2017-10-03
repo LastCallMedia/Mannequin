@@ -11,20 +11,21 @@
 
 namespace LastCall\Mannequin\Core\Ui\Controller;
 
+use LastCall\Mannequin\Core\Asset\AssetManager;
 use LastCall\Mannequin\Core\Ui\UiInterface;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class StaticFileController
 {
     private $ui;
+    private $assetManager;
 
-    public function __construct(UiInterface $ui, string $assetDir)
+    public function __construct(UiInterface $ui, AssetManager $assetManager)
     {
         $this->ui = $ui;
-        $this->assetDir = $assetDir;
+        $this->assetManager = $assetManager;
     }
 
     public function indexAction(Request $request): Response
@@ -34,15 +35,11 @@ class StaticFileController
 
     public function staticAction($name, Request $request): Response
     {
+        // Check if this is one of the UI files.
         if ($this->ui->isUiFile($name)) {
             return $this->ui->getUiFileResponse($name, $request);
         }
-
-        // Check if this file is an asset we already know:
-        if (file_exists($this->assetDir.'/'.$name)) {
-            return new BinaryFileResponse($this->assetDir.'/'.$name);
-        }
-
-        throw new NotFoundHttpException(sprintf('Asset not found: %s.  Checked in %s', $name, $this->assetDir));
+        // Let the AssetManager to handle the request.
+        return new BinaryFileResponse($this->assetManager->get($name));
     }
 }

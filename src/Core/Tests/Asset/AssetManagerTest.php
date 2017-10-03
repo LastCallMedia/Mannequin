@@ -14,6 +14,7 @@ namespace LastCall\Mannequin\Core\Tests\Asset;
 use LastCall\Mannequin\Core\Asset\AssetManager;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Finder\SplFileInfo;
 
 class AssetManagerTest extends TestCase
 {
@@ -22,22 +23,19 @@ class AssetManagerTest extends TestCase
         $root = vfsStream::setup('mannequin-out');
         $manager = new AssetManager(
             new \ArrayIterator([new \SplFileInfo(__FILE__)]),
-            __DIR__,
-            ''
+            __DIR__
         );
         $manager->write($root->url());
         $this->assertTrue($root->hasChild(pathinfo(__FILE__, PATHINFO_BASENAME)));
     }
 
-    public function testWritesAssetsToSubdir()
+    public function testGet()
     {
-        $root = vfsStream::setup('mannequin-out');
+        $barAsset = new SplFileInfo(__DIR__.'/foo/bar', 'foo/', 'foo/bar');
         $manager = new AssetManager(
-            new \ArrayIterator([new \SplFileInfo(__FILE__)]),
-            __DIR__,
-            'assets'
+            new \ArrayIterator([$barAsset]),
+            __DIR__
         );
-        $manager->write($root->url());
-        $this->assertTrue($root->hasChild('assets/'.pathinfo(__FILE__, PATHINFO_BASENAME)));
+        $this->assertEquals($barAsset, $manager->get('foo/bar'));
     }
 }
