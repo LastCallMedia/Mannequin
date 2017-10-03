@@ -51,7 +51,7 @@
   }
   .logo + .name:before {
     content: "";
-    border-left: 1px dashed $blue-gray;
+    border-left: 1px dashed $dashing-gray;
     width: 1px;
     display:inline-block;
     vertical-align: middle;
@@ -68,7 +68,7 @@
     }
   }
   .separator {
-    border-left: 1px dashed $blue-gray;
+    border-left: 1px dashed $dashing-gray;
   }
 
   @include branding-layout(53, 31, 20);
