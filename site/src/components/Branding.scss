@@ -13,9 +13,9 @@
     margin-top: rem-calc(($name_font_size - $logo_h) / 2 * .9);
   }
   .name {
-    font-size: rem-calc($name_font_size);
-    @include breakpoint(small) {
-      font-size: rem-calc($name_font_size * .85);
+    font-size: rem-calc($name_font_size * .85);
+    @include breakpoint(medium) {
+      font-size: rem-calc($name_font_size);
     }
   }
   .separator {
