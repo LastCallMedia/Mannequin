@@ -76,6 +76,10 @@
     @include breakpoint(large) {
       @include xy-grid-layout(3, li);
     }
+    a {
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 }
 
