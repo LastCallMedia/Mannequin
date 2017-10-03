@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-class UiController
+class StaticFileController
 {
     private $ui;
 
@@ -25,6 +25,11 @@ class UiController
     {
         $this->ui = $ui;
         $this->assetDir = $assetDir;
+    }
+
+    public function indexAction(Request $request): Response
+    {
+        return $this->ui->getIndexFileResponse($request);
     }
 
     public function staticAction($name, Request $request): Response

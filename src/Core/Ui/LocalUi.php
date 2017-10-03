@@ -65,6 +65,11 @@ EOD;
         return new BinaryFileResponse($this->uiPath(ltrim($path, '/')));
     }
 
+    public function getIndexFileResponse(Request $request): Response
+    {
+        return new BinaryFileResponse($this->uiPath('index.html'));
+    }
+
     public function decorateRendered(Rendered $rendered): string
     {
         return sprintf(

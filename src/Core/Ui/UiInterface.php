@@ -24,6 +24,8 @@ interface UiInterface
 
     public function isUiFile(string $path): bool;
 
+    public function getIndexFileResponse(Request $request): Response;
+
     public function getUiFileResponse(string $path, Request $request): Response;
 
     public function decorateRendered(Rendered $rendered): string;

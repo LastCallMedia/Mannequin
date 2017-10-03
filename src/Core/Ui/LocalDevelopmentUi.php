@@ -46,11 +46,31 @@ class LocalDevelopmentUi extends LocalUi
 
     public function getUiFileResponse(string $path, Request $request): Response
     {
+        $url = $this->getUrl($path, $request);
+
+        return new RedirectResponse($url, 307);
+    }
+
+    public function getIndexFileResponse(Request $request): Response
+    {
+        $url = $this->getUrl('index.html', $request);
+        $ctx = stream_context_create([
+            'http' => ['timeout' => 5],
+        ]);
+        $contents = file_get_contents($url, false, $ctx);
+        if (false !== $contents) {
+            return new Response($contents);
+        }
+        throw new GoneHttpException('Failed to fetch index.');
+    }
+
+    private function getUrl($path, Request $request)
+    {
         $parts = parse_url($request->getUri());
         $parts = $this->parts + $parts;
 
         // Reassemble the URI.
-        $uri = sprintf(
+        $url = sprintf(
             '%s://%s:%s%s',
             $parts['scheme'],
             $parts['host'],
@@ -58,20 +78,9 @@ class LocalDevelopmentUi extends LocalUi
             $parts['path']
         );
         if (!empty($parts['query'])) {
-            $uri .= sprintf('?%s', $parts['query']);
-        }
-        if ('index.html' === $path) {
-            // The index cannot be served with a redirect.
-            $ctx = stream_context_create([
-                'http' => ['timeout' => 5],
-            ]);
-            $index_contents = file_get_contents($uri, false, $ctx);
-            if (false !== $index_contents) {
-                return new Response($index_contents);
-            }
-            throw new GoneHttpException(sprintf('Failed to fetch index.html'));
+            $url .= sprintf('?%s', $parts['query']);
         }
 
-        return new RedirectResponse($uri, 307);
+        return $url;
     }
 }

@@ -22,7 +22,7 @@ use LastCall\Mannequin\Core\Engine\DelegatingEngine;
 use LastCall\Mannequin\Core\MimeType\ExtensionMimeTypeGuesser;
 use LastCall\Mannequin\Core\Ui\Controller\ManifestController;
 use LastCall\Mannequin\Core\Ui\Controller\RenderController;
-use LastCall\Mannequin\Core\Ui\Controller\UiController;
+use LastCall\Mannequin\Core\Ui\Controller\StaticFileController;
 use LastCall\Mannequin\Core\Ui\ManifestBuilder;
 use LastCall\Mannequin\Core\Variable\VariableResolver;
 use Psr\Cache\CacheItemPoolInterface;
@@ -178,8 +178,8 @@ class Mannequin extends Application
         };
 
         $this->register(new ServiceControllerServiceProvider());
-        $this['controller.ui'] = function () {
-            return new UiController($this['ui'], $this['build_cache']);
+        $this['controller.static'] = function () {
+            return new StaticFileController($this['ui'], $this['build_cache']);
         };
         $this['controller.manifest'] = function () {
             return new ManifestController(
@@ -199,6 +199,7 @@ class Mannequin extends Application
             );
         };
 
+        $this->get('/', 'controller.static:indexAction')->bind('index');
         $this->get('/manifest.json', 'controller.manifest:getManifestAction')
             ->bind('manifest');
         $this->get(
@@ -213,7 +214,7 @@ class Mannequin extends Application
             '/m-source/html/{component}/{sample}.txt',
             'controller.render:renderRawAction'
         )->bind('component_render_raw');
-        $this->match('/{name}', 'controller.ui:staticAction')
+        $this->match('/{name}', 'controller.static:staticAction')
             ->bind('static')
             ->value('name', 'index.html')
             ->assert('name', '.+');

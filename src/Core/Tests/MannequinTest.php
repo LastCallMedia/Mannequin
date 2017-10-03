@@ -17,7 +17,7 @@ use LastCall\Mannequin\Core\Console\Command\SnapshotCommand;
 use LastCall\Mannequin\Core\Console\Command\StartCommand;
 use LastCall\Mannequin\Core\Ui\Controller\ManifestController;
 use LastCall\Mannequin\Core\Ui\Controller\RenderController;
-use LastCall\Mannequin\Core\Ui\Controller\UiController;
+use LastCall\Mannequin\Core\Ui\Controller\StaticFileController;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
@@ -69,7 +69,7 @@ class MannequinTest extends TestCase
         $application = new Mannequin([
             'config_file' => __DIR__.'/Resources/bare-config.php',
         ]);
-        $this->assertInstanceOf(UiController::class, $application['controller.ui']);
+        $this->assertInstanceOf(StaticFileController::class, $application['controller.ui']);
     }
 
     public function testResolvesConfig()
