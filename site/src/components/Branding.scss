@@ -14,6 +14,9 @@
   }
   .name {
     font-size: rem-calc($name_font_size);
+    @include breakpoint(small) {
+      font-size: rem-calc($name_font_size * .85);
+    }
   }
   .separator {
     // Separator should be 60% of the name font size.
