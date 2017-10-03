@@ -140,7 +140,7 @@ class Mannequin extends Application
 
         $this['asset.package'] = function () {
             return new PathPackage(
-                'assets',
+                '',
                 new StaticVersionStrategy(time()),
                 new RequestContextContext($this['request_context'])
             );
@@ -149,12 +149,8 @@ class Mannequin extends Application
         $this['asset.manager'] = function () {
             return new AssetManager(
                 $this->getConfig()->getAssets(),
-                dirname($this['config_file']),
-                'assets'
+                dirname($this['config_file'])
             );
-        };
-        $this['build_cache'] = function () {
-            return sprintf('%s/build', $this['cache_dir']);
         };
 
         $this['variable.resolver'] = function () {
@@ -179,7 +175,7 @@ class Mannequin extends Application
 
         $this->register(new ServiceControllerServiceProvider());
         $this['controller.static'] = function () {
-            return new StaticFileController($this['ui'], $this['build_cache']);
+            return new StaticFileController($this['ui'], $this['asset.manager']);
         };
         $this['controller.manifest'] = function () {
             return new ManifestController(
@@ -193,9 +189,7 @@ class Mannequin extends Application
             return new RenderController(
                 $collection,
                 $this['renderer'],
-                $this['ui'],
-                $this['asset.manager'],
-                $this['build_cache']
+                $this['ui']
             );
         };
 

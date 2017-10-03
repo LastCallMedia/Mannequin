@@ -17,6 +17,17 @@ if (getenv('MANNEQUIN_AUTOLOAD')) {
     require_once getenv('MANNEQUIN_AUTOLOAD');
 }
 
+// @todo: This improves performance of serving assets by letting PHP resolve the
+// asset path directly, but it comes at the cost of possibly having our internal
+// paths hijacked by local files.  Evaluate post 1.0.0 whether it's worth it.
+if (is_file($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$_SERVER['SCRIPT_NAME'])) {
+    return false;
+}
+
+// Override SCRIPT_FILENAME, which can come in as the URL requested, if the URL
+// matches an existing file.
+$_SERVER['SCRIPT_FILENAME'] = __FILE__;
+
 $output = new ConsoleOutput(getenv('MANNEQUIN_VERBOSITY'));
 $app = new Mannequin([
     'debug' => getenv('MANNEQUIN_DEBUG') ?? false,

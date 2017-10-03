@@ -11,7 +11,6 @@
 
 namespace LastCall\Mannequin\Core\Ui\Controller;
 
-use LastCall\Mannequin\Core\Asset\AssetManager;
 use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Exception\UnknownComponentException;
@@ -29,28 +28,19 @@ class RenderController
 
     private $ui;
 
-    private $assetDir;
-
-    private $assetManager;
-
     public function __construct(
         ComponentCollection $collection,
         ComponentRenderer $renderer,
-        UiInterface $ui,
-        AssetManager $assetManager,
-        string $assetDir
+        UiInterface $ui
     ) {
         $this->collection = $collection;
         $this->renderer = $renderer;
         $this->ui = $ui;
-        $this->assetManager = $assetManager;
-        $this->assetDir = $assetDir;
     }
 
     public function renderAction($component, $sample)
     {
         $rendered = $this->renderComponent($component, $sample);
-        $this->assetManager->write($this->assetDir);
 
         return new Response($this->ui->decorateRendered(
             $rendered

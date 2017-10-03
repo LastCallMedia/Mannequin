@@ -11,7 +11,10 @@
 
 namespace LastCall\Mannequin\Core\Asset;
 
+use LastCall\Mannequin\Core\Iterator\MappingCallbackIterator;
+use LastCall\Mannequin\Core\Iterator\RelativePathMapper;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Contains and writes the asset collection on demand.
@@ -20,22 +23,30 @@ class AssetManager
 {
     private $assets;
     private $srcRoot;
-    private $assetSubdir;
     private $filesystem;
 
-    public function __construct(\Traversable $assets, string $assetRoot, string $assetSubdir = 'assets')
+    public function __construct(\Traversable $assets, string $assetRoot)
     {
-        $this->assets = $assets;
+        $this->assets = new MappingCallbackIterator($assets, new RelativePathMapper($assetRoot));
         $this->srcRoot = $assetRoot;
-        $this->assetSubdir = ltrim($assetSubdir, '/\\');
         $this->filesystem = new Filesystem();
     }
 
     public function write(string $targetDir)
     {
-        $target = sprintf('%s%s%s', $targetDir, DIRECTORY_SEPARATOR, $this->assetSubdir);
-        $this->filesystem->mirror($this->srcRoot, $target, $this->assets, [
+        $this->filesystem->mirror($this->srcRoot, $targetDir, $this->assets, [
             'overwrite' => false,
         ]);
+    }
+
+    public function get($path): \SplFileInfo
+    {
+        $path = ltrim($path, '\\/');
+        foreach ($this->assets as $asset) {
+            if ($asset->getRelativePathname() === $path) {
+                return $asset;
+            }
+        }
+        throw new NotFoundHttpException(sprintf('Unknown asset: %s', $path));
     }
 }
