@@ -58,8 +58,8 @@ function HomepageHero() {
         </ul>
       </div>
       <BubbleLayer travel={100}>
-          <Bubble size={40} thickness={4} duration={5} blur={3} left='0' bottom="0" />
-          <Bubble size={29} thickness={3} duration={4} blur={3} top="87px" right="25%" />
+          <Bubble size={40} thickness={4} duration={10} blur={3} left='0' bottom="0" />
+          <Bubble size={29} thickness={3} duration={9} blur={3} top="87px" right="25%" />
       </BubbleLayer>
       <BubbleLayer travel={50}>
         <BubbleCluster duration={8} left="180px" top="12px">
@@ -67,7 +67,10 @@ function HomepageHero() {
           <Bubble size={9} thickness={2} />
         </BubbleCluster>
         <Bubble size={18} thickness={2} duration={8} left="50%" top="54px" />
-        <Bubble size={8} thickness={2} duration={3} right="20%" bottom="-73px" />
+        <Bubble size={8} thickness={2} duration={5} right="20%" bottom="-73px" />
+      </BubbleLayer>
+      <BubbleLayer travel={20}>
+
       </BubbleLayer>
     </BubbleLayerBoundary>
   )
@@ -85,8 +88,8 @@ function AboutProductPane() {
         <div className="shot-casing">
         <div className="shot"></div>
         </div>
-        <BubbleLayer>
-          <Bubble size={30} thickness={3} left="52%" bottom="0" />
+        <BubbleLayer travel={40}>
+          <Bubble size={30} thickness={3} duration={6} left="52%" bottom="0" />
         </BubbleLayer>
       </BubbleLayerBoundary>
     </div>
