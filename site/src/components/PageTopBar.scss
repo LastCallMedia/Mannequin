@@ -1,28 +1,120 @@
 
 @import "../scss/init";
-
+/**
+ * @todo: As we reimplement the redesign,
+ * feel free to trash this entire thing and start over...
+ */
 .TopBar {
   border-bottom: 1px solid #EDEDED;
+  position: relative;
+  background: white;
+  z-index: 5;
+
   .inner {
+    position: relative;
+    z-index: 2;
+    background: white;
     @include xy-grid-container();
     @include xy-grid();
+
+    > a {
+      @include xy-cell(auto);
+    }
+    > .menu-toggle {
+      @include xy-cell(shrink);
+    }
+    > .MainMenu {
+      @include xy-cell(auto);
+    }
+  }
+
+  .MainMenu.for-small {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    background: white;
+    margin-top: 1px;
+    height: calc(100vh - 51px);
+  }
+  @include breakpoint(small down) {
+    .MainMenu.for-large {
+      display: none;
+    }
+  }
+
+  @include breakpoint(medium) {
+    .menu-toggle {
+      display: none;
+    }
+    .MainMenu.for-small {
+      display:none;
+    }
   }
   .Branding {
-    @include xy-cell(auto);
     margin-top: rem-calc(13);
     margin-bottom: rem-calc(13);
   }
-  .menu {
-    @include xy-cell(auto, $gutter-output: false);
-    justify-content: flex-end;;
+  .menu-toggle a, .menu-toggle button {
+    display: inline-block;
+    padding-top: rem-calc(13);
+    padding-bottom: rem-calc(13);
+    width: rem-calc(20);
+    height: rem-calc(24);
+    color: inherit;
+    @include xy-gutters();
+  }
+  .burger {
+    @include hamburger($color: $body-font-color, $color-hover: $body-font-color);
+  }
+  .close {
+    font-size: rem-calc(32);
+    line-height: rem-calc(24);
+  }
+}
+
+.MainMenu {
+  &, li {
+    list-style:none;
+    margin: 0;
+  }
+  a {
+    color: inherit;
+    font-weight: bold;
+    display: block;
+    font-size: rem-calc(22);
+    padding: rem-calc(18) rem-calc(33);
+    &:hover {
+      color: inherit;
+    }
+  }
+  li + li {
+    border-top: 1px solid #2C333A
+  }
+  &.for-large {
+    display: flex;
+    justify-content: flex-end;
     a {
       $lh: 20;
-      color: $black;
-      text-transform: uppercase;
       font-size: rem-calc(14);
       line-height: rem-calc($lh);
       padding: rem-calc((55-$lh) / 2) rem-calc(12);
-      font-weight: bold;
+      text-transform: uppercase;
     }
+    li + li {
+      border-top: none;
+    }
+  }
+  transform-origin: 0 0;
+  &.closed {
+    //transform: scaleY(0);
+    transform: translateY(-100%);
+    visibility: hidden;
+    transition: transform .5s ease, visibility 0s linear .5s;
+  }
+  &.open {
+    transform: translateY(0);
+    visibility: visible;
+    transition: transform .5s ease;
   }
 }

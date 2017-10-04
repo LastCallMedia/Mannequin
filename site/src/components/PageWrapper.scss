@@ -1,0 +1,11 @@
+
+@import "../scss/init";
+
+.PageWrapper {
+  padding-top: rem-calc(51);
+  .TopBar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+}

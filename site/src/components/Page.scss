@@ -15,7 +15,7 @@
     &:after {
       width: rem-calc(70);
       height: 1px;
-      content:"";
+      content: "";
       border-bottom: 1px dashed $blue-gray;
       position: absolute;
       bottom: 0;
@@ -31,14 +31,32 @@
   .content { @include xy-cell(full); }
   .Sidebar { @include xy-cell(full); }
   @include breakpoint(medium) {
-    .content {@include xy-cell(2/3);}
-    .Sidebar {@include xy-cell(1/3);}
+    .content { @include xy-cell(2/3); }
+    .Sidebar { @include xy-cell(1/3); }
   }
   @include breakpoint(large) {
-    .content {@include xy-cell(5/6);}
-    .Sidebar {@include xy-cell(1/6);}
+    .content { @include xy-cell(5/6); }
+    .Sidebar { @include xy-cell(1/6); }
   }
+}
 
+.PageMenu {
+  &, li {
+    list-style: none;
+    margin: 0;
+  }
+  a {
+    display: block;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: rem-calc(13);
+    color: inherit;
+    line-height: rem-calc(16);
+    padding: rem-calc(15);
+    &:hover {
+      color: inherit;
+    }
+  }
 }
 
 .CollectionIndex {

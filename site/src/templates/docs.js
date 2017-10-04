@@ -38,9 +38,9 @@ export const pageQuery = graphql`
 
 function buildSidebar(headings) {
   return (
-    <ul className="menu vertical">
+    <ul className="PageMenu">
       {headings.map(heading => (
-        <li key={heading.value} className={`level-${heading.level}`}>
+        <li key={heading.value} className={`level-${heading.depth}`}>
           <a href={`${anchor(heading.value)}`}>{heading.value}</a>
         </li>
       ))}
