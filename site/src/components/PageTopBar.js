@@ -1,10 +1,11 @@
-import React from 'react'
+import React, {Component} from 'react'
 import Branding from './Branding'
 import Link from 'gatsby-link';
+import RouteChangeSubscriber from './RouteChangeSubscriber';
 import cx from 'classnames';
 import './PageTopBar.scss';
 
-export default class PageTopBar extends React.Component {
+export default class PageTopBar extends Component {
   constructor(props) {
     super(props)
     this.state = {open: false}
@@ -31,6 +32,7 @@ export default class PageTopBar extends React.Component {
             <MainMenu className="for-large" />
           </div>
           <MainMenu className={`for-small${open ? ' open' : ' closed'}`} />
+          {open && <RouteChangeSubscriber action={this.toggleMenu} />}
         </header>
     )
   }
