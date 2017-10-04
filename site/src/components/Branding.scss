@@ -2,7 +2,7 @@
 @import "../scss/init";
 
 // This mixin calculates the ratios of the logo, name, and slogan
-@mixin branding-layout($logo_w, $name_font_size, $divider_margin) {
+@mixin branding-layout($logo_w, $name_font_size, $divider_margin, $reduce_on_mobile: true) {
   .logo {
     // Height is calculated at a ratio of 61/63.  Change this if the logo image changes
     // dimensions.
@@ -13,10 +13,16 @@
     margin-top: rem-calc(($name_font_size - $logo_h) / 2 * .9);
   }
   .name {
-    font-size: rem-calc($name_font_size * .85);
-    @include breakpoint(medium) {
+    @if($reduce_on_mobile) {
+      font-size: rem-calc($name_font_size * .85);
+      @include breakpoint(medium) {
+        font-size: rem-calc($name_font_size);
+      }
+    }
+    @else {
       font-size: rem-calc($name_font_size);
     }
+
   }
   .separator {
     // Separator should be 60% of the name font size.
@@ -83,7 +89,7 @@
     }
   }
   &.tiny {
-    @include branding-layout(27, 24, 10);
+    @include branding-layout(27, 24, 10, false);
   }
   &.large {
     @include breakpoint(large) {
