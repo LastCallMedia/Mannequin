@@ -64,7 +64,7 @@
   margin: 0;
   @include xy-grid();
   @include xy-grid-layout(1, 'li', $gutter-position: left right top bottom);
-  @include breakpoint(medium) {
+  @include breakpoint(large) {
     @include xy-grid-layout(2, 'li', $gutter-position: left right top bottom);
   }
   li a {
