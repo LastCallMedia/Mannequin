@@ -36,7 +36,7 @@
   .GetStartedPane + .FurtherReadingPane:before, .AboutProductPane + .GetStartedPane:before {
     width: rem-calc(309);
     height: 1px;
-    border-top: 1px dashed $blue-gray;
+    border-top: 1px dashed $dashing-gray;
     content: "";
     display: block;
     margin: 0 auto;
