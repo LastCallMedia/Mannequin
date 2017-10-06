@@ -15,13 +15,8 @@
     &:after {
       width: rem-calc(70);
       height: 1px;
-<<<<<<< HEAD
       content: "";
-      border-bottom: 1px dashed $blue-gray;
-=======
-      content:"";
       border-bottom: 1px dashed $dashing-gray;
->>>>>>> 67f0186... Change borders and dividers to dashing gray. #56
       position: absolute;
       bottom: 0;
       left: 0;
