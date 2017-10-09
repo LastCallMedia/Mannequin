@@ -6,7 +6,7 @@
 @import "~foundation-sites/scss/foundation";
 
 @mixin dashing-hoverable {
-  border: 1px dashed $blue-gray;
+  border: 1px dashed $dashing-gray;
   transition-property: background-color, border-color, border-style, box-shadow;
   transition-duration: 0.15s;
   transition-timing-function: ease-in-out;
