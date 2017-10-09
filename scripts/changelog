@@ -1,0 +1,65 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Reads and parses root CHANGELOG.md file to split out to individual
+ * components.  Intended to be run prior to release.
+ */
+require_once __DIR__.'/../vendor/autoload.php';
+
+$components = [
+    'Core' => __DIR__.'/../src/Core',
+    'Html' => __DIR__.'/../src/Html',
+    'Twig' => __DIR__.'/../src/Twig',
+    'Drupal' => __DIR__.'/../src/Drupal',
+    'Ui' => __DIR__.'/../ui',
+    'Demo' => __DIR__.'/../demo',
+    // Valid components that do not need to be mirrored to
+    // a component changelog right now.
+    'Site' => null,
+    'Meta' => null,
+    'Docs' => null,
+];
+
+$componentChangelogs = array_fill_keys(array_keys($components), []);
+
+// Read CHANGELOG lines and filter out the ones that aren't relevant.
+$handle = fopen(__DIR__.'/../CHANGELOG.md', 'r');
+while ($line = fgets($handle)) {
+    // If this is a log line, only add it to the specified components.
+    if (preg_match('/^- \[(?P<components>\S+)\](.+)$/', $line, $matches)) {
+        $lineComponents = array_map('trim', explode(',', $matches['components']));
+        foreach ($lineComponents as $lineComponent) {
+            $componentChangelogs[$lineComponent][] = sprintf("- %s\n", $matches[2]);
+        }
+        continue;
+    }
+    foreach ($componentChangelogs as &$componentChangelog) {
+        $componentChangelog[] = $line;
+    }
+}
+fclose($handle);
+
+// Check for invalid components.
+$invalidComponents = array_diff_key($componentChangelogs, $components);
+if (!empty($invalidComponents)) {
+    throw new \RuntimeException(sprintf('Invalid components: %s', implode(', ', array_keys($invalidComponents))));
+}
+
+// Filter out empty section headers for each component.
+foreach ($componentChangelogs as $component => &$lines) {
+    foreach ($lines as $i => $line) {
+        $lineIsSection = 0 === strpos($lines[$i], '### ');
+        $hasNextLine = isset($lines[$i + 1]);
+        $nextLineIsEntry = $hasNextLine && 0 === strpos($lines[$i + 1], '- ');
+
+        if ($lineIsSection && (!$hasNextLine || !$nextLineIsEntry)) {
+            unset($lines[$i]);
+        }
+    }
+}
+
+// Write changelogs.
+foreach (array_filter($components) as $component => $directory) {
+    $lines = implode('', $componentChangelogs[$component]);
+    file_put_contents($directory.'/CHANGELOG.md', $lines);
+}
