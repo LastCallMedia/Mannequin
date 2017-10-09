@@ -22,7 +22,7 @@ $twigFinder = Finder::create()
 
 $assetFinder = Finder::create()
     ->files()
-    ->in(__DIR__.'/css')
+    ->in(__DIR__.'/css');
 
 /**
  * Create the TwigExtension object.
