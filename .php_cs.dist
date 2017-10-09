@@ -9,6 +9,14 @@ This source file is subject to the MIT license that is bundled
 with this source code in the file LICENSE.
 EOF;
 
+$finder = PhpCsFixer\Finder::create()
+  ->in(__DIR__.'/src');
+// Tack on the two Mannequin
+$finder->append(new ArrayIterator([
+    new \SplFileInfo(__DIR__.'/.mannequin.php'),
+    new \SplFileInfo(__DIR__.'/demo/.mannequin.php')
+]));
+
 return PhpCsFixer\Config::create()
   ->setRiskyAllowed(true)
   ->setRules([
@@ -16,7 +24,4 @@ return PhpCsFixer\Config::create()
     '@Symfony:risky' => true,
     'header_comment' => ['header' => $header],
   ])
-  ->setFinder(
-    PhpCsFixer\Finder::create()
-      ->in(__DIR__.'/src')
-  );
+  ->setFinder($finder);

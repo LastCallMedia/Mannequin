@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of Mannequin.
+ *
+ * (c) 2017 Last Call Media, Rob Bayliss <rob@lastcallmedia.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 use LastCall\Mannequin\Core\MannequinConfig;
 use LastCall\Mannequin\Twig\TwigExtension;
 use LastCall\Mannequin\Html\HtmlExtension;
@@ -42,10 +51,10 @@ $htmlFinder = Finder::create()
 
 $htmlExtension = new HtmlExtension([
     'files' => $htmlFinder,
-    'root' => __DIR__.'/static'
+    'root' => __DIR__.'/static',
 ]);
 
-/**
+/*
  * Create and return the configuration.  Don't forget to return it!
  */
 return MannequinConfig::create()
