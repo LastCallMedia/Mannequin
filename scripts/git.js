@@ -1,10 +1,8 @@
 
-var exec = require('child_process').exec;
-var pexec = require('child-process-promise').exec;
-
+var exec = require('child-process-promise').exec;
 
 function tagNotExists(tag) {
-    return pexec(`git rev-parse -q -v ${tag}^{tree}`)
+    return exec(`git rev-parse -q -v ${tag}^{tree}`)
         .then(res => { throw new Error('Tag already exists')})
         .catch(err => {
            if(err.code === 128) {
@@ -15,7 +13,7 @@ function tagNotExists(tag) {
 }
 
 function filesClean(files) {
-    return pexec(`git st --porcelain ${files.join(' ')}`)
+    return exec(`git st --porcelain ${files.join(' ')}`)
         .then(result => {
             if(result.stdout.length > 0) {
                 throw new Error('Files not clean');
@@ -24,7 +22,7 @@ function filesClean(files) {
 }
 
 function onBranch(branch) {
-    return pexec('git rev-parse --abbrev-ref HEAD')
+    return exec('git rev-parse --abbrev-ref HEAD')
         .then(result => {
             if(result.stdout.trim() !== branch) {
                 throw new Error(`Must be on ${branch} branch`)
@@ -33,8 +31,8 @@ function onBranch(branch) {
 }
 
 function upToDate(origin, branch) {
-    return pexec(`git fetch ${origin} ${branch}`)
-        .then(() => pexec(`git log ..${origin}/${branch}`))
+    return exec(`git fetch ${origin} ${branch}`)
+        .then(() => exec(`git log ..${origin}/${branch}`))
         .then(result => {
             if(result.stdout.trim().length > 0) {
                 throw new Error(`Not up to date with ${origin}/${branch}`);
@@ -43,15 +41,17 @@ function upToDate(origin, branch) {
 }
 
 function commitAndTag(files, tag, message) {
-    return pexec(`git commit -m "${message}" ${files.join(' ')}`)
-        .then(() => pexec(`git tag ${tag}`));
+    return exec(`git add ${files.join(' ')}`)
+        .then(() => exec(`git commit -m "${message}"`))
+        .then(() => exec(`git tag ${tag}`));
 }
 
 class GitRelease {
-    constructor(tag, origin, branch) {
+    constructor(tag, origin, branch, message) {
         this.tag = tag;
         this.origin = origin;
         this.branch = branch;
+        this.message = message;
     }
     files() {
         return [];
