@@ -14,7 +14,9 @@ $finder = PhpCsFixer\Finder::create()
 // Tack on the two Mannequin
 $finder->append(new ArrayIterator([
     new \SplFileInfo(__DIR__.'/.mannequin.php'),
-    new \SplFileInfo(__DIR__.'/demo/.mannequin.php')
+    new \SplFileInfo(__DIR__.'/demo/.mannequin.php'),
+    new \SplFileInfo(__DIR__.'/scripts/changelog'),
+    new \SplFileInfo(__DIR__.'/scripts/release'),
 ]));
 
 return PhpCsFixer\Config::create()

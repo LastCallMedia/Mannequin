@@ -1,0 +1,15 @@
+{
+  "name": "mannequin-release-tasks",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "child-process-promise": "^2.2.1",
+    "globby": "^6.1.0",
+    "keepachangelog": "^0.7.2",
+    "load-json-file": "^3.0.0",
+    "minimist": "^1.2.0",
+    "write-json-file": "^2.2.0"
+  }
+}
