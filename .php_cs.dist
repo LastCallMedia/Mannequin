@@ -11,12 +11,10 @@ EOF;
 
 $finder = PhpCsFixer\Finder::create()
   ->in(__DIR__.'/src');
-// Tack on the two Mannequin
+// Tack on the two Mannequin configs.
 $finder->append(new ArrayIterator([
     new \SplFileInfo(__DIR__.'/.mannequin.php'),
     new \SplFileInfo(__DIR__.'/demo/.mannequin.php'),
-    new \SplFileInfo(__DIR__.'/scripts/changelog'),
-    new \SplFileInfo(__DIR__.'/scripts/release'),
 ]));
 
 return PhpCsFixer\Config::create()
