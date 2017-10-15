@@ -64,7 +64,7 @@ class DrupalTwigDriver extends SimpleTwigDriver
         );
         $twig->addExtension($extension);
         $twig->addExtension(new MannequinExtension());
-        $twig->setLexer(new Lexer());
+        $twig->setLexer(new Lexer($twig));
 
         return $twig;
     }
