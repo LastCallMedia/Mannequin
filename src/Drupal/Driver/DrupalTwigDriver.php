@@ -22,7 +22,8 @@ use LastCall\Mannequin\Drupal\Drupal\MannequinRenderer;
 use LastCall\Mannequin\Drupal\Drupal\MannequinThemeManager;
 use LastCall\Mannequin\Drupal\Drupal\MannequinUrlGenerator;
 use LastCall\Mannequin\Twig\Driver\SimpleTwigDriver;
-use LastCall\Mannequin\Twig\Twig\TwigUsageCollectorVisitor;
+use LastCall\Mannequin\Twig\Twig\Lexer;
+use LastCall\Mannequin\Twig\Twig\MannequinExtension;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 
@@ -62,7 +63,8 @@ class DrupalTwigDriver extends SimpleTwigDriver
             $this->getDateFormatter()
         );
         $twig->addExtension($extension);
-        $twig->addNodeVisitor(new TwigUsageCollectorVisitor());
+        $twig->addExtension(new MannequinExtension());
+        $twig->setLexer(new Lexer());
 
         return $twig;
     }
