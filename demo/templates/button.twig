@@ -1,4 +1,4 @@
-{% if _component %}{% block componentinfo %}
+{# @Component
 name: Button
 group: Controls
 description: An HTML Button
@@ -29,6 +29,5 @@ samples:
     Clear:
         text: Clear
         clear: true
-
-{% endblock %}{% endif %}
+#}
 <button type="{{ type |default('button') }}" class="{{ clear ? 'clear ' : '' }}button{{ modifier ? ' ' ~ modifier : '' }}" {{ disabled? 'disabled': '' }}>{{ text }}</button>
