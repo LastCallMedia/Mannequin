@@ -27,8 +27,9 @@ class InlineTwigYamlMetadataSubscriber extends YamlFileMetadataSubscriber
                 $template = $component->getTwig()->load($component->getSource()->getName());
                 if ($template->hasBlock(self::BLOCK_NAME)) {
                     $yaml = $template->renderBlock(self::BLOCK_NAME);
-
-                    return $this->parseYaml($yaml, $component->getSource()->getName());
+                    if (!empty($yaml)) {
+                        return $this->parseYaml($yaml, $component->getSource()->getName());
+                    }
                 }
             } catch (\Twig_Error $e) {
                 $message = sprintf('Twig error thrown during componentinfo generation of %s: %s',

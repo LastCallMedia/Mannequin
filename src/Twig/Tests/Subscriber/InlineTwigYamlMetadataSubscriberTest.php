@@ -27,6 +27,7 @@ class InlineTwigYamlMetadataSubscriberTest extends TestCase
     {
         $loader = new \Twig_Loader_Array([
             'with_info' => '{%block componentinfo %}myinfo{%endblock%}',
+            'with_empty_info' => '{%block componentinfo %}{%endblock%}',
             'no_info' => '',
         ]);
 
@@ -50,6 +51,17 @@ class InlineTwigYamlMetadataSubscriberTest extends TestCase
         $parser->parse()->shouldNotBeCalled();
         $twig = $this->getTwig();
         $source = $twig->getLoader()->getSourceContext('no_info');
+        $component = new TwigComponent('', [], $source, $twig);
+        $subscriber = new InlineTwigYamlMetadataSubscriber($parser->reveal());
+        $this->dispatchDiscover($subscriber, $component);
+    }
+
+    public function testIgnoresComponentsWithEmptyInfoBlock()
+    {
+        $parser = $this->prophesize(YamlMetadataParser::class);
+        $parser->parse()->shouldNotBeCalled();
+        $twig = $this->getTwig();
+        $source = $twig->getLoader()->getSourceContext('with_empty_info');
         $component = new TwigComponent('', [], $source, $twig);
         $subscriber = new InlineTwigYamlMetadataSubscriber($parser->reveal());
         $this->dispatchDiscover($subscriber, $component);
