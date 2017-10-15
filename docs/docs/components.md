@@ -75,19 +75,19 @@ This would render `some/template.twig` with that template's `HelpIcon` sample as
 
 ## Metadata Locations
 
-Some extensions allow you to store component metadata inside of the template files.  For the `Twig` and `Drupal` extensions, you can write the metadata inside of the `componentinfo` block.  This is great for helping your templates become more self-documenting.  Here's an example:
+Some extensions allow you to store component metadata inside of the template files.  For the `Twig` and `Drupal` extensions, you can write the metadata inside of a specially annotated comment.  This is great for helping your templates become more self-documenting.  Here's an example:
 
 ```twig
 # button.twig
-{% if false %}{%block componentinfo %}
+{# @Component 
 name: Button
 description: An HTML Button
 samples:
   Primary:
     text: Primary
     modifier: primary
-{%endblock%}
+#}
 ... The rest of the Twig template. 
 ```
 
-**Important**: If you use in-template metadata, be sure to guard the Twig block (`{%if false%}`) so it doesn't get printed when your template is rendered.
+All comments starting with the `@Component` keyword are treated as YAML metadata.  The same syntax and rules apply to this inline Twig metadata as to normal YAML metadata files.

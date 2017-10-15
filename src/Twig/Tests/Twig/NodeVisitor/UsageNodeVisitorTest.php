@@ -9,13 +9,13 @@
  * with this source code in the file LICENSE.
  */
 
-namespace LastCall\Mannequin\Twig\Tests\Twig;
+namespace LastCall\Mannequin\Twig\Tests\Twig\NodeVisitor;
 
-use LastCall\Mannequin\Twig\Twig\TwigUsageCollectorVisitor;
+use LastCall\Mannequin\Twig\Twig\NodeVisitor\UsageNodeVisitor;
 use PHPUnit\Framework\TestCase;
 use Twig\Loader\ArrayLoader;
 
-class TwigUsageCollectorVisitorTest extends TestCase
+class UsageNodeVisitorTest extends TestCase
 {
     private function getTwig()
     {
@@ -29,7 +29,7 @@ class TwigUsageCollectorVisitorTest extends TestCase
         ]);
 
         $twig = new \Twig_Environment($loader);
-        $twig->addNodeVisitor(new TwigUsageCollectorVisitor());
+        $twig->addNodeVisitor(new UsageNodeVisitor());
 
         return $twig;
     }

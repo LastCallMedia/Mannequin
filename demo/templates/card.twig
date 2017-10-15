@@ -1,4 +1,4 @@
-{% if _component %}{% block componentinfo %}
+{# @Component
 name: Card
 group: Containers
 description: A flexible container for featuring a piece of content, typically as a link to an extended view of that content.
@@ -15,7 +15,7 @@ samples:
         _description: This is an example of a card with a long headline.
         title: Lorem ipsum dolor sit amet, consectetur adipiscing elit
         img_src: //placehold.it/240x240.jpg
-{% endblock %}{% endif %}
+#}
 <article class="Card">
     <img src="{{ img_src }}" />
     <h3>{{ title }}</h3>

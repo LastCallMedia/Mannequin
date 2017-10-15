@@ -44,4 +44,4 @@ The `TwigExtension` accepts the following configuration options:
 
 ## Component Metadata
 
-The `DrupalExtension` is able to read component metadata out of a special block directly in the Twig file.  See [Components](../docs/components.md) for more info.
+The `TwigExtension` is able to read component metadata out of a special comment directly in the Twig file.  See [Components](../docs/components.md) for more info.

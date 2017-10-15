@@ -23,7 +23,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * Usage information is stored in a JSON encoded array in the _collected_usage
  * block. To automatically build this block, use the TwigUsageCollectorVisitor.
  *
- * @see \LastCall\Mannequin\Twig\Twig\TwigUsageCollectorVisitor
+ * @see \LastCall\Mannequin\Twig\Twig\NodeVisitor\UsageNodeVisitor
  */
 class TwigIncludeSubscriber implements EventSubscriberInterface
 {
