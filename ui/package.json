@@ -11,8 +11,8 @@
     "prettier": "^1.5.3",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
+    "react-animate-height": "^0.10.5",
     "react-dom": "^15.5.4",
-    "react-fluid-container": "^0.6.0",
     "react-redux": "^5.0.5",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
@@ -44,6 +44,5 @@
   "homepage": ".",
   "files": [
     "build/*"
-  ],
-  "dependencies": {}
+  ]
 }

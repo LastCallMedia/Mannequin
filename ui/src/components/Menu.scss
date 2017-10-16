@@ -50,8 +50,9 @@
   }
 }
 
-.MenuItem.collapsible {
-  &.collapsed .MenuList {
+.SubmenuContainer {
+  // Remove submenus from tab order when collapsed.
+  &.rah-static--height-zero {
     visibility: hidden;
   }
 }
