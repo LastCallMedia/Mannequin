@@ -58,4 +58,12 @@
   }
 }
 
+.CodeButton {
+  @include button-base();
+  @include button-style($secondary-color, auto, auto);
+  &.active {
+    @include button-style($primary-color, auto, auto);
+  }
+}
+
 
