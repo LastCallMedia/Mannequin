@@ -5,6 +5,7 @@
   "author": "Rob Bayliss <rob@lastcallmedia.com>",
   "devDependencies": {
     "classnames": "^2.2.5",
+    "core-js": "^2.5.1",
     "foundation-sites": "^6.4.0",
     "node-sass-chokidar": "^0.0.1",
     "npm-run-all": "^4.0.2",

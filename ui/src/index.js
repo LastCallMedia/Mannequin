@@ -10,6 +10,8 @@ import thunk from 'redux-thunk';
 import App from './containers/App';
 import reducers from './reducers';
 
+import './polyfills';
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const initialState = loadState();
