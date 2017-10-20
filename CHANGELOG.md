@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - (Ui) Polyfills for Array.prototype.find and ES6 Map and Set
 
+### Fixed
+- (Core) Fixed index.php in repository root will be served instead of live development server.
+
 ## 1.0.1
 ### Added
 - (Meta,Core,Html,Drupal,Twig,Site,Ui) Started changelog, mirrored out to components on release.

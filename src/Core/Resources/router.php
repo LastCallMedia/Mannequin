@@ -21,7 +21,7 @@ if (getenv('MANNEQUIN_AUTOLOAD')) {
 // one of our protected patterns.  As much as we'd love to control each request,
 // this can slow down the development server by an order of magnitude.
 if (is_file($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$_SERVER['SCRIPT_NAME'])) {
-    if (!preg_match('@^/(index.html$|favicon.ico$|static/|m-)@', $_SERVER['SCRIPT_NAME'])) {
+    if (!preg_match('@^/(index.php$|index.html$|favicon.ico$|static/|m-)@', $_SERVER['SCRIPT_NAME'])) {
         return false;
     }
 }
