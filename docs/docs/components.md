@@ -3,7 +3,7 @@ title: Components
 description: All about components.
 ---
 Templates are files that are used to generate HTML markup.  From Mannequin's perspective, a template becomes a component when:
-1.  You tell a Mannequin [extension](../extensions.md) where to find it.
+1.  You tell a Mannequin [extension](/extensions/) where to find it.
 2.  It is enriched with YAML metadata describing the component.
 
 Component metadata is written in YAML format, and describes the display properties of the component (name and description), as well as how to render it in one or more scenarios (called Samples).  Metadata can be specified in a .yml file living alongside the template file (supported for all extensions), or inside of the template file (supported by the Twig and Drupal extensions).
@@ -71,7 +71,7 @@ samples:
       prefix: ~sample('some/template.twig#HelpIcon')
       text: Ask for help!
 ```
-This would render `some/template.twig` with that template's `HelpIcon` sample as the prefix, and it would be available in the current template as content.prefix. [Full list of expressions](expressions.md)
+This would render `some/template.twig` with that template's `HelpIcon` sample as the prefix, and it would be available in the current template as content.prefix. [Full list of expressions](/docs/expressions)
 
 ## Metadata Locations
 
