@@ -2,7 +2,7 @@
 title: Configuration
 description: Setting up your project.
 ---
-The `.mannequin.php` file tells Mannequin what to do with your project.  In this file, you will add any [Extensions](../extensions.md) you need, and any CSS/JS needed by your components.  You must return a `MannequinConfig` object from the .mannequin.php file.
+The `.mannequin.php` file tells Mannequin what to do with your project.  Once you create this file, you will add any [Extensions](../extensions.md) you need, and any CSS/JS needed by your components.  You must return a `MannequinConfig` object from the .mannequin.php file.
 
 ```php
 # .mannequin.php
