@@ -4,6 +4,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## Upcoming
+## 1.0.3
+### Fixed
+- (Twig) Remove reference to Twig\Extension\InitRuntimeInterface from MannequinExtension.
+- (Twig) Do not stop discovery process for a template that fails to load [#76](https://github.com/LastCallMedia/Mannequin/issues/76)
+
 ## 1.0.2
 ## 1.0.1
 ### Added

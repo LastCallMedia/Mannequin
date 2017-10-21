@@ -4,14 +4,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## Upcoming
+## 1.0.3
+### Added
+- (Core) Pass logger to Discoverers that implement LoggerAwareInterface.
+
 ### Fixed
 - (Twig) Remove reference to Twig\Extension\InitRuntimeInterface from MannequinExtension.
 - (Core) Start mannequin development server on 0.0.0.0 by default.
 - (Twig) Do not stop discovery process for a template that fails to load [#76](https://github.com/LastCallMedia/Mannequin/issues/76)
 - (Core) Output error messages from the development server even when not using verbose.
-
-### Added
-- (Core) Pass logger to Discoverers that implement LoggerAwareInterface.
 
 ## 1.0.2
 ### Added
