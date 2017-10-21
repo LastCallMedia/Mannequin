@@ -13,12 +13,13 @@ namespace LastCall\Mannequin\Twig\Tests\Discovery;
 
 use LastCall\Mannequin\Core\Component\BrokenComponent;
 use LastCall\Mannequin\Core\Component\ComponentCollection;
-use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Discovery\IdEncoder;
 use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
 use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
 use LastCall\Mannequin\Twig\Component\TwigComponent;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
+use Psr\Log\LoggerInterface;
 
 class TwigDiscoveryTest extends TestCase
 {
@@ -125,38 +126,35 @@ class TwigDiscoveryTest extends TestCase
         $this->assertEquals('form-input.twig', $source->getName());
     }
 
-    /**
-     * @expectedException \LastCall\Mannequin\Core\Exception\UnsupportedComponentException
-     * @expectedExceptionMessage Unable to load some-nonexistent-file.twig
-     */
-    public function testThrowsExceptionOnNonLoadableTemplates()
+    public function testLogsAndReturnsPatternForNonloadableTemplates()
     {
+        $logger = $this->prophesize(LoggerInterface::class);
+        $logger->error(Argument::type('string'))->shouldBeCalled();
+
         $driver = $this->getDriver($this->getTwig());
         $discoverer = new TwigDiscovery(
             $driver,
-            [['some-nonexistent-file.twig']]
+            [['some-nonexistent-twig-file']]
         );
-        $discoverer->discover();
+        $discoverer->setLogger($logger->reveal());
+        $component = $discoverer->discover()->get($this->encodeId('some-nonexistent-twig-file'));
+        $this->assertInstanceOf(BrokenComponent::class, $component);
+        $this->assertCount(1, $component->getProblems());
     }
 
     public function testLoadsBrokenComponent()
     {
+        $logger = $this->prophesize(LoggerInterface::class);
+        $logger->error(Argument::type('string'))->shouldBeCalled();
+
         $driver = $this->getDriver($this->getTwig());
         $discoverer = new TwigDiscovery(
             $driver,
             [['broken']]
         );
+        $discoverer->setLogger($logger->reveal());
         $component = $discoverer->discover()->get($this->encodeId('broken'));
         $this->assertInstanceOf(BrokenComponent::class, $component);
-
-        return $component;
-    }
-
-    /**
-     * @depends testLoadsBrokenComponent
-     */
-    public function testBrokenComponentListsProblems(ComponentInterface $component)
-    {
         $this->assertCount(1, $component->getProblems());
     }
 }

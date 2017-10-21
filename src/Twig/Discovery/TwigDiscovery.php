@@ -15,21 +15,25 @@ use LastCall\Mannequin\Core\Component\BrokenComponent;
 use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Discovery\IdEncoder;
-use LastCall\Mannequin\Core\Exception\UnsupportedComponentException;
 use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
 use LastCall\Mannequin\Twig\Component\TwigComponent;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 /**
  * This class converts an iterable object of template names into TwigComponent
  * objects by using the Twig driver.
  */
-class TwigDiscovery implements DiscoveryInterface
+class TwigDiscovery implements DiscoveryInterface, LoggerAwareInterface
 {
     use IdEncoder;
 
     private $names;
 
     private $driver;
+
+    private $logger;
 
     public function __construct(TwigDriverInterface $driver, $names)
     {
@@ -40,6 +44,12 @@ class TwigDiscovery implements DiscoveryInterface
             );
         }
         $this->names = $names;
+        $this->logger = new NullLogger();
+    }
+
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
     }
 
     /**
@@ -59,11 +69,8 @@ class TwigDiscovery implements DiscoveryInterface
                     $twig->load($name)->getSourceContext(),
                     $twig
                 );
-            } catch (\Twig_Error_Loader $e) {
-                throw new UnsupportedComponentException(
-                    sprintf('Unable to load %s', reset($names)), 0, $e
-                );
             } catch (\Twig_Error $e) {
+                $this->logger->error($e->getMessage());
                 $component = new BrokenComponent(
                     $this->encodeId($name),
                     $aliases

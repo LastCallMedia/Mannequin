@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - (Twig) Remove reference to Twig\Extension\InitRuntimeInterface from MannequinExtension.
 - (Core) Start mannequin development server on 0.0.0.0 by default.
+- (Twig) Do not stop discovery process for a template that fails to load [#76](https://github.com/LastCallMedia/Mannequin/issues/76)
 
 ### Added
 - (Core) Pass logger to Discoverers that implement LoggerAwareInterface.
