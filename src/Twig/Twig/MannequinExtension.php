@@ -14,16 +14,15 @@ namespace LastCall\Mannequin\Twig\Twig;
 use LastCall\Mannequin\Twig\Twig\NodeVisitor\ComponentInfoNodeVisitor;
 use LastCall\Mannequin\Twig\Twig\NodeVisitor\UsageNodeVisitor;
 use LastCall\Mannequin\Twig\Twig\TokenParser\CommentTokenParser;
-use Twig\Extension\InitRuntimeInterface;
-use Twig_Environment;
 
-class MannequinExtension extends \Twig_Extension implements InitRuntimeInterface
+/**
+ * This Twig Extension must be used in combination with the special Lexer.
+ *
+ * The Lexer must be added separately, because initRuntime happens after
+ * the first template is lexed.
+ */
+class MannequinExtension extends \Twig_Extension
 {
-    public function initRuntime(Twig_Environment $environment)
-    {
-        $environment->setLexer(new Lexer($environment));
-    }
-
     public function getNodeVisitors()
     {
         return [
