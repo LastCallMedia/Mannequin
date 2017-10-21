@@ -15,6 +15,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\ProcessBuilder;
@@ -125,6 +126,7 @@ class StartCommand extends Command
             ->setTimeout(null);
 
         $process = $builder->getProcess();
+
         $io = new SymfonyStyle($input, $output);
         $message = [sprintf('Starting server on http://%s', $address)];
         if (!$output->isVerbose()) {
@@ -132,6 +134,12 @@ class StartCommand extends Command
         }
         $io->success($message);
 
-        return $this->getHelper('process')->run($output, $process, null, null);
+        return $process->run(function ($type, $buffer) use ($process, $output) {
+            if ($process::ERR === $type && $output instanceof ConsoleOutputInterface) {
+                $output->getErrorOutput()->write($buffer);
+            } else {
+                $output->write($buffer);
+            }
+        });
     }
 }

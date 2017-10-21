@@ -129,7 +129,7 @@ class TwigDiscoveryTest extends TestCase
     public function testLogsAndReturnsPatternForNonloadableTemplates()
     {
         $logger = $this->prophesize(LoggerInterface::class);
-        $logger->error(Argument::type('string'))->shouldBeCalled();
+        $logger->error(Argument::type('string'), Argument::type('array'))->shouldBeCalled();
 
         $driver = $this->getDriver($this->getTwig());
         $discoverer = new TwigDiscovery(
@@ -145,7 +145,7 @@ class TwigDiscoveryTest extends TestCase
     public function testLoadsBrokenComponent()
     {
         $logger = $this->prophesize(LoggerInterface::class);
-        $logger->error(Argument::type('string'))->shouldBeCalled();
+        $logger->error(Argument::type('string'), Argument::type('array'))->shouldBeCalled();
 
         $driver = $this->getDriver($this->getTwig());
         $discoverer = new TwigDiscovery(

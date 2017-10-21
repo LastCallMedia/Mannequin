@@ -70,7 +70,7 @@ class TwigDiscovery implements DiscoveryInterface, LoggerAwareInterface
                     $twig
                 );
             } catch (\Twig_Error $e) {
-                $this->logger->error($e->getMessage());
+                $this->logger->error('Twig error in {template}: {message}', ['template' => $name, 'message' => $e->getMessage()]);
                 $component = new BrokenComponent(
                     $this->encodeId($name),
                     $aliases
