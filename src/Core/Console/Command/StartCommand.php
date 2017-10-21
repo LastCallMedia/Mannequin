@@ -48,7 +48,7 @@ class StartCommand extends Command
             'address',
             InputArgument::OPTIONAL,
             'The address to run on.',
-            '127.0.0.1:8000'
+            '*:8000'
         );
         $this->addOption(
             'output-dir',
@@ -73,13 +73,13 @@ class StartCommand extends Command
     private function validateAddress($address)
     {
         if (null === $address) {
-            $hostname = '127.0.0.1';
+            $hostname = '0.0.0.0';
             $port = $this->findBestPort($hostname);
         } elseif (false !== $pos = strrpos($address, ':')) {
             $hostname = substr($address, 0, $pos);
             $port = substr($address, $pos + 1);
         } elseif (ctype_digit($address)) {
-            $hostname = '127.0.0.1';
+            $hostname = '0.0.0.0';
             $port = $address;
         } else {
             $hostname = $address;
