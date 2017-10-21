@@ -1,8 +1,10 @@
 
+var fs = require('fs');
 var GitRelease = require('./git');
 var ComposerRelease = require('./composer');
 var ChangelogRelease = require('./changelog.js');
 var NpmRelease = require('./npm');
+var VersionRelease = require('./version');
 var args = require('minimist')(process.argv.slice(2), {
     string: ['branch'],
     default: {
@@ -35,12 +37,23 @@ var packages = [
     {name: 'Site', changelog: path.join(__dirname, '../site/CHANGELOG.md'), npm: path.join(__dirname, '../site/package.json')},
     {name: 'Ui', changelog: path.join(__dirname, '../ui/CHANGELOG.md'), npm: path.join(__dirname, '../ui/package.json')},
 ];
+
+fileIfExists = (filename) => {
+    try {
+        fs.statSync(filename)
+        return filename
+    }
+    catch(err) {
+        return;
+    }
+}
 // Add composer packages.
 globby.sync([path.join(__dirname, '../src/*')]).map(dir => {
     packages.push({
         name: path.basename(dir),
         composer: path.join(dir, 'composer.json'),
         changelog: path.join(dir, 'CHANGELOG.md'),
+        versionClass: fileIfExists(path.join(dir, 'Version.php')),
     })
 });
 
@@ -67,6 +80,7 @@ class Release {
 
 var release = new Release([
     new ComposerRelease(tag, branch, packages),
+    new VersionRelease(tag, packages),
     new ChangelogRelease(tag, packages, path.join(__dirname, '../CHANGELOG.md')),
     new NpmRelease(tag, packages),
     new GitRelease(tag, 'origin', branch, message),

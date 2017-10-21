@@ -41,10 +41,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class Mannequin extends Application
 {
-    const APP_NAME = 'Mannequin';
-
-    const APP_VERSION = '0.0.0';
-
     public function __construct(array $values = [])
     {
         $values += [
@@ -54,7 +50,7 @@ class Mannequin extends Application
         ];
         parent::__construct($values);
         $this['console'] = function () {
-            $app = new ConsoleApplication(self::APP_NAME, self::APP_VERSION);
+            $app = new ConsoleApplication('Mannequin', Version::id());
             $app->setDispatcher($this['dispatcher']);
             $app->addCommands(
                 [
