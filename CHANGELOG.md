@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - (Twig) Remove reference to Twig\Extension\InitRuntimeInterface from MannequinExtension.
 - (Core) Start mannequin development server on 0.0.0.0 by default.
 
+### Added
+- (Core) Pass logger to Discoverers that implement LoggerAwareInterface.
+
 ## 1.0.2
 ### Added
 - (Ui) Polyfills for Array.prototype.find and ES6 Map and Set

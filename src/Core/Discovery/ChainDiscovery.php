@@ -15,6 +15,7 @@ use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Event\ComponentDiscoveryEvent;
 use LastCall\Mannequin\Core\Event\ComponentEvents;
 use LastCall\Mannequin\Core\Exception\TemplateParsingException;
+use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -45,6 +46,9 @@ class ChainDiscovery implements DiscoveryInterface
                         DiscoveryInterface::class
                     )
                 );
+            }
+            if ($discoverer instanceof LoggerAwareInterface) {
+                $discoverer->setLogger($logger);
             }
             $this->discoverers[] = $discoverer;
         }

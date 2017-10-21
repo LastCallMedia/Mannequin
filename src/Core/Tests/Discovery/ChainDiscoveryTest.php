@@ -21,6 +21,7 @@ use LastCall\Mannequin\Core\Event\ComponentEvents;
 use LastCall\Mannequin\Core\Exception\TemplateParsingException;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -102,6 +103,16 @@ class ChainDiscoveryTest extends TestCase
         $logger->error('Metadata error for component1. foo', Argument::type('array'))->shouldBeCalled();
 
         $this->executeDiscovery($component->reveal(), $dispatcher->reveal(), $logger->reveal());
+    }
+
+    public function testCallsSetLogger()
+    {
+        $logger = $this->prophesize(LoggerInterface::class);
+        $discoverer = $this->prophesize(DiscoveryInterface::class);
+        $discoverer->willImplement(LoggerAwareInterface::class);
+        $discoverer->setLogger($logger)->shouldBeCalled();
+
+        new ChainDiscovery([$discoverer->reveal()], new EventDispatcher(), $logger->reveal());
     }
 
     private function getMockComponent($name, array $aliases = [])
