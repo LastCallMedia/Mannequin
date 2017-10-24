@@ -76,3 +76,31 @@
       right: 1rem; }
     .ComponentInfo .code .button {
       margin-bottom: 0; }
+
+.CodeButton {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0 1rem 0;
+  font-family: inherit;
+  padding: 0.85em 1em;
+  -webkit-appearance: none;
+  border: 1px solid transparent;
+  border-radius: 0;
+  transition: background-color 0.25s ease-out, color 0.25s ease-out;
+  font-size: 0.9rem;
+  line-height: 1;
+  text-align: center;
+  cursor: pointer;
+  background-color: #767676;
+  color: #fefefe; }
+  [data-whatinput='mouse'] .CodeButton {
+    outline: 0; }
+  .CodeButton:hover, .CodeButton:focus {
+    background-color: #5e5e5e;
+    color: #fefefe; }
+  .CodeButton.active {
+    background-color: #1779ba;
+    color: #fefefe; }
+    .CodeButton.active:hover, .CodeButton.active:focus {
+      background-color: #126195;
+      color: #fefefe; }

@@ -15,6 +15,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\ProcessBuilder;
@@ -48,7 +49,7 @@ class StartCommand extends Command
             'address',
             InputArgument::OPTIONAL,
             'The address to run on.',
-            '127.0.0.1:8000'
+            '*:8000'
         );
         $this->addOption(
             'output-dir',
@@ -73,13 +74,13 @@ class StartCommand extends Command
     private function validateAddress($address)
     {
         if (null === $address) {
-            $hostname = '127.0.0.1';
+            $hostname = '0.0.0.0';
             $port = $this->findBestPort($hostname);
         } elseif (false !== $pos = strrpos($address, ':')) {
             $hostname = substr($address, 0, $pos);
             $port = substr($address, $pos + 1);
         } elseif (ctype_digit($address)) {
-            $hostname = '127.0.0.1';
+            $hostname = '0.0.0.0';
             $port = $address;
         } else {
             $hostname = $address;
@@ -108,6 +109,30 @@ class StartCommand extends Command
         return $port;
     }
 
+    private function getPort($address)
+    {
+        $pos = strrpos($address, ':');
+
+        return substr($address, $pos + 1);
+    }
+
+    private function getHost($address)
+    {
+        $pos = strrpos($address, ':');
+
+        return substr($address, 0, $pos);
+    }
+
+    /**
+     * Checks if we are running from inside a Docker container.
+     *
+     * @return bool
+     */
+    private function isInsideDocker()
+    {
+        return file_exists('/.dockerenv');
+    }
+
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $address = $this->validateAddress($input->getArgument('address'));
@@ -116,22 +141,34 @@ class StartCommand extends Command
         $builder = $this->getProcessBuilder()
             ->setArguments(['php', '-S', $address, $routerFile])
             ->addEnvironmentVariables([
-                'MANNEQUIN_CONFIG' => realpath($this->configFile),
-                'MANNEQUIN_AUTOLOAD' => realpath($this->autoloadPath),
+                'MANNEQUIN_CONFIG' => $this->configFile,
+                'MANNEQUIN_AUTOLOAD' => $this->autoloadPath,
                 'MANNEQUIN_DEBUG' => $this->debug,
                 'MANNEQUIN_VERBOSITY' => $output->getVerbosity(),
             ])
-            ->setWorkingDirectory(dirname(realpath($this->configFile)))
+            ->setWorkingDirectory(dirname($this->configFile))
             ->setTimeout(null);
 
         $process = $builder->getProcess();
-        $io = new SymfonyStyle($input, $output);
-        $message = [sprintf('Starting server on http://%s', $address)];
-        if (!$output->isVerbose()) {
-            $message[] = 'For debug output, use the -v flag';
-        }
-        $io->success($message);
 
-        return $this->getHelper('process')->run($output, $process, null, null);
+        $io = new SymfonyStyle($input, $output);
+        $io->title('Starting Mannequin development server...');
+        $io->text('Tips:');
+        $tips = [
+            sprintf('Visit http://%s in your web browser.', $address),
+            'Log messages will be printed below. Use the -v flag for more log data.',
+        ];
+        if ($this->isInsideDocker()) {
+            $tips[] = sprintf('Ensure that port %d is exposed, and %s is reachable from your host machine.', $this->getPort($address), $this->getHost($address));
+        }
+        $io->listing($tips);
+
+        return $process->run(function ($type, $buffer) use ($process, $output) {
+            if ($process::ERR === $type && $output instanceof ConsoleOutputInterface) {
+                $output->getErrorOutput()->write($buffer);
+            } else {
+                $output->write($buffer);
+            }
+        });
     }
 }

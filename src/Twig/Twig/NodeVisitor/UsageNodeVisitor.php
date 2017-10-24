@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace LastCall\Mannequin\Twig\Twig;
+namespace LastCall\Mannequin\Twig\Twig\NodeVisitor;
 
 use Twig_Environment;
 use Twig_NodeInterface;
@@ -22,7 +22,7 @@ use Twig_NodeInterface;
  * _collected_usage block.  This block is then cached with the template and is
  * parseable further down the chain.
  */
-class TwigUsageCollectorVisitor implements \Twig_NodeVisitorInterface
+class UsageNodeVisitor implements \Twig_NodeVisitorInterface
 {
     private $collected = [];
 

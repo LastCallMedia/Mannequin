@@ -13,6 +13,7 @@ namespace LastCall\Mannequin\Core;
 
 use LastCall\Mannequin\Core\Asset\AssetManager;
 use LastCall\Mannequin\Core\Asset\RequestContextContext;
+use LastCall\Mannequin\Core\Config\ConfigInterface;
 use LastCall\Mannequin\Core\Console\Application as ConsoleApplication;
 use LastCall\Mannequin\Core\Console\Command\DebugCommand;
 use LastCall\Mannequin\Core\Console\Command\SnapshotCommand;
@@ -41,47 +42,40 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class Mannequin extends Application
 {
-    const APP_NAME = 'Mannequin';
-
-    const APP_VERSION = '0.0.0';
-
     public function __construct(array $values = [])
     {
         $values += [
             'logger' => function () {
                 return new NullLogger();
             },
+            'config' => function () {
+                throw new \RuntimeException('Config property must be provided.');
+            },
         ];
         parent::__construct($values);
-        $this['console'] = function () {
-            $app = new ConsoleApplication(self::APP_NAME, self::APP_VERSION);
-            $app->setDispatcher($this['dispatcher']);
-            $app->addCommands(
-                [
-                    new SnapshotCommand(
-                        'snapshot',
-                        $this['manifest.builder'],
-                        $this['discovery'],
-                        $this['ui'],
-                        $this['url_generator'],
-                        $this['renderer'],
-                        $this['asset.manager']
-                    ),
-                    new StartCommand(
-                        'start',
-                        $this['config_file'],
-                        $this['autoload_path'],
-                        $this['debug']
-                    ),
-                    new DebugCommand(
-                        'debug',
-                        $this['manifest.builder'],
-                        $this['discovery']
-                    ),
-                ]
-            );
-
-            return $app;
+        $this['commands'] = function () {
+            return [
+                new SnapshotCommand(
+                    'snapshot',
+                    $this['manifest.builder'],
+                    $this['discovery'],
+                    $this['ui'],
+                    $this['url_generator'],
+                    $this['renderer'],
+                    $this['asset.manager']
+                ),
+                new StartCommand(
+                    'start',
+                    $this['config_file'],
+                    $this['autoload_path'],
+                    $this['debug']
+                ),
+                new DebugCommand(
+                    'debug',
+                    $this['manifest.builder'],
+                    $this['discovery']
+                ),
+            ];
         };
 
         $this['log.listener'] = function () {
@@ -94,25 +88,6 @@ class Mannequin extends Application
             return new FilesystemAdapter('', 0, $this['cache_dir'].'/cache');
         };
 
-        $this['config'] = function () {
-            $filename = $this['config_file'];
-            if (!file_exists($filename)) {
-                throw new \RuntimeException(
-                    sprintf(
-                        'Expected config in %s, but the file does not exist.',
-                        $filename
-                    )
-                );
-            }
-            $config = require $filename;
-            if (!$config instanceof ConfigInterface) {
-                throw new \RuntimeException(
-                    sprintf('Config was not returned from %s.  Did you forget to add a return statement?', $filename)
-                );
-            }
-
-            return $config;
-        };
         $this['manifest.builder'] = function () {
             $this->flush();
 

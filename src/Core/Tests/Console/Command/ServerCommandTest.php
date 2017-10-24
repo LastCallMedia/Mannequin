@@ -26,10 +26,10 @@ class ServerCommandTest extends TestCase
     public function getInputOutput()
     {
         return [
-            [null, '127.0.0.1:8000'],
-            ['0.0.0.0', '0.0.0.0:8000'],
+            [null, '0.0.0.0:8000'],
+            ['127.0.0.1', '127.0.0.1:8000'],
             ['*:8002', '0.0.0.0:8002'],
-            ['8002', '127.0.0.1:8002'],
+            ['8002', '0.0.0.0:8002'],
         ];
     }
 
@@ -81,7 +81,7 @@ class ServerCommandTest extends TestCase
         $tester = new CommandTester($command);
         $tester->execute(['address' => $inputAddress]);
 
-        $expectedOutput = sprintf('Starting server on http://%s', $expectedListenAddress);
+        $expectedOutput = sprintf('Visit http://%s in your web browser', $expectedListenAddress);
         $this->assertContains($expectedOutput, $tester->getDisplay());
     }
 

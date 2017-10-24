@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import FluidContainer from 'react-fluid-container';
+import AnimateHeight from 'react-animate-height';
 import PropTypes from 'prop-types';
 import './Menu.css';
 
@@ -72,14 +72,9 @@ class MainMenuItem extends Component {
             {leaf.icon}
             {leaf.name}
           </a>
-          {leaf.children && (
-            <FluidContainer
-              height={isCollapsed ? 0 : 'auto'}
-              style={{ overflow: 'hidden' }}
-            >
-              <Menu tree={leaf.children} settings={childSettings} />
-            </FluidContainer>
-          )}
+          <AnimateHeight height={isCollapsed ? 0 : 'auto'} className="SubmenuContainer">
+            <Menu tree={leaf.children} settings={childSettings}/>
+          </AnimateHeight>
         </li>
       );
     }

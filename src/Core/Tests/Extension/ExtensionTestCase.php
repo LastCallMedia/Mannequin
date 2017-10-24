@@ -12,11 +12,11 @@
 namespace LastCall\Mannequin\Core\Tests\Extension;
 
 use LastCall\Mannequin\Core\Asset\AssetManager;
-use LastCall\Mannequin\Core\Mannequin;
-use LastCall\Mannequin\Core\ConfigInterface;
+use LastCall\Mannequin\Core\Config\ConfigInterface;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
+use LastCall\Mannequin\Core\Mannequin;
 use LastCall\Mannequin\Core\Variable\VariableResolver;
 use LastCall\Mannequin\Core\YamlMetadataParser;
 use PHPUnit\Framework\TestCase;

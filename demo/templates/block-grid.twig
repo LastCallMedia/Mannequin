@@ -1,4 +1,4 @@
-{% if _component %}{% block componentinfo %}
+{#  @Component
 name: Block Grid
 group: Containers
 description: A container that displays many items in a grid layout.
@@ -14,7 +14,7 @@ samples:
             - ~sample('card.twig#Concise')
             - ~sample('card.twig#Concise')
             - ~sample('card.twig#Concise')
-{% endblock %}{% endif %}
+#}
 <div class="grid-x grid-padding-x small-up-3">
     {% for cell in cells %}
         <div class="cell">{{ cell }}</div>

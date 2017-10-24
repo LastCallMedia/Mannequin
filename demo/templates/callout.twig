@@ -1,4 +1,4 @@
-{% if _component %}{% block componentinfo %}
+{# @Component
 name: Callout
 group: Containers
 description: A flexible container for featuring a piece of content, typically as a link to an extended view of that content.
@@ -33,7 +33,7 @@ samples:
         title: Large Callout
         type: small
         content: This is a large callout.
-{% endblock %}{% endif %}
+#}
 <div class="callout {{ type ? type }}">
     {% if title %}<h5>{{ title }}</h5>{% endif %}
     {% block callout_content %}

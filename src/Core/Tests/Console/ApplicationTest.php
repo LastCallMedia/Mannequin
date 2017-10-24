@@ -18,7 +18,7 @@ class ApplicationTest extends TestCase
 {
     public function testHasDebugOption()
     {
-        $definition = (new Application())->getDefinition();
+        $definition = (new Application(''))->getDefinition();
 
         $this->assertTrue($definition->hasOption('debug'));
         $this->assertFalse(
@@ -28,7 +28,7 @@ class ApplicationTest extends TestCase
 
     public function testHasConfigOption()
     {
-        $definition = (new Application())->getDefinition();
+        $definition = (new Application(''))->getDefinition();
 
         $this->assertTrue($definition->hasOption('debug'));
         $this->assertFalse(

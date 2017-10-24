@@ -11,8 +11,9 @@
 
 namespace LastCall\Mannequin\Core\Tests;
 
+use LastCall\Mannequin\Core\Config\ConfigLoader;
+use LastCall\Mannequin\Core\Console\Command\DebugCommand;
 use LastCall\Mannequin\Core\Mannequin;
-use LastCall\Mannequin\Core\Console\Application as ConsoleApplication;
 use LastCall\Mannequin\Core\Console\Command\SnapshotCommand;
 use LastCall\Mannequin\Core\Console\Command\StartCommand;
 use LastCall\Mannequin\Core\Ui\Controller\ManifestController;
@@ -37,22 +38,29 @@ class MannequinTest extends TestCase
         $this->assertEquals('controller.static:staticAction', $routes->get('static')->getDefault('_controller'));
     }
 
-    public function testHasConsole()
+    public function testHasCommands()
     {
         $application = new Mannequin([
+            'config' => ConfigLoader::load(__DIR__.'/Resources/bare-config.php'),
             'config_file' => __DIR__.'/Resources/bare-config.php',
             'autoload_path' => __FILE__,
         ]);
-        $console = $application->getConsole();
-        $this->assertInstanceOf(ConsoleApplication::class, $console);
-        $this->assertInstanceOf(SnapshotCommand::class, $console->get('snapshot'));
-        $this->assertInstanceOf(StartCommand::class, $console->get('start'));
+        $commands = $application['commands'];
+        $names = [];
+        foreach ($commands as $command) {
+            $names[$command->getName()] = get_class($command);
+        }
+        $this->assertEquals([
+            'start' => StartCommand::class,
+            'snapshot' => SnapshotCommand::class,
+            'debug' => DebugCommand::class,
+        ], $names);
     }
 
     public function testHasManifestController()
     {
         $application = new Mannequin([
-            'config_file' => __DIR__.'/Resources/bare-config.php',
+            'config' => ConfigLoader::load(__DIR__.'/Resources/bare-config.php'),
         ]);
         $this->assertInstanceOf(ManifestController::class, $application['controller.manifest']);
     }
@@ -60,7 +68,7 @@ class MannequinTest extends TestCase
     public function testHasRenderController()
     {
         $application = new Mannequin([
-            'config_file' => __DIR__.'/Resources/bare-config.php',
+            'config' => ConfigLoader::load(__DIR__.'/Resources/bare-config.php'),
         ]);
         $this->assertInstanceOf(RenderController::class, $application['controller.render']);
     }
@@ -68,41 +76,29 @@ class MannequinTest extends TestCase
     public function testHasStaticController()
     {
         $application = new Mannequin([
+            'config' => ConfigLoader::load(__DIR__.'/Resources/bare-config.php'),
             'config_file' => __DIR__.'/Resources/bare-config.php',
         ]);
         $this->assertInstanceOf(StaticFileController::class, $application['controller.static']);
     }
 
-    public function testResolvesConfig()
+    public function testHasConfig()
     {
+        $config = ConfigLoader::load(__DIR__.'/Resources/bare-config.php');
         $application = new Mannequin([
-            'config_file' => __DIR__.'/Resources/bare-config.php',
+            'config' => $config,
         ]);
-        $this->assertEquals('bare-config', $application['config']['name']);
+        $this->assertSame($config, $application->getConfig());
     }
 
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage Expected config in foo, but the file does not exist
+     * @expectedExceptionMessage Config property must be provided
      */
     public function testThrowsForNonexistentConfigFile()
     {
-        $application = new Mannequin([
-            'config_file' => 'foo',
-        ]);
-        $application['config'];
-    }
-
-    /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Config was not returned from
-     */
-    public function testThrowsForNonReturningConfigFile()
-    {
-        $application = new Mannequin([
-            'config_file' => __DIR__.'/Resources/nonreturning-config.php',
-        ]);
-        $application['config'];
+        $application = new Mannequin();
+        $application->getConfig();
     }
 
     public function testHasCacheDirectory()

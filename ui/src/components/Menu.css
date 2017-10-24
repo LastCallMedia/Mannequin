@@ -57,5 +57,5 @@
   .MenuItem.collapsible.collapsed > a:before {
     content: "+"; }
 
-.MenuItem.collapsible.collapsed .MenuList {
+.SubmenuContainer.rah-static--height-zero {
   visibility: hidden; }

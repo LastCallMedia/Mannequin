@@ -21,6 +21,12 @@ export default function Template(props) {
               </Link>
             </li>
           ))}
+          <li>
+            <Link to={'/extensions'}>
+              <h3>Extensions</h3>
+              <p>Extensions to wire Mannequin into your project.</p>
+            </Link>
+          </li>
         </ul>
       </Page>
     </PageWrapper>

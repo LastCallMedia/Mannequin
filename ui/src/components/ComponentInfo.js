@@ -129,10 +129,10 @@ class ComponentInfoCode extends Component {
         <div className="button-group">
           {sample && (
             <a
-              className={cx(
-                'button',
-                src === sample.source ? 'primary' : 'secondary'
-              )}
+              className={cx({
+                  'CodeButton': true,
+                  'active': src === sample.source,
+              })}
               onClick={this.switchMode}
               data-src={sample.source}
               data-language={'html'}
@@ -142,10 +142,10 @@ class ComponentInfoCode extends Component {
           )}
           {component && (
             <a
-              className={cx(
-                'button',
-                src === component.source ? 'primary' : 'secondary'
-              )}
+              className={cx({
+                'CodeButton': true,
+                'active': src === component.source,
+              })}
               onClick={this.switchMode}
               data-src={component.source}
               data-language={component.metadata.source_format}

@@ -11,9 +11,15 @@
 
 namespace LastCall\Mannequin\Twig\Driver;
 
+use LastCall\Mannequin\Twig\Twig\Lexer;
+use LastCall\Mannequin\Twig\Twig\MannequinExtension;
+
 class PreloadedTwigDriver implements TwigDriverInterface
 {
+    private $twig;
     private $twigRoot;
+    private $namespaces;
+    private $initialized;
 
     public function __construct(\Twig_Environment $twig, string $twigRoot = '', array $namespaces = [])
     {
@@ -24,6 +30,12 @@ class PreloadedTwigDriver implements TwigDriverInterface
 
     public function getTwig(): \Twig_Environment
     {
+        if (!$this->initialized) {
+            $this->initialized = true;
+            $this->twig->addExtension(new MannequinExtension());
+            $this->twig->setLexer(new Lexer());
+        }
+
         return $this->twig;
     }
 

@@ -11,7 +11,8 @@
 
 namespace LastCall\Mannequin\Twig\Driver;
 
-use LastCall\Mannequin\Twig\Twig\TwigUsageCollectorVisitor;
+use LastCall\Mannequin\Twig\Twig\Lexer;
+use LastCall\Mannequin\Twig\Twig\MannequinExtension;
 
 class SimpleTwigDriver implements TwigDriverInterface
 {
@@ -39,7 +40,8 @@ class SimpleTwigDriver implements TwigDriverInterface
         $loader = new \Twig_Loader_Filesystem($this->twigRoot);
 
         $twig = new \Twig_Environment($loader, $this->twigOptions);
-        $twig->addNodeVisitor(new TwigUsageCollectorVisitor());
+        $twig->addExtension(new MannequinExtension());
+        $twig->setLexer(new Lexer($twig));
 
         return $twig;
     }
