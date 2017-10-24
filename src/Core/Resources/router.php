@@ -10,6 +10,7 @@
  */
 
 use LastCall\Mannequin\Core\Mannequin;
+use LastCall\Mannequin\Core\Config\ConfigLoader;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 
@@ -33,9 +34,10 @@ $_SERVER['SCRIPT_FILENAME'] = __FILE__;
 $output = new ConsoleOutput(getenv('MANNEQUIN_VERBOSITY'));
 $app = new Mannequin([
     'debug' => getenv('MANNEQUIN_DEBUG') ?? false,
-    'autoload_file' => getenv('MANNEQUIN_AUTOLOAD'),
-    'config_file' => getenv('MANNEQUIN_CONFIG'),
     'logger' => new ConsoleLogger($output),
+    'config' => ConfigLoader::load(getenv('MANNEQUIN_CONFIG')),
+    'config_file' => realpath(getenv('MANNEQUIN_CONFIG')),
+    'autoload_path' => realpath(getenv('MANNEQUIN_AUTOLOAD')),
 ]);
 
 $app->run();

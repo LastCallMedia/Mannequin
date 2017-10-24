@@ -19,6 +19,9 @@ interface ConfigInterface
 {
     public function getCollection(): ComponentCollection;
 
+    /**
+     * @todo: Remove this method and make it only available on MannequinConfig.
+     */
     public function addExtension(ExtensionInterface $extension
     ): ConfigInterface;
 

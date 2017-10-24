@@ -117,12 +117,12 @@ class StartCommand extends Command
         $builder = $this->getProcessBuilder()
             ->setArguments(['php', '-S', $address, $routerFile])
             ->addEnvironmentVariables([
-                'MANNEQUIN_CONFIG' => realpath($this->configFile),
-                'MANNEQUIN_AUTOLOAD' => realpath($this->autoloadPath),
+                'MANNEQUIN_CONFIG' => $this->configFile,
+                'MANNEQUIN_AUTOLOAD' => $this->autoloadPath,
                 'MANNEQUIN_DEBUG' => $this->debug,
                 'MANNEQUIN_VERBOSITY' => $output->getVerbosity(),
             ])
-            ->setWorkingDirectory(dirname(realpath($this->configFile)))
+            ->setWorkingDirectory(dirname($this->configFile))
             ->setTimeout(null);
 
         $process = $builder->getProcess();

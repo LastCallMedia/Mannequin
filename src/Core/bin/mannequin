@@ -1,10 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-use LastCall\Mannequin\Core\Mannequin;
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Logger\ConsoleLogger;
+use LastCall\Mannequin\Core\Console\Application;
 
 if(PHP_VERSION_ID < 70000) {
     fwrite(STDERR,
@@ -39,17 +36,5 @@ if ($autoload_file) {
     die(1);
 }
 
-$input = new ArgvInput();
-$output = new ConsoleOutput();
-$app = new Mannequin(
-  [
-    'debug' => (boolean)$input->getParameterOption(['--debug', 'd'], false),
-    'autoload_path' => $autoload_file,
-    'logger' => new ConsoleLogger($output),
-    'config_file' => realpath(
-      $input->getParameterOption(['--config', '-c'], '.mannequin.php')
-    ),
-  ]
-);
-$app->boot();
-return $app->getConsole()->run();
+$app = new Application($autoload_file);
+return $app->run();
