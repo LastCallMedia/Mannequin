@@ -7,7 +7,7 @@ import "./Bubble.scss";
 
 export default function Bubble(props) {
     const {size = 30, thickness = 1, duration = 3, blur = 0} = props;
-    const {left, right, top, bottom} = props;
+    const {left, right, top, bottom, opacity} = props;
     const {className = ''} = props;
     const bubbleClass = cx({
         'Bubble': true,
@@ -19,6 +19,7 @@ export default function Bubble(props) {
         borderWidth: thickness,
         animationDuration: `${duration}s`,
         WebkitAnimationDuration: `${duration}s`,
+        opacity,
         left,
         right,
         top,
@@ -39,6 +40,7 @@ Bubble.propTypes = {
     right: PropTypes.string,
     top: PropTypes.string,
     bottom: PropTypes.string,
+    opacity: PropTypes.number
 }
 
 export function BubbleCluster(props) {
