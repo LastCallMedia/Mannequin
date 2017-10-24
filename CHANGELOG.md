@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - (Core) Version number should be displayed when running the console.
 - (Core) Better error messages for missing/broken config files - [#75](https://github.com/LastCallMedia/Mannequin/issues/75).
+- (Core) Add helpful tips for the server start command [#79](https://github.com/LastCallMedia/Mannequin/issues/79)
 
 ## 1.0.3
 ### Added
