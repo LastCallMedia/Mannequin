@@ -109,6 +109,30 @@ class StartCommand extends Command
         return $port;
     }
 
+    private function getPort($address)
+    {
+        $pos = strrpos($address, ':');
+
+        return substr($address, $pos + 1);
+    }
+
+    private function getHost($address)
+    {
+        $pos = strrpos($address, ':');
+
+        return substr($address, 0, $pos);
+    }
+
+    /**
+     * Checks if we are running from inside a Docker container.
+     *
+     * @return bool
+     */
+    private function isInsideDocker()
+    {
+        return file_exists('/.dockerenv');
+    }
+
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $address = $this->validateAddress($input->getArgument('address'));
@@ -128,11 +152,16 @@ class StartCommand extends Command
         $process = $builder->getProcess();
 
         $io = new SymfonyStyle($input, $output);
-        $message = [sprintf('Starting server on http://%s', $address)];
-        if (!$output->isVerbose()) {
-            $message[] = 'For debug output, use the -v flag';
+        $io->title('Starting Mannequin development server...');
+        $io->text('Tips:');
+        $tips = [
+            sprintf('Visit http://%s in your web browser.', $address),
+            'Log messages will be printed below. Use the -v flag for more log data.',
+        ];
+        if ($this->isInsideDocker()) {
+            $tips[] = sprintf('Ensure that port %d is exposed, and %s is reachable from your host machine.', $this->getPort($address), $this->getHost($address));
         }
-        $io->success($message);
+        $io->listing($tips);
 
         return $process->run(function ($type, $buffer) use ($process, $output) {
             if ($process::ERR === $type && $output instanceof ConsoleOutputInterface) {
