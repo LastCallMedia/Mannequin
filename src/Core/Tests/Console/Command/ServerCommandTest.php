@@ -81,7 +81,7 @@ class ServerCommandTest extends TestCase
         $tester = new CommandTester($command);
         $tester->execute(['address' => $inputAddress]);
 
-        $expectedOutput = sprintf('Starting server on http://%s', $expectedListenAddress);
+        $expectedOutput = sprintf('Visit http://%s in your web browser', $expectedListenAddress);
         $this->assertContains($expectedOutput, $tester->getDisplay());
     }
 
