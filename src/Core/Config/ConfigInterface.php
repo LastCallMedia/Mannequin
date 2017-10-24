@@ -28,4 +28,8 @@ interface ConfigInterface
     public function getGlobalJs(): array;
 
     public function getAssets(): \Traversable;
+
+    public function getCid(): string;
+
+    public function getDocroot(): string;
 }

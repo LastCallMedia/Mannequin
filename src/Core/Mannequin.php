@@ -42,18 +42,16 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class Mannequin extends Application
 {
-    public function __construct(array $values = [])
+    public function __construct(ConfigInterface $config, array $values = [])
     {
         $values += [
             'logger' => function () {
                 return new NullLogger();
             },
-            'config' => function () {
-                throw new \RuntimeException('Config property must be provided.');
-            },
         ];
         parent::__construct($values);
-        $this['commands'] = function () {
+        $this['config'] = $config;
+        $this['commands'] = function () use ($config) {
             return [
                 new SnapshotCommand(
                     'snapshot',
@@ -66,8 +64,7 @@ class Mannequin extends Application
                 ),
                 new StartCommand(
                     'start',
-                    $this['config_file'],
-                    $this['autoload_path'],
+                    $config,
                     $this['debug']
                 ),
                 new DebugCommand(
@@ -81,8 +78,8 @@ class Mannequin extends Application
         $this['log.listener'] = function () {
             return new LogListener($this['logger']);
         };
-        $this['cache_dir'] = function () {
-            return sprintf('%s/mannequin/%s', sys_get_temp_dir(), md5($this['config_file']));
+        $this['cache_dir'] = function () use ($config) {
+            return sprintf('%s/mannequin/%s', sys_get_temp_dir(), $config->getCid());
         };
         $this['cache'] = function () {
             return new FilesystemAdapter('', 0, $this['cache_dir'].'/cache');
@@ -121,10 +118,10 @@ class Mannequin extends Application
             );
         };
 
-        $this['asset.manager'] = function () {
+        $this['asset.manager'] = function () use ($config) {
             return new AssetManager(
-                $this->getConfig()->getAssets(),
-                dirname($this['config_file'])
+                $config->getAssets(),
+                $config->getDocroot()
             );
         };
 

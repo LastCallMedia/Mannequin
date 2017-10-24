@@ -25,6 +25,7 @@ class MannequinConfig implements ConfigInterface
     private $js = [];
     private $extensions = [];
     private $ui;
+    private $docroot = '';
 
     public function __construct(array $values = [])
     {
@@ -147,5 +148,15 @@ class MannequinConfig implements ConfigInterface
     public function getAssets(): \Traversable
     {
         return $this->assets;
+    }
+
+    public function getDocroot(): string
+    {
+        return $this->docroot;
+    }
+
+    public function getCid(): string
+    {
+        return '';
     }
 }

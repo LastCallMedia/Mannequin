@@ -11,6 +11,8 @@
 
 namespace LastCall\Mannequin\Core\Console\Command;
 
+use LastCall\Mannequin\Core\Config\ConfigInterface;
+use LastCall\Mannequin\Core\Config\ReaddressableConfigInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,23 +24,19 @@ use Symfony\Component\Process\ProcessBuilder;
 
 class StartCommand extends Command
 {
-    private $autoloadPath;
-
-    private $configFile;
-
     private $debug;
+
+    private $config;
 
     private $processBuilder;
 
     public function __construct(
         $name,
-        string $configFile,
-        string $autoloadPath,
+        ConfigInterface $config,
         bool $debug = false
     ) {
         parent::__construct($name);
-        $this->autoloadPath = $autoloadPath;
-        $this->configFile = $configFile;
+        $this->config = $config;
         $this->debug = $debug;
     }
 
@@ -135,18 +133,22 @@ class StartCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
+        if (!$this->config instanceof ReaddressableConfigInterface) {
+            throw new \RuntimeException('This configuration cannot be used for the development server because it is not readdressable.');
+        }
+
         $address = $this->validateAddress($input->getArgument('address'));
 
         $routerFile = realpath(__DIR__.'/../../Resources/router.php');
         $builder = $this->getProcessBuilder()
             ->setArguments(['php', '-S', $address, $routerFile])
             ->addEnvironmentVariables([
-                'MANNEQUIN_CONFIG' => $this->configFile,
-                'MANNEQUIN_AUTOLOAD' => $this->autoloadPath,
+                'MANNEQUIN_CONFIG' => $this->config->getSourceFile(),
+                'MANNEQUIN_AUTOLOAD' => $this->config->getAutoloadFile(),
                 'MANNEQUIN_DEBUG' => $this->debug,
                 'MANNEQUIN_VERBOSITY' => $output->getVerbosity(),
             ])
-            ->setWorkingDirectory(dirname($this->configFile))
+            ->setWorkingDirectory($this->config->getDocroot())
             ->setTimeout(null);
 
         $process = $builder->getProcess();

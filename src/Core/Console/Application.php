@@ -59,12 +59,11 @@ class Application extends ConsoleApplication
         $configFile = $input->getParameterOption(['--config', '-c'], '.mannequin.php');
         $debug = $input->getParameterOption(['--debug', '-d'], false);
 
-        $mannequin = new Mannequin([
+        $config = ConfigLoader::loadReaddressable($configFile, $this->autoloadPath);
+
+        $mannequin = new Mannequin($config, [
             'debug' => $debug,
             'logger' => new ConsoleLogger($output),
-            'config_file' => realpath($configFile),
-            'config' => ConfigLoader::load($configFile),
-            'autoload_path' => realpath($this->autoloadPath),
         ]);
         $this->setDispatcher($mannequin['dispatcher']);
         $mannequin->boot();
