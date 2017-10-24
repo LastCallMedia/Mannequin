@@ -11,8 +11,6 @@
 
 namespace LastCall\Mannequin\Core\Config;
 
-use LastCall\Mannequin\Core\ConfigInterface;
-
 class ConfigLoader
 {
     public static function load(string $filename): ConfigInterface

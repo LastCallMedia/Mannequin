@@ -13,6 +13,7 @@ namespace LastCall\Mannequin\Core\Tests;
 
 use LastCall\Mannequin\Core\MannequinConfig;
 use LastCall\Mannequin\Core\Extension\CoreExtension;
+use LastCall\Mannequin\Core\Ui\CheckingUiDecorator;
 use LastCall\Mannequin\Core\Ui\UiInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -58,16 +59,29 @@ class MannequinConfigTest extends TestCase
         $this->assertEquals(['foo'], $config->getGlobalJs());
     }
 
+    public function testHasDefaultAssets()
+    {
+        $config = new MannequinConfig();
+        $this->assertEquals(new \ArrayIterator([]), $config->getAssets());
+    }
+
+    public function testCanOverrideAssetsWithArray()
+    {
+        $config = new MannequinConfig();
+        $config->setAssets(['foo']);
+        $this->assertEquals(new \ArrayIterator(['foo']), $config->getAssets());
+    }
+
     public function testHasDefaultUi()
     {
         $config = new MannequinConfig(['ui_path' => __DIR__]);
-        $this->assertInstanceOf(UiInterface::class, $config->getUi());
+        $this->assertInstanceOf(CheckingUiDecorator::class, $config->getUi());
     }
 
     public function getCanOverrideUi()
     {
         $ui = $this->prophesize(UiInterface::class);
         $config = new MannequinConfig(['ui' => $ui->reveal()]);
-        $this->assertEquals($ui, $config->getUi());
+        $this->assertSame($ui, $config->getUi());
     }
 }

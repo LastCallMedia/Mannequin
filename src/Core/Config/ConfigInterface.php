@@ -9,22 +9,13 @@
  * with this source code in the file LICENSE.
  */
 
-namespace LastCall\Mannequin\Core;
+namespace LastCall\Mannequin\Core\Config;
 
-use LastCall\Mannequin\Core\Component\ComponentCollection;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Ui\UiInterface;
 
 interface ConfigInterface
 {
-    public function getCollection(): ComponentCollection;
-
-    /**
-     * @todo: Remove this method and make it only available on MannequinConfig.
-     */
-    public function addExtension(ExtensionInterface $extension
-    ): ConfigInterface;
-
     /**
      * @return ExtensionInterface[]
      */

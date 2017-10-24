@@ -11,40 +11,40 @@
 
 namespace LastCall\Mannequin\Core;
 
-use LastCall\Mannequin\Core\Component\ComponentCollection;
+use LastCall\Mannequin\Core\Config\ConfigInterface;
 use LastCall\Mannequin\Core\Extension\CoreExtension;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
+use LastCall\Mannequin\Core\Ui\CheckingUiDecorator;
 use LastCall\Mannequin\Core\Ui\LocalUi;
 use LastCall\Mannequin\Core\Ui\UiInterface;
-use Pimple\Container;
 
-class MannequinConfig extends Container implements ConfigInterface
+class MannequinConfig implements ConfigInterface
 {
+    private $assets;
+    private $css = [];
+    private $js = [];
+    private $extensions = [];
+    private $ui;
+
     public function __construct(array $values = [])
     {
-        $values += [
-            'ui_download_path' => __DIR__.'/ui-files',
-            'ui_path' => __DIR__.'/ui-files/build',
-            'ui' => function () {
-                if (!is_dir($this['ui_path'])) {
-                    $composer = json_decode(file_get_contents(__DIR__.'/composer.json'));
-                    throw new \RuntimeException(sprintf(
-                        'Unable to find UI files.  This usually happens automatically, but didn\'t, for some reason.  Please download them from %s and place them at %s, and file a bug report.',
-                       $composer->extra->{'extra-files'}->ui->url,
-                        $this['ui_download_path']
-                    ));
-                }
+        $this->assets = new \ArrayIterator([]);
 
-                return new LocalUi($this['ui_path']);
-            },
-            'global_css' => [],
-            'global_js' => [],
-            'assets' => [],
-        ];
-        parent::__construct($values);
-        $this['extensions'] = function () {
-            return [new CoreExtension()];
-        };
+        if (isset($values['ui'])) {
+            $this->ui = $values['ui'];
+        } else {
+            // Default UI.
+            $composer = json_decode(file_get_contents(__DIR__.'/composer.json'));
+            $composerUi = $composer->extra->{'extra-files'}->ui;
+            $uiPath = sprintf('%s/%s', __DIR__, $composerUi->path);
+            $this->ui = new CheckingUiDecorator(
+                new LocalUi($uiPath),
+                $composerUi->url,
+                $uiPath
+            );
+        }
+
+        $this->addExtension(new CoreExtension());
     }
 
     /**
@@ -52,84 +52,100 @@ class MannequinConfig extends Container implements ConfigInterface
      */
     public function getExtensions(): array
     {
-        return $this['extensions'];
+        return $this->extensions;
     }
 
     /**
-     * {@inheritdoc}
+     * @param \LastCall\Mannequin\Core\Extension\ExtensionInterface $extension
+     *
+     * @return static
      */
     public function addExtension(ExtensionInterface $extension): ConfigInterface
     {
-        $this->extend(
-            'extensions',
-            function (array $extensions) use ($extension) {
-                $extensions[] = $extension;
-
-                return $extensions;
-            }
-        );
+        $this->extensions[] = $extension;
 
         return $this;
     }
 
+    /**
+     * @param array $values
+     *
+     * @return static
+     */
     public static function create(array $values = []): MannequinConfig
     {
         return new static($values);
     }
 
-    /**
-     * @return \LastCall\Mannequin\Core\Component\ComponentCollection
-     */
-    public function getCollection(): ComponentCollection
-    {
-        return $this['collection'];
-    }
-
     public function getUi(): UiInterface
     {
-        return $this['ui'];
+        return $this->ui;
     }
 
     public function getGlobalCss(): array
     {
-        return $this['global_css'];
+        return $this->css;
     }
 
-    public function setGlobalCss(array $styles): MannequinConfig
+    /**
+     * Set the CSS files to include for every component.
+     *
+     * @param array $css an array of javascript URLs or paths
+     *
+     * @return static
+     */
+    public function setGlobalCss(array $css): MannequinConfig
     {
-        $this['global_css'] = $styles;
+        $this->css = $css;
 
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getGlobalJs(): array
     {
-        return $this['global_js'];
+        return $this->js;
     }
 
+    /**
+     * Set the JS files to include for every component.
+     *
+     * @param array $js an array of javascript URLs or paths
+     *
+     * @return static
+     */
     public function setGlobalJs(array $js): MannequinConfig
     {
-        $this['global_js'] = $js;
+        $this->js = $js;
 
         return $this;
     }
 
+    /**
+     * @param array|\Traversable $assets
+     *
+     * @return \LastCall\Mannequin\Core\MannequinConfig
+     */
     public function setAssets($assets): MannequinConfig
     {
-        if (is_array($assets) || !$assets instanceof \Traversable) {
+        if (is_array($assets)) {
+            $assets = new \ArrayIterator($assets);
+        }
+        if (!$assets instanceof \Traversable) {
             throw new \InvalidArgumentException('Assets must be an iterable array or object.');
         }
-        $this['assets'] = $assets;
+        $this->assets = $assets;
 
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getAssets(): \Traversable
     {
-        if (is_array($this['assets'])) {
-            return new \ArrayIterator($this['assets']);
-        }
-
-        return $this['assets'];
+        return $this->assets;
     }
 }
