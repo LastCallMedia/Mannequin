@@ -13,6 +13,7 @@ namespace LastCall\Mannequin\Core;
 
 use LastCall\Mannequin\Core\Asset\AssetManager;
 use LastCall\Mannequin\Core\Asset\RequestContextContext;
+use LastCall\Mannequin\Core\Config\ConfigInterface;
 use LastCall\Mannequin\Core\Console\Application as ConsoleApplication;
 use LastCall\Mannequin\Core\Console\Command\DebugCommand;
 use LastCall\Mannequin\Core\Console\Command\SnapshotCommand;

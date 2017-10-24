@@ -10,6 +10,7 @@
  */
 
 use LastCall\Mannequin\Core\MannequinConfig;
+use LastCall\Mannequin\Core\Ui\LocalUi;
 use LastCall\Mannequin\Html\HtmlExtension;
 use LastCall\Mannequin\Twig\TwigExtension;
 use Symfony\Component\Finder\Finder;
@@ -41,7 +42,7 @@ $html = new HtmlExtension([
 ]);
 
 $config = MannequinConfig::create([
-    'ui_path' => __DIR__.'/ui/build',
+    'ui' => new LocalUi(__DIR__.'/ui/build'),
 ])
     ->setGlobalJs(['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/js/foundation.min.js'])
     ->setGlobalCss(['demo/css/style.css'])
