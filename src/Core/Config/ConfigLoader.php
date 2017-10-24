@@ -23,13 +23,13 @@ class ConfigLoader
         try {
             $config = require $filename;
         } catch (Exception $e) {
-            throw new \RuntimeException(sprintf('There was an error loading config from %s. Message: ', $filename, $e->getMessage()), 1, $e);
+            throw new \RuntimeException(sprintf('There was an error loading config from %s. Message: %s', $filename, $e->getMessage()), 1, $e);
         }
-        if (!$config) {
-            throw new \RuntimeException(sprintf('No configuration was returned from %s', $filename), 1);
+        if (1 === $config) {
+            throw new \RuntimeException(sprintf('No configuration was returned from %s.', $filename), 1);
         }
         if (!$config instanceof ConfigInterface) {
-            throw new \RuntimeException(sprintf('Configuration returned from %s is not an instance of %s', $filename, ConfigInterface::class), 1);
+            throw new \RuntimeException(sprintf('Configuration returned from %s is not an instance of %s.', $filename, ConfigInterface::class), 1);
         }
 
         return $config;
