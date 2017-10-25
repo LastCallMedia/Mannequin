@@ -30,7 +30,8 @@ return MannequinConfig::create()
     ->setAssets($assetFinder);
 ```
 
-This example adds one javascript file and one CSS file to every component as it is rendered.  Because CSS and Javascript often need ancillary files like images, we have also specified a directory worth of assets that are made available using the `setAssets()` method.  Without specifying the assets, the CSS and Javscript files would not load.  When your component library is packed up for distribution, these assets will also be snapshotted and bundled up to go with the HTML.
+In this example, we use the `setGlobalJs` and `setGlobalCss` methods to add assets that we want included in every template.  You can either pass in URLs or relative file paths here.  File paths should be relative to your config's `docroot`, which defaults to the directory .mannequin.php is in.  
+Also in this example, we add a Symfony Finder object containing files in the `dist` directory to the configuration using the `setAssets` method.  This informs Mannequin that these assets should be packaged into any snapshots it generates.  You don't need to do this to use the live development server, but if you forget, your CSS and Javascript will be missing when you take a snapshot.
  
 ## Extensions
 

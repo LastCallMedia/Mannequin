@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - (Core) Better error messages for missing/broken config files - [#75](https://github.com/LastCallMedia/Mannequin/issues/75).
 - (Core) Add helpful tips for the server start command [#79](https://github.com/LastCallMedia/Mannequin/issues/79)
 
+### Added
+- (Core) Docroot setting added to configuration using the `setDocroot` method on the `MannequinConfig` object.
+
 ## 1.0.3
 ### Added
 - (Core) Pass logger to Discoverers that implement LoggerAwareInterface.
