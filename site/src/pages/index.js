@@ -94,8 +94,6 @@ function AboutProductPane() {
         <div className="shot-casing">
         <div className="shot"></div>
         </div>
-        <BubbleLayer>
-        </BubbleLayer>
       </BubbleLayerBoundary>
     </div>
   )
