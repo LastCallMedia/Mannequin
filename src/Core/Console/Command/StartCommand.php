@@ -11,6 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Console\Command;
 
+use LastCall\Mannequin\Core\Config\ConfigInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,23 +23,27 @@ use Symfony\Component\Process\ProcessBuilder;
 
 class StartCommand extends Command
 {
-    private $autoloadPath;
+    private $debug;
+
+    private $config;
 
     private $configFile;
 
-    private $debug;
+    private $autoloadFile;
 
     private $processBuilder;
 
     public function __construct(
         $name,
+        ConfigInterface $config,
         string $configFile,
-        string $autoloadPath,
+        string $autoloadFile,
         bool $debug = false
     ) {
         parent::__construct($name);
-        $this->autoloadPath = $autoloadPath;
+        $this->config = $config;
         $this->configFile = $configFile;
+        $this->autoloadFile = $autoloadFile;
         $this->debug = $debug;
     }
 
@@ -142,11 +147,11 @@ class StartCommand extends Command
             ->setArguments(['php', '-S', $address, $routerFile])
             ->addEnvironmentVariables([
                 'MANNEQUIN_CONFIG' => $this->configFile,
-                'MANNEQUIN_AUTOLOAD' => $this->autoloadPath,
+                'MANNEQUIN_AUTOLOAD' => $this->autoloadFile,
                 'MANNEQUIN_DEBUG' => $this->debug,
                 'MANNEQUIN_VERBOSITY' => $output->getVerbosity(),
             ])
-            ->setWorkingDirectory(dirname($this->configFile))
+            ->setWorkingDirectory($this->config->getDocroot())
             ->setTimeout(null);
 
         $process = $builder->getProcess();

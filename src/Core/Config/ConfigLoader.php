@@ -11,8 +11,18 @@
 
 namespace LastCall\Mannequin\Core\Config;
 
+/**
+ * Loads ConfigInterface instances from PHP files.
+ */
 class ConfigLoader
 {
+    /**
+     * Loads a ConfigInterface from a PHP file.
+     *
+     * @param string $filename .mannequin.php file.
+     *
+     * @return \LastCall\Mannequin\Core\Config\ConfigInterface
+     */
     public static function load(string $filename): ConfigInterface
     {
         if (!file_exists($filename)) {
@@ -28,6 +38,12 @@ class ConfigLoader
         }
         if (!$config instanceof ConfigInterface) {
             throw new \RuntimeException(sprintf('Configuration returned from %s is not an instance of %s.', $filename, ConfigInterface::class), 1);
+        }
+        if ('' === $config->getDocroot()) {
+            $config->setDocroot(dirname($filename));
+        }
+        if ('' === $config->getCachePrefix()) {
+            $config->setCachePrefix(md5($filename));
         }
 
         return $config;

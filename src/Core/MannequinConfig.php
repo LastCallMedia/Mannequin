@@ -25,6 +25,8 @@ class MannequinConfig implements ConfigInterface
     private $js = [];
     private $extensions = [];
     private $ui;
+    private $cachePrefix = '';
+    private $docroot = '';
 
     public function __construct(array $values = [])
     {
@@ -147,5 +149,29 @@ class MannequinConfig implements ConfigInterface
     public function getAssets(): \Traversable
     {
         return $this->assets;
+    }
+
+    public function getDocroot(): string
+    {
+        return $this->docroot;
+    }
+
+    public function setDocroot(string $docroot): ConfigInterface
+    {
+        $this->docroot = $docroot;
+
+        return $this;
+    }
+
+    public function getCachePrefix(): string
+    {
+        return $this->cachePrefix;
+    }
+
+    public function setCachePrefix(string $prefix): ConfigInterface
+    {
+        $this->cachePrefix = $prefix;
+
+        return $this;
     }
 }

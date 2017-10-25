@@ -32,12 +32,11 @@ if (is_file($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$_SERVER['SCRIPT_NAME'
 $_SERVER['SCRIPT_FILENAME'] = __FILE__;
 
 $output = new ConsoleOutput(getenv('MANNEQUIN_VERBOSITY'));
-$app = new Mannequin([
+
+$config = ConfigLoader::load(getenv('MANNEQUIN_CONFIG'));
+$app = new Mannequin($config, [
     'debug' => getenv('MANNEQUIN_DEBUG') ?? false,
     'logger' => new ConsoleLogger($output),
-    'config' => ConfigLoader::load(getenv('MANNEQUIN_CONFIG')),
-    'config_file' => realpath(getenv('MANNEQUIN_CONFIG')),
-    'autoload_path' => realpath(getenv('MANNEQUIN_AUTOLOAD')),
 ]);
 
 $app->run();

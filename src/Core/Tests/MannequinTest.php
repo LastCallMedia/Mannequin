@@ -11,11 +11,12 @@
 
 namespace LastCall\Mannequin\Core\Tests;
 
-use LastCall\Mannequin\Core\Config\ConfigLoader;
+use LastCall\Mannequin\Core\Config\ConfigInterface;
 use LastCall\Mannequin\Core\Console\Command\DebugCommand;
 use LastCall\Mannequin\Core\Mannequin;
 use LastCall\Mannequin\Core\Console\Command\SnapshotCommand;
 use LastCall\Mannequin\Core\Console\Command\StartCommand;
+use LastCall\Mannequin\Core\MannequinConfig;
 use LastCall\Mannequin\Core\Ui\Controller\ManifestController;
 use LastCall\Mannequin\Core\Ui\Controller\RenderController;
 use LastCall\Mannequin\Core\Ui\Controller\StaticFileController;
@@ -26,7 +27,7 @@ class MannequinTest extends TestCase
 {
     public function testHasExpectedRoutes()
     {
-        $application = new Mannequin();
+        $application = new Mannequin(new MannequinConfig());
         $application->flush();
         /** @var \Symfony\Component\Routing\RouteCollection $routes */
         $routes = $application['routes'];
@@ -40,10 +41,9 @@ class MannequinTest extends TestCase
 
     public function testHasCommands()
     {
-        $application = new Mannequin([
-            'config' => ConfigLoader::load(__DIR__.'/Resources/bare-config.php'),
-            'config_file' => __DIR__.'/Resources/bare-config.php',
-            'autoload_path' => __FILE__,
+        $application = new Mannequin(new MannequinConfig(), [
+            'config_file' => '',
+            'autoload_file' => '',
         ]);
         $commands = $application['commands'];
         $names = [];
@@ -59,61 +59,42 @@ class MannequinTest extends TestCase
 
     public function testHasManifestController()
     {
-        $application = new Mannequin([
-            'config' => ConfigLoader::load(__DIR__.'/Resources/bare-config.php'),
-        ]);
+        $application = new Mannequin(new MannequinConfig());
         $this->assertInstanceOf(ManifestController::class, $application['controller.manifest']);
     }
 
     public function testHasRenderController()
     {
-        $application = new Mannequin([
-            'config' => ConfigLoader::load(__DIR__.'/Resources/bare-config.php'),
-        ]);
+        $application = new Mannequin(new MannequinConfig());
         $this->assertInstanceOf(RenderController::class, $application['controller.render']);
     }
 
     public function testHasStaticController()
     {
-        $application = new Mannequin([
-            'config' => ConfigLoader::load(__DIR__.'/Resources/bare-config.php'),
-            'config_file' => __DIR__.'/Resources/bare-config.php',
-        ]);
+        $application = new Mannequin(new MannequinConfig());
         $this->assertInstanceOf(StaticFileController::class, $application['controller.static']);
     }
 
     public function testHasConfig()
     {
-        $config = ConfigLoader::load(__DIR__.'/Resources/bare-config.php');
-        $application = new Mannequin([
-            'config' => $config,
-        ]);
+        $config = new MannequinConfig();
+        $application = new Mannequin($config);
         $this->assertSame($config, $application->getConfig());
-    }
-
-    /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Config property must be provided
-     */
-    public function testThrowsForNonexistentConfigFile()
-    {
-        $application = new Mannequin();
-        $application->getConfig();
     }
 
     public function testHasCacheDirectory()
     {
-        $application = new Mannequin([
-            'config_file' => 'foo',
-        ]);
-        $this->assertEquals(sys_get_temp_dir().'/mannequin/'.md5('foo'), $application->getCacheDir());
+        $config = $this->prophesize(ConfigInterface::class);
+        $config->getCachePrefix()->willReturn('foo');
+        $application = new Mannequin($config->reveal());
+        $this->assertEquals(sys_get_temp_dir().'/mannequin/foo', $application->getCacheDir());
     }
 
     public function testHasCache()
     {
-        $application = new Mannequin([
-            'config_file' => 'foo',
-        ]);
+        $config = $this->prophesize(ConfigInterface::class);
+        $config->getCachePrefix()->willReturn('foo');
+        $application = new Mannequin($config->reveal());
         $this->assertEquals(
             new FilesystemAdapter('', 0, $application->getCacheDir().'/cache'),
             $application->getCache()

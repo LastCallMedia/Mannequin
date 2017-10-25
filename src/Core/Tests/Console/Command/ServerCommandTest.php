@@ -11,6 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Tests\Console\Command;
 
+use LastCall\Mannequin\Core\Config\ConfigInterface;
 use LastCall\Mannequin\Core\Console\Command\StartCommand;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Helper\DebugFormatterHelper;
@@ -38,7 +39,9 @@ class ServerCommandTest extends TestCase
      */
     public function testCommandIo($inputAddress, $expectedListenAddress)
     {
-        $command = new StartCommand('server', __FILE__, __FILE__);
+        $config = $this->prophesize(ConfigInterface::class);
+        $config->getDocroot()->willReturn(__DIR__);
+        $command = new StartCommand('server', $config->reveal(), __FILE__, __FILE__);
         $command->setHelperSet(new HelperSet([
             new ProcessHelper(),
             new DebugFormatterHelper(),
@@ -91,7 +94,8 @@ class ServerCommandTest extends TestCase
      */
     public function testInvalidPort()
     {
-        $command = new StartCommand('server', __FILE__, __FILE__);
+        $config = $this->prophesize(ConfigInterface::class);
+        $command = new StartCommand('server', $config->reveal(), __FILE__, __FILE__);
         $command->setHelperSet(new HelperSet([
             new ProcessHelper(),
             new DebugFormatterHelper(),
