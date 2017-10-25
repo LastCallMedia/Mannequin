@@ -14,6 +14,10 @@ namespace LastCall\Mannequin\Core\Config;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Ui\UiInterface;
 
+/**
+ * Represents a Mannequin configuration, typically returned from a
+ * .mannequin.php file.
+ */
 interface ConfigInterface
 {
     /**
@@ -21,15 +25,51 @@ interface ConfigInterface
      */
     public function getExtensions(): array;
 
+    /**
+     * Get the UI object this configuration uses.
+     *
+     * @return \LastCall\Mannequin\Core\Ui\UiInterface
+     */
     public function getUi(): UiInterface;
 
+    /**
+     * Get the CSS paths/urls that are used for all components rendered by this
+     * configuration.
+     *
+     * @return array
+     */
     public function getGlobalCss(): array;
 
+    /**
+     * Get the javascript paths/urls that are used for all components rendered
+     * by this configuration.
+     *
+     * @return array
+     */
     public function getGlobalJs(): array;
 
+    /**
+     * Get a traversable list of the assets that should be copied to any
+     * snapshots rendered under this configuration.
+     *
+     * @return \Traversable
+     */
     public function getAssets(): \Traversable;
 
-    public function getCid(): string;
+    /**
+     * Get an identifier to use for distinguishing cache entries stored for
+     * multiple Mannequin projects.
+     *
+     * @return string
+     */
+    public function getCachePrefix(): string;
 
+    /**
+     * Get the path to use as the docroot for this configuration.
+     *
+     * Relative asset paths are resolved from this path.
+     *
+     * @return string
+     */
     public function getDocroot(): string;
 }

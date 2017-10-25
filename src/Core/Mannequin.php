@@ -79,7 +79,7 @@ class Mannequin extends Application
             return new LogListener($this['logger']);
         };
         $this['cache_dir'] = function () use ($config) {
-            return sprintf('%s/mannequin/%s', sys_get_temp_dir(), $config->getCid());
+            return sprintf('%s/mannequin/%s', sys_get_temp_dir(), $config->getCachePrefix());
         };
         $this['cache'] = function () {
             return new FilesystemAdapter('', 0, $this['cache_dir'].'/cache');

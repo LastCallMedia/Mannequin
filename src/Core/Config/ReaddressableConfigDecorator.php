@@ -68,9 +68,9 @@ class ReaddressableConfigDecorator implements ReaddressableConfigInterface
         return $this->inner->getAssets();
     }
 
-    public function getCid(): string
+    public function getCachePrefix(): string
     {
-        $innerCid = $this->inner->getCid();
+        $innerCid = $this->inner->getCachePrefix();
         if ('' === $innerCid) {
             return md5($this->sourceFile);
         }

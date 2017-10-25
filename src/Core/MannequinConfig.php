@@ -155,7 +155,7 @@ class MannequinConfig implements ConfigInterface
         return $this->docroot;
     }
 
-    public function getCid(): string
+    public function getCachePrefix(): string
     {
         return '';
     }
