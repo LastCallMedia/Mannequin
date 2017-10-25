@@ -57,21 +57,27 @@ function HomepageHero() {
           </li>
         </ul>
       </div>
-      <BubbleLayer travel={100}>
-          <Bubble size={40} thickness={4} duration={10} blur={3} left='0' bottom="0" />
-          <Bubble size={29} thickness={3} duration={9} blur={3} top="87px" right="25%" />
-      </BubbleLayer>
-      <BubbleLayer travel={50}>
-        <BubbleCluster duration={8} left="180px" top="12px">
-          <Bubble size={5} thickness={2} />
-          <Bubble size={9} thickness={2} />
-        </BubbleCluster>
-        <Bubble size={18} thickness={2} duration={8} left="50%" top="54px" />
-        <Bubble size={8} thickness={2} duration={5} right="20%" bottom="-73px" />
-      </BubbleLayer>
-      <BubbleLayer travel={20}>
 
+      <BubbleLayer travel={5}>
+          <Bubble size={130} thickness={20} duration={35} blur={2} top="110%" left='0' bottom="0" opacity={.45} />
+          <Bubble size={38} thickness={11} duration={9} blur={2} top="100%" right="6%" opacity={.45}/>
       </BubbleLayer>
+
+      <BubbleLayer travel={15}>
+        <Bubble size={85} thickness={13} duration={15} blur={6} top="105%" left="4%" opacity={.25}/>
+        <Bubble size={75} thickness={13} duration={10} blur={6} top="30%" right="13%" opacity={.25}/>
+      </BubbleLayer>
+
+      <BubbleLayer travel={30}>
+        <Bubble size={35} thickness={8} duration={9} blur={4} top="15%" left="15%" opacity={.07} />
+        <BubbleCluster duration={15} left="40%" top="110%">
+          <Bubble size={30} thickness={10}  blur={5} opacity={.07}/>
+          <Bubble size={40} thickness={13} blur={5} opacity={.07}/>
+        </BubbleCluster>
+      </BubbleLayer>
+      
+    
+
     </BubbleLayerBoundary>
   )
 }
@@ -88,9 +94,6 @@ function AboutProductPane() {
         <div className="shot-casing">
         <div className="shot"></div>
         </div>
-        <BubbleLayer travel={40}>
-          <Bubble size={30} thickness={3} duration={6} left="52%" bottom="0" />
-        </BubbleLayer>
       </BubbleLayerBoundary>
     </div>
   )
