@@ -62,4 +62,24 @@ class ConfigLoaderTest extends TestCase
         $config = ConfigLoader::load($dir->getChild('foo')->url());
         $this->assertInstanceOf(MannequinConfig::class, $config);
     }
+
+    public function testSetsDocroot()
+    {
+        $root = vfsStream::setup(__FUNCTION__);
+        $dir = vfsStream::create([
+            'foo' => "<?php\nreturn new \LastCall\Mannequin\Core\MannequinConfig();",
+        ], $root);
+        $config = ConfigLoader::load($dir->getChild('foo')->url());
+        $this->assertEquals($root->url(), $config->getDocroot());
+    }
+
+    public function testSetsCid()
+    {
+        $root = vfsStream::setup(__FUNCTION__);
+        $dir = vfsStream::create([
+            'foo' => "<?php\nreturn new \LastCall\Mannequin\Core\MannequinConfig();",
+        ], $root);
+        $config = ConfigLoader::load($dir->getChild('foo')->url());
+        $this->assertEquals(md5($root->getChild('foo')->url()), $config->getCachePrefix());
+    }
 }

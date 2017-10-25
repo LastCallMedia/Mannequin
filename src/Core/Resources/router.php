@@ -33,7 +33,7 @@ $_SERVER['SCRIPT_FILENAME'] = __FILE__;
 
 $output = new ConsoleOutput(getenv('MANNEQUIN_VERBOSITY'));
 
-$config = ConfigLoader::loadReaddressable(getenv('MANNEQUIN_CONFIG'), getenv('MANNEQUIN_AUTOLOAD'));
+$config = ConfigLoader::load(getenv('MANNEQUIN_CONFIG'));
 $app = new Mannequin($config, [
     'debug' => getenv('MANNEQUIN_DEBUG') ?? false,
     'logger' => new ConsoleLogger($output),

@@ -39,34 +39,13 @@ class ConfigLoader
         if (!$config instanceof ConfigInterface) {
             throw new \RuntimeException(sprintf('Configuration returned from %s is not an instance of %s.', $filename, ConfigInterface::class), 1);
         }
-
-        return $config;
-    }
-
-    /**
-     * Loads a ReaddressableConfigInterface from a PHP file.
-     *
-     * In most cases, what gets returned from the PHP file will be a
-     * ConfigInterface.  It's up to us to wrap it in an object that knows
-     * how to recreate itself from scratch in a new process.
-     *
-     * @see \LastCall\Mannequin\Core\Config\ReaddressableConfigInterface
-     *
-     * @param string $filename     .mannequin.php file.
-     * @param string $autoloadFile Composer autoload.php file
-     *
-     * @return \LastCall\Mannequin\Core\Config\ReaddressableConfigInterface
-     */
-    public static function loadReaddressable(string $filename, string $autoloadFile): ReaddressableConfigInterface
-    {
-        $config = self::load($filename);
-
-        // If for some reason the user returns a ReaddressableConfigInterface
-        // directly, just pass that along.
-        if ($config instanceof ReaddressableConfigInterface) {
-            return $config;
+        if ('' === $config->getDocroot()) {
+            $config->setDocroot(dirname($filename));
+        }
+        if ('' === $config->getCachePrefix()) {
+            $config->setCachePrefix(md5($filename));
         }
 
-        return new ReaddressableConfigDecorator($config, realpath($filename), $autoloadFile);
+        return $config;
     }
 }

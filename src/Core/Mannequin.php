@@ -48,6 +48,12 @@ class Mannequin extends Application
             'logger' => function () {
                 return new NullLogger();
             },
+            'config_file' => function () {
+                throw new \InvalidArgumentException('`config_file` must be set.');
+            },
+            'autoload_file' => function () {
+                throw new \RuntimeException('`autoload_file` must be set.');
+            },
         ];
         parent::__construct($values);
         $this['config'] = $config;
@@ -65,6 +71,8 @@ class Mannequin extends Application
                 new StartCommand(
                     'start',
                     $config,
+                    $this['config_file'],
+                    $this['autoload_file'],
                     $this['debug']
                 ),
                 new DebugCommand(

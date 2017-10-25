@@ -41,7 +41,10 @@ class MannequinTest extends TestCase
 
     public function testHasCommands()
     {
-        $application = new Mannequin(new MannequinConfig());
+        $application = new Mannequin(new MannequinConfig(), [
+            'config_file' => '',
+            'autoload_file' => '',
+        ]);
         $commands = $application['commands'];
         $names = [];
         foreach ($commands as $command) {
@@ -82,7 +85,7 @@ class MannequinTest extends TestCase
     public function testHasCacheDirectory()
     {
         $config = $this->prophesize(ConfigInterface::class);
-        $config->getCid()->willReturn('foo');
+        $config->getCachePrefix()->willReturn('foo');
         $application = new Mannequin($config->reveal());
         $this->assertEquals(sys_get_temp_dir().'/mannequin/foo', $application->getCacheDir());
     }
@@ -90,7 +93,7 @@ class MannequinTest extends TestCase
     public function testHasCache()
     {
         $config = $this->prophesize(ConfigInterface::class);
-        $config->getCid()->willReturn('foo');
+        $config->getCachePrefix()->willReturn('foo');
         $application = new Mannequin($config->reveal());
         $this->assertEquals(
             new FilesystemAdapter('', 0, $application->getCacheDir().'/cache'),

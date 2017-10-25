@@ -65,6 +65,16 @@ interface ConfigInterface
     public function getCachePrefix(): string;
 
     /**
+     * Set the identifier to use for distinguishing cache entries stored for
+     * multiple Mannequin projects.
+     *
+     * @param string $prefix
+     *
+     * @return static
+     */
+    public function setCachePrefix(string $prefix): ConfigInterface;
+
+    /**
      * Get the path to use as the docroot for this configuration.
      *
      * Relative asset paths are resolved from this path.
@@ -72,4 +82,13 @@ interface ConfigInterface
      * @return string
      */
     public function getDocroot(): string;
+
+    /**
+     * Set the path to use as the docroot for this configuration.
+     *
+     * @param string $docroot
+     *
+     * @return static
+     */
+    public function setDocroot(string $docroot): ConfigInterface;
 }

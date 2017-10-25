@@ -12,7 +12,6 @@
 namespace LastCall\Mannequin\Core\Console\Command;
 
 use LastCall\Mannequin\Core\Config\ConfigInterface;
-use LastCall\Mannequin\Core\Config\ReaddressableConfigInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,15 +27,23 @@ class StartCommand extends Command
 
     private $config;
 
+    private $configFile;
+
+    private $autoloadFile;
+
     private $processBuilder;
 
     public function __construct(
         $name,
         ConfigInterface $config,
+        string $configFile,
+        string $autoloadFile,
         bool $debug = false
     ) {
         parent::__construct($name);
         $this->config = $config;
+        $this->configFile = $configFile;
+        $this->autoloadFile = $autoloadFile;
         $this->debug = $debug;
     }
 
@@ -133,18 +140,14 @@ class StartCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!$this->config instanceof ReaddressableConfigInterface) {
-            throw new \RuntimeException('This configuration cannot be used for the development server because it is not readdressable.');
-        }
-
         $address = $this->validateAddress($input->getArgument('address'));
 
         $routerFile = realpath(__DIR__.'/../../Resources/router.php');
         $builder = $this->getProcessBuilder()
             ->setArguments(['php', '-S', $address, $routerFile])
             ->addEnvironmentVariables([
-                'MANNEQUIN_CONFIG' => $this->config->getSourceFile(),
-                'MANNEQUIN_AUTOLOAD' => $this->config->getAutoloadFile(),
+                'MANNEQUIN_CONFIG' => $this->configFile,
+                'MANNEQUIN_AUTOLOAD' => $this->autoloadFile,
                 'MANNEQUIN_DEBUG' => $this->debug,
                 'MANNEQUIN_VERBOSITY' => $output->getVerbosity(),
             ])
