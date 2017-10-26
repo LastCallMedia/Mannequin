@@ -63,6 +63,7 @@ $config = MannequinConfig::create()
     '{path_to_docroot}/core/assets/vendor/domready/ready.min.js',
     '{path_to_docroot}/core/misc/drupal.js',
     '{path_to_docroot}/core/misc/drupal.init.js',
+    // {path_to_docroot}/core/assets/vendor/jquery/jquery.min.js,
     // Any other javascript files you may need.
   ]);
 ```
