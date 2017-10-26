@@ -14,6 +14,11 @@ namespace LastCall\Mannequin\Twig\Driver;
 use LastCall\Mannequin\Twig\Twig\Lexer;
 use LastCall\Mannequin\Twig\Twig\MannequinExtension;
 
+/**
+ * Uses a Twig_Environment that is already created.
+ *
+ * This driver is mostly used for testing.
+ */
 class PreloadedTwigDriver implements TwigDriverInterface
 {
     private $twig;

@@ -27,6 +27,13 @@ use LastCall\Mannequin\Twig\Twig\MannequinExtension;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 
+/**
+ * Creates a Drupal-like Twig_Environment.
+ *
+ * This driver adds the following above and beyond the simple driver:
+ *   * Drupal Twig functions.
+ *   * Drupal Twig namespaces (modules and themes)
+ */
 class DrupalTwigDriver extends SimpleTwigDriver
 {
     private $booted;
@@ -47,11 +54,17 @@ class DrupalTwigDriver extends SimpleTwigDriver
         $this->cache = $cache ?: new NullAdapter();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getTwigRoot(): string
     {
         return $this->drupalRoot;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function createTwig(): \Twig_Environment
     {
         $this->boot();

@@ -36,6 +36,9 @@ class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctio
         $this->twigOptions = $config['twig_options'] ?? [];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getFunctions()
     {
         $attributes = new ExpressionFunction('attributes', function ($args) {
@@ -47,11 +50,17 @@ class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctio
         return [$attributes];
     }
 
-    protected function getIterator(): \Traversable
+    /**
+     * {@inheritdoc}
+     */
+    protected function getTemplateFilenameIterator(): \Traversable
     {
         return $this->iterator;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getDriver(): TwigDriverInterface
     {
         if (!$this->driver) {

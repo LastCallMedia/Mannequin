@@ -23,6 +23,9 @@ use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
 
 abstract class AbstractTwigExtension extends AbstractExtension
 {
+    /**
+     * {@inheritdoc}
+     */
     public function getDiscoverers(): array
     {
         return [
@@ -32,6 +35,9 @@ abstract class AbstractTwigExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getEngines(): array
     {
         return [
@@ -39,6 +45,9 @@ abstract class AbstractTwigExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function subscribe(EventDispatcherInterface $dispatcher)
     {
         $dispatcher->addSubscriber(
@@ -49,14 +58,29 @@ abstract class AbstractTwigExtension extends AbstractExtension
         );
     }
 
+    /**
+     * Return an iterator that contains a list of twig template names that we
+     * want to treat as components.
+     *
+     * This is formulated by taking an iterator of template filenames, and
+     * adding the template name mapper in a way that it gets invoked for each
+     * name in turn.
+     *
+     * @return \LastCall\Mannequin\Core\Iterator\MappingCallbackIterator
+     */
     protected function getTemplateNameIterator()
     {
-        $iterator = $this->getIterator();
+        $iterator = $this->getTemplateFilenameIterator();
         $mapper = $this->getTemplateNameMapper();
 
         return new MappingCallbackIterator($iterator, $mapper);
     }
 
+    /**
+     * Return a callable that knows how to map a filename to a template name.
+     *
+     * @see \LastCall\Mannequin\Twig\TemplateNameMapper
+     */
     protected function getTemplateNameMapper()
     {
         $driver = $this->getDriver();
@@ -68,7 +92,18 @@ abstract class AbstractTwigExtension extends AbstractExtension
         return $mapper;
     }
 
+    /**
+     * Return the Driver that this extension uses.
+     *
+     * @return \LastCall\Mannequin\Twig\Driver\TwigDriverInterface
+     */
     abstract protected function getDriver(): TwigDriverInterface;
 
-    abstract protected function getIterator(): \Traversable;
+    /**
+     * Return a \Traversable object containing the template filenames we want
+     * to treat as components.
+     *
+     * @return \Traversable
+     */
+    abstract protected function getTemplateFilenameIterator(): \Traversable;
 }

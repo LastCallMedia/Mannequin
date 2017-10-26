@@ -37,11 +37,17 @@ class TwigExtension extends AbstractTwigExtension
         $this->twigOptions = $config['twig_options'] ?? [];
     }
 
-    protected function getIterator(): \Traversable
+    /**
+     * {@inheritdoc}
+     */
+    protected function getTemplateFilenameIterator(): \Traversable
     {
         return $this->iterator;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getDriver(): TwigDriverInterface
     {
         if (!$this->driver) {

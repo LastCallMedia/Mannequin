@@ -14,6 +14,9 @@ namespace LastCall\Mannequin\Twig\Driver;
 use LastCall\Mannequin\Twig\Twig\Lexer;
 use LastCall\Mannequin\Twig\Twig\MannequinExtension;
 
+/**
+ * Knows how to create a simple Twig_Environment with a known root and options.
+ */
 class SimpleTwigDriver implements TwigDriverInterface
 {
     private $twigRoot;
