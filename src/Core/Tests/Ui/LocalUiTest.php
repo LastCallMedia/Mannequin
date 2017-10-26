@@ -33,7 +33,7 @@ class LocalUiTest extends TestCase
                         'main.css' => 'CSS',
                     ],
                 ],
-            ]
+            ],
         ]);
     }
 
