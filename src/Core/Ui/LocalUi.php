@@ -52,7 +52,7 @@ EOD;
 
     protected function uiPath($relativePath = '')
     {
-        return rtrim(sprintf('%s/%s', $this->uiPath, $relativePath), '/');
+        return rtrim(sprintf('%s/build/%s', $this->uiPath, $relativePath), '/');
     }
 
     public function isUiFile(string $path): bool

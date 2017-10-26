@@ -11,6 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Ui;
 
+use LastCall\Mannequin\Core\Rendered;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,8 +23,19 @@ use Symfony\Component\HttpKernel\Exception\GoneHttpException;
  * This class is used to proxy UI file requests to the live development server
  * (webpack).
  */
-class LocalDevelopmentUi extends LocalUi
+class LocalDevelopmentUi implements UiInterface
 {
+    const TEMPLATE = <<<'EOD'
+<html>
+<head>
+  %s
+  %s
+</head>
+<body>
+  %s
+</body>
+EOD;
+
     private $parts;
 
     public function __construct($url)
@@ -82,5 +94,31 @@ class LocalDevelopmentUi extends LocalUi
         }
 
         return $url;
+    }
+
+    public function decorateRendered(Rendered $rendered): string
+    {
+        return sprintf(
+            self::TEMPLATE,
+            $this->mapAssets(
+                $rendered->getJs(),
+                '<script type="text/javascript" src="%s"></script>'
+            ),
+            $this->mapAssets(
+                $rendered->getCss(),
+                '<link rel="stylesheet" href="%s" />'
+            ),
+            $rendered->getMarkup()
+        );
+    }
+
+    private function mapAssets($assets, $component)
+    {
+        $tags = [];
+        foreach ($assets as $asset) {
+            $tags[] = sprintf($component, $asset);
+        }
+
+        return implode("\n", $tags);
     }
 }
