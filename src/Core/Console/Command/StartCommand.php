@@ -23,6 +23,8 @@ use Symfony\Component\Process\ProcessBuilder;
 
 class StartCommand extends Command
 {
+    use ChecksConfig;
+
     private $debug;
 
     private $config;
@@ -140,7 +142,12 @@ class StartCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new SymfonyStyle($input, $output);
         $address = $this->validateAddress($input->getArgument('address'));
+        $warnings = $this->checkConfig($this->config, $io);
+        if ($warnings) {
+            $io->warning(array_merge(['There were possible problems found with your configuration:'], $warnings));
+        }
 
         $routerFile = realpath(__DIR__.'/../../Resources/router.php');
         $builder = $this->getProcessBuilder()
@@ -156,7 +163,6 @@ class StartCommand extends Command
 
         $process = $builder->getProcess();
 
-        $io = new SymfonyStyle($input, $output);
         $io->title('Starting Mannequin development server...');
         $io->text('Tips:');
         $tips = [
