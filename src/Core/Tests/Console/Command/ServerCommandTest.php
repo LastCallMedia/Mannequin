@@ -11,12 +11,10 @@
 
 namespace LastCall\Mannequin\Core\Tests\Console\Command;
 
-use LastCall\Mannequin\Core\Config\ConfigInterface;
 use LastCall\Mannequin\Core\Console\Command\StartCommand;
+use LastCall\Mannequin\Core\MannequinConfig;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Console\Helper\DebugFormatterHelper;
-use Symfony\Component\Console\Helper\HelperSet;
-use Symfony\Component\Console\Helper\ProcessHelper;
+use Prophecy\Argument;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
@@ -39,13 +37,9 @@ class ServerCommandTest extends TestCase
      */
     public function testCommandIo($inputAddress, $expectedListenAddress)
     {
-        $config = $this->prophesize(ConfigInterface::class);
-        $config->getDocroot()->willReturn(__DIR__);
-        $command = new StartCommand('server', $config->reveal(), __FILE__, __FILE__);
-        $command->setHelperSet(new HelperSet([
-            new ProcessHelper(),
-            new DebugFormatterHelper(),
-        ]));
+        $config = new MannequinConfig();
+        $config->setDocroot(__DIR__);
+        $command = new StartCommand('server', $config, __FILE__, __FILE__);
         $builder = $this->prophesize(ProcessBuilder::class);
         $builder
             ->setArguments([
@@ -94,15 +88,28 @@ class ServerCommandTest extends TestCase
      */
     public function testInvalidPort()
     {
-        $config = $this->prophesize(ConfigInterface::class);
-        $command = new StartCommand('server', $config->reveal(), __FILE__, __FILE__);
-        $command->setHelperSet(new HelperSet([
-            new ProcessHelper(),
-            new DebugFormatterHelper(),
-        ]));
+        $config = new MannequinConfig();
+        $command = new StartCommand('server', $config, __FILE__, __FILE__);
         $builder = $this->prophesize(ProcessBuilder::class);
         $command->setProcessBuilder($builder->reveal());
         $tester = new CommandTester($command);
         $tester->execute(['address' => 'test:test']);
+    }
+
+    public function testOutputsConfigWarning()
+    {
+        $config = new MannequinConfig();
+        $command = new StartCommand('server', $config, __FILE__, __FILE__);
+        $builder = $this->prophesize(ProcessBuilder::class);
+        $builder->setArguments(Argument::cetera())->willReturn($builder);
+        $builder->addEnvironmentVariables(Argument::cetera())->willReturn($builder);
+        $builder->setWorkingDirectory(Argument::cetera())->willReturn($builder);
+        $builder->setTimeout(Argument::cetera())->willReturn($builder);
+        $builder->getProcess()->willReturn(new Process('/bin/true'));
+
+        $command->setProcessBuilder($builder->reveal());
+        $tester = new CommandTester($command);
+        $tester->execute(['address' => '*:8000']);
+        $this->assertContains('This configuration does not have any extensions associated with it', $tester->getDisplay());
     }
 }
