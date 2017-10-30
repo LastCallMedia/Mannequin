@@ -1,0 +1,34 @@
+
+@import "../scss/init";
+
+.WizardTabs {
+  list-style: none;
+  margin: 0;
+  @include clearfix;
+
+  li {
+    @include tabs-title();
+  }
+}
+
+.WizardConfig {
+  text-align: left;
+  form {
+    label {
+      color: white;
+    }
+  }
+  ol {
+    list-style-type: none;
+    margin: 0;
+    counter-reset: step-counter;
+    li {
+      &:before {
+        content: counter(step-counter);
+        counter-increment: step-counter;
+        display: inline-block;
+      }
+    }
+    pre { display: inline-block; }
+  }
+}
