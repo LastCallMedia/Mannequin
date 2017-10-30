@@ -14,6 +14,7 @@ namespace LastCall\Mannequin\Drupal;
 use Drupal\Core\Template\Attribute;
 use LastCall\Mannequin\Core\Mannequin;
 use LastCall\Mannequin\Drupal\Driver\DrupalTwigDriver;
+use LastCall\Mannequin\Drupal\Drupal\MannequinExtensionDiscovery;
 use LastCall\Mannequin\Twig\AbstractTwigExtension;
 use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
@@ -27,6 +28,7 @@ class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctio
     private $iterator;
     private $drupalRoot;
     private $twigOptions;
+    private $twigNamespaces = [];
     private $driver;
 
     public function __construct(array $config = [])
@@ -34,6 +36,7 @@ class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctio
         $this->iterator = $config['finder'] ?: new \ArrayIterator([]);
         $this->drupalRoot = $config['drupal_root'] ?? getcwd();
         $this->twigOptions = $config['twig_options'] ?? [];
+        $this->twigNamespaces = $config['twig_namespaces'] ?? [];
     }
 
     /**
@@ -64,13 +67,16 @@ class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctio
     protected function getDriver(): TwigDriverInterface
     {
         if (!$this->driver) {
+            $discovery = new MannequinExtensionDiscovery($this->drupalRoot, $this->mannequin->getCache());
+
             if (!isset($this->twigOptions['cache'])) {
                 $this->twigOptions['cache'] = $this->mannequin->getCacheDir();
             }
             $this->driver = new DrupalTwigDriver(
                 $this->drupalRoot,
+                $discovery,
                 $this->twigOptions,
-                $this->mannequin->getCache()
+                $this->twigNamespaces
             );
         }
 

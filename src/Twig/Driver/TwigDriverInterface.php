@@ -28,32 +28,22 @@ interface TwigDriverInterface
     public function getTwig(): \Twig_Environment;
 
     /**
-     * Returns an array of the namespaces known by this driver.
+     * Sets the the Twig cache to use for the environment.
      *
-     * The namespaces will be used to map filenames to (namespaced) template
-     * names.  It is assumed that these namespaces are already known by the
-     * loader.
+     * @param \Twig_CacheInterface $cache
      *
-     * Returned namespaces should be in the form:
-     *
-     * ```php
-     * [
-     *   '@somenamespace' => ['templates/somenamespace'],
-     *   '@othernamespace' => ['templates/othernamespace']
-     * ];
-     * ```
-     *
-     * @return array
+     * @return mixed
      */
-    public function getNamespaces(): array;
+    public function setCache(\Twig_CacheInterface $cache);
 
     /**
-     * Returns the root path all Twig templates live under (typically the
-     * docroot).
+     * Return a callable that can be invoked to map an input template name to
+     * the a loadable template.
      *
-     * @todo: Is this needed, or can it be calculated elsewhere?
+     * This callable may be invoked many times during a single request, so this
+     * callback is performance sensitive.
      *
-     * @return string
+     * @return callable
      */
-    public function getTwigRoot(): string;
+    public function getTemplateNameMapper(): callable;
 }

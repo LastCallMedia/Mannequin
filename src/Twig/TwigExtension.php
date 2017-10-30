@@ -22,7 +22,8 @@ class TwigExtension extends AbstractTwigExtension
     private $iterator;
     private $twigRoot;
     private $twigOptions;
-    private $driver;
+    private $twigNamespaces;
+    protected $driver;
 
     public function __construct(array $config = [])
     {
@@ -35,6 +36,7 @@ class TwigExtension extends AbstractTwigExtension
         }
         $this->twigRoot = $config['twig_root'] ?? getcwd();
         $this->twigOptions = $config['twig_options'] ?? [];
+        $this->twigNamespaces = $config['twig_namespaces'] ?? [];
     }
 
     /**
@@ -51,13 +53,12 @@ class TwigExtension extends AbstractTwigExtension
     protected function getDriver(): TwigDriverInterface
     {
         if (!$this->driver) {
-            if (!isset($this->twigOptions['cache'])) {
-                $this->twigOptions['cache'] = $this->mannequin->getCacheDir().'/twig';
-            }
             $this->driver = new SimpleTwigDriver(
                 $this->twigRoot,
-                $this->twigOptions
+                $this->twigOptions,
+                $this->twigNamespaces
             );
+            $this->driver->setCache(new \Twig_Cache_Filesystem($this->mannequin->getCacheDir().'/twig'));
         }
 
         return $this->driver;

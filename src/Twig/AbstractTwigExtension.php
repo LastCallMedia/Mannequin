@@ -30,7 +30,7 @@ abstract class AbstractTwigExtension extends AbstractExtension
     {
         return [
             new TwigDiscovery(
-                $this->getDriver(), $this->getTemplateNameIterator()
+                $this->getDriver(), $this->getIterator()
             ),
         ];
     }
@@ -62,34 +62,18 @@ abstract class AbstractTwigExtension extends AbstractExtension
      * Return an iterator that contains a list of twig template names that we
      * want to treat as components.
      *
-     * This is formulated by taking an iterator of template filenames, and
-     * adding the template name mapper in a way that it gets invoked for each
-     * name in turn.
+     * This is formulated by taking an iterator of template filenames and
+     * allowing the driver to modify them using a mapping callback.  The mapping
+     * callback will return the name the driver knows the template by.
      *
-     * @return \LastCall\Mannequin\Core\Iterator\MappingCallbackIterator
+     * @return \Traversable
      */
-    protected function getTemplateNameIterator()
+    protected function getIterator(): \Traversable
     {
-        $iterator = $this->getTemplateFilenameIterator();
-        $mapper = $this->getTemplateNameMapper();
-
-        return new MappingCallbackIterator($iterator, $mapper);
-    }
-
-    /**
-     * Return a callable that knows how to map a filename to a template name.
-     *
-     * @see \LastCall\Mannequin\Twig\TemplateNameMapper
-     */
-    protected function getTemplateNameMapper()
-    {
-        $driver = $this->getDriver();
-        $mapper = new TemplateNameMapper($driver->getTwigRoot());
-        foreach ($driver->getNamespaces() as $namespace => $paths) {
-            $mapper->addNamespace($namespace, $paths);
-        }
-
-        return $mapper;
+        return new MappingCallbackIterator(
+            $this->getTemplateFilenameIterator(),
+            $this->getDriver()->getTemplateNameMapper()
+        );
     }
 
     /**
