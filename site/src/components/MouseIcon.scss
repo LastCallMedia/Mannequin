@@ -11,6 +11,7 @@
   display: block;
   z-index: 10;
   opacity: 0.7;
+  transition: opacity 0.75s;
 
   .wheel {
     position: relative;
@@ -30,6 +31,10 @@
     animation-delay: 0s;
     animation-iteration-count: infinite;
     animation-play-state: running;
+  }
+
+  &.fade-out {
+    opacity: 0;
   }
 }
 

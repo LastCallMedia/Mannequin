@@ -13,13 +13,15 @@ import Manny from '!svg-react-loader?name=Logo!../img/Logo.svg'
 export default function IndexPage() {
   return (
     <div className="HomeWrapper">
-        <TopBar />
         <div className="Homepage">
-          <HomepageHero />
-          <MouseIcon />
-          <AboutProductPane />
-          <GettingStartedPane />
-          <FurtherReadingPane />
+            <div className="IntroPane">
+                <TopBar />
+                <HomepageHero />
+                <MouseIcon />
+            </div>
+            <AboutProductPane />
+            <GettingStartedPane />
+            <FurtherReadingPane />
         </div>
         <Footer />
     </div>
