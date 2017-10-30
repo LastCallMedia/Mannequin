@@ -52,6 +52,24 @@ The `DrupalExtension` accepts the following configuration options:
 | drupal_root | An absolute path to the base directory containing your Drupal installation.  This will be used to create a Twig filesystem loader internally. |
 | twig_options | An associative array of [options to pass to Twig](https://twig.symfony.com/api/2.x/Twig_Environment.html#method___construct).  Defaults to using a `cache` property of the Mannequin cache directory. |
 
+## Using Javascript
+
+Since javascript for Drupal sites is typically triggered by Drupal core's `Drupal.attachBehaviors()` method, it can be helpful to add a few files directly from core to Mannequin's list of global javascript files in `.mannequin.php`:
+
+```php
+$config = MannequinConfig::create()
+  ->addExtension($drupalExtension)
+  ->setGlobalJs([
+    '{path_to_docroot}/core/assets/vendor/domready/ready.min.js',
+    '{path_to_docroot}/core/misc/drupal.js',
+    '{path_to_docroot}/core/misc/drupal.init.js',
+    // {path_to_docroot}/core/assets/vendor/jquery/jquery.min.js,
+    // Any other javascript files you may need.
+  ]);
+```
+
+Adding these files to the list of global javascript will cause Drupal's `attachBehaviors` method to get called on the document once it's ready, and allow your own behaviors to trigger when it's called.
+
 ## Component Metadata
 
 The `DrupalExtension` is able to read component metadata out of a special comment directly in the Twig file.  See [Components](../docs/components.md) for more info.
