@@ -68,16 +68,13 @@ class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctio
     {
         if (!$this->driver) {
             $discovery = new MannequinExtensionDiscovery($this->drupalRoot, $this->mannequin->getCache());
-
-            if (!isset($this->twigOptions['cache'])) {
-                $this->twigOptions['cache'] = $this->mannequin->getCacheDir();
-            }
             $this->driver = new DrupalTwigDriver(
                 $this->drupalRoot,
                 $discovery,
                 $this->twigOptions,
                 $this->twigNamespaces
             );
+            $this->driver->setCache(new \Twig_Cache_Filesystem($this->mannequin->getCacheDir().'/twig'));
         }
 
         return $this->driver;

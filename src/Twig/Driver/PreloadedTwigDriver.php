@@ -14,7 +14,8 @@ namespace LastCall\Mannequin\Twig\Driver;
 /**
  * Uses a Twig_Environment that is already created.
  *
- * This driver is mostly used for testing.
+ * This driver is mostly used for testing.  It has no way to link the namespaces
+ * with the actual Twig loader.
  */
 class PreloadedTwigDriver extends AbstractTwigDriver
 {

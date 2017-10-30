@@ -15,6 +15,9 @@ use LastCall\Mannequin\Twig\TemplateNameMapper;
 use LastCall\Mannequin\Twig\Twig\Lexer;
 use LastCall\Mannequin\Twig\Twig\MannequinExtension;
 
+/**
+ * Base class Twig Drivers can extend to do less work.
+ */
 abstract class AbstractTwigDriver implements TwigDriverInterface
 {
     private $initialized;
