@@ -19,8 +19,13 @@ pre code {
   padding: rem-calc(20) rem-calc(64);
 }
 
+%capsule-shape{
+  border-radius: 9999px; /* Any impossibly large number will do, 9999 is arbitrary */
+}
+
 .button {
   // Button variants:
+  @extend %capsule-shape;
   &.dashing {
     @extend %dashing-button;
   }
