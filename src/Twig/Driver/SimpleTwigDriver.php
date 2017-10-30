@@ -48,7 +48,7 @@ class SimpleTwigDriver extends AbstractTwigDriver
 
     protected function createLoader()
     {
-        $loader = new \Twig_Loader_Filesystem([], $this->twigRoot);
+        $loader = new \Twig_Loader_Filesystem([''], $this->twigRoot);
         foreach ($this->getNamespaces() as $namespace => $paths) {
             foreach ($paths as $path) {
                 $loader->addPath($path, $namespace);
