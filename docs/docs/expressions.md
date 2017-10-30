@@ -20,3 +20,12 @@ Which expression functions are available to you depends on which extensions you 
 | `asset` | Core | ~asset('img/logo.png') | Formulates a path to a local asset. |
 | `sample` | Core | ~sample('button.twig#HeadingButton') | Renders another component sample in the current component. |
 | `attributes` | Drupal | ~attributes({class: ['foo']}) | Creates a Drupal Core `Attributes` object. |
+
+Expression functions can also be combined using the concatenation (`~`) operator to produce even more complex output.  In this example, we use the asset and rendered functions together to produce an image with a source within the codebase:
+```yaml
+# button.yml
+...
+samples:
+  ImageButton:
+    text: ~rendered('<img src="' ~ asset('img/action.png') ~ '" alt="Take action!" />')
+```
