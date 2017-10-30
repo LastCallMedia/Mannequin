@@ -25,7 +25,7 @@ $twigFinder = Finder::create()
     
 $twigExtension = new TwigExtension([
     'finder' => $htmlFinder,
-    'twig_root' => __DIR__.'/Resources/views'
+    'twig_root' => __DIR__.'/Resources/views',
 ]);
 
 return MannequinConfig::create()
@@ -41,6 +41,10 @@ The `TwigExtension` accepts the following configuration options:
 | finder | A [Symfony Finder](https://symfony.com/doc/current/components/finder.html) object that will search for the Twig template files you want to use as components. |
 | twig_root | An absolute path to the base directory containing your Twig templates.  This will be used to create a Twig filesystem loader internally. |
 | twig_options | An associative array of [options to pass to Twig](https://twig.symfony.com/api/2.x/Twig_Environment.html#method___construct).  Defaults to using a `cache` property of the Mannequin cache directory. | 
+
+## Demo
+
+See [the demo](https://github.com/LastCallMedia/Mannequin/blob/master/demo/.mannequin.php) .mannequin.php file for an example of how to configure the Twig extension.  See [this directory](https://github.com/LastCallMedia/Mannequin/tree/master/demo/templates) for example Twig templates and metadata.
 
 ## Component Metadata
 

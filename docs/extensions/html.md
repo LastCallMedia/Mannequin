@@ -44,3 +44,7 @@ The `HTMLExtension` only accepts the following configuration options:
 | --- | ----------- |
 | files | An array, or traversable containing absolute paths to component .html files. |
 | root  | An absolute path, below which all templates exist.  Used to convert absolute component file paths into relative paths. |
+
+## Demo
+
+See [the demo](https://github.com/LastCallMedia/Mannequin/blob/master/demo/.mannequin.php) .mannequin.php file for an example of how to configure the HTML extension.  See [this directory](https://github.com/LastCallMedia/Mannequin/tree/master/demo/static) for example HTML files and metadata.

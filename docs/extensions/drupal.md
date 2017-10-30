@@ -42,6 +42,11 @@ return MannequinConfig::create()
   ->addExtension($drupalExtension);
 ```
 
+## Demo
+
+Mannequin is integrated into Last Call Media's [Drupal Scaffold](https://github.com/LastCallMedia/Drupal-Scaffold) project.  See the [.mannequin.php](https://github.com/LastCallMedia/Drupal-Scaffold/blob/master/.mannequin.php) for an example to work from, and the theme's [templates directory](https://github.com/LastCallMedia/Drupal-Scaffold/tree/master/web/themes/custom/scaffold/templates) for some example templates.
+
+
 ## Configuration
 
 The `DrupalExtension` accepts the following configuration options:
@@ -72,4 +77,5 @@ Adding these files to the list of global javascript will cause Drupal's `attachB
 
 ## Component Metadata
 
-The `DrupalExtension` is able to read component metadata out of a special comment directly in the Twig file.  See [Components](../docs/components.md) for more info.
+The `DrupalExtension` is able to read component metadata out of a special comment directly in the Twig file.  See [Components](../docs/components.md) for more info.  Here is a sample template to get you started:
+
