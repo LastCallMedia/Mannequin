@@ -16,12 +16,21 @@
 .Homepage {
   margin-bottom: rem-calc(70);
 
+  .IntroPane {
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: rem-calc(80);
+  }
+
   .HomepageHero {
-    margin: 0 auto rem-calc(90);
+    margin: 0 auto;
   }
 
   .HomepageHero + .mouse-icon {
-    margin-bottom: rem-calc(90);
+    position: absolute;
+    margin-left: -12px; /* Subtracting half it's width, so any positioning will be relative to it's center, not left edge*/
+    bottom: rem-calc(20);
+    left: 50%;
   }
 
   .AboutProductPane {
