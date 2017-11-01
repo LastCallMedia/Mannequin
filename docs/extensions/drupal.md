@@ -77,5 +77,4 @@ Adding these files to the list of global javascript will cause Drupal's `attachB
 
 ## Component Metadata
 
-The `DrupalExtension` is able to read component metadata out of a special comment directly in the Twig file.  See [Components](../docs/components.md) for more info.  Here is a sample template to get you started:
-
+The `DrupalExtension` is able to read component metadata out of a special comment directly in the Twig file.  See [Components](../docs/components.md) for more info.
