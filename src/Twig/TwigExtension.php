@@ -13,6 +13,7 @@ namespace LastCall\Mannequin\Twig;
 
 use LastCall\Mannequin\Twig\Driver\SimpleTwigDriver;
 use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
+use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 
 /**
  * Provides Twig template discovery and rendering.
@@ -22,7 +23,7 @@ class TwigExtension extends AbstractTwigExtension
     private $iterator;
     private $twigRoot;
     private $twigOptions;
-    private $twigNamespaces;
+    private $twigNamespaces = [];
     protected $driver;
 
     public function __construct(array $config = [])
@@ -36,7 +37,6 @@ class TwigExtension extends AbstractTwigExtension
         }
         $this->twigRoot = $config['twig_root'] ?? getcwd();
         $this->twigOptions = $config['twig_options'] ?? [];
-        $this->twigNamespaces = $config['twig_namespaces'] ?? [];
     }
 
     /**
@@ -45,6 +45,24 @@ class TwigExtension extends AbstractTwigExtension
     protected function getTemplateFilenameIterator(): \Traversable
     {
         return $this->iterator;
+    }
+
+    /**
+     * Add a directory to the Twig loader.
+     *
+     * @param string $namespace the twig namespace the path should be added to
+     * @param string $path      the template directory to add
+     *
+     * @return $this
+     */
+    public function addTwigPath(string $namespace, string $path): ExtensionInterface
+    {
+        if ($this->driver) {
+            throw new \RuntimeException('Driver has already been created.  Namespaces cannot be added.');
+        }
+        $this->twigNamespaces[$namespace][] = $path;
+
+        return $this;
     }
 
     /**

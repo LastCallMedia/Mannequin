@@ -12,6 +12,7 @@
 namespace LastCall\Mannequin\Drupal;
 
 use Drupal\Core\Template\Attribute;
+use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Mannequin;
 use LastCall\Mannequin\Drupal\Driver\DrupalTwigDriver;
 use LastCall\Mannequin\Drupal\Drupal\MannequinExtensionDiscovery;
@@ -36,7 +37,6 @@ class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctio
         $this->iterator = $config['finder'] ?: new \ArrayIterator([]);
         $this->drupalRoot = $config['drupal_root'] ?? getcwd();
         $this->twigOptions = $config['twig_options'] ?? [];
-        $this->twigNamespaces = $config['twig_namespaces'] ?? [];
     }
 
     /**
@@ -51,6 +51,21 @@ class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctio
         });
 
         return [$attributes];
+    }
+
+    /**
+     * Add a directory to the Twig loader.
+     *
+     * @param string $namespace the twig namespace the path should be added to
+     * @param string $path      the template directory to add
+     *
+     * @return $this
+     */
+    public function addTwigPath(string $namespace, string $path): ExtensionInterface
+    {
+        $this->twigNamespaces[$namespace][] = $path;
+
+        return $this;
     }
 
     /**

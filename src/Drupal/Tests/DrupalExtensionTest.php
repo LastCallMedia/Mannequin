@@ -13,11 +13,13 @@ namespace LastCall\Mannequin\Drupal\Tests;
 
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Tests\Extension\ExtensionTestCase;
+use LastCall\Mannequin\Drupal\Driver\DrupalTwigDriver;
 use LastCall\Mannequin\Drupal\DrupalExtension;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use LastCall\Mannequin\Drupal\Drupal\MannequinExtensionDiscovery;
 
 class DrupalExtensionTest extends ExtensionTestCase
 {
@@ -55,5 +57,31 @@ class DrupalExtensionTest extends ExtensionTestCase
         return new DrupalExtension([
             'drupal_root' => $this->getDrupalRoot(),
         ]);
+    }
+
+    public function testDriverGetsNamespaces()
+    {
+        $extension = new ExposedDrupalExtension(['drupal_root' => self::getDrupalRoot()]);
+        $extension->addTwigPath('foo', '../Resources');
+        $mannequin = $this->getMannequin();
+
+        $discovery = new MannequinExtensionDiscovery(self::getDrupalRoot(), $mannequin->getCache());
+        $expected = new DrupalTwigDriver(self::getDrupalRoot(), $discovery, [], [
+            'foo' => ['../Resources'],
+        ]);
+        $expected->setCache(new \Twig_Cache_Filesystem(sys_get_temp_dir().'/mannequin-test/twig'));
+        $extension->register($mannequin);
+        $this->assertEquals(
+            $expected,
+            $extension->getTwigDriver()
+        );
+    }
+}
+
+class ExposedDrupalExtension extends DrupalExtension
+{
+    public function getTwigDriver()
+    {
+        return $this->getDriver();
     }
 }

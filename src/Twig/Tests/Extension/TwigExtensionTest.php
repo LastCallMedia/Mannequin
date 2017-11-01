@@ -81,7 +81,6 @@ class TwigExtensionTest extends ExtensionTestCase
         return [
             [['twig_root' => __DIR__], new SimpleTwigDriver(__DIR__)],
             [['twig_root' => __DIR__, 'twig_options' => ['debug' => true]], new SimpleTwigDriver(__DIR__, ['debug' => true])],
-            [['twig_root' => __DIR__, 'twig_namespaces' => ['foo' => ['../Resources']]], new SimpleTwigDriver(__DIR__, [], ['foo' => ['../Resources']])],
         ];
     }
 
@@ -92,6 +91,23 @@ class TwigExtensionTest extends ExtensionTestCase
     {
         $extension = new ExposedTwigExtension($input);
         $mannequin = $this->getMannequin();
+        $expected->setCache(new \Twig_Cache_Filesystem(sys_get_temp_dir().'/mannequin-test/twig'));
+        $extension->register($mannequin);
+        $this->assertEquals(
+            $expected,
+            $extension->getTwigDriver()
+        );
+    }
+
+    public function testAddsTwigNamespaces()
+    {
+        $extension = new ExposedTwigExtension(['twig_root' => __DIR__]);
+        $extension->addTwigPath('foo', '../Resources');
+        $mannequin = $this->getMannequin();
+
+        $expected = new SimpleTwigDriver(__DIR__, [], [
+            'foo' => ['../Resources'],
+        ]);
         $expected->setCache(new \Twig_Cache_Filesystem(sys_get_temp_dir().'/mannequin-test/twig'));
         $extension->register($mannequin);
         $this->assertEquals(
