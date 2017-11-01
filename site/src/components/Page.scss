@@ -1,6 +1,7 @@
 @import "../scss/init";
 
 .Page {
+  position: relative;
   padding-top: rem-calc(50);
   padding-bottom: rem-calc(70);
 
@@ -25,6 +26,20 @@
   .content {
     font-size: rem-calc(18);
   }
+  .editlink {
+    position: absolute;
+    top: rem-calc(50);
+    right: rem-calc(10);
+    height: rem-calc(61);
+    display: flex;
+    flex-flow: column;
+    justify-items: center;
+    justify-content: center;
+
+    a {
+      flex: 0 0 auto;
+    }
+  }
   // Layout:
   @include xy-grid-container();
   @include xy-grid();
@@ -38,6 +53,10 @@
     .content { @include xy-cell(5/6); }
     .Sidebar { @include xy-cell(1/6); }
   }
+}
+
+.EditDoc {
+
 }
 
 .PageMenu {

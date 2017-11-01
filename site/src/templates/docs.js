@@ -8,12 +8,13 @@ export default function Template(props) {
     post.headings && post.headings.length > 0
       ? buildSidebar(post.headings)
       : null
+  const edit = buildEditLink(post.parent.relativePath);
   return (
     <PageWrapper
       title={post.frontmatter.title}
       description={post.frontmatter.description}
     >
-      <Page title={post.frontmatter.title} sidebar={sidebar}>
+      <Page title={post.frontmatter.title} sidebar={sidebar} editLink={edit}>
         <div dangerouslySetInnerHTML={{ __html: post.html }} />
       </Page>
     </PageWrapper>
@@ -32,6 +33,11 @@ export const pageQuery = graphql`
         title
         description
       }
+      parent {
+        ... on File {
+          relativePath
+        }
+      }
     }
   }
 `
@@ -45,6 +51,12 @@ function buildSidebar(headings) {
         </li>
       ))}
     </ul>
+  )
+}
+
+function buildEditLink(relativePath) {
+  return (
+      <a className="EditDoc" href={`https://github.com/LastCallMedia/Mannequin/edit/master/docs/${relativePath}`}>Edit</a>
   )
 }
 
