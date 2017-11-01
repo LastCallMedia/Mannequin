@@ -83,7 +83,8 @@ class ConfigLoaderTest extends TestCase
         $this->assertEquals(md5($root->getChild('foo')->url()), $config->getCachePrefix());
     }
 
-    public function testUsesRealpathIfPossible() {
+    public function testUsesRealpathIfPossible()
+    {
         $config = ConfigLoader::load(__DIR__.'/../Resources/bare-config.php');
         $this->assertEquals(realpath(__DIR__.'/../Resources'), $config->getDocroot());
     }
