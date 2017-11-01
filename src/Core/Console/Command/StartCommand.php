@@ -58,12 +58,6 @@ class StartCommand extends Command
             'The address to run on.',
             '*:8000'
         );
-        $this->addOption(
-            'output-dir',
-            'o',
-            InputOption::VALUE_OPTIONAL,
-            'The directory to output the UI in'
-        );
     }
 
     private function getProcessBuilder(): ProcessBuilder
