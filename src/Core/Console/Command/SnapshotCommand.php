@@ -60,7 +60,7 @@ class SnapshotCommand extends Command
     {
         $this->setDescription('Render everything to static HTML');
         $this->addOption(
-            'output-dir',
+            'output',
             'o',
             InputOption::VALUE_OPTIONAL,
             'The directory to output the UI in',
@@ -72,7 +72,7 @@ class SnapshotCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $outDir = $input->getOption('output-dir');
+        $outDir = $input->getOption('output');
         $writer = new FileWriter($outDir);
         try {
             $collection = $this->discovery->discover();
@@ -117,7 +117,6 @@ class SnapshotCommand extends Command
             try {
                 foreach ($ui->files() as $file) {
                     $writer->copy($file->getPathname(), $file->getRelativePathname());
-//                    $writer->copy($src, $dest);
                 }
                 $rows[] = $this->getSuccessRow('UI');
             } catch (\Exception $e) {

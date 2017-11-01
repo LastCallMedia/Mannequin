@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 - (Core) Remove unused `output-dir` option on start command.
 
+### Changed
+- (Core) Renamed `output-dir` option to `output` for `snapshot` command.
+
 ## 1.0.4
 ### Added
 - (Core) Docroot setting added to configuration using the `setDocroot` method on the `MannequinConfig` object.
