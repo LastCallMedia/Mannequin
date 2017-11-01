@@ -50,13 +50,15 @@ class StartCommand extends Command
 
     public function configure()
     {
-        $this->setDescription('Start a web server for live component development');
+        $this->setDescription('Start a development server to view components in the browser.');
         $this->addArgument(
             'address',
             InputArgument::OPTIONAL,
             'The address to run on.',
             '*:8000'
         );
+        $this->addUsage('*:8001');
+        $this->addUsage('127.0.0.1:8001');
     }
 
     private function getProcessBuilder(): ProcessBuilder
