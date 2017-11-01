@@ -28,6 +28,8 @@ class ConfigLoader
         if (!file_exists($filename)) {
             throw new \RuntimeException(sprintf('Expected config in %s, but the file does not exist.', $filename), 1);
         }
+        // Try to determine the realpath of the file, if possible.
+        $filename = realpath($filename) ?: $filename;
         try {
             $config = require $filename;
         } catch (Exception $e) {

@@ -60,11 +60,12 @@ class Application extends ConsoleApplication
     protected function getDefaultCommands()
     {
         $commands = parent::getDefaultCommands();
-        foreach($commands as $command) {
-            if($command->getName() === 'list') {
-                $command->setHidden(TRUE);
+        foreach ($commands as $command) {
+            if ('list' === $command->getName()) {
+                $command->setHidden(true);
             }
         }
+
         return $commands;
     }
 
