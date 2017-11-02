@@ -62,7 +62,11 @@ class Application extends ConsoleApplication
         $commands = parent::getDefaultCommands();
         foreach ($commands as $command) {
             if ('list' === $command->getName()) {
-                $command->setHidden(true);
+                if (method_exists($commands, 'setHidden')) {
+                    $command->setHidden(true);
+                } elseif (method_exists($command, 'setPrivate')) {
+                    $commands->setPrivate(true);
+                }
             }
         }
 
