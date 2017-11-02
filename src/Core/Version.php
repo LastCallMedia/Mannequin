@@ -21,7 +21,7 @@ use SebastianBergmann\Version as VersionId;
  */
 class Version
 {
-    const TAG = '1.0.5';
+    const TAG = '1.0.6';
 
     private static $version;
 
