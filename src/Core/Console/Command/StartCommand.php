@@ -15,7 +15,6 @@ use LastCall\Mannequin\Core\Config\ConfigInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -51,19 +50,15 @@ class StartCommand extends Command
 
     public function configure()
     {
-        $this->setDescription('Start a web server for live component development');
+        $this->setDescription('Start a development server to view components in the browser.');
         $this->addArgument(
             'address',
             InputArgument::OPTIONAL,
             'The address to run on.',
             '*:8000'
         );
-        $this->addOption(
-            'output-dir',
-            'o',
-            InputOption::VALUE_OPTIONAL,
-            'The directory to output the UI in'
-        );
+        $this->addUsage('*:8001');
+        $this->addUsage('127.0.0.1:8001');
     }
 
     private function getProcessBuilder(): ProcessBuilder

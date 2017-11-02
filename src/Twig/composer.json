@@ -9,6 +9,11 @@
             "email": "rob@lastcallmedia.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/LastCallMedia/Mannequin/issues",
+        "source": "https://github.com/LastCallMedia/Mannequin",
+        "docs": "https://mannequin.io"
+    },
     "require": {
         "php": ">7.0",
         "lastcall/mannequin-core": "~1.0",

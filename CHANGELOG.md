@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - (Twig, Drupal) Allow additional namespaces to be passed to Twig and Drupal extensions - [#89](https://github.com/LastCallMedia/Mannequin/issues/89)
 - (Twig, Drupal) Use the Twig auto_reload option all the time - [#94](https://github.com/LastCallMedia/Mannequin/issues/94)
+- (Docs) Add command line documentation - [#97](https://github.com/LastCallMedia/Mannequin/issues/97)
+
+### Removed
+- (Core) Remove unused `output-dir` option on start command.
+
+### Changed
+- (Core) Renamed `output-dir` option to `output` for `snapshot` command.
+
+### Fixed
+- (Core) Path to docroot not being set using realpath (caused broken assets in snapshot)
 
 ## 1.0.4
 ### Added

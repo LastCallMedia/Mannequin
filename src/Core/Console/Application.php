@@ -54,6 +54,21 @@ class Application extends ConsoleApplication
         return $definition;
     }
 
+    /**
+     * Override the default commands to hide the list command by default.
+     */
+    protected function getDefaultCommands()
+    {
+        $commands = parent::getDefaultCommands();
+        foreach ($commands as $command) {
+            if ('list' === $command->getName()) {
+                $command->setHidden(true);
+            }
+        }
+
+        return $commands;
+    }
+
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         $configFile = $input->getParameterOption(['--config', '-c'], '.mannequin.php');
