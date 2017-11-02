@@ -62,7 +62,7 @@ The `DrupalExtension` accepts the following configuration options:
 Since javascript for Drupal sites is typically triggered by Drupal core's `Drupal.attachBehaviors()` method, it can be helpful to add a few files directly from core to Mannequin's list of global javascript files in `.mannequin.php`:
 
 ```php
-$config = MannequinConfig::create()
+return MannequinConfig::create()
   ->addExtension($drupalExtension)
   ->setGlobalJs([
     '{path_to_docroot}/core/assets/vendor/domready/ready.min.js',
@@ -78,3 +78,36 @@ Adding these files to the list of global javascript will cause Drupal's `attachB
 ## Component Metadata
 
 The `DrupalExtension` is able to read component metadata out of a special comment directly in the Twig file.  See [Components](../docs/components.md) for more info.
+
+## Tips and Known Issues
+
+**Include/Extend without a namespace fails**: The Mannequin Drupal extension currently doesn't support include or extend statements without a namespace.  For example, this will not work:
+
+```twig
+{# @Component
+  ...
+#}
+{# This will not work: #}
+{% extends 'block.html.twig' %}
+{# But this will: #}
+{% extends '@classy/block/block.html.twig' %}
+...
+```
+
+This kind of extension is common in Drupal core, where `block.html.twig` gets resolved back to the proper module/base theme using the theme registry.  Since Mannequin does not bootstrap Drupal, we're unable to support loading templates based on the theme registry.  To work around this issue, use an explicit namespace when including or extending templates.  There is an [open issue](https://github.com/LastCallMedia/Mannequin/issues/88) to find a workaround for this.
+
+**Attributes not being output**: Drupal commonly uses an `attributes` variable in its templates.  The `attributes` variable is provided by the preprocess layer.  The preprocess layer requires a Drupal bootstrap (which we don't do in Mannequin), so Mannequin templates don't come with an `attributes` variable set up by default.  To work around it, either provide `attributes` as a variable in the sample using the [`attributes`](../docs/expressions.md) expression, or use the `default` filter to provide a default value:
+
+```twig
+{# @Component
+  ...
+#}
+{# Provide a default value for attributes in case it's not set: #}
+<div {{ attributes|default(create_attribute()) }}>
+  {# You can use this even if you call addClass() on the attributes #}
+  <div {{ content_attributes|default(create_attribute()).addClass('foo') }}>
+  ...
+  </div>
+</div>
+```
+There is [an open issue](https://github.com/LastCallMedia/Mannequin/issues/103) to fix this.
