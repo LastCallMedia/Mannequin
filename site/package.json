@@ -2,7 +2,7 @@
   "private": true,
   "name": "lastcall-mannequin-website",
   "description": "Mannequin.io website",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "Last Call Media Developers <developers@lastcallmedia.com>",
   "dependencies": {
     "autoprefixer": "^7.1.4",

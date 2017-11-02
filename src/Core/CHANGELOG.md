@@ -4,6 +4,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## Upcoming
+## 1.0.5
+### Changed
+- (Core) Renamed `output-dir` option to `output` for `snapshot` command.
+
+### Removed
+- (Core) Remove unused `output-dir` option on start command.
+
+### Fixed
+- (Core) Path to docroot not being set using realpath (caused broken assets in snapshot)
+
 ## 1.0.4
 ### Added
 - (Core) Docroot setting added to configuration using the `setDocroot` method on the `MannequinConfig` object.
