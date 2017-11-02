@@ -12,20 +12,16 @@
 namespace LastCall\Mannequin\Drupal\Driver;
 
 use Drupal\Core\Datetime\DateFormatterInterface;
+use Drupal\Core\Extension\ExtensionDiscovery;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\Core\Theme\ThemeManagerInterface;
 use LastCall\Mannequin\Drupal\Drupal\MannequinDateFormatter;
 use LastCall\Mannequin\Drupal\Drupal\MannequinDrupalTwigExtension;
-use LastCall\Mannequin\Drupal\Drupal\MannequinExtensionDiscovery;
 use LastCall\Mannequin\Drupal\Drupal\MannequinRenderer;
 use LastCall\Mannequin\Drupal\Drupal\MannequinThemeManager;
 use LastCall\Mannequin\Drupal\Drupal\MannequinUrlGenerator;
 use LastCall\Mannequin\Twig\Driver\SimpleTwigDriver;
-use LastCall\Mannequin\Twig\Twig\Lexer;
-use LastCall\Mannequin\Twig\Twig\MannequinExtension;
-use Psr\Cache\CacheItemPoolInterface;
-use Symfony\Component\Cache\Adapter\NullAdapter;
 
 /**
  * Creates a Drupal-like Twig_Environment.
@@ -36,12 +32,12 @@ use Symfony\Component\Cache\Adapter\NullAdapter;
  */
 class DrupalTwigDriver extends SimpleTwigDriver
 {
-    private $booted;
     private $drupalRoot;
-    private $cache;
-    private $twigOptions;
+    private $discovery;
 
-    public function __construct(string $drupalRoot, array $twigOptions = [], CacheItemPoolInterface $cache = null)
+    private $detectedNamespaces = null;
+
+    public function __construct(string $drupalRoot, ExtensionDiscovery $discovery, array $twigOptions = [], array $namespaces = [])
     {
         if (!is_dir($drupalRoot)) {
             throw new \InvalidArgumentException(sprintf('Drupal root %s does not exist', $drupalRoot));
@@ -49,26 +45,15 @@ class DrupalTwigDriver extends SimpleTwigDriver
         if (!file_exists(sprintf('%s/core/includes/bootstrap.inc', $drupalRoot))) {
             throw new \InvalidArgumentException(sprintf('Directory %s does not look like a Drupal installation', $drupalRoot));
         }
+        parent::__construct($drupalRoot, $twigOptions, $namespaces);
+
         $this->drupalRoot = $drupalRoot;
-        $this->twigOptions = $twigOptions;
-        $this->cache = $cache ?: new NullAdapter();
+        $this->discovery = $discovery;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getTwigRoot(): string
+    protected function initialize(\Twig_Environment $twig)
     {
-        return $this->drupalRoot;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function createTwig(): \Twig_Environment
-    {
-        $this->boot();
-        $twig = new \Twig_Environment($this->createLoader(), $this->twigOptions);
+        parent::initialize($twig);
         $extension = new MannequinDrupalTwigExtension(
             $this->getRenderer(),
             $this->getGenerator(),
@@ -76,40 +61,29 @@ class DrupalTwigDriver extends SimpleTwigDriver
             $this->getDateFormatter()
         );
         $twig->addExtension($extension);
-        $twig->addExtension(new MannequinExtension());
-        $twig->setLexer(new Lexer($twig));
-
-        return $twig;
     }
 
-    private function createLoader()
+    protected function getNamespaces(): array
     {
-        $this->boot();
-
-        $loader = new \Twig_Loader_Filesystem(['./'], $this->drupalRoot);
-        $discovery = new MannequinExtensionDiscovery($this->drupalRoot, $this->cache);
-        foreach ($discovery->scan('module', false) as $key => $extension) {
-            $dir = sprintf('%s/templates', $extension->getPath());
-            if (is_dir(sprintf('%s/%s', $this->drupalRoot, $dir))) {
-                $loader->addPath($dir, $key);
-            }
-        }
-        foreach ($discovery->scan('theme', false) as $key => $extension) {
-            $dir = sprintf('%s/templates', $extension->getPath());
-            if (is_dir(sprintf('%s/%s', $this->drupalRoot, $dir))) {
-                $loader->addPath($dir, $key);
-            }
-        }
-
-        return $loader;
-    }
-
-    private function boot()
-    {
-        if (!$this->booted) {
-            $this->booted = true;
+        if (null === $this->detectedNamespaces) {
             require_once sprintf('%s/core/includes/bootstrap.inc', $this->drupalRoot);
+
+            $this->detectedNamespaces = [];
+            foreach ($this->discovery->scan('module', false) as $key => $extension) {
+                $dir = sprintf('%s/templates', $extension->getPath());
+                if (is_dir(sprintf('%s/%s', $this->drupalRoot, $dir))) {
+                    $this->detectedNamespaces[$key][] = $dir;
+                }
+            }
+            foreach ($this->discovery->scan('theme', false) as $key => $extension) {
+                $dir = sprintf('%s/templates', $extension->getPath());
+                if (is_dir(sprintf('%s/%s', $this->drupalRoot, $dir))) {
+                    $this->detectedNamespaces[$key][] = $dir;
+                }
+            }
         }
+
+        return parent::getNamespaces() + $this->detectedNamespaces;
     }
 
     private function getRenderer(): RendererInterface

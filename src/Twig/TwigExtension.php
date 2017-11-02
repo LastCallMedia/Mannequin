@@ -13,6 +13,7 @@ namespace LastCall\Mannequin\Twig;
 
 use LastCall\Mannequin\Twig\Driver\SimpleTwigDriver;
 use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
+use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 
 /**
  * Provides Twig template discovery and rendering.
@@ -22,7 +23,8 @@ class TwigExtension extends AbstractTwigExtension
     private $iterator;
     private $twigRoot;
     private $twigOptions;
-    private $driver;
+    private $twigNamespaces = [];
+    protected $driver;
 
     public function __construct(array $config = [])
     {
@@ -46,18 +48,35 @@ class TwigExtension extends AbstractTwigExtension
     }
 
     /**
+     * Add a directory to the Twig loader.
+     *
+     * @param string $namespace the twig namespace the path should be added to
+     * @param string $path      the template directory to add
+     *
+     * @return $this
+     */
+    public function addTwigPath(string $namespace, string $path): ExtensionInterface
+    {
+        if ($this->driver) {
+            throw new \RuntimeException('Driver has already been created.  Namespaces cannot be added.');
+        }
+        $this->twigNamespaces[$namespace][] = $path;
+
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function getDriver(): TwigDriverInterface
     {
         if (!$this->driver) {
-            if (!isset($this->twigOptions['cache'])) {
-                $this->twigOptions['cache'] = $this->mannequin->getCacheDir().'/twig';
-            }
             $this->driver = new SimpleTwigDriver(
                 $this->twigRoot,
-                $this->twigOptions
+                $this->twigOptions,
+                $this->twigNamespaces
             );
+            $this->driver->setCache(new \Twig_Cache_Filesystem($this->mannequin->getCacheDir().'/twig'));
         }
 
         return $this->driver;

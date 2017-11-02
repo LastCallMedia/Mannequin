@@ -11,46 +11,41 @@
 
 namespace LastCall\Mannequin\Twig\Driver;
 
-use LastCall\Mannequin\Twig\Twig\Lexer;
-use LastCall\Mannequin\Twig\Twig\MannequinExtension;
-
 /**
  * Uses a Twig_Environment that is already created.
  *
- * This driver is mostly used for testing.
+ * This driver is mostly used for testing.  It has no way to link the namespaces
+ * with the actual Twig loader.
  */
-class PreloadedTwigDriver implements TwigDriverInterface
+class PreloadedTwigDriver extends AbstractTwigDriver
 {
-    private $twig;
+    private $twigWrapped;
     private $twigRoot;
-    private $namespaces;
-    private $initialized;
+    private $namespaces = [];
 
     public function __construct(\Twig_Environment $twig, string $twigRoot = '', array $namespaces = [])
     {
-        $this->twig = $twig;
-        $this->namespaces = $namespaces;
+        $this->twigWrapped = function () use ($twig) {
+            return $twig;
+        };
         $this->twigRoot = $twigRoot;
+        $this->namespaces = $namespaces;
     }
 
-    public function getTwig(): \Twig_Environment
+    protected function createTwig(): \Twig_Environment
     {
-        if (!$this->initialized) {
-            $this->initialized = true;
-            $this->twig->addExtension(new MannequinExtension());
-            $this->twig->setLexer(new Lexer());
-        }
+        $fn = $this->twigWrapped;
 
-        return $this->twig;
+        return $fn();
     }
 
-    public function getNamespaces(): array
-    {
-        return $this->namespaces;
-    }
-
-    public function getTwigRoot(): string
+    protected function getTwigRoot(): string
     {
         return $this->twigRoot;
+    }
+
+    protected function getNamespaces(): array
+    {
+        return $this->namespaces;
     }
 }

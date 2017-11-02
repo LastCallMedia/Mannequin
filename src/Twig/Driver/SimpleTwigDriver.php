@@ -11,58 +11,59 @@
 
 namespace LastCall\Mannequin\Twig\Driver;
 
-use LastCall\Mannequin\Twig\Twig\Lexer;
-use LastCall\Mannequin\Twig\Twig\MannequinExtension;
-
 /**
  * Knows how to create a simple Twig_Environment with a known root and options.
+ *
+ * This driver depends on namespaces being determined in advance.  It passes
+ * those namespaces as paths to the \Twig_Loader_Fileystem.
  */
-class SimpleTwigDriver implements TwigDriverInterface
+class SimpleTwigDriver extends AbstractTwigDriver
 {
     private $twigRoot;
     private $twigOptions;
-    private $twig;
+    private $namespaces = [];
 
-    public function __construct(string $twigRoot, array $twigOptions = [])
+    public function __construct(string $twigRoot, array $twigOptions = [], array $namespaces = [])
     {
+        if (!is_dir($twigRoot)) {
+            throw new \InvalidArgumentException(sprintf('Invalid Twig root given: ', $twigRoot));
+        }
         $this->twigRoot = $twigRoot;
         $this->twigOptions = $twigOptions;
-    }
-
-    public function getTwig(): \Twig_Environment
-    {
-        if (!$this->twig) {
-            $this->twig = $this->createTwig();
+        foreach ($namespaces as $namespace => $paths) {
+            if (!is_array($paths)) {
+                throw new \InvalidArgumentException(sprintf('Namespace paths must be an array under the %s namespace', $namespace));
+            }
+            $this->namespaces[$namespace] = $paths;
         }
-
-        return $this->twig;
     }
 
     protected function createTwig(): \Twig_Environment
     {
-        $loader = new \Twig_Loader_Filesystem($this->twigRoot);
-
-        $twig = new \Twig_Environment($loader, $this->twigOptions);
-        $twig->addExtension(new MannequinExtension());
-        $twig->setLexer(new Lexer($twig));
-
-        return $twig;
+        return new \Twig_Environment(
+            $this->createLoader(),
+            $this->twigOptions
+        );
     }
 
-    public function getNamespaces(): array
+    protected function createLoader()
     {
-        $namespaces = [];
-        $loader = $this->getTwig()->getLoader();
-        if ($loader instanceof \Twig_Loader_Filesystem) {
-            foreach ($loader->getNamespaces() as $namespace) {
-                $namespaces[$namespace] = $loader->getPaths($namespace);
+        $loader = new \Twig_Loader_Filesystem([''], $this->twigRoot);
+        foreach ($this->getNamespaces() as $namespace => $paths) {
+            foreach ($paths as $path) {
+                $loader->addPath($path, $namespace);
             }
         }
 
-        return $namespaces;
+        return $loader;
     }
 
-    public function getTwigRoot(): string
+    protected function getNamespaces(): array
+    {
+        return $this->namespaces;
+    }
+
+    protected function getTwigRoot(): string
     {
         return $this->twigRoot;
     }

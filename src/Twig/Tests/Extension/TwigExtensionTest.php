@@ -13,10 +13,12 @@ namespace LastCall\Mannequin\Twig\Tests\Extension;
 
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Iterator\MappingCallbackIterator;
+use LastCall\Mannequin\Core\Mannequin;
 use LastCall\Mannequin\Core\MannequinConfig;
 use LastCall\Mannequin\Core\Tests\Extension\ExtensionTestCase;
 use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
 use LastCall\Mannequin\Twig\Driver\SimpleTwigDriver;
+use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
 use LastCall\Mannequin\Twig\Subscriber\InlineTwigYamlMetadataSubscriber;
 use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
@@ -49,40 +51,16 @@ class TwigExtensionTest extends ExtensionTestCase
     public function testTwigDiscoveryGetsMappingIterator()
     {
         $root = getcwd();
-        $driver = new SimpleTwigDriver($root, ['cache' => '/tmp/mannequin-test/twig']);
-        $driver->getTwig();
+        $driver = $this->prophesize(TwigDriverInterface::class);
+        $driver->getTemplateNameMapper()->shouldBeCalled()->willReturn(new TemplateNameMapper($root));
+        $driver = $driver->reveal();
+        $extension = new ExposedTwigExtension();
+        $extension->setDriver($driver);
+        $extension->register($this->getMannequin());
         $inner = new \ArrayIterator([]);
         $outer = new MappingCallbackIterator($inner, new TemplateNameMapper($root));
         $discovery = new TwigDiscovery($driver, $outer);
-        $extension = new TwigExtension();
-        $extension->register($this->getMannequin());
         $this->assertEquals([$discovery], $extension->getDiscoverers());
-    }
-
-    public function testTwigDiscoveryGetsPassedIterator()
-    {
-        $iterator = new \ArrayIterator(['foo']);
-        $root = getcwd();
-        $driver = new SimpleTwigDriver($root, ['cache' => '/tmp/mannequin-test/twig']);
-        $driver->getTwig();
-        $outer = new MappingCallbackIterator($iterator, new TemplateNameMapper($root));
-        $discovery = new TwigDiscovery($driver, $outer);
-        $extension = new TwigExtension(['finder' => $iterator]);
-        $extension->register($this->getMannequin());
-        $this->assertEquals([$discovery], $extension->getDiscoverers());
-    }
-
-    public function testCanOverrideTwigOptions()
-    {
-        $options = [
-            'cache' => sys_get_temp_dir(),
-            'auto_reload' => false,
-        ];
-        $driver = new SimpleTwigDriver(getcwd(), $options);
-        $engine = new TwigEngine($driver);
-        $extension = new TwigExtension(['twig_options' => $options]);
-        $extension->register($this->getMannequin());
-        $this->assertEquals([$engine], $extension->getEngines());
     }
 
     public function testPassesStylesAndScriptsToEngine()
@@ -96,5 +74,58 @@ class TwigExtensionTest extends ExtensionTestCase
         ]);
         $extension->register($this->getMannequin($config));
         $this->assertEquals([$engine], $extension->getEngines());
+    }
+
+    public function getDriverArgumentsTests()
+    {
+        return [
+            [['twig_root' => __DIR__], new SimpleTwigDriver(__DIR__)],
+            [['twig_root' => __DIR__, 'twig_options' => ['debug' => true]], new SimpleTwigDriver(__DIR__, ['debug' => true])],
+        ];
+    }
+
+    /**
+     * @dataProvider getDriverArgumentsTests
+     */
+    public function testCreatesTwigDriverWithArgs($input, SimpleTwigDriver $expected)
+    {
+        $extension = new ExposedTwigExtension($input);
+        $mannequin = $this->getMannequin();
+        $expected->setCache(new \Twig_Cache_Filesystem(sys_get_temp_dir().'/mannequin-test/twig'));
+        $extension->register($mannequin);
+        $this->assertEquals(
+            $expected,
+            $extension->getTwigDriver()
+        );
+    }
+
+    public function testAddsTwigNamespaces()
+    {
+        $extension = new ExposedTwigExtension(['twig_root' => __DIR__]);
+        $extension->addTwigPath('foo', '../Resources');
+        $mannequin = $this->getMannequin();
+
+        $expected = new SimpleTwigDriver(__DIR__, [], [
+            'foo' => ['../Resources'],
+        ]);
+        $expected->setCache(new \Twig_Cache_Filesystem(sys_get_temp_dir().'/mannequin-test/twig'));
+        $extension->register($mannequin);
+        $this->assertEquals(
+            $expected,
+            $extension->getTwigDriver()
+        );
+    }
+}
+
+class ExposedTwigExtension extends TwigExtension
+{
+    public function getTwigDriver()
+    {
+        return $this->getDriver();
+    }
+
+    public function setDriver(TwigDriverInterface $driver)
+    {
+        $this->driver = $driver;
     }
 }

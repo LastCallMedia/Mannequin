@@ -12,8 +12,10 @@
 namespace LastCall\Mannequin\Drupal;
 
 use Drupal\Core\Template\Attribute;
+use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Mannequin;
 use LastCall\Mannequin\Drupal\Driver\DrupalTwigDriver;
+use LastCall\Mannequin\Drupal\Drupal\MannequinExtensionDiscovery;
 use LastCall\Mannequin\Twig\AbstractTwigExtension;
 use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
@@ -27,6 +29,7 @@ class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctio
     private $iterator;
     private $drupalRoot;
     private $twigOptions;
+    private $twigNamespaces = [];
     private $driver;
 
     public function __construct(array $config = [])
@@ -51,6 +54,21 @@ class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctio
     }
 
     /**
+     * Add a directory to the Twig loader.
+     *
+     * @param string $namespace the twig namespace the path should be added to
+     * @param string $path      the template directory to add
+     *
+     * @return $this
+     */
+    public function addTwigPath(string $namespace, string $path): ExtensionInterface
+    {
+        $this->twigNamespaces[$namespace][] = $path;
+
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function getTemplateFilenameIterator(): \Traversable
@@ -64,14 +82,14 @@ class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctio
     protected function getDriver(): TwigDriverInterface
     {
         if (!$this->driver) {
-            if (!isset($this->twigOptions['cache'])) {
-                $this->twigOptions['cache'] = $this->mannequin->getCacheDir();
-            }
+            $discovery = new MannequinExtensionDiscovery($this->drupalRoot, $this->mannequin->getCache());
             $this->driver = new DrupalTwigDriver(
                 $this->drupalRoot,
+                $discovery,
                 $this->twigOptions,
-                $this->mannequin->getCache()
+                $this->twigNamespaces
             );
+            $this->driver->setCache(new \Twig_Cache_Filesystem($this->mannequin->getCacheDir().'/twig'));
         }
 
         return $this->driver;
