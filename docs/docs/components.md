@@ -48,7 +48,7 @@ samples: # Sets of variables passed to the rendering engine.
 
 ### Variables
 
-Sample variables can also be nested.  For example, if the button template was rewritten to expect an object `content` such as `{{content.prefix}} - {{ content.text }}, you might use the following in a sample:
+Sample variables can also be nested.  For example, if the button template was rewritten to expect an object `content` such as `{{content.prefix}} - {{ content.text }}`, you might use the following in a sample:
 ```twig
 # button.yml
 ...
