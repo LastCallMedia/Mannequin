@@ -14,11 +14,11 @@ namespace LastCall\Mannequin\Core;
 use LastCall\Mannequin\Core\Asset\AssetManager;
 use LastCall\Mannequin\Core\Asset\RequestContextContext;
 use LastCall\Mannequin\Core\Config\ConfigInterface;
-use LastCall\Mannequin\Core\Console\Application as ConsoleApplication;
 use LastCall\Mannequin\Core\Console\Command\DebugCommand;
 use LastCall\Mannequin\Core\Console\Command\SnapshotCommand;
 use LastCall\Mannequin\Core\Console\Command\StartCommand;
 use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
+use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Engine\DelegatingEngine;
 use LastCall\Mannequin\Core\MimeType\ExtensionMimeTypeGuesser;
 use LastCall\Mannequin\Core\Ui\Controller\ManifestController;
@@ -61,24 +61,24 @@ class Mannequin extends Application
             return [
                 new SnapshotCommand(
                     'snapshot',
-                    $this['manifest.builder'],
-                    $this['discovery'],
-                    $this['ui'],
-                    $this['url_generator'],
-                    $this['renderer'],
-                    $this['asset.manager']
+                    $this->getManifestBuilder(),
+                    $this->getDiscovery(),
+                    $this->getConfig()->getUi(),
+                    $this->getUrlGenerator(),
+                    $this->getRenderer(),
+                    $this->getAssetManager()
                 ),
                 new StartCommand(
                     'start',
                     $config,
                     $this['config_file'],
                     $this['autoload_file'],
-                    $this['debug']
+                    $this->isDebug()
                 ),
                 new DebugCommand(
                     'debug',
-                    $this['manifest.builder'],
-                    $this['discovery']
+                    $this->getManifestBuilder(),
+                    $this->getDiscovery()
                 ),
             ];
         };
@@ -236,6 +236,16 @@ class Mannequin extends Application
         return $this['url_generator'];
     }
 
+    public function getManifestBuilder(): ManifestBuilder
+    {
+        return $this['manifest.builder'];
+    }
+
+    public function getDiscovery(): DiscoveryInterface
+    {
+        return $this['discovery'];
+    }
+
     public function getRenderer(): ComponentRenderer
     {
         return $this['renderer'];
@@ -254,6 +264,11 @@ class Mannequin extends Application
     public function getCacheDir(): string
     {
         return $this['cache_dir'];
+    }
+
+    public function isDebug(): bool
+    {
+        return (bool) $this['debug'];
     }
 
     /**
