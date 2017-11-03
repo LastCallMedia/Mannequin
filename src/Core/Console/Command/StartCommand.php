@@ -28,23 +28,15 @@ class StartCommand extends Command
 
     private $config;
 
-    private $configFile;
-
-    private $autoloadFile;
-
     private $processBuilder;
 
     public function __construct(
         $name,
         ConfigInterface $config,
-        string $configFile,
-        string $autoloadFile,
         bool $debug = false
     ) {
         parent::__construct($name);
         $this->config = $config;
-        $this->configFile = $configFile;
-        $this->autoloadFile = $autoloadFile;
         $this->debug = $debug;
     }
 
@@ -143,13 +135,15 @@ class StartCommand extends Command
         if ($warnings) {
             $io->warning(array_merge(['There were possible problems found with your configuration:'], $warnings));
         }
+        /** @var \LastCall\Mannequin\Core\Console\Helper\StartHelper $helper */
+        $helper = $this->getHelper('start');
 
         $routerFile = realpath(__DIR__.'/../../Resources/router.php');
         $builder = $this->getProcessBuilder()
             ->setArguments(['php', '-S', $address, $routerFile])
             ->addEnvironmentVariables([
-                'MANNEQUIN_CONFIG' => $this->configFile,
-                'MANNEQUIN_AUTOLOAD' => $this->autoloadFile,
+                'MANNEQUIN_CONFIG' => $helper->getConfigFile(),
+                'MANNEQUIN_AUTOLOAD' => $helper->getAutoloadFile(),
                 'MANNEQUIN_DEBUG' => $this->debug,
                 'MANNEQUIN_VERBOSITY' => $output->getVerbosity(),
             ])

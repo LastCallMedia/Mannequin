@@ -12,6 +12,7 @@
 namespace LastCall\Mannequin\Core\Console;
 
 use LastCall\Mannequin\Core\Config\ConfigLoader;
+use LastCall\Mannequin\Core\Console\Helper\StartHelper;
 use LastCall\Mannequin\Core\Mannequin;
 use LastCall\Mannequin\Core\Version;
 use Symfony\Component\Console\Application as ConsoleApplication;
@@ -28,6 +29,14 @@ class Application extends ConsoleApplication
     {
         $this->autoloadPath = $autoloadPath;
         parent::__construct('Mannequin', Version::id());
+    }
+
+    protected function getDefaultHelperSet()
+    {
+        $set = parent::getDefaultHelperSet();
+        $set->set(new StartHelper($this->autoloadPath));
+
+        return $set;
     }
 
     protected function getDefaultInputDefinition()
@@ -79,6 +88,8 @@ class Application extends ConsoleApplication
         $debug = $input->getParameterOption(['--debug', '-d'], false);
 
         $config = ConfigLoader::load($configFile);
+
+        $this->getHelperSet()->get('start')->setConfigFile($configFile);
 
         $mannequin = new Mannequin($config, [
             'debug' => $debug,
