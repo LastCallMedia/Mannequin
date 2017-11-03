@@ -14,6 +14,7 @@ namespace LastCall\Mannequin\Core;
 use LastCall\Mannequin\Core\Asset\AssetManager;
 use LastCall\Mannequin\Core\Asset\RequestContextContext;
 use LastCall\Mannequin\Core\Config\ConfigInterface;
+use LastCall\Mannequin\Core\DependencyInjection\ContainerInterface;
 use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Engine\DelegatingEngine;
@@ -37,7 +38,14 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class Mannequin extends Application
+/**
+ * DI/Kernel class for Mannequin.
+ *
+ * NB: This class is likely to change rapidly.  Wherever possible, type hint
+ * to ContainerInterface rather than this class, and never rely on the
+ * Silex/Pimple ArrayAccess getters/setters.
+ */
+class Mannequin extends Application implements ContainerInterface
 {
     public function __construct(ConfigInterface $config, array $values = [])
     {
@@ -243,6 +251,11 @@ class Mannequin extends Application
     public function isDebug(): bool
     {
         return (bool) $this['debug'];
+    }
+
+    public function has($id)
+    {
+        return $this->offsetExists($id);
     }
 
     /**
