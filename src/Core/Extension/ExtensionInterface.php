@@ -31,6 +31,13 @@ interface ExtensionInterface
     public function getEngines(): array;
 
     /**
+     * Get the console commands provided by this extension.
+     *
+     * @return \Symfony\Component\Console\Command\Command[]
+     */
+    public function getCommands(): array;
+
+    /**
      * Attach an extension's listeners/subscribers to a dispatcher.
      *
      * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher

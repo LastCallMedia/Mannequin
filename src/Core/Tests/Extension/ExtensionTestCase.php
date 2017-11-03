@@ -12,11 +12,14 @@
 namespace LastCall\Mannequin\Core\Tests\Extension;
 
 use LastCall\Mannequin\Core\Asset\AssetManager;
+use LastCall\Mannequin\Core\ComponentRenderer;
 use LastCall\Mannequin\Core\Config\ConfigInterface;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Mannequin;
+use LastCall\Mannequin\Core\Ui\ManifestBuilder;
+use LastCall\Mannequin\Core\Ui\UiInterface;
 use LastCall\Mannequin\Core\Variable\VariableResolver;
 use LastCall\Mannequin\Core\YamlMetadataParser;
 use PHPUnit\Framework\TestCase;
@@ -24,6 +27,7 @@ use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Asset\PackageInterface;
 use Symfony\Component\Cache\Adapter\NullAdapter;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
@@ -67,6 +71,19 @@ abstract class ExtensionTestCase extends TestCase
         return $discoverers;
     }
 
+    public function testHasCommands()
+    {
+        $extension = $this->getExtension();
+        $extension->register($this->getMannequin());
+        $commands = $extension->getCommands();
+        $this->assertContainsOnlyInstancesOf(
+            Command::class,
+            $commands
+        );
+
+        return $commands;
+    }
+
     /**
      * @return \Symfony\Component\ExpressionLanguage\ExpressionFunction[]|null
      */
@@ -93,6 +110,7 @@ abstract class ExtensionTestCase extends TestCase
     public function getConfig(): ConfigInterface
     {
         $config = $this->prophesize(ConfigInterface::class);
+        $config->getUi()->willReturn($this->prophesize(UiInterface::class));
         $config->getGlobalCss()->willReturn([]);
         $config->getGlobalJs()->willReturn([]);
 
@@ -104,6 +122,10 @@ abstract class ExtensionTestCase extends TestCase
         $mannequin = $this->prophesize(Mannequin::class);
         $mannequin->getMetadataParser()->willReturn(new YamlMetadataParser());
         $mannequin->getCache()->willReturn(new NullAdapter());
+        $mannequin->isDebug()->willReturn(false);
+        $mannequin->getManifestBuilder()->willReturn($this->prophesize(ManifestBuilder::class));
+        $mannequin->getDiscovery()->willReturn($this->prophesize(DiscoveryInterface::class));
+        $mannequin->getRenderer()->willReturn($this->prophesize(ComponentRenderer::class));
         $mannequin->getConfig()->willReturn($config ?? $this->getConfig());
         $mannequin->getVariableResolver()->willReturn($this->prophesize(VariableResolver::class));
         $mannequin->getAssetManager()->willReturn($this->prophesize(AssetManager::class));

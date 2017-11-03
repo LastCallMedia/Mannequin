@@ -45,6 +45,8 @@ class MannequinTest extends TestCase
             'config_file' => '',
             'autoload_file' => '',
         ]);
+        $application->boot();
+
         $commands = $application['commands'];
         $names = [];
         foreach ($commands as $command) {

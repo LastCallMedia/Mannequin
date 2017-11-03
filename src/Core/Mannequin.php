@@ -14,9 +14,6 @@ namespace LastCall\Mannequin\Core;
 use LastCall\Mannequin\Core\Asset\AssetManager;
 use LastCall\Mannequin\Core\Asset\RequestContextContext;
 use LastCall\Mannequin\Core\Config\ConfigInterface;
-use LastCall\Mannequin\Core\Console\Command\DebugCommand;
-use LastCall\Mannequin\Core\Console\Command\SnapshotCommand;
-use LastCall\Mannequin\Core\Console\Command\StartCommand;
 use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Engine\DelegatingEngine;
@@ -48,39 +45,16 @@ class Mannequin extends Application
             'logger' => function () {
                 return new NullLogger();
             },
-            'config_file' => function () {
-                throw new \InvalidArgumentException('`config_file` must be set.');
-            },
-            'autoload_file' => function () {
-                throw new \RuntimeException('`autoload_file` must be set.');
-            },
         ];
         parent::__construct($values);
         $this['config'] = $config;
         $this['commands'] = function () use ($config) {
-            return [
-                new SnapshotCommand(
-                    'snapshot',
-                    $this->getManifestBuilder(),
-                    $this->getDiscovery(),
-                    $this->getConfig()->getUi(),
-                    $this->getUrlGenerator(),
-                    $this->getRenderer(),
-                    $this->getAssetManager()
-                ),
-                new StartCommand(
-                    'start',
-                    $config,
-                    $this['config_file'],
-                    $this['autoload_file'],
-                    $this->isDebug()
-                ),
-                new DebugCommand(
-                    'debug',
-                    $this->getManifestBuilder(),
-                    $this->getDiscovery()
-                ),
-            ];
+            $commands = [];
+            foreach ($this->getExtensions() as $extension) {
+                $commands = array_merge($commands, $extension->getCommands());
+            }
+
+            return $commands;
         };
 
         $this['log.listener'] = function () {

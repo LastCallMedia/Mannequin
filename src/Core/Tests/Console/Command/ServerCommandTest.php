@@ -12,9 +12,11 @@
 namespace LastCall\Mannequin\Core\Tests\Console\Command;
 
 use LastCall\Mannequin\Core\Console\Command\StartCommand;
+use LastCall\Mannequin\Core\Console\Helper\StartHelper;
 use LastCall\Mannequin\Core\MannequinConfig;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\ProcessBuilder;
@@ -39,7 +41,10 @@ class ServerCommandTest extends TestCase
     {
         $config = new MannequinConfig();
         $config->setDocroot(__DIR__);
-        $command = new StartCommand('server', $config, __FILE__, __FILE__);
+        $command = new StartCommand('server', $config);
+        $command->setHelperSet(new HelperSet([
+            new StartHelper(__FILE__, __FILE__),
+        ]));
         $builder = $this->prophesize(ProcessBuilder::class);
         $builder
             ->setArguments([
@@ -89,7 +94,7 @@ class ServerCommandTest extends TestCase
     public function testInvalidPort()
     {
         $config = new MannequinConfig();
-        $command = new StartCommand('server', $config, __FILE__, __FILE__);
+        $command = new StartCommand('server', $config);
         $builder = $this->prophesize(ProcessBuilder::class);
         $command->setProcessBuilder($builder->reveal());
         $tester = new CommandTester($command);
@@ -99,7 +104,10 @@ class ServerCommandTest extends TestCase
     public function testOutputsConfigWarning()
     {
         $config = new MannequinConfig();
-        $command = new StartCommand('server', $config, __FILE__, __FILE__);
+        $command = new StartCommand('server', $config);
+        $command->setHelperSet(new HelperSet([
+            new StartHelper(__FILE__, __FILE__),
+        ]));
         $builder = $this->prophesize(ProcessBuilder::class);
         $builder->setArguments(Argument::cetera())->willReturn($builder);
         $builder->addEnvironmentVariables(Argument::cetera())->willReturn($builder);
