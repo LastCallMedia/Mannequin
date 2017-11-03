@@ -11,6 +11,9 @@
 
 namespace LastCall\Mannequin\Core\Extension;
 
+use LastCall\Mannequin\Core\Console\Command\DebugCommand;
+use LastCall\Mannequin\Core\Console\Command\SnapshotCommand;
+use LastCall\Mannequin\Core\Console\Command\StartCommand;
 use LastCall\Mannequin\Core\Engine\BrokenEngine;
 use LastCall\Mannequin\Core\ExpressionLanguage\CoreExpressionLanguageProvider;
 use LastCall\Mannequin\Core\Subscriber\GlobalAssetSubscriber;
@@ -35,6 +38,35 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
     {
         return [
             new BrokenEngine(),
+        ];
+    }
+
+    public function getCommands(): array
+    {
+        $start = new StartCommand(
+            'start',
+            $this->mannequin->getConfig(),
+            $this->mannequin->isDebug()
+        );
+        $snapshot = new SnapshotCommand(
+            'snapshot',
+            $this->mannequin->getManifestBuilder(),
+            $this->mannequin->getDiscovery(),
+            $this->mannequin->getConfig()->getUi(),
+            $this->mannequin->getUrlGenerator(),
+            $this->mannequin->getRenderer(),
+            $this->mannequin->getAssetManager()
+        );
+        $debug = new DebugCommand(
+            'debug',
+            $this->mannequin->getManifestBuilder(),
+            $this->mannequin->getDiscovery()
+        );
+
+        return [
+            $start,
+            $snapshot,
+            $debug,
         ];
     }
 

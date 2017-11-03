@@ -40,6 +40,14 @@ class AbstractExtension implements ExtensionInterface
     /**
      * {@inheritdoc}
      */
+    public function getCommands(): array
+    {
+        return [];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function subscribe(EventDispatcherInterface $dispatcher)
     {
     }
