@@ -17,6 +17,10 @@ use Symfony\Component\Console\Helper\HelperSet;
 /**
  * Stores the path to autoload.php so it can be retrieved later on.
  *
+ * This class is a temporary shim until we can implement a more robust
+ * server solution that doesn't require reloading the config in a separate
+ * process.
+ *
  * @see \LastCall\Mannequin\Core\Console\Command\StartCommand
  */
 class StartHelper implements HelperInterface
@@ -46,7 +50,7 @@ class StartHelper implements HelperInterface
         return $this->set;
     }
 
-    public function setConfigFile(string $file): string
+    public function setConfigFile(string $file)
     {
         $this->configFile = $file;
     }
