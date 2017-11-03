@@ -10,12 +10,12 @@ A component is an self-contained display unit (a blob of styled HTML). From Mann
 ### Sample
 A sample is a set of variables that is passed into a component template.  Samples provide examples of how the component will look in the real world.
 
-[More information](components.md#Samples)
+[More information](components.md#samples)
 
 ### Expression
 An expression is a special sample variable that is more complicated than a scalar or nested array.
 
-[More information](components.md#Expressions)
+[More information](components.md#expressions)
 
 ### Snapshot
 A point-in-time render of your components.  Includes all component HTML output and dependent assets as a static directory you can deploy somewhere for viewing.
