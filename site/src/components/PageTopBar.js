@@ -42,13 +42,13 @@ function MainMenu({className}) {
   return (
       <ul className={cx('MainMenu', className)}>
         <li>
-          <Link to="docs">Documentation</Link>
+          <Link to="docs/">Documentation</Link>
         </li>
         <li>
-          <Link to="extensions">Extensions</Link>
+          <Link to="extensions/">Extensions</Link>
         </li>
         <li>
-          <Link to="about">About</Link>
+          <Link to="about/">About</Link>
         </li>
       </ul>
   )

@@ -7,7 +7,7 @@ module.exports = function({ files, markdownNode, markdownAST, pathPrefix, getNod
         .forEach(function(el) {
             let url = parse(el.url);
             if(!url.hostname && url.pathname && url.pathname.match(/\.md$/)) {
-                url.pathname = url.pathname.replace(/\.md$/, '');
+                url.pathname = url.pathname.replace(/\.md$/, '/');
                 el.url = url.format();
             }
         });

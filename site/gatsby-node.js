@@ -54,5 +54,5 @@ exports.onCreateNode = ({node, boundActionCreators, getNode}) => {
 }
 
 const createSlug = (fileNode) => {
-    return '/' + fileNode.relativePath.replace(/\.md/, '');
+    return '/' + fileNode.relativePath.replace(/\.md/, '/');
 }
