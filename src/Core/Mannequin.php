@@ -241,11 +241,6 @@ class Mannequin extends Application
         return $this['renderer'];
     }
 
-    public function getConsole(): ConsoleApplication
-    {
-        return $this['console'];
-    }
-
     public function getConfig(): ConfigInterface
     {
         return $this['config'];
