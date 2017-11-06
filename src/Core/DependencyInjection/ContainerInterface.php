@@ -11,11 +11,12 @@
 
 namespace LastCall\Mannequin\Core\DependencyInjection;
 
+use LastCall\Mannequin\Core\Asset\AssetManagerInterface;
+use LastCall\Mannequin\Core\Snapshot\CameraInterface;
 use Psr\Container\ContainerInterface as PsrContainerInterface;
 use LastCall\Mannequin\Core\YamlMetadataParser;
 use LastCall\Mannequin\Core\Variable\VariableResolver;
 use Symfony\Component\Asset\PackageInterface;
-use LastCall\Mannequin\Core\Asset\AssetManager;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use LastCall\Mannequin\Core\Ui\ManifestBuilder;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
@@ -31,7 +32,7 @@ interface ContainerInterface extends PsrContainerInterface
 
     public function getAssetPackage(): PackageInterface;
 
-    public function getAssetManager(): AssetManager;
+    public function getAssetManager(): AssetManagerInterface;
 
     public function getUrlGenerator(): UrlGeneratorInterface;
 
@@ -40,6 +41,8 @@ interface ContainerInterface extends PsrContainerInterface
     public function getDiscovery(): DiscoveryInterface;
 
     public function getRenderer(): ComponentRenderer;
+
+    public function getCamera(): CameraInterface;
 
     public function getConfig(): ConfigInterface;
 

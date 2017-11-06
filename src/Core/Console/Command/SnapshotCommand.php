@@ -11,49 +11,40 @@
 
 namespace LastCall\Mannequin\Core\Console\Command;
 
-use LastCall\Mannequin\Core\Asset\AssetManager;
+use LastCall\Mannequin\Core\Asset\AssetManagerInterface;
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
-use LastCall\Mannequin\Core\ComponentRenderer;
-use LastCall\Mannequin\Core\Ui\FileWriter;
-use LastCall\Mannequin\Core\Ui\ManifestBuilder;
-use LastCall\Mannequin\Core\Ui\UiInterface;
+use LastCall\Mannequin\Core\Snapshot\CameraInterface;
+use LastCall\Mannequin\Core\Snapshot\DirectorySnapshotWriter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SnapshotCommand extends Command
 {
-    private $manifester;
+    private $camera;
 
     private $discovery;
 
-    private $ui;
-
-    private $urlGenerator;
-
-    private $renderer;
-
     private $assetManager;
+
+    protected $writerFactory;
 
     public function __construct(
         $name = null,
-        ManifestBuilder $manifester,
+        CameraInterface $camera,
         DiscoveryInterface $discovery,
-        UiInterface $ui,
-        UrlGeneratorInterface $urlGenerator,
-        ComponentRenderer $renderer,
-        AssetManager $assetManager
+        AssetManagerInterface $assetManager
     ) {
         parent::__construct($name);
-        $this->manifester = $manifester;
+        $this->camera = $camera;
         $this->discovery = $discovery;
-        $this->ui = $ui;
-        $this->urlGenerator = $urlGenerator;
-        $this->renderer = $renderer;
         $this->assetManager = $assetManager;
+        $this->writerFactory = function ($outputDir) {
+            return new DirectorySnapshotWriter($outputDir);
+        };
     }
 
     public function configure()
@@ -71,71 +62,21 @@ class SnapshotCommand extends Command
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
+        $factory = $this->writerFactory;
+        $dir = $input->getOption('output');
 
-        $outDir = $input->getOption('output');
-        $writer = new FileWriter($outDir);
-        try {
-            $collection = $this->discovery->discover();
-            $ui = $this->ui;
-            $renderer = $this->renderer;
-            $urlGenerator = $this->urlGenerator;
+        $threwError = false;
+        $errorHandler = function (\Exception $e, ComponentInterface $component) use ($io, &$threwError) {
+            $threwError = true;
+            $io->error(sprintf('Caught exception generating snapshot for %s: %s', $component->getName(), $e->getMessage()));
+        };
 
-            $manifest = $this->manifester->generate($collection);
-            $writer->raw('manifest.json', json_encode($manifest));
-            $rows[] = $this->getSuccessRow('Manifest');
+        $writer = $factory($input->getOption('output'));
+        $snapshot = $this->camera->snapshot($this->discovery->discover(), $this->assetManager, $errorHandler);
+        $writer->write($snapshot);
 
-            foreach ($collection as $component) {
-                try {
-                    $writer->raw(
-                        $this->urlGenerator->generate('component_render_source_raw', ['component' => $component->getId()]),
-                        $renderer->renderSource($component)
-                    );
-                    foreach ($component->getSamples() as $sample) {
-                        $args = ['component' => $component->getId(), 'sample' => $sample->getId()];
-                        $urlGenerator->getContext()->setPathInfo($urlGenerator->generate('component_render', $args));
-                        $rendered = $renderer->render($collection, $component, $sample);
-                        $writer->raw(
-                            $urlGenerator->generate('component_render', $args),
-                            $this->ui->decorateRendered($rendered)
-                        );
-                        $writer->raw(
-                            $urlGenerator->generate('component_render_raw', $args),
-                            $rendered->getMarkup()
-                        );
-                    }
-                    $rows[] = $this->getSuccessRow($component->getName());
-                } catch (\Exception $e) {
-                    $rows[] = $this->getErrorRow($component->getName(), $e);
-                }
-            }
-            try {
-                $this->assetManager->write($outDir);
-                $rows[] = $this->getSuccessRow('Assets');
-            } catch (\Exception $e) {
-                $rows[] = $this->getErrorRow('Assets', $e);
-            }
-            try {
-                foreach ($ui->files() as $file) {
-                    $writer->copy($file->getPathname(), $file->getRelativePathname());
-                }
-                $rows[] = $this->getSuccessRow('UI');
-            } catch (\Exception $e) {
-                $rows[] = $this->getErrorRow('UI', $e);
-            }
-        } catch (\Exception $e) {
-            $rows[] = $this->getErrorRow('Manifest', $e);
-        }
+        $io->success(sprintf('Wrote snapshot to %s', $dir));
 
-        $io->table(['', 'Name', 'Message'], $rows);
-    }
-
-    private function getSuccessRow($name)
-    {
-        return ['<info>✓</info>', $name, ''];
-    }
-
-    private function getErrorRow($name, \Exception $e)
-    {
-        return ['<error>x</error>', $name, $e->getMessage()];
+        return (int) $threwError;
     }
 }

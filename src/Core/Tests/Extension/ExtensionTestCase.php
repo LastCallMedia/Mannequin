@@ -18,6 +18,7 @@ use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Mannequin;
+use LastCall\Mannequin\Core\Snapshot\CameraInterface;
 use LastCall\Mannequin\Core\Ui\ManifestBuilder;
 use LastCall\Mannequin\Core\Ui\UiInterface;
 use LastCall\Mannequin\Core\Variable\VariableResolver;
@@ -130,6 +131,7 @@ abstract class ExtensionTestCase extends TestCase
         $mannequin->getVariableResolver()->willReturn($this->prophesize(VariableResolver::class));
         $mannequin->getAssetManager()->willReturn($this->prophesize(AssetManager::class));
         $mannequin->getAssetPackage()->willReturn($this->prophesize(PackageInterface::class));
+        $mannequin->getCamera()->willReturn($this->prophesize(CameraInterface::class));
         $generator = $this->prophesize(UrlGeneratorInterface::class);
         $mannequin->getUrlGenerator()->willReturn($generator->reveal());
         $mannequin->getCacheDir()->willReturn(sys_get_temp_dir().'/mannequin-test');
