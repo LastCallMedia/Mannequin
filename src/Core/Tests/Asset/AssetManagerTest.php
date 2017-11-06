@@ -12,30 +12,45 @@
 namespace LastCall\Mannequin\Core\Tests\Asset;
 
 use LastCall\Mannequin\Core\Asset\AssetManager;
-use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\SplFileInfo;
 
 class AssetManagerTest extends TestCase
 {
-    public function testWritesAssets()
+    public function testReturnsRelativeAssetForGet()
     {
-        $root = vfsStream::setup('mannequin-out');
-        $manager = new AssetManager(
-            new \ArrayIterator([new \SplFileInfo(__FILE__)]),
-            __DIR__
-        );
-        $manager->write($root->url());
-        $this->assertTrue($root->hasChild(pathinfo(__FILE__, PATHINFO_BASENAME)));
-    }
-
-    public function testGet()
-    {
-        $barAsset = new SplFileInfo(__DIR__.'/foo/bar', 'foo/', 'foo/bar');
+        $barAsset = new \SplFileInfo(__DIR__.'/foo');
         $manager = new AssetManager(
             new \ArrayIterator([$barAsset]),
             __DIR__
         );
-        $this->assertEquals($barAsset, $manager->get('foo/bar'));
+        $actual = $manager->get('foo');
+        $this->assertInstanceOf(SplFileInfo::class, $actual);
+        $this->assertEquals('foo', $actual->getRelativePathname());
+    }
+
+    public function testGetMultipleCallsIsConsistent()
+    {
+        $fooAsset = new \SplFileInfo(__DIR__.'/foo');
+        $barAsset = new \SplFileInfo(__DIR__.'/bar');
+        $manager = new AssetManager(
+            new \ArrayIterator([$fooAsset, $barAsset]),
+            __DIR__
+        );
+        $first = $manager->get('foo');
+        $second = $manager->get('foo');
+        $this->assertEquals($first, $second);
+    }
+
+    public function testReturnsIteratorContainingRelativeAsset()
+    {
+        $barAsset = new \SplFileInfo(__DIR__.'/foo');
+        $manager = new AssetManager(
+            new \ArrayIterator([$barAsset]),
+            __DIR__
+        );
+        $expected = new SplFileInfo(__DIR__.'/foo', '', 'foo');
+        $this->assertInstanceOf(\Traversable::class, $manager);
+        $this->assertEquals([$expected], iterator_to_array($manager));
     }
 }

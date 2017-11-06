@@ -12,6 +12,7 @@
 namespace LastCall\Mannequin\Core;
 
 use LastCall\Mannequin\Core\Asset\AssetManager;
+use LastCall\Mannequin\Core\Asset\AssetManagerInterface;
 use LastCall\Mannequin\Core\Asset\RequestContextContext;
 use LastCall\Mannequin\Core\Config\ConfigInterface;
 use LastCall\Mannequin\Core\DependencyInjection\ContainerInterface;
@@ -19,6 +20,8 @@ use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Engine\DelegatingEngine;
 use LastCall\Mannequin\Core\MimeType\ExtensionMimeTypeGuesser;
+use LastCall\Mannequin\Core\Snapshot\Camera;
+use LastCall\Mannequin\Core\Snapshot\CameraInterface;
 use LastCall\Mannequin\Core\Ui\Controller\ManifestController;
 use LastCall\Mannequin\Core\Ui\Controller\RenderController;
 use LastCall\Mannequin\Core\Ui\Controller\StaticFileController;
@@ -134,6 +137,15 @@ class Mannequin extends Application implements ContainerInterface
                 $this['dispatcher']
             );
         };
+        $this['camera'] = function () {
+            return new Camera(
+                $this->getManifestBuilder(),
+                $this->getRenderer(),
+                $this->getUrlGenerator(),
+                $this->getConfig()->getUi(),
+                $this['logger']
+            );
+        };
 
         $this->register(new ServiceControllerServiceProvider());
         $this['controller.static'] = function () {
@@ -208,7 +220,7 @@ class Mannequin extends Application implements ContainerInterface
         return $this['asset.package'];
     }
 
-    public function getAssetManager(): AssetManager
+    public function getAssetManager(): AssetManagerInterface
     {
         return $this['asset.manager'];
     }
@@ -231,6 +243,11 @@ class Mannequin extends Application implements ContainerInterface
     public function getRenderer(): ComponentRenderer
     {
         return $this['renderer'];
+    }
+
+    public function getCamera(): CameraInterface
+    {
+        return $this['camera'];
     }
 
     public function getConfig(): ConfigInterface

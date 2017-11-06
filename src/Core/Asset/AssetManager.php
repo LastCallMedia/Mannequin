@@ -13,33 +13,29 @@ namespace LastCall\Mannequin\Core\Asset;
 
 use LastCall\Mannequin\Core\Iterator\MappingCallbackIterator;
 use LastCall\Mannequin\Core\Iterator\RelativePathMapper;
-use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Contains and writes the asset collection on demand.
  */
-class AssetManager
+class AssetManager implements AssetManagerInterface
 {
     private $assets;
-    private $srcRoot;
-    private $filesystem;
 
     public function __construct(\Traversable $assets, string $assetRoot)
     {
         $this->assets = new MappingCallbackIterator($assets, new RelativePathMapper($assetRoot));
-        $this->srcRoot = $assetRoot;
-        $this->filesystem = new Filesystem();
     }
 
-    public function write(string $targetDir)
-    {
-        $this->filesystem->mirror($this->srcRoot, $targetDir, $this->assets, [
-            'overwrite' => false,
-        ]);
-    }
-
-    public function get($path): \SplFileInfo
+    /**
+     * Get a single relative asset.
+     *
+     * @param string $path the relative path to the asset
+     *
+     * @return SplFileInfo
+     */
+    public function get(string $path): SplFileInfo
     {
         $path = ltrim($path, '\\/');
         foreach ($this->assets as $asset) {
@@ -48,5 +44,18 @@ class AssetManager
             }
         }
         throw new NotFoundHttpException(sprintf('Unknown asset: %s', $path));
+    }
+
+    /**
+     * Get all the assets this manager knows about.
+     *
+     * The assets will be converted to relative SplFileInfo assets on their
+     * way out.
+     *
+     * @return \Symfony\Component\Finder\SplFileInfo[] iterator of assets
+     */
+    public function getIterator()
+    {
+        return $this->assets;
     }
 }

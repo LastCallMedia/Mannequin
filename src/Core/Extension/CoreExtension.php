@@ -50,11 +50,8 @@ class CoreExtension extends AbstractExtension implements ExpressionFunctionProvi
         );
         $snapshot = new SnapshotCommand(
             'snapshot',
-            $this->mannequin->getManifestBuilder(),
+            $this->mannequin->getCamera(),
             $this->mannequin->getDiscovery(),
-            $this->mannequin->getConfig()->getUi(),
-            $this->mannequin->getUrlGenerator(),
-            $this->mannequin->getRenderer(),
             $this->mannequin->getAssetManager()
         );
         $debug = new DebugCommand(

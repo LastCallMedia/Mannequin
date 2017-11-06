@@ -11,7 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Ui\Controller;
 
-use LastCall\Mannequin\Core\Asset\AssetManager;
+use LastCall\Mannequin\Core\Asset\AssetManagerInterface;
 use LastCall\Mannequin\Core\Ui\UiInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +22,7 @@ class StaticFileController
     private $ui;
     private $assetManager;
 
-    public function __construct(UiInterface $ui, AssetManager $assetManager)
+    public function __construct(UiInterface $ui, AssetManagerInterface $assetManager)
     {
         $this->ui = $ui;
         $this->assetManager = $assetManager;
