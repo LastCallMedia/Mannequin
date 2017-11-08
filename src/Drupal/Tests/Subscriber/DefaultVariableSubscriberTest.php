@@ -1,13 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: rbayliss
- * Date: 11/8/17
- * Time: 5:08 PM
+
+/*
+ * This file is part of Mannequin.
+ *
+ * (c) 2017 Last Call Media, Rob Bayliss <rob@lastcallmedia.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace LastCall\Mannequin\Drupal\Tests\Subscriber;
-
 
 use Drupal\Core\Template\Attribute;
 use LastCall\Mannequin\Core\Component\ComponentCollection;
@@ -25,7 +27,8 @@ class DefaultVariableSubscriberTest extends TestCase
 {
     use ComponentSubscriberTestTrait;
 
-    public function getTests() {
+    public function getTests()
+    {
         return [
             [
                 [],
@@ -39,7 +42,7 @@ class DefaultVariableSubscriberTest extends TestCase
                     'is_admin' => false,
                     'logged_in' => false,
                 ],
-                'Defaults should fill any variable that has not been set.'
+                'Defaults should fill any variable that has not been set.',
             ],
             [
                 [
@@ -63,14 +66,15 @@ class DefaultVariableSubscriberTest extends TestCase
                     'logged_in' => true,
                 ],
                 'Defaults should not override existing values.',
-            ]
+            ],
         ];
     }
 
     /**
      * @dataProvider getTests
      */
-    public function testSetsDefaultValues($input, $expected, $message) {
+    public function testSetsDefaultValues($input, $expected, $message)
+    {
         $collection = $this->prophesize(ComponentCollection::class);
         $component = $this->prophesize(DrupalTwigComponent::class);
         $sample = $this->prophesize(Sample::class);

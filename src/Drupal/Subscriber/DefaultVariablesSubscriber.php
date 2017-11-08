@@ -22,13 +22,13 @@ class DefaultVariablesSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            ComponentEvents::PRE_RENDER => ['addDefaultVariables']
+            ComponentEvents::PRE_RENDER => ['addDefaultVariables'],
         ];
     }
 
     public function addDefaultVariables(RenderEvent $event)
     {
-        if($event->getComponent() instanceof DrupalTwigComponent) {
+        if ($event->getComponent() instanceof DrupalTwigComponent) {
             $variables = $event->getVariables();
             $variables += [
                 'attributes' => new Attribute(),

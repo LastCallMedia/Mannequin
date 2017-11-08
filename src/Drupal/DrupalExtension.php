@@ -47,7 +47,7 @@ class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctio
         return [
             new DrupalTwigDiscovery(
                 $this->getDriver(), $this->getIterator()
-            )
+            ),
         ];
     }
 
