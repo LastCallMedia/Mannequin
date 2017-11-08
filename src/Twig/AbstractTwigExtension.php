@@ -17,6 +17,7 @@ use LastCall\Mannequin\Core\Mannequin;
 use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
 use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
+use LastCall\Mannequin\Twig\Subscriber\MarkupWrapperSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use LastCall\Mannequin\Twig\Subscriber\InlineTwigYamlMetadataSubscriber;
 use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
@@ -55,6 +56,9 @@ abstract class AbstractTwigExtension extends AbstractExtension
         );
         $dispatcher->addSubscriber(
             new TwigIncludeSubscriber()
+        );
+        $dispatcher->addSubscriber(
+            new MarkupWrapperSubscriber()
         );
     }
 

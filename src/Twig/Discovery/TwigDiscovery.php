@@ -13,6 +13,7 @@ namespace LastCall\Mannequin\Twig\Discovery;
 
 use LastCall\Mannequin\Core\Component\BrokenComponent;
 use LastCall\Mannequin\Core\Component\ComponentCollection;
+use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Discovery\IdEncoder;
 use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
@@ -47,6 +48,9 @@ class TwigDiscovery implements DiscoveryInterface, LoggerAwareInterface
         $this->logger = new NullLogger();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setLogger(LoggerInterface $logger)
     {
         $this->logger = $logger;
@@ -63,18 +67,10 @@ class TwigDiscovery implements DiscoveryInterface, LoggerAwareInterface
             $aliases = (array) $names;
             $name = reset($aliases);
             try {
-                $component = new TwigComponent(
-                    $this->encodeId($name),
-                    $aliases,
-                    $twig->load($name)->getSourceContext(),
-                    $twig
-                );
+                $component = $this->createComponent($name, $aliases, $twig);
             } catch (\Twig_Error $e) {
                 $this->logger->error('Twig error in {template}: {message}', ['template' => $name, 'message' => $e->getMessage()]);
-                $component = new BrokenComponent(
-                    $this->encodeId($name),
-                    $aliases
-                );
+                $component = $this->createBrokenComponent($name, $aliases);
                 $component->addProblem($e->getMessage());
             }
             $component->setName($name);
@@ -82,5 +78,23 @@ class TwigDiscovery implements DiscoveryInterface, LoggerAwareInterface
         }
 
         return new ComponentCollection($components);
+    }
+
+    protected function createComponent(string $name, array $aliases, \Twig_Environment $twig): TwigComponent
+    {
+        return new TwigComponent(
+            $this->encodeId($name),
+            $aliases,
+            $twig->load($name)->getSourceContext(),
+            $twig
+        );
+    }
+
+    protected function createBrokenComponent(string $name, array $aliases): ComponentInterface
+    {
+        return new BrokenComponent(
+            $this->encodeId($name),
+            $aliases
+        );
     }
 }
