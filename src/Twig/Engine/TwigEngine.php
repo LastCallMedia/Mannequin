@@ -26,29 +26,13 @@ class TwigEngine implements EngineInterface
             $rendered->setMarkup(
                 $twig->render(
                     $component->getSource()->getName(),
-                    $this->wrapRendered($variables)
+                    $variables
                 )
             );
 
             return;
         }
         throw new UnsupportedComponentException(sprintf('Unsupported component: %s', $component->getId()));
-    }
-
-    private function wrapRendered(array $variables)
-    {
-        $wrapped = [];
-        foreach ($variables as $key => $value) {
-            if ($value instanceof Rendered) {
-                $wrapped[$key] = new \Twig_Markup($value, 'UTF-8');
-            } else {
-                $wrapped[$key] = is_array($value)
-                    ? $this->wrapRendered($value)
-                    : $value;
-            }
-        }
-
-        return $wrapped;
     }
 
     public function supports(ComponentInterface $component): bool

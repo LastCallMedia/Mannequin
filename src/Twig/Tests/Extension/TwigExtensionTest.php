@@ -21,6 +21,7 @@ use LastCall\Mannequin\Twig\Driver\SimpleTwigDriver;
 use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
 use LastCall\Mannequin\Twig\Subscriber\InlineTwigYamlMetadataSubscriber;
+use LastCall\Mannequin\Twig\Subscriber\MarkupWrapperSubscriber;
 use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
 use LastCall\Mannequin\Twig\TemplateNameMapper;
 use LastCall\Mannequin\Twig\TwigExtension;
@@ -43,6 +44,8 @@ class TwigExtensionTest extends ExtensionTestCase
         )
             ->shouldBeCalled();
         $dispatcher->addSubscriber(Argument::type(TwigIncludeSubscriber::class))
+            ->shouldBeCalled();
+        $dispatcher->addSubscriber(Argument::type(MarkupWrapperSubscriber::class))
             ->shouldBeCalled();
 
         return $dispatcher;
