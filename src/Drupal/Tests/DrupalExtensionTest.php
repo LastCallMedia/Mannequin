@@ -68,7 +68,7 @@ class DrupalExtensionTest extends ExtensionTestCase
         $discovery = new MannequinExtensionDiscovery(self::getDrupalRoot(), $mannequin->getCache());
         $expected = new DrupalTwigDriver(self::getDrupalRoot(), $discovery, [], [
             'foo' => ['../Resources'],
-        ], []);
+        ], ['stable']);
         $expected->setCache(new \Twig_Cache_Filesystem(sys_get_temp_dir().'/mannequin-test/twig'));
         $extension->register($mannequin);
         $this->assertEquals(
@@ -80,7 +80,7 @@ class DrupalExtensionTest extends ExtensionTestCase
     public function testDriverGetsFallbackExtensions()
     {
         $extension = new ExposedDrupalExtension(['drupal_root' => self::getDrupalRoot()]);
-        $extension->addFallbackExtension('classy');
+        $extension->setFallbackExtensions(['classy']);
         $mannequin = $this->getMannequin();
         $extension->register($mannequin);
 
