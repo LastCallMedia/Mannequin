@@ -65,4 +65,22 @@ class DrupalTwigDriverTest extends DriverTestCase
         $bar = new \SplFileInfo($this->getDrupalRoot().'/core/misc/bar');
         $this->assertEquals(['@foo/bar'], $mapper($bar));
     }
+
+    public function testUsesFilesystemLoader()
+    {
+        $discovery = new MannequinExtensionDiscovery($this->getDrupalRoot());
+        $driver = new DrupalTwigDriver($this->getDrupalRoot(), $discovery);
+        $loader = $driver->getTwig()->getLoader();
+        $this->assertInstanceOf(\Twig_Loader_Filesystem::class, $loader, 'Without fallback extensions specified, the filesystem loader should be used directly.');
+    }
+
+    public function testUsesFallbackLoaderWhenFallbacksAreSpecified()
+    {
+        $discovery = new MannequinExtensionDiscovery($this->getDrupalRoot());
+        $driver = new DrupalTwigDriver($this->getDrupalRoot(), $discovery, [], [], ['classy']);
+        /** @var \Twig_Loader_Chain $loader */
+        $loader = $driver->getTwig()->getLoader();
+        $this->assertInstanceOf(\Twig_Loader_Chain::class, $loader, 'With fallback extensions, a Chain loader should be used.');
+        $this->assertTrue($loader->exists('block.html.twig'));
+    }
 }

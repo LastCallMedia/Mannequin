@@ -68,9 +68,26 @@ class DrupalExtensionTest extends ExtensionTestCase
         $discovery = new MannequinExtensionDiscovery(self::getDrupalRoot(), $mannequin->getCache());
         $expected = new DrupalTwigDriver(self::getDrupalRoot(), $discovery, [], [
             'foo' => ['../Resources'],
-        ]);
+        ], []);
         $expected->setCache(new \Twig_Cache_Filesystem(sys_get_temp_dir().'/mannequin-test/twig'));
         $extension->register($mannequin);
+        $this->assertEquals(
+            $expected,
+            $extension->getTwigDriver()
+        );
+    }
+
+    public function testDriverGetsFallbackExtensions()
+    {
+        $extension = new ExposedDrupalExtension(['drupal_root' => self::getDrupalRoot()]);
+        $extension->addFallbackExtension('classy');
+        $mannequin = $this->getMannequin();
+        $extension->register($mannequin);
+
+        $discovery = new MannequinExtensionDiscovery(self::getDrupalRoot(), $mannequin->getCache());
+        $expected = new DrupalTwigDriver(self::getDrupalRoot(), $discovery, [], [], ['classy']);
+        $expected->setCache(new \Twig_Cache_Filesystem(sys_get_temp_dir().'/mannequin-test/twig'));
+
         $this->assertEquals(
             $expected,
             $extension->getTwigDriver()
