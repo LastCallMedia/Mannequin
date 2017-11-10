@@ -21,6 +21,13 @@ module.exports = {
           },
       },
       {
+          resolve: 'gatsby-source-filesystem',
+          options: {
+              path: `${__dirname}/../src`,
+              name: 'extensions',
+          }
+      },
+      {
           resolve: 'gatsby-transformer-remark',
           options: {
               plugins: [
