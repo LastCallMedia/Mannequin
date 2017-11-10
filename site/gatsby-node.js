@@ -19,7 +19,8 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
         node {
           html
           fields {
-            slug
+            slug,
+            extension
           }
           frontmatter {
             title
@@ -38,13 +39,15 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
                     createPage({
                         path: node.fields.slug,
                         component: docsTemplate,
-                        context: {} // additional data can be passed via context
+                        context: {
+                            extension: node.fields.extension
+                        }
                     });
                 });
         });
 };
 
-const isReadme = ({relativePath}) => 'README.md' === path.posix.basename(relativePath);
+
 
 /**
  * Manipulate the URL for nodes as they enter the system.
@@ -74,28 +77,44 @@ exports.onCreateNode = ({node, boundActionCreators, getNode}) => {
         const fileNode = getNode(node.parent)
         let hidden = false;
 
-
-        if(fileNode.sourceInstanceName === 'extensions') {
-            if(isReadme(fileNode)) {
-                enrichReadme(node, fileNode, boundActionCreators);
-            }
-            else if(!fileNode.relativePath.match('/docs/')) {
-                // Hide this page.
-                hidden = true;
-            }
+        if(isReadme(fileNode)) {
+            enrichReadme(node, fileNode, boundActionCreators);
         }
+        createNodeField({ node, name: 'extension', value: getExtension(fileNode)})
+        createNodeField({node, name: 'hidden', value: getHidden(fileNode)})
+        createNodeField({node, name: 'menuTitle', value: getMenuTitle(node, fileNode)})
+        createNodeField({node, name: 'isExtensionRoot', value: isReadme(fileNode)})
+        createNodeField({node, name: 'weight', value: getWeight(node, fileNode)})
         // Copy slug field from file.
-        createNodeField({node, name: 'slug', value: fileNode.fields.slug});
-        createNodeField({node, name: 'hidden', value: hidden});
+        createNodeField({node, name: 'slug', value: fileNode.fields.slug})
     }
 }
 
+const isReadme = ({relativePath}) => 'README.md' === path.posix.basename(relativePath);
+const getExtension = ({relativePath}) => relativePath.split('/')[0];
+const getHidden = ({relativePath}) => !!relativePath.match(/CHANGELOG\.md$/);
+
+function getMenuTitle(node, fileNode) {
+    if(isReadme(fileNode)) {
+        return getExtension(fileNode)
+    }
+    return node.frontmatter.title;
+}
+
+function getWeight(node, fileNode) {
+    if(isReadme(fileNode)) {
+        return -1;
+    }
+    return node.frontmatter.weight || 0;
+}
+
+
 const createSlug = ({relativePath}) => {
-    return '/' + relativePath.replace(/\.md/, '/');
+    return '/' + relativePath.replace(/\.md/, '/').toLowerCase();
 }
 
 const createExtensionDocSlug = ({relativePath}) => {
-    let parts = relativePath.replace(/\.md/, '').split('/');
+    let parts = relativePath.replace(/\.md/, '').toLowerCase().split('/');
     parts.splice(1, 1);
     return `/${parts.join('/')}/`;
 }
@@ -104,12 +123,12 @@ const createExtensionDocSlug = ({relativePath}) => {
  * README.md acts as the index.
  */
 const createReadmeSlug = ({relativePath}) => {
-    return `/${path.posix.dirname(relativePath)}/`
+    return `/${path.posix.dirname(relativePath).toLowerCase()}/`
 }
 
 const enrichReadme = (markdownNode, fileNode, {createNodeField}) => {
     const composerFile = `${path.posix.dirname(fileNode.absolutePath)}/composer.json`;
     const composer = require(composerFile);
-    markdownNode.frontmatter.title = `Mannequin ${fileNode.relativePath.split('/')[0]}`
+    markdownNode.frontmatter.title = getExtension(fileNode)
     markdownNode.frontmatter.description = composer.description;
 }

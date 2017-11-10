@@ -1,12 +1,12 @@
 import React from 'react'
 import Page from '../components/Page'
 import PageWrapper from '../components/PageWrapper'
+import MenuTree from '../components/MenuTree';
 
 export default function Template(props) {
-  const { markdownRemark: post } = props.data
-  const sidebar =
-    post.headings && post.headings.length > 0
-      ? buildSidebar(post.headings)
+  const { markdownRemark: post, allMarkdownRemark: nav } = props.data
+  const sidebar = nav.edges.length
+      ? buildSidebar(nav.edges, post.headings, post.id)
       : null
   return (
     <PageWrapper
@@ -21,8 +21,9 @@ export default function Template(props) {
 }
 
 export const pageQuery = graphql`
-  query PageByPath($path: String!) {
+  query PageByPath($path: String!, $extension: String!) {
     markdownRemark(fields: { slug: { eq: $path } }) {
+      id
       html
       headings {
         value
@@ -33,19 +34,42 @@ export const pageQuery = graphql`
         description
       }
     }
+    allMarkdownRemark(
+      filter: {
+        fields: {
+          extension: {eq: $extension},
+          hidden: {ne: true}
+        },
+      },
+      
+    ) {
+      edges {
+        node {
+          fields {
+            slug
+          }
+          frontmatter {
+            title
+          }
+          id
+        }
+      }
+    }
   }
 `
 
-function buildSidebar(headings) {
-  return (
-    <ul className="PageMenu">
-      {headings.map(heading => (
-        <li key={heading.value} className={`level-${heading.depth}`}>
-          <a href={`${anchor(heading.value)}`}>{heading.value}</a>
-        </li>
-      ))}
-    </ul>
-  )
+function buildSidebar(nav, headings, currId) {
+  const tree = nav.map(({node}) => {
+      let below = []
+      if(node.id === currId) {
+          below = headings.map(heading => {
+              return {title: heading.value, to: anchor(heading.value), below: []}
+          })
+      }
+      return {title: node.frontmatter.title, to: node.fields.slug, below}
+  })
+
+  return <MenuTree links={tree} />
 }
 
 const anchor = value => `#${value.toLowerCase().replace(' ', '-')}`

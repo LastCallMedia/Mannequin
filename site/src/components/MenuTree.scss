@@ -1,0 +1,24 @@
+
+@import "../scss/init";
+
+.PageMenu {
+  &, li {
+    list-style: none;
+    margin: 0;
+  }
+  a {
+    display: block;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: rem-calc(13);
+    color: inherit;
+    line-height: rem-calc(16);
+    padding: rem-calc(15);
+    &:hover {
+      color: inherit;
+    }
+  }
+  .PageMenu {
+    margin-left: rem-calc(20);
+  }
+}
