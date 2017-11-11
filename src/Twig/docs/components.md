@@ -25,7 +25,7 @@ samples:
     {{text}}
 </a>
 ```
-<div class="note">
+<p class="note">
 You must always add the @Component annotation to your Twig comments to have them picked up by Mannequin.
 </div>
 

@@ -9,14 +9,9 @@ export default function Template(props) {
       ? buildSidebar(nav.edges, post.headings, post.id)
       : null
   return (
-    <PageWrapper
-      title={post.frontmatter.title}
-      description={post.frontmatter.description}
-    >
-      <Page title={post.frontmatter.title} sidebar={sidebar}>
+    <Page title={post.frontmatter.title} description={post.frontmatter.description} sidebar={sidebar}>
         <div dangerouslySetInnerHTML={{ __html: post.html }} />
-      </Page>
-    </PageWrapper>
+    </Page>
   )
 }
 
@@ -61,12 +56,14 @@ export const pageQuery = graphql`
 function buildSidebar(nav, headings, currId) {
   const tree = nav.map(({node}) => {
       let below = []
+      let active  = false
       if(node.id === currId) {
+          active = true
           below = headings.map(heading => {
               return {title: heading.value, to: anchor(heading.value), below: []}
           })
       }
-      return {title: node.frontmatter.title, to: node.fields.slug, below}
+      return {title: node.frontmatter.title, to: node.fields.slug, below, active}
   })
 
   return <MenuTree links={tree} />

@@ -11,65 +11,20 @@
   z-index: 5;
 
   .inner {
-    position: relative;
-    z-index: 2;
-    background: white;
-    @include xy-grid-container();
-    @include xy-grid();
-
-    > a {
-      @include xy-cell(auto);
-    }
-    > .menu-toggle {
-      @include xy-cell(shrink);
-    }
-    > .MainMenu {
-      @include xy-cell(auto);
-    }
+    display: grid;
+    grid-template-columns: 25% 75%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 20px;
   }
-
-  .MainMenu.for-small {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 100%;
-    background: white;
-    margin-top: 1px;
-    height: calc(100vh - 51px);
-  }
-  @include breakpoint(small down) {
-    .MainMenu.for-large {
-      display: none;
-    }
-  }
-
-  @include breakpoint(medium) {
-    .menu-toggle {
-      display: none;
-    }
-    .MainMenu.for-small {
-      display:none;
-    }
+  .branding-wrap {
+    grid-column: 1;
+    text-align: center;
+    background: #181D22;
   }
   .Branding {
     margin-top: rem-calc(13);
     margin-bottom: rem-calc(13);
-  }
-  .menu-toggle a, .menu-toggle button {
-    display: inline-block;
-    padding-top: rem-calc(13);
-    padding-bottom: rem-calc(13);
-    width: rem-calc(20);
-    height: rem-calc(24);
-    color: inherit;
-    @include xy-gutters();
-  }
-  .burger {
-    @include hamburger($color: $body-font-color, $color-hover: $body-font-color);
-  }
-  .close {
-    font-size: rem-calc(32);
-    line-height: rem-calc(24);
   }
 }
 

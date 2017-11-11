@@ -2,23 +2,33 @@
 @import "../scss/init";
 
 .PageMenu {
+  $lr_padding_basis: 30;
   &, li {
     list-style: none;
     margin: 0;
   }
   a {
+    font-family: Helvetica;
     display: block;
     font-weight: bold;
     text-transform: uppercase;
     font-size: rem-calc(13);
-    color: inherit;
     line-height: rem-calc(16);
-    padding: rem-calc(15);
+    color: white;
+    padding: rem-calc(15) rem-calc($lr_padding_basis);
     &:hover {
       color: inherit;
     }
   }
+  li.active {
+    > a {
+      border-left: 8px solid #4A90E2;
+      padding-left: rem-calc($lr_padding_basis - 8);
+    }
+  }
   .PageMenu {
-    margin-left: rem-calc(20);
+    > li > a {
+      padding-left: rem-calc($lr_padding_basis + 20);
+    }
   }
 }
