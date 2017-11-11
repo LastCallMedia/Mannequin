@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Branding from './Branding';
 import MenuTree from './MenuTree';
 import HamburgerButton from './HamburgerButton';
+import Footer from './Footer';
 import Helmet from 'react-helmet'
 import cx from 'classnames';
 import './Page.scss';
@@ -39,6 +40,8 @@ export default class Page extends Component {
                     <h1 className="title">{title}</h1>
                     <div className="content">{children}</div>
                 </main>
+                <Footer />
+
             </div>
         )
     }
@@ -55,4 +58,7 @@ Page.propTypes = {
   description: PropTypes.string,
   menu: PropTypes.arrayOf(menuItemShape),
   children: PropTypes.node.isRequired,
+}
+Page.defaultProps = {
+    menu: []
 }

@@ -8,10 +8,10 @@ export default function Footer() {
       <Branding />
       <a
         className="footer-link button dashing-icon"
-        href="https://github.com/LastCallMedia/Mannequin"
+        href="https://github.com/LastCallMedia/Mannequin/issues"
       >
         <i className="icon icon-github" />
-        <span className="text">Get it on github</span>
+        <span className="text">Get Support on Github</span>
       </a>
     </footer>
   )

@@ -1,6 +1,9 @@
 @import "../scss/init";
 
 .Page {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
   > header {
     position: sticky;
     top: 0;
@@ -21,11 +24,15 @@
       }
     }
   }
+  main {
+    flex: 1;
+  }
+
 
   @include breakpoint(large) {
-    min-height: 100vh;
     display: grid;
     grid-template-columns: 25% 75%;
+    grid-template-rows: 1fr auto;
     > header {
       position: static;
       > .h-inner {
@@ -41,6 +48,9 @@
         visibility: visible;
         overflow: auto;
       }
+    }
+    > footer {
+      grid-column: 1/3;
     }
     .HamburgerButton { display: none; }
   }
@@ -60,15 +70,22 @@
       text-align: left;
       background: #181D22;
     }
+    .Branding {
+      margin: rem-calc(16);
+    }
+    .PageMenu {
+      a.anchor-link {display: none;}
+      @include breakpoint(large) {
+        a.anchor-link {display: block;}
+      }
+    }
   }
   > nav {
     background: #181D22;
     color: white;
   }
 
-  .Branding {
-    margin: rem-calc(16);
-  }
+
   .content, .title {
     margin: 0 30px;
   }
