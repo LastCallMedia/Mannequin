@@ -53,7 +53,7 @@ samples:
         body: Lorem ipsum...
         classes: ['small']
 #}
-<div class="{{ attributes.addClass(classes) }}">
+<div class="{{ classes|join(' ') }}">
   ... 
 </div>
 ```
@@ -71,5 +71,5 @@ When you're ready to begin work on your templates, you can use the following wor
     ```
 2. This will output a URL for the Mannequin UI.  Visit it in your browser.
 3. In the UI, find the component you want to work on.
-4. Open the HTML file, and make your changes.
+4. Open the file, and make your changes.
 5. Reload the UI to see how your changes look.
