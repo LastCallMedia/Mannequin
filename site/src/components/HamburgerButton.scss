@@ -1,0 +1,10 @@
+
+@import "../scss/init";
+
+.HamburgerButton {
+  padding: rem-calc(20) rem-calc(24);
+  cursor: pointer;
+}
+.HamburgerIcon {
+  @include hamburger($color: white);
+}
