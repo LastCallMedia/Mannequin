@@ -1,4 +1,4 @@
-Mannequin HTML allows you to view static HTML files as Components.  For example, if you have a directory of HTML files, you can use Mannequin HTML to view and work on them.
+Mannequin HTML is a separate command line application that you can use to visualize and work on your static HTML files. For example, if you have a directory of separate HTML files that represent the "components" of your application, you can use Mannequin HTML to view and work on them individually.
 
 Quick Start
 -----------
@@ -22,7 +22,6 @@ $htmlFinder = Finder::create()
     ->files()
     ->name('*.html');
 
-// Tell the extension about your HTML files:
 $htmlExtension = new HtmlExtension([
     'files' => $htmlFinder,
     'root' => __DIR__
@@ -40,7 +39,7 @@ return MannequinConfig::create()
   ]);
 ```
 
-See all of the [configuration options](docs/configuration.md) for the HTML extension, or [view a sample project](https://github.com/LastCallMedia/Mannequin/tree/master/src/Html/demo)
+See all of the [configuration options](docs/configuration.md), or [view an example project](https://github.com/LastCallMedia/Mannequin/tree/master/src/Html/demo)
 
 Setting up Components
 ---------------------
