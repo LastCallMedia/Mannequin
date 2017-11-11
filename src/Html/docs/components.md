@@ -1,6 +1,6 @@
 ---
-title: YAML Reference
-description: A complete reference to YAML files for the Mannequin HTML extension.
+title: Components
+description: Reference and documentation on HTML components in Mannequin.
 ---
 Component information is stored in YAML files that live alongside the HTML files.
 

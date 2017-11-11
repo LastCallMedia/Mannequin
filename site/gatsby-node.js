@@ -17,13 +17,10 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
     ) {
       edges {
         node {
-          html
+          id
           fields {
             slug,
             extension
-          }
-          frontmatter {
-            title
           }
         }
       }
@@ -40,6 +37,7 @@ exports.createPages = ({ boundActionCreators, graphql }) => {
                         path: node.fields.slug,
                         component: docsTemplate,
                         context: {
+                            id: node.id,
                             extension: node.fields.extension
                         }
                     });
@@ -58,20 +56,11 @@ exports.onCreateNode = ({node, boundActionCreators, getNode}) => {
         // Set up a slug field on the file.  This lets us do alias lookups during markdown
         // parsing.
         if(node.sourceInstanceName === 'extensions') {
-            if(isReadme(node)) {
-                createNodeField({ node, name: `slug`, value: createReadmeSlug(node) })
-            }
-            else if(node.relativePath.match('/docs/')) {
-                createNodeField({ node, name: 'slug', value: createExtensionDocSlug(node) })
-            }
-            else {
-                createNodeField({ node, name: `slug`, value: createSlug(node) })
-            }
+            createNodeField({ node, name: `slug`, value: createExtensionDocSlug(node) })
         }
         else {
             createNodeField({ node, name: `slug`, value: createSlug(node) })
         }
-
     }
     else if(node.internal.type === 'MarkdownRemark' && getNode(node.parent).internal.type === 'File') {
         const fileNode = getNode(node.parent)
@@ -91,8 +80,9 @@ exports.onCreateNode = ({node, boundActionCreators, getNode}) => {
 }
 
 const isReadme = ({relativePath}) => 'README.md' === path.posix.basename(relativePath);
+const isChangeLog = ({relativePath}) => 'CHANGELOG.md' === path.posix.basename(relativePath);
 const getExtension = ({relativePath}) => relativePath.split('/')[0];
-const getHidden = ({relativePath}) => !!relativePath.match(/CHANGELOG\.md$/);
+const getHidden = (fileNode) => isChangeLog(fileNode)
 
 function getMenuTitle(node, fileNode) {
     if(isReadme(fileNode)) {
@@ -113,17 +103,18 @@ const createSlug = ({relativePath}) => {
     return '/' + relativePath.replace(/\.md/, '/').toLowerCase();
 }
 
-const createExtensionDocSlug = ({relativePath}) => {
-    let parts = relativePath.replace(/\.md/, '').toLowerCase().split('/');
-    parts.splice(1, 1);
-    return `/${parts.join('/')}/`;
-}
-
-/**
- * README.md acts as the index.
- */
-const createReadmeSlug = ({relativePath}) => {
-    return `/${path.posix.dirname(relativePath).toLowerCase()}/`
+const createExtensionDocSlug = (fileNode) => {
+    const extension = getExtension(fileNode).toLowerCase();
+    if(isReadme(fileNode)) {
+        // README.md acts as index.
+        return `/extensions/${extension}/`
+    }
+    if(isChangeLog(fileNode)) {
+        return `/extensions/${extension}/changes`
+    }
+    const {relativePath} = fileNode
+    const trail = relativePath.replace(/\.md/, '/').split('/').slice(2).join('/');
+    return `/extensions/${extension}/${trail}`;
 }
 
 const enrichReadme = (markdownNode, fileNode, {createNodeField}) => {

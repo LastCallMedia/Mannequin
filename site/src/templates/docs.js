@@ -21,8 +21,8 @@ export default function Template(props) {
 }
 
 export const pageQuery = graphql`
-  query PageByPath($path: String!, $extension: String!) {
-    markdownRemark(fields: { slug: { eq: $path } }) {
+  query PageByPath($id: String!, $extension: String!) {
+    markdownRemark(id: {eq: $id}) {
       id
       html
       headings {
