@@ -13,6 +13,7 @@ The `DrupalExtension` object accepts the following configuration options:
 
 It also has the following methods to be used for configuration:
 * `addTwigPath(string $namespace, string $path)` Adds an additional path to the Twig loader, under a specific namespace.  Use this method to add additional namespaces to the loader.  If you want to use components inside of the added namespace, make sure to add the paths to your `Finder` as well.
+* `setFallbackExtensions(array $extensions =['stable'])` Sets the lookup paths for any Twig include/extend statements that don't use a namespace.  While you should always use a namespace in your Twig extensions to make inheritance explicit, Drupal allows for "theme registry" inheritance (eg: `block.html.twig` is resolved to the `block.html.twig` template in the parent theme).  Mannequin does not use the theme registry, so we provide an alternate Twig loader that searches for templates in parent themes, as specified by this function.  The default is to look up templates against the Stable theme.
 
 Example
 -------
@@ -30,4 +31,9 @@ $extension = new DrupalExtension([
 // Add an additional namespace to the loader.
 // Note: To use this namespace in Drupal, you would also need to register it there.
 $extension->addTwigPath('atoms', __DIR__.'/themes/mytheme/atoms');
+
+// Load unqualified templates used in include/extend statements
+// (ex: {% extends 'block.html.twig' %})
+// from the Classy theme instead of Stable.
+$extension->setFallbackExtensions(['classy']);
 ```
