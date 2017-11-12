@@ -58,7 +58,8 @@ function buildMenu(nav, headings, currId) {
         let active  = false
         if(node.id === currId) {
             active = true
-            below = headings.map(heading => {
+            console.log(headings)
+            below = headings.filter(h2Only).map(heading => {
                 return {title: heading.value, to: anchor(heading.value), below: []}
             })
         }
@@ -66,4 +67,5 @@ function buildMenu(nav, headings, currId) {
     })
 }
 
+const h2Only = heading => heading.depth === 2
 const anchor = value => `#${value.toLowerCase().replace(/ /g, '-')}`

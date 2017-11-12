@@ -1,20 +1,18 @@
 
 import React from 'react';
 import Page from '../components/Page';
+import Link from 'gatsby-link';
 
 
 export default function AboutPage() {
     const tree = [
         {to: '/', title: 'Home', below: []},
-        {to: '/about', title: 'About', below: [], active: true},
-        {to: '/extensions/html', title: 'HTML', below: []},
-        {to: '/extensions/twig', title: 'Twig', below: []},
-        {to: '/extensions/drupal', title: 'Drupal', below: []},
+        {to: '/about', title: 'About Mannequin', below: [], active: true},
     ]
     return (
         <Page title="About Mannequin" description="All about the Mannequin component theming tool" menu={tree}>
             {/* What it is */}
-            <p>Mannequin is an open source tool that lets you work on your website's templates in an isolated way. In practice, that means that Mannequin provides a live development server to show you the output of one template at a time, and a way to pump data (variables) into that template so you can see how it will look in the "real world".</p>
+            <p>Mannequin is an open source tool that lets you work on your website's templates in an isolated way. In practice, that means that Mannequin provides a live development server to show you the output of one template at a time, and a way to pump data (variables) into that template so you can see how it will look in the "real world". Mannequin currently supports using <Link to="/extensions/html">HTML files</Link>, <Link to="/extensions/twig">Twig templates</Link>, and <Link to="/extensions/drupal">Drupal Twig templates</Link> as components, but we would love to extend support to other frameworks and content management systems in the future.</p>
 
             <h2>Where it came from</h2>
             <p>In 2016, we (<a href="https://lastcallmedia.com">Last Call Media</a>) started moving toward component theming as a way to improve the overall quality of the sites we build.
