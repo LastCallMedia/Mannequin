@@ -14,10 +14,13 @@ namespace LastCall\Mannequin\Drupal;
 use Drupal\Core\Template\Attribute;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Mannequin;
+use LastCall\Mannequin\Drupal\Discovery\DrupalTwigDiscovery;
 use LastCall\Mannequin\Drupal\Driver\DrupalTwigDriver;
 use LastCall\Mannequin\Drupal\Drupal\MannequinExtensionDiscovery;
+use LastCall\Mannequin\Drupal\Subscriber\DefaultVariablesSubscriber;
 use LastCall\Mannequin\Twig\AbstractTwigExtension;
 use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 
@@ -38,6 +41,21 @@ class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctio
         $this->iterator = $config['finder'] ?: new \ArrayIterator([]);
         $this->drupalRoot = $config['drupal_root'] ?? getcwd();
         $this->twigOptions = $config['twig_options'] ?? [];
+    }
+
+    public function getDiscoverers(): array
+    {
+        return [
+            new DrupalTwigDiscovery(
+                $this->getDriver(), $this->getIterator()
+            ),
+        ];
+    }
+
+    public function subscribe(EventDispatcherInterface $dispatcher)
+    {
+        parent::subscribe($dispatcher);
+        $dispatcher->addSubscriber(new DefaultVariablesSubscriber());
     }
 
     /**
