@@ -13,7 +13,6 @@ namespace LastCall\Mannequin\Drupal;
 
 use Drupal\Core\Template\Attribute;
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
-use LastCall\Mannequin\Core\Mannequin;
 use LastCall\Mannequin\Drupal\Discovery\DrupalTwigDiscovery;
 use LastCall\Mannequin\Drupal\Driver\DrupalTwigDriver;
 use LastCall\Mannequin\Drupal\Drupal\MannequinExtensionDiscovery;
