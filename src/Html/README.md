@@ -1,4 +1,4 @@
-Mannequin HTML is a separate command line application that you can use to visualize and work on your static HTML files. For example, if you have a directory of separate HTML files that represent the "components" of your application, you can use Mannequin HTML to view and work on them individually.
+Mannequin HTML is a command line application that you can use to visualize and work on your static HTML files in the browser. For example, if you have a directory of separate HTML files that represent the "components" of your application, you can use Mannequin HTML to view and work on them individually.
 
 Quick Start
 -----------

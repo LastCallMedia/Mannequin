@@ -1,4 +1,4 @@
-Mannequin Twig is a separate command line application that you can use to visualize and work on your Twig Templates. For example, you might use it to work on the templates inside of a Symfony or Silex application.
+Mannequin Twig is a command line application that you can use to visualize and work on your Twig Templates in the browser. For example, you might use it to work on the templates inside of a Symfony or Silex application.
 
 Quick Start
 -----------

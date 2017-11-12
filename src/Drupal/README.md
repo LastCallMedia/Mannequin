@@ -1,4 +1,4 @@
-Mannequin Drupal is a separate command line application that you can use to visualize and work on your Drupal Twig Templates. For example, you might use it to work on the templates inside of an existing custom theme.
+Mannequin Drupal is a command line application that you can use to visualize and work on your Drupal Twig Templates in the browser. For example, you might use it to work on the templates inside of an existing custom theme.
 
 Quick Start
 -----------
