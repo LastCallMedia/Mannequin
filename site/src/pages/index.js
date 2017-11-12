@@ -21,7 +21,6 @@ export default function IndexPage() {
             </div>
             <AboutProductPane />
             <GettingStartedPane />
-            <FurtherReadingPane />
         </div>
         <Footer />
     </div>
@@ -36,19 +35,18 @@ function HomepageHero() {
         <ul className="links">
           <li>
             <a
-              href="https://github.com/LastCallMedia/Mannequin"
+              href="#GetStarted"
               className="button dashing-icon expanded"
             >
-              <i className="icon icon-github" />
-              <span className="text">Get it on github</span>
+              <span className="text">Get Started</span>
             </a>
           </li>
-          <li>
-            <Link to="docs" className="button dashing-icon expanded">
-              <i className="icon icon-document" />
-              <span className="text">Documentation</span>
-            </Link>
-          </li>
+        <li>
+            <a href="#GetStarted" className="button dashing-icon expanded">
+                <i className="icon icon-document" />
+                <span className="text">Documentation</span>
+            </a>
+        </li>
           <li>
             <a
               href="https://demo.mannequin.io"
@@ -105,61 +103,30 @@ function GettingStartedPane() {
   return (
     <div className="GetStartedPane">
       <Manny className="logo" />
-      <h2>Get Started</h2>
+      <h2 id="GetStarted">Get Started</h2>
 
       <div className="ChooseExtensionStep Step">
         <div className="intro">
-          <h3><span>1. </span>Choose the extension you would like to use and install it.</h3>
-          <p>While we would eventually like to provide support for all major frameworks and CMS systems,
-            these are the extensions that are currently available.</p>
+            <h3>What kind of templates are you using?</h3>
         </div>
         <ul className="content">
           <li><Link to="/extensions/html">
             <div className="img-container"><img src={HtmlLogo} alt="HTML 5 Logo" height="76" width="54" /></div>
-            <h4>HTML Extension</h4>
+            <h4>HTML</h4>
             <p>Display Static HTML files as Mannequin Components.</p>
           </Link></li>
           <li><Link to="/extensions/twig">
             <div className="img-container"><img src={TwigLogo} alt="Twig Logo" height="85" width="60" /></div>
-            <h4>Twig Extension</h4>
+            <h4>Twig</h4>
             <p>Display Twig Templates as Mannequin Components.</p>
           </Link></li>
           <li><Link to="/extensions/drupal">
             <div className="img-container"><img src={DrupalLogo} alt="Drupal Logo" height="43" width="160" /></div>
-            <h4>Drupal Extension</h4>
+            <h4>Drupal</h4>
             <p>Display Drupal 8 Twig Templates as Mannequin Components.</p>
           </Link></li>
         </ul>
-
       </div>
-      <div className="ConfigureStep Step">
-        <div className="intro">
-          <h3><span>2. </span>Configure</h3>
-        </div>
-        <div className="content"><Link to="/docs/configuration" className="button dashing-icon"><i className="icon icon-right"></i><span className="text">Create a .mannequin.php file</span></Link></div>
-      </div>
-      <div className="RunStep Step">
-        <div className="intro">
-          <h3><span>3.</span>Start a live development server</h3>
-        </div>
-        <div className="content">
-            <code>vendor/bin/mannequin start</code>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function FurtherReadingPane() {
-  return (
-    <div className="FurtherReadingPane">
-      <h2>Further Reading</h2>
-      <ul className="links">
-        <li><Link to="/docs/configuration">Configuration</Link></li>
-        <li><Link to="/docs/components">Components</Link></li>
-        <li><Link to="/extensions">Extensions</Link></li>
-        <li><Link to="/docs/troubleshooting">Troubleshooting</Link></li>
-      </ul>
     </div>
   )
 }

@@ -9,6 +9,15 @@
  * with this source code in the file LICENSE.
  */
 
+/**
+ * Note: This is a very advanced .mannequin.php file.
+ *
+ * For simpler examples, see:
+ *
+ * HTML: src/Html/demo/.mannequin.php
+ * Twig: src/Twig/demo/.mannequin.php
+ * Drupal: https://github.com/LastCallMedia/Drupal-Scaffold/blob/master/.mannequin.php
+ */
 use LastCall\Mannequin\Core\MannequinConfig;
 use LastCall\Mannequin\Core\Ui\LocalUi;
 use LastCall\Mannequin\Html\HtmlExtension;
@@ -18,35 +27,33 @@ use Symfony\Component\Finder\Finder;
 $htmlFinder = Finder::create()
   ->files()
   ->name('*.html')
-  ->in(__DIR__.'/demo/static');
+  ->in(__DIR__.'/src/Html/demo/html');
 
 $twigFinder = Finder::create()
     ->files()
     ->name('*.twig')
-    ->in(__DIR__.'/demo/templates');
-
-$assetFinder = Finder::create()
-    ->files()
-    ->in(__DIR__.'/demo/css');
+    ->in(__DIR__.'/src/Twig/demo/templates');
 
 $twig = new TwigExtension([
     'finder' => $twigFinder,
-    'twig_root' => __DIR__.'/demo/templates',
+    'twig_root' => __DIR__.'/src/Twig/demo/templates',
     'twig_options' => [
         'auto_reload' => true,
     ],
 ]);
 $html = new HtmlExtension([
     'files' => $htmlFinder,
-    'root' => __DIR__,
+    'root' => __DIR__.'/src/Html/demo/html',
 ]);
 
 $config = MannequinConfig::create([
+    // Note: This setting should not be needed in your Mannequin config.
+    // it is only necessary here because we need to use the bleeding-edge
+    // version of the UI.
     'ui' => new LocalUi(__DIR__.'/ui'),
 ])
     ->setGlobalJs(['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/js/foundation.min.js'])
-    ->setGlobalCss(['demo/css/style.css'])
-    ->setAssets($assetFinder)
+    ->setGlobalCss(['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/css/foundation.min.css'])
     ->addExtension($html)
     ->addExtension($twig);
 

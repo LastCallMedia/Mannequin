@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - (Drupal) Add fallback Twig loader to emulate Drupal's handling of unscoped include/extend statements by looking for templates in a specified module/theme - [#88](https://github.com/LastCallMedia/Mannequin/issues/88)
 - (Drupal) Add default variables as in template_preprocess().
 
+### Changed
+- (Docs) Reorganize documentation to remove "common" pages.  Explain everything in the extensions.
+- (Site) Redesign interior pages, add menu for navigatino within sections.
+- (Site) Add "suggest a change" link.
+
 ## 1.0.6
 ## 1.0.5
 ### Added

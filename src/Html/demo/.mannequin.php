@@ -10,7 +10,6 @@
  */
 
 use LastCall\Mannequin\Core\MannequinConfig;
-use LastCall\Mannequin\Twig\TwigExtension;
 use LastCall\Mannequin\Html\HtmlExtension;
 use Symfony\Component\Finder\Finder;
 
@@ -18,48 +17,28 @@ use Symfony\Component\Finder\Finder;
  * This is a Mannequin configuration file.
  *
  * It defines what Mannequin should do.  This one tells the system to use the
- * Twig extension to look for patterns in the templates directory.
+ * Html extension to look for component in the html directory.
  */
-
-/**
- * Create a finder to search and list the template files for the TwigExtension.
- */
-$twigFinder = Finder::create()
-    ->files()
-    ->in(__DIR__.'/templates')
-    ->name('*.twig');
-
-$assetFinder = Finder::create()
-    ->files()
-    ->in(__DIR__.'/css');
-
-/**
- * Create the TwigExtension object.
- */
-$twigExtension = new TwigExtension([
-    'finder' => $twigFinder,
-    'twig_root' => __DIR__.'/templates',
-]);
 
 /**
  * Create a finder to search and list the static HTML files.
  */
-$htmlFinder = Finder::create()
+$htmlFiles = Finder::create()
     ->files()
-    ->in(__DIR__.'/static')
+    ->in(__DIR__.'/html')
     ->name('*.html');
 
 $htmlExtension = new HtmlExtension([
-    'files' => $htmlFinder,
-    'root' => __DIR__.'/static',
+    'files' => $htmlFiles,
+    'root' => __DIR__,
 ]);
 
 /*
  * Create and return the configuration.  Don't forget to return it!
  */
 return MannequinConfig::create()
+    // JS and CSS can either be local (relative paths from the root),
+    // or remote (absolute URLs)
     ->setGlobalJs(['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/js/foundation.min.js'])
     ->setGlobalCss(['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/css/foundation.css'])
-    ->setAssets($assetFinder)
-    ->addExtension($htmlExtension)
-    ->addExtension($twigExtension);
+    ->addExtension($htmlExtension);

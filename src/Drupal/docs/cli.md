@@ -1,5 +1,5 @@
 ---
-title: Commands
+title: CLI
 description: How to run Mannequin from the command line.
 ---
 

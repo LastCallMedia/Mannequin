@@ -33,7 +33,6 @@ if(!message || message.length === 0) {
 }
 
 var packages = [
-    {name: 'Demo', changelog: path.join(__dirname, '../demo/CHANGELOG.md'), composer: path.join(__dirname, '../demo/composer.json')},
     {name: 'Site', changelog: path.join(__dirname, '../site/CHANGELOG.md'), npm: path.join(__dirname, '../site/package.json')},
     {name: 'Ui', changelog: path.join(__dirname, '../ui/CHANGELOG.md'), npm: path.join(__dirname, '../ui/package.json')},
 ];

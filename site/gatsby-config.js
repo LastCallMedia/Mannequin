@@ -14,11 +14,11 @@ module.exports = {
           }
       },
       {
-          resolve: `gatsby-source-filesystem`,
+          resolve: 'gatsby-source-filesystem',
           options: {
-              path: `${__dirname}/../docs`,
-              name: 'pages',
-          },
+              path: `${__dirname}/../src`,
+              name: 'extensions',
+          }
       },
       {
           resolve: 'gatsby-transformer-remark',

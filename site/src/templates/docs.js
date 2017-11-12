@@ -1,28 +1,23 @@
 import React from 'react'
 import Page from '../components/Page'
 import PageWrapper from '../components/PageWrapper'
+import MenuTree from '../components/MenuTree';
 
 export default function Template(props) {
-  const { markdownRemark: post } = props.data
-  const sidebar =
-    post.headings && post.headings.length > 0
-      ? buildSidebar(post.headings)
-      : null
+  const { markdownRemark: post, allMarkdownRemark: nav } = props.data
+  const menu = buildMenu(nav.edges, post.headings, post.id);
+
   return (
-    <PageWrapper
-      title={post.frontmatter.title}
-      description={post.frontmatter.description}
-    >
-      <Page title={post.frontmatter.title} sidebar={sidebar}>
+    <Page title={post.frontmatter.title} description={post.frontmatter.description} menu={menu} edit={post.fields.ghEditUrl}>
         <div dangerouslySetInnerHTML={{ __html: post.html }} />
-      </Page>
-    </PageWrapper>
+    </Page>
   )
 }
 
 export const pageQuery = graphql`
-  query PageByPath($path: String!) {
-    markdownRemark(fields: { slug: { eq: $path } }) {
+  query PageByPath($id: String!, $extension: String!) {
+    markdownRemark(id: {eq: $id}) {
+      id
       html
       headings {
         value
@@ -32,20 +27,49 @@ export const pageQuery = graphql`
         title
         description
       }
+      fields {
+        ghEditUrl
+      }
+    }
+    allMarkdownRemark(
+      filter: {
+        fields: {
+          extension: {eq: $extension},
+          hidden: {ne: true}
+        },
+      },
+      sort:{
+        fields:[fields___weight]
+      }
+    ) {
+      edges {
+        node {
+          fields {
+            slug
+          }
+          frontmatter {
+            title
+          }
+          id
+        }
+      }
     }
   }
 `
 
-function buildSidebar(headings) {
-  return (
-    <ul className="PageMenu">
-      {headings.map(heading => (
-        <li key={heading.value} className={`level-${heading.depth}`}>
-          <a href={`${anchor(heading.value)}`}>{heading.value}</a>
-        </li>
-      ))}
-    </ul>
-  )
+function buildMenu(nav, headings, currId) {
+    return nav.map(({node}) => {
+        let below = []
+        let active  = false
+        if(node.id === currId) {
+            active = true
+            below = headings.filter(h2Only).map(heading => {
+                return {title: heading.value, to: anchor(heading.value), below: []}
+            })
+        }
+        return {title: node.frontmatter.title, to: node.fields.slug, below, active}
+    })
 }
 
-const anchor = value => `#${value.toLowerCase().replace(' ', '-')}`
+const h2Only = heading => heading.depth === 2
+const anchor = value => `#${value.toLowerCase().replace(/ /g, '-')}`

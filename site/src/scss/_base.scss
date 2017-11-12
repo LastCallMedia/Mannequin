@@ -7,6 +7,14 @@ pre code {
   display:block;
   margin-bottom: $paragraph-margin-bottom;
   padding: rem-calc(5);
+
+  &.language-bash {
+    background: black;
+    font-size: 18px;
+    color: white;
+    padding: rem-calc(12);
+    line-height: 22px;
+  }
 }
 
 %dashing-button {
