@@ -24,6 +24,11 @@ use LastCall\Mannequin\Core\ComponentRenderer;
 use LastCall\Mannequin\Core\Config\ConfigInterface;
 use Psr\Cache\CacheItemPoolInterface;
 
+/**
+ * Dependency injection container for Mannequin.
+ *
+ * @todo: Add logger.
+ */
 interface ContainerInterface extends PsrContainerInterface
 {
     public function getMetadataParser(): YamlMetadataParser;

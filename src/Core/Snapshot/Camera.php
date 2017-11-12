@@ -62,6 +62,9 @@ class Camera implements CameraInterface
             try {
                 yield $this->getComponentSource($component);
                 foreach ($component->getSamples() as $sample) {
+                    // Reset the context every time.
+                    // @todo: Find a more robust way of managing the path context.
+                    $this->generator->getContext()->setPathInfo('/');
                     yield $this->getRenderedDecorated($collection, $component, $sample);
                     yield $this->getRenderedRaw($collection, $component, $sample);
                 }
@@ -122,7 +125,6 @@ class Camera implements CameraInterface
             ['component' => $component->getId(), 'sample' => $sample->getId()],
             UrlGeneratorInterface::RELATIVE_PATH
         );
-        $this->generator->getContext()->setPathInfo($renderPath);
         $rendered = $this->renderer->render($collection, $component, $sample);
 
         return new SnapshotFile(
