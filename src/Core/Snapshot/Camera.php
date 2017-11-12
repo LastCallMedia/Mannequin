@@ -109,7 +109,14 @@ class Camera implements CameraInterface
             ['component' => $component->getId(), 'sample' => $sample->getId()],
             UrlGeneratorInterface::RELATIVE_PATH
         );
+
+        // Manipulate the request context so relative links work properly.
+        $context = $this->generator->getContext();
+        $originalPath = $context->getPathInfo();
+        $context->setPathInfo($path);
         $rendered = $this->renderer->render($collection, $component, $sample);
+        // Reset context
+        $context->setPathInfo($originalPath);
 
         return new SnapshotFile(
             $path,
@@ -120,15 +127,22 @@ class Camera implements CameraInterface
     private function getRenderedDecorated(ComponentCollection $collection, ComponentInterface $component, Sample $sample): SnapshotFile
     {
         $this->logger->debug(sprintf('Snapshotting rendered for %s:%s', $component->getName(), $sample->getName()));
-        $renderPath = $this->generator->generate(
+        $path = $this->generator->generate(
             'component_render',
             ['component' => $component->getId(), 'sample' => $sample->getId()],
             UrlGeneratorInterface::RELATIVE_PATH
         );
+
+        // Manipulate the request context so relative links work properly.
+        $context = $this->generator->getContext();
+        $originalPath = $context->getPathInfo();
+        $context->setPathInfo($path);
         $rendered = $this->renderer->render($collection, $component, $sample);
+        // Reset context
+        $context->setPathInfo($originalPath);
 
         return new SnapshotFile(
-            $renderPath,
+            $path,
             $this->ui->decorateRendered($rendered)
         );
     }
