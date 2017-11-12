@@ -69,6 +69,7 @@ exports.onCreateNode = ({node, boundActionCreators, getNode}) => {
         if(isReadme(fileNode)) {
             enrichReadme(node, fileNode, boundActionCreators);
         }
+        createNodeField({node, name: 'ghEditUrl', value: getEditUrl(fileNode)})
         createNodeField({ node, name: 'extension', value: getExtension(fileNode)})
         createNodeField({node, name: 'hidden', value: getHidden(fileNode)})
         createNodeField({node, name: 'menuTitle', value: getMenuTitle(node, fileNode)})
@@ -96,6 +97,10 @@ function getWeight(node, fileNode) {
         return -1;
     }
     return node.frontmatter.weight || 0;
+}
+
+function getEditUrl({relativePath}) {
+    return `https://github.com/LastCallMedia/Mannequin/edit/master/src/${relativePath}`;
 }
 
 

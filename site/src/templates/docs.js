@@ -8,7 +8,7 @@ export default function Template(props) {
   const menu = buildMenu(nav.edges, post.headings, post.id);
 
   return (
-    <Page title={post.frontmatter.title} description={post.frontmatter.description} menu={menu}>
+    <Page title={post.frontmatter.title} description={post.frontmatter.description} menu={menu} edit={post.fields.ghEditUrl}>
         <div dangerouslySetInnerHTML={{ __html: post.html }} />
     </Page>
   )
@@ -26,6 +26,9 @@ export const pageQuery = graphql`
       frontmatter {
         title
         description
+      }
+      fields {
+        ghEditUrl
       }
     }
     allMarkdownRemark(

@@ -4,6 +4,7 @@ import Branding from './Branding';
 import MenuTree from './MenuTree';
 import HamburgerButton from './HamburgerButton';
 import Footer from './Footer';
+import PencilIcon from 'react-icons/lib/go/pencil';
 import Helmet from 'react-helmet'
 import cx from 'classnames';
 import './Page.scss';
@@ -18,7 +19,7 @@ export default class Page extends Component {
         this.setState(state => ({showNav: !state.showNav}))
     }
     render() {
-        const {title, description, menu, children} = this.props
+        const {title, description, menu, edit, children} = this.props
         const {showNav} = this.state
         return (
             <div className="Page">
@@ -38,6 +39,7 @@ export default class Page extends Component {
                 </header>
                 <main>
                     <h1 className="title">{title}</h1>
+                    {edit && <a title="Suggest an edit" className="EditLink" href={edit}><PencilIcon /></a>}
                     <div className="content">{children}</div>
                 </main>
                 <Footer />
@@ -56,6 +58,7 @@ const menuItemShape = PropTypes.shape({
 Page.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string,
+  edit: PropTypes.string,
   menu: PropTypes.arrayOf(menuItemShape),
   children: PropTypes.node.isRequired,
 }

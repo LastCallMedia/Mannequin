@@ -26,6 +26,22 @@
   }
   main {
     flex: 1;
+    position: relative;
+  }
+
+  .EditLink {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: rem-calc(18);
+    line-height: rem-calc(74);
+    margin: 0 rem-calc(30);
+    color: lighten($body-font-color, 50);
+    transition: color .25s;
+    &:hover {
+      transition: color .25s;
+      color: $body-font-color;
+    }
   }
 
 
