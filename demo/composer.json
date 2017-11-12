@@ -1,6 +1,0 @@
-{
-    "require": {
-        "lastcall/mannequin-twig": "~1.0",
-        "lastcall/mannequin-html": "~1.0"
-    }
-}
