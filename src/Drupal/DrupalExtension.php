@@ -32,6 +32,7 @@ class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctio
     private $drupalRoot;
     private $twigOptions;
     private $twigNamespaces = [];
+    private $fallbackExtensions = ['stable'];
     private $driver;
 
     public function __construct(array $config = [])
@@ -86,6 +87,26 @@ class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctio
     }
 
     /**
+     * Add a Drupal extension to use as a "fallback" when a twig name can't be resolved.
+     *
+     * This exists to emulate the Drupal theme registry loader, which loads
+     * unqualified import/extend statements from the registry.  Since we don't
+     * have a registry, we support loading those unqualified imports from
+     * specified themes/modules.  This allows you to emulate the template
+     * inheritance chain.
+     *
+     * @param string[] $moduleOrThemeName an array of module or theme names
+     *
+     * @return \LastCall\Mannequin\Core\Extension\ExtensionInterface
+     */
+    public function setFallbackExtensions(array $moduleOrThemeNames): ExtensionInterface
+    {
+        $this->fallbackExtensions = $moduleOrThemeNames;
+
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function getTemplateFilenameIterator(): \Traversable
@@ -104,7 +125,8 @@ class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctio
                 $this->drupalRoot,
                 $discovery,
                 $this->twigOptions,
-                $this->twigNamespaces
+                $this->twigNamespaces,
+                $this->fallbackExtensions
             );
             $this->driver->setCache(new \Twig_Cache_Filesystem($this->mannequin->getCacheDir().'/twig'));
         }

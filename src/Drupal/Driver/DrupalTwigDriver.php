@@ -12,6 +12,7 @@
 namespace LastCall\Mannequin\Drupal\Driver;
 
 use Drupal\Core\Datetime\DateFormatterInterface;
+use Drupal\Core\Extension\Extension;
 use Drupal\Core\Extension\ExtensionDiscovery;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
@@ -21,6 +22,7 @@ use LastCall\Mannequin\Drupal\Drupal\MannequinDrupalTwigExtension;
 use LastCall\Mannequin\Drupal\Drupal\MannequinRenderer;
 use LastCall\Mannequin\Drupal\Drupal\MannequinThemeManager;
 use LastCall\Mannequin\Drupal\Drupal\MannequinUrlGenerator;
+use LastCall\Mannequin\Drupal\Twig\Loader\FallbackLoader;
 use LastCall\Mannequin\Twig\Driver\SimpleTwigDriver;
 
 /**
@@ -37,7 +39,7 @@ class DrupalTwigDriver extends SimpleTwigDriver
 
     private $detectedNamespaces = null;
 
-    public function __construct(string $drupalRoot, ExtensionDiscovery $discovery, array $twigOptions = [], array $namespaces = [])
+    public function __construct(string $drupalRoot, ExtensionDiscovery $discovery, array $twigOptions = [], array $namespaces = [], array $fallbackExtensions = [])
     {
         if (!is_dir($drupalRoot)) {
             throw new \InvalidArgumentException(sprintf('Drupal root %s does not exist', $drupalRoot));
@@ -49,6 +51,7 @@ class DrupalTwigDriver extends SimpleTwigDriver
 
         $this->drupalRoot = $drupalRoot;
         $this->discovery = $discovery;
+        $this->fallbackExtensions = $fallbackExtensions;
     }
 
     protected function initialize(\Twig_Environment $twig)
@@ -63,27 +66,61 @@ class DrupalTwigDriver extends SimpleTwigDriver
         $twig->addExtension($extension);
     }
 
+    protected function createLoader()
+    {
+        $loader = parent::createLoader();
+        if ($this->fallbackExtensions) {
+            $fallbackExtensions = array_intersect_key($this->getDrupalExtensions(), array_flip($this->fallbackExtensions));
+            $fallbackPaths = [];
+            foreach ($fallbackExtensions as $extension) {
+                if (false !== $dir = $this->getExtensionTemplateDirectory($extension)) {
+                    $fallbackPaths[] = $dir;
+                }
+            }
+            $loader = new \Twig_Loader_Chain([
+                $loader,
+                new FallbackLoader($fallbackPaths, $this->drupalRoot),
+            ]);
+        }
+
+        return $loader;
+    }
+
     protected function getNamespaces(): array
     {
         if (null === $this->detectedNamespaces) {
-            require_once sprintf('%s/core/includes/bootstrap.inc', $this->drupalRoot);
-
             $this->detectedNamespaces = [];
-            foreach ($this->discovery->scan('module', false) as $key => $extension) {
-                $dir = sprintf('%s/templates', $extension->getPath());
-                if (is_dir(sprintf('%s/%s', $this->drupalRoot, $dir))) {
-                    $this->detectedNamespaces[$key][] = $dir;
-                }
-            }
-            foreach ($this->discovery->scan('theme', false) as $key => $extension) {
-                $dir = sprintf('%s/templates', $extension->getPath());
-                if (is_dir(sprintf('%s/%s', $this->drupalRoot, $dir))) {
+            foreach ($this->getDrupalExtensions() as $key => $extension) {
+                if (false !== $dir = $this->getExtensionTemplateDirectory($extension)) {
                     $this->detectedNamespaces[$key][] = $dir;
                 }
             }
         }
 
         return parent::getNamespaces() + $this->detectedNamespaces;
+    }
+
+    /**
+     * @return \Drupal\Core\Extension\Extension[]
+     */
+    private function getDrupalExtensions()
+    {
+        require_once sprintf('%s/core/includes/bootstrap.inc', $this->drupalRoot);
+
+        return $this->exts = array_merge(
+            $this->discovery->scan('module', false),
+            $this->discovery->scan('theme', false)
+        );
+    }
+
+    private function getExtensionTemplateDirectory(Extension $extension)
+    {
+        $dir = sprintf('%s/templates', $extension->getPath());
+        if (is_dir(sprintf('%s/%s', $this->drupalRoot, $dir))) {
+            return $dir;
+        }
+
+        return false;
     }
 
     private function getRenderer(): RendererInterface
