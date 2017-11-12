@@ -9,6 +9,15 @@
  * with this source code in the file LICENSE.
  */
 
+/**
+ * Note: This is a very advanced .mannequin.php file.
+ *
+ * For simpler examples, see:
+ * 
+ * HTML: src/Html/demo/.mannequin.php
+ * Twig: src/Twig/demo/.mannequin.php
+ * Drupal: https://github.com/LastCallMedia/Drupal-Scaffold/blob/master/.mannequin.php
+ */
 use LastCall\Mannequin\Core\MannequinConfig;
 use LastCall\Mannequin\Core\Ui\LocalUi;
 use LastCall\Mannequin\Html\HtmlExtension;
