@@ -100,6 +100,9 @@ function GettingStartedPane() {
       <h2 id="GetStarted">Get Started</h2>
 
       <div className="ChooseExtensionStep Step">
+        <div className="intro">
+            <h3>What kind of templates are you using?</h3>
+        </div>
         <ul className="content">
           <li><Link to="/extensions/html">
             <div className="img-container"><img src={HtmlLogo} alt="HTML 5 Logo" height="76" width="54" /></div>
