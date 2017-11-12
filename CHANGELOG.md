@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Upcoming
 ### Added
 - (Drupal) Concatenate arrays passed to render.
+- (Drupal) Add default variables as in template_preprocess().  
 
 ## 1.0.6
 ## 1.0.5
