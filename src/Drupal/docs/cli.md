@@ -1,6 +1,7 @@
 ---
 title: CLI
 description: How to run Mannequin from the command line.
+weight: 75
 ---
 
 Mannequin is primarily a command line application.  A full, current list of options and commands can be obtained for your installation by running Mannequin with no additional command.  Individual commands can be further inspected using `vendor/bin/mannequin help COMMAND`, where `COMMAND` is the name of the command you want more information on.
