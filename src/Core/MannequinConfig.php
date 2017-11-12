@@ -74,7 +74,7 @@ class MannequinConfig implements ConfigInterface
      *
      * @return static
      */
-    public static function create(array $values = []): MannequinConfig
+    public static function create(array $values = []): self
     {
         return new static($values);
     }
@@ -96,7 +96,7 @@ class MannequinConfig implements ConfigInterface
      *
      * @return static
      */
-    public function setGlobalCss(array $css): MannequinConfig
+    public function setGlobalCss(array $css): self
     {
         $this->css = $css;
 
@@ -118,7 +118,7 @@ class MannequinConfig implements ConfigInterface
      *
      * @return static
      */
-    public function setGlobalJs(array $js): MannequinConfig
+    public function setGlobalJs(array $js): self
     {
         $this->js = $js;
 
@@ -130,7 +130,7 @@ class MannequinConfig implements ConfigInterface
      *
      * @return \LastCall\Mannequin\Core\MannequinConfig
      */
-    public function setAssets($assets): MannequinConfig
+    public function setAssets($assets): self
     {
         if (is_array($assets)) {
             $assets = new \ArrayIterator($assets);

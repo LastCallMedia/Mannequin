@@ -43,7 +43,7 @@ interface ComponentInterface
      *
      * @return \LastCall\Mannequin\Core\Component\ComponentInterface
      */
-    public function setName(string $name): ComponentInterface;
+    public function setName(string $name): self;
 
     /**
      * Get all the tags on the component.
@@ -70,7 +70,7 @@ interface ComponentInterface
      *
      * @return mixed
      */
-    public function addMetadata(string $name, $value): ComponentInterface;
+    public function addMetadata(string $name, $value): self;
 
     public function createSample($id, $name, VariableSet $variables = null, array $metadata = []): Sample;
 
@@ -104,7 +104,7 @@ interface ComponentInterface
      *
      * @return \LastCall\Mannequin\Core\Component\ComponentInterface
      */
-    public function addUsedComponent(ComponentInterface $component): ComponentInterface;
+    public function addUsedComponent(self $component): self;
 
     /**
      * Get all of the components that this component "uses".
@@ -120,7 +120,7 @@ interface ComponentInterface
      *
      * @return \LastCall\Mannequin\Core\Component\ComponentInterface
      */
-    public function addProblem(string $problem): ComponentInterface;
+    public function addProblem(string $problem): self;
 
     /**
      * Get an array of all problems with this component.

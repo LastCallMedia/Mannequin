@@ -72,7 +72,7 @@ interface ConfigInterface
      *
      * @return static
      */
-    public function setCachePrefix(string $prefix): ConfigInterface;
+    public function setCachePrefix(string $prefix): self;
 
     /**
      * Get the path to use as the docroot for this configuration.
@@ -90,5 +90,5 @@ interface ConfigInterface
      *
      * @return static
      */
-    public function setDocroot(string $docroot): ConfigInterface;
+    public function setDocroot(string $docroot): self;
 }

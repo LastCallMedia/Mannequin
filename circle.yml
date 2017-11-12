@@ -7,10 +7,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: composer-v3-{{ checksum "composer.json" }}
+          key: composer-v4-{{ checksum "composer.json" }}
       - run: composer install
       - save_cache:
-          key: composer-v3-{{ checksum "composer.json" }}
+          key: composer-v4-{{ checksum "composer.json" }}
           paths: [vendor, composer.lock]
       - run: |
           COMMIT_RANGE=`echo $CIRCLE_COMPARE_URL | cut -d/ -f7`
@@ -36,10 +36,10 @@ jobs:
       - checkout
       - run: composer require drupal/core:8.4.0-rc1 --no-update
       - restore_cache:
-          key: composer-v3-{{ checksum "composer.json" }}
+          key: composer-v4-{{ checksum "composer.json" }}
       - run: composer install
       - save_cache:
-          key: composer-v3-{{ checksum "composer.json" }}
+          key: composer-v4-{{ checksum "composer.json" }}
           paths: [vendor, composer.lock]
       - run: |
           mkdir -p /phpunit
@@ -74,7 +74,7 @@ jobs:
       - attach_workspace:
           at: /srv/ui
       - restore_cache:
-          key: composer-v3-{{ checksum "composer.json" }}
+          key: composer-v4-{{ checksum "composer.json" }}
       - run: composer install
       - run: src/Core/bin/mannequin snapshot
       - persist_to_workspace:

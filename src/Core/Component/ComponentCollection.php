@@ -149,7 +149,7 @@ class ComponentCollection implements \Iterator, \Countable
         return array_values($this->components);
     }
 
-    private function setParent(ComponentCollection $parent)
+    private function setParent(self $parent)
     {
         $this->parent = $parent;
     }
@@ -168,7 +168,7 @@ class ComponentCollection implements \Iterator, \Countable
         }
     }
 
-    public function merge(ComponentCollection $merging)
+    public function merge(self $merging)
     {
         $overlapping = array_intersect(
             array_keys($this->components),
