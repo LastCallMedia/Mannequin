@@ -39,7 +39,7 @@ return MannequinConfig::create()
   ]);
 ```
 
-See all of the [configuration options](docs/configuration.md), or [view an example project](https://github.com/LastCallMedia/Mannequin/tree/master/src/Html/demo)
+See all of the [configuration options](docs/configuration.md), or [view an example project](demo/)
 
 Setting up Components
 ---------------------

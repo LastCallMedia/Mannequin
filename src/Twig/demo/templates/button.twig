@@ -1,0 +1,33 @@
+{# @Component
+name: Button
+group: Controls
+description: An HTML Button
+samples:
+    # This is where we define variants.  Variants are sets of values used
+    # for the variables in the template.
+    Primary:
+        text: Primary
+        modifier: primary
+    Secondary:
+        text: Secondary
+        modifier: secondary
+    Success:
+        text: Success
+        modifier: success
+    Alert:
+        text: Alert
+        modifier: alert
+    Warning:
+        text: Warning
+        modifier: warning
+    Hollow:
+        text: Hollow
+        modifier: hollow
+    Disabled:
+        text: Disabled
+        disabled: true
+    Clear:
+        text: Clear
+        clear: true
+#}
+<button type="{{ type |default('button') }}" class="{{ clear ? 'clear ' : '' }}button{{ modifier ? ' ' ~ modifier : '' }}" {{ disabled? 'disabled': '' }}>{{ text }}</button>

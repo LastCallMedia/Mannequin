@@ -1,0 +1,22 @@
+{#  @Component
+name: Block Grid
+group: Containers
+description: A container that displays many items in a grid layout.
+samples:
+    # This is where we define variants.  Variants are sets of values used
+    # for the variables in the template.
+    default:
+        _description: This is a pattern that uses another pattern.
+        cells:
+            - ~sample('card.twig#Concise')
+            - ~sample('card.twig#Concise')
+            - ~sample('card.twig#Concise')
+            - ~sample('card.twig#Concise')
+            - ~sample('card.twig#Concise')
+            - ~sample('card.twig#Concise')
+#}
+<div class="grid-x grid-padding-x small-up-3">
+    {% for cell in cells %}
+        <div class="cell">{{ cell }}</div>
+    {% endfor %}
+</div>

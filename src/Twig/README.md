@@ -37,7 +37,7 @@ return MannequinConfig::create()
   ]);
 ```
 
-See all of the [configuration options](docs/configuration.md), or [view an example project](@todo)
+See all of the [configuration options](docs/configuration.md), or [view an example project](demo/)
 
 
 Setting up Components

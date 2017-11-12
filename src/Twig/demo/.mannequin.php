@@ -10,7 +10,7 @@
  */
 
 use LastCall\Mannequin\Core\MannequinConfig;
-use LastCall\Mannequin\Html\HtmlExtension;
+use LastCall\Mannequin\Twig\TwigExtension;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -21,16 +21,16 @@ use Symfony\Component\Finder\Finder;
  */
 
 /**
- * Create a finder to search and list the static HTML files.
+ * Create a finder to search and list the Twig template files.
  */
-$htmlFiles = Finder::create()
+$twigTemplates = Finder::create()
     ->files()
-    ->in(__DIR__.'/html')
-    ->name('*.html');
+    ->in(__DIR__.'/templates')
+    ->name('*.twig');
 
-$htmlExtension = new HtmlExtension([
-    'files' => $htmlFiles,
-    'root' => __DIR__,
+$twigExtension = new TwigExtension([
+    'finder' => $twigTemplates,
+    'twig_root' => __DIR__,
 ]);
 
 /*
@@ -41,4 +41,4 @@ return MannequinConfig::create()
     // or remote (absolute URLs)
     ->setGlobalJs(['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/js/foundation.min.js'])
     ->setGlobalCss(['https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.1/css/foundation.css'])
-    ->addExtension($htmlExtension);
+    ->addExtension($twigExtension);
