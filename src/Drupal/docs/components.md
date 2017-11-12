@@ -70,3 +70,11 @@ samples:
 ```
 The variables that samples contain are passed to your Twig templates verbatim.  They can be simple, like strings and integers, or they can be complex, as in the above example where the `classes` variable is an array. Finally, sample variables can be dynamic using [expressions](expressions.md)
 
+ The following default are provided with default values for every template.  They can be overridden by specifying them in a sample declaration:
+ * `attributes`: An empty `Attribute` object.
+ * `title_attributes`: An empty `Attribute` object.
+ * `title_prefix`: An empty array
+ * `title_suffix`: An empty array.
+ * `db_is_active`: true
+ * `is_admin`: false
+ * `logged_in`: false
