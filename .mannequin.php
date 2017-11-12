@@ -13,7 +13,7 @@
  * Note: This is a very advanced .mannequin.php file.
  *
  * For simpler examples, see:
- * 
+ *
  * HTML: src/Html/demo/.mannequin.php
  * Twig: src/Twig/demo/.mannequin.php
  * Drupal: https://github.com/LastCallMedia/Drupal-Scaffold/blob/master/.mannequin.php
