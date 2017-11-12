@@ -50,7 +50,7 @@
         },
         "extra-files": {
             "ui": {
-                "url": "https://registry.npmjs.org/lastcall-mannequin-ui/-/lastcall-mannequin-ui-1.0.6.tgz",
+                "url": "https://registry.npmjs.org/lastcall-mannequin-ui/-/lastcall-mannequin-ui-1.0.7.tgz",
                 "path": "ui-files"
             }
         }
