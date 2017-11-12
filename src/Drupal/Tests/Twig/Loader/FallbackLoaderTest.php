@@ -67,6 +67,16 @@ class FallbackLoaderTest extends TestCase
         $this->assertEquals($expected, $loader->exists($input), $message);
     }
 
+    public function testWithCache() {
+        $stream = $this->getRoot();
+        $loader = new FallbackLoader([
+            $stream->getChild('p1')->url(),
+            $stream->getChild('p2')->url(),
+        ]);
+        $sc = $loader->getSourceContext('t1');
+        $this->assertEquals($sc, $loader->getSourceContext('t1'));
+    }
+
     public function getSourceTests()
     {
         return [

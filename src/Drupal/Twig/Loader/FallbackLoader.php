@@ -37,7 +37,7 @@ class FallbackLoader extends \Twig_Loader_Filesystem
 
         // Caching for found/not found.
         if (isset($this->cache[$name])) {
-            return $throw->cache[$name];
+            return $this->cache[$name];
         }
         if (isset($this->errorCache[$name])) {
             if (!$throw) {
