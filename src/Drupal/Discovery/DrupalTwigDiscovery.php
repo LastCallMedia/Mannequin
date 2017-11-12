@@ -22,6 +22,11 @@ class DrupalTwigDiscovery extends TwigDiscovery
 {
     public function createComponent(string $name, array $aliases, \Twig_Environment $twig): TwigComponent
     {
-        return new DrupalTwigComponent($name, $aliases, $twig);
+        return new DrupalTwigComponent(
+            $this->encodeId($name),
+            $aliases,
+            $twig->load($name)->getSourceContext(),
+            $twig
+        );
     }
 }

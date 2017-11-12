@@ -25,8 +25,6 @@ class TwigDiscoveryTest extends TestCase
 {
     use IdEncoder;
 
-    const FIXTURES_DIR = __DIR__.'/../Resources';
-
     private function getTwig()
     {
         $loader = new \Twig_Loader_Array([
