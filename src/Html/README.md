@@ -49,7 +49,7 @@ While the `.mannequin.php` file tells Mannequin where to find your components, y
 name: Card
 group: Molecule
 ```
-See the full YAML reference [here](docs/yaml.md)
+See the full YAML reference [here](docs/components.md)
 
 Workflow
 --------
