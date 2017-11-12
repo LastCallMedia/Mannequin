@@ -15,9 +15,13 @@ use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Writes snapshots to a given directory.
+ *
+ * @todo: Add logging to this writer.
  */
 class DirectorySnapshotWriter implements SnapshotWriterInterface
 {
+    private $dir;
+
     public function __construct(string $dir)
     {
         $this->dir = $dir;
