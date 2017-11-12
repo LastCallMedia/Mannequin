@@ -70,6 +70,7 @@ samples:
 ```
 The variables that samples contain are passed to your Twig templates verbatim.  They can be simple, like strings and integers, or they can be complex, as in the above example where the `classes` variable is an array. Finally, sample variables can be dynamic using [expressions](expressions.md)
 
+### Default Variables 
  The following default are provided with default values for every template.  They can be overridden by specifying them in a sample declaration:
  * `attributes`: An empty `Attribute` object.
  * `title_attributes`: An empty `Attribute` object.
@@ -78,3 +79,23 @@ The variables that samples contain are passed to your Twig templates verbatim.  
  * `db_is_active`: true
  * `is_admin`: false
  * `logged_in`: false
+ 
+### Render Arrays
+Mannequin does not support Drupal's Render system.  However, it does support rendering arrays by concatenating the values.  For example, see the following simplified `node.html.twig` template:
+```twig
+{# @Component
+name: Node
+samples:
+  Article:
+    content:
+      field_image: ~markup('<img src="http://placehold.it/350/350" />')
+      field_body: ~markup('<p>Lorem ipsum...</p>')
+#}
+<article>
+  <div class="content">
+    {{ content }}
+  </div>
+</div>
+```
+In this example, the `content` variable will concatenate the value of field_image and field_body, which is pretty close to what Drupal's render system does.  This is particularly powerful when combined with the [sample](expressions.md#sample) expression to render values from your actual field templates.
+
