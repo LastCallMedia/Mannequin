@@ -41,6 +41,12 @@ function HomepageHero() {
               <span className="text">Get Started</span>
             </a>
           </li>
+        <li>
+            <a href="#GetStarted" className="button dashing-icon expanded">
+                <i className="icon icon-document" />
+                <span className="text">Documentation</span>
+            </a>
+        </li>
           <li>
             <a
               href="https://demo.mannequin.io"
