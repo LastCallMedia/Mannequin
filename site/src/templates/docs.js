@@ -63,7 +63,6 @@ function buildMenu(nav, headings, currId) {
         let active  = false
         if(node.id === currId) {
             active = true
-            console.log(headings)
             below = headings.filter(h2Only).map(heading => {
                 return {title: heading.value, to: anchor(heading.value), below: []}
             })
