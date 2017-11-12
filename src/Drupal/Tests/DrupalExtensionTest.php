@@ -15,6 +15,7 @@ use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Tests\Extension\ExtensionTestCase;
 use LastCall\Mannequin\Drupal\Driver\DrupalTwigDriver;
 use LastCall\Mannequin\Drupal\DrupalExtension;
+use LastCall\Mannequin\Drupal\Subscriber\DefaultVariablesSubscriber;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -32,9 +33,9 @@ class DrupalExtensionTest extends ExtensionTestCase
 
     protected function getDispatcherProphecy(): ObjectProphecy
     {
-        // For right now, we don't really test subscribers, because the Drupal
-        // extension just uses the TwigExtension's subscribers.
         $dispatcher = $this->prophesize(EventDispatcherInterface::class);
+        $dispatcher->addSubscriber(Argument::type(DefaultVariablesSubscriber::class))
+            ->shouldBeCalled();
         $dispatcher->addSubscriber(Argument::type(EventSubscriberInterface::class))
             ->shouldBeCalled();
 

@@ -12,6 +12,14 @@ This extension shares DNA with the [TwigExtension](../extensions/twig.md), but i
   * Dummy `url`, `path`, `file_link` render` functions
   * `link` and `file_url`, and `create_attribute` functions
   * `placeholder`, `drupal_escape`, `safe_join`, `without`, `clean_class`, `clean_id` filters
+* Default variables available to every template:
+  * `attributes`: An `Attribute` object.
+  * `title_attributes`: An `Attribute` object.
+  * `title_prefix`: An empty array
+  * `title_suffix`: An empty array.
+  * `db_is_active`: true
+  * `is_admin`: false
+  * `logged_in`: false
 * Additional expressions to use in Sample declarations:
   * `attributes` - Creates an attribute object.
 
