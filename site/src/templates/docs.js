@@ -38,7 +38,9 @@ export const pageQuery = graphql`
           hidden: {ne: true}
         },
       },
-      
+      sort:{
+        fields:[fields___weight]
+      }
     ) {
       edges {
         node {

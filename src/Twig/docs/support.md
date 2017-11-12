@@ -1,6 +1,7 @@
 ---
 title: FAQ/Support
 description: Troubleshooting and support information
+weight: 100
 ---
 
 ## FAQ
