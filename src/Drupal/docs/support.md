@@ -1,5 +1,5 @@
 ---
-title: FAQ/Support
+title: FAQ & Support
 description: Troubleshooting and support information
 weight: 100
 ---
