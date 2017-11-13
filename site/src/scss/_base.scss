@@ -10,35 +10,21 @@ pre code {
 
   &.language-bash {
     background: black;
-    font-size: 18px;
+    font-size: rem-calc(18);
     color: white;
     padding: rem-calc(12);
     line-height: 22px;
   }
 }
 
-%dashing-button {
-  @include dashing-hoverable;
-  text-transform: uppercase;
-  max-width: rem-calc(321px);
-  line-height: 1;
-  font-size: rem-calc(10);
-  font-weight: bold;
-  padding: rem-calc(20) rem-calc(64);
-}
-
-%capsule-shape{
-  border-radius: 9999px; /* Any impossibly large number will do, 9999 is arbitrary */
-}
-
 .button {
   // Button variants:
-  @extend %capsule-shape;
+  @include capsule-shape;
   &.dashing {
-    @extend %dashing-button;
+    @include dashing-button;
   }
   &.dashing-icon {
-    @extend %dashing-button;
+    @include dashing-button;
     @include xy-grid();
     .icon {
       @include xy-cell(shrink, $gutter-output: false, $gutter-position: right);

@@ -21,6 +21,32 @@
   }
 }
 
+@mixin capsule-shape($side: both) {
+  @if($side == right) {
+    border-top-right-radius: 9999px;
+    border-bottom-right-radius: 9999px;
+  }
+  @else if($side == left) {
+    border-top-left-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+  }
+  @else {
+    border-radius: 9999px; /* Any impossibly large number will do, 9999 is arbitrary */
+  }
+}
+
+// Button with dashed borders, small text, and plenty of padding.
+// Used on homepage, footer.
+@mixin dashing-button {
+  @include dashing-hoverable;
+  text-transform: uppercase;
+  max-width: rem-calc(321px);
+  line-height: 1;
+  font-size: rem-calc(10);
+  font-weight: bold;
+  padding: rem-calc(20) rem-calc(64);
+}
+
 // Content styles, used for interior docs page.
 // @see Page.scss.
 %textual {
