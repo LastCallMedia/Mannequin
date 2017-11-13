@@ -5,6 +5,7 @@
 @import "variables";
 @import "~foundation-sites/scss/foundation";
 
+
 @mixin dashing-hoverable {
   border: 1px dashed $dashing-gray;
   transition-property: background-color, border-color, border-style, box-shadow;
@@ -17,5 +18,38 @@
     border-color: $buttonblue;
     box-shadow: 0 9px 5px 0 rgba(0, 0, 0, 0.15);
     background: $buttonblue;
+  }
+}
+
+// Content styles, used for interior docs page.
+// @see Page.scss.
+%textual {
+  h1 {
+    font-size: rem-calc(53);
+    font-weight: 300;
+  }
+  h2 {
+    font-size: rem-calc(24);
+    font-weight: 300;
+  }
+  h3 {
+    font-size: rem-calc(18);
+  }
+  p, ul, ol {
+    font-size: rem-calc(18);
+    line-height: rem-calc(36);
+    letter-spacing: 0.1px;
+    font-weight: 300;
+  }
+  a {
+    text-decoration: underline;
+  }
+  // Inline code
+  code {
+    font-size: rem-calc(16);
+    color: #080808;
+    border: 1px solid #E9E9E9;
+    border-radius: 2px;
+    background-color: #FBFBFB;
   }
 }

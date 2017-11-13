@@ -111,35 +111,3 @@
     @extend %textual;
   }
 }
-
-%textual {
-  h1 {
-    font-size: rem-calc(53);
-    font-weight: 300;
-  }
-  h2 {
-    font-size: rem-calc(24);
-    font-weight: 300;
-  }
-  h3 {
-    font-size: rem-calc(18);
-  }
-  p, ul, ol {
-    font-size: rem-calc(18);
-    font-family: helvetica;
-    line-height: rem-calc(48);
-    letter-spacing: 0.1px;
-    font-weight: 300;
-  }
-  a {
-    text-decoration: underline;
-  }
-  // Inline code
-  code {
-    font-size: rem-calc(16);
-    color: #080808;
-    border: 1px solid #E9E9E9;
-    border-radius: 2px;
-    background-color: #FBFBFB;
-  }
-}
