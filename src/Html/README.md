@@ -7,37 +7,8 @@ Using [Composer](https://getcomposer.org/doc/00-intro.md), install Mannequin HTM
 $ composer require lastcall/mannequin-html
 ```
 Next, create a new `.mannequin.php` file in your project root.  This file is where you will configure Mannequin.  Inside of that file:
-```php
-<?php
-// .mannequin.php
-use LastCall\Mannequin\Core\MannequinConfig;
-use LastCall\Mannequin\Html\HtmlExtension;
-use Symfony\Component\Finder\Finder;
 
-// Describe where to find HTML files.
-// See https://symfony.com/doc/current/components/finder.html
-$htmlFinder = Finder::create()
-    // Change this to the folder with your HTML files.
-    ->in(__DIR__.'/html')
-    ->files()
-    ->name('*.html');
-
-$htmlExtension = new HtmlExtension([
-    'files' => $htmlFinder,
-    'root' => __DIR__
-]);
-
-// Return a MannequinConfig object...
-return MannequinConfig::create()
-  // with the HTML extension added to it.
-  ->addExtension($htmlExtension)
-  ->setGlobalJs([
-    // js/app.js    
-  ])
-  ->setGlobalCss([
-    // css/app.css
-  ]);
-```
+[@see config](demo/.mannequin.php#L23-50)
 
 See all of the [configuration options](docs/configuration.md), or [view an example project](demo/)
 

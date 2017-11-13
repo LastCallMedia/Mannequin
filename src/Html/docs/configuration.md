@@ -2,25 +2,50 @@
 title: Configuration
 description: Configuration reference for Mannequin HTML Extension
 ---
-The `HtmlExtension` accepts the following configuration options:
 
-| Key | Description |
-| --- | ----------- |
-| files | A [Symfony Finder](https://symfony.com/doc/current/components/finder.html) object that will search for the HTML files you want to use as components. |
-| root | An absolute path to the base directory (typically the current directory). This will be used to convert absolute paths to relative ones.|
+Mannequin configuration lives in the `.mannequin.php` at the root of your project.  You should create this file, starting from the following example:
 
-## Example
+[@see config](../demo/.mannequin.php#L23-50)
+
+## HTML Configuration
+The `HtmlExtension` is what tells Mannequin how to access your Twig templates.  The mandatory arguments are the `finder` and the `twig_root`, but you can pass in `twig_options` as well:
 ```php
-use LastCall\Mannequin\Html\HtmlExtension;
-use Symfony\Component\Finder\Finder;
+<?php
 
-$extension = HtmlExtension::create([
-  // An array, or traversable containing absolute paths
-  // to component .html files.  Usually a Symfony Finder
-  // object.
-  'files' => Finder::create(),
-  // A directory beneath which all templates live.
-  // Typically the current directory.
-  'root' => __DIR__,
+$twigExtension = new HtmlExtension([
+    // A Symfony Finder object.
+    'finder' => $htmlFiles,
+    // The path to your 'root' directory. This is used
+    // to convert absolute paths into relative ones.
+    'root' => __DIR__
+]);
+```
+For more documentation on the Finder, see the [Symfony Finder documentation](https://symfony.com/doc/current/components/finder.html).
+
+## Mannequin Config
+The `MannequinConfig` class handles configuration for Mannequin in general (the non-Drupal parts).  The configuration has a number of methods you can use to define your setup:
+
+```php
+<?php
+
+$config = MannequinConfig::create();
+
+// Add an extension to the Mannequin configuration:
+$config->addExtension($drupalExtension);
+
+// Set the CSS files that are used for every component.  CSS can be referenced
+// using a relative path, in which case it will be looked up
+// relative to your .mannequin.php, or an absolute URL.
+$config->setGlobalCss([
+    'themes/mytheme/css/theme.css',
+    'http://example.com/theme.css',
+]);
+
+// Set the JS files that are used for every component.  JS can be referenced
+// using a relative path, in which case it will be looked up
+// relative to your .mannequin.php, or an absolute URL.
+$config->setGlobalJs([
+    'themes/mytheme/js/theme.js',
+    'http://example.com/theme.js'
 ]);
 ```
