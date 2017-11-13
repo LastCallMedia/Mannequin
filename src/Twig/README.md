@@ -7,35 +7,8 @@ Using [Composer](https://getcomposer.org/doc/00-intro.md), install Mannequin Twi
 $ composer require lastcall/mannequin-twig
 ```
 Next, create a new `.mannequin.php` file in your project root.  This file is where you will configure Mannequin.  Inside of that file:
-```php
-<?php
-// .mannequin.php
-use LastCall\Mannequin\Core\MannequinConfig;
-use LastCall\Mannequin\Twig\TwigExtension;
-use Symfony\Component\Finder\Finder;
 
-// Describe where to find Twig templates.
-// See https://symfony.com/doc/current/components/finder.html
-$twigFinder = Finder::create()
-    // Templates can just live in your normal templates directory.
-    ->in(__DIR__.'/resources/views')
-    ->files()
-    ->name('*.twig');
-    
-$drupalExtension = new TwigExtension([
-    'finder' => $drupalFinder,
-    'twig_root' => __DIR__,
-]);
-
-return MannequinConfig::create()
-  ->addExtension($drupalExtension)
-  ->setGlobalJs([
-    // js/app.js 
-  ])
-  ->setGlobalCss([
-    // css/app.css
-  ]);
-```
+[@see config](demo/.mannequin.php#L23-50)
 
 See all of the [configuration options](docs/configuration.md), or [view an example project](demo/)
 

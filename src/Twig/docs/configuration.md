@@ -3,31 +3,64 @@ title: Configuration
 description: Configuration for the Mannequin TWig extension.
 ---
 
-The `TwigExtension` object accepts the following configuration options:
 
-| Key | Description |
-| --- | ----------- |
-| finder | A [Symfony Finder](https://symfony.com/doc/current/components/finder.html) object that will search for the Twig template files you want to use as components. |
-| twig_root | An absolute path to the base directory containing your Drupal installation.  This will be used to create a Twig filesystem loader internally. |
-| twig_options | An associative array of [options to pass to Twig](https://twig.symfony.com/api/2.x/Twig_Environment.html#method___construct).  Defaults to using a `cache` property of the Mannequin cache directory. |
+Mannequin configuration lives in the `.mannequin.php` at the root of your project.  You should create this file, starting from the following example:
 
-It also has the following methods to be used for configuration:
-* `addTwigPath(string $namespace, string $path)` Adds an additional path to the Twig loader, under a specific namespace.  Use this method to add additional namespaces to the loader.  If you want to use components inside of the added namespace, make sure to add the paths to your `Finder` as well.
+[@see config](../demo/.mannequin.php#L23-50)
 
-Example
--------
+## Twig Configuration
+The `TwigExtension` is what tells Mannequin how to access your Twig templates.  The mandatory arguments are the `finder` and the `twig_root`, but you can pass in `twig_options` as well:
 ```php
-// .mannequin.php
+<?php
 
-$extension = new TwigExtension([
-  'finder' => Finder::create(),
-  'drupal_root' => __DIR__,
-  'twig_options' => [
-    'debug' => true,
-  ]
+$twigExtension = new TwigExtension([
+    // A Symfony Finder object.
+    'finder' => $drupalFinder,
+    // The path to your Drupal root.
+    'twig_root' => __DIR__,
+    // Optional: An associative array of options
+    // to pass to the Twig environment.
+    'twig_options' => [
+      'debug' => true
+    ]
+]);
+```
+For more documentation on the Finder, see the [Symfony Finder documentation](https://symfony.com/doc/current/components/finder.html).  For information on the `twig_options` array, see the [Twig documentation](https://twig.symfony.com/api/2.x/Twig_Environment.html#method___construct).
+
+The `TwigExtension` also has a couple additional methods you can use.
+```php
+<?php
+// Register a new Twig namespace so @atoms/X.html.twig loads the template
+// in themes/mytheme/patterns/atoms/X.html.twig.  If you want to use
+// templates from this namespace as components, be sure to add them to your
+// finder as well.
+$twigExtension->addTwigPath('atoms', 'themes/mytheme/patterns/atoms');
+```
+
+## Mannequin Config
+The `MannequinConfig` class handles configuration for Mannequin in general (the non-Drupal parts).  The configuration has a number of methods you can use to define your setup:
+
+```php
+<?php
+
+$config = MannequinConfig::create();
+
+// Add an extension to the Mannequin configuration:
+$config->addExtension($drupalExtension);
+
+// Set the CSS files that are used for every component.  CSS can be referenced
+// using a relative path, in which case it will be looked up
+// relative to your .mannequin.php, or an absolute URL.
+$config->setGlobalCss([
+    'themes/mytheme/css/theme.css',
+    'http://example.com/theme.css',
 ]);
 
-// Add an additional namespace to the loader.
-// Note: To use this namespace in Drupal, you would also need to register it there.
-$extension->addTwigPath('atoms', __DIR__.'/themes/mytheme/atoms');
+// Set the JS files that are used for every component.  JS can be referenced
+// using a relative path, in which case it will be looked up
+// relative to your .mannequin.php, or an absolute URL.
+$config->setGlobalJs([
+    'themes/mytheme/js/theme.js',
+    'http://example.com/theme.js'
+]);
 ```
