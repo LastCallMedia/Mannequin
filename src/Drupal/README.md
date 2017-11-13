@@ -17,7 +17,7 @@ use Symfony\Component\Finder\Finder;
 // Describe where to find Drupal templates.
 // See https://symfony.com/doc/current/components/finder.html
 $drupalFinder = Finder::create()
-    // Templates can just live in your normal templates directory.
+    // Templates can live in your normal templates directory.
     ->in(__DIR__.'/themes/mytheme/templates')
     ->files()
     ->name('*.twig');

@@ -58,6 +58,8 @@ class MannequinConfig implements ConfigInterface
     }
 
     /**
+     * Add an extension to Mannequin.
+     *
      * @param \LastCall\Mannequin\Core\Extension\ExtensionInterface $extension
      *
      * @return static
@@ -70,6 +72,8 @@ class MannequinConfig implements ConfigInterface
     }
 
     /**
+     * Create a new MannequinConfig object.
+     *
      * @param array $values
      *
      * @return static
@@ -92,7 +96,7 @@ class MannequinConfig implements ConfigInterface
     /**
      * Set the CSS files to include for every component.
      *
-     * @param array $css an array of javascript URLs or paths
+     * @param array $css An array of URLs or relative paths to CSS files.
      *
      * @return static
      */
@@ -114,7 +118,7 @@ class MannequinConfig implements ConfigInterface
     /**
      * Set the JS files to include for every component.
      *
-     * @param array $js an array of javascript URLs or paths
+     * @param array $css An array of URLs or relative paths to JS files.
      *
      * @return static
      */
@@ -126,6 +130,8 @@ class MannequinConfig implements ConfigInterface
     }
 
     /**
+     * Define the assets that need to be copied when snapshotting components.
+     *
      * @param array|\Traversable $assets
      *
      * @return \LastCall\Mannequin\Core\MannequinConfig
