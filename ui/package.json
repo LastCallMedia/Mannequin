@@ -39,8 +39,8 @@
     "analyze": "source-map-explorer build/static/js/main.*",
     "styleguide-server": "styleguidist server",
     "styleguide": "npm-run-all -p watch-css styleguide-server",
-    "prettier-fix": "prettier --single-quote --write \"src/**/*.{js,jsx}\"",
-    "prettier-check": "prettier --single-quote -l \"src/**/*.{js,jsx}\""
+    "prettier-fix": "prettier --single-quote --write 'src/**/*.{js,jsx}' '*.js'",
+    "prettier-check": "prettier --single-quote -l 'src/**/*.{js,jsx}' '*.js'"
   },
   "homepage": ".",
   "files": [

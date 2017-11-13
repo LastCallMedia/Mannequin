@@ -72,8 +72,11 @@ class MainMenuItem extends Component {
             {leaf.icon}
             {leaf.name}
           </a>
-          <AnimateHeight height={isCollapsed ? 0 : 'auto'} className="SubmenuContainer">
-            <Menu tree={leaf.children} settings={childSettings}/>
+          <AnimateHeight
+            height={isCollapsed ? 0 : 'auto'}
+            className="SubmenuContainer"
+          >
+            <Menu tree={leaf.children} settings={childSettings} />
           </AnimateHeight>
         </li>
       );

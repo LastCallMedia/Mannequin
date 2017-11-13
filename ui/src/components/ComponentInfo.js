@@ -130,8 +130,8 @@ class ComponentInfoCode extends Component {
           {sample && (
             <a
               className={cx({
-                  'CodeButton': true,
-                  'active': src === sample.source,
+                CodeButton: true,
+                active: src === sample.source
               })}
               onClick={this.switchMode}
               data-src={sample.source}
@@ -143,8 +143,8 @@ class ComponentInfoCode extends Component {
           {component && (
             <a
               className={cx({
-                'CodeButton': true,
-                'active': src === component.source,
+                CodeButton: true,
+                active: src === component.source
               })}
               onClick={this.switchMode}
               data-src={component.source}
