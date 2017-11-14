@@ -52,6 +52,7 @@ Specifies where the component appears in the Mannequin UI. You can use whatever 
 group: Atoms
 # or... 
 group: Molecules>Containers
+#}
 ```
 ## samples
 Samples are named sets of variables you can view in the Mannequin UI.  Samples provide examples of how the component will look in the real world.  Samples are named.  Eg: the following example has two samples, "Small", and "Large."

@@ -24,6 +24,7 @@ module.exports = {
           { resolve: `${__dirname}/lib/remark-embed-snippet` },
           'gatsby-remark-autolink-headers',
           { resolve: `${__dirname}/lib/remarked-strip-md-links` },
+          { resolve: `gatsby-remark-prismjs` },
         ],
       },
     },
