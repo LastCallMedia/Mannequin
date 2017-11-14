@@ -1,0 +1,26 @@
+
+@import "../scss/init";
+
+.GetSupportButton {
+  $icon-size: rem-calc(20);
+  @include dashing-button;
+  @include capsule-shape;
+  display: block;
+  text-align:center;
+  padding-left: rem-calc(35);
+  padding-right: rem-calc(35);
+  color: white;
+  margin-bottom: 1rem;
+
+  &:hover {
+    color: white;
+  }
+
+  .text {
+    line-height: $icon-size;
+  }
+  .icon {
+    font-size: $icon-size;
+    margin-right: 20px;
+  }
+}

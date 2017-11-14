@@ -13,42 +13,8 @@
       justify-content: center;
     }
   }
-  .footer-link.button {
+  .GetSupportButton {
     margin-left: auto;
     margin-right: auto;
-  }
-
-}
-
-.Newsletter {
-  max-width: rem-calc(321px);
-  margin: 0 auto;
-
-  div {
-    display: flex;
-    margin-bottom: 1rem;
-
-    button, input {
-      margin-bottom: 0;
-    }
-
-    input {
-      @include capsule-shape(left);
-      padding: rem-calc(20);
-      padding-left: rem-calc(24);
-      font-size: rem-calc(13);
-      height: auto;
-      flex: 1 1 0;
-      border: none;
-      background: white;
-    }
-    button {
-      @include dashing-button;
-      @include capsule-shape(right);
-      color: white;
-      padding-left: rem-calc(16);
-      padding-right: rem-calc(16);
-      cursor: pointer;
-    }
   }
 }
