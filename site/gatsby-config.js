@@ -21,6 +21,7 @@ module.exports = {
       resolve: 'gatsby-transformer-remark',
       options: {
         plugins: [
+          { resolve: `${__dirname}/lib/remark-embed-snippet` },
           'gatsby-remark-autolink-headers',
           { resolve: `${__dirname}/lib/remarked-strip-md-links` },
         ],
