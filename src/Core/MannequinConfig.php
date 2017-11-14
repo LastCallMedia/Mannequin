@@ -96,7 +96,7 @@ class MannequinConfig implements ConfigInterface
     /**
      * Set the CSS files to include for every component.
      *
-     * @param array $css An array of URLs or relative paths to CSS files.
+     * @param array $css an array of URLs or relative paths to CSS files
      *
      * @return static
      */
@@ -118,7 +118,7 @@ class MannequinConfig implements ConfigInterface
     /**
      * Set the JS files to include for every component.
      *
-     * @param array $css An array of URLs or relative paths to JS files.
+     * @param array $css an array of URLs or relative paths to JS files
      *
      * @return static
      */
