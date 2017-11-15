@@ -22,12 +22,14 @@
         transition: height .25s ease-in-out;
         height: calc(100vh - 58px);
         visibility: visible;
+        overflow: auto;
       }
     }
   }
   main {
     flex: 1;
     position: relative;
+    margin: rem-calc(20);
   }
 
   .EditLink {
@@ -52,22 +54,19 @@
     grid-template-rows: 1fr auto;
     > header {
       position: static;
-      > .h-inner {
-        position: sticky;
-        top: 0;
-        // Allow the nav to scroll if there's not enough vertical space.
-        max-height: 100vh;
-        overflow: auto;
-      }
       nav {
         position: static;
         height: auto;
         visibility: visible;
         overflow: auto;
+        &.open {height: auto;}
       }
     }
     > footer {
       grid-column: 1/3;
+    }
+    main {
+      margin: rem-calc(30) rem-calc(60);
     }
     .HamburgerButton { display: none; }
   }
@@ -77,34 +76,15 @@
     background: #181D22;
     color: white;
     text-align: center;
-    border-bottom: 1px dotted #39424A;
-    button {
+    border-bottom: 1px dashed #39424A;
+    .HamburgerButton {
       position: absolute;
       right: 0;
       z-index: 1;
     }
-    nav {
-      text-align: left;
-      background: #181D22;
-    }
     .Branding {
       margin: rem-calc(16);
     }
-    .PageMenu {
-      a.anchor-link {display: none;}
-      @include breakpoint(large) {
-        a.anchor-link {display: block;}
-      }
-    }
-  }
-  > nav {
-    background: #181D22;
-    color: white;
-  }
-
-
-  .content, .title {
-    margin: 0 30px;
   }
 
   main {

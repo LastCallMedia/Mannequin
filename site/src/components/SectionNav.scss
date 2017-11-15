@@ -1,0 +1,47 @@
+
+@import "../scss/init";
+
+.SectionNav {
+  padding: rem-calc(23) rem-calc(23);
+  border: 1px dashed $dashing-gray;
+  margin: rem-calc(20);
+
+  .current {
+    color: white;
+    font-size: 23px;
+    font-family: Helvetica;
+    letter-spacing: 1px;
+    line-height: 28px;
+    font-weight: bold;
+  }
+  .label {
+    font-size: 14px;
+    color: #343C44;
+    line-height: 17px;
+    font-weight: bold;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    display: none;
+
+    &.showing {
+      display: block;
+    }
+
+    a {
+      font-family: Helvetica;
+      display: block;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: rem-calc(13);
+      line-height: rem-calc(16);
+      color: white;
+      padding: rem-calc(15);
+      &:hover {
+        color: inherit;
+      }
+
+    }
+  }
+}

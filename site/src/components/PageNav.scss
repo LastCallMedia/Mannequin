@@ -1,0 +1,68 @@
+
+@import "../scss/init";
+
+.SectionHeader {
+  display: block;
+  padding: rem-calc(23) rem-calc(23);
+  border: 1px dashed $dashing-gray;
+  margin: rem-calc(20);
+
+  h3 {
+    color: white;
+    font-size: 23px;
+    font-family: Helvetica;
+    letter-spacing: 1px;
+    line-height: 28px;
+    font-weight: bold;
+  }
+  h5 {
+    font-size: 14px;
+    font-family: Helvetica;
+    color: #343C44;
+    line-height: 17px;
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+}
+
+> header {
+  background: #181D22;
+  color: white;
+  text-align: center;
+  border-bottom: 1px dashed #39424A;
+  .HamburgerButton {
+    position: absolute;
+    right: 0;
+    z-index: 1;
+  }
+  nav {
+    text-align: left;
+    background: #181D22;
+  }
+  .Branding {
+    margin: rem-calc(16);
+  }
+  .NewsletterSignup {
+    margin: rem-calc(60) rem-calc(20) 1rem;
+  }
+  .GetSupportButton {
+    margin: 1rem rem-calc(20) rem-calc(60);
+  }
+}
+> nav {
+  background: #181D22;
+  color: white;
+}
+
+.PageNav {
+  text-align: left;
+  background: #181D22;
+
+  .buttons {
+    margin: rem-calc(60) rem-calc(20);
+  }
+  .NewsletterSignup, .GetSupportButton {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

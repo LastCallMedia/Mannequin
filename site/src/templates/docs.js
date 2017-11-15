@@ -6,12 +6,12 @@ import MenuTree from '../components/MenuTree'
 export default function Template(props) {
   const { markdownRemark: post, allMarkdownRemark: nav } = props.data
   const menu = buildMenu(nav.edges, post.headings, post.id)
-
   return (
     <Page
       title={post.frontmatter.title}
       description={post.frontmatter.description}
       menu={menu}
+      section={post.fields.extension}
       edit={post.fields.ghEditUrl}
     >
       <div dangerouslySetInnerHTML={{ __html: post.html }} />
@@ -33,7 +33,8 @@ export const pageQuery = graphql`
         description
       }
       fields {
-        ghEditUrl
+        ghEditUrl,
+        extension
       }
     }
     allMarkdownRemark(

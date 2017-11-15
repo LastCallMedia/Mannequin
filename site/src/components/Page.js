@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Branding from './Branding'
-import MenuTree from './MenuTree'
+import PageNav from './PageNav'
 import HamburgerButton from './HamburgerButton'
-import Footer from './Footer'
 import PencilIcon from 'react-icons/lib/go/pencil'
 import Helmet from 'react-helmet'
 import cx from 'classnames'
@@ -19,7 +18,7 @@ export default class Page extends Component {
     this.setState(state => ({ showNav: !state.showNav }))
   }
   render() {
-    const { title, description, menu, edit, children } = this.props
+    const { title, description, menu, section, edit, children } = this.props
     const { showNav } = this.state
     return (
       <div className="Page">
@@ -28,14 +27,10 @@ export default class Page extends Component {
           <meta name="description" content={description} />
         </Helmet>
 
-        <header className="branding-wrap">
-          <div className="h-inner">
+        <header>
             <Branding tiny to={'/'} />
             <HamburgerButton onClick={this.toggleNav} />
-            <nav className={cx({ open: showNav })}>
-              <MenuTree links={menu} />
-            </nav>
-          </div>
+            <PageNav className={cx({open: showNav})} section={section} menu={menu} />
         </header>
         <main>
           <h1 className="title">{title}</h1>
@@ -46,7 +41,6 @@ export default class Page extends Component {
           )}
           <div className="content">{children}</div>
         </main>
-        <Footer />
       </div>
     )
   }
@@ -63,6 +57,7 @@ Page.propTypes = {
   description: PropTypes.string,
   edit: PropTypes.string,
   menu: PropTypes.arrayOf(menuItemShape),
+  section: PropTypes.string,
   children: PropTypes.node.isRequired,
 }
 Page.defaultProps = {
