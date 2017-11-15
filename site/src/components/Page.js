@@ -28,9 +28,13 @@ export default class Page extends Component {
         </Helmet>
 
         <header>
-            <Branding tiny to={'/'} />
-            <HamburgerButton onClick={this.toggleNav} />
-            <PageNav className={cx({open: showNav})} section={section} menu={menu} />
+          <Branding tiny to={'/'} />
+          <HamburgerButton onClick={this.toggleNav} />
+          <PageNav
+            className={cx({ open: showNav })}
+            section={section}
+            menu={menu}
+          />
         </header>
         <main>
           <h1 className="title">{title}</h1>

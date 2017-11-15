@@ -25,35 +25,6 @@
   }
 }
 
-> header {
-  background: #181D22;
-  color: white;
-  text-align: center;
-  border-bottom: 1px dashed #39424A;
-  .HamburgerButton {
-    position: absolute;
-    right: 0;
-    z-index: 1;
-  }
-  nav {
-    text-align: left;
-    background: #181D22;
-  }
-  .Branding {
-    margin: rem-calc(16);
-  }
-  .NewsletterSignup {
-    margin: rem-calc(60) rem-calc(20) 1rem;
-  }
-  .GetSupportButton {
-    margin: 1rem rem-calc(20) rem-calc(60);
-  }
-}
-> nav {
-  background: #181D22;
-  color: white;
-}
-
 .PageNav {
   text-align: left;
   background: #181D22;

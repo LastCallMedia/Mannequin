@@ -1,7 +1,7 @@
 import React from 'react'
 import Branding from './Branding'
-import NewsletterSignup from './NewsletterSignup';
-import GetSupportButton from './GetSupportButton';
+import NewsletterSignup from './NewsletterSignup'
+import GetSupportButton from './GetSupportButton'
 
 import './Footer.scss'
 

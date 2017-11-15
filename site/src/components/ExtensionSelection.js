@@ -1,13 +1,11 @@
-
-import React from 'react';
+import React from 'react'
 import Link from 'gatsby-link'
 import DrupalLogo from '../img/drupal.png'
 import TwigLogo from '../img/twig.png'
 import HtmlLogo from '../img/html.png'
 import './ExtensionSelection.scss'
 
-export default function ExtensionSelection({className}) {
-
+export default function ExtensionSelection({ className }) {
   return (
     <ul className={`ExtensionSelection ${className}`}>
       <li>
@@ -31,12 +29,7 @@ export default function ExtensionSelection({className}) {
       <li>
         <Link to="/extensions/drupal" className="Extension">
           <div className="img-container">
-            <img
-              src={DrupalLogo}
-              alt="Drupal Logo"
-              height="43"
-              width="160"
-            />
+            <img src={DrupalLogo} alt="Drupal Logo" height="43" width="160" />
           </div>
           <h4>Drupal</h4>
           <p>Display Drupal 8 Twig Templates as Mannequin Components.</p>

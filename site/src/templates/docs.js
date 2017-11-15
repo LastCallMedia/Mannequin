@@ -33,7 +33,7 @@ export const pageQuery = graphql`
         description
       }
       fields {
-        ghEditUrl,
+        ghEditUrl
         extension
       }
     }

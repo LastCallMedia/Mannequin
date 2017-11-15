@@ -1,4 +1,3 @@
-
 import React from 'react'
 import MailchimpForm from 'react-mailchimp-subscribe'
 import './NewsletterSignup.scss'

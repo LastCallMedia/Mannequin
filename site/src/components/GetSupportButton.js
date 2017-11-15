@@ -1,7 +1,6 @@
-
-import React from 'react';
+import React from 'react'
 import GithubIcon from 'react-icons/lib/go/mark-github'
-import './GetSupportButton.scss';
+import './GetSupportButton.scss'
 
 export default function GetSupportButton() {
   return (
