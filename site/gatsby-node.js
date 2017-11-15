@@ -94,7 +94,7 @@ const getHidden = fileNode => isChangeLog(fileNode)
 
 function getMenuTitle(node, fileNode) {
   if (isReadme(fileNode)) {
-    return getExtension(fileNode)
+    return 'Overview'
   }
   return node.frontmatter.title
 }

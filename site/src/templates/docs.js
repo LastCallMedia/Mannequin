@@ -47,6 +47,7 @@ export const pageQuery = graphql`
         node {
           fields {
             slug
+            menuTitle
           }
           frontmatter {
             title
@@ -69,7 +70,7 @@ function buildMenu(nav, headings, currId) {
       })
     }
     return {
-      title: node.frontmatter.title,
+      title: node.fields.menuTitle,
       to: node.fields.slug,
       below,
       active,
