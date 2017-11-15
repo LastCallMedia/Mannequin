@@ -22,6 +22,7 @@
       flex: 1 1 0;
       border: none;
       background: white;
+      overflow: hidden;
     }
     button {
       @include dashing-button;

@@ -200,16 +200,11 @@
     font-weight: bold;
     margin-bottom: rem-calc(96);
   }
-  %step + %step {
-    margin-top: rem-calc(96);
-  }
-}
-
-%step {
   .intro {
     background-color: #1B2126;
     padding: rem-calc(30) rem-calc(50);
     margin: 0 auto;
+    max-width: rem-calc(600);
     h3 {
       font-size: rem-calc(24);
       font-weight: bold;
@@ -223,82 +218,5 @@
       }
     }
   }
-  p {
-    font-size: rem-calc(12);
-    line-height: rem-calc(24);
-    font-weight: 300;
-    color: $blue-gray;
-    text-transform: uppercase;
-    margin-bottom: 0;
-  }
-  code {
-    background: transparent;
-    border: none;
-    color: inherit;
-  }
-  .intro + .content {
-    margin-top: rem-calc(40);
-  }
-}
-
-.ChooseExtensionStep {
-  @include xy-grid-container();
-  @extend %step;
-  .intro { max-width: rem-calc(600); }
-  ul.content {
-    list-style:none;
-    margin: auto;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    li {
-      max-width: rem-calc(312);
-      @include xy-gutters($gutter-position: right left top bottom);
-    }
-
-    a {
-      @include dashing-hoverable;
-      color: $white;
-      text-align: left;
-      display: block;
-      padding: rem-calc(38) rem-calc(30) rem-calc(16) rem-calc(20);
-
-      &:hover {
-        p {
-          color: $white;
-        }
-      }
-      h4 {
-        text-transform: uppercase;
-        font-size: rem-calc(18);
-        line-height: rem-calc(23);
-        font-weight: bold;
-        margin-bottom: rem-calc(5);
-      }
-      .img-container {
-        min-height: rem-calc(86);
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        margin-bottom: rem-calc(38);
-      }
-    }
-  }
-}
-.ConfigureStep {
-  @extend %step;
-  .intro { max-width: rem-calc(338); }
-  .content{
-    max-width: rem-calc(326);
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-.RunStep {
-  @extend %step;
-  .intro { max-width: rem-calc(670); }
-}
-
-.FurtherReadingPane {
-  @include xy-grid-container();
+  .ExtensionSelection { margin-top: rem-calc(40); }
 }

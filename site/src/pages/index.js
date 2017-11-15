@@ -9,9 +9,7 @@ import Bubble, {
   BubbleLayerBoundary,
 } from '../components/Bubble'
 import MouseIcon from '../components/MouseIcon'
-import DrupalLogo from '../img/drupal.png'
-import TwigLogo from '../img/twig.png'
-import HtmlLogo from '../img/html.png'
+import ExtensionSelection from '../components/ExtensionSelection'
 import Manny from '!svg-react-loader?name=Logo!../img/Logo.svg'
 
 export default function IndexPage() {
@@ -154,40 +152,7 @@ function GettingStartedPane() {
         <div className="intro">
           <h3>What kind of templates are you using?</h3>
         </div>
-        <ul className="content">
-          <li>
-            <Link to="/extensions/html">
-              <div className="img-container">
-                <img src={HtmlLogo} alt="HTML 5 Logo" height="76" width="54" />
-              </div>
-              <h4>HTML</h4>
-              <p>Display Static HTML files as Mannequin Components.</p>
-            </Link>
-          </li>
-          <li>
-            <Link to="/extensions/twig">
-              <div className="img-container">
-                <img src={TwigLogo} alt="Twig Logo" height="85" width="60" />
-              </div>
-              <h4>Twig</h4>
-              <p>Display Twig Templates as Mannequin Components.</p>
-            </Link>
-          </li>
-          <li>
-            <Link to="/extensions/drupal">
-              <div className="img-container">
-                <img
-                  src={DrupalLogo}
-                  alt="Drupal Logo"
-                  height="43"
-                  width="160"
-                />
-              </div>
-              <h4>Drupal</h4>
-              <p>Display Drupal 8 Twig Templates as Mannequin Components.</p>
-            </Link>
-          </li>
-        </ul>
+        <ExtensionSelection />
       </div>
     </div>
   )

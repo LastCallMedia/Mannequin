@@ -1,0 +1,50 @@
+
+@import "../scss/init";
+
+.ExtensionSelection {
+  list-style: none;
+  margin: auto;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+
+  > li {
+    max-width: rem-calc(312);
+    margin: rem-calc(15);
+  }
+}
+
+.Extension {
+  @include dashing-hoverable;
+  display: block;
+  text-align: left;
+  padding: rem-calc(38) rem-calc(30) rem-calc(16) rem-calc(20);
+  color: white;
+
+  &:hover {
+    &, h4, p { color: white;}
+  }
+
+  .img-container {
+    min-height: rem-calc(86);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-bottom: rem-calc(38);
+  }
+  h4 {
+    text-transform: uppercase;
+    font-size: rem-calc(18);
+    line-height: rem-calc(23);
+    font-weight: bold;
+    margin-bottom: rem-calc(5);
+  }
+  p {
+    font-size: rem-calc(12);
+    line-height: rem-calc(24);
+    font-weight: 300;
+    color: $blue-gray;
+    text-transform: uppercase;
+    margin-bottom: 0;
+  }
+}
