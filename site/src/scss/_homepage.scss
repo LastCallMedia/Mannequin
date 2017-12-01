@@ -3,7 +3,7 @@
   color: $white;
 
   .HomepageTopBar {
-    position: relative;
+    position: absolute;
     z-index: 3;
   }
 }
@@ -26,14 +26,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 80vh;
+    height: 100vh;
     width: 100%;
   }
 
   .HomepageHero + .mouse-icon {
-    position: absolute;
+    position: relative;
     margin-left: -12px; /* Subtracting half it's width, so any positioning will be relative to it's center, not left edge*/
-    bottom: rem-calc(20);
+    top: rem-calc(-60);
     left: 50%;
   }
 
