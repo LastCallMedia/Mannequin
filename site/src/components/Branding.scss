@@ -12,6 +12,12 @@
     // Logo should be vertically centered, relative to the name.
     margin-top: rem-calc(($name_font_size - $logo_h) / 2 * .9);
   }
+  .right {
+    // Separator should be have right margin as specified, left margin
+    // applied at a ratio of 42/39 of the right margin.
+    margin-left: rem-calc($divider_margin);
+    padding-left: rem-calc($divider_margin * 42/39);
+  }
   .name {
     @if($reduce_on_mobile) {
       font-size: rem-calc($name_font_size * .85);
@@ -24,15 +30,6 @@
     }
 
   }
-  .separator {
-    // Separator should be 60% of the name font size.
-    height: rem-calc($name_font_size * .6);
-    // Separator should be vertically centered relative to the name.
-    $vmargin: rem-calc($name_font_size * .2);
-    // Separator should be have right margin as specified, left margin
-    // applied at a ratio of 42/39 of the right margin.
-    margin: $vmargin rem-calc($divider_margin) $vmargin rem-calc($divider_margin * 42/39);
-  }
   .slogan {
     margin-top: rem-calc(10);
     // Shift the slogan left 6px when the name_font_size is 73px, and scale
@@ -43,6 +40,10 @@
 
 .Branding {
   display: inline-flex;
+  .right {
+    text-align: left;
+    border-left: 1px dashed $dashing-gray;
+  }
   .name {
     font-family: $impact-font-family;
     font-weight: 700;
@@ -64,6 +65,7 @@
   }
 
   .slogan {
+    margin-bottom: 0;
     font-size: rem-calc(12);
     color: inherit;
     font-weight: 300;
@@ -72,9 +74,6 @@
     span {
       background-color: #1B2126;
     }
-  }
-  .separator {
-    border-left: 1px dashed $dashing-gray;
   }
 
   @include branding-layout(53, 31, 20);

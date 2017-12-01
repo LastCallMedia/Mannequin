@@ -23,7 +23,11 @@
   }
 
   .HomepageHero {
-    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    width: 100%;
   }
 
   .HomepageHero + .mouse-icon {
@@ -59,19 +63,12 @@
 .HomepageHero {
   @include xy-grid-container();
   .inner {
-    @include breakpoint(large) {
-      max-width: xy-cell-size(9);
-    }
+    width: 75%;
     margin: 0 auto;
-    @include breakpoint(large){
-      margin-left: xy-cell-size(1);
-    }
-
-
+    text-align: center;
   }
-  padding: rem-calc(200) 0 0;
   .Branding {
-    margin-bottom: rem-calc(20);
+    margin-bottom: rem-calc(46.5);
     @include grid-column-gutter();
   }
   ul.links {
