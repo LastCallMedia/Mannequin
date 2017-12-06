@@ -1,48 +1,24 @@
-
 @import "../scss/init";
 
-// This mixin calculates the ratios of the logo, name, and slogan
-@mixin branding-layout($logo_w, $name_font_size, $divider_margin, $reduce_on_mobile: true) {
-  .logo {
-    // Height is calculated at a ratio of 61/63.  Change this if the logo image changes
-    // dimensions.
-    $logo_h: (61/63) * $logo_w;
-    width: rem-calc($logo_w);
-    height: rem-calc($logo_h);
-    // Logo should be vertically centered, relative to the name.
-    margin-top: rem-calc(($name_font_size - $logo_h) / 2 * .9);
-  }
-  .right {
-    // Separator should be have right margin as specified, left margin
-    // applied at a ratio of 42/39 of the right margin.
-    margin-left: rem-calc($divider_margin);
-    padding-left: rem-calc($divider_margin * 42/39);
-  }
-  .name {
-    @if($reduce_on_mobile) {
-      font-size: rem-calc($name_font_size * .85);
-      @include breakpoint(medium) {
-        font-size: rem-calc($name_font_size);
-      }
-    }
-    @else {
-      font-size: rem-calc($name_font_size);
-    }
-
-  }
-  .slogan {
-    margin-top: rem-calc(10);
-    // Shift the slogan left 6px when the name_font_size is 73px, and scale
-    // that margin accordingly at all other sizes.
-    margin-left: rem-calc((6 * $name_font_size / 73));
-  }
-}
+$logo_w: 100;
+$divider_margin: 39;
+$name_font_size: 79;
+$name_font_size_small: 40;
 
 .Branding {
-  display: inline-flex;
-  .right {
-    text-align: left;
-    border-left: 1px dashed $dashing-gray;
+  @include breakpoint(medium) {
+    display: inline-flex;
+    .right {
+      text-align: left;
+      border-left: 1px dashed $dashing-gray;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      // Separator should be have right margin as specified, left margin
+      // applied at a ratio of 42/39 of the right margin.
+      margin-left: rem-calc($divider_margin);
+      padding-left: rem-calc($divider_margin * 42/39);
+    }
   }
   .name {
     font-family: $impact-font-family;
@@ -50,9 +26,19 @@
     text-transform: uppercase;
     color: white;
     margin-bottom: 0;
-    line-height: 1;
+    font-size: rem-calc($name_font_size);
+    line-height: 0.7;
+    @include breakpoint(small only) {
+      margin: rem-calc(23) 0;
+      font-size: rem-calc($name_font_size_small);
+    }
   }
   .logo {
+    // Height is calculated at a ratio of 61/63.  Change this if the logo image changes
+    // dimensions.
+    $logo_h: (61/63) * $logo_w;
+    width: rem-calc($logo_w);
+    height: rem-calc($logo_h);
     stroke: white;
     fill: white;
   }
@@ -65,6 +51,10 @@
   }
 
   .slogan {
+    margin-top: rem-calc(10);
+    // Shift the slogan left 6px when the name_font_size is 73px, and scale
+    // that margin accordingly at all other sizes.
+    margin-left: rem-calc((6 * $name_font_size / 73));
     margin-bottom: 0;
     font-size: rem-calc(12);
     color: inherit;
@@ -76,7 +66,6 @@
     }
   }
 
-  @include branding-layout(53, 31, 20);
   // Variations:
   &.dark {
     .logo {
@@ -85,14 +74,6 @@
     }
     .name {
       color: $black;
-    }
-  }
-  &.tiny {
-    @include branding-layout(27, 24, 10, false);
-  }
-  &.large {
-    @include breakpoint(large) {
-      @include branding-layout(63, 73, 39);
     }
   }
 }

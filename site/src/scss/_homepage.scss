@@ -63,7 +63,8 @@
 .HomepageHero {
   @include xy-grid-container();
   .inner {
-    width: 75%;
+    width: 100%;
+    max-width: 960px;
     margin: 0 auto;
     text-align: center;
   }
@@ -74,13 +75,14 @@
   ul.links {
     list-style:none;
     margin: 0;
-    @include xy-grid();
-    @include xy-grid-layout(1, li);
     @include breakpoint(medium) {
-      @include xy-grid-layout(2, li);
-    }
-    @include breakpoint(large) {
-      @include xy-grid-layout(3, li);
+      display: flex;
+      align-items: center;
+      li {
+        margin: 0 1.5625%;
+        width: 100%;
+        white-space: nowrap;
+      }
     }
     a {
       margin-left: auto;
