@@ -22,7 +22,6 @@ export default function Branding({
   return (
     <Wrap {...wrapProps}>
       <Logo className="logo" />
-      <span className="separator" />
       <div className="right">
         <h2 className="name">Mannequin</h2>
         {slogan && (

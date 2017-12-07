@@ -5,6 +5,13 @@
 @import "variables";
 @import "~foundation-sites/scss/foundation";
 
+$breakpoints: (
+  small: 0,
+  medium: 760px,
+  large: 1024px,
+  xlarge: 1200px,
+  xxlarge: 1440px,
+);
 
 @mixin dashing-hoverable {
   border: 1px dashed $dashing-gray;
