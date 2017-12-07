@@ -63,7 +63,7 @@ function HomepageHero() {
           thickness={20}
           duration={35}
           blur={2}
-          top="67%"
+          top="110%"
           left="0"
           bottom="0"
           opacity={0.45}
@@ -73,7 +73,7 @@ function HomepageHero() {
           thickness={11}
           duration={9}
           blur={2}
-          top="70%"
+          top="100%"
           right="6%"
           opacity={0.45}
         />
@@ -85,7 +85,7 @@ function HomepageHero() {
           thickness={13}
           duration={15}
           blur={6}
-          top="60%"
+          top="105%"
           left="4%"
           opacity={0.25}
         />
@@ -110,7 +110,7 @@ function HomepageHero() {
           left="15%"
           opacity={0.07}
         />
-        <BubbleCluster duration={15} left="40%" top="72%">
+        <BubbleCluster duration={15} left="40%" top="110%">
           <Bubble size={30} thickness={10} blur={5} opacity={0.07} />
           <Bubble size={40} thickness={13} blur={5} opacity={0.07} />
         </BubbleCluster>
