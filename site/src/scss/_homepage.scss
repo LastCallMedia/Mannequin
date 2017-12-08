@@ -3,7 +3,7 @@
   color: $white;
 
   .HomepageTopBar {
-    position: relative;
+    position: absolute;
     z-index: 3;
   }
 }
@@ -23,13 +23,17 @@
   }
 
   .HomepageHero {
-    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
   }
 
   .HomepageHero + .mouse-icon {
-    position: absolute;
+    position: relative;
     margin-left: -12px; /* Subtracting half it's width, so any positioning will be relative to it's center, not left edge*/
-    bottom: rem-calc(20);
+    top: rem-calc(-60);
     left: 50%;
   }
 
@@ -59,31 +63,29 @@
 .HomepageHero {
   @include xy-grid-container();
   .inner {
-    @include breakpoint(large) {
-      max-width: xy-cell-size(9);
-    }
+    width: 100%;
+    max-width: 960px;
     margin: 0 auto;
-    @include breakpoint(large){
-      margin-left: xy-cell-size(1);
-    }
-
-
+    text-align: center;
   }
-  padding: rem-calc(200) 0 0;
   .Branding {
-    margin-bottom: rem-calc(20);
+    margin-bottom: rem-calc(46.5);
     @include grid-column-gutter();
   }
   ul.links {
     list-style:none;
     margin: 0;
-    @include xy-grid();
-    @include xy-grid-layout(1, li);
-    @include breakpoint(medium) {
-      @include xy-grid-layout(2, li);
+    li {
+      margin: 0 4.53125%;
     }
-    @include breakpoint(large) {
-      @include xy-grid-layout(3, li);
+    @include breakpoint(medium) {
+      display: flex;
+      align-items: center;
+      li {
+        margin: 0 1.5625%;
+        width: 100%;
+        white-space: nowrap;
+      }
     }
     a {
       margin-left: auto;
