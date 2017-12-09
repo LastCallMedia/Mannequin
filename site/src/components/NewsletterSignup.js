@@ -40,7 +40,7 @@ export default class NewsletterSignup extends Component {
   render() {
     const { status } = this.state
     return (
-      <form className={['NewsletterSignup', status].join(' ')} action={action} method="post" noValidate>
+      <form className={`NewsletterSignup ${status}`} action={action} method="post" noValidate>
         <label htmlFor="NewsletterSignup--text-field">Subscribe for updates</label>
         <div>
           <input
