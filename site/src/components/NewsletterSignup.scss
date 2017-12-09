@@ -3,7 +3,7 @@
 
 .NewsletterSignup {
   max-width: rem-calc(321px);
-  margin: 0 auto;
+  margin: 2rem auto; // the 2rem on the top margin should probably be a bottom-margin on the element above
   label {
     margin-bottom: rem-calc(16);
     color: $white;
@@ -12,63 +12,61 @@
     font-weight: 700;
     line-height: 1.222222222;
   }
-  form {
+  div {
     width: 100%;
-    div {
-      display: flex;
-      margin-bottom: 1rem;
-      button, input {
-        margin-bottom: 0;
-      }
-      input {
-        @include dashing-button;
-        border-radius: rem-calc(2);
-        transition: none;
-        border-color: $blue-gray;
-        margin-right: rem-calc(10);
-        padding: rem-calc(18) rem-calc(15) rem-calc(17);
-        font-size: rem-calc(12);
-        height: rem-calc(47);
-        flex: 1 1 0;
-        background: $darkblue;
-        color: $white;
-        overflow: hidden;
-        &:focus,
-        &:hover {
-          background-color: inherit;
-          border-color: $blue-gray;
-          border-style: dashed;
-          box-shadow: none;
-        }
-      }
-      button {
-        height: rem-calc(47);
-        width: rem-calc(47);
-        border-radius: 50% 50%;
-        background-color: $buttonblue;
-        cursor: pointer;
-        background-image: url(../../src/img/airplane.svg);
-        background-position: 50% 50%;
-        background-repeat: no-repeat;
-        transition: transform 200ms ease-in-out;
-        outline: none;
-        &:hover {
-          transform: scale(1.1);
-        }
-      }
+    display: flex;
+    margin-bottom: 1rem;
+    button, input {
+      margin-bottom: 0;
     }
-    p {
-      color: $black !important; // overriding inline styles from react-mailchimp-subscribe
-      font-size: rem-calc(8) !important; // overriding inline styles from react-mailchimp-subscribe
-      margin-right: rem-calc(57);
-      padding: rem-calc(8) rem-calc(23) rem-calc(6);
+    input {
+      @include dashing-button;
       border-radius: rem-calc(2);
-      background-color: $white;
-      text-transform: uppercase;
-      font-family: Helvetica;
-      font-weight: 700;
-      line-height: 1.25;
+      transition: none;
+      border-color: $blue-gray;
+      margin-right: rem-calc(10);
+      padding: rem-calc(18) rem-calc(15) rem-calc(17);
+      font-size: rem-calc(12);
+      height: rem-calc(47);
+      flex: 1 1 0;
+      background: $darkblue;
+      color: $white;
+      overflow: hidden;
+      &:focus,
+      &:hover {
+        background-color: inherit;
+        border-color: $blue-gray;
+        border-style: dashed;
+        box-shadow: none;
+      }
     }
+    button {
+      height: rem-calc(47);
+      width: rem-calc(47);
+      border-radius: 50% 50%;
+      background-color: $buttonblue;
+      cursor: pointer;
+      background-image: url(../../src/img/airplane.svg);
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+      transition: transform 200ms ease-in-out;
+      outline: none;
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+  p {
+    color: $black !important; // overriding inline styles from react-mailchimp-subscribe
+    font-size: rem-calc(8) !important; // overriding inline styles from react-mailchimp-subscribe
+    margin-right: rem-calc(57);
+    padding: rem-calc(8) rem-calc(23) rem-calc(6);
+    border-radius: rem-calc(2);
+    background-color: $white;
+    text-transform: uppercase;
+    font-family: Helvetica;
+    font-weight: 700;
+    line-height: 1.25;
   }
   &.error {
     input, input:focus, input:hover {
