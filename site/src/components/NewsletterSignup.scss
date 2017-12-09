@@ -51,6 +51,8 @@
       background-repeat: no-repeat;
       transition: transform 200ms ease-in-out;
       outline: none;
+      overflow: hidden;
+      text-indent: -9999px;
       &:hover {
         transform: scale(1.1);
       }

@@ -50,13 +50,14 @@ export default class NewsletterSignup extends Component {
             defaultValue=""
             name="EMAIL"
             required={true}
+            aria-required="true"
             placeholder='Email'
           />
           <button
             disabled={this.state.status === "sending" || this.state.status === "success"}
             onClick={this.onSubmit}
             type="submit"
-          ></button>
+          >Subscribe</button>
         </div>
         {status === "sending" && <p>Sending…</p>}
         {status === "success" && <p>Success!</p>}
