@@ -11,7 +11,7 @@
     font-weight: bold;
   }
   ul {
-    @include breakpoint(540px) {
+    @include breakpoint(640px) {
       display: flex;
       justify-content: space-between;
     }
@@ -19,7 +19,7 @@
     max-width: rem-calc(1280);
     list-style: none;
     li {
-      @include breakpoint(540px) {
+      @include breakpoint(640px) {
         width: 31.5%;
       }
       text-align: center;
