@@ -1,20 +1,94 @@
 
 @import "../scss/init";
 
-.page-footer {
-  border-top: 1px dashed $dashing-gray;
-  padding: rem-calc(75 0);
-  text-align:center;
-  background: $darkblue;
+@mixin footer-heading {
+  margin-bottom: rem-calc(26.5);
+  text-align: left;
+  color: $white;
+  font-family: $body-font-family;
+  font-size: rem-calc(15);
+  font-weight: bold;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
 
-  .Branding {
-    margin-bottom: rem-calc(78);
-    .top {
-      justify-content: center;
-    }
+.page-footer {
+  border-top: 1px dashed $blue-gray;
+  background: $darkblue;
+  text-align: center;
+  @include breakpoint(medium) {
+    text-align: left;
   }
   .GetSupportButton {
-    margin-left: auto;
     margin-right: auto;
+    margin-left: auto;
+    max-width: rem-calc(242);
   }
+  .inner {
+    margin: 0 auto;
+    padding: rem-calc(24) 7.5% rem-calc(96);
+    max-width: rem-calc(1280);
+    @include breakpoint(medium) {
+      display: grid;
+    }
+    grid-template-columns: auto 25% 27.34375%;
+    grid-template-rows: rem-calc(60) auto;
+    .Branding {
+      align-items: center;
+      @include breakpoint(small only) {
+        margin-bottom: rem-calc(38);
+      }
+    }
+    .copyright {
+      display: block;
+      align-self: end;
+      grid-column-start: 1;
+      grid-row-start: 2;
+      font-size: rem-calc(14);
+      line-height: 1.2;
+      @include breakpoint(small only) {
+        margin-bottom: rem-calc(63);
+      }
+    }
+    .learn-more {
+      grid-row-start: span 2;
+      @include breakpoint(medium) {
+        border-right: 1px dashed $blue-gray;
+        padding-right: 16.40625%;
+      }
+      @include breakpoint(small only) {
+        border-bottom: 1px dashed $blue-gray;
+        padding-bottom: rem-calc(58.5);
+        margin-bottom: rem-calc(64);
+      }
+      h2 {
+        @include footer-heading;
+      }
+      .button {
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 0;
+        padding-right: 0;
+        max-width: none;
+      }
+    }
+    .NewsletterSignup {
+      grid-row-start: span 2;
+      max-width: none;
+      @include breakpoint(medium) {
+        padding-left: 21%;
+      }
+      #NewsletterSignup--text-field {
+        max-width: none;
+      }
+      label {
+        @include footer-heading;
+      }
+      div {
+        min-width: rem-calc(200);
+      }
+    }
+  }
+
 }
+

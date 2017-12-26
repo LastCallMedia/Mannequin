@@ -7,9 +7,10 @@
   @include capsule-shape;
   display: block;
   text-align:center;
-  padding-left: rem-calc(35);
-  padding-right: rem-calc(35);
+  padding-left: rem-calc(28);
+  padding-right: rem-calc(28);
   color: white;
+  background: $darkblue;
   margin-bottom: 1rem;
 
   &:hover {

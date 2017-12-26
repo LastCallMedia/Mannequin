@@ -47,3 +47,7 @@ pre code {
     }
   }
 }
+
+.shift-up-by-half > * {
+  transform: translateY(-50%);
+}

@@ -3,7 +3,6 @@
 
 .NewsletterSignup {
   max-width: rem-calc(321px);
-  margin: 2rem auto; // the 2rem on the top margin should probably be a bottom-margin on the element above
   label {
     margin-bottom: rem-calc(16);
     color: $white;
