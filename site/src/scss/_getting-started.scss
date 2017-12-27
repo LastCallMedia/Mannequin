@@ -1,0 +1,83 @@
+.GettingStartedWrapper {
+  background-color: $darkblue;
+  color: $white;
+
+  .HomepageTopBar {
+    position: absolute;
+    z-index: 3;
+  }
+}
+
+/**
+ * This is where we configure how the individually styled components are displayed
+ * on the homepage.  Don't use this for styling those components, only for adjustments
+ * that are necessary in how they interact with each other.
+ */
+.GettingStarted {
+  margin: 0 auto rem-calc(70);
+  max-width: rem-calc(1280);
+
+  .HomePageLink {
+    position: absolute;
+    z-index: 1;
+    top: rem-calc(28);
+    left: rem-calc(32);
+  }
+
+  .GettingStartedHero {
+    padding-top: rem-calc(134);
+  }
+
+  .GetStartedPane {
+    margin-bottom: rem-calc(90);
+  }
+  .FurtherReadingPane {
+    margin-bottom: rem-calc(70);
+  }
+  .GetStartedPane + .FurtherReadingPane:before, .AboutProductPane + .GetStartedPane:before {
+    width: rem-calc(309);
+    height: 1px;
+    border-top: 1px dashed $dashing-gray;
+    content: "";
+    display: block;
+    margin: 0 auto;
+    margin-bottom: rem-calc(90);
+  }
+}
+
+.GetStartedPane {
+  @include xy-grid-container();
+  text-align:center;
+  .FlexingManny {
+    stroke: white;
+    fill: white;
+    width: rem-calc(86);
+    margin-bottom: rem-calc(38);
+  }
+  h2 {
+    margin-bottom: rem-calc(5);
+    color: #919DA8;
+    font-size: rem-calc(14);
+    letter-spacing: 1px;
+    line-height: 2.142857143;
+    font-weight: normal;
+    text-transform: uppercase;
+  }
+  .intro {
+    background-color: #1B2126;
+    margin: 0 auto;
+    max-width: rem-calc(600);
+    h3 {
+      font-size: rem-calc(30);
+      font-weight: bold;
+      line-height: rem-calc(36);
+      text-transform: uppercase;
+      span {
+        display: block;
+        font-size: rem-calc(31);
+        padding-bottom: rem-calc(15px);
+      }
+    }
+  }
+  .ExtensionSelection { margin-top: rem-calc(40); }
+}

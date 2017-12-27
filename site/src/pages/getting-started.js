@@ -8,46 +8,44 @@ import Bubble, {
   BubbleCluster,
   BubbleLayerBoundary,
 } from '../components/Bubble'
-import MouseIcon from '../components/MouseIcon'
 import ExtensionSelection from '../components/ExtensionSelection'
 import Manny from '!svg-react-loader?name=Logo!../img/Logo.svg'
 
 export default function IndexPage() {
   return (
-    <div className="HomeWrapper">
-      <div className="Homepage">
-        <div className="IntroPane">
-          <TopBar />
-          <HomepageHero />
-          <MouseIcon />
-        </div>
-        <AboutProductPane />
+    <div className="GettingStartedWrapper">
+      <div className="GettingStarted">
+        <a className="HomePageLink" href="/" title="Mannequin home">
+          <Branding tiny />
+        </a>
+        <GettingStartedHero />
       </div>
       <Footer />
     </div>
   )
 }
 
-function HomepageHero() {
+function GettingStartedPane() {
   return (
-    <BubbleLayerBoundary className="HomepageHero">
+    <div className="GetStartedPane">
+      <Manny className="FlexingManny" />
+      <h2 id="GetStarted">Getting Started</h2>
+
+      <div className="ChooseExtensionStep Step">
+        <div className="intro">
+          <h3>Choose a template</h3>
+        </div>
+        <ExtensionSelection />
+      </div>
+    </div>
+  )
+}
+
+function GettingStartedHero() {
+  return (
+    <BubbleLayerBoundary className="GettingStartedHero">
       <div className="inner">
-        <Branding large slogan />
-        <ul className="links">
-          <li>
-            <a href="/getting-started" className="button dashing-icon expanded">
-              <span className="text">Get Started</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://demo.mannequin.io"
-              className="button blue expanded"
-            >
-              <span className="text">View Demo</span>
-            </a>
-          </li>
-        </ul>
+        <GettingStartedPane />
       </div>
 
       <BubbleLayer travel={5}>
@@ -109,28 +107,5 @@ function HomepageHero() {
         </BubbleCluster>
       </BubbleLayer>
     </BubbleLayerBoundary>
-  )
-}
-
-function AboutProductPane() {
-  return (
-    <div className="AboutProductPane">
-      <BubbleLayerBoundary className="inner">
-        <div className="note">
-          <h2>Introduction</h2>
-          <p>
-            Mannequin bridges the gap between design and development by
-            rendering templates in an isolated environment.
-          </p>
-          <Link to="/about" className="button dashing-icon">
-            <i className="icon icon-right" />
-            <span className="text">Explore</span>
-          </Link>
-        </div>
-        <div className="shot-casing">
-          <div className="shot" />
-        </div>
-      </BubbleLayerBoundary>
-    </div>
   )
 }

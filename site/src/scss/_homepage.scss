@@ -187,38 +187,3 @@
 
   }
 }
-
-.GetStartedPane {
-  @include xy-grid-container();
-  text-align:center;
-  .logo {
-    stroke: white;
-    fill: white;
-    width: rem-calc(155);
-  }
-  h2 {
-    font-size: rem-calc(44);
-    line-height: rem-calc(54);
-    font-weight: bold;
-    margin-bottom: rem-calc(96);
-  }
-  .intro {
-    background-color: #1B2126;
-    padding: rem-calc(30) rem-calc(50);
-    margin: 0 auto;
-    max-width: rem-calc(600);
-    h3 {
-      font-size: rem-calc(24);
-      font-weight: bold;
-      line-height: rem-calc(36);
-      text-transform: uppercase;
-      margin-top: -3rem;
-      span {
-        display: block;
-        font-size: rem-calc(31);
-        padding-bottom: rem-calc(15px);
-      }
-    }
-  }
-  .ExtensionSelection { margin-top: rem-calc(40); }
-}
