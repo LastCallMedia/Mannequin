@@ -4,6 +4,10 @@
 .BlogPosts{
   margin: rem-calc(24) 7.5%;
   h2 {
+    padding-bottom: rem-calc(26);
+    background-image: url(../../src/img/down-chevrons.svg);
+    background-position: 50% 100%;
+    background-repeat: no-repeat;
     text-align: center;
     font-family: $body-font-family;
     font-size: rem-calc(18);
