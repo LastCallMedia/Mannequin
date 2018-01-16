@@ -5,12 +5,35 @@ import GetSupportButton from './GetSupportButton'
 
 import './Footer.scss'
 
+const today = new Date()
+
 export default function Footer() {
   return (
     <footer className="page-footer">
-      <Branding />
-      <GetSupportButton />
-      <NewsletterSignup />
+      <div className="shift-up-by-half">
+        <GetSupportButton />
+      </div>
+      <div className="inner">
+        <LearnMore />
+        <NewsletterSignup />
+        <Branding />
+        <small className="copyright">Mannequin &copy; {today.getFullYear()}</small>
+      </div>
     </footer>
+  )
+}
+
+
+function LearnMore() {
+  return (
+    <div className="learn-more">
+      <h2>Learn More</h2>
+      <a href="/about" className="button dashing expanded">
+        <span className="text">About</span>
+      </a>
+      <a href="https://lastcallmedia.com/blog" className="button dashing expanded">
+        <span className="text">Blog</span>
+      </a>
+    </div>
   )
 }

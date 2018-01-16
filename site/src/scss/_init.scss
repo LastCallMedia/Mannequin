@@ -7,14 +7,14 @@
 
 $breakpoints: (
   small: 0,
-  medium: 760px,
+  medium: 640px,
   large: 1024px,
   xlarge: 1200px,
   xxlarge: 1440px,
 );
 
 @mixin dashing-hoverable {
-  border: 1px dashed $dashing-gray;
+  border: 1px dashed $blue-gray;
   transition-property: background-color, border-color, border-style, box-shadow;
   transition-duration: 0.15s;
   transition-timing-function: ease-in-out;
