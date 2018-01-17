@@ -2,7 +2,7 @@
 @import "../scss/init";
 
 .BlogPosts{
-  margin: rem-calc(24) 7.5%;
+  margin: rem-calc(24 15);
   h2 {
     padding-bottom: rem-calc(26);
     background-image: url(../../src/img/down-chevrons.svg);
@@ -15,7 +15,7 @@
     font-weight: bold;
   }
   ul {
-    @include breakpoint(640px) {
+    @include breakpoint(medium) {
       display: flex;
       justify-content: space-between;
     }
@@ -23,7 +23,7 @@
     max-width: rem-calc(1280);
     list-style: none;
     li {
-      @include breakpoint(640px) {
+      @include breakpoint(medium) {
         width: 31.5%;
       }
       text-align: center;
