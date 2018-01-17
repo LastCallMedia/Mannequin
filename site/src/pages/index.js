@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'gatsby-link'
 import TopBar from '../components/HomeTopBar'
+import BlogPosts from '../components/BlogPosts'
 import Footer from '../components/Footer'
 import Branding from '../components/Branding'
 import Bubble, {
@@ -23,6 +24,7 @@ export default function IndexPage() {
         </div>
         <AboutProductPane />
         <GettingStartedPane />
+        <BlogPosts />
       </div>
       <Footer />
     </div>

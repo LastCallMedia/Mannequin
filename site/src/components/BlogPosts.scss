@@ -1,0 +1,55 @@
+
+@import "../scss/init";
+
+.BlogPosts{
+  margin: rem-calc(24 15);
+  h2 {
+    padding-bottom: rem-calc(26);
+    background-image: url(../../src/img/down-chevrons.svg);
+    background-position: 50% 100%;
+    background-repeat: no-repeat;
+    text-align: center;
+    font-family: $body-font-family;
+    font-size: rem-calc(18);
+    line-height: 1.222222222;
+    font-weight: bold;
+  }
+  ul {
+    @include breakpoint(medium) {
+      display: flex;
+      justify-content: space-between;
+    }
+    margin: rem-calc(82) auto;
+    max-width: rem-calc(1280);
+    list-style: none;
+    li {
+      @include breakpoint(medium) {
+        width: 31.5%;
+      }
+      text-align: center;
+      a {
+        img {
+          border: 1px dashed $blue-gray;
+          margin-bottom: rem-calc(45);
+        }
+        span {
+          display: block;
+          font-weight: bold;
+          &.tag {
+            margin-bottom: rem-calc(10);
+            color: $minty;
+            text-transform: uppercase;
+            font-size: rem-calc(16);
+            line-height: 1.1875;
+          }
+          &.title {
+            margin-bottom: rem-calc(62);
+            color: $white;
+            font-size: rem-calc(24);
+            line-height: 1.4;
+          }
+        }
+      }
+    }
+  }
+}
