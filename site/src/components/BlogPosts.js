@@ -15,24 +15,24 @@ export default function BlogPosts() {
         <li>
           <a href="https://lastcallmedia.com/blog/Designing-Mannequin-1.0" title="Designing Mannequin 1.0">
             <img src={DesigningMannequin} alt="Designing Mannequin 1.0"/>
-            <span className="BlogPosts__tag">Design</span>
-            <span className="BlogPosts__title">Designing Mannequin 1.0</span>
+            <span className="tag">Design</span>
+            <span className="title">Designing Mannequin 1.0</span>
           </a>
         </li>
 
         <li>
           <a href="https://lastcallmedia.com/blog/why-component-theming" title="Why we’re moving to component theming">
             <img src={ComponentTheming} alt="Why we’re moving to component theming"/>
-            <span className="BlogPosts__tag">Coding + Development</span>
-            <span className="BlogPosts__title">Why we’re moving to component theming</span>
+            <span className="tag">Coding + Development</span>
+            <span className="title">Why we’re moving to component theming</span>
           </a>
         </li>
 
         <li>
           <a href="https://lastcallmedia.com/blog/introducing-mannequin" title="Introducing Mannequin">
             <img src={IntroducingMannequin} alt="Introducing Mannequin"/>
-            <span className="BlogPosts__tag">News</span>
-            <span className="BlogPosts__title">Introducing Mannequin</span>
+            <span className="tag">News</span>
+            <span className="title">Introducing Mannequin</span>
           </a>
         </li>
 

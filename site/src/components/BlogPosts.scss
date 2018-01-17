@@ -35,14 +35,14 @@
         span {
           display: block;
           font-weight: bold;
-          &.BlogPosts__tag {
+          &.tag {
             margin-bottom: rem-calc(10);
             color: $minty;
             text-transform: uppercase;
             font-size: rem-calc(16);
             line-height: 1.1875;
           }
-          &.BlogPosts__title {
+          &.title {
             margin-bottom: rem-calc(62);
             color: $white;
             font-size: rem-calc(24);
