@@ -51,4 +51,20 @@ final class VariableSet implements \ArrayAccess, \IteratorAggregate
     {
         return new \ArrayIterator($this->values);
     }
+
+    /**
+     * Merge another variable set with this one.
+     *
+     * The merging set will be combined with the current set, with the
+     * merging set's values being chosen over the current set's values
+     * wherever the same key is detected.
+     *
+     * @param \LastCall\Mannequin\Core\Variable\VariableSet $merging
+     *
+     * @return \LastCall\Mannequin\Core\Variable\VariableSet
+     */
+    public function merge(VariableSet $merging)
+    {
+        return new VariableSet($merging->values + $this->values);
+    }
 }

@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - (Twig) Undefined index error during testing of Twig extension on PHP 7.1.
 
+### Added
+- (Core) Allow variable sets to be merged.
+
 ## 1.0.7
 ### Added
 - (Drupal) Concatenate arrays passed to render.
