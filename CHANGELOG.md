@@ -4,6 +4,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## Upcoming
+### Fixed
+- (Twig) Undefined index error during testing of Twig extension on PHP 7.1.
+
 ## 1.0.7
 ### Added
 - (Drupal) Concatenate arrays passed to render.

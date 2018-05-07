@@ -28,7 +28,7 @@ class TwigExtension extends AbstractTwigExtension
 
     public function __construct(array $config = [])
     {
-        $this->iterator = $config['finder'] ?: new \ArrayIterator([]);
+        $this->iterator = $config['finder'] ?? new \ArrayIterator([]);
 
         if (!$this->iterator instanceof \Traversable) {
             throw new \InvalidArgumentException(
