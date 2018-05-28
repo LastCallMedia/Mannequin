@@ -61,7 +61,7 @@ Creates a Drupal `Attributes` object.
 ...
 samples:
   AttributesExample:
-    content_attributes: ~attributes({class: [ 'foo' ] })
+    content_attributes: "~attributes({class: [ 'foo' ] })"
 #}
 <div{{ content_attributes }}>
   ...
