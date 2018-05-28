@@ -13,7 +13,7 @@ The `rendered` expression wraps markup strings in a special wrapper. Without wra
 ... 
 samples:
   MarkupExample:
-    text: ~markup('<i class="icon icon-edit" title="Edit"></i>')
+    text: ~rendered('<i class="icon icon-edit" title="Edit"></i>')
 #}
 <a>{{ text }}</a>
 ```
