@@ -13,7 +13,7 @@ The `rendered` expression wraps markup strings in a special wrapper. Without wra
 ... 
 samples:
   MarkupExample:
-    text: ~markup('<i class="icon icon-edit" title="Edit"></i>')
+    text: ~rendered('<i class="icon icon-edit" title="Edit"></i>')
 #}
 <a>{{ text }}</a>
 ```
@@ -61,7 +61,7 @@ Creates a Drupal `Attributes` object.
 ...
 samples:
   AttributesExample:
-    content_attributes: ~attributes({class: [ 'foo' ] })
+    content_attributes: "~attributes({class: [ 'foo' ] })"
 #}
 <div{{ content_attributes }}>
   ...
