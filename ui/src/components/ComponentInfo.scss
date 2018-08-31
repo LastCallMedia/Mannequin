@@ -37,7 +37,8 @@
       font-weight: bold;
       color: #767676;
     }
-    p {
+    p,
+    .component-description {
       font-size: rem-calc(14);
       line-height: rem-calc(30);
     }
