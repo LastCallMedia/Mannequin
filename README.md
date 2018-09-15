@@ -20,6 +20,6 @@ composer require lastcall/mannequin-drupal
 vendor/bin/mannequin start
 ```
 
-* [Documentation](https://mannequin.io/docs)
-* [Extensions](https://mannequin.io/extensions)
+* [Documentation](https://mannequin.io/#GetStarted)
+* [Extensions](https://mannequin.io/#GetStarted)
 * [Report a Bug](https://github.com/LastCallMedia/Mannequin/issues/new)
