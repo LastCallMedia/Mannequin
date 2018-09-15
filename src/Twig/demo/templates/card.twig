@@ -20,7 +20,7 @@ samples:
     <img src="{{ img_src }}" />
     <h3>{{ title }}</h3>
     {% if button %}
-        {% include 'button.twig' with {
+        {% include 'templates/button.twig' with {
             text: button.text,
             modifier: button.modifier
         } %}
