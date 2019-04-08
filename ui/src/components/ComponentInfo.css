@@ -1,6 +1,6 @@
 /**
  * Foundation for Sites by ZURB
- * Version 6.4.3
+ * Version 6.5.3
  * foundation.zurb.com
  * Licensed under MIT Open Source
  */
@@ -11,7 +11,8 @@
     padding-right: 0.625rem;
     padding-left: 0.625rem;
     max-width: 75rem;
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     flex-flow: row wrap;
     position: relative; }
@@ -81,13 +82,13 @@
   display: inline-block;
   vertical-align: middle;
   margin: 0 0 1rem 0;
-  font-family: inherit;
   padding: 0.85em 1em;
-  -webkit-appearance: none;
   border: 1px solid transparent;
   border-radius: 0;
   transition: background-color 0.25s ease-out, color 0.25s ease-out;
+  font-family: inherit;
   font-size: 0.9rem;
+  -webkit-appearance: none;
   line-height: 1;
   text-align: center;
   cursor: pointer;
