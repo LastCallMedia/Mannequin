@@ -1,5 +1,5 @@
 import React from 'react';
-import './Icon.css';
+// import './Icon.css';
 
 export default () => (
   <div className="LoadingIcon">

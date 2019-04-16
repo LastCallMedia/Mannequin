@@ -3,7 +3,7 @@ import { HashRouter as Router, Route, withRouter } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { fetchComponents, toggleDrawer } from '../actions';
-import './App.css';
+// import './App.css';
 import 'what-input';
 
 import TopBar from '../components/TopBar';

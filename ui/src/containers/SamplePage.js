@@ -16,7 +16,7 @@ import { SlideInFromBottom } from '../components/Transitions';
 import { toggleInfo, componentView } from '../actions';
 import { getComponent, getSample, getUsed } from '../selectors';
 import PropTypes from 'prop-types';
-import './SamplePage.css';
+// import './SamplePage.css';
 
 const SamplePage = ({ component, sample, ...rest }) => {
   if (!component) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import './Icon.css';
+// import './Icon.css';
 
 export default () => (
   <svg className="Icon CloseArrow" x="0px" y="0px" viewBox="0 0 16 16">

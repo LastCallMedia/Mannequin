@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Menu from './Menu';
 import cx from 'classnames';
 import { CloseArrow, Search as SearchIcon } from './Icons';
-import './NavDrawer.css';
+// import './NavDrawer.css';
 
 export class NavDrawer extends Component {
   constructor(props) {

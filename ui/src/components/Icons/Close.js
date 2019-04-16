@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Icon.css';
+// import './Icon.css';
 
 const Close = ({ color }) => {
   const style = color ? { fill: color, stroke: color } : {};

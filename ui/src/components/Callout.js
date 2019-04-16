@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Callout.css';
+// import './Callout.css';
 import cx from 'classnames';
 
 const Callout = ({ type, title, content }) => (

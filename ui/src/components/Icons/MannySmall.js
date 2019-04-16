@@ -1,5 +1,5 @@
 import React from 'react';
-import './Icon.css';
+// import './Icon.css';
 
 export default () => (
   <svg className="Icon MannySmall" viewBox="0 0 437.4 290.6">

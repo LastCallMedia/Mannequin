@@ -3,7 +3,7 @@ import CodeBlock from './CodeBlock';
 import Callout from './Callout';
 import { Loading } from './Icons';
 import PropTypes from 'prop-types';
-import './FetchingCodeBlock.css';
+// import './FetchingCodeBlock.css';
 
 class FetchingCodeBlock extends Component {
   constructor(props) {

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { MannySmall } from './Icons';
-import './TopBar.css';
+// import './TopBar.css';
 
 const TopBar = ({ toggleNav }) => {
   return (

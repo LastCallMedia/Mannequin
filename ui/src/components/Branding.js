@@ -1,20 +1,18 @@
 import React from 'react';
 import logo from '../svg/manny_wave.svg';
 
-import './Branding.css';
+// import './Branding.css';
 
 /**
  * Homepage branding block.
  */
 const Branding = () => (
   <div className="Branding">
-    <div className="top">
-      <img src={logo} className="logo" alt="Mannequin Logo" />
+    <img src={logo} className="logo" alt="Mannequin Logo" />
+    <span className="Branding__Text">
       <h1>Mannequin</h1>
-    </div>
-    <h3>
-      <span>A Component Theming Tool for the Web</span>
-    </h3>
+      <span>Component Theming Tool</span>
+    </span>
   </div>
 );
 
