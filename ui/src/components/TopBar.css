@@ -1,0 +1,56 @@
+/**
+ * Foundation for Sites by ZURB
+ * Version 6.5.3
+ * foundation.zurb.com
+ * Licensed under MIT Open Source
+ */
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
+@import url("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
+.MannequinTopBar .opener {
+  font-size: 0.625rem;
+  line-height: 0.75rem;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+  cursor: pointer; }
+  .MannequinTopBar .opener > i, .MannequinTopBar .opener > svg.Icon {
+    margin-left: 1.0625rem; }
+
+body {
+  background: gray !important; }
+
+.MannequinTopBar {
+  background: #292F36;
+  color: #fffffe; }
+  .MannequinTopBar .inner {
+    padding-right: 0;
+    padding-left: 0;
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-flow: row wrap;
+    padding: 0 calc(39.67px / 2); }
+    .MannequinTopBar .inner > .logo, .MannequinTopBar .inner > .opener {
+      flex: 0 0 auto;
+      width: auto;
+      padding-right: 0.625rem;
+      padding-left: 0.625rem; }
+    .MannequinTopBar .inner > .logo {
+      padding-top: 11.6px;
+      padding-bottom: 11.6px; }
+    .MannequinTopBar .inner > .title {
+      flex: 1 1 0px;
+      width: auto;
+      margin-right: 0.625rem;
+      margin-left: 0.625rem; }
+  .MannequinTopBar .opener {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 2px; }
+    .MannequinTopBar .opener:hover {
+      color: #4ECDC4; }
+    .MannequinTopBar .opener i.menu-icon {
+      margin-left: 1.0625rem; }
+  .MannequinTopBar .MannySmall {
+    width: 44.8px; }

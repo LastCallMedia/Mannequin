@@ -1,16 +1,16 @@
 //Site colors
-$white: #FFF;
-$black: #080808;
-$almost-black: #1B2126;
-$darkblue: #181D22;
-$blue-gray: #7E92A5;
-$light-gray: #97A6B5;
-$darkgray: #3A454F;
-$buttonblue: #4A90E2;
-$dashing-gray: #55626d;
-$red: #FF4444;
-$green: #8AC74B;
-$minty: #39FFE2;
+// $white: #FFF;
+// $black: #080808;
+// $almost-black: #1B2126;
+// $darkblue: #181D22;
+// $blue-gray: #7E92A5;
+// $light-gray: #97A6B5;
+// $darkgray: #3A454F;
+// $buttonblue: #4A90E2;
+// $dashing-gray: #55626d;
+// $red: #FF4444;
+// $green: #8AC74B;
+// $minty: #39FFE2;
 
 $gray: #292F36;
 $mint: #4ECDC4;
@@ -20,9 +20,14 @@ $body-background: $white;
 $body-font-color: $black;
 
 //Site fonts
-$header-font-family: gill sans, sans-serif;
-$body-font-family: Helvetica, sans-serif;
-$impact-font-family: $header-font-family;
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+//Site Icons
+@import url('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
+
+$header-font-family: 'Montserrat', sans-serif;
+$body-font-family: $header-font-family, sans-serif;
+$impact-font-family: $header-font-family, sans-serif;
 
 $grid-container: 1440px;
 $grid-container-padding: 0;
@@ -31,3 +36,17 @@ $code-background: #FBFBFB;
 $code-color: #080808;
 $code-border: 1px solid #E9E9E9;;
 $code-padding: 0 .125rem;
+
+//Mixins
+
+%toggle-button {
+  font-size: rem-calc(10);
+  line-height: rem-calc(12);
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+  cursor: pointer;
+  > i, > svg.Icon {
+    margin-left: rem-calc(17);
+  }
+}
