@@ -60,8 +60,9 @@
       @include xy-cell(full, $gutter-output: false, $gutter-type: none);
     }
     .NavDrawer {
-      @include xy-cell(3/12, $gutter-output: false, $gutter-type: none);
-      min-width: 25%;
+      @include xy-cell(12, $gutter-output: false, $gutter-type: none);
+      // min-width: 25%;
+      min-width: xy-cell-size(3.4 of 12);
       transform: translate(0, 0);
       transition: transform .5s ease, visibility 0s linear .5s;
     }

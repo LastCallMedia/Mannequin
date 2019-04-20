@@ -7,11 +7,12 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
 @import url("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
 .MannequinTopBar .opener {
-  font-size: 0.625rem;
-  line-height: 0.75rem;
-  font-weight: bold;
-  color: white;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 2px;
   text-transform: uppercase;
+  line-height: 0.75rem;
+  color: #fffffe;
   cursor: pointer; }
   .MannequinTopBar .opener > i, .MannequinTopBar .opener > svg.Icon {
     margin-left: 1.0625rem; }
@@ -31,11 +32,6 @@ body {
     display: flex;
     flex-flow: row wrap;
     padding: 0 calc(39.67px / 2); }
-    .MannequinTopBar .inner > .logo, .MannequinTopBar .inner > .opener {
-      flex: 0 0 auto;
-      width: auto;
-      padding-right: 0.625rem;
-      padding-left: 0.625rem; }
     .MannequinTopBar .inner > .logo {
       padding-top: 11.6px;
       padding-bottom: 11.6px; }
@@ -47,7 +43,8 @@ body {
   .MannequinTopBar .opener {
     font-size: 14px;
     font-weight: 800;
-    letter-spacing: 2px; }
+    letter-spacing: 2px;
+    text-transform: uppercase; }
     .MannequinTopBar .opener:hover {
       color: #4ECDC4; }
     .MannequinTopBar .opener i.menu-icon {

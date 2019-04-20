@@ -1,0 +1,81 @@
+@import "../../theme/_base";
+
+.NavDrawer {
+  background-color: $gray-light;
+  border-top: 1px solid #2A2A2A;
+  border-left: 1px solid #2A2A2A;
+  border-bottom: 1px solid #2A2A2A;
+  @include xy-grid(vertical);
+  padding: 0 calc(39.67px / 2);
+  .drawer-toggle.closer {
+    // @include xy-cell(shrink, $gutter-position: right left top bottom, $gutter-type: padding);
+    @extend %toggle-button;
+    text-align: right;
+    height: rem-calc(60);
+    > i {
+      vertical-align: middle;
+    }
+  }
+  > .SearchForm {
+    @include xy-cell(shrink, $gutter-position: right left bottom, $vertical: true);
+    @include breakpoint(xxlarge) {
+      @include xy-cell(shrink, $gutter-position: right left bottom top, $vertical: true);
+    }
+  }
+  > .MenuList {
+    @include xy-cell(auto, $gutter-output: false, $gutter-type: none, $vertical: true);
+    overflow:auto;
+  }
+}
+
+.NavDrawer__top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  // @include xy-grid();
+  // > span, > .drawer-toggle {
+  //
+  //   // @include xy-cell(6, $gutter-output: false);
+  // }
+  > span {
+    @include font-bold;
+    color: $white;
+    padding-right: 0.625rem;
+    padding-left: 0.625rem;
+    padding-top: 1.125rem;
+    padding-bottom: 0.625rem;
+    height: 3.75rem;
+  }
+
+  > .drawer-toggle {
+    text-align: right;
+  }
+}
+
+.SearchForm {
+  position: relative;
+  input {
+    border: none;
+    background-color: #21262B;
+    color: white;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 14px;
+    padding: 10px 13px;
+    height: auto;
+    margin-bottom: 0;
+    border-radius: 0;
+    padding-left: rem-calc(40);
+
+    &:focus {
+      background-color: #21262B;
+    }
+  }
+  i {
+    position: absolute;
+    top: 50%;
+    left: rem-calc(15);
+    font-size: rem-calc(13);
+    margin-top: -.5em;
+    color: $white;
+  }
+}

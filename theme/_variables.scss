@@ -13,6 +13,7 @@
 // $minty: #39FFE2;
 
 $gray: #292F36;
+$gray-light: #4F545A;
 $mint: #4ECDC4;
 $white: #fffffe;
 
@@ -39,12 +40,17 @@ $code-padding: 0 .125rem;
 
 //Mixins
 
-%toggle-button {
-  font-size: rem-calc(10);
-  line-height: rem-calc(12);
-  font-weight: bold;
-  color: white;
+@mixin font-bold {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 2px;
   text-transform: uppercase;
+}
+
+%toggle-button {
+  @include font-bold;
+  line-height: rem-calc(12);
+  color: $white;
   cursor: pointer;
   > i, > svg.Icon {
     margin-left: rem-calc(17);
