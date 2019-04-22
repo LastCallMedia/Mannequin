@@ -4,7 +4,7 @@
  * foundation.zurb.com
  * Licensed under MIT Open Source
  */
-@import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,800");
 @import url("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
 .NavDrawer .drawer-toggle.closer {
   font-size: 14px;
@@ -17,14 +17,9 @@
   .NavDrawer .drawer-toggle.closer > i, .NavDrawer .drawer-toggle.closer > svg.Icon {
     margin-left: 1.0625rem; }
 
-body {
-  background: gray !important; }
-
 .NavDrawer {
   background-color: #4F545A;
-  border-top: 1px solid #2A2A2A;
-  border-left: 1px solid #2A2A2A;
-  border-bottom: 1px solid #2A2A2A;
+  box-shadow: 0 2px 5px 0 #4F545A;
   display: flex;
   flex-flow: column wrap;
   padding: 0 calc(39.67px / 2); }
@@ -38,14 +33,13 @@ body {
     height: auto;
     margin-right: 0.625rem;
     margin-left: 0.625rem;
-    margin-bottom: 0.625rem; }
+    margin-top: 0.625rem; }
     @media screen and (min-width: 90em) {
       .NavDrawer > .SearchForm {
         flex: 0 0 auto;
         height: auto;
         margin-right: 0.9375rem;
         margin-left: 0.9375rem;
-        margin-bottom: 0.9375rem;
         margin-top: 0.9375rem; } }
   .NavDrawer > .MenuList {
     flex: 1 1 0px;

@@ -1,10 +1,8 @@
 @import "../../theme/_base";
 
 .NavDrawer {
-  background-color: $gray-light;
-  border-top: 1px solid #2A2A2A;
-  border-left: 1px solid #2A2A2A;
-  border-bottom: 1px solid #2A2A2A;
+  background-color: $ash;
+	box-shadow: 0 2px 5px 0 $ash;
   @include xy-grid(vertical);
   padding: 0 calc(39.67px / 2);
   .drawer-toggle.closer {
@@ -17,9 +15,9 @@
     }
   }
   > .SearchForm {
-    @include xy-cell(shrink, $gutter-position: right left bottom, $vertical: true);
+    @include xy-cell(shrink, $gutter-position: right left top, $vertical: true);
     @include breakpoint(xxlarge) {
-      @include xy-cell(shrink, $gutter-position: right left bottom top, $vertical: true);
+      @include xy-cell(shrink, $gutter-position: right left top, $vertical: true);
     }
   }
   > .MenuList {

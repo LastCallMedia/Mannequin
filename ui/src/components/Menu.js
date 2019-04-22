@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import AnimateHeight from 'react-animate-height';
 import PropTypes from 'prop-types';
-// import './Menu.css';
+import './Menu.css';
 
 function Menu({ tree, settings }) {
   return (

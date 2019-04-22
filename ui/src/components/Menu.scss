@@ -1,0 +1,82 @@
+
+@import "../../theme/base";
+
+.MenuList {
+  list-style:none;
+  margin: 0;
+  @include menu-base;
+  display: block;
+}
+.MenuItem {
+  a {
+    display: block;
+    font-size: rem-calc(14);
+    line-height: rem-calc(17);
+    letter-spacing: 2px;
+    padding: rem-calc(10) rem-calc(24) rem-calc(10) rem-calc(12);
+    text-transform: uppercase;
+    color: $white;
+    &:focus {
+      outline: 0;
+    }
+  }
+  &.collapsible {
+    > a:before {
+      content: "-";
+      float:right;
+    }
+    &.collapsed > a:before {
+      content: "+";
+    }
+  }
+  &.l1 {
+    &:first-child {
+      margin-top: 24px;
+    }
+    > a {
+      font-weight: 800;
+      padding-top: 22px;
+      padding-bottom: 20px;
+      transition: background .25s ease;
+      &:hover:not(:focus) {
+        color: $charcoal;
+        background: $eggshell;
+        text-decoration: none;
+      }
+    }
+  }
+  &.l2 {
+    &:first-child a {
+      padding-top: 0;
+    }
+    &:last-child > a {
+      padding-bottom: 20px;
+    }
+    > a {
+      font-weight: 600;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  &.l3 {
+    > a {
+      text-transform: none;
+      letter-spacing: 1px;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  &:not(.collapsed) a {
+    background: $eggshell;
+    color: $charcoal;
+  }
+}
+
+.SubmenuContainer {
+  // Remove submenus from tab order when collapsed.
+  &.rah-static--height-zero {
+    visibility: hidden;
+  }
+}

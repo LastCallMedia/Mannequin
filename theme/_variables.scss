@@ -12,16 +12,17 @@
 // $green: #8AC74B;
 // $minty: #39FFE2;
 
-$gray: #292F36;
-$gray-light: #4F545A;
+$charcoal: #292F36;
+$ash: #4F545A;
 $mint: #4ECDC4;
+$eggshell: #EBECEC;
 $white: #fffffe;
 
 $body-background: $white;
 $body-font-color: $black;
 
 //Site fonts
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600,800');
 
 //Site Icons
 @import url('https://use.fontawesome.com/releases/v5.8.1/css/all.css');

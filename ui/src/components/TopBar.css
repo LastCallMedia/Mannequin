@@ -4,7 +4,7 @@
  * foundation.zurb.com
  * Licensed under MIT Open Source
  */
-@import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,800");
 @import url("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
 .MannequinTopBar .opener {
   font-size: 14px;
@@ -16,9 +16,6 @@
   cursor: pointer; }
   .MannequinTopBar .opener > i, .MannequinTopBar .opener > svg.Icon {
     margin-left: 1.0625rem; }
-
-body {
-  background: gray !important; }
 
 .MannequinTopBar {
   background: #292F36;
