@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import './ComponentTopBar.css';
+import './ComponentTopBar.css';
 
 const ComponentTopBar = ({ title, selector, actions }) => {
   return (

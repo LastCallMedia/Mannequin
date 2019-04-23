@@ -1,0 +1,61 @@
+@import "../../theme/base";
+
+// .ComponentTopBar .inner {
+//   display: grid;
+//   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+//   padding: 24px;
+// }
+//
+// .ComponentTopBar {
+//   h4 {
+//     @include font-bold;
+//     font-weight: 600;
+//     color: $ash;
+//     grid-column: 1/3;
+//   }
+// }
+
+.ComponentTopBar .inner {
+  @include xy-grid-container();
+  @include xy-grid();
+  padding: rem-calc(39.67px / 2);
+  align-items: baseline;
+}
+
+.ComponentTopBar {
+  h4 {
+    @include font-bold;
+    font-weight: 600;
+    color: $ash;
+    margin-right: 39.67px;
+    margin-bottom: 0;
+  }
+
+  .actions {
+    @include menu-base;
+    @include xy-cell(2);
+    @include xy-cell-offset(7);
+    .ViewInfoButton {
+      padding-top: rem-calc(10);
+      padding-bottom: rem-calc(10);
+      @include font-bold;
+      border: 1px solid #292F36;
+      border-radius: 18px;
+      padding: rem-calc(10) rem-calc(18);
+      width: rem-calc(141);
+    }
+    .OpenWindowButton {
+      padding-top: rem-calc((31 - 23)/2);
+      padding-bottom: rem-calc((31 - 23)/2);
+    }
+  }
+}
+
+.SampleSelector {
+  height: rem-calc(36);
+  font-size: rem-calc(14);
+  border: 1px solid $charcoal;
+  font-weight: 600;
+  color: $charcoal;
+  margin-bottom: 0;
+}
