@@ -797,63 +797,22 @@ select {
   overflow: hidden;
   position: relative; }
   .App .app-inner {
-    width: 200%;
     height: 100%;
     display: flex;
     flex-flow: row nowrap;
-    transform: translate(0, 0);
-    transition: transform .5s ease; }
+    padding-right: 0;
+    padding-left: 0;
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%; }
   .App .main-frame {
-    width: 50%;
-    display: flex;
-    flex-flow: column nowrap; }
-    .App .main-frame .MannequinTopBar {
-      flex: 0 0 auto;
-      height: auto; }
-    .App .main-frame main {
-      flex: 1 1 0px;
-      height: auto;
-      overflow-y: auto; }
-      .App .main-frame main.no-scroll {
-        overflow-y: hidden; }
-  .App .NavDrawer {
-    width: 50%;
-    position: relative;
-    z-index: 5;
-    visibility: hidden;
-    transition: visibility 0s linear .5s; }
-  .App.drawer-open .app-inner {
-    transform: translate(-50%, 0);
-    transition: transform .5s ease; }
+    flex: 0 0 auto;
+    min-height: 0px;
+    min-width: 0px;
+    width: 100%; }
   .App.drawer-open .NavDrawer {
-    visibility: visible;
-    transition: none; }
-  @media print, screen and (min-width: 64em) {
-    .App .app-inner {
-      width: 100%; }
-    .App .main-frame {
-      flex: 0 0 auto;
-      min-height: 0px;
-      min-width: 0px;
-      width: 100%; }
-    .App .NavDrawer {
-      width: 100%;
-      min-width: 28.33333%;
-      transform: translate(0, 0);
-      transition: transform .5s ease, visibility 0s linear .5s; }
-    .App.drawer-open .app-inner {
-      transform: translate(0, 0); }
-    .App.drawer-open .NavDrawer {
-      transform: translate(-100%, 0);
-      transition: transform .5s ease; } }
-  @media screen and (min-width: 90em) {
-    .App .main-frame {
-      flex: 1 1 0px;
-      width: auto; }
-    .App .NavDrawer {
-      visibility: visible;
-      transition: none; }
-    .App .drawer-toggle {
-      display: none; }
-    .App.drawer-open .NavDrawer {
-      transform: translate(0, 0); } }
+    width: 28.33333%; }
+  .App.drawer-open .main-frame {
+    width: 71.66667%;
+    transition: width .3s ease; }

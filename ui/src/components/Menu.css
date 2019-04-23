@@ -80,6 +80,9 @@
   .MenuItem.l3 > a:hover {
     text-decoration: underline; }
 
+.MenuItem.l3:last-child > a {
+  padding-bottom: 20px; }
+
 .MenuItem:not(.collapsed) a {
   background: #EBECEC;
   color: #292F36; }

@@ -25,7 +25,8 @@
   padding: 0 calc(39.67px / 2); }
   .NavDrawer .drawer-toggle.closer {
     text-align: right;
-    height: 3.75rem; }
+    height: 3.75rem;
+    width: 10.9375rem; }
     .NavDrawer .drawer-toggle.closer > i {
       vertical-align: middle; }
   .NavDrawer > .SearchForm {
