@@ -6,72 +6,70 @@
  */
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,800");
 @import url("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
-.ComponentTopBar .inner {
-  padding-right: 0;
-  padding-left: 0;
-  max-width: 1440px;
-  margin-left: auto;
-  margin-right: auto;
-  display: flex;
-  flex-flow: row wrap;
-  padding: 1.23969rem;
-  align-items: baseline; }
-
-.ComponentTopBar h4 {
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-weight: 600;
-  color: #4F545A;
-  margin-right: 39.67px;
-  margin-bottom: 0; }
-
-.ComponentTopBar .actions {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  width: calc(16.66667% - 1.25rem);
-  margin-right: 0.625rem;
-  margin-left: 0.625rem;
-  margin-left: calc(58.33333% + 0.625rem); }
-  [data-whatinput='mouse'] .ComponentTopBar .actions li {
-    outline: 0; }
-  .ComponentTopBar .actions a,
-  .ComponentTopBar .actions .button {
-    line-height: 1;
-    text-decoration: none;
-    display: block;
-    padding: 0.7rem 1rem; }
-  .ComponentTopBar .actions input,
-  .ComponentTopBar .actions select,
-  .ComponentTopBar .actions a,
-  .ComponentTopBar .actions button {
-    margin-bottom: 0; }
-  .ComponentTopBar .actions input {
-    display: inline-block; }
-  .ComponentTopBar .actions .ViewInfoButton {
-    padding-top: 0.625rem;
-    padding-bottom: 0.625rem;
+.ComponentTopBar {
+  padding: 1.23969rem; }
+  .ComponentTopBar .inner {
+    padding-right: 0;
+    padding-left: 0;
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: baseline; }
+    .ComponentTopBar .inner .name, .ComponentTopBar .inner .actions {
+      flex: 0 0 auto;
+      width: auto;
+      margin-right: 0.625rem;
+      margin-left: 0.625rem; }
+    .ComponentTopBar .inner .component {
+      flex: 1 1 0px;
+      width: auto;
+      margin-right: 0.625rem;
+      margin-left: 0.625rem; }
+  .ComponentTopBar .name {
     font-size: 14px;
     font-weight: 800;
     letter-spacing: 2px;
     text-transform: uppercase;
+    font-weight: 600;
+    color: #4F545A; }
+  .ComponentTopBar .SampleSelector {
+    width: auto;
+    font-size: 0.875rem;
+    line-height: 0.75rem;
+    height: 1.875rem;
     border: 1px solid #292F36;
-    border-radius: 18px;
-    padding: 0.625rem 1.125rem;
-    width: 8.8125rem; }
-  .ComponentTopBar .actions .OpenWindowButton {
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem; }
-
-.SampleSelector {
-  height: 2.25rem;
-  font-size: 0.875rem;
-  border: 1px solid #292F36;
-  font-weight: 600;
-  color: #292F36;
-  margin-bottom: 0; }
+    font-weight: 600;
+    color: #292F36;
+    margin-bottom: 0; }
+  .ComponentTopBar select, .ComponentTopBar .button, .ComponentTopBar h4 {
+    margin-bottom: 0; }
+  .ComponentTopBar .actions {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap; }
+    [data-whatinput='mouse'] .ComponentTopBar .actions li {
+      outline: 0; }
+    .ComponentTopBar .actions a,
+    .ComponentTopBar .actions .button {
+      line-height: 1;
+      text-decoration: none;
+      display: block;
+      padding: 0.7rem 1rem; }
+    .ComponentTopBar .actions input,
+    .ComponentTopBar .actions select,
+    .ComponentTopBar .actions a,
+    .ComponentTopBar .actions button {
+      margin-bottom: 0; }
+    .ComponentTopBar .actions input {
+      display: inline-block; }
+    .ComponentTopBar .actions .ViewInfoButton {
+      padding-top: 0.625rem;
+      padding-bottom: 0.625rem; }
+    .ComponentTopBar .actions .OpenWindowButton {
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem; }

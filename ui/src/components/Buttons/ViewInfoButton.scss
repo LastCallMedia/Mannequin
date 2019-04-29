@@ -1,0 +1,16 @@
+@import "../../theme/base";
+
+.ViewInfoButton {
+  @include font-bold;
+  width: 141px;
+  height: 36px;
+  border: dashed 1px $charcoal;
+  border-radius: 18px;
+  &:hover {
+    cursor: pointer;
+  }
+  &:hover, &:focus {
+    background: $charcoal;
+    color: $white;
+  }
+}
