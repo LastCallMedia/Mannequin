@@ -410,11 +410,11 @@ figure {
 
 code {
   padding: 0 0.125rem;
-  border: 1px solid #E9E9E9;
-  background-color: #FBFBFB;
-  font-family: Consolas, "Liberation Mono", Courier, monospace;
+  border: 0;
+  background-color: #EBECEC;
+  font-family: Menlo, Consolas, "Liberation Mono", Courier, monospace;
   font-weight: normal;
-  color: #080808; }
+  color: #546267; }
 
 kbd {
   margin: 0;

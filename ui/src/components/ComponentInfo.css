@@ -1,0 +1,91 @@
+/**
+ * Foundation for Sites by ZURB
+ * Version 6.5.3
+ * foundation.zurb.com
+ * Licensed under MIT Open Source
+ */
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,800");
+@import url("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
+.ComponentInfo {
+  overflow-y: auto; }
+  .ComponentInfo .inner {
+    background: #292F36;
+    padding-right: 0;
+    padding-left: 0;
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-flow: row wrap;
+    position: relative; }
+    .ComponentInfo .inner > .info, .ComponentInfo .inner > .code {
+      flex: 0 0 auto;
+      min-height: 0px;
+      min-width: 0px;
+      width: calc(100% - 1.25rem);
+      margin-right: 0.625rem;
+      margin-left: 0.625rem; }
+      @media print, screen and (min-width: 40em) {
+        .ComponentInfo .inner > .info, .ComponentInfo .inner > .code {
+          flex: 1 1 0px;
+          width: auto;
+          margin-left: 0.9375rem;
+          margin-right: 0.9375rem;
+          margin-top: 0.9375rem;
+          margin-bottom: 0.9375rem; } }
+    .ComponentInfo .inner .controls {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 2; }
+  .ComponentInfo .info {
+    font-size: 1rem;
+    color: #fffffe; }
+    .ComponentInfo .info a {
+      color: inherit; }
+    .ComponentInfo .info h3 {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase; }
+    .ComponentInfo .info h4 {
+      font-weight: 600;
+      font-size: 1rem; }
+    .ComponentInfo .info p {
+      line-height: 1.875rem; }
+  .ComponentInfo .code {
+    position: relative; }
+    .ComponentInfo .code .button-group {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem; }
+    .ComponentInfo .code .button {
+      margin-bottom: 0; }
+
+.CodeButton {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0 1rem 0;
+  padding: 0.85em 1em;
+  border: 1px solid transparent;
+  border-radius: 0;
+  transition: background-color 0.25s ease-out, color 0.25s ease-out;
+  font-family: inherit;
+  font-size: 0.9rem;
+  -webkit-appearance: none;
+  line-height: 1;
+  text-align: center;
+  cursor: pointer;
+  background-color: #767676;
+  color: #fefefe; }
+  [data-whatinput='mouse'] .CodeButton {
+    outline: 0; }
+  .CodeButton:hover, .CodeButton:focus {
+    background-color: #5e5e5e;
+    color: #fefefe; }
+  .CodeButton.active {
+    background-color: #1779ba;
+    color: #fefefe; }
+    .CodeButton.active:hover, .CodeButton.active:focus {
+      background-color: #126195;
+      color: #fefefe; }

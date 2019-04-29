@@ -1,0 +1,63 @@
+@import "../../theme/base";
+
+.ComponentInfo {
+  overflow-y: auto;
+
+  .inner {
+    background: $charcoal;
+    @include xy-grid-container();
+    @include xy-grid();
+    position: relative;
+
+    > .info, > .code {
+      @include xy-cell(full);
+      @include breakpoint(medium) {
+        @include xy-cell(auto, $gutter-position: left right top bottom);
+      }
+    }
+    .controls {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 2;
+    }
+  }
+
+  .info {
+    font-size: rem-calc(16);
+    color: $white;
+    a {color: inherit;}
+    h3 {
+      @include font-bold;
+    }
+    h4 {
+      font-weight: 600;
+      font-size: rem-calc(16);
+    }
+    p {
+      line-height: rem-calc(30);
+    }
+  }
+  .code {
+    position: relative;
+    .button-group {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+    }
+    .button {
+      margin-bottom: 0;
+      &.active {
+
+      }
+    }
+  }
+}
+
+.CodeButton {
+  @include button-base();
+  @include button-style($secondary-color, auto, auto);
+  &.active {
+    @include button-style($primary-color, auto, auto);
+  }
+}

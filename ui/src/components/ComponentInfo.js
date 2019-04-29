@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import FetchingCodeBlock from './FetchingCodeBlock';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-// import './ComponentInfo.css';
+import './ComponentInfo.css';
 
 const ComponentInfo = ({ component, sample, used, className, controls }) => {
   return (

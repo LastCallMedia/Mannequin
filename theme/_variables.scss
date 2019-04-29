@@ -15,6 +15,7 @@
 $black: #000;
 $charcoal: #292F36;
 $ash: #4F545A;
+$storm: #546267;
 $mint: #4ECDC4;
 $eggshell: #EBECEC;
 $white: #fffffe;
@@ -31,14 +32,17 @@ $body-font-color: $black;
 $header-font-family: 'Montserrat', sans-serif;
 $body-font-family: $header-font-family, sans-serif;
 $impact-font-family: $header-font-family, sans-serif;
+$font-family-monospace: Menlo, Consolas, 'Liberation Mono', Courier, monospace;
 
 $grid-container: 1440px;
 $grid-container-padding: 0;
 
-$code-background: #FBFBFB;
-$code-color: #080808;
-$code-border: 1px solid #E9E9E9;;
+$code-background: $eggshell;
+$code-color: $storm;
+$code-border: 0;
 $code-padding: 0 .125rem;
+$code-font-family: $font-family-monospace;
+
 
 //Mixins
 
