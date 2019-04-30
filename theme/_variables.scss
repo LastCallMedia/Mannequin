@@ -62,3 +62,15 @@ $code-font-family: $font-family-monospace;
     margin-left: rem-calc(17);
   }
 }
+
+%border-button {
+  @include font-bold;
+  // height: rem-calc(36);
+  padding: 11px 25px;
+  border: dashed 1px $charcoal;
+  border-radius: 18px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

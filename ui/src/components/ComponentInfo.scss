@@ -39,11 +39,9 @@
     }
   }
   .code {
-    position: relative;
     .button-group {
-      position: absolute;
-      bottom: 1rem;
-      right: 1rem;
+      margin-top: 25px;
+      text-align: right;
     }
     .button {
       margin-bottom: 0;
@@ -55,9 +53,14 @@
 }
 
 .CodeButton {
-  @include button-base();
-  @include button-style($secondary-color, auto, auto);
+  @extend %border-button;
+  background: $charcoal;
+  color: $white;
+  border-color: $white;
+  margin-left: rem-calc(20);
   &.active {
-    @include button-style($primary-color, auto, auto);
+    background: $mint;
+    color: $charcoal;
+    border: 0;
   }
 }

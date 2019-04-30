@@ -128,7 +128,7 @@ class ComponentInfoCode extends Component {
         {src && <FetchingCodeBlock src={src} language={language} />}
         <div className="button-group">
           {sample && (
-            <a
+            <button
               className={cx({
                 CodeButton: true,
                 active: src === sample.source
@@ -138,10 +138,10 @@ class ComponentInfoCode extends Component {
               data-language={'html'}
             >
               HTML
-            </a>
+            </button>
           )}
           {component && (
-            <a
+            <button
               className={cx({
                 CodeButton: true,
                 active: src === component.source
@@ -151,7 +151,7 @@ class ComponentInfoCode extends Component {
               data-language={component.metadata.source_format}
             >
               Raw
-            </a>
+            </button>
           )}
         </div>
       </div>

@@ -11,12 +11,17 @@
   font-weight: 800;
   letter-spacing: 2px;
   text-transform: uppercase;
-  width: 141px;
-  height: 36px;
+  padding: 11px 25px;
   border: dashed 1px #292F36;
   border-radius: 18px; }
   .ViewInfoButton:hover {
     cursor: pointer; }
+
+.ViewInfoButton {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase; }
   .ViewInfoButton:hover, .ViewInfoButton:focus {
     background: #292F36;
     color: #fffffe; }

@@ -2,13 +2,8 @@
 
 .ViewInfoButton {
   @include font-bold;
-  width: 141px;
-  height: 36px;
-  border: dashed 1px $charcoal;
-  border-radius: 18px;
-  &:hover {
-    cursor: pointer;
-  }
+  @extend %border-button;
+
   &:hover, &:focus {
     background: $charcoal;
     color: $white;

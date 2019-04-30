@@ -6,6 +6,17 @@
  */
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,800");
 @import url("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
+.CodeButton {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 11px 25px;
+  border: dashed 1px #292F36;
+  border-radius: 18px; }
+  .CodeButton:hover {
+    cursor: pointer; }
+
 .ComponentInfo {
   overflow-y: auto; }
   .ComponentInfo .inner {
@@ -53,39 +64,18 @@
       font-size: 1rem; }
     .ComponentInfo .info p {
       line-height: 1.875rem; }
-  .ComponentInfo .code {
-    position: relative; }
-    .ComponentInfo .code .button-group {
-      position: absolute;
-      bottom: 1rem;
-      right: 1rem; }
-    .ComponentInfo .code .button {
-      margin-bottom: 0; }
+  .ComponentInfo .code .button-group {
+    margin-top: 25px;
+    text-align: right; }
+  .ComponentInfo .code .button {
+    margin-bottom: 0; }
 
 .CodeButton {
-  display: inline-block;
-  vertical-align: middle;
-  margin: 0 0 1rem 0;
-  padding: 0.85em 1em;
-  border: 1px solid transparent;
-  border-radius: 0;
-  transition: background-color 0.25s ease-out, color 0.25s ease-out;
-  font-family: inherit;
-  font-size: 0.9rem;
-  -webkit-appearance: none;
-  line-height: 1;
-  text-align: center;
-  cursor: pointer;
-  background-color: #767676;
-  color: #fefefe; }
-  [data-whatinput='mouse'] .CodeButton {
-    outline: 0; }
-  .CodeButton:hover, .CodeButton:focus {
-    background-color: #5e5e5e;
-    color: #fefefe; }
+  background: #292F36;
+  color: #fffffe;
+  border-color: #fffffe;
+  margin-left: 1.25rem; }
   .CodeButton.active {
-    background-color: #1779ba;
-    color: #fefefe; }
-    .CodeButton.active:hover, .CodeButton.active:focus {
-      background-color: #126195;
-      color: #fefefe; }
+    background: #4ECDC4;
+    color: #292F36;
+    border: 0; }
