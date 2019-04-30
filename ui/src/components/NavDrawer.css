@@ -25,7 +25,7 @@
   .NavDrawer .drawer-toggle.closer {
     text-align: right;
     height: 3.75rem;
-    width: 10.9375rem; }
+    margin-right: 1.25rem; }
     .NavDrawer .drawer-toggle.closer > i {
       vertical-align: middle; }
   .NavDrawer > .SearchForm {
@@ -34,7 +34,8 @@
     margin-right: 0.625rem;
     margin-left: 0.625rem;
     margin-top: 0.625rem;
-    margin-left: 1.25rem; }
+    margin-left: 1.25rem;
+    margin-right: 2.6875rem; }
     @media screen and (min-width: 90em) {
       .NavDrawer > .SearchForm {
         flex: 0 0 auto;

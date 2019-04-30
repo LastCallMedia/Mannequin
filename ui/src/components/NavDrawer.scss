@@ -10,7 +10,7 @@
     @extend %toggle-button;
     text-align: right;
     height: rem-calc(60);
-    width: rem-calc(175);
+    margin-right: rem-calc(20);
     > i {
       vertical-align: middle;
     }
@@ -18,6 +18,7 @@
   > .SearchForm {
     @include xy-cell(shrink, $gutter-position: right left top, $vertical: true);
     margin-left: rem-calc(20);
+    margin-right: rem-calc(43);
     @include breakpoint(xxlarge) {
       @include xy-cell(shrink, $gutter-position: right left top, $vertical: true);
     }
@@ -53,6 +54,7 @@
 
 .SearchForm {
   position: relative;
+
   input {
     border: none;
     background-color: #21262B;
@@ -79,3 +81,4 @@
     color: $white;
   }
 }
+;
