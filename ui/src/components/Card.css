@@ -7,7 +7,7 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,800");
 @import url("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
 .Card {
-  border: 1px dashed green;
+  border: 1px dashed;
   padding: 20px; }
   .Card:hover {
     border-color: transparent;

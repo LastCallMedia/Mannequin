@@ -1,5 +1,5 @@
 import React from 'react';
-// import './HomePage.css';
+import './HomePage.css';
 import { connect } from 'react-redux';
 import Branding from '../components/Branding';
 import { getQuicklinks } from '../selectors';

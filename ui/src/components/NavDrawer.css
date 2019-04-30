@@ -21,8 +21,7 @@
   background-color: #4F545A;
   box-shadow: 0 2px 5px 0 #4F545A;
   display: flex;
-  flex-flow: column wrap;
-  padding: 0 calc(39.67px / 2); }
+  flex-flow: column wrap; }
   .NavDrawer .drawer-toggle.closer {
     text-align: right;
     height: 3.75rem;
@@ -34,7 +33,8 @@
     height: auto;
     margin-right: 0.625rem;
     margin-left: 0.625rem;
-    margin-top: 0.625rem; }
+    margin-top: 0.625rem;
+    margin-left: 1.25rem; }
     @media screen and (min-width: 90em) {
       .NavDrawer > .SearchForm {
         flex: 0 0 auto;
@@ -57,7 +57,7 @@
     text-transform: uppercase;
     color: #fffffe;
     padding-right: 0.625rem;
-    padding-left: 0.625rem;
+    padding-left: 1.25rem;
     padding-top: 1.125rem;
     padding-bottom: 0.625rem;
     height: 3.75rem; }

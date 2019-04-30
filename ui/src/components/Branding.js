@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from '../svg/manny_wave.svg';
 
-// import './Branding.css';
+import './Branding.css';
 
 /**
  * Homepage branding block.

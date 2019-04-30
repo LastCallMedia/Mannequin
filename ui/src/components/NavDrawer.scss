@@ -4,7 +4,7 @@
   background-color: $ash;
 	box-shadow: 0 2px 5px 0 $ash;
   @include xy-grid(vertical);
-  padding: 0 calc(39.67px / 2);
+  // padding: 0 calc(39.67px / 2);
   .drawer-toggle.closer {
     // @include xy-cell(shrink, $gutter-position: right left top bottom, $gutter-type: padding);
     @extend %toggle-button;
@@ -17,6 +17,7 @@
   }
   > .SearchForm {
     @include xy-cell(shrink, $gutter-position: right left top, $vertical: true);
+    margin-left: rem-calc(20);
     @include breakpoint(xxlarge) {
       @include xy-cell(shrink, $gutter-position: right left top, $vertical: true);
     }
@@ -39,7 +40,7 @@
     @include font-bold;
     color: $white;
     padding-right: 0.625rem;
-    padding-left: 0.625rem;
+    padding-left: rem-calc(20);
     padding-top: 1.125rem;
     padding-bottom: 0.625rem;
     height: 3.75rem;
