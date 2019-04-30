@@ -5,8 +5,11 @@ import cx from 'classnames';
 // import './CloseButton.css';
 
 const CloseButton = ({ className, ...rest }) => (
+  // <button className={cx('CloseButton', className)} {...rest}>
+  //   <Close color="black" />
+  // </button>
   <button className={cx('CloseButton', className)} {...rest}>
-    <Close color="black" />
+    <span>Close</span> <i className="fas fa-times"></i>
   </button>
 );
 

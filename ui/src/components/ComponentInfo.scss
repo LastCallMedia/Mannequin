@@ -8,6 +8,7 @@
     @include xy-grid-container();
     @include xy-grid();
     position: relative;
+    padding: rem-calc(22);
 
     > .info, > .code {
       @include xy-cell(full);
@@ -17,8 +18,8 @@
     }
     .controls {
       position: absolute;
-      top: 16px;
-      right: 16px;
+      top: 0;
+      right: rem-calc(25);
       z-index: 2;
     }
   }
@@ -62,5 +63,17 @@
     background: $mint;
     color: $charcoal;
     border: 0;
+  }
+}
+
+.ComponentInfo .controls {
+  .CloseButton {
+    @extend %toggle-button;
+    text-align: right;
+    height: rem-calc(60);
+    width: rem-calc(175);
+    > i {
+      vertical-align: middle;
+    }
   }
 }

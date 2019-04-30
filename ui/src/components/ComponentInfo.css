@@ -6,6 +6,17 @@
  */
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,800");
 @import url("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
+.ComponentInfo .controls .CloseButton {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  line-height: 0.75rem;
+  color: #fffffe;
+  cursor: pointer; }
+  .ComponentInfo .controls .CloseButton > i, .ComponentInfo .controls .CloseButton > svg.Icon {
+    margin-left: 1.0625rem; }
+
 .CodeButton {
   font-size: 14px;
   font-weight: 800;
@@ -28,7 +39,8 @@
     margin-right: auto;
     display: flex;
     flex-flow: row wrap;
-    position: relative; }
+    position: relative;
+    padding: 1.375rem; }
     .ComponentInfo .inner > .info, .ComponentInfo .inner > .code {
       flex: 0 0 auto;
       min-height: 0px;
@@ -46,8 +58,8 @@
           margin-bottom: 0.9375rem; } }
     .ComponentInfo .inner .controls {
       position: absolute;
-      top: 16px;
-      right: 16px;
+      top: 0;
+      right: 1.5625rem;
       z-index: 2; }
   .ComponentInfo .info {
     font-size: 1rem;
@@ -79,3 +91,10 @@
     background: #4ECDC4;
     color: #292F36;
     border: 0; }
+
+.ComponentInfo .controls .CloseButton {
+  text-align: right;
+  height: 3.75rem;
+  width: 10.9375rem; }
+  .ComponentInfo .controls .CloseButton > i {
+    vertical-align: middle; }
