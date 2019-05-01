@@ -2,7 +2,7 @@
 
 .ViewInfoButton {
   @include font-bold;
-  @extend %border-button;
+  @include border-button;
 
   &:hover, &:focus {
     background: $charcoal;

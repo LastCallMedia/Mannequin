@@ -7,7 +7,9 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,800");
 @import url("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
 .ComponentTopBar {
-  padding: 1.23969rem; }
+  padding: 1.23969rem;
+  background: #EBECEC;
+  margin-bottom: 1em; }
   .ComponentTopBar .inner {
     padding-right: 0;
     padding-left: 0;
@@ -16,7 +18,7 @@
     margin-right: auto;
     display: flex;
     flex-flow: row wrap;
-    align-items: baseline; }
+    align-items: center; }
     .ComponentTopBar .inner .name, .ComponentTopBar .inner .actions {
       flex: 0 0 auto;
       width: auto;
@@ -67,9 +69,6 @@
       margin-bottom: 0; }
     .ComponentTopBar .actions input {
       display: inline-block; }
-    .ComponentTopBar .actions .ViewInfoButton {
-      padding-top: 0.625rem;
-      padding-bottom: 0.625rem; }
     .ComponentTopBar .actions .OpenWindowButton {
-      padding-top: 0.25rem;
-      padding-bottom: 0.25rem; }
+      padding-top: 0.625rem;
+      padding-right: 1.4375rem; }
