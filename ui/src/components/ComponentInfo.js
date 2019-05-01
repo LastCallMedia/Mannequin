@@ -9,18 +9,23 @@ const ComponentInfo = ({ component, sample, used, className, controls }) => {
   return (
     <div className={cx('ComponentInfo', className)}>
       <div className="inner">
-        <div className="controls">{controls}</div>
-        <ComponentInfoInfo
-          className="info"
-          component={component}
-          used={used}
-          sample={sample}
-        />
-        <ComponentInfoCode
-          className="code"
-          component={component}
-          sample={sample}
-        />
+        <div className="ComponentInfo__section--top">
+          <div className="ComponentInfo__title">{component.name}</div>
+          <div className="controls">{controls}</div>
+        </div>
+        <div className="ComponentInfo__section--bottom">
+            <ComponentInfoInfo
+              className="info"
+              component={component}
+              used={used}
+              sample={sample}
+            />
+            <ComponentInfoCode
+              className="code"
+              component={component}
+              sample={sample}
+            />
+        </div>
       </div>
     </div>
   );
@@ -36,14 +41,13 @@ export default ComponentInfo;
 const ComponentInfoInfo = ({ component, sample, used }) => {
   return (
     <div className="info">
-      <h3 className="component-name">{component.name}</h3>
       {component.metadata.description && (
         <ComponentInfoSection title="Description">
           {component.metadata.description}
         </ComponentInfoSection>
       )}
       {used.length > 0 && (
-        <ComponentInfoSection title="Used">
+        <ComponentInfoSection title="Includes">
           {used.map(p => (
             <Link key={p.id} to={`/component/${p.id}`}>
               {p.name}

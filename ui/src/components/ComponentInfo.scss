@@ -3,34 +3,43 @@
 .ComponentInfo {
   overflow-y: auto;
 
+  a {
+    color: $white;
+    border-bottom: solid 1px $mint;
+    &:hover {
+      color: $mint;
+      border-bottom: 0;
+    }
+  }
+
   .inner {
     background: $charcoal;
-    @include xy-grid-container();
-    @include xy-grid();
     position: relative;
-    padding: rem-calc(22);
+    padding: 0 rem-calc(22) rem-calc(22);
+  }
 
-    > .info, > .code {
-      @include xy-cell(full);
-      @include breakpoint(medium) {
-        @include xy-cell(auto, $gutter-position: left right top bottom);
-      }
+  .ComponentInfo__section--top {
+    // @include xy-grid();
+    position: fixed;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: $charcoal;
+    padding: rem-calc(22) 0;
+    z-index: 3;
+
+    .ComponentInfo__title {
+      color: $white;
+      @include font-bold;
     }
-    .controls {
-      position: absolute;
-      top: 0;
-      right: rem-calc(25);
-      z-index: 2;
-    }
+     .controls {
+       text-align: right;
+     }
   }
 
   .info {
     font-size: rem-calc(16);
     color: $white;
-    a {color: inherit;}
-    h3 {
-      @include font-bold;
-    }
     h4 {
       font-weight: 600;
       font-size: rem-calc(16);
@@ -39,10 +48,12 @@
       line-height: rem-calc(30);
     }
   }
+
   .code {
     .button-group {
-      margin-top: 25px;
+      background: $eggshell;
       text-align: right;
+      padding: rem-calc(10);
     }
     .button {
       margin-bottom: 0;
@@ -53,24 +64,68 @@
   }
 }
 
+.ComponentInfo__section--bottom {
+  padding-top: rem-calc(72);
+  @include xy-grid();
+  @include xy-grid-container();
+
+  > .info, > .code {
+    width: 100%;
+  }
+  .info {
+    @include breakpoint(large) {
+      @include xy-cell(6/12, $gutter-position: right);
+      width: calc(50% - 0.9375rem)
+    }
+  }
+  .code {
+    @include breakpoint(large) {
+      @include xy-cell(6/12, $gutter-position: left);
+      width: calc(50% - 0.9375rem);
+      pre {
+        max-height: 20rem;
+      }
+    }
+  }
+}
+
 .CodeButton {
-  @extend %border-button;
-  background: $charcoal;
-  color: $white;
-  border-color: $white;
-  margin-left: rem-calc(20);
+  @include border-button;
+  border: 0;
+  background: #649490;
+  color: #1f1f19;
+  font-size: rem-calc(12);
+  position: relative;
+  z-index: 1;
+  &:not(.active) {
+    &:first-child {
+      padding-right: 36px;
+      border-radius: 18px 0 0 18px;
+    }
+    &:last-child {
+      padding-left: 36px;
+      border-radius: 0 18px 18px 0;
+    }
+  }
   &.active {
     background: $mint;
     color: $charcoal;
     border: 0;
+    z-index: 2;
+    &:first-child {
+      margin-right: -22px;
+    }
+    &:last-child {
+      margin-left: -22px;
+    }
   }
 }
 
 .ComponentInfo .controls {
   .CloseButton {
     @extend %toggle-button;
-    text-align: right;
-    height: rem-calc(60);
+    // text-align: right;
+    // height: rem-calc(60);
     width: rem-calc(175);
     > i {
       vertical-align: middle;

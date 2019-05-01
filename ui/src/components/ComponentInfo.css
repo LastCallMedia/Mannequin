@@ -17,84 +17,108 @@
   .ComponentInfo .controls .CloseButton > i, .ComponentInfo .controls .CloseButton > svg.Icon {
     margin-left: 1.0625rem; }
 
-.CodeButton {
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 11px 25px;
-  border: dashed 1px #292F36;
-  border-radius: 18px; }
-  .CodeButton:hover {
-    cursor: pointer; }
-
 .ComponentInfo {
   overflow-y: auto; }
+  .ComponentInfo a {
+    color: #fffffe;
+    border-bottom: solid 1px #4ECDC4; }
+    .ComponentInfo a:hover {
+      color: #4ECDC4;
+      border-bottom: 0; }
   .ComponentInfo .inner {
     background: #292F36;
-    padding-right: 0;
-    padding-left: 0;
-    max-width: 1440px;
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    flex-flow: row wrap;
     position: relative;
-    padding: 1.375rem; }
-    .ComponentInfo .inner > .info, .ComponentInfo .inner > .code {
-      flex: 0 0 auto;
-      min-height: 0px;
-      min-width: 0px;
-      width: calc(100% - 1.25rem);
-      margin-right: 0.625rem;
-      margin-left: 0.625rem; }
-      @media print, screen and (min-width: 40em) {
-        .ComponentInfo .inner > .info, .ComponentInfo .inner > .code {
-          flex: 1 1 0px;
-          width: auto;
-          margin-left: 0.9375rem;
-          margin-right: 0.9375rem;
-          margin-top: 0.9375rem;
-          margin-bottom: 0.9375rem; } }
-    .ComponentInfo .inner .controls {
-      position: absolute;
-      top: 0;
-      right: 1.5625rem;
-      z-index: 2; }
-  .ComponentInfo .info {
-    font-size: 1rem;
-    color: #fffffe; }
-    .ComponentInfo .info a {
-      color: inherit; }
-    .ComponentInfo .info h3 {
+    padding: 0 1.375rem 1.375rem; }
+  .ComponentInfo .ComponentInfo__section--top {
+    position: fixed;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #292F36;
+    padding: 1.375rem 0;
+    z-index: 3; }
+    .ComponentInfo .ComponentInfo__section--top .ComponentInfo__title {
+      color: #fffffe;
       font-size: 14px;
       font-weight: 800;
       letter-spacing: 2px;
       text-transform: uppercase; }
+    .ComponentInfo .ComponentInfo__section--top .controls {
+      text-align: right; }
+  .ComponentInfo .info {
+    font-size: 1rem;
+    color: #fffffe; }
     .ComponentInfo .info h4 {
       font-weight: 600;
       font-size: 1rem; }
     .ComponentInfo .info p {
       line-height: 1.875rem; }
   .ComponentInfo .code .button-group {
-    margin-top: 25px;
-    text-align: right; }
+    background: #EBECEC;
+    text-align: right;
+    padding: 0.625rem; }
   .ComponentInfo .code .button {
     margin-bottom: 0; }
 
+.ComponentInfo__section--bottom {
+  padding-top: 4.5rem;
+  display: flex;
+  flex-flow: row wrap;
+  padding-right: 0;
+  padding-left: 0;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto; }
+  .ComponentInfo__section--bottom > .info, .ComponentInfo__section--bottom > .code {
+    width: 100%; }
+  @media print, screen and (min-width: 64em) {
+    .ComponentInfo__section--bottom .info {
+      width: calc(50% - 1.875rem);
+      margin-right: 0.9375rem;
+      width: calc(50% - 0.9375rem); } }
+  @media print, screen and (min-width: 64em) {
+    .ComponentInfo__section--bottom .code {
+      width: calc(50% - 1.875rem);
+      margin-left: 0.9375rem;
+      width: calc(50% - 0.9375rem); }
+      .ComponentInfo__section--bottom .code pre {
+        max-height: 20rem; } }
+
 .CodeButton {
-  background: #292F36;
-  color: #fffffe;
-  border-color: #fffffe;
-  margin-left: 1.25rem; }
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 0.75rem 1.5625rem;
+  border: dashed 2px #292F36;
+  border-radius: 18px;
+  font-size: 0.75rem;
+  letter-spacing: 0.10625rem;
+  border: 0;
+  background: #649490;
+  color: #1f1f19;
+  font-size: 0.75rem;
+  position: relative;
+  z-index: 1; }
+  .CodeButton:hover {
+    cursor: pointer; }
+  .CodeButton:not(.active):first-child {
+    padding-right: 36px;
+    border-radius: 18px 0 0 18px; }
+  .CodeButton:not(.active):last-child {
+    padding-left: 36px;
+    border-radius: 0 18px 18px 0; }
   .CodeButton.active {
     background: #4ECDC4;
     color: #292F36;
-    border: 0; }
+    border: 0;
+    z-index: 2; }
+    .CodeButton.active:first-child {
+      margin-right: -22px; }
+    .CodeButton.active:last-child {
+      margin-left: -22px; }
 
 .ComponentInfo .controls .CloseButton {
-  text-align: right;
-  height: 3.75rem;
   width: 10.9375rem; }
   .ComponentInfo .controls .CloseButton > i {
     vertical-align: middle; }
