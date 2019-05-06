@@ -67,7 +67,7 @@
   @include xy-gutters($gutter-position: left right);
   display: grid;
   grid-template-columns: xy-cell-size(2 of 6) xy-cell-size(4 of 6);
-  width: $grid-container / 2;
+  // width: $grid-container / 2;
   margin: 0 auto;
 }
 

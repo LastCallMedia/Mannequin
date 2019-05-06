@@ -797,14 +797,17 @@ select {
   overflow: hidden;
   position: relative; }
   .App .app-inner {
-    width: 200%;
+    width: 100%;
     height: 100%;
     display: flex;
     flex-flow: row nowrap;
     transform: translate(0, 0);
     transition: transform .5s ease; }
   .App .main-frame {
-    width: 50%;
+    flex: 0 0 auto;
+    min-height: 0px;
+    min-width: 0px;
+    width: 100%;
     display: flex;
     flex-flow: column nowrap; }
     .App .main-frame .MannequinTopBar {
@@ -817,35 +820,19 @@ select {
       .App .main-frame main.no-scroll {
         overflow-y: hidden; }
   .App .NavDrawer {
-    width: 50%;
+    width: 25%;
+    min-width: 320px;
+    transform: translate(0, 0);
+    transition: transform .5s ease, visibility 0s linear .5s;
     position: relative;
     z-index: 5;
-    visibility: hidden;
-    transition: visibility 0s linear .5s; }
+    visibility: hidden; }
   .App.drawer-open .app-inner {
-    transform: translate(-50%, 0);
-    transition: transform .5s ease; }
+    transform: translate(0, 0); }
   .App.drawer-open .NavDrawer {
-    visibility: visible;
-    transition: none; }
-  @media print, screen and (min-width: 64em) {
-    .App .app-inner {
-      width: 100%; }
-    .App .main-frame {
-      flex: 0 0 auto;
-      min-height: 0px;
-      min-width: 0px;
-      width: 100%; }
-    .App .NavDrawer {
-      width: 25%;
-      min-width: 25%;
-      transform: translate(0, 0);
-      transition: transform .5s ease, visibility 0s linear .5s; }
-    .App.drawer-open .app-inner {
-      transform: translate(0, 0); }
-    .App.drawer-open .NavDrawer {
-      transform: translate(-100%, 0);
-      transition: transform .5s ease; } }
+    transform: translate(-100%, 0);
+    transition: transform .5s ease;
+    visibility: visible; }
   @media screen and (min-width: 90em) {
     .App .main-frame {
       flex: 1 1 0px;
