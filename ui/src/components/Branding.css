@@ -24,3 +24,10 @@
 
 .Branding__Text {
   grid-column: 2 / 2; }
+
+@media print, screen and (min-width: 40em) {
+  .Branding h1 {
+    text-transform: uppercase;
+    font-weight: 800;
+    font-size: 60px;
+    letter-spacing: 3.5px; } }
