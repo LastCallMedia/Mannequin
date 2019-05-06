@@ -66,25 +66,51 @@
 .Branding {
   @include xy-gutters($gutter-position: left right);
   display: grid;
-  grid-template-columns: xy-cell-size(2 of 6) xy-cell-size(4 of 6);
+  // grid-template-columns: xy-cell-size(2 of 6) xy-cell-size(4 of 6);
   // width: $grid-container / 2;
   margin: 0 auto;
+  align-items: center;
 }
 
 .Branding img {
   grid-column: 1 / 1;
-  width: 105px;
+  justify-self: right;
+  width: 85px;
+  border-right: solid 2px $white;
+  padding-right: 15px;
+  box-sizing: content-box;
+  @include breakpoint(medium) {
+    width: 105px;
+    padding-right: 30px;
+  }
 }
 
 .Branding__Text {
   grid-column: 2 / 2;
+  padding-left: 15px;
+  @include breakpoint(medium) {
+    padding-left: 30px;
+  }
 }
 
 .Branding h1 {
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 2rem;
   @include breakpoint(medium) {
-    text-transform: uppercase;
-    font-weight: 800;
     font-size: 60px;
     letter-spacing: 3.5px;
+    line-height: 3rem;
+  }
+}
+
+.Branding span {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2.7px;
+  font-weight: 400;
+  @include breakpoint(medium) {
+    font-size: 15px;
   }
 }
