@@ -18,3 +18,30 @@
     letter-spacing: 2px;
     text-transform: uppercase;
     text-align: center; }
+
+.button--get-started {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 0.75rem 1.5625rem;
+  border: dashed 2px #292F36;
+  border-radius: 18px;
+  font-size: 0.75rem;
+  letter-spacing: 0.10625rem;
+  width: 20.125rem;
+  margin: 0 auto;
+  display: block;
+  padding: 1.25rem 0;
+  border: 2px dashed white;
+  text-align: center;
+  border-radius: 3.125rem;
+  color: #fffffe;
+  letter-spacing: 0.125rem;
+  font-size: 0.875rem; }
+  .button--get-started:hover {
+    cursor: pointer; }
+  .button--get-started:hover {
+    color: #292F36;
+    background: #4ECDC4;
+    border: dashed 2px #4ECDC4; }

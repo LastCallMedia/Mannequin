@@ -5,6 +5,7 @@ import Branding from '../components/Branding';
 import { getQuicklinks } from '../selectors';
 import Card from '../components/Card';
 import PropTypes from 'prop-types';
+import { OpenNew } from '../components/Icons';
 
 const HomePage = ({ quickLinks }) => (
   <main className="MannequinHome">
@@ -23,7 +24,7 @@ const HomePage = ({ quickLinks }) => (
           ))}
         </div>
       </div>
-    )}
+    ) || <a className="button--get-started" href="https://mannequin.io/#GetStarted">Get Started <OpenNew /></a>}
   </main>
 );
 
