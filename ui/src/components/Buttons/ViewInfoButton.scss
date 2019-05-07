@@ -4,7 +4,7 @@
   @include font-bold;
   @include border-button;
 
-  &:hover, &:focus {
+  &:hover, &.active-true, {
     background: $charcoal;
     color: $white;
   }

@@ -57,7 +57,7 @@
 
   input {
     border: none;
-    background-color: #21262B;
+    background-color: $charcoal;
     color: white;
     font-size: 14px;
     font-weight: 400;
@@ -67,9 +67,12 @@
     margin-bottom: 0;
     border-radius: 0;
     padding-left: rem-calc(40);
+    border: solid 2px $charcoal;
 
     &:focus {
-      background-color: #21262B;
+      background-color: $charcoal;
+      border: solid 2px $mint;
+      box-shadow: 0 0;
     }
   }
   i {

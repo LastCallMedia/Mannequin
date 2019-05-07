@@ -1,0 +1,11 @@
+.SlideInFromBottom-enter {
+  transform: translateY(100%); }
+  .SlideInFromBottom-enter-active {
+    transform: translateY(0);
+    transition: transform .5s ease; }
+
+.SlideInFromBottom-exit {
+  transform: translateY(0); }
+  .SlideInFromBottom-exit-active {
+    transform: translateY(100%);
+    transition: transform .5s ease; }

@@ -22,6 +22,6 @@
   letter-spacing: 0.10625rem; }
   .ViewInfoButton:hover {
     cursor: pointer; }
-  .ViewInfoButton:hover, .ViewInfoButton:focus {
+  .ViewInfoButton:hover, .ViewInfoButton.active-true {
     background: #292F36;
     color: #fffffe; }

@@ -38,6 +38,7 @@
     color: #4F545A; }
   .ComponentTopBar .SampleSelector {
     width: auto;
+    background-color: #EBECEC;
     font-size: 0.875rem;
     line-height: 0.75rem;
     height: 1.875rem;
@@ -45,6 +46,9 @@
     font-weight: 600;
     color: #292F36;
     margin-bottom: 0; }
+    .ComponentTopBar .SampleSelector:hover {
+      cursor: pointer;
+      background-color: #fffffe; }
   .ComponentTopBar select, .ComponentTopBar .button, .ComponentTopBar h4 {
     margin-bottom: 0; }
   .ComponentTopBar .actions {
@@ -72,3 +76,6 @@
     .ComponentTopBar .actions .OpenWindowButton {
       padding-top: 0.625rem;
       padding-right: 1.4375rem; }
+  .ComponentTopBar .ViewInfoButton.active-true {
+    background: #292F36;
+    color: #fffffe; }

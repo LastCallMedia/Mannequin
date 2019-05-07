@@ -67,7 +67,7 @@ class SampleFoundPage extends Component {
     const { problems, name } = component;
     const actions = [
       <OpenWindowButton href={sample.rendered} />,
-      <ViewInfoButton onClick={toggleInfo} />
+      <ViewInfoButton onClick={toggleInfo} isShowing={showingInfo} />
     ];
     const selector = (
       <SampleSelector

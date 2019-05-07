@@ -24,6 +24,7 @@
   }
   .SampleSelector {
     width: auto;
+    background-color: $eggshell;
     font-size: rem-calc(14);
     line-height: rem-calc(12);
     height: rem-calc(30);
@@ -31,6 +32,10 @@
     font-weight: 600;
     color: $charcoal;
     margin-bottom: 0;
+    &:hover {
+      cursor: pointer;
+      background-color: $white;
+    }
   }
   select, .button, h4 {
     margin-bottom: 0;
@@ -41,5 +46,10 @@
       padding-top: rem-calc(10);
       padding-right: rem-calc(23);
     }
+  }
+
+  .ViewInfoButton.active-true {
+    background: $charcoal;
+    color: $white;
   }
 }
