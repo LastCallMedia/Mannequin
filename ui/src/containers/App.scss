@@ -56,29 +56,6 @@
     }
   }
 
-  // @include breakpoint(small) {
-    // .app-inner {
-    //   width: 100%;
-    // }
-    // .main-frame {
-    //   @include xy-cell(full, $gutter-output: false, $gutter-type: none);
-    // }
-    // .NavDrawer {
-    //   // @include xy-cell(3/12, $gutter-output: false, $gutter-type: none);
-    //   min-width: 25%;
-    //   transform: translate(0, 0);
-    //   transition: transform .5s ease, visibility 0s linear .5s;
-    // }
-    // &.drawer-open {
-    //   .app-inner {
-    //     transform: translate(0, 0);
-    //   }
-    //   .NavDrawer {
-    //     transform: translate(-100%, 0);
-    //     transition: transform .5s ease;
-    //   }
-    // }
-  // }
   @include breakpoint(xxlarge) {
     .main-frame {
       @include xy-cell(auto, $gutter-output: false, $gutter-type: none);

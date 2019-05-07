@@ -4,9 +4,7 @@
   background-color: $ash;
 	box-shadow: 0 2px 5px 0 $ash;
   @include xy-grid(vertical);
-  // padding: 0 calc(39.67px / 2);
   .drawer-toggle.closer {
-    // @include xy-cell(shrink, $gutter-position: right left top bottom, $gutter-type: padding);
     @extend %toggle-button;
     text-align: right;
     height: rem-calc(60);
@@ -32,11 +30,6 @@
 .NavDrawer__top {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  // @include xy-grid();
-  // > span, > .drawer-toggle {
-  //
-  //   // @include xy-cell(6, $gutter-output: false);
-  // }
   > span {
     @include font-bold;
     color: $white;
@@ -84,4 +77,3 @@
     color: $white;
   }
 }
-;

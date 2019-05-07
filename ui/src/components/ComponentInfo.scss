@@ -19,7 +19,7 @@
   }
 
   .ComponentInfo__section--top {
-    // @include xy-grid();
+
     position: fixed;
     width: 100vw;
     display: grid;
@@ -124,8 +124,6 @@
 .ComponentInfo .controls {
   .CloseButton {
     @extend %toggle-button;
-    // text-align: right;
-    // height: rem-calc(60);
     width: rem-calc(175);
     > i {
       vertical-align: middle;

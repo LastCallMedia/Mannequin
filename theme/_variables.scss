@@ -1,16 +1,4 @@
-//Site colors
-// $white: #FFF;
-// $black: #080808;
-// $almost-black: #1B2126;
-// $darkblue: #181D22;
-// $blue-gray: #7E92A5;
-// $light-gray: #97A6B5;
-// $darkgray: #3A454F;
-// $buttonblue: #4A90E2;
-// $dashing-gray: #55626d;
-// $red: #FF4444;
-// $green: #8AC74B;
-// $minty: #39FFE2;
+//Theme colors
 
 $black: #000;
 $charcoal: #292F36;
@@ -65,7 +53,6 @@ $code-font-family: $font-family-monospace;
 
 @mixin border-button {
   @include font-bold;
-  // height: rem-calc(36);
   padding: rem-calc(12) rem-calc(25);
   border: dashed 2px $charcoal;
   border-radius: 18px;

@@ -4,7 +4,6 @@ import SyntaxHighlighter, {
 } from 'react-syntax-highlighter/dist/light';
 import twig from 'react-syntax-highlighter/dist/languages/twig';
 import xml from 'react-syntax-highlighter/dist/languages/xml';
-// import codeStyle from 'react-syntax-highlighter/dist/styles/foundation';
 import codeStyle from './CodeStyle';
 
 registerLanguage('twig', twig);
