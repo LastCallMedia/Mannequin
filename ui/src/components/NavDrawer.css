@@ -70,8 +70,7 @@
       box-shadow: 0 0; }
   .SearchForm i {
     position: absolute;
-    top: 50%;
+    top: 25%;
     left: 0.9375rem;
     font-size: 0.8125rem;
-    margin-top: -.5em;
     color: #fffffe; }

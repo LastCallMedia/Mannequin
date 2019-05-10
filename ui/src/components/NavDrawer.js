@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Menu from './Menu';
 import cx from 'classnames';
 import { CloseArrow, Search as SearchIcon } from './Icons';
-import Button from './Buttons/Button';
+import Button from './Buttons';
 import './NavDrawer.css';
 
 export class NavDrawer extends Component {
@@ -55,7 +55,7 @@ export class NavDrawer extends Component {
             placeholder="Search..."
             onKeyUp={this.handleFilterChange}
           />
-          <i className="fas fa-search"></i>
+          <i className="icon-search"></i>
         </form>
         <Menu tree={tree} settings={menuSettings} />
       </nav>

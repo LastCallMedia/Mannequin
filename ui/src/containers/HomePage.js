@@ -5,8 +5,7 @@ import Branding from '../components/Branding';
 import { getQuicklinks } from '../selectors';
 import Card from '../components/Card';
 import PropTypes from 'prop-types';
-import { OpenNew } from '../components/Icons';
-import Button from '../components/Buttons/Button';
+import Button from '../components/Buttons';
 
 const HomePage = ({ quickLinks }) => (
   <main className="MannequinHome">

@@ -12,7 +12,7 @@ import {
   ViewInfoButton,
   CloseButton
 } from '../components/Buttons/';
-import Button from '../components/Buttons/Button'
+import Button from '../components/Buttons'
 import { SlideInFromBottom } from '../components/Transitions';
 import { toggleInfo, componentView } from '../actions';
 import { getComponent, getSample, getUsed } from '../selectors';
