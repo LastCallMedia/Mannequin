@@ -7,9 +7,12 @@ import Card from '../components/Card';
 import PropTypes from 'prop-types';
 import { OpenNew } from '../components/Icons';
 
+import TestButtons from '../components/Buttons/TestButtons';
+
 const HomePage = ({ quickLinks }) => (
   <main className="MannequinHome">
     <Branding />
+    <TestButtons />
     {quickLinks.length > 0 && (
       <div className="quicklinks">
         <h4>Quick Links</h4>

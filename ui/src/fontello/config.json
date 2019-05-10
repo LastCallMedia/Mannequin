@@ -1,0 +1,110 @@
+{
+  "name": "fontello",
+  "css_prefix_text": "icon-",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "5211af474d3a9848f67f945e2ccaf143",
+      "css": "close",
+      "code": 59392,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "559647a6f430b3aeadbecd67194451dd",
+      "css": "menu",
+      "code": 61641,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "44e04715aecbca7f266a17d5a7863c68",
+      "css": "expand",
+      "code": 59393,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "861ab06e455e2de3232ebef67d60d708",
+      "css": "collapse",
+      "code": 59394,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "e15f0d620a7897e2035c18c80142f6d9",
+      "css": "new-window",
+      "code": 61582,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "d1e828c2c23a6baf620f3175bfab47cf",
+      "css": "menu",
+      "code": 59394,
+      "src": "custom_icons",
+      "selected": false,
+      "svg": {
+        "path": "M0 857.1H1176.2V1000H0V857.1ZM0 428.6V571.4H1181V428.6H0ZM1176.2 0H0V142.9H1176.2V0Z",
+        "width": 1181
+      },
+      "search": [
+        "burger"
+      ]
+    },
+    {
+      "uid": "e2a50b196711c8e25c9bfa3c94becfa6",
+      "css": "x",
+      "code": 59392,
+      "src": "custom_icons",
+      "selected": false,
+      "svg": {
+        "path": "M881.8 1000L482.8 601 108.4 975.4 0 871.9 374.4 492.6 9.9 128.1 113.3 24.6 477.8 389.2 871.9 0 975.4 103.4 586.2 492.6 985.2 891.6 881.8 1000Z",
+        "width": 985
+      },
+      "search": [
+        "x"
+      ]
+    },
+    {
+      "uid": "5d20868d84595f079d12d9780a118a82",
+      "css": "arrow-1",
+      "code": 59408,
+      "src": "custom_icons",
+      "selected": false,
+      "svg": {
+        "path": "M141 1000L41 909 427 500 41 91 141 0 618 500 141 1000Z",
+        "width": 636
+      },
+      "search": [
+        "arrow"
+      ]
+    },
+    {
+      "uid": "c33e6d845eec9ce642090212c46fadfa",
+      "css": "expand",
+      "code": 59403,
+      "src": "custom_icons",
+      "selected": false,
+      "svg": {
+        "path": "M1000 0V785H843V267L110 1000 0 890 733 157H215V0H1000Z",
+        "width": 1000
+      },
+      "search": [
+        "expand"
+      ]
+    },
+    {
+      "uid": "41f31c77585912eb376175e3c302fca9",
+      "css": "burger",
+      "code": 59404,
+      "src": "custom_icons",
+      "selected": false,
+      "svg": {
+        "path": "M0 857H1176V1000H0V857ZM0 429V571H1181V429H0ZM1176 0H0V143H1176V0Z",
+        "width": 1181
+      },
+      "search": [
+        "burger"
+      ]
+    }
+  ]
+}
