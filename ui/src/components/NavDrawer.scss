@@ -4,14 +4,9 @@
   background-color: $ash;
 	box-shadow: 0 2px 5px 0 $ash;
   @include xy-grid(vertical);
-  .drawer-toggle.closer {
-    @extend %toggle-button;
-    text-align: right;
-    height: rem-calc(60);
+  .CloseButton {
     margin-right: rem-calc(20);
-    > i {
-      vertical-align: middle;
-    }
+    text-align: right;
   }
   > .SearchForm {
     @include xy-cell(shrink, $gutter-position: right left top, $vertical: true);
@@ -38,10 +33,6 @@
     padding-top: 1.125rem;
     padding-bottom: 0.625rem;
     height: 3.75rem;
-  }
-
-  > .drawer-toggle {
-    text-align: right;
   }
 }
 

@@ -6,17 +6,6 @@
  */
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,800");
 @import url("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
-.ComponentInfo .controls .CloseButton {
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  line-height: 0.75rem;
-  color: #fffffe;
-  cursor: pointer; }
-  .ComponentInfo .controls .CloseButton > i, .ComponentInfo .controls .CloseButton > svg.Icon {
-    margin-left: 1.0625rem; }
-
 .ComponentInfo {
   overflow-y: auto; }
   .ComponentInfo a {
@@ -85,38 +74,8 @@
         max-height: 20rem; } }
 
 .CodeButton {
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 0.75rem 1.5625rem;
-  border: dashed 2px #292F36;
-  border-radius: 18px;
-  font-size: 0.75rem;
-  letter-spacing: 0.10625rem;
-  border: 0;
-  background: #649490;
-  color: #1f1f19;
-  font-size: 0.75rem;
   position: relative;
   z-index: 1; }
-  .CodeButton:hover {
-    cursor: pointer; }
-  .CodeButton:not(.active):first-child {
-    padding-right: 36px;
-    border-radius: 18px 0 0 18px; }
-  .CodeButton:not(.active):last-child {
-    padding-left: 36px;
-    border-radius: 0 18px 18px 0; }
-  .CodeButton.active {
-    background: #4ECDC4;
-    color: #292F36;
-    border: 0;
-    z-index: 2; }
-    .CodeButton.active:first-child {
-      margin-right: -22px; }
-    .CodeButton.active:last-child {
-      margin-left: -22px; }
 
 .ComponentInfo .controls .CloseButton {
   width: 10.9375rem; }

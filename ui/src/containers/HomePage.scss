@@ -16,21 +16,6 @@
   }
 }
 
-.button--get-started {
-  @include border-button;
-    width: rem-calc(322);
+.GetStartedButton {
     margin: 0 auto;
-    display: block;
-    padding: rem-calc(20) 0;
-    border: 2px dashed white;
-    text-align: center;
-    border-radius: rem-calc(50);
-    color: $white;
-    letter-spacing: rem-calc(2);
-    font-size: rem-calc(14);
-    &:hover {
-      color: $charcoal;
-      background: $mint;
-      border: dashed 2px $mint;
-    }
 }

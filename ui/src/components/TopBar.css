@@ -6,17 +6,6 @@
  */
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,800");
 @import url("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
-.MannequinTopBar .opener {
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  line-height: 0.75rem;
-  color: #fffffe;
-  cursor: pointer; }
-  .MannequinTopBar .opener > i, .MannequinTopBar .opener > svg.Icon {
-    margin-left: 1.0625rem; }
-
 .MannequinTopBar {
   background: #292F36;
   color: #fffffe; }
@@ -37,14 +26,5 @@
       width: auto;
       margin-right: 0.625rem;
       margin-left: 0.625rem; }
-  .MannequinTopBar .opener {
-    font-size: 14px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    text-transform: uppercase; }
-    .MannequinTopBar .opener:hover {
-      color: #4ECDC4; }
-    .MannequinTopBar .opener i.menu-icon {
-      margin-left: 1.0625rem; }
   .MannequinTopBar .MannySmall {
     width: 44.8px; }

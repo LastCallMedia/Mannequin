@@ -42,14 +42,8 @@
   }
   .actions {
     @include menu-base;
-    .OpenWindowButton {
-      padding-top: rem-calc(10);
+    .NewWindowButton {
       padding-right: rem-calc(23);
     }
-  }
-
-  .ViewInfoButton.active-true {
-    background: $charcoal;
-    color: $white;
   }
 }

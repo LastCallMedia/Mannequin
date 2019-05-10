@@ -6,28 +6,14 @@
  */
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,800");
 @import url("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
-.NavDrawer .drawer-toggle.closer {
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  line-height: 0.75rem;
-  color: #fffffe;
-  cursor: pointer; }
-  .NavDrawer .drawer-toggle.closer > i, .NavDrawer .drawer-toggle.closer > svg.Icon {
-    margin-left: 1.0625rem; }
-
 .NavDrawer {
   background-color: #4F545A;
   box-shadow: 0 2px 5px 0 #4F545A;
   display: flex;
   flex-flow: column wrap; }
-  .NavDrawer .drawer-toggle.closer {
-    text-align: right;
-    height: 3.75rem;
-    margin-right: 1.25rem; }
-    .NavDrawer .drawer-toggle.closer > i {
-      vertical-align: middle; }
+  .NavDrawer .CloseButton {
+    margin-right: 1.25rem;
+    text-align: right; }
   .NavDrawer > .SearchForm {
     flex: 0 0 auto;
     height: auto;
@@ -62,8 +48,6 @@
     padding-top: 1.125rem;
     padding-bottom: 0.625rem;
     height: 3.75rem; }
-  .NavDrawer__top > .drawer-toggle {
-    text-align: right; }
 
 .SearchForm {
   position: relative; }

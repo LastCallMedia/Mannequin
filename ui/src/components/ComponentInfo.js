@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import FetchingCodeBlock from './FetchingCodeBlock';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import Button from './Buttons/Button'
 import './ComponentInfo.css';
 
 const ComponentInfo = ({ component, sample, used, className, controls }) => {
@@ -132,30 +133,32 @@ class ComponentInfoCode extends Component {
         {src && <FetchingCodeBlock src={src} language={language} />}
         <div className="button-group">
           {sample && (
-            <button
-              className={cx({
+            <Button
+              classes={cx({
+                Button: true,
                 CodeButton: true,
                 active: src === sample.source
               })}
               onClick={this.switchMode}
-              data-src={sample.source}
-              data-language={'html'}
-            >
-              HTML
-            </button>
+              dataSrc={sample.source}
+              dataLanguage={'html'}
+              text="HTML"
+              element="button"
+            />
           )}
           {component && (
-            <button
-              className={cx({
+            <Button
+              classes={cx({
+                Button: true,
                 CodeButton: true,
                 active: src === component.source
               })}
               onClick={this.switchMode}
-              data-src={component.source}
-              data-language={component.metadata.source_format}
-            >
-              Raw
-            </button>
+              dataSrc={component.source}
+              dataLanguage={component.metadata.source_format}
+              text="Raw"
+              element="button"
+            />
           )}
         </div>
       </div>

@@ -4,6 +4,7 @@ $black: #000;
 $charcoal: #292F36;
 $ash: #4F545A;
 $storm: #546267;
+$seafoam: #649490;
 $mint: #4ECDC4;
 $eggshell: #EBECEC;
 $white: #fffffe;
@@ -39,27 +40,4 @@ $code-font-family: $font-family-monospace;
   font-weight: 800;
   letter-spacing: 2px;
   text-transform: uppercase;
-}
-
-%toggle-button {
-  @include font-bold;
-  line-height: rem-calc(12);
-  color: $white;
-  cursor: pointer;
-  > i, > svg.Icon {
-    margin-left: rem-calc(17);
-  }
-}
-
-@mixin border-button {
-  @include font-bold;
-  padding: rem-calc(12) rem-calc(25);
-  border: dashed 2px $charcoal;
-  border-radius: 18px;
-  font-size: rem-calc(12);
-  letter-spacing: rem-calc(1.7);
-
-  &:hover {
-    cursor: pointer;
-  }
 }

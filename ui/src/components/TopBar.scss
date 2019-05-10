@@ -17,16 +17,6 @@
     }
   }
 
-  .opener {
-    @extend %toggle-button;
-    @include font-bold;
-    &:hover {
-      color: $mint;
-    }
-    i.menu-icon {
-      margin-left: rem-calc(17);
-    }
-  }
   .MannySmall {
     width: 44.8px;
   }

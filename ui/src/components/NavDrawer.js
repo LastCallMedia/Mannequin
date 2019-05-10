@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Menu from './Menu';
 import cx from 'classnames';
 import { CloseArrow, Search as SearchIcon } from './Icons';
+import Button from './Buttons/Button';
 import './NavDrawer.css';
 
 export class NavDrawer extends Component {
@@ -41,9 +42,12 @@ export class NavDrawer extends Component {
       <nav className={cx('NavDrawer', className)}>
         <div className="NavDrawer__top">
           <span>Mannequin</span>
-          <button className="closer drawer-toggle" onClick={toggleNav}>
-            <span>Close</span> <i className="fas fa-times"></i>
-          </button>
+          <Button
+            text="Close"
+            element="button"
+            icon="close"
+            classes="Button CloseButton"
+            onClick={toggleNav} />
         </div>
         <form className="SearchForm">
           <input

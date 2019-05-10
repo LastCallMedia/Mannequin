@@ -6,13 +6,11 @@ import { getQuicklinks } from '../selectors';
 import Card from '../components/Card';
 import PropTypes from 'prop-types';
 import { OpenNew } from '../components/Icons';
-
-import TestButtons from '../components/Buttons/TestButtons';
+import Button from '../components/Buttons/Button';
 
 const HomePage = ({ quickLinks }) => (
   <main className="MannequinHome">
     <Branding />
-    <TestButtons />
     {quickLinks.length > 0 && (
       <div className="quicklinks">
         <h4>Quick Links</h4>
@@ -27,7 +25,12 @@ const HomePage = ({ quickLinks }) => (
           ))}
         </div>
       </div>
-    ) || <a className="button--get-started" href="https://mannequin.io/#GetStarted">Get Started <OpenNew /></a>}
+    ) || <Button
+            text="Get Started"
+            href="https://mannequin.io/#GetStarted"
+            icon="new-window"
+            classes="Button GetStartedButton"
+            target="_blank" />}
   </main>
 );
 

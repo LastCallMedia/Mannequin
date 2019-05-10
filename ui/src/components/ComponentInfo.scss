@@ -90,40 +90,12 @@
 }
 
 .CodeButton {
-  @include border-button;
-  border: 0;
-  background: #649490;
-  color: #1f1f19;
-  font-size: rem-calc(12);
   position: relative;
   z-index: 1;
-  &:not(.active) {
-    &:first-child {
-      padding-right: 36px;
-      border-radius: 18px 0 0 18px;
-    }
-    &:last-child {
-      padding-left: 36px;
-      border-radius: 0 18px 18px 0;
-    }
-  }
-  &.active {
-    background: $mint;
-    color: $charcoal;
-    border: 0;
-    z-index: 2;
-    &:first-child {
-      margin-right: -22px;
-    }
-    &:last-child {
-      margin-left: -22px;
-    }
-  }
 }
 
 .ComponentInfo .controls {
   .CloseButton {
-    @extend %toggle-button;
     width: rem-calc(175);
     > i {
       vertical-align: middle;

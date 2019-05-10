@@ -73,9 +73,5 @@
       margin-bottom: 0; }
     .ComponentTopBar .actions input {
       display: inline-block; }
-    .ComponentTopBar .actions .OpenWindowButton {
-      padding-top: 0.625rem;
+    .ComponentTopBar .actions .NewWindowButton {
       padding-right: 1.4375rem; }
-  .ComponentTopBar .ViewInfoButton.active-true {
-    background: #292F36;
-    color: #fffffe; }
