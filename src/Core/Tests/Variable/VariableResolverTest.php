@@ -11,7 +11,6 @@
 
 namespace LastCall\Mannequin\Core\Tests\Variable;
 
-use LastCall\Mannequin\Core\Mannequin;
 use LastCall\Mannequin\Core\Variable\Variable;
 use LastCall\Mannequin\Core\Variable\VariableResolver;
 use PHPUnit\Framework\TestCase;
