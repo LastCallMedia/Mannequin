@@ -38,7 +38,7 @@ class ComponentCollectionTest extends TestCase
     public function testGetParent()
     {
         $collection = new \LastCall\Mannequin\Core\Component\ComponentCollection();
-        $this->assertEquals(null, $collection->getParent());
+        $this->assertNull($collection->getParent());
     }
 
     public function testIteration()

@@ -23,5 +23,7 @@ return PhpCsFixer\Config::create()
     '@Symfony' => true,
     '@Symfony:risky' => true,
     'header_comment' => ['header' => $header],
+    'native_function_invocation' => FALSE,
+    'native_constant_invocation' => FALSE,
   ])
   ->setFinder($finder);

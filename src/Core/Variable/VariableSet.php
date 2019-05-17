@@ -63,8 +63,8 @@ final class VariableSet implements \ArrayAccess, \IteratorAggregate
      *
      * @return \LastCall\Mannequin\Core\Variable\VariableSet
      */
-    public function merge(VariableSet $merging)
+    public function merge(self $merging)
     {
-        return new VariableSet($merging->values + $this->values);
+        return new self($merging->values + $this->values);
     }
 }
