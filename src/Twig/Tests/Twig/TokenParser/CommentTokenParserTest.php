@@ -34,9 +34,11 @@ class CommentTokenParserTest extends TestCase
             new \Twig_Token(\Twig_Token::BLOCK_END_TYPE, '', 1),
             new \Twig_Token(\Twig_Token::EOF_TYPE, '', 1),
         )));
+
+
         $this->assertEquals(
-            new \Twig_Node_Body([new Comment('foo', 1)]),
-            $module->getNode('body')
+          "Twig\Node\BodyNode(\n  0: LastCall\Mannequin\Twig\Twig\Node\Comment(data: 'foo')\n)",
+          (string) $module->getNode('body')
         );
     }
 }
