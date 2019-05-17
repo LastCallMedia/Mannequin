@@ -39,9 +39,7 @@ class YamlMetadataParserTest extends TestCase
     {
         $parsed = (new YamlMetadataParser())->parse('{}');
         $this->assertEquals('', $parsed['name']);
-        $this->assertEquals('', $parsed['description']);
         $this->assertEquals([], $parsed['tags']);
-        $this->assertNull($parsed['definition']);
         $this->assertEquals([], $parsed['samples']);
     }
 
