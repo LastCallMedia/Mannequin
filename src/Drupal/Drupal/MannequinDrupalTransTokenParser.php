@@ -30,7 +30,7 @@ class MannequinDrupalTransTokenParser extends TwigTransTokenParser
         $lineno = $node->getTemplateLine();
 
         // Convert plural into a simple if/else statement.
-        if ($node->hasNode('plural')) {
+        if ($node->hasNode('plural') && $node->hasNode('count')) {
             return new IfNode(
               new Node([
                   new GreaterBinary(
