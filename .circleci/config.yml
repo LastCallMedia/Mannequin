@@ -109,7 +109,7 @@ jobs:
       - image: jderusse/gitsplit
     steps:
       - checkout
-      - run: gitsplit
+      - run: gitsplit --exit-code
 
   deploy_ui:
     working_directory: /srv
