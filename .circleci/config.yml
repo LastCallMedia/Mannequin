@@ -114,7 +114,7 @@ jobs:
   deploy_ui:
     working_directory: /srv
     docker:
-      - image: node:6
+      - image: node:11
     steps:
       - checkout
       - attach_workspace:
