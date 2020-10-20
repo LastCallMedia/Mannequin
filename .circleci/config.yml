@@ -109,7 +109,8 @@ jobs:
       - image: jderusse/gitsplit
     steps:
       - checkout
-      - run: gitsplit --exit-code
+      - run: gitsplit
+      - run: circleci-agent step halt
 
   deploy_ui:
     working_directory: /srv
