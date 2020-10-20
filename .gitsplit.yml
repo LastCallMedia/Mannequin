@@ -13,3 +13,5 @@ splits:
 origins:
   - ^master$
   - ^(v?)\d+\.\d+\.\d+(-(alpha|beta|rc)\d+)?$
+
+print: "Exit code 0"

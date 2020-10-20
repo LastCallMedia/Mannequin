@@ -110,7 +110,6 @@ jobs:
     steps:
       - checkout
       - run: gitsplit
-      - run: circleci-agent step halt
 
   deploy_ui:
     working_directory: /srv
