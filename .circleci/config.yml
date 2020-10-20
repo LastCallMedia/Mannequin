@@ -50,7 +50,7 @@ jobs:
   test_ui:
     working_directory: /srv
     docker:
-      - image: node:6
+      - image: node:11
     steps:
       - checkout
       - restore_cache:
@@ -86,7 +86,7 @@ jobs:
 
   build_site:
     working_directory: /srv
-    docker: [image: "node:8"]
+    docker: [image: "node:11"]
     steps:
       - checkout
       - restore_cache: { key: 'site-package-v4-{{ checksum "site/package.json" }}' }
