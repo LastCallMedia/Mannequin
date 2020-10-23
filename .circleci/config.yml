@@ -34,7 +34,7 @@ jobs:
       - image: lastcallmedia/php:7.0-dev
     steps:
       - checkout
-      - run: composer require drupal/core:8.4.0-rc1 --no-update
+      - run: composer require drupal/core:8.8.10 --no-update
       - restore_cache:
           key: composer-v4-{{ checksum "composer.json" }}
       - run: composer install
