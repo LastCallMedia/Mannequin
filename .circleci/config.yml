@@ -109,7 +109,8 @@ jobs:
       - image: jderusse/gitsplit
     steps:
       - checkout
-      - run: gitsplit
+      - run:
+        command: gitsplit
         when: on_success
 
   deploy_ui:
