@@ -109,10 +109,7 @@ jobs:
       - image: jderusse/gitsplit
     steps:
       - checkout
-      - run:
-        name: gitsplit test
-        command: gitsplit
-        when: on_success
+      - run: gitsplit
 
   deploy_ui:
     working_directory: /srv
