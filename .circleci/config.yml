@@ -110,6 +110,7 @@ jobs:
     steps:
       - checkout
       - run:
+        name: gitsplit test
         command: gitsplit
         when: on_success
 
