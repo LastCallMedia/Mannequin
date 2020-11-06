@@ -28,7 +28,7 @@ jobs:
       - store_test_results:
           path: /phpunit
 
-  test_drupal:
+  test_drupal8:
     working_directory: /srv
     docker:
       - image: lastcallmedia/php:7.0-dev
@@ -153,7 +153,7 @@ workflows:
   test_and_deploy:
     jobs:
       - test_php
-      - test_drupal
+      - test_drupal8
       - test_ui
       - build_site
       - build_demo:
