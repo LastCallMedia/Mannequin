@@ -28,7 +28,7 @@ jobs:
       - store_test_results:
           path: /phpunit
 
-  test_drupal8:
+  test_drupal:
     working_directory: /srv
     docker:
       - image: lastcallmedia/php:7.0-dev
@@ -41,25 +41,6 @@ jobs:
       - save_cache:
           key: composer-v4-{{ checksum "composer.json" }}
           paths: [vendor, composer.lock]
-      - run: |
-          mkdir -p /phpunit
-          DRUPAL_ROOT=vendor/drupal vendor/bin/phpunit --testsuite=Drupal --log-junit=/phpunit/drupal.xml
-      - store_test_results:
-          path: /phpunit
-
-  test_drupal9:
-    working_directory: /srv
-    docker:
-      - image: lastcallmedia/php:7.3-dev
-    steps:
-      - checkout
-      - run: composer require drupal/core:9.0.0 --no-update
-      - restore_cache:
-          key: composer-v4-{{ checksum "composer.json" }}
-      - run: composer install
-      - save_cache:
-          key: composer-v4-{{ checksum "composer.json" }}
-          paths: [ vendor, composer.lock ]
       - run: |
           mkdir -p /phpunit
           DRUPAL_ROOT=vendor/drupal vendor/bin/phpunit --testsuite=Drupal --log-junit=/phpunit/drupal.xml
@@ -172,14 +153,13 @@ workflows:
   test_and_deploy:
     jobs:
       - test_php
-      - test_drupal8
-      - test_drupal9
+      - test_drupal
       - test_ui
       - build_site
       - build_demo:
           requires: [test_ui]
       - deploy_split:
-          requires: [test_php, test_drupal8, test_drupal9]
+          requires: [test_php, test_drupal]
       - deploy_ui:
           requires: [test_ui]
           filters:
