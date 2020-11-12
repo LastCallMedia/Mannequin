@@ -17,6 +17,9 @@ use LastCall\Mannequin\Drupal\Component\DrupalTwigComponent;
 use LastCall\Mannequin\Drupal\Discovery\DrupalTwigDiscovery;
 use PHPUnit\Framework\TestCase;
 use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
+use LastCall\Mannequin\Drupal\Twig\Loader\ArrayLoader;
+use LastCall\Mannequin\Twig\Environment;
+use LastCall\Mannequin\Twig\Source;
 
 class DrupalTwigDiscoveryTest extends TestCase
 {
@@ -24,18 +27,18 @@ class DrupalTwigDiscoveryTest extends TestCase
 
     private function getTwig()
     {
-        $loader = new \Twig_Loader_Array([
+        $loader = new \ArrayLoader([
             'form-input.twig' => 'I am twig code',
             'broken' => '{% }}',
         ]);
 
-        return new \Twig_Environment($loader, [
+        return new \Environment($loader, [
             'cache' => false,
             'auto_reload' => true,
         ]);
     }
 
-    private function getDriver(\Twig_Environment $twigEnvironment)
+    private function getDriver(\Environment $twigEnvironment)
     {
         $driver = $this->prophesize(TwigDriverInterface::class);
         $driver->getTwig()->willReturn($twigEnvironment);
@@ -108,7 +111,7 @@ class DrupalTwigDiscoveryTest extends TestCase
     public function testSetsSource(DrupalTwigComponent $component)
     {
         $source = $component->getSource();
-        $this->assertInstanceOf(\Twig_Source::class, $source);
+        $this->assertInstanceOf(\Source::class, $source);
         $this->assertEquals('form-input.twig', $source->getName());
     }
 }
