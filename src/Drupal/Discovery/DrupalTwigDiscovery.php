@@ -20,7 +20,7 @@ use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;
  */
 class DrupalTwigDiscovery extends TwigDiscovery
 {
-    public function createComponent(string $name, array $aliases, \Twig_Environment $twig): TwigComponent
+    public function createComponent(string $name, array $aliases, \Twig\Environment $twig): TwigComponent
     {
         return new DrupalTwigComponent(
             $this->encodeId($name),

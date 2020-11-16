@@ -20,7 +20,7 @@ use Symfony\Component\Finder\Finder;
  * to be a simplified simulation of Drupal's theme registry loader, which looks
  * up template paths against the stored theme registry.
  */
-class FallbackLoader extends \Twig_Loader_Filesystem
+class FallbackLoader extends \Twig\Loader\FilesystemLoader
 {
     private $protectedRoot;
 
@@ -44,7 +44,7 @@ class FallbackLoader extends \Twig_Loader_Filesystem
                 return false;
             }
 
-            throw new \Twig_Error_Loader($this->errorCache[$name]);
+            throw new \Twig\Error\LoaderError($this->errorCache[$name]);
         }
 
         // Skip processing for any names that include a directory separator or
@@ -74,7 +74,7 @@ class FallbackLoader extends \Twig_Loader_Filesystem
         if (!$throw) {
             return false;
         }
-        throw new \Twig_Error_Loader($throw->errorCache[$name]);
+        throw new \Twig\Error\LoaderError($throw->errorCache[$name]);
     }
 
     /**

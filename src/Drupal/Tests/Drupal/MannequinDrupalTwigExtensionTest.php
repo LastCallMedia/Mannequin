@@ -104,8 +104,8 @@ class MannequinDrupalTwigExtensionTest extends TestCase
 
     public function assertRenderedEquals($template, $expected, $message = '')
     {
-        $loader = new \Twig_Loader_Array(['test' => $template]);
-        $twig = new \Twig_Environment($loader);
+        $loader = new \Twig\Loader\ArrayLoader(['test' => $template]);
+        $twig = new \Twig\Environment($loader);
         $extension = new MannequinDrupalTwigExtension(
             new MannequinRenderer(),
             new MannequinUrlGenerator(),

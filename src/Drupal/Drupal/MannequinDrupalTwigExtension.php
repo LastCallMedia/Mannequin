@@ -27,14 +27,14 @@ class MannequinDrupalTwigExtension extends TwigExtension
         $filters = parent::getFilters();
         /** @var \Twig_SimpleFilter $filter */
         foreach ($filters as $i => $filter) {
-            if ($filter instanceof \Twig_SimpleFilter) {
+            if ($filter instanceof \Twig\TwigFilter) {
                 switch ($filter->getName()) {
                     case 't':
                     case 'trans':
-                        $filters[$i] = new \Twig_SimpleFilter($filter->getName(), [$this, 'translate'], ['is_safe' => ['html']]);
+                        $filters[$i] = new \Twig\TwigFilter($filter->getName(), [$this, 'translate'], ['is_safe' => ['html']]);
                         break;
                     case 'without':
-                        $filters[$i] = new \Twig_SimpleFilter('without', [$this, 'without']);
+                        $filters[$i] = new \Twig\TwigFilter('without', [$this, 'without']);
                 }
             }
         }
@@ -46,13 +46,13 @@ class MannequinDrupalTwigExtension extends TwigExtension
     {
         $functions = parent::getFunctions();
         foreach ($functions as $i => $function) {
-            if ($function instanceof \Twig_SimpleFunction) {
+            if ($function instanceof \Twig\TwigFunction) {
                 switch ($function->getName()) {
                     case 'file_url':
-                        $functions[$i] = new \Twig_SimpleFunction('file_url', [$this, 'fileUrl']);
+                        $functions[$i] = new \Twig\TwigFunction('file_url', [$this, 'fileUrl']);
                         break;
                     case 'link':
-                        $functions[$i] = new \Twig_SimpleFunction('link', [$this, 'getMannequinLink'], [
+                        $functions[$i] = new \Twig\TwigFunction('link', [$this, 'getMannequinLink'], [
                             'needs_environment' => true,
                             'is_safe' => ['html'],
                         ]);
@@ -79,7 +79,7 @@ class MannequinDrupalTwigExtension extends TwigExtension
         return $uri;
     }
 
-    public function getMannequinLink(\Twig_Environment $twig, $text, $url, $attributes = [])
+    public function getMannequinLink(\Twig\Environment $twig, $text, $url, $attributes = [])
     {
         if (!$attributes instanceof Attribute) {
             $attributes = new Attribute($attributes);
