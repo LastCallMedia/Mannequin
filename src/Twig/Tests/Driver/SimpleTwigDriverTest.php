@@ -26,7 +26,7 @@ class SimpleTwigDriverTest extends DriverTestCase
     public function testTwigHasLoader()
     {
         $loader = $this->getDriver()->getTwig()->getLoader();
-        $expected = new \Twig_Loader_Filesystem([''], __DIR__);
+        $expected = new \Twig\Loader\FilesystemLoader([''], __DIR__);
         $expected->addPath(__DIR__.'/../Resources', 'foo');
         $this->assertEquals($expected, $loader);
     }

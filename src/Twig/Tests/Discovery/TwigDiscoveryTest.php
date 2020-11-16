@@ -27,18 +27,18 @@ class TwigDiscoveryTest extends TestCase
 
     private function getTwig()
     {
-        $loader = new \Twig_Loader_Array([
+        $loader = new \Twig\Loader\ArrayLoader([
             'form-input.twig' => 'I am twig code',
             'broken' => '{% }}',
         ]);
 
-        return new \Twig_Environment($loader, [
+        return new \Twig\Environment($loader, [
             'cache' => false,
             'auto_reload' => true,
         ]);
     }
 
-    private function getDriver(\Twig_Environment $twigEnvironment)
+    private function getDriver(\Twig\Environment $twigEnvironment)
     {
         $driver = $this->prophesize(TwigDriverInterface::class);
         $driver->getTwig()->willReturn($twigEnvironment);
@@ -120,7 +120,7 @@ class TwigDiscoveryTest extends TestCase
     public function testSetsSource(TwigComponent $component)
     {
         $source = $component->getSource();
-        $this->assertInstanceOf(\Twig_Source::class, $source);
+        $this->assertInstanceOf(\Twig\Source::class, $source);
         $this->assertEquals('form-input.twig', $source->getName());
     }
 

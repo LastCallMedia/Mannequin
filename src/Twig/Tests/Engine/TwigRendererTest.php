@@ -26,7 +26,7 @@ class TwigRendererTest extends RendererTestCase
 
     public function getSupportedComponent(): ComponentInterface
     {
-        $twig = new \Twig_Environment(new \Twig_Loader_Array([
+        $twig = new \Twig\Environment(new \Twig\Loader\ArrayLoader([
             'test' => 'This is {{"html"}}',
         ]));
         $source = $twig->load('test')->getSourceContext();

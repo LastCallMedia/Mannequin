@@ -11,8 +11,10 @@
 
 namespace LastCall\Mannequin\Twig\Twig\NodeVisitor;
 
-use Twig_Environment;
-use Twig_NodeInterface;
+use Twig\Environment;
+use Twig\Node\TextNode;
+use Twig\Node\Node;
+use Twig\Node\BlockNode;
 
 /**
  * Collects data about external template usage via include, embed, and extend
@@ -37,9 +39,9 @@ class UsageNodeVisitor implements \Twig_NodeVisitorInterface
     /**
      * {@inheritdoc}
      */
-    public function enterNode(Twig_NodeInterface $node, Twig_Environment $env)
+    public function enterNode(Node $node, Environment $env)
     {
-        if ($node instanceof \Twig_Node_Module) {
+        if ($node instanceof \Twig\Node\ModuleNode) {
             $this->collected = [];
         }
 
@@ -78,9 +80,9 @@ class UsageNodeVisitor implements \Twig_NodeVisitorInterface
     /**
      * {@inheritdoc}
      */
-    public function leaveNode(Twig_NodeInterface $node, Twig_Environment $env)
+    public function leaveNode(Node $node, Environment $env)
     {
-        if ($node instanceof \Twig_Node_Module) {
+        if ($node instanceof \Twig\Node\ModuleNode) {
             $node->getNode('blocks')->setNode('_collected_usage', $this->getCollectedIncludesBlock($this->collected));
         }
 
@@ -91,13 +93,13 @@ class UsageNodeVisitor implements \Twig_NodeVisitorInterface
      * Check an expression node to be sure it is a constant value we can resolve
      * at compile time.
      *
-     * @param \Twig_Node $node
+     * @param \Twig\Node\Node $node
      *
      * @return string|false
      */
-    private function getResolvableValue(\Twig_Node_Expression $node)
+    private function getResolvableValue(\Twig\Node\Expression\AbstractExpression $node)
     {
-        if ($node instanceof \Twig_Node_Expression_Constant
+        if ($node instanceof \Twig\Node\Expression\ConstantExpression
             && 'not_used' !== $node->getAttribute('value')) {
             return $node->getAttribute('value');
         }
@@ -111,14 +113,14 @@ class UsageNodeVisitor implements \Twig_NodeVisitorInterface
      *
      * @param array $includes
      *
-     * @return \Twig_Node_Block
+     * @return BlockNode
      */
     private function getCollectedIncludesBlock(array $includes)
     {
-        return new \Twig_Node_Block(
+        return new BlockNode(
             '_collected_usage',
-            new \Twig_Node([
-                new \Twig_Node_Text(json_encode($includes), 0),
+            new Node([
+                new TextNode(json_encode($includes), 0),
             ]),
             0
         );

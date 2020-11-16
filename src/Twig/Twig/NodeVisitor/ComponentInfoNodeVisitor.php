@@ -12,8 +12,12 @@
 namespace LastCall\Mannequin\Twig\Twig\NodeVisitor;
 
 use LastCall\Mannequin\Twig\Twig\Node\Comment;
-use Twig_Environment;
-use Twig_NodeInterface;
+use Twig\Environment;
+use Twig\Node\TextNode;
+use Twig\Node\BlockNode;
+use Twig\Node\Node;
+use Twig\Node\ModuleNode;
+use Twig\Error\SyntaxError;
 
 /**
  * This visitor searches through comment nodes looking for @Component
@@ -27,14 +31,14 @@ class ComponentInfoNodeVisitor implements \Twig_NodeVisitorInterface
     const INFO_BLOCK = 'componentinfo';
     private $info;
 
-    public function enterNode(Twig_NodeInterface $node, Twig_Environment $env)
+    public function enterNode(Node $node, Environment $env)
     {
-        if ($node instanceof \Twig_Node_Module) {
+        if ($node instanceof ModuleNode) {
             $this->info = null;
         }
         if ($this->isComponentInfo($node)) {
             if ($this->info) {
-                throw new \Twig_Error_Syntax('Multiple component info blocks were detected.');
+                throw new SyntaxError('Multiple component info blocks were detected.');
             }
             $this->info = $node;
         }
@@ -42,9 +46,9 @@ class ComponentInfoNodeVisitor implements \Twig_NodeVisitorInterface
         return $node;
     }
 
-    public function leaveNode(Twig_NodeInterface $node, Twig_Environment $env)
+    public function leaveNode(Node $node, Environment $env)
     {
-        if ($node instanceof \Twig_Node_Module) {
+        if ($node instanceof ModuleNode) {
             $blocks = $node->getNode('blocks');
             // BC with 1.0.0: Do not override an existing info block.
             if ($blocks->hasNode(self::INFO_BLOCK)) {
@@ -75,14 +79,14 @@ class ComponentInfoNodeVisitor implements \Twig_NodeVisitorInterface
     {
         if ($this->info) {
             $comment = $this->getComponentInfo($this->info->getAttribute('data'));
-            $nodes = [new \Twig_Node_Text($this->getComponentInfo($comment), $this->info->getTemplateLine())];
+            $nodes = [new TextNode($this->getComponentInfo($comment), $this->info->getTemplateLine())];
         } else {
             $nodes = [];
         }
 
-        return new \Twig_Node_Block(
+        return new BlockNode(
             'componentinfo',
-            new \Twig_Node($nodes),
+            new Node($nodes),
             0
         );
     }
