@@ -14,6 +14,7 @@ namespace LastCall\Mannequin\Twig\Twig;
 use LastCall\Mannequin\Twig\Twig\NodeVisitor\ComponentInfoNodeVisitor;
 use LastCall\Mannequin\Twig\Twig\NodeVisitor\UsageNodeVisitor;
 use LastCall\Mannequin\Twig\Twig\TokenParser\CommentTokenParser;
+use Twig\Extension\AbstractExtension;
 
 
 /**
@@ -22,7 +23,7 @@ use LastCall\Mannequin\Twig\Twig\TokenParser\CommentTokenParser;
  * The Lexer must be added separately, because initRuntime happens after
  * the first template is lexed.
  */
-class MannequinExtension extends \Twig\Extension
+class MannequinExtension extends AbstractExtension
 {
     public function getNodeVisitors()
     {
