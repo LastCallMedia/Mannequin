@@ -26,7 +26,7 @@ use Twig\Error\SyntaxError;
  * When annotations are found, it extracts the content into a "componentinfo"
  * block that can be rendered separately from the rest of the template.
  */
-class ComponentInfoNodeVisitor implements \Twig_NodeVisitorInterface
+class ComponentInfoNodeVisitor implements \Twig\NodeVisitor\NodeVisitorInterface
 {
     const INFO_BLOCK = 'componentinfo';
     private $info;
