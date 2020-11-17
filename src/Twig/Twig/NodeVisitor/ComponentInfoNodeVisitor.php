@@ -26,19 +26,19 @@ use Twig\Error\SyntaxError;
  * When annotations are found, it extracts the content into a "componentinfo"
  * block that can be rendered separately from the rest of the template.
  */
-class ComponentInfoNodeVisitor implements \Twig\NodeVisitor\NodeVisitorInterface
+class ComponentInfoNodeVisitor implements \Twig_NodeVisitorInterface
 {
     const INFO_BLOCK = 'componentinfo';
     private $info;
 
-    public function enterNode(Node $node, Environment $env)
+    public function enterNode(Twig_NodeInterface $node, Twig_Environment $env)
     {
-        if ($node instanceof ModuleNode) {
+        if ($node instanceof \Twig_Node_Module) {
             $this->info = null;
         }
         if ($this->isComponentInfo($node)) {
             if ($this->info) {
-                throw new SyntaxError('Multiple component info blocks were detected.');
+                throw new \Twig_Error_Syntax('Multiple component info blocks were detected.');
             }
             $this->info = $node;
         }
