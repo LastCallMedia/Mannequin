@@ -13,11 +13,7 @@ namespace LastCall\Mannequin\Twig\Twig\NodeVisitor;
 
 use LastCall\Mannequin\Twig\Twig\Node\Comment;
 use Twig\Environment;
-use Twig\Node\TextNode;
-use Twig\Node\BlockNode;
 use Twig\Node\Node;
-use Twig\Node\ModuleNode;
-use Twig\Error\SyntaxError;
 
 /**
  * This visitor searches through comment nodes looking for @Component
@@ -26,12 +22,12 @@ use Twig\Error\SyntaxError;
  * When annotations are found, it extracts the content into a "componentinfo"
  * block that can be rendered separately from the rest of the template.
  */
-class ComponentInfoNodeVisitor implements \Twig_NodeVisitorInterface
+class ComponentInfoNodeVisitor extends \Twig\NodeVisitor\AbstractNodeVisitor
 {
     const INFO_BLOCK = 'componentinfo';
     private $info;
 
-    public function enterNode(Twig_NodeInterface $node, Twig_Environment $env)
+    public function doEnterNode(Node $node, Environment $env)
     {
         if ($node instanceof \Twig_Node_Module) {
             $this->info = null;
@@ -46,9 +42,9 @@ class ComponentInfoNodeVisitor implements \Twig_NodeVisitorInterface
         return $node;
     }
 
-    public function leaveNode(Node $node, Environment $env)
+    public function doLeaveNode(Node $node, Environment $env)
     {
-        if ($node instanceof ModuleNode) {
+        if ($node instanceof \Twig_Node_Module) {
             $blocks = $node->getNode('blocks');
             // BC with 1.0.0: Do not override an existing info block.
             if ($blocks->hasNode(self::INFO_BLOCK)) {
@@ -61,7 +57,7 @@ class ComponentInfoNodeVisitor implements \Twig_NodeVisitorInterface
         return $node;
     }
 
-    private function isComponentInfo(\Twig_NodeInterface $node)
+    private function isComponentInfo(Node $node)
     {
         if ($node instanceof Comment) {
             $comment = $node->getAttribute('data');
@@ -79,14 +75,14 @@ class ComponentInfoNodeVisitor implements \Twig_NodeVisitorInterface
     {
         if ($this->info) {
             $comment = $this->getComponentInfo($this->info->getAttribute('data'));
-            $nodes = [new TextNode($this->getComponentInfo($comment), $this->info->getTemplateLine())];
+            $nodes = [new \Twig_Node_Text($this->getComponentInfo($comment), $this->info->getTemplateLine())];
         } else {
             $nodes = [];
         }
 
-        return new BlockNode(
+        return new \Twig_Node_Block(
             'componentinfo',
-            new Node($nodes),
+            new \Twig_Node($nodes),
             0
         );
     }

@@ -12,9 +12,7 @@
 namespace LastCall\Mannequin\Twig\Twig\NodeVisitor;
 
 use Twig\Environment;
-use Twig\Node\TextNode;
 use Twig\Node\Node;
-use Twig\Node\BlockNode;
 
 /**
  * Collects data about external template usage via include, embed, and extend
@@ -24,7 +22,7 @@ use Twig\Node\BlockNode;
  * _collected_usage block.  This block is then cached with the template and is
  * parseable further down the chain.
  */
-class UsageNodeVisitor implements \Twig_NodeVisitorInterface
+class UsageNodeVisitor extends \Twig\NodeVisitor\AbstractNodeVisitor
 {
     private $collected = [];
 
@@ -39,9 +37,9 @@ class UsageNodeVisitor implements \Twig_NodeVisitorInterface
     /**
      * {@inheritdoc}
      */
-    public function enterNode(Node $node, Environment $env)
+    public function doEnterNode(Node $node, Environment $env)
     {
-        if ($node instanceof \Twig\Node\ModuleNode) {
+        if ($node instanceof \Twig_Node_Module) {
             $this->collected = [];
         }
 
@@ -80,9 +78,9 @@ class UsageNodeVisitor implements \Twig_NodeVisitorInterface
     /**
      * {@inheritdoc}
      */
-    public function leaveNode(Node $node, Environment $env)
+    public function doLeaveNode(Node $node, Environment $env)
     {
-        if ($node instanceof \Twig\Node\ModuleNode) {
+        if ($node instanceof \Twig_Node_Module) {
             $node->getNode('blocks')->setNode('_collected_usage', $this->getCollectedIncludesBlock($this->collected));
         }
 
@@ -93,13 +91,13 @@ class UsageNodeVisitor implements \Twig_NodeVisitorInterface
      * Check an expression node to be sure it is a constant value we can resolve
      * at compile time.
      *
-     * @param \Twig\Node\Node $node
+     * @param \Twig\Node $node
      *
      * @return string|false
      */
-    private function getResolvableValue(\Twig\Node\Expression\AbstractExpression $node)
+    private function getResolvableValue(\Twig_Node_Expression $node)
     {
-        if ($node instanceof \Twig\Node\Expression\ConstantExpression
+        if ($node instanceof \Twig_Node_Expression_Constant
             && 'not_used' !== $node->getAttribute('value')) {
             return $node->getAttribute('value');
         }
@@ -113,14 +111,14 @@ class UsageNodeVisitor implements \Twig_NodeVisitorInterface
      *
      * @param array $includes
      *
-     * @return BlockNode
+     * @return \Twig_Node_Block
      */
     private function getCollectedIncludesBlock(array $includes)
     {
-        return new BlockNode(
+        return new \Twig_Node_Block(
             '_collected_usage',
-            new Node([
-                new TextNode(json_encode($includes), 0),
+            new \Twig_Node([
+                new \Twig_Node_Text(json_encode($includes), 0),
             ]),
             0
         );
