@@ -3,7 +3,7 @@ jobs:
   test_php:
     working_directory: /srv
     docker:
-      - image: lastcallmedia/php:7.0-dev
+      - image: lastcallmedia/php:7.3-dev
     steps:
       - checkout
       - restore_cache:
@@ -28,13 +28,13 @@ jobs:
       - store_test_results:
           path: /phpunit
 
-  test_drupal_8.8.10:
+  test_drupal_8.9:
     working_directory: /srv
     docker:
-      - image: lastcallmedia/php:7.0-dev
+      - image: lastcallmedia/php:7.3-dev
     steps:
       - checkout
-      - run: composer require drupal/core:8.8.10 --no-update
+      - run: composer require drupal/core:8.9.10 --no-update
       - restore_cache:
           key: composer-v4-{{ checksum "composer.json" }}
       - run: composer install
@@ -47,13 +47,32 @@ jobs:
       - store_test_results:
           path: /phpunit
 
-  test_drupal_9.0.0:
+  test_drupal_9:
     working_directory: /srv
     docker:
       - image: lastcallmedia/php:7.3-dev
     steps:
       - checkout
-      - run: composer require drupal/core:9.0.0 --no-update
+      - run: composer require drupal/core:9.0.x-dev --no-update
+      - restore_cache:
+          key: composer-v4-{{ checksum "composer.json" }}
+      - run: composer install
+      - save_cache:
+          key: composer-v4-{{ checksum "composer.json" }}
+          paths: [ vendor, composer.lock ]
+      - run: |
+          mkdir -p /phpunit
+          DRUPAL_ROOT=vendor/drupal vendor/bin/phpunit --testsuite=Drupal --log-junit=/phpunit/drupal.xml
+      - store_test_results:
+          path: /phpunit
+
+  test_drupal_9_latest:
+    working_directory: /srv
+    docker:
+      - image: lastcallmedia/php:7.3-dev
+    steps:
+      - checkout
+      - run: composer require drupal/core:9.1.x-dev --no-update
       - restore_cache:
           key: composer-v4-{{ checksum "composer.json" }}
       - run: composer install
@@ -87,7 +106,7 @@ jobs:
   build_demo:
     working_directory: /srv
     docker:
-      - image: lastcallmedia/php:7.0-dev
+      - image: lastcallmedia/php:7.3-dev
     steps:
       - checkout
       - attach_workspace:
@@ -172,14 +191,15 @@ workflows:
   test_and_deploy:
     jobs:
       - test_php
-      - test_drupal_8.8.10
-      - test_drupal_9.0.0
+      - test_drupal_8.9
+      - test_drupal_9
+      - test_drupal_9_latest
       - test_ui
       - build_site
       - build_demo:
           requires: [test_ui]
       - deploy_split:
-          requires: [test_php, test_drupal_8.8.10, test_drupal_9.0.0]
+          requires: [test_php, test_drupal_8.9, test_drupal_9, test_drupal_9_latest]
       - deploy_ui:
           requires: [test_ui]
           filters:
