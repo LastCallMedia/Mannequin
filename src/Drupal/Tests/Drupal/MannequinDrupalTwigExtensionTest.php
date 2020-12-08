@@ -102,6 +102,23 @@ class MannequinDrupalTwigExtensionTest extends TestCase
         $this->assertRenderedEquals($input, $expected, $message);
     }
 
+    public function getBlockTests()
+    {
+        return [
+          ['{% trans %}translated{% endtrans %}', 'translated', 'Translated blocks should pass through.'],
+          ['{% trans %}Singular{%plural one %}test{% endtrans %}', 'Singular', 'Translated plural blocks with a singular count should show the singular version.'],
+          ['{% trans %}Singular {%plural two %}Plural{% endtrans %}', 'Plural', 'Translated plural blocks with a multiple count should show the plural version.'],
+        ];
+    }
+
+    /**
+     * @dataProvider getBlockTests
+     */
+    public function testBlock($input, $expectedOutput, $message)
+    {
+        $this->assertRenderedEquals($input, $expectedOutput, $message);
+    }
+
     public function assertRenderedEquals($template, $expected, $message = '')
     {
         $loader = new \Twig_Loader_Array(['test' => $template]);
@@ -116,6 +133,8 @@ class MannequinDrupalTwigExtensionTest extends TestCase
         $this->assertEquals($expected, $twig->render('test', [
             'stm' => new \Twig_Markup('<i>stm</i>', 'UTF-8'),
             'sdm' => Markup::create('<i>sdm</i>'),
+            'one' => 1,
+            'two' => 2,
         ]), $message);
     }
 }
