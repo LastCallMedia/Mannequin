@@ -37,7 +37,7 @@ class DrupalExtension extends AbstractTwigExtension implements ExpressionFunctio
 
     public function __construct(array $config = [])
     {
-        $this->iterator = $config['finder'] ?: new \ArrayIterator([]);
+        $this->iterator = $config['finder'] ?? new \ArrayIterator([]);
         $this->drupalRoot = $config['drupal_root'] ?? getcwd();
         $this->twigOptions = $config['twig_options'] ?? [];
     }
