@@ -15,11 +15,11 @@ use LastCall\Mannequin\Core\Asset\AssetManager;
 use LastCall\Mannequin\Core\Asset\AssetManagerInterface;
 use LastCall\Mannequin\Core\Asset\RequestContextContext;
 use LastCall\Mannequin\Core\Config\ConfigInterface;
-use LastCall\Mannequin\Core\DependencyInjection\ContainerInterface;
 use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Engine\DelegatingEngine;
 use LastCall\Mannequin\Core\MimeType\ExtensionMimeTypeGuesser;
+use LastCall\Mannequin\Core\Provider\ServiceControllerServiceProvider;
 use LastCall\Mannequin\Core\Snapshot\Camera;
 use LastCall\Mannequin\Core\Snapshot\CameraInterface;
 use LastCall\Mannequin\Core\Ui\Controller\ManifestController;
@@ -29,17 +29,16 @@ use LastCall\Mannequin\Core\Ui\ManifestBuilder;
 use LastCall\Mannequin\Core\Variable\VariableResolver;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\NullLogger;
-use Silex\Application;
-use Silex\EventListener\LogListener;
-use Silex\Provider\ServiceControllerServiceProvider;
+use LastCall\Mannequin\Core\EventListener\ExceptionListener;
 use Symfony\Component\Asset\PackageInterface;
 use Symfony\Component\Asset\PathPackage;
 use Symfony\Component\Asset\VersionStrategy\StaticVersionStrategy;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
-use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
+
 
 /**
  * DI/Kernel class for Mannequin.
@@ -48,8 +47,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  * to ContainerInterface rather than this class, and never rely on the
  * Silex/Pimple ArrayAccess getters/setters.
  */
-class Mannequin extends Application implements ContainerInterface
-{
+
+class Mannequin {
+
     public function __construct(ConfigInterface $config, array $values = [])
     {
         $values += [
@@ -69,7 +69,7 @@ class Mannequin extends Application implements ContainerInterface
         };
 
         $this['log.listener'] = function () {
-            return new LogListener($this['logger']);
+            return new ExceptionListener($this['logger']);
         };
         $this['cache_dir'] = function () use ($config) {
             return sprintf('%s/mannequin/%s', sys_get_temp_dir(), $config->getCachePrefix());
