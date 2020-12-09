@@ -164,8 +164,14 @@
             "config/bootstrap.php"
         ]
     },
+    "symfony/debug": {
+        "version": "v4.4.17"
+    },
     "symfony/deprecation-contracts": {
         "version": "v2.2.0"
+    },
+    "symfony/error-handler": {
+        "version": "v4.4.17"
     },
     "symfony/event-dispatcher": {
         "version": "v4.4.16"
@@ -194,6 +200,24 @@
             ".env"
         ]
     },
+    "symfony/form": {
+        "version": "v5.2.0"
+    },
+    "symfony/http-client-contracts": {
+        "version": "v2.3.1"
+    },
+    "symfony/http-foundation": {
+        "version": "v5.2.0"
+    },
+    "symfony/http-kernel": {
+        "version": "v4.4.17"
+    },
+    "symfony/intl": {
+        "version": "v5.2.0"
+    },
+    "symfony/mime": {
+        "version": "v5.2.0"
+    },
     "symfony/options-resolver": {
         "version": "v5.1.8"
     },
@@ -218,6 +242,18 @@
     "symfony/polyfill-ctype": {
         "version": "v1.20.0"
     },
+    "symfony/polyfill-intl-grapheme": {
+        "version": "v1.20.0"
+    },
+    "symfony/polyfill-intl-icu": {
+        "version": "v1.20.0"
+    },
+    "symfony/polyfill-intl-idn": {
+        "version": "v1.20.0"
+    },
+    "symfony/polyfill-intl-normalizer": {
+        "version": "v1.20.0"
+    },
     "symfony/polyfill-mbstring": {
         "version": "v1.20.0"
     },
@@ -236,11 +272,40 @@
     "symfony/process": {
         "version": "v4.4.16"
     },
+    "symfony/property-access": {
+        "version": "v5.2.0"
+    },
+    "symfony/property-info": {
+        "version": "v5.2.0"
+    },
+    "symfony/routing": {
+        "version": "5.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.1",
+            "ref": "b4f3e7c95e38b606eef467e8a42a8408fc460c43"
+        },
+        "files": [
+            "config/packages/prod/routing.yaml",
+            "config/packages/routing.yaml",
+            "config/routes.yaml"
+        ]
+    },
+    "symfony/security": {
+        "version": "v4.4.17"
+    },
     "symfony/service-contracts": {
         "version": "v2.2.0"
     },
     "symfony/stopwatch": {
         "version": "v5.1.8"
+    },
+    "symfony/string": {
+        "version": "v5.2.0"
+    },
+    "symfony/var-dumper": {
+        "version": "v5.2.0"
     },
     "symfony/yaml": {
         "version": "v4.4.16"
