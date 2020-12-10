@@ -18,5 +18,5 @@ jobs:
         days-before-stale: 30
         days-before-close: 5
         stale-issue-label: 'Stale'
-        close-issue-label: 'This issue has been closed due to inactivity. Please leave a comment to reopen this issue and a maintainer will be notified.'  
+        close-issue-message: 'This issue has been closed due to inactivity. Please leave a comment to reopen this issue and a maintainer will be notified.'  
         exempt-issue-labels: 'Roadmap'
