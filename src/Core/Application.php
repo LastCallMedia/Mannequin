@@ -12,7 +12,11 @@
 namespace Application;
 
 
+use LastCall\Mannequin\Core\EventListener\EventListenerProviderInterface;
+use LastCall\Mannequin\Core\Provider\HttpKernelServiceProvider;
 use Pimple\Container;
+use Pimple\ServiceProviderInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
