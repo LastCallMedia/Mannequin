@@ -12,6 +12,8 @@
 namespace LastCall\Mannequin\Drupal\Twig\Loader;
 
 use Symfony\Component\Finder\Finder;
+use Twig\Error\LoaderError;
+use Twig\Loader\FilesystemLoader;
 
 /**
  * This loader searches for unqualified template names in specific directories.
@@ -20,7 +22,7 @@ use Symfony\Component\Finder\Finder;
  * to be a simplified simulation of Drupal's theme registry loader, which looks
  * up template paths against the stored theme registry.
  */
-class FallbackLoader extends \Twig\Loader\FilesystemLoader
+class FallbackLoader extends FilesystemLoader
 {
     private $protectedRoot;
 
@@ -44,7 +46,7 @@ class FallbackLoader extends \Twig\Loader\FilesystemLoader
                 return false;
             }
 
-            throw new \Twig\Error\LoaderError($this->errorCache[$name]);
+            throw new LoaderError($this->errorCache[$name]);
         }
 
         // Skip processing for any names that include a directory separator or
@@ -74,7 +76,7 @@ class FallbackLoader extends \Twig\Loader\FilesystemLoader
         if (!$throw) {
             return false;
         }
-        throw new \Twig\Error\LoaderError($throw->errorCache[$name]);
+        throw new LoaderError($throw->errorCache[$name]);
     }
 
     /**
