@@ -35,7 +35,7 @@ class FallbackLoader extends FilesystemLoader
 
     public function findTemplate($name, $throw = true)
     {
-        $name = $this->normalizeName($name);
+        $name = FilesystemLoader::normalizeName($name);
 
         // Caching for found/not found.
         if (isset($this->cache[$name])) {
