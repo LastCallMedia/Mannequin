@@ -15,6 +15,7 @@ use LastCall\Mannequin\Core\Asset\AssetManager;
 use LastCall\Mannequin\Core\Asset\AssetManagerInterface;
 use LastCall\Mannequin\Core\Asset\RequestContextContext;
 use LastCall\Mannequin\Core\Config\ConfigInterface;
+use LastCall\Mannequin\Core\DependencyInjection\ContainerInterface;
 use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Engine\DelegatingEngine;
@@ -48,7 +49,7 @@ use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
  * Silex/Pimple ArrayAccess getters/setters.
  */
 
-class Mannequin {
+class Mannequin extends Application implements ContainerInterface {
 
     public function __construct(ConfigInterface $config, array $values = [])
     {

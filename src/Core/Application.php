@@ -9,11 +9,15 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Application;
+namespace LastCall\Mannequin\Core;
 
 
 use LastCall\Mannequin\Core\EventListener\EventListenerProviderInterface;
+use LastCall\Mannequin\Core\Provider\BootableProviderInterface;
+use LastCall\Mannequin\Core\Provider\ControllerProviderInterface;
+use LastCall\Mannequin\Core\Provider\ExceptionHandlerServiceProvider;
 use LastCall\Mannequin\Core\Provider\HttpKernelServiceProvider;
+use LastCall\Mannequin\Core\Provider\RoutingServiceProvider;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
