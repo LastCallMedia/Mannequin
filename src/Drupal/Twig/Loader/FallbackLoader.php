@@ -33,13 +33,19 @@ class FallbackLoader extends FilesystemLoader
         $this->protectedRoot = $rootPath;
     }
 
-    public function findTemplate(string $name)
+    public function findTemplate($name, $throw = true)
     {
+        $name = $this->exists($name);
+
         // Caching for found/not found.
         if (isset($this->cache[$name])) {
             return $this->cache[$name];
         }
         if (isset($this->errorCache[$name])) {
+            if (!$throw) {
+                return false;
+            }
+
             throw new LoaderError($this->errorCache[$name]);
         }
 
@@ -63,11 +69,14 @@ class FallbackLoader extends FilesystemLoader
                 return $this->cache[$name] = $file->getPathname();
             }
             $this->errorCache[$name] = sprintf('Unable to find template "%s" (looked into: %s).', $name, implode(', ', $this->paths[self::MAIN_NAMESPACE]));
-            throw new LoaderError($this->errorCache[$name]);
         } else {
             $this->errorCache[$name] = sprintf('Unable to find template "%s".', $name);
-            throw new LoaderError($this->errorCache[$name]);
         }
+
+        if (!$throw) {
+            return false;
+        }
+        throw new LoaderError($throw->errorCache[$name]);
     }
 
     /**
