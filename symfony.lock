@@ -94,9 +94,6 @@
             "tests/bootstrap.php"
         ]
     },
-    "phpunit/phpunit-mock-objects": {
-        "version": "5.0.10"
-    },
     "pimple/pimple": {
         "version": "v3.3.0"
     },
