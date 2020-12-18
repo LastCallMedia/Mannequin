@@ -92,12 +92,4 @@ class FallbackLoader extends FilesystemLoader
             || null !== parse_url($path, PHP_URL_SCHEME)
             ;
     }
-
-    /**
-     * Local duplicate of Twig_Loader_Filesystem::normalizeName().
-     */
-    private function normalizeName($name)
-    {
-        return preg_replace('#/{2,}#', '/', str_replace('\\', '/', $name));
-    }
 }
