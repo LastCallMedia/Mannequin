@@ -35,7 +35,7 @@ class FallbackLoader extends FilesystemLoader
 
     public function findTemplate($name, $throw = true)
     {
-        $name = $this->normalizeName($name);
+        $name = $this->normalName($name);
 
         // Caching for found/not found.
         if (isset($this->cache[$name])) {
@@ -96,7 +96,7 @@ class FallbackLoader extends FilesystemLoader
     /**
      * Local duplicate of Twig_Loader_Filesystem::normalizeName().
      */
-    private function normalizeName($name)
+    private function normalName($name)
     {
         return preg_replace('#/{2,}#', '/', str_replace('\\', '/', $name));
     }
