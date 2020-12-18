@@ -3,14 +3,13 @@
 /*
  * This file is part of Mannequin.
  *
- * (c) 2020 Last Call Media, Rob Bayliss <rob@lastcallmedia.com>
+ * (c) 2017 Last Call Media, Rob Bayliss <rob@lastcallmedia.com>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
 
 namespace LastCall\Mannequin\Core;
-
 
 use LastCall\Mannequin\Core\EventListener\EventListenerProviderInterface;
 use LastCall\Mannequin\Core\Provider\BootableProviderInterface;
@@ -27,16 +26,14 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpKernel\Event\PostResponseEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\TerminableInterface;
 
-class Application extends Container implements HttpKernelInterface, TerminableInterface {
-
+class Application extends Container implements HttpKernelInterface, TerminableInterface
+{
     protected $providers = [];
     protected $booted = false;
 
@@ -237,7 +234,7 @@ class Application extends Container implements HttpKernelInterface, TerminableIn
     {
         $app = $this;
 
-        $this->on(KernelEvents::REQUEST, function (GetResponseEvent $event) use ($callback, $app) {
+        $this->on(KernelEvents::REQUEST, function (ResponseEvent $event) use ($callback, $app) {
             if (!$event->isMasterRequest()) {
                 return;
             }
@@ -263,7 +260,7 @@ class Application extends Container implements HttpKernelInterface, TerminableIn
     {
         $app = $this;
 
-        $this->on(KernelEvents::RESPONSE, function (FilterResponseEvent $event) use ($callback, $app) {
+        $this->on(KernelEvents::RESPONSE, function (ResponseEvent $event) use ($callback, $app) {
             if (!$event->isMasterRequest()) {
                 return;
             }
@@ -290,7 +287,7 @@ class Application extends Container implements HttpKernelInterface, TerminableIn
     {
         $app = $this;
 
-        $this->on(KernelEvents::TERMINATE, function (PostResponseEvent $event) use ($callback, $app) {
+        $this->on(KernelEvents::TERMINATE, function (ResponseEvent $event) use ($callback, $app) {
             call_user_func($app['callback_resolver']->resolveCallback($callback), $event->getRequest(), $event->getResponse(), $app);
         }, $priority);
     }
@@ -416,7 +413,7 @@ class Application extends Container implements HttpKernelInterface, TerminableIn
      * @param \SplFileInfo|string $file               The file to stream
      * @param int                 $status             The response status code
      * @param array               $headers            An array of response headers
-     * @param null|string         $contentDisposition The type of Content-Disposition to set automatically with the filename
+     * @param string|null         $contentDisposition The type of Content-Disposition to set automatically with the filename
      *
      * @return BinaryFileResponse
      */
