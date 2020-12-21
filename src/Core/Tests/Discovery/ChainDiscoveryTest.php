@@ -16,6 +16,7 @@ use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Discovery\ExplicitDiscovery;
+use LastCall\Mannequin\Core\Event\ComponentDiscoveryEvent;
 use LastCall\Mannequin\Core\Event\ComponentEvents;
 use LastCall\Mannequin\Core\Exception\TemplateParsingException;
 use PHPUnit\Framework\TestCase;
