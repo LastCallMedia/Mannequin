@@ -78,7 +78,8 @@ class ChainDiscoveryTest extends TestCase
 
         $dispatcher = $this->prophesize(EventDispatcher::class);
         $dispatcher->dispatch(
-            ComponentEvents::DISCOVER
+            ComponentEvents::DISCOVER,
+            Argument::type(ComponentDiscoveryEvent::class)
         )
             ->shouldBeCalled();
 
@@ -129,7 +130,8 @@ class ChainDiscoveryTest extends TestCase
     {
         $dispatcher = $this->prophesize(EventDispatcherInterface::class);
         $dispatcher->dispatch(
-            ComponentEvents::DISCOVER
+            ComponentEvents::DISCOVER,
+            Argument::type(ComponentDiscoveryEvent::class)
         )
             ->willThrow(new TemplateParsingException('foo'));
 
