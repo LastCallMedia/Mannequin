@@ -1,22 +1,15 @@
 <?php
 
-/*
- * This file is part of Mannequin.
- *
- * (c) 2017 Last Call Media, Rob Bayliss <rob@lastcallmedia.com>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
 
 namespace LastCall\Mannequin\Core\Provider;
+
 
 use LastCall\Mannequin\Core\ControllerCollection;
 use LastCall\Mannequin\Core\EventListener\EventListenerProviderInterface;
 use LastCall\Mannequin\Core\Routing\LazyRequestMatcher;
 use LastCall\Mannequin\Core\Routing\RedirectableUrlMatcher;
-use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\EventListener\RouterListener;
 use Symfony\Component\Routing\Generator\UrlGenerator;
@@ -27,7 +20,7 @@ class RoutingServiceProvider implements ServiceProviderInterface, EventListenerP
 {
     public function register(Container $app)
     {
-        $app['route_class'] = 'LastCall\Mannequin\Core\\Route';
+        $app['route_class'] = 'LastCall\Mannequin\Core\Routing';
 
         $app['route_factory'] = $app->factory(function ($app) {
             return new $app['route_class']();
