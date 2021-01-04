@@ -20,7 +20,7 @@ class RoutingServiceProvider implements ServiceProviderInterface, EventListenerP
 {
     public function register(Container $app)
     {
-        $app['route_class'] = 'Silex\\Route';
+        $app['route_class'] = 'LastCall\Mannequin\Core\Route';
 
         $app['route_factory'] = $app->factory(function ($app) {
             return new $app['route_class']();
