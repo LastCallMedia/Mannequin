@@ -18,7 +18,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Interface EventListenerProviderInterface
- * 
  */
 interface EventListenerProviderInterface
 {
