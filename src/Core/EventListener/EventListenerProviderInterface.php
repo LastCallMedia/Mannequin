@@ -16,6 +16,10 @@ namespace LastCall\Mannequin\Core\EventListener;
 use Pimple\Container;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * Interface EventListenerProviderInterface
+ * 
+ */
 interface EventListenerProviderInterface
 {
     public function subscribe(Container $app, EventDispatcherInterface $dispatcher);
