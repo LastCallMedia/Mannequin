@@ -19,6 +19,7 @@ use LastCall\Mannequin\Core\DependencyInjection\ContainerInterface;
 use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Engine\DelegatingEngine;
+use LastCall\Mannequin\Core\EventListener\ExceptionListener;
 use LastCall\Mannequin\Core\MimeType\ExtensionMimeTypeGuesser;
 use LastCall\Mannequin\Core\Provider\ServiceControllerServiceProvider;
 use LastCall\Mannequin\Core\Snapshot\Camera;
@@ -30,16 +31,14 @@ use LastCall\Mannequin\Core\Ui\ManifestBuilder;
 use LastCall\Mannequin\Core\Variable\VariableResolver;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\NullLogger;
-use LastCall\Mannequin\Core\EventListener\ExceptionListener;
 use Symfony\Component\Asset\PackageInterface;
 use Symfony\Component\Asset\PathPackage;
 use Symfony\Component\Asset\VersionStrategy\StaticVersionStrategy;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
-
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * DI/Kernel class for Mannequin.
@@ -48,9 +47,8 @@ use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesser;
  * to ContainerInterface rather than this class, and never rely on the
  * Silex/Pimple ArrayAccess getters/setters.
  */
-
-class Mannequin extends Application implements ContainerInterface {
-
+class Mannequin extends Application implements ContainerInterface
+{
     public function __construct(ConfigInterface $config, array $values = [])
     {
         $values += [
@@ -60,7 +58,7 @@ class Mannequin extends Application implements ContainerInterface {
         ];
         parent::__construct($values);
         $this['config'] = $config;
-        $this['commands'] = function () use ($config) {
+        $this['commands'] = function () {
             $commands = [];
             foreach ($this->getExtensions() as $extension) {
                 $commands = array_merge($commands, $extension->getCommands());
