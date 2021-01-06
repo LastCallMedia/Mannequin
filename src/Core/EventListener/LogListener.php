@@ -49,29 +49,29 @@ class LogListener implements EventSubscriberInterface
     /**
      * Logs master requests on event KernelEvents::REQUEST.
      *
-     * @param ResponseEvent $event
+     * @param ResponseEvent $eventRequest
      */
-    public function onKernelRequest(ResponseEvent $event)
+    public function onKernelRequest(ResponseEvent $eventRequest)
     {
-        if (!$event->isMasterRequest()) {
+        if (!$eventRequest->isMasterRequest()) {
             return;
         }
 
-        $this->logRequest($event->getRequest());
+        $this->logRequest($eventRequest->getRequest());
     }
 
     /**
      * Logs master response on event KernelEvents::RESPONSE.
      *
-     * @param ResponseEvent $event
+     * @param ResponseEvent $eventResponse
      */
-    public function onKernelResponse(ResponseEvent $event)
+    public function onKernelResponse(ResponseEvent $eventResponse)
     {
-        if (!$event->isMasterRequest()) {
+        if (!$eventResponse->isMasterRequest()) {
             return;
         }
 
-        $this->logResponse($event->getResponse());
+        $this->logResponse($eventResponse->getResponse());
     }
 
     /**
