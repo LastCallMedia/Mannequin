@@ -19,7 +19,7 @@ use LastCall\Mannequin\Core\DependencyInjection\ContainerInterface;
 use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Engine\DelegatingEngine;
-use LastCall\Mannequin\Core\EventListener\ExceptionListener;
+use LastCall\Mannequin\Core\EventListener\LogListener;
 use LastCall\Mannequin\Core\MimeType\ExtensionMimeTypeGuesser;
 use LastCall\Mannequin\Core\Provider\ServiceControllerServiceProvider;
 use LastCall\Mannequin\Core\Snapshot\Camera;
@@ -68,7 +68,7 @@ class Mannequin extends Application implements ContainerInterface
         };
 
         $this['log.listener'] = function () {
-            return new ExceptionListener($this['logger']);
+            return new LogListener($this['logger']);
         };
         $this['cache_dir'] = function () use ($config) {
             return sprintf('%s/mannequin/%s', sys_get_temp_dir(), $config->getCachePrefix());
