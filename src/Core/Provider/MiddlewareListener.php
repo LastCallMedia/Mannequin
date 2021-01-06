@@ -11,7 +11,7 @@
 
 namespace LastCall\Mannequin\Core\Provider;
 
-use Application\Application;
+use LastCall\Mannequin\Core\Application;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
