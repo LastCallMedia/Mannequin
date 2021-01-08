@@ -12,14 +12,15 @@
 namespace LastCall\Mannequin\Twig\Twig\TokenParser;
 
 use LastCall\Mannequin\Twig\Twig\Node\Comment;
-use Twig_Token;
+use Twig\Token;
+use Twig\TokenParser\AbstractTokenParser;
 
-class CommentTokenParser extends \Twig_TokenParser
+class CommentTokenParser extends AbstractTokenParser
 {
-    public function parse(Twig_Token $token)
+    public function parse(Token $token)
     {
-        $comment = $this->parser->getStream()->expect(Twig_Token::TEXT_TYPE)->getValue();
-        $this->parser->getStream()->expect(\Twig_Token::BLOCK_END_TYPE);
+        $comment = $this->parser->getStream()->expect(Token::TEXT_TYPE)->getValue();
+        $this->parser->getStream()->expect(Token::BLOCK_END_TYPE);
 
         return new Comment($comment, $token->getLine());
     }

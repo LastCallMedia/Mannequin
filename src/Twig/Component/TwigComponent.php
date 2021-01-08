@@ -19,14 +19,14 @@ class TwigComponent extends AbstractComponent implements TemplateFileInterface
     private $source;
     private $twig;
 
-    public function __construct($id, array $aliases = [], \Twig_Source $source, \Twig_Environment $twig)
+    public function __construct($id, array $aliases = [], \Twig\Source $source, \Twig\Environment $twig)
     {
         parent::__construct($id, $aliases);
         $this->source = $source;
         $this->twig = $twig;
     }
 
-    public function getTwig(): \Twig_Environment
+    public function getTwig(): \Twig\Environment
     {
         return $this->twig;
     }

@@ -27,7 +27,7 @@ abstract class AbstractTwigDriver implements TwigDriverInterface
     /**
      * {@inheritdoc}
      */
-    public function getTwig(): \Twig_Environment
+    public function getTwig(): \Twig\Environment
     {
         if (!$this->twig) {
             $this->twig = $this->createTwig();
@@ -66,9 +66,9 @@ abstract class AbstractTwigDriver implements TwigDriverInterface
     }
 
     /**
-     * @param \Twig_Environment $twig
+     * @param \Twig\Environment $twig
      */
-    protected function initialize(\Twig_Environment $twig)
+    protected function initialize(\Twig\Environment $twig)
     {
         $twig->addExtension(new MannequinExtension());
         if ($this->cache) {
@@ -83,9 +83,9 @@ abstract class AbstractTwigDriver implements TwigDriverInterface
      * Do anything here that needs to happen right before the environment is
      * initialized, but after any extensions/settings have been added.
      *
-     * @param \Twig_Environment $twig
+     * @param \Twig\Environment $twig
      */
-    protected function finalize(\Twig_Environment $twig)
+    protected function finalize(\Twig\Environment $twig)
     {
         $twig->setLexer(new Lexer($twig));
     }
@@ -119,7 +119,7 @@ abstract class AbstractTwigDriver implements TwigDriverInterface
     /**
      * Do whatever work is necessary to create the Twig environment.
      *
-     * @return \Twig_Environment
+     * @return \Twig\Environment
      */
-    abstract protected function createTwig(): \Twig_Environment;
+    abstract protected function createTwig(): \Twig\Environment;
 }

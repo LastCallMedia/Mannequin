@@ -15,6 +15,7 @@ use LastCall\Mannequin\Twig\Twig\Lexer;
 use LastCall\Mannequin\Twig\Twig\NodeVisitor\ComponentInfoNodeVisitor;
 use LastCall\Mannequin\Twig\Twig\TokenParser\CommentTokenParser;
 use PHPUnit\Framework\TestCase;
+use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 
 class ComponentInfoNodeVisitorTest extends TestCase
@@ -33,7 +34,7 @@ class ComponentInfoNodeVisitorTest extends TestCase
             $templates = self::$templates;
         }
         $loader = new ArrayLoader($templates);
-        $twig = new \Twig_Environment($loader);
+        $twig = new Environment($loader);
         $twig->addNodeVisitor(new ComponentInfoNodeVisitor());
         $twig->addTokenParser(new CommentTokenParser());
         $twig->setLexer(new Lexer($twig));

@@ -24,6 +24,8 @@ use LastCall\Mannequin\Drupal\Drupal\MannequinThemeManager;
 use LastCall\Mannequin\Drupal\Drupal\MannequinUrlGenerator;
 use LastCall\Mannequin\Drupal\Twig\Loader\FallbackLoader;
 use LastCall\Mannequin\Twig\Driver\SimpleTwigDriver;
+use Twig\Environment;
+use Twig\Loader\ChainLoader;
 
 /**
  * Creates a Drupal-like Twig_Environment.
@@ -54,7 +56,7 @@ class DrupalTwigDriver extends SimpleTwigDriver
         $this->fallbackExtensions = $fallbackExtensions;
     }
 
-    protected function initialize(\Twig_Environment $twig)
+    protected function initialize(Environment $twig)
     {
         parent::initialize($twig);
         $extension = new MannequinDrupalTwigExtension(
@@ -77,7 +79,7 @@ class DrupalTwigDriver extends SimpleTwigDriver
                     $fallbackPaths[] = $dir;
                 }
             }
-            $loader = new \Twig_Loader_Chain([
+            $loader = new ChainLoader([
                 $loader,
                 new FallbackLoader($fallbackPaths, $this->drupalRoot),
             ]);

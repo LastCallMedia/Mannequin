@@ -16,6 +16,7 @@ use LastCall\Mannequin\Core\Event\RenderEvent;
 use LastCall\Mannequin\Core\Rendered;
 use LastCall\Mannequin\Twig\Component\TwigComponent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Twig\Markup;
 
 /**
  * Wraps `Rendered` objects in a `\Twig_Markup` object before rendering.
@@ -48,7 +49,7 @@ class MarkupWrapperSubscriber implements EventSubscriberInterface
 
         foreach ($variables as $key => $value) {
             if ($value instanceof Rendered) {
-                $value = new \Twig_Markup($value->getMarkup(), 'UTF-8');
+                $value = new Markup($value->getMarkup(), 'UTF-8');
             } elseif (is_array($value)) {
                 $value = $this->upcastRendered($value);
             }

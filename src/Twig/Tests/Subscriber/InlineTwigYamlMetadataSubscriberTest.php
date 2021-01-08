@@ -17,6 +17,8 @@ use LastCall\Mannequin\Core\YamlMetadataParser;
 use LastCall\Mannequin\Twig\Component\TwigComponent;
 use LastCall\Mannequin\Twig\Subscriber\InlineTwigYamlMetadataSubscriber;
 use PHPUnit\Framework\TestCase;
+use Twig\Environment;
+use Twig\Loader\ArrayLoader;
 
 class InlineTwigYamlMetadataSubscriberTest extends TestCase
 {
@@ -25,13 +27,13 @@ class InlineTwigYamlMetadataSubscriberTest extends TestCase
 
     private function getTwig()
     {
-        $loader = new \Twig_Loader_Array([
+        $loader = new ArrayLoader([
             'with_info' => '{%block componentinfo %}myinfo{%endblock%}',
             'with_empty_info' => '{%block componentinfo %}{%endblock%}',
             'no_info' => '',
         ]);
 
-        return new \Twig_Environment($loader);
+        return new Environment($loader);
     }
 
     public function testReadsComponentInfoBlock()

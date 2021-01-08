@@ -16,6 +16,9 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\StringTranslation\TranslationManager;
 use Drupal\Core\Template\Attribute;
 use Drupal\Core\Template\TwigExtension;
+use Twig\Environment;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 class MannequinDrupalTwigExtension extends TwigExtension
 {
@@ -25,16 +28,16 @@ class MannequinDrupalTwigExtension extends TwigExtension
     public function getFilters()
     {
         $filters = parent::getFilters();
-        /** @var \Twig_SimpleFilter $filter */
+        /** @var TwigFilter $filter */
         foreach ($filters as $i => $filter) {
-            if ($filter instanceof \Twig_SimpleFilter) {
+            if ($filter instanceof TwigFilter) {
                 switch ($filter->getName()) {
                     case 't':
                     case 'trans':
-                        $filters[$i] = new \Twig_SimpleFilter($filter->getName(), [$this, 'translate'], ['is_safe' => ['html']]);
+                        $filters[$i] = new TwigFilter($filter->getName(), [$this, 'translate'], ['is_safe' => ['html']]);
                         break;
                     case 'without':
-                        $filters[$i] = new \Twig_SimpleFilter('without', [$this, 'without']);
+                        $filters[$i] = new TwigFilter('without', [$this, 'without']);
                 }
             }
         }
@@ -46,13 +49,13 @@ class MannequinDrupalTwigExtension extends TwigExtension
     {
         $functions = parent::getFunctions();
         foreach ($functions as $i => $function) {
-            if ($function instanceof \Twig_SimpleFunction) {
+            if ($function instanceof TwigFunction) {
                 switch ($function->getName()) {
                     case 'file_url':
-                        $functions[$i] = new \Twig_SimpleFunction('file_url', [$this, 'fileUrl']);
+                        $functions[$i] = new TwigFunction('file_url', [$this, 'fileUrl']);
                         break;
                     case 'link':
-                        $functions[$i] = new \Twig_SimpleFunction('link', [$this, 'getMannequinLink'], [
+                        $functions[$i] = new TwigFunction('link', [$this, 'getMannequinLink'], [
                             'needs_environment' => true,
                             'is_safe' => ['html'],
                         ]);
@@ -89,7 +92,7 @@ class MannequinDrupalTwigExtension extends TwigExtension
         return $uri;
     }
 
-    public function getMannequinLink(\Twig_Environment $twig, $text, $url, $attributes = [])
+    public function getMannequinLink(Environment $twig, $text, $url, $attributes = [])
     {
         if (!$attributes instanceof Attribute) {
             $attributes = new Attribute($attributes);

@@ -17,6 +17,9 @@ use LastCall\Mannequin\Core\Tests\Subscriber\ComponentSubscriberTestTrait;
 use LastCall\Mannequin\Twig\Component\TwigComponent;
 use LastCall\Mannequin\Twig\Subscriber\TwigIncludeSubscriber;
 use PHPUnit\Framework\TestCase;
+use Twig\Environment;
+use Twig\Loader\ArrayLoader;
+use Twig\Source;
 
 class TwigIncludeSubscriberTest extends TestCase
 {
@@ -24,10 +27,10 @@ class TwigIncludeSubscriberTest extends TestCase
 
     public function getTwig()
     {
-        $loader = new \Twig_Loader_Array([
+        $loader = new ArrayLoader([
             'p1' => '{% block _collected_usage %}["foo"]{%endblock%}',
         ]);
-        $twig = new \Twig_Environment($loader);
+        $twig = new Environment($loader);
 
         return $twig;
     }
@@ -64,7 +67,7 @@ class TwigIncludeSubscriberTest extends TestCase
     public function testHandlesTwigException()
     {
         $twig = $this->getTwig();
-        $source = new \Twig_Source('', 'no_exist', '');
+        $source = new Source('', 'no_exist', '');
         $component = new TwigComponent('', [], $source, $twig);
         $subscriber = new TwigIncludeSubscriber();
         $this->dispatchDiscover($subscriber, $component);

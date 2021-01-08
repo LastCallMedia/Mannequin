@@ -21,6 +21,7 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use LastCall\Mannequin\Drupal\Drupal\MannequinExtensionDiscovery;
+use Twig\Cache\FilesystemCache;
 
 class DrupalExtensionTest extends ExtensionTestCase
 {
@@ -70,7 +71,7 @@ class DrupalExtensionTest extends ExtensionTestCase
         $expected = new DrupalTwigDriver(self::getDrupalRoot(), $discovery, [], [
             'foo' => ['../Resources'],
         ], ['stable']);
-        $expected->setCache(new \Twig_Cache_Filesystem(sys_get_temp_dir().'/mannequin-test/twig'));
+        $expected->setCache(new FilesystemCache(sys_get_temp_dir().'/mannequin-test/twig'));
         $extension->register($mannequin);
         $this->assertEquals(
             $expected,
@@ -87,7 +88,7 @@ class DrupalExtensionTest extends ExtensionTestCase
 
         $discovery = new MannequinExtensionDiscovery(self::getDrupalRoot(), $mannequin->getCache());
         $expected = new DrupalTwigDriver(self::getDrupalRoot(), $discovery, [], [], ['classy']);
-        $expected->setCache(new \Twig_Cache_Filesystem(sys_get_temp_dir().'/mannequin-test/twig'));
+        $expected->setCache(new FilesystemCache(sys_get_temp_dir().'/mannequin-test/twig'));
 
         $this->assertEquals(
             $expected,

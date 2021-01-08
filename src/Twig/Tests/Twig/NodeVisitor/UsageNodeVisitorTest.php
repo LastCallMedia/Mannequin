@@ -13,6 +13,7 @@ namespace LastCall\Mannequin\Twig\Tests\Twig\NodeVisitor;
 
 use LastCall\Mannequin\Twig\Twig\NodeVisitor\UsageNodeVisitor;
 use PHPUnit\Framework\TestCase;
+use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 
 class UsageNodeVisitorTest extends TestCase
@@ -28,7 +29,7 @@ class UsageNodeVisitorTest extends TestCase
             'embed_in_block' => "{%block foo %}{%embed 'included'%}{%endembed%}{%endblock%}",
         ]);
 
-        $twig = new \Twig_Environment($loader);
+        $twig = new Environment($loader);
         $twig->addNodeVisitor(new UsageNodeVisitor());
 
         return $twig;

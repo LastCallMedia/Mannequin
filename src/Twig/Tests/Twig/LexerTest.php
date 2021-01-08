@@ -13,6 +13,9 @@ namespace LastCall\Mannequin\Twig\Tests\Twig;
 
 use PHPUnit\Framework\TestCase;
 use LastCall\Mannequin\Twig\Twig\Lexer;
+use Twig\Environment;
+use Twig\Source;
+use Twig\Token;
 
 class LexerTest extends TestCase
 {
@@ -20,12 +23,12 @@ class LexerTest extends TestCase
     {
         $template = '{# foo #}';
 
-        $lexer = new Lexer(new \Twig_Environment($this->getMockBuilder('Twig_LoaderInterface')->getMock()));
-        $stream = $lexer->tokenize(new \Twig_Source($template, 'index'));
-        $stream->expect(\Twig_Token::BLOCK_START_TYPE);
-        $stream->expect(\Twig_Token::NAME_TYPE, 'comment');
-        $stream->expect(\Twig_Token::TEXT_TYPE, ' foo ');
-        $stream->expect(\Twig_Token::BLOCK_END_TYPE);
+        $lexer = new Lexer(new Environment($this->getMockBuilder('Twig_LoaderInterface')->getMock()));
+        $stream = $lexer->tokenize(new Source($template, 'index'));
+        $stream->expect(Token::BLOCK_START_TYPE);
+        $stream->expect(Token::NAME_TYPE, 'comment');
+        $stream->expect(Token::TEXT_TYPE, ' foo ');
+        $stream->expect(Token::BLOCK_END_TYPE);
 
         // add a dummy assertion here to satisfy PHPUnit, the only thing we want to test is that the code above
         // can be executed without throwing any exceptions

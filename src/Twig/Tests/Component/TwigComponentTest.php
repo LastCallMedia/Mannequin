@@ -14,13 +14,15 @@ namespace LastCall\Mannequin\Twig\Tests\Component;
 use LastCall\Mannequin\Core\Component\ComponentInterface;
 use LastCall\Mannequin\Core\Tests\Component\ComponentTestCase;
 use LastCall\Mannequin\Twig\Component\TwigComponent;
+use Twig\Environment;
+use Twig\Source;
 
 class TwigComponentTest extends ComponentTestCase
 {
     public function getComponent(): ComponentInterface
     {
-        $twig = $this->prophesize(\Twig_Environment::class);
-        $src = new \Twig_Source('', 'test', self::TEMPLATE_FILE);
+        $twig = $this->prophesize(Environment::class);
+        $src = new Source('', 'test', self::TEMPLATE_FILE);
 
         return new TwigComponent(self::COMPONENT_ID, self::COMPONENT_ALIASES, $src, $twig->reveal());
     }

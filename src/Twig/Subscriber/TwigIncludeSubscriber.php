@@ -16,6 +16,7 @@ use LastCall\Mannequin\Core\Event\ComponentEvents;
 use LastCall\Mannequin\Core\Exception\TemplateParsingException;
 use LastCall\Mannequin\Twig\Component\TwigComponent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Twig\Error\Error;
 
 /**
  * This subscriber enriches component data with usage information.
@@ -52,7 +53,7 @@ class TwigIncludeSubscriber implements EventSubscriberInterface
                         }
                     }
                 }
-            } catch (\Twig_Error $e) {
+            } catch (Error $e) {
                 $message = sprintf('Twig error thrown during usage checking of %s: %s',
                     $component->getSource()->getName(),
                     $e->getMessage()

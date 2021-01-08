@@ -14,13 +14,15 @@ namespace LastCall\Mannequin\Twig\Tests\Driver;
 use LastCall\Mannequin\Twig\Driver\PreloadedTwigDriver;
 use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
 use LastCall\Mannequin\Twig\TemplateNameMapper;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 class PreloadedTwigDriverTest extends DriverTestCase
 {
     protected function getDriver(): TwigDriverInterface
     {
-        $loader = new \Twig_Loader_Filesystem([__DIR__], __DIR__);
-        $twig = new \Twig_Environment($loader);
+        $loader = new FilesystemLoader([__DIR__], __DIR__);
+        $twig = new Environment($loader);
 
         return new PreloadedTwigDriver($twig, __DIR__, [
             'foo' => [__DIR__.'/bar'],

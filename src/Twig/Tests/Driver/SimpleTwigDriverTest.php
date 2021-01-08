@@ -13,6 +13,7 @@ namespace LastCall\Mannequin\Twig\Tests\Driver;
 
 use LastCall\Mannequin\Twig\Driver\SimpleTwigDriver;
 use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
+use Twig\Loader\FilesystemLoader;
 
 class SimpleTwigDriverTest extends DriverTestCase
 {
@@ -26,7 +27,7 @@ class SimpleTwigDriverTest extends DriverTestCase
     public function testTwigHasLoader()
     {
         $loader = $this->getDriver()->getTwig()->getLoader();
-        $expected = new \Twig_Loader_Filesystem([''], __DIR__);
+        $expected = new FilesystemLoader([''], __DIR__);
         $expected->addPath(__DIR__.'/../Resources', 'foo');
         $this->assertEquals($expected, $loader);
     }

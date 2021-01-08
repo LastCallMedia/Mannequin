@@ -16,6 +16,8 @@ use LastCall\Mannequin\Core\Engine\EngineInterface;
 use LastCall\Mannequin\Core\Tests\Engine\RendererTestCase;
 use LastCall\Mannequin\Twig\Engine\TwigEngine;
 use LastCall\Mannequin\Twig\Component\TwigComponent;
+use Twig\Environment;
+use Twig\Loader\ArrayLoader;
 
 class TwigRendererTest extends RendererTestCase
 {
@@ -26,7 +28,7 @@ class TwigRendererTest extends RendererTestCase
 
     public function getSupportedComponent(): ComponentInterface
     {
-        $twig = new \Twig_Environment(new \Twig_Loader_Array([
+        $twig = new Environment(new ArrayLoader([
             'test' => 'This is {{"html"}}',
         ]));
         $source = $twig->load('test')->getSourceContext();

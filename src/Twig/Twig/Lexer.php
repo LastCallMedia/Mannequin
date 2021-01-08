@@ -11,6 +11,8 @@
 
 namespace LastCall\Mannequin\Twig\Twig;
 
+use Twig\Token;
+
 /**
  * Lexer overrides the default lexer to provide parsing of comments into
  * Comment nodes.
@@ -20,25 +22,41 @@ namespace LastCall\Mannequin\Twig\Twig;
  * Comments are processed later into `componentinfo` blocks.
  * @see \LastCall\Mannequin\Twig\Twig\NodeVisitor\ComponentInfoNodeVisitor
  */
-class Lexer extends \Twig_Lexer
+class Lexer extends \Twig\Lexer
 {
+    private $tokens;
+    private $code;
+    private $cursor;
+    private $lineno;
+    private $regexes;
+
     /**
      * Override of \Twig_Lexer::lexComment().
      *
      * Extract the comment into the token stream, then pass control back to the
      * default lexer.
      */
-    protected function lexComment()
+    private function lexComment()
     {
         if (preg_match($this->regexes['lex_comment'], $this->code, $match, PREG_OFFSET_CAPTURE, $this->cursor)) {
             $comment = substr($this->code, $this->cursor, $match[0][1] - $this->cursor);
-            $this->pushToken(\Twig_Token::BLOCK_START_TYPE);
-            $this->pushToken(\Twig_Token::NAME_TYPE, 'comment');
-            $this->pushToken(\Twig_Token::TEXT_TYPE, $comment);
-            $this->pushToken(\Twig_Token::BLOCK_END_TYPE);
+            $this->pushToken(Token::BLOCK_START_TYPE);
+            $this->pushToken(Token::NAME_TYPE, 'comment');
+            $this->pushToken(Token::TEXT_TYPE, $comment);
+            $this->pushToken(Token::BLOCK_END_TYPE);
         }
 
         // Pass back to the normal lexer to skip past the comment.
         return parent::lexComment();
+    }
+
+    private function pushToken($type, $value = '')
+    {
+        // do not push empty text tokens
+        if (/* Token::TEXT_TYPE */ 0 === $type && '' === $value) {
+            return;
+        }
+
+        $this->tokens[] = new Token($type, $value, $this->lineno);
     }
 }

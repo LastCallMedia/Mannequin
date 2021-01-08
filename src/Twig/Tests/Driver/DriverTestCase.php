@@ -13,6 +13,8 @@ namespace LastCall\Mannequin\Twig\Tests\Driver;
 
 use LastCall\Mannequin\Twig\Driver\TwigDriverInterface;
 use PHPUnit\Framework\TestCase;
+use Twig\Cache\NullCache;
+use Twig\Environment;
 
 abstract class DriverTestCase extends TestCase
 {
@@ -21,7 +23,7 @@ abstract class DriverTestCase extends TestCase
     public function testHasTwig()
     {
         $twig = $this->getDriver()->getTwig();
-        $this->assertInstanceOf(\Twig_Environment::class, $twig);
+        $this->assertInstanceOf(Environment::class, $twig);
 
         return $twig;
     }
@@ -29,7 +31,7 @@ abstract class DriverTestCase extends TestCase
     public function testHasTemplateNameMapper()
     {
         $mapper = $this->getDriver()->getTemplateNameMapper();
-        $this->assertInternalType('callable', $mapper);
+        $this->assertEquals('callable', $mapper);
 
         return $mapper;
     }
@@ -42,7 +44,7 @@ abstract class DriverTestCase extends TestCase
 
     public function testTwigHasCache()
     {
-        $cache = new \Twig_Cache_Null();
+        $cache = new NullCache();
         $driver = $this->getDriver();
         $driver->setCache($cache);
         $this->assertSame($cache, $driver->getTwig()->getCache());

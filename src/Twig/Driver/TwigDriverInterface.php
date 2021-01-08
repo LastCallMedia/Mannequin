@@ -23,9 +23,9 @@ interface TwigDriverInterface
     /**
      * Returns the configured \Twig_Environment object.
      *
-     * @return \Twig_Environment
+     * @return \Twig\Environment
      */
-    public function getTwig(): \Twig_Environment;
+    public function getTwig(): \Twig\Environment;
 
     /**
      * Sets the the Twig cache to use for the environment.
