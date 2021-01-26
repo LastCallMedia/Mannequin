@@ -19,7 +19,9 @@ use LastCall\Mannequin\Core\DependencyInjection\ContainerInterface;
 use LastCall\Mannequin\Core\Discovery\ChainDiscovery;
 use LastCall\Mannequin\Core\Discovery\DiscoveryInterface;
 use LastCall\Mannequin\Core\Engine\DelegatingEngine;
+use LastCall\Mannequin\Core\EventListener\LogListener;
 use LastCall\Mannequin\Core\MimeType\ExtensionMimeTypeGuesser;
+use LastCall\Mannequin\Core\Provider\ServiceControllerServiceProvider;
 use LastCall\Mannequin\Core\Snapshot\Camera;
 use LastCall\Mannequin\Core\Snapshot\CameraInterface;
 use LastCall\Mannequin\Core\Ui\Controller\ManifestController;
@@ -29,9 +31,6 @@ use LastCall\Mannequin\Core\Ui\ManifestBuilder;
 use LastCall\Mannequin\Core\Variable\VariableResolver;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\NullLogger;
-use Silex\Application;
-use Silex\EventListener\LogListener;
-use Silex\Provider\ServiceControllerServiceProvider;
 use Symfony\Component\Asset\PackageInterface;
 use Symfony\Component\Asset\PathPackage;
 use Symfony\Component\Asset\VersionStrategy\StaticVersionStrategy;
@@ -59,7 +58,7 @@ class Mannequin extends Application implements ContainerInterface
         ];
         parent::__construct($values);
         $this['config'] = $config;
-        $this['commands'] = function () use ($config) {
+        $this['commands'] = function () {
             $commands = [];
             foreach ($this->getExtensions() as $extension) {
                 $commands = array_merge($commands, $extension->getCommands());
@@ -126,7 +125,7 @@ class Mannequin extends Application implements ContainerInterface
                 }
             }
 
-            return new VariableResolver($expressionLanguage, $this);
+            return new VariableResolver($expressionLanguage);
         };
         $this['metadata_parser'] = function () {
             return new YamlMetadataParser();
