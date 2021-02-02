@@ -1,22 +1,37 @@
-# How to contribute
+# Contributing, Support, & Feature Proposals
 
 Welcome, and thanks for contributing to Mannequin!
 
-## Reporting Bugs
+## Support & Feature Proposals
 
-It's very helpful to include the following information when reporting a bug:
+### How to Get Support or Report a Bug
 
-* PHP Version
+Please use the [issue queue](https://github.com/LastCallMedia/Mannequin/issues) to get support and report bugs, making sure to include the following information:
+* PHP version
 * Mannequin version
+* Drupal version (if using)
 * Extensions you are using
-* Console output of any commands that aren't doing what you expected.
+* Console output of any commands that aren't doing what you expected
 
-## Pull Requests
+### How to Propose a Feature
 
-Pull Requests will be run through a comprehensive suite of automated tests.  Please be sure that you include tests for any changes that are possible to test.  If you need help writing tests, let us know!
+Mannequin is accepting support and feature proposals, which are managed via the [issue queue](https://github.com/LastCallMedia/Mannequin/issues).
 
-Development Setup:
-------------------
+In most cases, roadmap/feature request involvement necessitates contribution involvement.
+
+## Contributing
+
+### How to Submit a Pull Request
+
+Anyone can contribute! Check the [issue queue](https://github.com/LastCallMedia/Mannequin/issues) to see what needs work (all pull requests must be represented by a corresponding issue in the issue queue).
+
+PRs most likely to be merged will be written by contributors who are committed to completing their feature
+
+### Automated Tests
+
+Pull Requests are run through a comprehensive suite of automated tests. Please be sure that you include tests for any changes that are possible to test (PRs with insufficient test coverage will not be merged). If you need help writing tests, let us know!
+
+### Development Setup
 
 To work on this project, you need:
 
@@ -30,7 +45,7 @@ In development, there are two servers that need to be started to see your change
   ```php
   use LastCall\Mannequin\Core\MannequinConfig;
   use LastCall\Mannequin\Core\Ui\LocalDevelopmentUi;
-  
+
   $config = MannequinConfig::create([
     'ui' => new LocalDevelopmentUi('http://127.0.0.1:3000')
   ])
