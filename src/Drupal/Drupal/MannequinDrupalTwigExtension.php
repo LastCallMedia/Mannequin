@@ -64,6 +64,16 @@ class MannequinDrupalTwigExtension extends TwigExtension
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function getTokenParsers()
+    {
+        return [
+          new MannequinDrupalTransTokenParser()
+        ];
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getUrl($name, $parameters = [], $options = [])
