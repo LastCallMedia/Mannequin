@@ -3,7 +3,7 @@
 /*
  * This file is part of Mannequin.
  *
- * (c) 2020 Last Call Media, Rob Bayliss <rob@lastcallmedia.com>
+ * (c) 2017 Last Call Media, Rob Bayliss <rob@lastcallmedia.com>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -14,8 +14,8 @@ namespace LastCall\Mannequin\Core\Provider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 
-class ServiceControllerResolver implements ControllerResolverInterface {
-
+class ServiceControllerResolver implements ControllerResolverInterface
+{
     protected $controllerResolver;
     protected $callbackResolver;
 
