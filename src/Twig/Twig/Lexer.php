@@ -50,7 +50,8 @@ class Lexer extends \Twig\Lexer
         return parent::lexComment();
     }
 
-    private function pushToken($type, $value = '')
+    // In Drupal 8.9 this protect function and Drupal 9.0 its private function.
+    protected function pushToken($type, $value = '')
     {
         // do not push empty text tokens
         if (/* Token::TEXT_TYPE */ 0 === $type && '' === $value) {
