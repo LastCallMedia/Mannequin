@@ -151,6 +151,9 @@
     "symfony/cache": {
         "version": "v3.4.46"
     },
+    "symfony/cache-contracts": {
+        "version": "v2.2.0"
+    },
     "symfony/console": {
         "version": "4.4",
         "recipe": {
@@ -306,6 +309,9 @@
     },
     "symfony/var-dumper": {
         "version": "v5.2.0"
+    },
+    "symfony/var-exporter": {
+        "version": "v5.2.1"
     },
     "symfony/web-link": {
         "version": "v4.4.18"
