@@ -113,9 +113,9 @@ class YamlMetadataParserTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getInvalidMetadataTests
-     */
+//    /**
+//     * @dataProvider getInvalidMetadataTests
+//     */
 //    public function testInvalidMetadata(
 //        $input,
 //        $identifier,
