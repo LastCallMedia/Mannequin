@@ -13,7 +13,7 @@ function tagNotExists(tag) {
 }
 
 function filesClean(files) {
-    return exec(`git st --porcelain ${files.join(' ')}`)
+    return exec(`git status --porcelain ${files.join(' ')}`)
         .then(result => {
             if(result.stdout.length > 0) {
                 throw new Error('Files not clean');
