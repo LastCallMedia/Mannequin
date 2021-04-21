@@ -54,7 +54,7 @@ class DrupalTwigDriver extends SimpleTwigDriver
         $this->fallbackExtensions = $fallbackExtensions;
     }
 
-    protected function initialize(\Twig_Environment $twig)
+    protected function initialize(\Twig\Environment $twig)
     {
         parent::initialize($twig);
         $extension = new MannequinDrupalTwigExtension(
@@ -77,7 +77,7 @@ class DrupalTwigDriver extends SimpleTwigDriver
                     $fallbackPaths[] = $dir;
                 }
             }
-            $loader = new \Twig_Loader_Chain([
+            $loader = new \Twig\Loader\ChainLoader([
                 $loader,
                 new FallbackLoader($fallbackPaths, $this->drupalRoot),
             ]);

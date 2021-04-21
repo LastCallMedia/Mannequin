@@ -23,7 +23,7 @@ class PreloadedTwigDriver extends AbstractTwigDriver
     private $twigRoot;
     private $namespaces = [];
 
-    public function __construct(\Twig_Environment $twig, string $twigRoot = '', array $namespaces = [])
+    public function __construct(\Twig\Environment $twig, string $twigRoot = '', array $namespaces = [])
     {
         $this->twigWrapped = function () use ($twig) {
             return $twig;
@@ -32,7 +32,7 @@ class PreloadedTwigDriver extends AbstractTwigDriver
         $this->namespaces = $namespaces;
     }
 
-    protected function createTwig(): \Twig_Environment
+    protected function createTwig(): \Twig\Environment
     {
         $fn = $this->twigWrapped;
 

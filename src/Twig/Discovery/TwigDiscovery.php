@@ -68,7 +68,7 @@ class TwigDiscovery implements DiscoveryInterface, LoggerAwareInterface
             $name = reset($aliases);
             try {
                 $component = $this->createComponent($name, $aliases, $twig);
-            } catch (\Twig_Error $e) {
+            } catch (\Twig\Error\Error $e) {
                 $this->logger->error('Twig error in {template}: {message}', ['template' => $name, 'message' => $e->getMessage()]);
                 $component = $this->createBrokenComponent($name, $aliases);
                 $component->addProblem($e->getMessage());
@@ -80,7 +80,7 @@ class TwigDiscovery implements DiscoveryInterface, LoggerAwareInterface
         return new ComponentCollection($components);
     }
 
-    protected function createComponent(string $name, array $aliases, \Twig_Environment $twig): TwigComponent
+    protected function createComponent(string $name, array $aliases, \Twig\Environment $twig): TwigComponent
     {
         return new TwigComponent(
             $this->encodeId($name),

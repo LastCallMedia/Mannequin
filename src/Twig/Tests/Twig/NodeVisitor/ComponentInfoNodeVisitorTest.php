@@ -33,7 +33,7 @@ class ComponentInfoNodeVisitorTest extends TestCase
             $templates = self::$templates;
         }
         $loader = new ArrayLoader($templates);
-        $twig = new \Twig_Environment($loader);
+        $twig = new \Twig\Environment($loader);
         $twig->addNodeVisitor(new ComponentInfoNodeVisitor());
         $twig->addTokenParser(new CommentTokenParser());
         $twig->setLexer(new Lexer($twig));

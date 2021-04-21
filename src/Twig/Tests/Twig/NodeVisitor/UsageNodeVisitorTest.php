@@ -28,7 +28,7 @@ class UsageNodeVisitorTest extends TestCase
             'embed_in_block' => "{%block foo %}{%embed 'included'%}{%endembed%}{%endblock%}",
         ]);
 
-        $twig = new \Twig_Environment($loader);
+        $twig = new \Twig\Environment($loader);
         $twig->addNodeVisitor(new UsageNodeVisitor());
 
         return $twig;

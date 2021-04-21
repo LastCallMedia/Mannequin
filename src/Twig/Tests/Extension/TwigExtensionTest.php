@@ -93,7 +93,7 @@ class TwigExtensionTest extends ExtensionTestCase
     {
         $extension = new ExposedTwigExtension($input);
         $mannequin = $this->getMannequin();
-        $expected->setCache(new \Twig_Cache_Filesystem(sys_get_temp_dir().'/mannequin-test/twig'));
+        $expected->setCache(new \Twig\Cache\FilesystemCache(sys_get_temp_dir().'/mannequin-test/twig'));
         $extension->register($mannequin);
         $this->assertEquals(
             $expected,
@@ -110,7 +110,7 @@ class TwigExtensionTest extends ExtensionTestCase
         $expected = new SimpleTwigDriver(__DIR__, [], [
             'foo' => ['../Resources'],
         ]);
-        $expected->setCache(new \Twig_Cache_Filesystem(sys_get_temp_dir().'/mannequin-test/twig'));
+        $expected->setCache(new \Twig\Cache\FilesystemCache(sys_get_temp_dir().'/mannequin-test/twig'));
         $extension->register($mannequin);
         $this->assertEquals(
             $expected,

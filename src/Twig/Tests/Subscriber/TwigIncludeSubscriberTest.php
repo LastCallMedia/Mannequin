@@ -24,10 +24,10 @@ class TwigIncludeSubscriberTest extends TestCase
 
     public function getTwig()
     {
-        $loader = new \Twig_Loader_Array([
+        $loader = new \Twig\Loader\ArrayLoader([
             'p1' => '{% block _collected_usage %}["foo"]{%endblock%}',
         ]);
-        $twig = new \Twig_Environment($loader);
+        $twig = new \Twig\Environment($loader);
 
         return $twig;
     }

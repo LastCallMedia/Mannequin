@@ -25,13 +25,13 @@ class InlineTwigYamlMetadataSubscriberTest extends TestCase
 
     private function getTwig()
     {
-        $loader = new \Twig_Loader_Array([
+        $loader = new \Twig\Loader\ArrayLoader([
             'with_info' => '{%block componentinfo %}myinfo{%endblock%}',
             'with_empty_info' => '{%block componentinfo %}{%endblock%}',
             'no_info' => '',
         ]);
 
-        return new \Twig_Environment($loader);
+        return new \Twig\Environment($loader);
     }
 
     public function testReadsComponentInfoBlock()

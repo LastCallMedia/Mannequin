@@ -19,8 +19,8 @@ class PreloadedTwigDriverTest extends DriverTestCase
 {
     protected function getDriver(): TwigDriverInterface
     {
-        $loader = new \Twig_Loader_Filesystem([__DIR__], __DIR__);
-        $twig = new \Twig_Environment($loader);
+        $loader = new \Twig\Loader\FilesystemLoader([__DIR__], __DIR__);
+        $twig = new \Twig\Environment($loader);
 
         return new PreloadedTwigDriver($twig, __DIR__, [
             'foo' => [__DIR__.'/bar'],
