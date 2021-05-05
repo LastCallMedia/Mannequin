@@ -73,12 +73,17 @@ ComponentInfoInfo.defaultProps = {
   used: []
 };
 
-const ComponentInfoSection = ({ title, children }) => (
-  <section>
-    <h4>{title}</h4>
-    <p>{children}</p>
-  </section>
-);
+class ComponentInfoSection extends Component {
+  render() {
+    return (
+      <section>
+        <h4>{this.props.title}</h4>
+      <div className="component-description" dangerouslySetInnerHTML={ {__html: this.props.children} } />
+      </section>
+    );
+  }
+}
+
 ComponentInfoSection.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired

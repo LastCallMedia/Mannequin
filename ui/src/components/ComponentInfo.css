@@ -65,7 +65,8 @@
       line-height: 1.875rem;
       font-weight: bold;
       color: #767676; }
-    .ComponentInfo .info p {
+    .ComponentInfo .info p,
+    .ComponentInfo .info .component-description {
       font-size: 0.875rem;
       line-height: 1.875rem; }
   .ComponentInfo .code {
