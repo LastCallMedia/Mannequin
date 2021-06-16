@@ -1,36 +1,24 @@
 /**
  * Foundation for Sites by ZURB
- * Version 6.4.3
+ * Version 6.5.3
  * foundation.zurb.com
  * Licensed under MIT Open Source
  */
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,800");
+@import url("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
 .ComponentTopBar {
-  box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.08);
-  padding: 0.4375rem 0; }
+  padding: 1.23969rem;
+  background: #EBECEC;
+  margin-bottom: 1em; }
   .ComponentTopBar .inner {
-    padding-right: 0.625rem;
-    padding-left: 0.625rem;
-    max-width: 75rem;
-    margin: 0 auto;
+    padding-right: 0;
+    padding-left: 0;
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     flex-flow: row wrap;
     align-items: center; }
-    @media print, screen and (min-width: 40em) {
-      .ComponentTopBar .inner {
-        padding-right: 0.9375rem;
-        padding-left: 0.9375rem; } }
-    @media print, screen and (min-width: 64em) {
-      .ComponentTopBar .inner {
-        padding-right: 0.9375rem;
-        padding-left: 0.9375rem; } }
-    @media screen and (min-width: 75em) {
-      .ComponentTopBar .inner {
-        padding-right: 0.9375rem;
-        padding-left: 0.9375rem; } }
-    @media screen and (min-width: 90em) {
-      .ComponentTopBar .inner {
-        padding-right: 0.9375rem;
-        padding-left: 0.9375rem; } }
     .ComponentTopBar .inner .name, .ComponentTopBar .inner .actions {
       flex: 0 0 auto;
       width: auto;
@@ -42,15 +30,25 @@
       margin-right: 0.625rem;
       margin-left: 0.625rem; }
   .ComponentTopBar .name {
-    font-size: 0.9375rem;
-    font-weight: bold;
-    line-height: 1.9375rem; }
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #4F545A; }
   .ComponentTopBar .SampleSelector {
     width: auto;
-    font-size: 0.75rem;
+    background-color: #EBECEC;
+    font-size: 0.875rem;
     line-height: 0.75rem;
-    font-weight: bold;
-    height: 1.875rem; }
+    height: 1.875rem;
+    border: 1px solid #292F36;
+    font-weight: 600;
+    color: #292F36;
+    margin-bottom: 0; }
+    .ComponentTopBar .SampleSelector:hover {
+      cursor: pointer;
+      background-color: #fffffe; }
   .ComponentTopBar select, .ComponentTopBar .button, .ComponentTopBar h4 {
     margin-bottom: 0; }
   .ComponentTopBar .actions {
@@ -75,9 +73,5 @@
       margin-bottom: 0; }
     .ComponentTopBar .actions input {
       display: inline-block; }
-    .ComponentTopBar .actions .ViewInfoButton {
-      padding-top: 0.625rem;
-      padding-bottom: 0.625rem; }
-    .ComponentTopBar .actions .OpenWindowButton {
-      padding-top: 0.25rem;
-      padding-bottom: 0.25rem; }
+    .ComponentTopBar .actions .NewWindowButton {
+      padding-right: 1.4375rem; }

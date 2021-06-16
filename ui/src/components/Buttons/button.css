@@ -1,0 +1,85 @@
+/**
+ * Foundation for Sites by ZURB
+ * Version 6.5.3
+ * foundation.zurb.com
+ * Licensed under MIT Open Source
+ */
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,800");
+@import url("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
+.Button {
+  color: #000;
+  font-size: 0.875rem; }
+  .Button:hover {
+    cursor: pointer;
+    color: inherit; }
+
+.Button.CloseButton, .Button.MenuButton, .Button.ViewInfoButton {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #fffffe;
+  text-transform: uppercase; }
+  .Button.CloseButton i, .Button.MenuButton i, .Button.ViewInfoButton i {
+    margin-left: 1.0625rem; }
+
+.Button.ViewInfoButton, .Button.GetStartedButton, .Button.CodeButton {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  display: block;
+  padding: 0.75rem 1.5625rem;
+  border: dashed 2px;
+  border-radius: 18px;
+  font-size: 0.75rem;
+  letter-spacing: 0.10625rem;
+  text-align: center; }
+
+.Button.MenuButton:hover {
+  color: #4ECDC4; }
+
+.Button.ViewInfoButton {
+  color: #292F36;
+  border-color: #fffffe;
+  border-color: #292F36; }
+  .Button.ViewInfoButton:hover, .Button.ViewInfoButton.isToggled {
+    color: #fffffe;
+    background: #292F36; }
+
+.Button.GetStartedButton {
+  width: 20.125rem;
+  padding: 1.25rem 0;
+  border-radius: 3.125rem;
+  border-color: #fffffe;
+  color: #fffffe;
+  letter-spacing: 0.125rem;
+  font-size: 0.875rem; }
+  .Button.GetStartedButton:hover {
+    color: #292F36;
+    background: #4ECDC4;
+    border: dashed 2px #4ECDC4; }
+
+.Button.CodeButton {
+  display: inline;
+  border: 0;
+  background: #649490;
+  color: #292F36; }
+  .Button.CodeButton:not(.active):first-child {
+    padding-right: 36px;
+    border-radius: 18px 0 0 18px; }
+  .Button.CodeButton:not(.active):last-child {
+    padding-left: 36px;
+    border-radius: 0 18px 18px 0; }
+  .Button.CodeButton.active {
+    background: #4ECDC4;
+    color: #292F36;
+    border: 0;
+    z-index: 2; }
+    .Button.CodeButton.active:first-child {
+      margin-right: -22px; }
+    .Button.CodeButton.active:last-child {
+      margin-left: -22px; }
+
+.testbuttons {
+  background: #EBECEC; }

@@ -1,26 +1,19 @@
-
-@import "../base";
+@import "../../theme/_base";
 
 .NavDrawer {
-  background-color: $dark-bg;
-  border-top: 1px solid #2A2A2A;
-  border-left: 1px solid #2A2A2A;
-  border-bottom: 1px solid #2A2A2A;
+  background-color: $ash;
+	box-shadow: 0 2px 5px 0 $ash;
   @include xy-grid(vertical);
-  > .drawer-toggle {
-    @include xy-cell(shrink, $gutter-position: right left top bottom, $gutter-type: padding);
-    @extend %toggle-button;
+  .CloseButton {
+    margin-right: rem-calc(20);
     text-align: right;
-    line-height: rem-calc(24);
-    > i {
-      font-size: rem-calc(24);
-      vertical-align: middle;
-    }
   }
   > .SearchForm {
-    @include xy-cell(shrink, $gutter-position: right left bottom, $vertical: true);
+    @include xy-cell(shrink, $gutter-position: right left top, $vertical: true);
+    margin-left: rem-calc(20);
+    margin-right: rem-calc(43);
     @include breakpoint(xxlarge) {
-      @include xy-cell(shrink, $gutter-position: right left bottom top, $vertical: true);
+      @include xy-cell(shrink, $gutter-position: right left top, $vertical: true);
     }
   }
   > .MenuList {
@@ -29,30 +22,48 @@
   }
 }
 
+.NavDrawer__top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  > span {
+    @include font-bold;
+    color: $white;
+    padding-right: 0.625rem;
+    padding-left: rem-calc(20);
+    padding-top: 1.125rem;
+    padding-bottom: 0.625rem;
+    height: 3.75rem;
+  }
+}
+
 .SearchForm {
   position: relative;
+
   input {
-    border-radius: 2px;
     border: none;
-    background-color: #21262B;
+    background-color: $charcoal;
     color: white;
-    font-size: 12px;
-    font-weight: bold;
+    font-size: 14px;
+    font-weight: 400;
     line-height: 14px;
     padding: 10px 13px;
     height: auto;
     margin-bottom: 0;
     border-radius: 0;
+    padding-left: rem-calc(40);
+    border: solid 2px $charcoal;
 
     &:focus {
-      background-color: #21262B;
+      background-color: $charcoal;
+      border: solid 2px $mint;
+      box-shadow: 0 0;
     }
   }
-  .Icon {
+  i {
     position: absolute;
-    top: 50%;
-    right: rem-calc(15);
+    top: 25%;
+    left: rem-calc(15);
     font-size: rem-calc(13);
-    margin-top: -.5em;
+    color: $white;
   }
 }
