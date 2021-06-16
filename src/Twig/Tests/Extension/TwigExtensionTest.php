@@ -13,7 +13,6 @@ namespace LastCall\Mannequin\Twig\Tests\Extension;
 
 use LastCall\Mannequin\Core\Extension\ExtensionInterface;
 use LastCall\Mannequin\Core\Iterator\MappingCallbackIterator;
-use LastCall\Mannequin\Core\Mannequin;
 use LastCall\Mannequin\Core\MannequinConfig;
 use LastCall\Mannequin\Core\Tests\Extension\ExtensionTestCase;
 use LastCall\Mannequin\Twig\Discovery\TwigDiscovery;

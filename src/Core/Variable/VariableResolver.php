@@ -11,7 +11,6 @@
 
 namespace LastCall\Mannequin\Core\Variable;
 
-use LastCall\Mannequin\Core\Mannequin;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 /**

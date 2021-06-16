@@ -28,13 +28,32 @@ jobs:
       - store_test_results:
           path: /phpunit
 
-  test_drupal:
+  test_drupal_8.4.0:
     working_directory: /srv
     docker:
       - image: lastcallmedia/php:7.0-dev
     steps:
       - checkout
-      - run: composer require drupal/core:8.4.0-rc1 --no-update
+      - run: composer require drupal/core:8.7.0 --no-update
+      - restore_cache:
+          key: composer-v4-{{ checksum "composer.json" }}
+      - run: composer install
+      - save_cache:
+          key: composer-v4-{{ checksum "composer.json" }}
+          paths: [vendor, composer.lock]
+      - run: |
+          mkdir -p /phpunit
+          DRUPAL_ROOT=vendor/drupal vendor/bin/phpunit --testsuite=Drupal --log-junit=/phpunit/drupal.xml
+      - store_test_results:
+          path: /phpunit
+
+  test_drupal_8.8.10:
+    working_directory: /srv
+    docker:
+      - image: lastcallmedia/php:7.0-dev
+    steps:
+      - checkout
+      - run: composer require drupal/core:8.8.10 --no-update
       - restore_cache:
           key: composer-v4-{{ checksum "composer.json" }}
       - run: composer install
@@ -50,7 +69,7 @@ jobs:
   test_ui:
     working_directory: /srv
     docker:
-      - image: node:6
+      - image: node:11
     steps:
       - checkout
       - restore_cache:
@@ -86,7 +105,7 @@ jobs:
 
   build_site:
     working_directory: /srv
-    docker: [image: "node:6"]
+    docker: [image: "node:11"]
     steps:
       - checkout
       - restore_cache: { key: 'site-package-v4-{{ checksum "site/package.json" }}' }
@@ -114,7 +133,7 @@ jobs:
   deploy_ui:
     working_directory: /srv
     docker:
-      - image: node:6
+      - image: node:11
     steps:
       - checkout
       - attach_workspace:
@@ -153,13 +172,14 @@ workflows:
   test_and_deploy:
     jobs:
       - test_php
-      - test_drupal
+      - test_drupal_8.4.0
+      - test_drupal_8.8.10
       - test_ui
       - build_site
       - build_demo:
           requires: [test_ui]
       - deploy_split:
-          requires: [test_php, test_drupal]
+          requires: [test_php, test_drupal_8.4.0, test_drupal_8.8.10]
       - deploy_ui:
           requires: [test_ui]
           filters:

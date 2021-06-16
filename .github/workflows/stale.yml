@@ -1,0 +1,22 @@
+name: Mark and close stale issues
+
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: "0 0 * * *"
+
+jobs:
+  stale:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/stale@v3
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        stale-issue-message: 'This issue is stale because it has been open at least 30 days with no activity, and will be closed in 5 days. Please remove the "Stale" label or comment to prevent it from being closed.'
+        days-before-stale: 30
+        days-before-close: 5
+        stale-issue-label: 'Stale'
+        close-issue-message: 'This issue has been closed due to inactivity. Please leave a comment to reopen this issue and a maintainer(s) will be notified.'
+        exempt-issue-labels: 'Roadmap'

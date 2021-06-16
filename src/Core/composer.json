@@ -21,7 +21,7 @@
         "symfony/filesystem": "^2.7 ||^3.0",
         "symfony/process": "^2.7 ||^3.0",
         "symfony/expression-language": "^2.7 ||^3.0",
-        "silex/silex": "^2.0",
+        "silex/silex": ">=2.0 <2.3",
         "pimple/pimple": "^3.0",
         "symfony/yaml": "^2.7 ||^3.0",
         "psr/cache": "~1.0",
