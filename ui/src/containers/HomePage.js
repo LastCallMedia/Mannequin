@@ -10,7 +10,7 @@ import Button from '../components/Buttons';
 const HomePage = ({ quickLinks }) => (
   <main className="MannequinHome">
     <Branding />
-    {quickLinks.length > 0 && (
+    {(quickLinks.length > 0 && (
       <div className="quicklinks">
         <h4>Quick Links</h4>
         <div className="CardGrid">
@@ -24,7 +24,7 @@ const HomePage = ({ quickLinks }) => (
           ))}
         </div>
       </div>
-    ) || <Button
+    )) || <Button
             text="Get Started"
             href="https://mannequin.io/#GetStarted"
             icon="new-window"

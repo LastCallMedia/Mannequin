@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Menu from './Menu';
 import cx from 'classnames';
-import { CloseArrow, Search as SearchIcon } from './Icons';
 import Button from './Buttons';
 import './NavDrawer.css';
 

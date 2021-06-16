@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import "../../fontello/css/fontello.css"
 import "./button.css";
-import cx from 'classnames';
 
 const Icon = (props) => {
   if (!props.iconName) return null;
@@ -13,7 +12,7 @@ const Icon = (props) => {
 
 const Element = ({ element, icon, text, href, classes, target, onClick, toggleStatus, dataSrc, dataLanguage }) => {
 
-  if (element == 'button') {
+  if (element === 'button') {
     return (
       <button
         href={href}

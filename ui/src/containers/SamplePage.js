@@ -7,11 +7,6 @@ import ComponentProblems from '../components/ComponentProblems';
 import Callout from '../components/Callout';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 import SampleSelector from '../components/SampleSelector';
-import {
-  OpenWindowButton,
-  ViewInfoButton,
-  CloseButton
-} from '../components/Buttons/';
 import Button from '../components/Buttons'
 import { SlideInFromBottom } from '../components/Transitions';
 import { toggleInfo, componentView } from '../actions';
