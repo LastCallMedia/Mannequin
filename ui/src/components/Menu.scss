@@ -1,5 +1,4 @@
-
-@import "../base";
+@import "../../theme/base";
 
 .MenuList {
   list-style:none;
@@ -8,35 +7,16 @@
   display: block;
 }
 .MenuItem {
-  display: block;
-  border-top: 1px solid #2A2A2A;
-  width: 100%;
-
-  > a {
+  a {
     display: block;
     font-size: rem-calc(14);
     line-height: rem-calc(17);
-    font-weight: bold;
-    letter-spacing: 1px;
-    padding: rem-calc(12.5) rem-calc(24);
-  }
-  &.l1 {
-    > a {
-      text-transform: uppercase;
-      color: white;
-    }
-  }
-  &.l2 {
-    > a {
-      text-transform: uppercase;
-      color: #AFAFAF;
-      padding-left: rem-calc(48);
-    }
-  }
-  &.l3 {
-    > a {
-      color: #AFAFAF;
-      padding-left: rem-calc(60);
+    letter-spacing: 2px;
+    padding: rem-calc(10) rem-calc(24) rem-calc(10) rem-calc(20);
+    text-transform: uppercase;
+    color: $white;
+    &:focus {
+      outline: 0;
     }
   }
   &.collapsible {
@@ -47,6 +27,52 @@
     &.collapsed > a:before {
       content: "+";
     }
+  }
+  &.l1 {
+    &:first-child {
+      margin-top: 24px;
+    }
+    > a {
+      font-weight: 800;
+      padding-top: 22px;
+      padding-bottom: 20px;
+      transition: background .25s ease;
+      &:hover:not(:focus) {
+        color: $charcoal;
+        background: $eggshell;
+        text-decoration: none;
+      }
+    }
+  }
+  &.l2 {
+    &:first-child a {
+      padding-top: 0;
+    }
+    &:last-child > a {
+      padding-bottom: 20px;
+    }
+    > a {
+      font-weight: 600;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  &.l3 {
+    > a {
+      text-transform: none;
+      letter-spacing: 1px;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    &:last-child > a {
+      padding-bottom: 20px;
+    }
+  }
+  &:not(.collapsed) a {
+    background: $eggshell;
+    color: $charcoal;
   }
 }
 

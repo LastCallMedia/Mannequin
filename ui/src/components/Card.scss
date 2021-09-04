@@ -1,36 +1,37 @@
-
-@import "../base";
+@import "../../theme/_base";
 
 .Card {
-  border: 1px dashed $dashed-border-color;
-  padding: 20px;
+  border: 2px dashed $eggshell;
 
-  &:hover {
-    border-color: transparent;
-    background-color: #4A90E2;
-
-    h6 {
-      color: white;
-    }
-  }
   a {
     color: inherit;
-    display:block;
+    display: block;
+    padding: rem-calc(20);
   }
+
   h6 {
-    font-size:rem-calc(9);
-    line-height: rem-calc(11);
-    color: #556371;
-    margin-top: rem-calc(8);
-    font-weight: bold;
+    font-weight: 600;
+    font-size: rem-calc(12);
+    color: $white;
+    text-transform: uppercase;
+    letter-spacing: .75px;
   }
   h5 {
-    font-size: rem-calc(18);
-    line-height: rem-calc(22);
-    font-weight: bold;
-    letter-spacing: 1px;
-    margin-bottom: 0;
+    font-weight: 600;
+    font-size: rem-calc(16);
   }
+  &:hover {
+    border-color: transparent;
+    background-color: $eggshell;
+
+    h5, h6 {
+      color: $charcoal;
+    }
+  }
+
+
+
+
 }
 
 .CardGrid {

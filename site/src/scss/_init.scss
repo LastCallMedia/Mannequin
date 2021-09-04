@@ -2,7 +2,7 @@
 // current directory.  It only initializes Foundation
 // and any mixins we have declared.  Do not write CSS
 // here.
-@import "variables";
+@import "../../theme/variables";
 @import "~foundation-sites/scss/foundation";
 
 $breakpoints: (
