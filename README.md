@@ -1,7 +1,7 @@
 Mannequin
 ========
 
-Welcome to the main repository for [Mannequin](https://mannequin.io), a component theming tool for the web.  This repository is primarily used for development on Mannequin itself - see the "Quick Start" section below if you are here to install Mannequin.
+[Mannequin](https://mannequin.io) is brought to you by your friends at [Last Call Media](https://www.lastcallmedia.com), a component theming tool for the web.  This repository is primarily used for development on Mannequin itself - see the "Quick Start" section below if you are here to install Mannequin.
 
 Quick Start
 -----------
