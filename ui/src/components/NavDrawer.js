@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Menu from './Menu';
 import cx from 'classnames';
-import { CloseArrow, Search as SearchIcon } from './Icons';
+import Button from './Buttons';
 import './NavDrawer.css';
 
 export class NavDrawer extends Component {
@@ -39,16 +39,22 @@ export class NavDrawer extends Component {
 
     return (
       <nav className={cx('NavDrawer', className)}>
-        <button className="closer drawer-toggle" onClick={toggleNav}>
-          <span>Close</span> <CloseArrow />
-        </button>
+        <div className="NavDrawer__top">
+          <span>Mannequin</span>
+          <Button
+            text="Close"
+            element="button"
+            icon="close"
+            classes="Button CloseButton"
+            onClick={toggleNav} />
+        </div>
         <form className="SearchForm">
           <input
             type="search"
             placeholder="Search..."
             onKeyUp={this.handleFilterChange}
           />
-          <SearchIcon />
+          <i className="icon-search"></i>
         </form>
         <Menu tree={tree} settings={menuSettings} />
       </nav>

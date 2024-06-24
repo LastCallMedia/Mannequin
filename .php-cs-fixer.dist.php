@@ -17,7 +17,8 @@ $finder->append(new ArrayIterator([
     new \SplFileInfo(__DIR__.'/demo/.mannequin.php'),
 ]));
 
-return PhpCsFixer\Config::create()
+$config = new PhpCsFixer\Config();
+return $config
   ->setRiskyAllowed(true)
   ->setRules([
     '@Symfony' => true,

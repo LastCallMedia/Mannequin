@@ -1,0 +1,130 @@
+@import "../../theme/base";
+
+%toggle-button {
+  @include font-bold;
+  line-height: rem-calc(12);
+  color: $white;
+  cursor: pointer;
+  > i, > svg.Icon {
+    margin-left: rem-calc(17);
+  }
+}
+
+@mixin border-button {
+  @include font-bold;
+  padding: rem-calc(12) rem-calc(25);
+  border: dashed 2px $charcoal;
+  border-radius: 18px;
+  font-size: rem-calc(12);
+  letter-spacing: rem-calc(1.7);
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+%button--icon {
+  color: $black;
+  font-size: rem-calc(14);
+  &:hover {
+    cursor: pointer;
+    color: inherit;
+  }
+}
+
+%button--text {
+  @include font-bold;
+  color: $white;
+  text-transform: uppercase;
+  i {
+    margin-left: 1.0625rem;
+  }
+}
+
+%button--border {
+  @include font-bold;
+  display: block;
+  padding: rem-calc(12) rem-calc(25);
+  border: dashed 2px;
+  border-radius: 18px;
+  font-size: rem-calc(12);
+  letter-spacing: rem-calc(1.7);
+  text-align: center;
+}
+
+.Button {
+  @extend %button--icon;
+
+  &.CloseButton,
+  &.MenuButton {
+    @extend %button--text;
+  }
+
+  &.MenuButton {
+    &:hover {
+      color: $mint;
+    }
+  }
+
+  &.ViewInfoButton {
+    @extend %button--text;
+    @extend %button--border;
+    color: $charcoal;
+    border-color: $white;
+    border-color: $charcoal;
+      &:hover, &.isToggled {
+        color: $white;
+        background: $charcoal;
+      }
+    }
+
+  &.GetStartedButton {
+    @extend %button--border;
+    width: rem-calc(322);
+    padding: rem-calc(20) 0;
+    border-radius: rem-calc(50);
+    border-color: $white;
+    color: $white;
+    letter-spacing: rem-calc(2);
+    font-size: rem-calc(14);
+    &:hover {
+      color: $charcoal;
+      background: $mint;
+      border: dashed 2px $mint;
+    }
+  }
+
+  &.CodeButton {
+    @extend %button--border;
+    display: inline;
+    border: 0;
+    background: $seafoam;
+    color: $charcoal;
+    &:not(.active) {
+      &:first-child {
+        padding-right: 36px;
+        border-radius: 18px 0 0 18px;
+      }
+      &:last-child {
+        padding-left: 36px;
+        border-radius: 0 18px 18px 0;
+      }
+    }
+    &.active {
+      background: $mint;
+      color: $charcoal;
+      border: 0;
+      z-index: 2;
+      &:first-child {
+        margin-right: -22px;
+      }
+      &:last-child {
+        margin-left: -22px;
+      }
+    }
+  }
+}
+
+.testbuttons {
+  background: $eggshell;
+}

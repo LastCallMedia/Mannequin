@@ -1,76 +1,76 @@
 /**
  * Foundation for Sites by ZURB
- * Version 6.4.3
+ * Version 6.5.3
  * foundation.zurb.com
  * Licensed under MIT Open Source
  */
-.NavDrawer > .drawer-toggle {
-  font-size: 0.625rem;
-  line-height: 0.75rem;
-  font-weight: bold;
-  color: white;
-  text-transform: uppercase;
-  cursor: pointer; }
-  .NavDrawer > .drawer-toggle > i, .NavDrawer > .drawer-toggle > svg.Icon {
-    margin-left: 1.0625rem; }
-
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,800");
+@import url("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
 .NavDrawer {
-  background-color: #181D22;
-  border-top: 1px solid #2A2A2A;
-  border-left: 1px solid #2A2A2A;
-  border-bottom: 1px solid #2A2A2A;
+  background-color: #4F545A;
+  box-shadow: 0 2px 5px 0 #4F545A;
   display: flex;
   flex-flow: column wrap; }
-  .NavDrawer > .drawer-toggle {
-    flex: 0 0 auto;
-    width: auto;
-    padding-right: 0.625rem;
-    padding-left: 0.625rem;
-    padding-top: 0.625rem;
-    padding-bottom: 0.625rem;
-    text-align: right;
-    line-height: 1.5rem; }
-    .NavDrawer > .drawer-toggle > i {
-      font-size: 1.5rem;
-      vertical-align: middle; }
+  .NavDrawer .CloseButton {
+    margin-right: 1.25rem;
+    text-align: right; }
   .NavDrawer > .SearchForm {
     flex: 0 0 auto;
     height: auto;
     margin-right: 0.625rem;
     margin-left: 0.625rem;
-    margin-bottom: 0.625rem; }
+    margin-top: 0.625rem;
+    margin-left: 1.25rem;
+    margin-right: 2.6875rem; }
     @media screen and (min-width: 90em) {
       .NavDrawer > .SearchForm {
         flex: 0 0 auto;
         height: auto;
         margin-right: 0.9375rem;
         margin-left: 0.9375rem;
-        margin-bottom: 0.9375rem;
         margin-top: 0.9375rem; } }
   .NavDrawer > .MenuList {
     flex: 1 1 0px;
     height: auto;
     overflow: auto; }
 
+.NavDrawer__top {
+  display: grid;
+  grid-template-columns: 1fr 1fr; }
+  .NavDrawer__top > span {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fffffe;
+    padding-right: 0.625rem;
+    padding-left: 1.25rem;
+    padding-top: 1.125rem;
+    padding-bottom: 0.625rem;
+    height: 3.75rem; }
+
 .SearchForm {
   position: relative; }
   .SearchForm input {
-    border-radius: 2px;
     border: none;
-    background-color: #21262B;
+    background-color: #292F36;
     color: white;
-    font-size: 12px;
-    font-weight: bold;
+    font-size: 14px;
+    font-weight: 400;
     line-height: 14px;
     padding: 10px 13px;
     height: auto;
     margin-bottom: 0;
-    border-radius: 0; }
+    border-radius: 0;
+    padding-left: 2.5rem;
+    border: solid 2px #292F36; }
     .SearchForm input:focus {
-      background-color: #21262B; }
-  .SearchForm .Icon {
+      background-color: #292F36;
+      border: solid 2px #4ECDC4;
+      box-shadow: 0 0; }
+  .SearchForm i {
     position: absolute;
-    top: 50%;
-    right: 0.9375rem;
+    top: 25%;
+    left: 0.9375rem;
     font-size: 0.8125rem;
-    margin-top: -.5em; }
+    color: #fffffe; }

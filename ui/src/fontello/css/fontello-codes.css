@@ -1,0 +1,7 @@
+
+.icon-close:before { content: '\e800'; } /* '' */
+.icon-expand:before { content: '\e801'; } /* '' */
+.icon-collapse:before { content: '\e802'; } /* '' */
+.icon-search:before { content: '\e803'; } /* '' */
+.icon-new-window:before { content: '\f08e'; } /* '' */
+.icon-menu:before { content: '\f0c9'; } /* '' */

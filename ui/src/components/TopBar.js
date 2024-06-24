@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { MannySmall } from './Icons';
+import Button from './Buttons'
 import './TopBar.css';
 
 const TopBar = ({ toggleNav }) => {
@@ -12,9 +13,12 @@ const TopBar = ({ toggleNav }) => {
           <MannySmall />
         </Link>
         <div className="title" />
-        <button className="drawer-toggle opener" onClick={toggleNav}>
-          Navigation <i className="menu-icon" />
-        </button>
+        <Button
+          text="Menu"
+          element="button"
+          icon="menu"
+          classes="Button MenuButton"
+          onClick={toggleNav} />
       </div>
     </nav>
   );

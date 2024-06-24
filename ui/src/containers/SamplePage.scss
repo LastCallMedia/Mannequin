@@ -1,4 +1,4 @@
-@import "base";
+@import "../../theme/base";
 
 .SampleFoundPage {
   @include xy-grid($direction: vertical, $wrap: false);
@@ -21,4 +21,3 @@
     max-height: 75%;
   }
 }
-

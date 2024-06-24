@@ -1,9 +1,11 @@
 /**
  * Foundation for Sites by ZURB
- * Version 6.4.3
+ * Version 6.5.3
  * foundation.zurb.com
  * Licensed under MIT Open Source
  */
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,800");
+@import url("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
 .SampleFoundPage {
   display: flex;
   flex-flow: column nowrap;

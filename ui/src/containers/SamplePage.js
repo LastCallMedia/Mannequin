@@ -7,16 +7,14 @@ import ComponentProblems from '../components/ComponentProblems';
 import Callout from '../components/Callout';
 import TransitionGroup from 'react-transition-group/TransitionGroup';
 import SampleSelector from '../components/SampleSelector';
-import {
-  OpenWindowButton,
-  ViewInfoButton,
-  CloseButton
-} from '../components/Buttons/';
+import Button from '../components/Buttons'
 import { SlideInFromBottom } from '../components/Transitions';
 import { toggleInfo, componentView } from '../actions';
 import { getComponent, getSample, getUsed } from '../selectors';
 import PropTypes from 'prop-types';
 import './SamplePage.css';
+import cx from 'classnames';
+
 
 const SamplePage = ({ component, sample, ...rest }) => {
   if (!component) {
@@ -66,8 +64,22 @@ class SampleFoundPage extends Component {
     } = this.props;
     const { problems, name } = component;
     const actions = [
-      <OpenWindowButton href={sample.rendered} />,
-      <ViewInfoButton onClick={toggleInfo} />
+      <Button
+        classes="Button NewWindowButton"
+        icon="new-window"
+        target="_blank"
+        href={sample.rendered} />,
+      <Button
+        text="View Info"
+        element="button"
+
+        classes={cx({
+          Button: true,
+          ViewInfoButton: true,
+          isToggled: showingInfo
+        })}
+        onClick={toggleInfo}
+         />
     ];
     const selector = (
       <SampleSelector
@@ -90,7 +102,14 @@ class SampleFoundPage extends Component {
                 component={component}
                 sample={sample}
                 used={used}
-                controls={<CloseButton onClick={toggleInfo} />}
+                controls={
+                  <Button
+                    text="Close"
+                    element="button"
+                    icon="close"
+                    classes="Button CloseButton"
+                    onClick={toggleInfo} />
+                }
               />
             </SlideInFromBottom>
           )}

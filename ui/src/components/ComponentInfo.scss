@@ -1,53 +1,59 @@
-
-@import "../base";
+@import "../../theme/base";
 
 .ComponentInfo {
   overflow-y: auto;
-  .inner {
-    background: $dark-bg;
-    @include xy-grid-container();
-    @include xy-grid();
-    position: relative;
 
-    > .info, > .code {
-      @include xy-cell(full);
-      @include breakpoint(medium) {
-        @include xy-cell(auto, $gutter-position: left right top bottom);
-      }
-    }
-    .controls {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      z-index: 2;
+  a {
+    color: $white;
+    border-bottom: solid 1px $mint;
+    &:hover {
+      color: $mint;
+      border-bottom: 0;
     }
   }
-  .info {
-    color: white;
-    a {color: inherit;}
-    h3 {
-      font-weight: bold;
-      text-transform: uppercase;
-      font-size: rem-calc(18);
-      line-height: rem-calc(22);
+
+  .inner {
+    background: $charcoal;
+    position: relative;
+    padding: 0 rem-calc(22) rem-calc(22);
+  }
+
+  .ComponentInfo__section--top {
+
+    position: fixed;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: $charcoal;
+    padding: rem-calc(22) 0;
+    z-index: 3;
+
+    .ComponentInfo__title {
+      color: $white;
+      @include font-bold;
     }
+     .controls {
+       text-align: right;
+     }
+  }
+
+  .info {
+    font-size: rem-calc(16);
+    color: $white;
     h4 {
-      font-size: rem-calc(10);
-      line-height: rem-calc(30);
-      font-weight: bold;
-      color: #767676;
+      font-weight: 600;
+      font-size: rem-calc(16);
     }
     p {
-      font-size: rem-calc(14);
       line-height: rem-calc(30);
     }
   }
+
   .code {
-    position: relative;
     .button-group {
-      position: absolute;
-      bottom: 1rem;
-      right: 1rem;
+      background: $eggshell;
+      text-align: right;
+      padding: rem-calc(10);
     }
     .button {
       margin-bottom: 0;
@@ -58,12 +64,41 @@
   }
 }
 
-.CodeButton {
-  @include button-base();
-  @include button-style($secondary-color, auto, auto);
-  &.active {
-    @include button-style($primary-color, auto, auto);
+.ComponentInfo__section--bottom {
+  padding-top: rem-calc(72);
+  @include xy-grid();
+  @include xy-grid-container();
+
+  > .info, > .code {
+    width: 100%;
+  }
+  .info {
+    @include breakpoint(large) {
+      @include xy-cell(6/12, $gutter-position: right);
+      width: calc(50% - 0.9375rem)
+    }
+  }
+  .code {
+    @include breakpoint(large) {
+      @include xy-cell(6/12, $gutter-position: left);
+      width: calc(50% - 0.9375rem);
+      pre {
+        max-height: 20rem;
+      }
+    }
   }
 }
 
+.CodeButton {
+  position: relative;
+  z-index: 1;
+}
 
+.ComponentInfo .controls {
+  .CloseButton {
+    width: rem-calc(175);
+    > i {
+      vertical-align: middle;
+    }
+  }
+}

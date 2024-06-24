@@ -1,76 +1,30 @@
 /**
  * Foundation for Sites by ZURB
- * Version 6.4.3
+ * Version 6.5.3
  * foundation.zurb.com
  * Licensed under MIT Open Source
  */
-.MannequinTopBar .opener {
-  font-size: 0.625rem;
-  line-height: 0.75rem;
-  font-weight: bold;
-  color: white;
-  text-transform: uppercase;
-  cursor: pointer; }
-  .MannequinTopBar .opener > i, .MannequinTopBar .opener > svg.Icon {
-    margin-left: 1.0625rem; }
-
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,800");
+@import url("https://use.fontawesome.com/releases/v5.8.1/css/all.css");
 .MannequinTopBar {
-  background: #181D22;
-  color: white; }
+  background: #292F36;
+  color: #fffffe; }
   .MannequinTopBar .inner {
-    padding-right: 0.625rem;
-    padding-left: 0.625rem;
-    max-width: 75rem;
-    margin: 0 auto;
+    padding-right: 0;
+    padding-left: 0;
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
-    flex-flow: row wrap; }
-    @media print, screen and (min-width: 40em) {
-      .MannequinTopBar .inner {
-        padding-right: 0.9375rem;
-        padding-left: 0.9375rem; } }
-    @media print, screen and (min-width: 64em) {
-      .MannequinTopBar .inner {
-        padding-right: 0.9375rem;
-        padding-left: 0.9375rem; } }
-    @media screen and (min-width: 75em) {
-      .MannequinTopBar .inner {
-        padding-right: 0.9375rem;
-        padding-left: 0.9375rem; } }
-    @media screen and (min-width: 90em) {
-      .MannequinTopBar .inner {
-        padding-right: 0.9375rem;
-        padding-left: 0.9375rem; } }
-    .MannequinTopBar .inner > .logo, .MannequinTopBar .inner > .opener {
-      flex: 0 0 auto;
-      width: auto;
-      padding-right: 0.625rem;
-      padding-left: 0.625rem; }
+    flex-flow: row wrap;
+    padding: 0 calc(39.67px / 2); }
+    .MannequinTopBar .inner > .logo {
+      padding-top: 11.6px;
+      padding-bottom: 11.6px; }
     .MannequinTopBar .inner > .title {
       flex: 1 1 0px;
       width: auto;
       margin-right: 0.625rem;
       margin-left: 0.625rem; }
-  .MannequinTopBar .opener i.menu-icon {
-    position: relative;
-    display: inline-block;
-    vertical-align: middle;
-    width: 20px;
-    height: 16px;
-    cursor: pointer;
-    margin-left: 1.0625rem; }
-    .MannequinTopBar .opener i.menu-icon::after {
-      position: absolute;
-      top: 0;
-      left: 0;
-      display: block;
-      width: 100%;
-      height: 2px;
-      background: #fefefe;
-      box-shadow: 0 7px 0 #fefefe, 0 14px 0 #fefefe;
-      content: ''; }
-    .MannequinTopBar .opener i.menu-icon:hover::after {
-      background: #cacaca;
-      box-shadow: 0 7px 0 #cacaca, 0 14px 0 #cacaca; }
   .MannequinTopBar .MannySmall {
-    width: 37px;
-    padding: 10px 0; }
+    width: 44.8px; }
