@@ -21,7 +21,7 @@ abstract class DriverTestCase extends TestCase
     public function testHasTwig()
     {
         $twig = $this->getDriver()->getTwig();
-        $this->assertInstanceOf(\Twig_Environment::class, $twig);
+        $this->assertInstanceOf(\Twig\Environment::class, $twig);
 
         return $twig;
     }
@@ -42,7 +42,7 @@ abstract class DriverTestCase extends TestCase
 
     public function testTwigHasCache()
     {
-        $cache = new \Twig_Cache_Null();
+        $cache = new \Twig\Cache\NullCache();
         $driver = $this->getDriver();
         $driver->setCache($cache);
         $this->assertSame($cache, $driver->getTwig()->getCache());

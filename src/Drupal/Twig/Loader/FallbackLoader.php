@@ -12,6 +12,8 @@
 namespace LastCall\Mannequin\Drupal\Twig\Loader;
 
 use Symfony\Component\Finder\Finder;
+use Twig\Error\LoaderError;
+use Twig\Loader\FilesystemLoader;
 
 /**
  * This loader searches for unqualified template names in specific directories.
@@ -20,7 +22,7 @@ use Symfony\Component\Finder\Finder;
  * to be a simplified simulation of Drupal's theme registry loader, which looks
  * up template paths against the stored theme registry.
  */
-class FallbackLoader extends \Twig_Loader_Filesystem
+class FallbackLoader extends FilesystemLoader
 {
     private $protectedRoot;
 
@@ -33,7 +35,7 @@ class FallbackLoader extends \Twig_Loader_Filesystem
 
     public function findTemplate($name, $throw = true)
     {
-        $name = $this->normalizeName($name);
+        $name = $this->normalName($name);
 
         // Caching for found/not found.
         if (isset($this->cache[$name])) {
@@ -44,7 +46,7 @@ class FallbackLoader extends \Twig_Loader_Filesystem
                 return false;
             }
 
-            throw new \Twig_Error_Loader($this->errorCache[$name]);
+            throw new LoaderError($this->errorCache[$name]);
         }
 
         // Skip processing for any names that include a directory separator or
@@ -74,7 +76,7 @@ class FallbackLoader extends \Twig_Loader_Filesystem
         if (!$throw) {
             return false;
         }
-        throw new \Twig_Error_Loader($throw->errorCache[$name]);
+        throw new LoaderError($throw->errorCache[$name]);
     }
 
     /**
@@ -89,5 +91,13 @@ class FallbackLoader extends \Twig_Loader_Filesystem
             )
             || null !== parse_url($path, PHP_URL_SCHEME)
             ;
+    }
+
+    /**
+     * Local duplicate of Twig_Loader_Filesystem::normalizeName().
+     */
+    private function normalName($name)
+    {
+        return preg_replace('#/{2,}#', '/', str_replace('\\', '/', $name));
     }
 }

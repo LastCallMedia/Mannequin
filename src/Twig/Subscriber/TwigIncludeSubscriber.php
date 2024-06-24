@@ -52,7 +52,7 @@ class TwigIncludeSubscriber implements EventSubscriberInterface
                         }
                     }
                 }
-            } catch (\Twig_Error $e) {
+            } catch (\Twig\Error\Error $e) {
                 $message = sprintf('Twig error thrown during usage checking of %s: %s',
                     $component->getSource()->getName(),
                     $e->getMessage()

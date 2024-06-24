@@ -12,8 +12,8 @@
 namespace LastCall\Mannequin\Twig\Twig\NodeVisitor;
 
 use LastCall\Mannequin\Twig\Twig\Node\Comment;
-use Twig_Environment;
-use Twig_NodeInterface;
+use Twig\Environment;
+use Twig\Node\Node;
 
 /**
  * This visitor searches through comment nodes looking for @Component
@@ -22,12 +22,12 @@ use Twig_NodeInterface;
  * When annotations are found, it extracts the content into a "componentinfo"
  * block that can be rendered separately from the rest of the template.
  */
-class ComponentInfoNodeVisitor implements \Twig_NodeVisitorInterface
+class ComponentInfoNodeVisitor extends \Twig\NodeVisitor\AbstractNodeVisitor
 {
     const INFO_BLOCK = 'componentinfo';
     private $info;
 
-    public function enterNode(Twig_NodeInterface $node, Twig_Environment $env)
+    public function doEnterNode(Node $node, Environment $env)
     {
         if ($node instanceof \Twig_Node_Module) {
             $this->info = null;
@@ -42,7 +42,7 @@ class ComponentInfoNodeVisitor implements \Twig_NodeVisitorInterface
         return $node;
     }
 
-    public function leaveNode(Twig_NodeInterface $node, Twig_Environment $env)
+    public function doLeaveNode(Node $node, Environment $env)
     {
         if ($node instanceof \Twig_Node_Module) {
             $blocks = $node->getNode('blocks');
@@ -57,7 +57,7 @@ class ComponentInfoNodeVisitor implements \Twig_NodeVisitorInterface
         return $node;
     }
 
-    private function isComponentInfo(\Twig_NodeInterface $node)
+    private function isComponentInfo(Node $node)
     {
         if ($node instanceof Comment) {
             $comment = $node->getAttribute('data');

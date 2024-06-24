@@ -48,7 +48,7 @@ class MarkupWrapperSubscriber implements EventSubscriberInterface
 
         foreach ($variables as $key => $value) {
             if ($value instanceof Rendered) {
-                $value = new \Twig_Markup($value->getMarkup(), 'UTF-8');
+                $value = new \Twig\Markup($value->getMarkup(), 'UTF-8');
             } elseif (is_array($value)) {
                 $value = $this->upcastRendered($value);
             }

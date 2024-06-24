@@ -38,9 +38,9 @@ class SimpleTwigDriver extends AbstractTwigDriver
         }
     }
 
-    protected function createTwig(): \Twig_Environment
+    protected function createTwig(): \Twig\Environment
     {
-        return new \Twig_Environment(
+        return new \Twig\Environment(
             $this->createLoader(),
             $this->twigOptions
         );
@@ -48,7 +48,7 @@ class SimpleTwigDriver extends AbstractTwigDriver
 
     protected function createLoader()
     {
-        $loader = new \Twig_Loader_Filesystem([''], $this->twigRoot);
+        $loader = new \Twig\Loader\FilesystemLoader([''], $this->twigRoot);
         foreach ($this->getNamespaces() as $namespace => $paths) {
             foreach ($paths as $path) {
                 $loader->addPath($path, $namespace);

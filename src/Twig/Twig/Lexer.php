@@ -20,7 +20,7 @@ namespace LastCall\Mannequin\Twig\Twig;
  * Comments are processed later into `componentinfo` blocks.
  * @see \LastCall\Mannequin\Twig\Twig\NodeVisitor\ComponentInfoNodeVisitor
  */
-class Lexer extends \Twig_Lexer
+class Lexer extends \Twig\Lexer
 {
     /**
      * Override of \Twig_Lexer::lexComment().

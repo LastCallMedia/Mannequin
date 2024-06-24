@@ -11,12 +11,14 @@
 
 namespace LastCall\Mannequin\Twig\Twig\Node;
 
+use Twig\Node\Node;
+
 /**
  * A comment node represents a lexed Twig comment.
  *
  * @see \LastCall\Mannequin\Twig\Twig\Lexer
  */
-class Comment extends \Twig_Node
+class Comment extends Node
 {
     public function __construct($comment, $lineno = 0)
     {

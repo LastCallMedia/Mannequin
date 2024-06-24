@@ -31,7 +31,7 @@ class InlineTwigYamlMetadataSubscriber extends YamlFileMetadataSubscriber
                         return $this->parseYaml($yaml, $component->getSource()->getName());
                     }
                 }
-            } catch (\Twig_Error $e) {
+            } catch (\Twig\Error\Error $e) {
                 $message = sprintf('Twig error thrown during componentinfo generation of %s: %s',
                     $component->getSource()->getName(),
                     $e->getMessage()
